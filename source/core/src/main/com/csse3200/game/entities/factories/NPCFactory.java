@@ -12,6 +12,7 @@ import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.GhostKingConfig;
+import com.csse3200.game.entities.configs.LionConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -88,6 +89,38 @@ public class NPCFactory {
     ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
     return ghostKing;
   }
+
+  /**
+   * Creates a Lion NPC.
+   * Uses ghost sprite as a placeholder
+   *
+   * @param target entity to move towards when in range.
+   * @return entity
+   */
+  public static Entity createLion(Entity target) {
+    Entity lion = createBaseNPC(target);
+    LionConfig config = configs.lion;
+
+    // Will need to replace sprites for lion instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    lion
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new GhostAnimationController());
+
+    lion.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return lion;
+  }
+
+
+
+
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
