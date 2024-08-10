@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.gamestate.SaveHandler;
 import com.csse3200.game.components.mainmenu.MainMenuActions;
 import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.entities.Entity;
@@ -39,6 +40,11 @@ public class MainMenuScreen extends ScreenAdapter {
 
     loadAssets();
     createUI();
+
+    SaveHandler.loadAll();
+    SaveHandler.autoAddTrack();
+
+    logger.info("Game saved");
   }
 
   @Override
