@@ -3,6 +3,7 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.progression.GlobalEventManager;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainMenuScreen;
@@ -24,6 +25,8 @@ public class GdxGame extends Game {
   public void create() {
     logger.info("Creating game");
     loadSettings();
+    // Load Achievement Manager Instance
+    GlobalEventManager.getInstance();
 
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
