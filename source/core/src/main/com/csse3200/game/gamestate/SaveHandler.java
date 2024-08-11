@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.lang.reflect.Field;
 
-/*
+/**
 Wrapper for FileLoader that has default interactions with various data structs.
 Saves and loads specified files.
  */
@@ -17,10 +17,19 @@ public class SaveHandler {
     private static final String FILE_EXTENSION = ".json";
 
 
+    /**
+     * Save all fields in the specified class to JSON files.
+     */
     public static void save() {
         save("", GameState.class);
     }
 
+    /**
+     * Save all fields in the specified class to JSON files.
+     *
+     * @param add an arbitrary string to be added to file names
+     * @param className class to use as saves
+     */
     protected static void save(String add, Class<?> className) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
@@ -34,10 +43,20 @@ public class SaveHandler {
         logger.info("All Tracked Objects Saved");
     }
 
+    /**
+     * Load all fields to a specified class from JSON files.
+     */
     public static void loadAll() {
         loadAll("", GameState.class);
     }
 
+
+    /**
+     * Load all fields to a specified class from JSON files.
+     *
+     * @param add an arbitrary string to be added to file names
+     * @param className class to use as saves
+     */
     protected static void loadAll(String add, Class<?> className) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
@@ -52,10 +71,20 @@ public class SaveHandler {
         //loads all objects automatically and adds them to tracked
     }
 
+    /**
+     * Clear all data from JSON files.
+     */
     public static void clearAll() {
         clearAll("", GameState.class);
     }
 
+
+    /**
+     * Clear all data from JSON files.
+     *
+     * @param add an arbitrary string to be added to file names
+     * @param className class to use as saves
+     */
     protected static void clearAll(String add, Class<?> className) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
@@ -65,6 +94,11 @@ public class SaveHandler {
         //loads all objects automatically and adds them to tracked
     }
 
+    /**
+     * Converts a file name to a full path for JSONs.
+     *
+     * @param string the file name to be converted to a path
+     */
     private static String toPath(String string) {
         return ROOT_DIR + File.separator + string + FILE_EXTENSION;
     }
