@@ -1,4 +1,4 @@
-package com.csse3200.game.components.gamestate;
+package com.csse3200.game.gamestate;
 
 class GameStateTest {
     protected static EnvironmentVariablesTest env1 = new EnvironmentVariablesTest();
