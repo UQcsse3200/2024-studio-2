@@ -37,7 +37,7 @@ public class SaveHandler {
                 FileLoader.writeClass(member.get(null),
                         toPath(member.getName() + add), FileLoader.Location.EXTERNAL);
             } catch (IllegalAccessException e) {
-                logger.debug("Unable to access {} field in GameState", member.getName());
+                logger.debug("Unable to access {} field in GameState while saving", member.getName());
             }
         }
         logger.info("All Tracked Objects Saved");
@@ -64,7 +64,7 @@ public class SaveHandler {
                 member.set(null,FileLoader.readClass(member.getType(),
                         toPath(member.getName()+add), FileLoader.Location.EXTERNAL));
             } catch (IllegalAccessException e) {
-                logger.debug("Unable to access {} field in GameState", member.getName());
+                logger.debug("Unable to access {} field in GameState while loading", member.getName());
             }
         }
         logger.info("All Tracked Objects Loaded");
