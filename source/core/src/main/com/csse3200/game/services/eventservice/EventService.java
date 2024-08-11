@@ -1,15 +1,14 @@
-package com.csse3200.game.components.progression;
+package com.csse3200.game.services.eventservice;
 
 import com.csse3200.game.events.EventHandler;
 
 import java.util.ArrayList;
 
-public class GlobalEventManager {
-    private static GlobalEventManager instance;
+public class EventService {
     public ArrayList<GlobalEvent> globalEvents;
     public EventHandler globalEventHandler;
 
-    private GlobalEventManager() {
+    public EventService() {
         globalEvents = new ArrayList<>();
         globalEventHandler = new EventHandler();
         // Events should Load from config
@@ -30,12 +29,5 @@ public class GlobalEventManager {
 
     public ArrayList<GlobalEvent> getGlobalEvents() {
         return globalEvents;
-    }
-
-    public static GlobalEventManager getInstance() {
-        if (instance == null) {
-            instance = new GlobalEventManager();
-        }
-        return instance;
     }
 }

@@ -4,8 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.components.progression.GlobalEventManager;
-import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -19,7 +18,7 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  private final EventHandler eventHandler = GlobalEventManager.getInstance().globalEventHandler;
+  EventService eventService = ServiceLocator.getEventService();
 
   @Override
   public void create() {
@@ -53,7 +52,7 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventHandler.trigger("steps",0);
+    eventService.globalEventHandler.trigger("steps",0);
   }
 
   /**

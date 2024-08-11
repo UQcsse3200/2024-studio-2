@@ -1,4 +1,4 @@
-package com.csse3200.game.components.progression;
+package com.csse3200.game.services.eventservice;
 
 
 import org.slf4j.Logger;
