@@ -1,14 +1,11 @@
-package com.csse3200.game.components.gamestate;
+package com.csse3200.game.gamestate;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.files.FileLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.*;
 
 /*
 Wrapper for FileLoader that has default interactions with various data structs.
