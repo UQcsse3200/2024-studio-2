@@ -18,6 +18,7 @@ com.csse3200.game.entities.factories
 com.csse3200.game.events
 com.csse3200.game.events.listeners
 com.csse3200.game.files
+com.csse3200.game.gamestate
 com.csse3200.game.input
 com.csse3200.game.physics
 com.csse3200.game.physics.components
