@@ -139,7 +139,7 @@ public class NPCFactory {
     lion
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
-            .addComponent(new GhostAnimationController());
+            .addComponent(new FriendlyNPCAnimationController());
 
     lion.getComponent(AnimationRenderComponent.class).scaleEntity();
 
