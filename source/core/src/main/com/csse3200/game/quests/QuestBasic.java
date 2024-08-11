@@ -2,7 +2,7 @@ package com.csse3200.game.quests;
 
 /** A basic Quest class that stores quest and subtask progression (# of
  * subtasks completed), descriptions and hints. **/
-public class QuestBasic{
+public class QuestBasic {
     /**A description of the task. */
     private final String questDescription = "";
     /** The number of subtasks completed. */
@@ -34,7 +34,9 @@ public class QuestBasic{
 
     /** Updates the quest progression information.*/
     public void taskCompleted(){
-        this.numTasksCompleted++;
+        if (numTasksCompleted < numQuestTasks) {
+            this.numTasksCompleted++;
+        }
     }
 
     /** Returns the number of subtasks for a quest.*/
