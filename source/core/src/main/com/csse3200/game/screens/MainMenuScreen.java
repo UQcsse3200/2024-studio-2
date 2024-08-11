@@ -42,9 +42,6 @@ public class MainMenuScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     loadAssets();
     createUI();
-
-    logger.info("env loaded: {} {}", GameState.env.test, GameState.env.how);
-    logger.info("env2 loaded: {} {}", GameState.env2.test, GameState.env2.how);
   }
 
   @Override
