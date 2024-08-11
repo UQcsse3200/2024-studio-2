@@ -21,29 +21,50 @@ public class SaveHandler {
 
 
     public static void save() {
-        Field[] members = GameState.class.getDeclaredFields();
+        save("", GameState.class);
+    }
+
+    protected static void save(String add, Class<?> className) {
+        Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
                 FileLoader.writeClass(member.get(null),
-                        toPath(member.getName()), FileLoader.Location.EXTERNAL);
+                        toPath(member.getName() + add), FileLoader.Location.EXTERNAL);
             } catch (IllegalAccessException e) {
                 logger.debug("Unable to access {} field in GameState", member.getName());
             }
         }
-        logger.info("Game Data Saved");
+        logger.info("All Tracked Objects Saved");
     }
 
     public static void loadAll() {
-        Field[] members = GameState.class.getDeclaredFields();
+        loadAll("", GameState.class);
+    }
+
+    protected static void loadAll(String add, Class<?> className) {
+        Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
                 member.set(null,FileLoader.readClass(member.getType(),
-                        toPath(member.getName()), FileLoader.Location.EXTERNAL));
+                        toPath(member.getName()+add), FileLoader.Location.EXTERNAL));
             } catch (IllegalAccessException e) {
                 logger.debug("Unable to access {} field in GameState", member.getName());
             }
         }
         logger.info("All Tracked Objects Loaded");
+        //loads all objects automatically and adds them to tracked
+    }
+
+    public static void clearAll() {
+        clearAll("", GameState.class);
+    }
+
+    protected static void clearAll(String add, Class<?> className) {
+        Field[] members = className.getDeclaredFields();
+        for (Field member : members) {
+            FileLoader.deleteJson(toPath(member.getName()+add), FileLoader.Location.EXTERNAL);
+        }
+        logger.info("All Tracked Objects Deleted");
         //loads all objects automatically and adds them to tracked
     }
 
