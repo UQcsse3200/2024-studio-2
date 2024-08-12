@@ -11,7 +11,7 @@ package com.csse3200.game.inventory.items;
  * </p>
  */
 public abstract class ConsumableItem extends AbstractItem {
-    protected boolean isEmpty;
+    protected static boolean isEmpty;
 
     /**
      * Constructs a ConsumableItems with the specified uses
