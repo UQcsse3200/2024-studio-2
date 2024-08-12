@@ -10,6 +10,7 @@ import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
+import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.GhostKingConfig;
@@ -126,7 +127,8 @@ public class NPCFactory {
   private static Entity createFriendlyBaseNPC(Entity target) {
     AITaskComponent aiComponent =
             new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
+                    .addTask(new PauseTask(target, 10, 2f, 1f));
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())
@@ -146,8 +148,7 @@ public class NPCFactory {
   private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new ChaseTask(target, 10, 3f, 4f));
+            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
