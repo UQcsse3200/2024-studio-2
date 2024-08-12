@@ -88,7 +88,7 @@ public abstract class AbstractItem {
      *
      * @return how much the quantity of this item can increase by
      */
-    public int canAdd() {return limit - quantity;}
+    public int numAddabble() {return limit - quantity;}
 
     /**
      * Increases the current quantity of the item by n.
@@ -98,7 +98,7 @@ public abstract class AbstractItem {
      * @throws IllegalArgumentException if the number of items cannot be increased by n
      */
     public void add(int n) {
-        if (canAdd() < n) {
+        if (numAddabble() < n) {
             throw new IllegalArgumentException("Cannot add this many items!");
         }
         quantity += n;
