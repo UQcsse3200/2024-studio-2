@@ -2,7 +2,6 @@ package com.csse3200.game.inventory.items;
 
 /**
  * Represents the context containing inputs for using an item.
- * Note - when creating a new context, the number of inputs <strong>must</strong> be specified.
  */
 public class ItemUsageContext {
     private final int numInputs;
