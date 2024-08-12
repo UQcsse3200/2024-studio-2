@@ -13,41 +13,50 @@ public interface ItemInterface {
 
     /**
      * Gets the unique item code (up to item name) for the item
+     *
+     * @return the item code
      */
     int getItemCode();
 
     /**
-     * Gets the maximum number of this item that can be held in a stack.
+     * Gets the maximum number of this item that can be held in a `stack`.
      *
-     * @return the limit of the item
+     * @return the stack limit of the item
      */
     int getLimit();
 
     /**
+     * The current quantity of the item (used for display in inventory)
+     *
      * @return the quantity of the item
      */
     int getQuantity();
 
     /**
-     * Uses the item with the provided context or argument and returns a result.
+     * Uses the item with the provided context.
+     * See {@link ItemUsageContext} for details.
      *
-     * @param inputs the inputs required to use the item
+     * @param context the context required to use the item
      */
-    void useItem(ItemUsageContext inputs);
+    void useItem(ItemUsageContext context);
 
     /**
-     * @return whether the quantity of this item can be increased by n
+     * Checks the number of this item that can be further stacked.
+     *
+     * @return how much the quantity of this item can increase by
      */
-    boolean canAdd(int n);
+    int canAdd();
 
     /**
+     * Increases quantity of item by n.
+     *
      * @param n - number of item to add
      */
     void add(int n);
 
     /**
-     * Checks whether an item has been consumed.
+     * Checks whether an item is an empty stack (0 quantity).
      * @return whether an item has been consumed.
      */
-    boolean isConsumed();
+    boolean isEmpty();
 }
