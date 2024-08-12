@@ -1,7 +1,5 @@
 package com.csse3200.game.inventory.items;
 
-import com.csse3200.game.inventory.items.ItemUsageContext;
-
 /**
  * Base class for consumable type items that can be used by a player.
  * <p>
@@ -19,7 +17,7 @@ public abstract class ConsumableItem extends AbstractItem {
      * Constructs a ConsumableItems with the specified uses
      */
     public ConsumableItem(String name, int quantity, int limit, boolean isEmpty) {
-        super(name, quantity);
+        super(name, limit);
         this.isEmpty = isEmpty; // Flag iff there is no consumables uses left (true if not added or empty)
     }
 

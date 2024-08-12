@@ -1,4 +1,4 @@
-package test.com.csse3200.game.inventory.items;
+package com.csse3200.game.inventory.items;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
