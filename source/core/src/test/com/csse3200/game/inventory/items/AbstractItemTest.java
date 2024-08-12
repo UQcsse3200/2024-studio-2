@@ -65,7 +65,7 @@ public class AbstractItemTest {
         assertEquals(0, item1.getItemCode(), msg + "item code");
         assertEquals(1, item1.getLimit(), msg + "limit");
         assertEquals(1, item1.getQuantity(), msg + "quantity");
-        assertEquals(item1.getLimit() - item1.getQuantity(), item1.numAddabble(), msg + "can add");
+        assertEquals(item1.getLimit() - item1.getQuantity(), item1.canAdd(), msg + "can add");
 
         assertThrows(IllegalArgumentException.class, () -> item1.add(1), msg + "adding too many");
 
@@ -79,7 +79,7 @@ public class AbstractItemTest {
         assertEquals(1, item2.getItemCode(), msg + "item code");
         assertEquals(10, item2.getLimit(), msg + "limit");
         assertEquals(5, item2.getQuantity(), msg + "quantity");
-        assertEquals(item2.getLimit() - item2.getQuantity(), item2.numAddabble(), msg + "can add");
+        assertEquals(item2.getLimit() - item2.getQuantity(), item2.canAdd(), msg + "can add");
 
         assertThrows(IllegalArgumentException.class, () -> item2.add(20), msg + "adding too many");
         int originalQuantity = item2.getQuantity();
