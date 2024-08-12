@@ -3,13 +3,14 @@ package com.csse3200.game.inventory.items;
 /**
  * Abstract base class for items that can be used by a player.
  * <p>
- * This class provides a common implementation for an item including default behavior for common
- * properties like name and limit. Subclasses must provide their own implementation for the
- * {@code useItem} method, which defines how the item can be used and must define what
- * {@link ItemUsageContext} should be input to {@code useItem}.
+ * This class provides a common implementation for the {@link ItemInterface} interface,
+ * including default behavior for common properties like name and limit. Subclasses
+ * must provide their own implementation for the {@code useItem} method, which
+ * defines how the item can be used and must define what {@link ItemUsageContext} should be input
+ * to {@code useItem}.
  * </p>
  */
-public abstract class AbstractItem {
+public abstract class AbstractItem implements ItemInterface {
     protected String name;
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
@@ -60,6 +61,7 @@ public abstract class AbstractItem {
      *
      * @return the name of the item
      */
+    @Override
     public String getName() {return name;}
 
     /**
@@ -67,13 +69,15 @@ public abstract class AbstractItem {
      *
      * @return the code of the item
      */
+    @Override
     public int getItemCode() {return itemCode;}
 
     /**
-     * Gets the maximum number of this item that can be held in a `stack`.
+     * Gets the limit associated with the item.
      *
-     * @return the stack limit of the item
+     * @return the limit of the item
      */
+    @Override
     public int getLimit() {return limit;}
 
     /**
@@ -81,6 +85,7 @@ public abstract class AbstractItem {
      *
      * @return the quantity of the item
      */
+    @Override
     public int getQuantity() {return quantity;}
 
     /**
@@ -88,7 +93,8 @@ public abstract class AbstractItem {
      *
      * @return how much the quantity of this item can increase by
      */
-    public int numAddabble() {return limit - quantity;}
+    @Override
+    public int canAdd() {return limit - quantity;}
 
     /**
      * Increases the current quantity of the item by n.
@@ -97,8 +103,9 @@ public abstract class AbstractItem {
      *
      * @throws IllegalArgumentException if the number of items cannot be increased by n
      */
+    @Override
     public void add(int n) {
-        if (numAddabble() < n) {
+        if (canAdd() < n) {
             throw new IllegalArgumentException("Cannot add this many items!");
         }
         quantity += n;
@@ -114,12 +121,14 @@ public abstract class AbstractItem {
      *
      * @param context the context for this item usage
      */
+    @Override
     public abstract void useItem(ItemUsageContext context);
 
     /**
-     * Returns whether the quantity of this item has reached 0 (ie is consumed).
+     * Returns whether the quantity of this item has reached 0.
      *
      * @return whether there are none of this item remaining
      */
+    @Override
     public boolean isEmpty() {return quantity == 0;}
 }
