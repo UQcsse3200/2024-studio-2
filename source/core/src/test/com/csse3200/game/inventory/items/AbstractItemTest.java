@@ -22,9 +22,8 @@ public class AbstractItemTest {
     private static class TestableItem1 extends AbstractItem {
         public int numUsed = 0;
 
-        public TestableItem1(String name, int itemCode, String description) {
+        public TestableItem1(String name, int itemCode) {
             super(name, itemCode);
-            this.setDescription(description);
         }
 
         @Override
@@ -40,9 +39,8 @@ public class AbstractItemTest {
     private static class TestableItem2 extends AbstractItem {
         public int numUsed = 0;
 
-        public TestableItem2(String name, int itemCode, int limit, int quantity, String description) {
+        public TestableItem2(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity);
-            this.setDescription(description);
         }
 
         @Override
@@ -55,8 +53,8 @@ public class AbstractItemTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        item1 = new TestableItem1("Test1", 0, "description1");
-        item2 = new TestableItem2("Test2", 1, 10, 5, "description2");
+        item1 = new TestableItem1("Test1", 0);
+        item2 = new TestableItem2("Test2", 1, 10, 5);
         context = new ItemUsageContext();
     }
 
@@ -67,8 +65,7 @@ public class AbstractItemTest {
         assertEquals(0, item1.getItemCode(), msg + "item code");
         assertEquals(1, item1.getLimit(), msg + "limit");
         assertEquals(1, item1.getQuantity(), msg + "quantity");
-        assertEquals(item1.getLimit() - item1.getQuantity(), item1.numAddable(), msg + "can add");
-        assertEquals("description1", item1.getDescription(), msg + "description");
+        assertEquals(item1.getLimit() - item1.getQuantity(), item1.canAdd(), msg + "can add");
 
         assertThrows(IllegalArgumentException.class, () -> item1.add(1), msg + "adding too many");
 
@@ -82,9 +79,7 @@ public class AbstractItemTest {
         assertEquals(1, item2.getItemCode(), msg + "item code");
         assertEquals(10, item2.getLimit(), msg + "limit");
         assertEquals(5, item2.getQuantity(), msg + "quantity");
-        assertEquals(item2.getLimit() - item2.getQuantity(), item2.numAddable(), msg + "can add");
-        assertEquals("description2", item2.getDescription(), msg + "description");
-
+        assertEquals(item2.getLimit() - item2.getQuantity(), item2.canAdd(), msg + "can add");
 
         assertThrows(IllegalArgumentException.class, () -> item2.add(20), msg + "adding too many");
         int originalQuantity = item2.getQuantity();
@@ -111,7 +106,4 @@ public class AbstractItemTest {
         assertEquals(1, item2.numUsed, msg);
         assertEquals(originalQuantity - 1, item2.getQuantity(), msg);
     }
-
-
-    // TODO: ADD TEST FOR SETTING/GETTING TEXTURE!!!
 }
