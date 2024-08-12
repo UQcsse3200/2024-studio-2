@@ -1,4 +1,6 @@
-package com.csse3200.game.inventory.items;
+package main.com.csse3200.game.inventory.items;
+
+import com.csse3200.game.inventory.items.ItemUsageContext;
 
 /**
  * Represents an item that can be used by a player and stored within the inventory.
