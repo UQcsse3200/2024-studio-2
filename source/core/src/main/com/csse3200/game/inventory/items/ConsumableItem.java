@@ -14,14 +14,14 @@ import com.csse3200.game.inventory.items.ItemInterface;
  * </p>
  */
 public abstract class ConsumableItem extends AbstractItem {
-    protected boolean isConsumed;
+    protected boolean isEmpty;
 
     /**
      * Constructs a ConsumableItems with the specified uses
      */
-    public ConsumableItem(String name, int quantity, int limit, boolean isConsumed) {
+    public ConsumableItem(String name, int quantity, int limit, boolean isEmpty) {
         super(name, limit, quantity);
-        this.isConsumed = isConsumed; // Flag iff there is no consumables uses left (true if not added or empty)
+        this.isEmpty = isEmpty; // Flag iff there is no consumables uses left (true if not added or empty)
     }
 
     /**
@@ -33,11 +33,11 @@ public abstract class ConsumableItem extends AbstractItem {
     public void useItem(ItemUsageContext inputs) {
         if (super.quantity > 0) {
             super.quantity--;
-            this.isConsumed = false;
+            this.isEmpty = super.isConsumed();
             //Write functionality to how it would be used
         }
         else {
-            this.isConsumed = true;
+            this.isEmpty = isConsumed();
         }
     }
 }
