@@ -3,7 +3,7 @@ package com.csse3200.game.inventory.items.effects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.inventory.items.effects.healing.HealEffect;
+import com.csse3200.game.inventory.items.effects.healing.healEffect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ public class AbstractEffectTest {
 
     @BeforeEach
     public void setUp() {
-        effect = new HealEffect(3);
+        effect = new healEffect(3);
     }
 
     @Test
