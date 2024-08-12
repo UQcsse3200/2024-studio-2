@@ -12,18 +12,48 @@ package com.csse3200.game.inventory.items;
  */
 public abstract class AbstractItem implements ItemInterface {
     protected String name;
-    protected final int limit;
     protected final int itemCode; // Unique up to item name
-    protected int quantity; // Number of items (non-zero and fixed if not Consumable)
+    protected final int limit; // Must be non-negative
+    protected int quantity; // Must be non-negative
 
     /**
-     * Constructs an AbstractItem with the specified name and limit.
+     * Constructs an AbstractItem with the specified name and item code. Defaults to single
+     * non-stackable item.
+     *
+     * @param name name of the item
+     * @param itemCode unique item code (up to name)
+     *
+     * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
      */
-    public AbstractItem(String name, int limit, int quantity) {
+    public AbstractItem(String name, int itemCode) {
         this.name = name;
-        this.limit = limit;
+        this.itemCode = itemCode;
+        this.limit = 1; // Default to non-stackable item
+        this.quantity = 1;
+    }
+
+    /**
+     * Constructs an AbstractItem with the specified name, item code, limit and initial quantity.
+     *
+     * @param name name of the item
+     * @param itemCode unique item code (up to name)
+     * @param limit the maximum size of the item stack
+     * @param quantity the initial starting quantity of the item
+     *
+     * @throws IllegalArgumentException if limit or quantity is negative, or quantity > limit
+     *
+     * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
+     */
+    public AbstractItem(String name, int itemCode, int limit, int quantity) {
+        if (quantity < 0 || limit < 0 || quantity > limit) {
+            String msg = "Quantity/Limit must be non-negative and quantity must be less than limit";
+            throw new IllegalArgumentException(msg);
+        }
+
+        this.name = name;
+        this.itemCode = itemCode;
+        this.limit = limit; // Default to non-stackable item
         this.quantity = quantity;
-        this.itemCode = 0;
     }
 
     /**
@@ -32,19 +62,15 @@ public abstract class AbstractItem implements ItemInterface {
      * @return the name of the item
      */
     @Override
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     /**
-     * Gets the code of the item.
+     * Gets the item code of the item.
      *
      * @return the code of the item
      */
     @Override
-    public int getItemCode() {
-        return itemCode;
-    }
+    public int getItemCode() {return itemCode;}
 
     /**
      * Gets the limit associated with the item.
@@ -52,31 +78,39 @@ public abstract class AbstractItem implements ItemInterface {
      * @return the limit of the item
      */
     @Override
-    public int getLimit() {
-        return limit;
-    }
+    public int getLimit() {return limit;}
 
     /**
+     * Gets the quantity of the item currently stacked.
+     *
      * @return the quantity of the item
      */
     @Override
     public int getQuantity() {return quantity;}
 
-    // TODO: Test
     /**
-     * @return whether the quantity of this item can increase
+     * Checks the number of this item that can be further stacked.
+     *
+     * @return how much the quantity of this item can increase by
      */
     @Override
-    public boolean canAdd(int n) {return quantity + n <= limit;}
+    public int canAdd() {return limit - quantity;}
 
-    // TODO: Test
     /**
+     * Increases the current quantity of the item by n.
+     *
      * @param n - number of item to add
+     *
+     * @throws IllegalArgumentException if the number of items cannot be increased by n
      */
     @Override
-    public void add(int n) {quantity = quantity + n;}
+    public void add(int n) {
+        if (canAdd() < n) {
+            throw new IllegalArgumentException("Cannot add this many items!");
+        }
+        quantity += n;
+    }
 
-    // TODO: Test
     /**
      * Uses the item with the provided {@link ItemUsageContext} and returns a result.
      * <p>
@@ -85,14 +119,16 @@ public abstract class AbstractItem implements ItemInterface {
      * generic parameters of the subclass. The input type
      * </p>
      *
-     * @param inputs the inputs for this item to be used
+     * @param context the context for this item usage
      */
     @Override
-    public abstract void useItem(ItemUsageContext inputs);
+    public abstract void useItem(ItemUsageContext context);
 
-    // TODO: Test
+    /**
+     * Returns whether the quantity of this item has reached 0.
+     *
+     * @return whether there are none of this item remaining
+     */
     @Override
-    public boolean isConsumed() {
-        return quantity == 0;
-    }
+    public boolean isEmpty() {return quantity == 0;}
 }
