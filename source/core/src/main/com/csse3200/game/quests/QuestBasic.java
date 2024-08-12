@@ -4,17 +4,17 @@ package com.csse3200.game.quests;
  * subtasks completed), descriptions and hints. **/
 public class QuestBasic {
     /**A description of the task. */
-    private final String questDescription = "";
+    private final String questDescription = "BASIC QUEST";
     /** The number of subtasks completed. */
     private int numTasksCompleted=0;
     /** The number of subtasks a quest entails. */
-    private final int numQuestTasks=0;
+    private final int numQuestTasks=1;
     /** taskDescriptions indexing corresponds to number of tests completed
      * and each entry consists of a subtask description. */
-    private final String[] taskDescriptions = new String[]{"QUEST COMPLETED"};
+    private final String[] taskDescriptions = new String[]{"default", "QUEST COMPLETED"};
     /** taskHints indexing corresponds to number of tests completed
     * and each entry consists of a substring hint to be given to NPCs*/
-    private final String[] taskHints = new String[]{"QUEST COMPLETED"};
+    private final String[] taskHints = new String[]{"default", "QUEST COMPLETED"};
 
     /** Returns true if a quest has been completed (the end condition
     * of an individual quest). */
