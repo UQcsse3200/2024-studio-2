@@ -23,7 +23,7 @@ class QuestBasicTest {
 
     @Test
     void taskComplete() { // Can complete a quest
-        quest.taskCompleted();
+        quest.taskCompleted("steps");
         assertTrue(quest.isQuestCompleted());
         assertEquals("QUEST COMPLETED", quest.getTaskDescriptions());
         assertEquals("QUEST COMPLETED", quest.getTaskHint());
@@ -33,8 +33,8 @@ class QuestBasicTest {
 
     @Test
     void taskCompleted() { // Cannot complete more tests than exist
-        quest.taskCompleted();
-        quest.taskCompleted();
+        quest.taskCompleted("steps");
+        quest.taskCompleted("steps");
         assertTrue(quest.isQuestCompleted());
         assertEquals("QUEST COMPLETED", quest.getTaskDescriptions());
         assertEquals("QUEST COMPLETED", quest.getTaskHint());

@@ -9,6 +9,9 @@ public class QuestBasic {
     private int numTasksCompleted=0;
     /** The number of subtasks a quest entails. */
     private final int numQuestTasks=1;
+    /** taskArray indexing corresponds to number of tests completed
+     * and each entry consists of a the task to be completed during this step. */
+    private final String[] taskArray = new String[]{"steps", "QUEST COMPLETED"};
     /** taskDescriptions indexing corresponds to number of tests completed
      * and each entry consists of a subtask description. */
     private final String[] taskDescriptions = new String[]{"default", "QUEST COMPLETED"};
@@ -32,9 +35,12 @@ public class QuestBasic {
         return numTasksCompleted;
     }
 
-    /** Updates the quest progression information.*/
-    public void taskCompleted(){
-        if (numTasksCompleted < numQuestTasks) {
+    /** Updates the quest progression information.
+     * @param taskName
+     * */
+    public void taskCompleted(String taskName){
+        if (numTasksCompleted < numQuestTasks &&
+                this.taskArray[this.numTasksCompleted].equals(taskName)) {
             this.numTasksCompleted++;
         }
     }
