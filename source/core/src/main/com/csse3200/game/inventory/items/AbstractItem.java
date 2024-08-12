@@ -1,6 +1,4 @@
-package main.com.csse3200.game.inventory.items;
-
-import com.csse3200.game.inventory.items.ItemUsageContext;
+package com.csse3200.game.inventory.items;
 
 /**
  * Abstract base class for items that can be used by a player.

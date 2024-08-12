@@ -1,11 +1,11 @@
-package main.com.csse3200.game.inventory.items;
+package com.csse3200.game.inventory.items;
 
 import com.csse3200.game.inventory.items.ItemUsageContext;
 
 /**
  * Base class for consumable type items that can be used by a player.
  * <p>
- * This class provides a common implementation for the {@link ItemInterface} interface,
+ * This class provides a common implementation for the XXXX interface,
  * including default behavior for common properties like isConsumed and quantity. Subclasses
  * must provide their own implementation for the {@code useItem} method, which
  * defines how the item can be used as well how many uses is left and must define what {@link ItemUsageContext}
