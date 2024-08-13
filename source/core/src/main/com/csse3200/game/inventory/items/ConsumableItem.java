@@ -1,39 +1,41 @@
 package com.csse3200.game.inventory.items;
 
+import com.csse3200.game.inventory.items.exceptions.ConsumedException;
+
 /**
  * Base class for consumable type items that can be used by a player.
  * <p>
- * It is items that have limited uses until it is depleted (removed) from the inventory
- * Defines the useItem function in {@link ItemUsageContext}
- * Should be input to {@code useItem}.
+ * This includes items that have limited uses until it is depleted (removed) from the inventory,
+ * e.g. weapons with a durability or single use items such as food or potion.
  * </p>
  */
 public abstract class ConsumableItem extends AbstractItem {
 
     /**
-     * Constructs a ConsumableItem
+     * Constructs a ConsumableItem with given initial starting quantity and stack limit.
+     * <p><b>Note - a consumable item cannot be created without a limit/quantity specified.</b></p>
      *
-     * @param name is of item inherited from class AbstractItem
-     * @param itemCode is the itemCode of the item inherited from class AbstractItem
-     * @param limit is the limit of the item inherited from class AbstractItem
-     * @param  quantity is the no. of copies the item has left which is inherited from class AbstractItem
+     * @param name the name of the item
+     * @param itemCode the item code
+     * @param limit the stack limit of the item
+     * @param quantity the initial quantity for this item
      */
     public ConsumableItem(String name, int itemCode, int limit, int quantity) {
         super(name, itemCode, limit, quantity);
     }
 
     /**
-     *  Updates the no. of uses left for each usage by decreasing quantity count after each call
+     *  Reduces quantity of item by 1.
+     *  <p><b>Sub-classes MUST override this function and call super.useItem()</b></p>
      *
-     * @param inputs the inputs for this ite to be used
-     * @throws IllegalStateException iff consumable item is attempted to be used with quantity equal to zero (isEmpty())
+     * @param context the relevant {@link ItemUsageContext} for this item to be used
+     * @throws ConsumedException if the item has already been consumed and cannot be used.
      */
     @Override
-    public void useItem(ItemUsageContext inputs) {
+    public void useItem(ItemUsageContext context) {
         if (super.isEmpty()) {
-            throw new IllegalStateException("This item has ran out of uses");
+            throw new ConsumedException();
         }
         this.quantity--;
-        super.isEmpty();
     }
 }
