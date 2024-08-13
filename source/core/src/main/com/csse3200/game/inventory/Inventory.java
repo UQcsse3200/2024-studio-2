@@ -84,14 +84,7 @@ public class Inventory implements InventoryInterface {
     @Override
     public void deleteItem(int code) {
         if (this.hasItem(code)) {
-            int index = mapping.get(code).first();
-            mapping.get(code).remove(index);
-            inventory[index] = null;
-            freeSlots++;
-
-            if (index < nextIndex) { // Update nextIndex
-                nextIndex = index;
-            }
+            this.deleteItemAt(mapping.get(code).first());
         }
     }
 
@@ -103,6 +96,10 @@ public class Inventory implements InventoryInterface {
             inventory[index] = null;
             mapping.get(code).remove(index);
             freeSlots++;
+
+            if (mapping.get(code).isEmpty()) { // Remove item if no stacks remaining
+                mapping.remove(code);
+            }
 
             if (index < nextIndex) { // Update nextIndex
                 nextIndex = index;
