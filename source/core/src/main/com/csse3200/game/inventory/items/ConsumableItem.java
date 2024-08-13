@@ -3,22 +3,17 @@ package com.csse3200.game.inventory.items;
 /**
  * Base class for consumable type items that can be used by a player.
  * <p>
- * This class provides a common implementation for the XXXX interface,
- * including default behavior for common properties like isConsumed and quantity. Subclasses
- * must provide their own implementation for the {@code useItem} method, which
- * defines how the item can be used as well how many uses is left and must define what {@link ItemUsageContext}
+ * Defines the useItemm function in {@link ItemUsageContext}
  * should be input to {@code useItem}.
  * </p>
  */
 public abstract class ConsumableItem extends AbstractItem {
-    protected static boolean isEmpty;
 
     /**
-     * Constructs a ConsumableItems with the specified uses
+     * Constructs a ConsumableItem
      */
-    public ConsumableItem(String name, int quantity, int limit, boolean isEmpty) {
-        super(name, limit);
-        this.isEmpty = isEmpty; // Flag iff there is no consumables uses left (true if not added or empty)
+    public ConsumableItem(String name, int itemCode, int limit, int quantity) {
+        super(name, itemCode, limit, quantity);
     }
 
     /**
@@ -28,13 +23,12 @@ public abstract class ConsumableItem extends AbstractItem {
      */
     @Override
     public void useItem(ItemUsageContext inputs) {
-        if (super.quantity > 0) {
-            super.quantity--;
-            this.isEmpty = super.isEmpty();
-            //Write functionality to how it would be used
+        if (super.isEmpty()) {
+            throw new ArrayIndexOutOfBoundsException("This item has ran out of uses");
         }
         else {
-            this.isEmpty = isEmpty();
+            this.quantity--;
+            super.isEmpty();
         }
     }
 }
