@@ -13,6 +13,7 @@ public interface InventoryInterface {
     boolean isFull();
     boolean hasItem(int itemCode); // check if inventory has item by code
     int getIndex(int itemCode); // get an index for an item by code
+    AbstractItem getAt(int index); // Get the item at the specified index
     void deleteItem(int itemCode); // delete any of a particular item by code
     void deleteItemAt(int index); // delete item by inventory index
     void useItem(int itemCode, ItemUsageContext context); // use any of a particular item by code
