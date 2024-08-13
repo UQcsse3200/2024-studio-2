@@ -3,6 +3,7 @@ package com.csse3200.game.inventory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.csse3200.game.extensions.GameExtension;
@@ -16,12 +17,14 @@ public class InventoryTest {
     private Inventory test1;
     private Inventory test2;
     private Inventory test3;
+    private Inventory[] tests;
 
     @BeforeEach
     void setUp() { // Initialise Inventory for testing
-        this.test1 = new Inventory(1);
-        this.test2 = new Inventory(2);
-        this.test3 = new Inventory(10);
+        test1 = new Inventory(1);
+        test2 = new Inventory(2);
+        test3 = new Inventory(10);
+        tests = new Inventory[]{test1, test2, test3};
     }
 
     @Test
@@ -40,11 +43,13 @@ public class InventoryTest {
         assertEquals(1, test1.getCapacity(), msg);
         assertEquals(2, test2.getCapacity(), msg);
         assertEquals(10, test3.getCapacity(), msg);
-        assertEquals(test1.numFreeSlots(), test1.getCapacity(), msg);
-        assertEquals(test2.numFreeSlots(), test2.getCapacity(), msg);
-        assertEquals(test3.numFreeSlots(), test3.getCapacity(), msg);
-        assertFalse(test1.isFull(), msg);
-        assertFalse(test2.isFull(), msg);
-        assertFalse(test3.isFull(), msg);
+
+        for (Inventory test : tests) {
+            assertEquals(test.numFreeSlots(), test.getCapacity(), msg);
+            assertFalse(test.isFull(), msg);
+            assertFalse(test.hasItem(0), msg);
+            assertEquals(-1, test.getIndex(0), msg);
+            assertNull(test.getAt(0), msg);
+        }
     }
 }
