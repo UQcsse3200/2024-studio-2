@@ -64,6 +64,17 @@ public class Inventory implements InventoryInterface {
         return -1;
     }
 
+    /**
+     * Retrieves an item from the inventory at the given index.
+     *
+     * @param index the index at which to retrieve the item
+     * @return the item at the index, or {@code null} if none found
+     */
+    @Override
+    public AbstractItem getAt(int index) {
+        return inventory[index];
+    }
+
     // Currently removes item entirely - needs to be updated to reduce quantity.
     @Override
     public void deleteItem(int code) {
@@ -100,7 +111,7 @@ public class Inventory implements InventoryInterface {
         if (this.hasItem(code)) {
             int index = mapping.get(code).first();
             inventory[index].useItem(context);
-            if (inventory[index].isConsumed()) {
+            if (inventory[index].isEmpty()) {
                 this.deleteItemAt(index);
             }
         }
@@ -111,7 +122,7 @@ public class Inventory implements InventoryInterface {
     public void useItemAt(int index, ItemUsageContext context) {
         if (inventory[index] != null) {
             inventory[index].useItem(context);
-            if (inventory[index].isConsumed()) {
+            if (inventory[index].isEmpty()) {
                 this.deleteItemAt(index);
             }
         }
@@ -126,7 +137,7 @@ public class Inventory implements InventoryInterface {
             // Iterate through map and if we can add any more items add them, otherwise addNewItem
             for (Integer i : mapping.get(item.getItemCode())) {
                 AbstractItem x = inventory[i];
-                if (x.canAdd(1)) {
+                if (x.numAddabble() >= 1) {
                     x.add(1);
                     return;
                 }
