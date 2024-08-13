@@ -5,11 +5,10 @@ public class InfiniteUse extends AbstractItem {
      * Constructs an AbstractItem with the specified name and limit.
      *
      * @param name: name of item
-     * @param limit: limit on number of this item, limit <= quanity
-     * @param quantity: quantity of item in inventory
+     * @param itemCode: unique identifier for item
      */
-    public InfiniteUse(String name, int limit, int quantity) {
-        super(name, limit, quantity);
+    public InfiniteUse(String name, int itemCode) {
+        super(name, itemCode);
     }
 
     /**
@@ -27,12 +26,12 @@ public class InfiniteUse extends AbstractItem {
     }
 
     /**
-     * An infinite use item can never be consumed
+     * Inventory can never be empty of this item
      *
-     * @return false, since item can't be consumed
+     * @return false, since item is infinite use
      */
     @Override
-    public boolean isConsumed() {
+    public boolean isEmpty() {
         return false;
     }
 }
