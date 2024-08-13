@@ -16,6 +16,11 @@ import java.util.TreeSet;
 
 // TODO: Add support for adding multiple of an item, or adding until full
 
+// TODO: Add support for indexing, searching and sorting alphabetically by name
+
+// TODO: Error checking here and in abstract item needs to become significantly more rigorous
+// TODO: Naming and spell checking also needs to be run here and on abstract item.
+
 
 public class Inventory implements InventoryInterface {
     private final int capacity; // Remove tag final if inventory becomes upgradeable
@@ -129,7 +134,7 @@ public class Inventory implements InventoryInterface {
     }
 
     @Override
-    public void addItem(AbstractItem item) {
+    public void add(AbstractItem item) {
         if (this.isFull()) {return;}
 
         // Check if item is already present:
@@ -149,7 +154,7 @@ public class Inventory implements InventoryInterface {
     // This acts as a `replace item` as well for now
     // Up to user to determine that the index is valid
     @Override
-    public void addItem(AbstractItem item, int index) {
+    public void addAt(AbstractItem item, int index) {
         if (inventory[index] == null) {
             freeSlots--;
         }
@@ -157,10 +162,20 @@ public class Inventory implements InventoryInterface {
         this.addToMapping(item.getItemCode(), index);
     }
 
+    /**
+     * Adds an item to a new slot in the inventory
+     * Precondition: the inventory must <b>not</b> be full.
+     * @param item the item to add to a new slot
+     */
     private void addNewItem(AbstractItem item) {
         inventory[nextIndex] = item;
         this.addToMapping(item.getItemCode(), nextIndex);
         freeSlots--;
+
+        if (this.isFull()) {
+            nextIndex = this.capacity; // Cannot add any new items currently so invalid index
+            return;
+        }
 
         // Update nextIndex
         while (inventory[nextIndex] != null) {nextIndex++;}
