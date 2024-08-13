@@ -3,8 +3,9 @@ package com.csse3200.game.inventory.items;
 /**
  * Base class for consumable type items that can be used by a player.
  * <p>
+ * It is items that have limited uses until it is depleted (removed) from the inventory
  * Defines the useItemm function in {@link ItemUsageContext}
- * should be input to {@code useItem}.
+ * Should be input to {@code useItem}.
  * </p>
  */
 public abstract class ConsumableItem extends AbstractItem {
