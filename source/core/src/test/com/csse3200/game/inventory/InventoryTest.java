@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,17 +24,16 @@ public class InventoryTest {
     /**
      * Concrete subclass of AbstractItem for testing purposes.
      */
-    private static class TestableItem extends AbstractItem {
-        public int numUsed = 0;
+    private static class TestableItem extends ConsumableItem {
 
         public TestableItem(String name, int itemCode) {
-            super(name, itemCode);
+            super(name, itemCode, 2, 2);
         }
 
         @Override
         public void useItem(ItemUsageContext context) {
             // For testing purposes only
-            numUsed++;
+            super.useItem(context);
         }
     }
 
@@ -111,7 +111,13 @@ public class InventoryTest {
 
     @Test
     void testAddAndUse() {
-        //
+        // Add to inventory with single index, use it twice - check it has gone.
+
+        // Add multiple to inventory with multiple indexes, use varying times and check whether
+        // gone or not
+
+        // Create test item with 2 stacks. Check after using 1-4 times it is gone correctly.
+        // Ie it is still in inventory after 2 (but only 1 stack), but gone completely after 4
         assert false; // TODO
     }
 
