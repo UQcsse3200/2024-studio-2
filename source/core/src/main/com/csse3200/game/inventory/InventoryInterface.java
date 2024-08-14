@@ -16,6 +16,7 @@ public interface InventoryInterface {
     AbstractItem getAt(int index); // Get the item at the specified index
     void deleteItem(int itemCode); // delete any of a particular item by code
     void deleteItemAt(int index); // delete item by inventory index
+    void clearInventory(); // Warning - clears entire inventory!
     void useItem(int itemCode, ItemUsageContext context); // use any of a particular item by code
     void useItemAt(int index, ItemUsageContext context); // use item by inventory index
     void add(AbstractItem item);
