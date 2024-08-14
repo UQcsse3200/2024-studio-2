@@ -18,6 +18,8 @@ import static java.util.Arrays.fill;
 // TODO: Add inventory view class which adds support for rendering inventory
 
 
+// TODO - Look through comments, then look at refactoring/error checking
+
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
  * manipulation. This class supports adding and removing items, checking inventory status, and
@@ -142,11 +144,11 @@ public class Inventory implements InventoryInterface {
             mapping.get(code).remove(index);
             freeSlots++;
 
-            if (mapping.get(code).isEmpty()) { // Remove item if no stacks remaining
+            if (mapping.get(code).isEmpty()) { // Remove item from mapping if no instances remain.
                 mapping.remove(code);
             }
 
-            if (index < nextIndex) { // Update nextIndex
+            if (index < nextIndex) { // Update the next available index if necessary.
                 nextIndex = index;
             }
         }
@@ -170,7 +172,7 @@ public class Inventory implements InventoryInterface {
      * inventory.</p>
      *
      * @param code the unique code of the item.
-     * @param context the context in which the item is used (see {@link ItemUsageContext}.
+     * @param context the context in which the item is used (see {@link ItemUsageContext}).
      */
     @Override
     public void useItem(int code, ItemUsageContext context) {
@@ -213,7 +215,7 @@ public class Inventory implements InventoryInterface {
 
         // Check if item is already present:
         if (mapping.containsKey(item.getItemCode())) {
-            // Iterate through map and if we can add any more items add them, otherwise addNewItem
+            // Iterate through map and if we can add any more items, add them
             for (Integer i : mapping.get(item.getItemCode())) {
                 AbstractItem x = inventory[i];
                 if (x.numAddabble() >= 1) {
@@ -222,6 +224,8 @@ public class Inventory implements InventoryInterface {
                 }
             }
         }
+
+        // Cannot add item to existing instances of item, so add to a new slot
         this.addNewItem(item);
     }
 
@@ -239,9 +243,9 @@ public class Inventory implements InventoryInterface {
             freeSlots--;
         }
 
-        this.deleteItemAt(index); // delete old item
+        this.deleteItemAt(index); // delete the old item
 
-        inventory[index] = item; // add new item
+        inventory[index] = item; // add the new item
         this.addToMapping(item.getItemCode(), index);
     }
 
@@ -257,11 +261,11 @@ public class Inventory implements InventoryInterface {
         freeSlots--;
 
         if (this.isFull()) {
-            nextIndex = this.capacity; // Cannot add any new items currently so invalid index
+            nextIndex = this.capacity; // Cannot add any new items currently so invalidate the index
             return;
         }
 
-        // Update nextIndex
+        // Update the next available index.
         while (inventory[nextIndex] != null) {nextIndex++;}
     }
 
