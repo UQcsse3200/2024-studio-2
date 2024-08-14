@@ -3,8 +3,6 @@ package com.csse3200.game.inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 
-import java.util.Optional;
-
 /**
  * Represents player's inventory. Can store a certain number of distinct items (determined by
  * limit), some items can be stacked (ie, stackable items).
@@ -53,11 +51,12 @@ public interface InventoryInterface {
     /**
      * Retrieves the item at the specified index in the inventory.
      *
-     * @param index the index of the item to retrieve
-     * @return an {@code Optional} containing the item if present, or {@code Optional.empty()}
-     * if no item is found
+     * @param index the index of the item in the inventory
+     * @return the item at the specified index, or {@code null} if there is no item at that index
+     * @throws ArrayIndexOutOfBoundsException if the index is out of range, i.e,
+     *         {@code (index < 0 || index >= capacity)}
      */
-    Optional<AbstractItem> getAt(int index);
+    AbstractItem getAt(int index);
 
     /**
      * Deletes an instance of an item with the specified code from the inventory.
