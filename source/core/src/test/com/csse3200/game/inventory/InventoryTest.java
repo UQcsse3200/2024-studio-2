@@ -40,7 +40,7 @@ public class InventoryTest {
     @BeforeEach
     void setUp() { // Initialise Inventory for testing
         test1 = new Inventory(1);
-        test2 = new Inventory(10);
+        test2 = new Inventory(3);
         tests = new Inventory[]{test1, test2};
         items = new AbstractItem[5];
         for (int i = 0; i < 5; i++) {
@@ -85,11 +85,11 @@ public class InventoryTest {
     void testComplexAddAndDelete() {
         // Fill up inventory with items
         for (int i = 0; i < 3; i++) {
-            test2.add(items[0]);
+            test2.add(items[i]);
         }
-        assertTrue(test1.hasItem(items[2].getItemCode()));
-        assertFalse(test1.hasItem(items[3].getItemCode()));
-        assertEquals(items[0].getItemCode(), test1.getAt(0).getItemCode());
+        assertTrue(test2.hasItem(items[2].getItemCode()));
+        assertFalse(test2.hasItem(items[3].getItemCode()));
+        assertEquals(items[0].getItemCode(), test2.getAt(0).getItemCode());
         assertTrue(test2.isFull());
 
         // Check adding a new item now does nothing.
