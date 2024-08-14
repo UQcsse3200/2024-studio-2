@@ -2,10 +2,14 @@ package com.csse3200.game.team6;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.files.FileLoader.Location;
 import com.csse3200.game.files.FileLoader;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Reading, Writing, and applying user settings in the game.
@@ -16,6 +20,8 @@ public class UserSettings {
 
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 800;
+    private static Map<Sound, Float> soundVolumes = new HashMap<>();
+    private static Map<Music, Float> musicVolumes = new HashMap<>();
 
     /**
      * Get the stored user settings
@@ -58,7 +64,26 @@ public class UserSettings {
         } else {
             Gdx.graphics.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
         }
+        //applyAudioSettings(settings.audioScale, settings.soundScale);
     }
+    /**
+    private static void applyAudioSettings(float audioScale, float soundScale) {
+        float volume = audioScale / 100f; // Scale to 0.0 - 1.0
+
+        // Apply volume settings to sounds
+        for (Map.Entry<Sound, Float> entry : soundVolumes.entrySet()) {
+            Sound sound = entry.getKey();
+            float originalVolume = entry.getValue();
+            sound.setVolume(0, volume * originalVolume); // Adjust volume
+        }
+
+        // Appply volume settings to music
+        for (Map.Entry<Music, Float> entry : musicVolumes.entrySet()) {
+            Music music = entry.getKey();
+            float originalVolume = entry.getValue();
+            music.setVolume(volume * originalVolume); // adjust volume
+        }
+    } **/
 
     private static DisplayMode findMatching(DisplaySettings desiredSettings) {
         if (desiredSettings == null) {

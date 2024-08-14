@@ -186,13 +186,14 @@ public class SettingsMenuDisplay extends UIComponent {
                     }
                 });
 
+
         Table table = new Table();
         table.add(exitBtn).expandX().left().pad(0f, 15f, 15f, 0f);
         table.add(applyBtn).expandX().right().pad(0f, 0f, 15f, 15f);
         return table;
     }
 
-    private void applyChanges() {
+    public void applyChanges() {
         UserSettings.Settings settings = UserSettings.get();
 
         Integer fpsVal = parseOrNull(fpsText.getText());
