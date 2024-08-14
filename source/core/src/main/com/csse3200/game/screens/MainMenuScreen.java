@@ -79,7 +79,7 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainMenuTextures);
-    ServiceLocator.getResourceService().loadAll();
+    resourceService.loadAll();
   }
 
   private void unloadAssets() {
@@ -88,17 +88,14 @@ public class MainMenuScreen extends ScreenAdapter {
     resourceService.unloadAssets(mainMenuTextures);
   }
 
-  /**
-   * Creates the main menu's ui including components for rendering ui elements to the screen and
-   * capturing and handling ui input.
-   */
   private void createUI() {
-    logger.debug("Creating ui");
+    logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new MainMenuDisplay())
-        .addComponent(new InputDecorator(stage, 10))
-        .addComponent(new MainMenuActions(game));
+    ui.addComponent(new MainMenuDisplay(game))
+            .addComponent(new InputDecorator(stage, 10))
+            .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().register(ui);
   }
+
 }
