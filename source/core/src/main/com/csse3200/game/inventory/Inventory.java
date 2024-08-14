@@ -3,22 +3,20 @@ package com.csse3200.game.inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.badlogic.gdx.utils.IntMap;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
 
 // TODO List (for version 1 and future implementations):
-// TODO: Clean up all javadocs
 // TODO: Write Wiki page
-// TODO: Refactor and add helper functions to reduce code duplication
-// TODO: Check how memory is affected by constructing items before/inside for loops
 // TODO: Add support for adding multiple of an item, or adding until full
 // TODO: Add support for indexing, searching and sorting alphabetically by name
 // TODO: Error checking here and in abstract item needs to become significantly more rigorous
 // TODO: Naming and spell checking also needs to be run here and on abstract item.
 // TODO: Add inventory view class which adds support for rendering inventory
-
-
-// TODO - Look through comments, then look at refactoring/error checking
+// TODO: Possibly make abstract item a functional interface.
 
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
@@ -95,21 +93,18 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public int getIndex(int code) {
-        if (this.hasItem(code)) {
-            return mapping.get(code).first();
-        }
-        return -1;
+        return this.getItemIndex(code).orElse(-1);
     }
 
     /**
      * Retrieves an item from the inventory at the given index.
      *
-     * @param index the index at which to retrieve the item.
-     * @return the item at the index, or {@code null} if none found.
+     * @param index the index at which to retrieve the item
+     * @return an Optional containing the item if found, or an empty Optional if not found
      */
     @Override
-    public AbstractItem getAt(int index) {
-        return inventory[index];
+    public Optional<AbstractItem> getAt(int index) {
+        return Optional.ofNullable(inventory[index]);
     }
 
     /**
@@ -121,9 +116,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public void deleteItem(int code) {
-        if (this.hasItem(code)) {
-            this.deleteItemAt(mapping.get(code).first());
-        }
+        this.getItemIndex(code).ifPresent(this::deleteItemAt);
     }
 
     /**
@@ -139,18 +132,7 @@ public class Inventory implements InventoryInterface {
     @Override
     public void deleteItemAt(int index) {
         if (inventory[index] != null) {
-            int code = inventory[index].getItemCode();
-            inventory[index] = null;
-            mapping.get(code).remove(index);
-            freeSlots++;
-
-            if (mapping.get(code).isEmpty()) { // Remove item from mapping if no instances remain.
-                mapping.remove(code);
-            }
-
-            if (index < nextIndex) { // Update the next available index if necessary.
-                nextIndex = index;
-            }
+            this.removeAt(index);
         }
     }
 
@@ -176,13 +158,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public void useItem(int code, ItemUsageContext context) {
-        if (this.hasItem(code)) {
-            int index = mapping.get(code).first();
-            inventory[index].useItem(context);
-            if (inventory[index].isEmpty()) {
-                this.deleteItemAt(index);
-            }
-        }
+        this.getItemIndex(code).ifPresent(index -> useAndPossiblyRemove(index, context));
     }
 
     /**
@@ -196,10 +172,7 @@ public class Inventory implements InventoryInterface {
     @Override
     public void useItemAt(int index, ItemUsageContext context) {
         if (inventory[index] != null) {
-            inventory[index].useItem(context);
-            if (inventory[index].isEmpty()) {
-                this.deleteItemAt(index);
-            }
+            this.useAndPossiblyRemove(index, context);
         }
     }
 
@@ -249,13 +222,14 @@ public class Inventory implements InventoryInterface {
         this.addToMapping(item.getItemCode(), index);
     }
 
+    // PRIVATE HELPER FUNCTIONS:
     /**
      * Adds an item to a new slot in the inventory.
      * <p>Precondition: the inventory must <b>not</b> be full.</p>
      *
      * @param item the item to add to a new slot.
      */
-    private void addNewItem(AbstractItem item) {
+    private void addNewItem(@NotNull AbstractItem item) {
         inventory[nextIndex] = item;
         this.addToMapping(item.getItemCode(), nextIndex);
         freeSlots--;
@@ -265,7 +239,7 @@ public class Inventory implements InventoryInterface {
             return;
         }
 
-        // Update the next available index.
+        // Update the next available index - note we expect there to be a free slot at this point
         while (inventory[nextIndex] != null) {nextIndex++;}
     }
 
@@ -280,5 +254,50 @@ public class Inventory implements InventoryInterface {
             mapping.put(itemCode, new TreeSet<>());
         }
         mapping.get(itemCode).add(index);
+    }
+
+    /**
+     * Retrieves the index of the first occurrence of an item with the specified code.
+     *
+     * @param code the code of the item to search for.
+     * @return an {@link Optional} containing the index of the item if found,
+     *         or {@link Optional#empty()} if the item is not in the inventory.
+     */
+    private Optional<Integer> getItemIndex(int code) {
+        return this.hasItem(code) ? Optional.of(mapping.get(code).first()) : Optional.empty();
+    }
+
+    /**
+     * Uses an item at the specified index and removes it from the inventory if it is empty after use.
+     *
+     * @param index the index of the item to use.
+     * @param context the context in which the item is being used.
+     */
+    private void useAndPossiblyRemove(int index, ItemUsageContext context) {
+        inventory[index].useItem(context);
+        if (inventory[index].isEmpty()) {
+            this.removeAt(index);
+        }
+    }
+
+    /**
+     * Removes the item at the specified index from the inventory, updates the mapping,
+     * and adjusts the inventory state accordingly.
+     *
+     * @param index the index of the item to remove.
+     */
+    private void removeAt(int index) {
+        int code = inventory[index].getItemCode();
+        inventory[index] = null;
+        mapping.get(code).remove(index);
+        freeSlots++;
+
+        if (mapping.get(code).isEmpty()) { // Remove item from mapping if no instances remain.
+            mapping.remove(code);
+        }
+
+        if (index < nextIndex) { // Update the next available index if necessary.
+            nextIndex = index;
+        }
     }
 }
