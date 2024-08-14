@@ -54,7 +54,8 @@ public interface InventoryInterface {
      * Retrieves the item at the specified index in the inventory.
      *
      * @param index the index of the item to retrieve
-     * @return an {@code Optional} containing the item if present, or {@code Optional.empty()} if no item is found
+     * @return an {@code Optional} containing the item if present, or {@code Optional.empty()}
+     * if no item is found
      */
     Optional<AbstractItem> getAt(int index);
 
