@@ -19,5 +19,5 @@ public interface InventoryInterface {
     void useItem(int itemCode, ItemUsageContext context); // use any of a particular item by code
     void useItemAt(int index, ItemUsageContext context); // use item by inventory index
     void add(AbstractItem item);
-    void addAt(AbstractItem item, int index);
+    void addAt(int index, AbstractItem item);
 }
