@@ -3,7 +3,6 @@ package com.csse3200.game.inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.badlogic.gdx.utils.IntMap;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.TreeSet;
@@ -229,7 +228,7 @@ public class Inventory implements InventoryInterface {
      *
      * @param item the item to add to a new slot.
      */
-    private void addNewItem(@NotNull AbstractItem item) {
+    private void addNewItem(AbstractItem item) {
         inventory[nextIndex] = item;
         this.addToMapping(item.getItemCode(), nextIndex);
         freeSlots--;
