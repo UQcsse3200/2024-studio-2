@@ -20,9 +20,10 @@ public class InventoryTest {
     private Inventory test2;
     private Inventory[] tests;
     private AbstractItem[] items;
+    private ItemUsageContext context;
 
     /**
-     * Concrete subclass of AbstractItem for testing purposes.
+     * Concrete subclass of ConsumableItem for testing purposes.
      */
     private static class TestableItem extends ConsumableItem {
 
@@ -46,6 +47,8 @@ public class InventoryTest {
         for (int i = 0; i < 5; i++) {
             items[i] = new TestableItem("test_" + i, i);
         }
+
+        context = new ItemUsageContext();
     }
 
     @Test
@@ -107,18 +110,55 @@ public class InventoryTest {
         assertTrue(test2.hasItem(items[4].getItemCode()));
         assertFalse(test2.hasItem(items[1].getItemCode()));
         assertEquals(items[4].getItemCode(), test2.getAt(1).getItemCode());
+
+        // Test clearing inventory works:
+        test2.clearInventory();
+        assertEquals(3, test2.getCapacity());
+        assertEquals(3, test2.numFreeSlots());
+        for (AbstractItem item : items) {
+            assertFalse(test2.hasItem(item.getItemCode()));
+        }
     }
 
     @Test
-    void testAddAndUse() {
+    void testBasicAddAndUse() {
         // Add to inventory with single index, use it twice - check it has gone.
-
-        // Add multiple to inventory with multiple indexes, use varying times and check whether
-        // gone or not
-
-        // Create test item with 2 stacks. Check after using 1-4 times it is gone correctly.
-        // Ie it is still in inventory after 2 (but only 1 stack), but gone completely after 4
-        assert false; // TODO
+        test1.add(items[0]);
+        test1.useItem(items[0].getItemCode(), context);
+        assertTrue(test1.hasItem(items[0].getItemCode()));
+        test1.useItemAt(0, context);
+        assertFalse(test1.hasItem(items[0].getItemCode()));
     }
 
+    @Test
+    void testComplexAddAndUse() {
+        // Add multiple to inventory with multiple indexes, use varying times and check whether
+        // gone or not
+        test2.add(items[0]);
+        test2.add(items[1]);
+        test2.useItem(items[0].getItemCode(), context);
+        assertTrue(test2.hasItem(items[0].getItemCode()));
+        assertTrue(test2.hasItem(items[1].getItemCode()));
+        test2.useItem(items[0].getItemCode(), context);
+        assertTrue(test2.hasItem(items[0].getItemCode()));
+        assertFalse(test2.hasItem(items[1].getItemCode()));
+
+        // Create 2 new test items with same item code.
+        TestableItem x1 = new TestableItem("test", 0);
+        TestableItem x2 = new TestableItem("test", 0);
+        test2.clearInventory();
+        test2.add(x1);
+        test2.add(x2);
+
+        // Check using second item doesn't affect first
+        test2.useItemAt(1, context);
+        test2.useItemAt(1, context);
+        assertTrue(test2.hasItem(0)); // Should only have deleted 1 stack
+        assertNull(test2.getAt(1));
+
+        // Check inventory does not have the test items after using both.
+        test2.useItem(0, context);
+        test2.useItem(0, context);
+        assertFalse(test2.hasItem(0));
+    }
 }
