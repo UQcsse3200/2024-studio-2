@@ -1,4 +1,8 @@
 {
+  "chicken": {
+    "health": 10,
+    "baseAttack": 1
+  },
   "ghost": {
     "health": 40,
     "baseAttack": 10
