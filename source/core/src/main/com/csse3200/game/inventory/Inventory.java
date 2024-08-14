@@ -4,23 +4,18 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.badlogic.gdx.utils.IntMap;
 import java.util.TreeSet;
+import static java.util.Arrays.fill;
 
-// TODO: Testing, Documentation (JavaDocs & Wiki), Modify Add Item to Change quantity if
-//  Consumable add private method for addNew item vs adding to existing stack. Check out how to
-//  add to the map with default adds to make sure to generate new sets when needed. Make sure to
-//  remove old sets after final deletion.
-
-// TODO: Create custom pollFirst that doesn't show warnings
-
+// TODO List (for version 1 and future implementations):
+// TODO: Clean up all javadocs
+// TODO: Write Wiki page
+// TODO: Refactor and add helper functions to reduce code duplication
 // TODO: Check how memory is affected by constructing items before/inside for loops
-
 // TODO: Add support for adding multiple of an item, or adding until full
-
 // TODO: Add support for indexing, searching and sorting alphabetically by name
-
 // TODO: Error checking here and in abstract item needs to become significantly more rigorous
 // TODO: Naming and spell checking also needs to be run here and on abstract item.
-
+// TODO: Add inventory view class which adds support for rendering inventory
 
 public class Inventory implements InventoryInterface {
     private final int capacity; // Remove tag final if inventory becomes upgradeable
@@ -105,6 +100,15 @@ public class Inventory implements InventoryInterface {
                 nextIndex = index;
             }
         }
+    }
+
+    // Warning - all items wil be deleted from inventory and cannot be recovered
+    @Override
+    public void clearInventory() {
+        freeSlots = capacity;
+        nextIndex = 0;
+        mapping.clear();
+        fill(inventory, null);
     }
 
     // Need to update the following to remove an item if consumable!
