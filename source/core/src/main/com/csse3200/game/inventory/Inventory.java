@@ -96,14 +96,16 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
-     * Retrieves an item from the inventory at the given index.
+     * Retrieves the item at the specified index in the inventory.
      *
-     * @param index the index at which to retrieve the item
-     * @return an Optional containing the item if found, or an empty Optional if not found
+     * @param index the index of the item in the inventory
+     * @return the item at the specified index, or {@code null} if there is no item at that index
+     * @throws ArrayIndexOutOfBoundsException if the index is out of range, i.e,
+     *         {@code (index < 0 || index >= capacity)}
      */
     @Override
-    public Optional<AbstractItem> getAt(int index) {
-        return Optional.ofNullable(inventory[index]);
+    public AbstractItem getAt(int index) {
+        return inventory[index];
     }
 
     /**
@@ -127,7 +129,6 @@ public class Inventory implements InventoryInterface {
      *
      * @param index the index of the item to delete.
      */
-    // Up to user to check they have not exceeded the bounds of the inventory
     @Override
     public void deleteItemAt(int index) {
         if (inventory[index] != null) {

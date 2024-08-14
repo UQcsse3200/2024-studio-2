@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+
 @ExtendWith(GameExtension.class)
 public class InventoryTest {
     private Inventory test1;
@@ -92,9 +93,7 @@ public class InventoryTest {
         test1.add(items[0]);
         assertTrue(test1.hasItem(items[0].getItemCode()));
         assertEquals(0, test1.getIndex(items[0].getItemCode()));
-        if (test1.getAt(0).isPresent()) {
-            assertEquals(items[0].getItemCode(), test1.getAt(0).get().getItemCode());
-        }
+        assertEquals(items[0].getItemCode(), test1.getAt(0).getItemCode());
         assertTrue(test1.isFull());
         test1.deleteItem(items[0].getItemCode());
         assertFalse(test1.hasItem(items[0].getItemCode()));
@@ -108,9 +107,7 @@ public class InventoryTest {
         }
         assertTrue(test2.hasItem(items[2].getItemCode()));
         assertFalse(test2.hasItem(items[3].getItemCode()));
-        if (test2.getAt(0).isPresent()) {
-            assertEquals(items[0].getItemCode(), test2.getAt(0).get().getItemCode());
-        }
+        assertEquals(items[0].getItemCode(), test2.getAt(0).getItemCode());
         assertTrue(test2.isFull());
 
         // Check adding a new item now does nothing.
@@ -127,9 +124,7 @@ public class InventoryTest {
         test2.addAt(1, items[4]);
         assertTrue(test2.hasItem(items[4].getItemCode()));
         assertFalse(test2.hasItem(items[1].getItemCode()));
-        if (test1.getAt(1).isPresent()) {
-            assertEquals(items[4].getItemCode(), test1.getAt(1).get().getItemCode());
-        }
+        assertEquals(items[4].getItemCode(), test2.getAt(1).getItemCode());
 
         // Test clearing inventory works:
         test2.clearInventory();
