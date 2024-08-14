@@ -58,7 +58,7 @@ public class InventoryTest {
     void testInitialisation() {
         String msg = "Something went wrong when initialising an inventory!";
         assertEquals(1, test1.getCapacity(), msg);
-        assertEquals(10, test2.getCapacity(), msg);
+        assertEquals(3, test2.getCapacity(), msg);
 
         for (Inventory test : tests) {
             assertEquals(test.numFreeSlots(), test.getCapacity(), msg);
@@ -70,7 +70,7 @@ public class InventoryTest {
     }
 
     @Test
-    void testAddAndDelete() {
+    void testBasicAddAndDelete() {
         // Check add and delete works with a single item
         test1.add(items[0]);
         assertTrue(test1.hasItem(items[0].getItemCode()));
@@ -79,15 +79,39 @@ public class InventoryTest {
         assertTrue(test1.isFull());
         test1.deleteItem(items[0].getItemCode());
         assertFalse(test1.hasItem(items[0].getItemCode()));
+    }
 
-        // Check add and delete works as expected with multiple items
+    @Test
+    void testComplexAddAndDelete() {
+        // Fill up inventory with items
+        for (int i = 0; i < 3; i++) {
+            test2.add(items[0]);
+        }
+        assertTrue(test1.hasItem(items[2].getItemCode()));
+        assertFalse(test1.hasItem(items[3].getItemCode()));
+        assertEquals(items[0].getItemCode(), test1.getAt(0).getItemCode());
+        assertTrue(test2.isFull());
 
+        // Check adding a new item now does nothing.
+        test2.add(items[3]);
+        assertFalse(test2.hasItem(items[3].getItemCode()));
 
-        //assert false; // TODO (make sure to test get etc.)
+        // Check deleting then adding an item works
+        test2.deleteItem(items[0].getItemCode());
+        assertFalse(test2.hasItem(items[0].getItemCode()));
+        test2.add(items[3]);
+        assertTrue(test2.hasItem(items[3].getItemCode()));
+
+        // Check replacing an item at an index works.
+        test2.addAt(1, items[4]);
+        assertTrue(test2.hasItem(items[4].getItemCode()));
+        assertFalse(test2.hasItem(items[1].getItemCode()));
+        assertEquals(items[4].getItemCode(), test2.getAt(1).getItemCode());
     }
 
     @Test
     void testAddAndUse() {
+        //
         assert false; // TODO
     }
 
