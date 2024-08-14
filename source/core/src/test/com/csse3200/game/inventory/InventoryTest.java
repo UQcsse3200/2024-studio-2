@@ -73,6 +73,20 @@ public class InventoryTest {
     }
 
     @Test
+    void testClearAll() {
+        Inventory test = new Inventory(10);
+        for (AbstractItem item : items) {
+            test.add(item);
+        }
+
+        test.clearInventory();
+
+        for (AbstractItem item : items) {
+            assertFalse(test.hasItem(item.getItemCode()));
+        }
+    }
+
+    @Test
     void testBasicAddAndDelete() {
         // Check add and delete works with a single item
         test1.add(items[0]);
