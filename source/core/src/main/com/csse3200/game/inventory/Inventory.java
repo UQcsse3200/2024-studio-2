@@ -151,11 +151,14 @@ public class Inventory implements InventoryInterface {
     // This acts as a `replace item` as well for now
     // Up to user to determine that the index is valid
     @Override
-    public void addAt(AbstractItem item, int index) {
+    public void addAt(int index, AbstractItem item) {
         if (inventory[index] == null) {
             freeSlots--;
         }
-        inventory[index] = item;
+
+        this.deleteItemAt(index); // delete old item
+
+        inventory[index] = item; // add new item
         this.addToMapping(item.getItemCode(), index);
     }
 
