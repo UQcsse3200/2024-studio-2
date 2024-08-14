@@ -43,6 +43,32 @@ public class NPCFactory {
    * @param target entity to chase
    * @return entity
    */
+  public static Entity createChicken(Entity target) {
+    Entity chicken = createBaseNPC(target);
+    BaseEntityConfig config = configs.chicken;
+
+    /*TODO
+      Change this to an animation for a chicken */
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class));
+    animator.addAnimation("walk", 1f, Animation.PlayMode.LOOP);
+    chicken
+            .addComponent(animator)
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new GhostAnimationController());
+
+    chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return chicken;
+  }
+
+  /**
+   * Creates a ghost entity.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
   public static Entity createGhost(Entity target) {
     Entity ghost = createBaseNPC(target);
     BaseEntityConfig config = configs.ghost;
