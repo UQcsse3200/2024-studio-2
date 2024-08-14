@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -74,6 +75,7 @@ public class MainMenuDisplay extends UIComponent {
                   public void changed(ChangeEvent changeEvent, Actor actor) {
                       // Toggle the visibility of the small menu
                       settingMenu.setVisible(!settingMenu.isVisible());
+                      table.setTouchable(Touchable.disabled);
                   }
               });
 
@@ -149,6 +151,7 @@ public class MainMenuDisplay extends UIComponent {
                   public void changed(ChangeEvent changeEvent, Actor actor) {
                       // Toggle the visibility of the small menu
                       settingMenu.setVisible(!settingMenu.isVisible());
+                      table.setTouchable(Touchable.enabled);
                   }
               });
   }
