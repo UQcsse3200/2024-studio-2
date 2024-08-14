@@ -146,16 +146,16 @@ public class InventoryTest {
 
     @Test
     void testComplexAddAndUse() {
-        // Add multiple to inventory with multiple indexes, use varying times and check whether
-        // gone or not
+        // Add multiple to inventory with multiple indexes, use varying number of times and check
+        // whether items are gone or not
         test2.add(items[0]);
         test2.add(items[1]);
         test2.useItem(items[0].getItemCode(), context);
         assertTrue(test2.hasItem(items[0].getItemCode()));
         assertTrue(test2.hasItem(items[1].getItemCode()));
         test2.useItem(items[0].getItemCode(), context);
-        assertTrue(test2.hasItem(items[0].getItemCode()));
-        assertFalse(test2.hasItem(items[1].getItemCode()));
+        assertFalse(test2.hasItem(items[0].getItemCode()));
+        assertTrue(test2.hasItem(items[1].getItemCode()));
 
         // Create 2 new test items with same item code.
         TestableItem x1 = new TestableItem("test", 0);
