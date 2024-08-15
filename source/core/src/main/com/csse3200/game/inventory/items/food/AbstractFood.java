@@ -45,7 +45,7 @@ public class AbstractFood extends ConsumableItem {
      * @param inputs the context in which the item is used
      */
     @Override
-    public void usedItem(ItemUsageContext inputs) {
+    public void useItem(ItemUsageContext inputs) {
         if (super.isEmpty()) {
             throw new ConsumedException();
         }
