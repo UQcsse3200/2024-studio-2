@@ -14,9 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.screens.MainGameScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The screen for selecting an animal.
+ */
 public class AnimalSelectionScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionScreen.class);
     private final GdxGame game;
@@ -48,7 +52,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         TextButton animal2Button = new TextButton("Animal 2", skin);
         TextButton animal3Button = new TextButton("Animal 3", skin);
 
-        selectButton = new TextButton("Select", skin);
+        selectButton = new TextButton("READY?", skin);
         TextButton backButton = new TextButton("Go Back", skin);
 
         Table animal1Table = new Table();
@@ -104,8 +108,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
             public void changed(ChangeEvent event, Actor actor) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    // Handle the selection of the chosen animal here
-                    // Example: game.setScreen(new NextScreen(game)); // Transition to another screen
+                    game.setScreen(new MainGameScreen(game)); // Transition to Main Game Screen
                 } else {
                     logger.debug("No animal selected");
                 }
