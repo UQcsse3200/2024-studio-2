@@ -1,8 +1,9 @@
 package com.csse3200.game.inventory.items.potions;
 
-import com.csse3200.game.inventory.items.ConsumableItems;
+import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
+import com.csse3200.game.inventory.items.exceptions.ConsumedException;
 
 import java.util.List;
 
@@ -25,14 +26,14 @@ import java.util.List;
  *
  * <p>
  * The {@code AbstractPotion} class also inherits the general properties of a consumable item from
- * the {@link ConsumableItems} class, such as the number of uses and whether the item is consumed upon use.
+ * the {@link ConsumableItem} class, such as the number of uses and whether the item is consumed upon use.
  * </p>
  *
- * @see ConsumableItems
+ * @see ConsumableItem
  * @see AbstractEffect
  */
 
-public abstract class AbstractPotion extends ConsumableItems {
+public abstract class AbstractPotion extends ConsumableItem {
 
     /**
      * A list of possible effects that this potion can apply when used.
@@ -47,8 +48,8 @@ public abstract class AbstractPotion extends ConsumableItems {
      * @param possibleEffects a list of {@link AbstractEffect} objects representing the effects that this
      * potion can apply
      */
-    public AbstractPotion(int quantity, List<AbstractEffect> possibleEffects) {
-        super(quantity);
+    public AbstractPotion(String name, int itemCode, int limit, int quantity, List<AbstractEffect> possibleEffects) {
+        super(name, itemCode, limit, quantity);
         this.possibleEffects = possibleEffects;
 
     }
@@ -90,7 +91,9 @@ public abstract class AbstractPotion extends ConsumableItems {
             applyEffect();
             this.quantity--;
         } else {
-            this.isEmpty = isConsumed();
+            if (super.isEmpty()) {
+                throw new ConsumedException();
+            }
         }
     }
 }

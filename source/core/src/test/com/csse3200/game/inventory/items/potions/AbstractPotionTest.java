@@ -19,16 +19,16 @@ public class AbstractPotionTest  {
 
     @BeforeEach
     public void setUp() {
-        healingPotion = new HealingPotion(3);
+        healingPotion = new HealingPotion("Healing Potion", 1001, 10, 3);
     }
 
     @Test
     public void testApplyEffect() {
         healingPotion.useItem(null);
-        assertEquals(2, healingPotion.getUses(), "The potion should have 2 uses left after one use.");
+        assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");
 
         healingPotion.useItem(null);
-        assertEquals(1, healingPotion.getUses(), "The potion should have 1 use left after two uses.");
+        assertEquals(1, healingPotion.getQuantity(), "The potion should have 1 use left after two uses.");
     }
 
     @Test
