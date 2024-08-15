@@ -92,7 +92,7 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new MainMenuDisplay(game))
+    ui.addComponent(new MainMenuDisplay(game))  // Pass the GdxGame instance here
             .addComponent(new InputDecorator(stage, 10))
             .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().register(ui);
