@@ -1,5 +1,6 @@
 package com.csse3200.game.services;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
@@ -8,12 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A simplified implementation of the Service Locator pattern:
- * https://martinfowler.com/articles/injection.html#UsingAServiceLocator
+ * A simplified implementation of the Service Locator pattern.
  *
  * <p>Allows global access to a few core game services.
- * Warning: global access is a trap and should be used <i>extremely</i> sparingly.
- * Read the wiki for details (https://github.com/UQcsse3200/game-engine/wiki/Service-Locator).
+ * Warning: global access is a trap and should be used extremely sparingly.
  */
 public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
@@ -23,7 +22,7 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-
+  private static GdxGame game;
 
   public static EntityService getEntityService() {
     return entityService;
@@ -79,6 +78,14 @@ public class ServiceLocator {
     resourceService = source;
   }
 
+  public static void registerGame(GdxGame gameInstance) {
+    game = gameInstance;
+  }
+
+  public static GdxGame getGame() {
+    return game;
+  }
+
   public static void clear() {
     entityService = null;
     renderService = null;
@@ -86,9 +93,11 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
+    game = null;
   }
 
   private ServiceLocator() {
     throw new IllegalStateException("Instantiating static util class");
   }
 }
+
