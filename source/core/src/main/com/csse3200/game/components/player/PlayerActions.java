@@ -52,7 +52,7 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventService.globalEventHandler.trigger("steps",0);
+    eventService.globalEventHandler.trigger("steps");
   }
 
   /**
@@ -70,5 +70,6 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
+    eventService.globalEventHandler.trigger("attack");
   }
 }
