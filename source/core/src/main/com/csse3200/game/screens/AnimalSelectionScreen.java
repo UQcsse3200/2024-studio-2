@@ -7,20 +7,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.MainGameScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * The screen for selecting an animal.
- */
 public class AnimalSelectionScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionScreen.class);
     private final GdxGame game;
@@ -52,7 +50,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         TextButton animal2Button = new TextButton("Animal 2", skin);
         TextButton animal3Button = new TextButton("Animal 3", skin);
 
-        selectButton = new TextButton("READY?", skin);
+        selectButton = new TextButton("Ready?", skin);
         TextButton backButton = new TextButton("Go Back", skin);
 
         Table animal1Table = new Table();
@@ -108,9 +106,10 @@ public class AnimalSelectionScreen extends ScreenAdapter {
             public void changed(ChangeEvent event, Actor actor) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(new MainGameScreen(game)); // Transition to Main Game Screen
+                    game.setScreen(new MainGameScreen(game)); // Transition to the main game screen
                 } else {
                     logger.debug("No animal selected");
+                    showSelectionAlert(); // Show the popup if no animal is selected
                 }
             }
         });
@@ -131,6 +130,20 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         selectedAnimalImage = animalImage;
         selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight selected animal
         logger.debug("Animal selected: {}", animalImage.getName());
+    }
+
+    private void showSelectionAlert() {
+        Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        Dialog dialog = new Dialog("Alert", skin) {
+            @Override
+            protected void result(Object object) {
+                // Handle dialog result if needed
+            }
+        };
+
+        dialog.text("Please select an animal first.");
+        dialog.button("OK", true);
+        dialog.show(stage);
     }
 
     @Override
