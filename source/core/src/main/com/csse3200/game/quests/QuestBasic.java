@@ -19,6 +19,10 @@ public class QuestBasic {
     * and each entry consists of a substring hint to be given to NPCs*/
     private final String[] taskHints = new String[]{"default", "QUEST COMPLETED"};
 
+    public QuestBasic(int numTasksCompleted) {
+        this.numTasksCompleted = numTasksCompleted;
+    }
+
     /** Returns true if a quest has been completed (the end condition
     * of an individual quest). */
     public boolean isQuestCompleted(){
