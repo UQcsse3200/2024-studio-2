@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -150,35 +151,33 @@ public class MainMenuDisplay extends UIComponent {
         settingMenu.setBackground(backgroundDrawable);
         settingMenu.setVisible(false);
 
-        Label title = new Label("Settings", skin, "title");
-        settingMenu.add(title).top().padTop(20f).padLeft(40);
-        settingMenu.row().expandY(); // Ensure title is at the top
+        Table topTable = new Table();
+        topTable.top().padTop(10);
 
-        // Create a table for the "X" button
-        Table topRightTable = new Table();
-        topRightTable.top().right(); // Align contents to top-right
+        Label title = new Label("Settings", skin, "title");
+        //settingMenu.row().expandY(); // Ensure title is at the top
+
+        topTable.add(title).expandX().center();
+        topTable.row();
 
         TextButton closeButton = new TextButton("X", skin);
-        topRightTable.add(closeButton).size(40, 40).padTop(10f).padRight(10f);
+        topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
+
+        settingsMenuDisplay = new SettingsMenuDisplay();
+        Table contentTable = settingsMenuDisplay.makeSettingsTable();
 
         // Create a table for the "Apply" button
         Table bottomRightTable = new Table();
-        bottomRightTable.bottom().right(); // Align contents to bottom-right
+        bottomRightTable.bottom(); // Align contents to bottom-right
 
         TextButton applyButton = new TextButton("Apply", skin);
         bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
 
-        // Add the tables to the settingsMenu
-        settingMenu.add(topRightTable).expandX().fillX().top().row(); // Top-right table
-
-
-        // Add settings content table
-        settingsMenuDisplay = new SettingsMenuDisplay();
-        Table contentTable = settingsMenuDisplay.makeSettingsTable();
-        settingMenu.add(contentTable).expand().fill().padLeft(50);
-        settingMenu.row();
-
-        settingMenu.add(bottomRightTable).expandX().fillX().bottom().row(); // Bottom-right table
+        settingMenu.add(topTable).expandX().fillX(); // Top-right table
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
+        settingMenu.row().padTop(30f);
+        settingMenu.add(bottomRightTable).expandX().right().padLeft(100); // Bottom-right table
 
         // Center the menu on the screen
         settingMenu.setPosition(
@@ -194,9 +193,9 @@ public class MainMenuDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         // Toggle the visibility of the small menu
                         settingMenu.setVisible(!settingMenu.isVisible());
+                        table.setTouchable(Touchable.enabled);
                     }
-                }
-        );
+                });
 
         // Add event listener for the "Apply" button
         applyButton.addListener(
@@ -206,9 +205,9 @@ public class MainMenuDisplay extends UIComponent {
                         logger.debug("Apply button clicked");
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
+                        table.setTouchable(Touchable.enabled);
                     }
-                }
-        );
+                });
     }
 
     @Override

@@ -177,6 +177,7 @@ public class MainMenuDisplay extends UIComponent {
                                 logger.debug("Apply button clicked");
                                 settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                                 settingMenu.setVisible(false); // Optionally hide the settings menu
+                                table.setTouchable(Touchable.enabled);
                             }
                         });
     }
