@@ -1,4 +1,4 @@
-package com.csse3200.game.quests;
+package com.csse3200.game.components.quests;
 
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
