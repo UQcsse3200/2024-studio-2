@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -16,6 +20,11 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Label healthLabel;
+
+  private Animation healthBarAnimation;
+
+  private Texture healthBarImages;
+  private TextureRegion[][] tmpFrames = TextureRegion.split(healthBarImages, 110, 573);
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
