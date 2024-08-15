@@ -70,7 +70,7 @@ public class SnakeScreen extends ScreenAdapter {
         stage.clear();
 
 
-        imageTexture = new Texture("images/SnakeImage.jpg");
+        imageTexture = new Texture("/Users/manandeepsingh/Desktop/Studio-2_2024/2024-studio-2/source/core/assets/images/snakee.jpg");
 
 
         Image image = new Image(imageTexture);
@@ -85,4 +85,3 @@ public class SnakeScreen extends ScreenAdapter {
 
     }
 }
-

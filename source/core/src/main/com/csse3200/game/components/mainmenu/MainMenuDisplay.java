@@ -78,7 +78,7 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-      exitBtn.addListener(
+      SnakeGameBtn.addListener(
               new ChangeListener() {
                   @Override
                   public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -97,8 +97,8 @@ public class MainMenuDisplay extends UIComponent {
     table.add(settingsBtn).padTop(15f);
     table.row();
     table.add(exitBtn).padTop(15f);
-      table.row();
-      table.add(SnakeGameBtn).padTop(15f);
+    table.row();
+    table.add(SnakeGameBtn).padTop(15f);
 
     stage.addActor(table);
   }
