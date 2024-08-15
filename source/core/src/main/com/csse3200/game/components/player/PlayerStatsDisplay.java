@@ -43,8 +43,8 @@ public class PlayerStatsDisplay extends UIComponent {
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
 
     // Get the original width and height of the image
-    float heartImageWidth = (float) (heartImage.getWidth() * 0.7);
-    float heartImageHeight = (float) (heartImage.getHeight() * 0.7);
+    float heartImageWidth = (float) (heartImage.getWidth() * 0.8);
+    float heartImageHeight = (float) (heartImage.getHeight() * 0.5);
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
