@@ -38,6 +38,7 @@ public class MainMenuDisplay extends UIComponent {
     TextButton loadBtn = new TextButton("Load", skin);
     TextButton settingsBtn = new TextButton("Settings", skin);
     TextButton exitBtn = new TextButton("Exit", skin);
+      TextButton SnakeGameBtn = new TextButton("SnakeGame", skin);
 
     // Triggers an event when the button is pressed
     startBtn.addListener(
@@ -77,6 +78,16 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
+      exitBtn.addListener(
+              new ChangeListener() {
+                  @Override
+                  public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                      logger.debug("SnakeGame button clicked");
+                      entity.getEvents().trigger("SnakeGame");
+                  }
+              });
+
     table.add(title);
     table.row();
     table.add(startBtn).padTop(30f);
@@ -86,6 +97,8 @@ public class MainMenuDisplay extends UIComponent {
     table.add(settingsBtn).padTop(15f);
     table.row();
     table.add(exitBtn).padTop(15f);
+      table.row();
+      table.add(SnakeGameBtn).padTop(15f);
 
     stage.addActor(table);
   }
