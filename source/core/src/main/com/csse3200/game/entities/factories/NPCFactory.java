@@ -11,6 +11,7 @@ import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
+import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.GhostKingConfig;
