@@ -94,8 +94,7 @@ public class MainMenuScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new MainMenuDisplay(game))  // Pass the GdxGame instance here
             .addComponent(new InputDecorator(stage, 10))
-            .addComponent(new MainMenuActions(game));
+            .addComponent(new MainMenuActions(game)); // Ensure this line is present to handle button actions
     ServiceLocator.getEntityService().register(ui);
   }
-
 }
