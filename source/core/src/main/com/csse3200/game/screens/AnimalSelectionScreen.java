@@ -5,12 +5,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ public class AnimalSelectionScreen extends ScreenAdapter {
     private final GdxGame game;
     private Stage stage;
     private Table mainTable;
+    private Image selectedAnimalImage;
+    private TextButton selectButton;
 
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
@@ -44,6 +48,9 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         TextButton animal2Button = new TextButton("Animal 2", skin);
         TextButton animal3Button = new TextButton("Animal 3", skin);
 
+        selectButton = new TextButton("Select", skin);
+        TextButton backButton = new TextButton("Go Back", skin);
+
         Table animal1Table = new Table();
         animal1Table.add(animal1Image).pad(10);
         animal1Table.row();
@@ -64,43 +71,44 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         mainTable.add(animal3Table).pad(10);
         mainTable.row();
 
-        TextButton selectButton = new TextButton("Select", skin);
-        TextButton backButton = new TextButton("Go Back", skin);
-
         mainTable.add(selectButton).pad(10).colspan(3);
         mainTable.row();
         mainTable.add(backButton).pad(10).colspan(3);
 
-        animal1Button.addListener(new ChangeListener() {
+        animal1Image.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Animal 1 selected");
-                // Handle selection of Animal 1
+            public void clicked(InputEvent event, float x, float y) {
+                logger.debug("Animal 1 image clicked");
+                selectAnimal(animal1Image);
             }
         });
 
-        animal2Button.addListener(new ChangeListener() {
+        animal2Image.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Animal 2 selected");
-                // Handle selection of Animal 2
+            public void clicked(InputEvent event, float x, float y) {
+                logger.debug("Animal 2 image clicked");
+                selectAnimal(animal2Image);
             }
         });
 
-        animal3Button.addListener(new ChangeListener() {
+        animal3Image.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Animal 3 selected");
-                // Handle selection of Animal 3
+            public void clicked(InputEvent event, float x, float y) {
+                logger.debug("Animal 3 image clicked");
+                selectAnimal(animal3Image);
             }
         });
 
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Select button clicked");
-                // Handle selection of the chosen animal here
-                // Example: game.setScreen(new NextScreen(game)); // Transition to another screen
+                if (selectedAnimalImage != null) {
+                    logger.debug("Select button clicked with animal selected");
+                    // Handle the selection of the chosen animal here
+                    // Example: game.setScreen(new NextScreen(game)); // Transition to another screen
+                } else {
+                    logger.debug("No animal selected");
+                }
             }
         });
 
@@ -111,6 +119,15 @@ public class AnimalSelectionScreen extends ScreenAdapter {
                 game.setScreen(GdxGame.ScreenType.MAIN_MENU);
             }
         });
+    }
+
+    private void selectAnimal(Image animalImage) {
+        if (selectedAnimalImage != null) {
+            selectedAnimalImage.setColor(1, 1, 1, 1); // Reset previous selection color
+        }
+        selectedAnimalImage = animalImage;
+        selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight selected animal
+        logger.debug("Animal selected: {}", animalImage.getName());
     }
 
     @Override
