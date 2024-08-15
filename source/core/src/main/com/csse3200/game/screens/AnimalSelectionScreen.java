@@ -38,20 +38,21 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         // Load images for animal options
         Image animal1Image = new Image(new Texture("images/animal1.png"));
         Image animal2Image = new Image(new Texture("images/animal2.png"));
+        Image animal3Image = new Image(new Texture("images/animal3.png"));
 
         // Load Skin for TextButton
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         TextButton selectButton = new TextButton("Select", skin);
-        TextButton goBackButton = new TextButton("Go Back", skin);
+        TextButton backButton = new TextButton("Go Back", skin);
 
-        // Arrange UI elements in the Table
+        // Arrange UI elements in the Table horizontally
         table.add(animal1Image).pad(10);
-        table.row();
         table.add(animal2Image).pad(10);
+        table.add(animal3Image).pad(10);
         table.row();
-        table.add(selectButton).pad(10);
+        table.add(selectButton).pad(10).colspan(3); // Select button spans across 3 columns
         table.row();
-        table.add(goBackButton).pad(10);
+        table.add(backButton).pad(10).colspan(3); // Back button spans across 3 columns
 
         // Add the Table to the Stage
         stage.addActor(table);
@@ -66,11 +67,11 @@ public class AnimalSelectionScreen extends ScreenAdapter {
             }
         });
 
-        goBackButton.addListener(new ChangeListener() {
+        backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Go Back button clicked");
-                game.setScreen(new MainMenuScreen(game)); // Transition to the main menu screen
+                logger.debug("Go back button clicked");
+                game.setScreen(GdxGame.ScreenType.MAIN_MENU); // Transition to the main menu screen
             }
         });
     }
