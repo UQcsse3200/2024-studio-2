@@ -10,6 +10,7 @@ import com.csse3200.game.screens.SettingsScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.csse3200.game.services.ServiceLocator;
 import static com.badlogic.gdx.Gdx.app;
 
 /**
@@ -25,8 +26,11 @@ public class GdxGame extends Game {
     logger.info("Creating game");
     loadSettings();
 
+    // Register the game instance with ServiceLocator
+    ServiceLocator.registerGame(this);
+
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -88,3 +92,4 @@ public class GdxGame extends Game {
     app.exit();
   }
 }
+
