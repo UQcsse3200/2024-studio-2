@@ -47,14 +47,13 @@ public class MainMenuDisplay extends UIComponent {
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
-        TextButton animalSelectionBtn = new TextButton("Select Animal", skin);
 
         // Button listeners
         startBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 logger.debug("Start button clicked");
-                entity.getEvents().trigger("start");
+                game.setScreen(new AnimalSelectionScreen(game));
             }
         });
 
@@ -82,14 +81,6 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        animalSelectionBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Animal Selection button clicked");
-                game.setScreen(new AnimalSelectionScreen(game));
-            }
-        });
-
         // Arrange buttons in the table
         table.add(title).padBottom(20f);
         table.row();
@@ -100,8 +91,6 @@ public class MainMenuDisplay extends UIComponent {
         table.add(settingsBtn).padTop(15f);
         table.row();
         table.add(exitBtn).padTop(15f);
-        table.row();
-        table.add(animalSelectionBtn).padTop(15f);
 
         // Add the table to the stage
         stage.addActor(table);
