@@ -42,6 +42,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         // Load Skin for TextButton
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         TextButton selectButton = new TextButton("Select", skin);
+        TextButton goBackButton = new TextButton("Go Back", skin);
 
         // Arrange UI elements in the Table
         table.add(animal1Image).pad(10);
@@ -49,17 +50,27 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         table.add(animal2Image).pad(10);
         table.row();
         table.add(selectButton).pad(10);
+        table.row();
+        table.add(goBackButton).pad(10);
 
         // Add the Table to the Stage
         stage.addActor(table);
 
-        // Add listener to handle button clicks
+        // Add listeners to handle button clicks
         selectButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 logger.debug("Animal selected");
                 // Handle animal selection here
                 // Example: game.setScreen(new NextScreen(game)); // Transition to another screen
+            }
+        });
+
+        goBackButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                logger.debug("Go Back button clicked");
+                game.setScreen(new MainMenuScreen(game)); // Transition to the main menu screen
             }
         });
     }
