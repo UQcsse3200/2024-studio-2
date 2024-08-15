@@ -1,7 +1,5 @@
 package com.csse3200.game.components.quests;
 
-import com.csse3200.game.components.quests.QuestBasic;
-import com.csse3200.game.components.quests.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,7 @@ class QuestBasicTest {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5);
 
         // Create the quest with the task
-        quest = new QuestBasic("First Steps", List.of(stepsTask));
+        quest = new QuestBasic("First Steps","Take your first steps in this world!", List.of(stepsTask), true,false);
     }
 
     @Test

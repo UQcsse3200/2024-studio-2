@@ -25,8 +25,8 @@ public class QuestManager extends Component {
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
         List<Task> tasks = List.of(stepsTask);
         List<Task> tasks1 = List.of(stepsTask,attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", tasks1);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps", tasks);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, true,false);
         quests.put(twoTaskQuest.getQuestName(), twoTaskQuest);
         quests.put(firstStepsQuest.getQuestName(), firstStepsQuest);
         subscribeToQuestEvents(twoTaskQuest);

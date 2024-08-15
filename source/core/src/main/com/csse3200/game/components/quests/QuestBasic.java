@@ -8,13 +8,25 @@ public class QuestBasic {
 
     private final String questName;
 
+    /**A description of the task. */
+    private final String questDescription;
+
+    /** taskArray indexing corresponds to number of tests completed
+     * and each entry consists of the task to be completed during this step. */
     private final List<Task> tasks;
 
     private int currentTaskIndex = 0;
 
-    public QuestBasic(String questName, List<Task> tasks) {
+    private final boolean isAchievement;
+
+    private final boolean isSecretQuest;
+
+    public QuestBasic(String questName,String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest) {
         this.questName = questName;
         this.tasks = tasks;
+        this.questDescription = questDescription;
+        this.isAchievement = isAchievement;
+        this.isSecretQuest = isSecretQuest;
     }
 
     public String getQuestName() {
@@ -33,6 +45,8 @@ public class QuestBasic {
         return currentTaskIndex;
     }
 
+    /** Returns the description of the current subtask being completed
+     * for a test or "QUEST COMPLETED" if the quest is completed.*/
     public String getCurrentTaskDescription() {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
@@ -40,6 +54,8 @@ public class QuestBasic {
         return tasks.get(currentTaskIndex).getDescription();
     }
 
+    /** Returns the hint for the current subtask being completed
+     * for a test or "QUEST COMPLETED" if the quest is completed.*/
     public String getCurrentTaskHint() {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
@@ -51,6 +67,38 @@ public class QuestBasic {
         if (!isQuestCompleted()) {
                 currentTaskIndex++;
         }
+    }
+
+    /** taskDescriptions indexing corresponds to number of tests completed
+     * and each entry consists of a subtask description. */
+    private final String[] taskDescriptions = new String[]{"default", "QUEST COMPLETED"};
+
+    /** taskHints indexing corresponds to number of tests completed
+     * and each entry consists of a substring hint to be given to NPCs*/
+    private final String[] taskHints = new String[]{"default", "QUEST COMPLETED"};
+
+
+    /** Returns a description of the quest.*/
+    public String getQuestDescription(){
+        return questDescription;
+    }
+
+    /** Returns the number of tasks to be completed for an individual test.*/
+    public int getNumTasksCompleted(){
+        return (tasks.size() - 1) - currentTaskIndex;
+    }
+
+    /** Returns the number of tasks for a quest.*/
+    public int getNumQuestTasks(){
+        return tasks.size();
+    }
+
+    public boolean isAchievement(){
+        return isAchievement;
+    }
+
+    public boolean isSecret(){
+        return isSecretQuest;
     }
 }
 
