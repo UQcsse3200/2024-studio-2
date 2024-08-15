@@ -50,6 +50,7 @@ public class MainMenuDisplay extends UIComponent {
 
         TextButton startBtn = new TextButton("Start", skin);
         TextButton loadBtn = new TextButton("Load", skin);
+        TextButton tutorialBtn = new TextButton("Tutorial", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
 
@@ -58,6 +59,7 @@ public class MainMenuDisplay extends UIComponent {
         // Add elevation effect to buttons
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
+        addButtonElevationEffect(tutorialBtn);
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(exitBtn);
 
@@ -90,6 +92,15 @@ public class MainMenuDisplay extends UIComponent {
                     }
                 });
 
+        tutorialBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Tutorial button clicked");
+                        entity.getEvents().trigger("tutorial");
+                    }
+                });
+
         exitBtn.addListener(
                 new ChangeListener() {
                     @Override
@@ -105,6 +116,8 @@ public class MainMenuDisplay extends UIComponent {
         table.add(startBtn).padTop(30f);
         table.row();
         table.add(loadBtn).padTop(15f);
+        table.row();
+        table.add(tutorialBtn).padTop(15f);
         table.row();
         table.add(settingsBtn).padTop(15f);
         table.row();
