@@ -181,10 +181,13 @@ public class Inventory implements InventoryInterface {
      * a new slot.
      *
      * @param item the item to add to the inventory.
+     * @return {@code true} if the item was added successfully, else {@code false}
      */
     @Override
-    public void add(AbstractItem item) {
-        if (this.isFull()) {return;}
+    public boolean add(AbstractItem item) {
+        if (this.isFull()) {
+            return false;
+        }
 
         // Check if item is already present:
         if (mapping.containsKey(item.getItemCode())) {
@@ -193,13 +196,14 @@ public class Inventory implements InventoryInterface {
                 AbstractItem x = inventory[i];
                 if (x.numAddabble() >= 1) {
                     x.add(1);
-                    return;
+                    return true;
                 }
             }
         }
 
         // Cannot add item to existing instances of item, so add to a new slot
         this.addNewItem(item);
+        return true;
     }
 
     /**
