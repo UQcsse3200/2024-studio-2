@@ -22,7 +22,7 @@ class ResourceServiceTest {
   void loadAllShouldLoadUnloadAssets() {
     String texture1 = "test/files/tree.png";
     String texture2 = "test/files/missing.png";
-    String texture3 = "test/files/heart.png";
+    String texture3 = "test/files/health_bar_x1.png";
     String[] textures = {texture1, texture2, texture3};
 
     AssetManager assetManager = spy(AssetManager.class);
@@ -50,7 +50,7 @@ class ResourceServiceTest {
   void loadForMillisShouldLoadAssets() {
     String texture1 = "test/files/tree.png";
     String texture2 = "test/files/missing.png";
-    String texture3 = "test/files/heart.png";
+    String texture3 = "test/files/health_bar_x1.png";
     String[] textures = {texture1, texture2, texture3};
 
     AssetManager assetManager = spy(AssetManager.class);
@@ -94,7 +94,7 @@ class ResourceServiceTest {
   @Test
   void shouldLoadTextures() {
     String asset1 = "test/files/tree.png";
-    String asset2 = "test/files/heart.png";
+    String asset2 = "test/files/heart_bar_x10.png";
     String[] textures = {asset1, asset2};
 
     AssetManager assetManager = spy(AssetManager.class);
