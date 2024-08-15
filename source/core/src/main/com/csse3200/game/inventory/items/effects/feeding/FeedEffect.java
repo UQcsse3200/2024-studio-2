@@ -2,7 +2,7 @@ package com.csse3200.game.inventory.items.effects.feeding;
 
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
 
-public class FeedEffect {
+public class FeedEffect implements AbstractEffect {
     /**
      * The amount of nutrition points this effect will restore from hunger when applied
      */
@@ -23,7 +23,16 @@ public class FeedEffect {
      */
     @Override
     public void apply() {
+        // Add more logic here by talking to the player team (team 1)
         System.out.printf("Player has fed animal by %d points\n", feedingAmount);
+    }
+
+    /**
+     * Returns the description of the feeding effect including the amount restored to hunger bar
+     */
+    @Override
+    public String getDescription() {
+        return "Animal as been fed" + feedingAmount + " by player";
     }
 
 }
