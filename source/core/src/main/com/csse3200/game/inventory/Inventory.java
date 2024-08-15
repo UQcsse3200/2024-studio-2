@@ -16,6 +16,7 @@ import static java.util.Arrays.fill;
 // TODO: Naming and spell checking also needs to be run here and on abstract item.
 // TODO: Add inventory view class which adds support for rendering inventory
 // TODO: Possibly make abstract item a functional interface.
+// TODO: Change itemCode in AbstractItem to a static attribute!
 
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
