@@ -90,7 +90,7 @@ public class InventoryTest {
     @Test
     void testBasicAddAndDelete() {
         // Check add and delete works with a single item
-        test1.add(items[0]);
+        assertTrue(test1.add(items[0]));
         assertTrue(test1.hasItem(items[0].getItemCode()));
         assertEquals(0, test1.getIndex(items[0].getItemCode()));
         assertEquals(items[0].getItemCode(), test1.getAt(0).getItemCode());
@@ -103,7 +103,7 @@ public class InventoryTest {
     void testComplexAddAndDelete() {
         // Fill up inventory with items
         for (int i = 0; i < 3; i++) {
-            test2.add(items[i]);
+            assertTrue(test2.add(items[i]));
         }
         assertTrue(test2.hasItem(items[2].getItemCode()));
         assertFalse(test2.hasItem(items[3].getItemCode()));
@@ -111,13 +111,13 @@ public class InventoryTest {
         assertTrue(test2.isFull());
 
         // Check adding a new item now does nothing.
-        test2.add(items[3]);
+        assertFalse(test2.add(items[3]));
         assertFalse(test2.hasItem(items[3].getItemCode()));
 
         // Check deleting then adding an item works
         test2.deleteItem(items[0].getItemCode());
         assertFalse(test2.hasItem(items[0].getItemCode()));
-        test2.add(items[3]);
+        assertTrue(test2.add(items[3]));
         assertTrue(test2.hasItem(items[3].getItemCode()));
 
         // Check replacing an item at an index works.
@@ -138,7 +138,7 @@ public class InventoryTest {
     @Test
     void testBasicAddAndUse() {
         // Add to inventory with single index, use it twice - check it has gone.
-        test1.add(items[0]);
+        assertTrue(test1.add(items[0]));
         test1.useItem(items[0].getItemCode(), context);
         assertTrue(test1.hasItem(items[0].getItemCode()));
         test1.useItemAt(0, context);
@@ -149,8 +149,8 @@ public class InventoryTest {
     void testComplexAddAndUse() {
         // Add multiple to inventory with multiple indexes, use varying number of times and check
         // whether items are gone or not
-        test2.add(items[0]);
-        test2.add(items[1]);
+        assertTrue(test2.add(items[0]));
+        assertTrue(test2.add(items[1]));
         test2.useItem(items[0].getItemCode(), context);
         assertTrue(test2.hasItem(items[0].getItemCode()));
         assertTrue(test2.hasItem(items[1].getItemCode()));
@@ -162,8 +162,8 @@ public class InventoryTest {
         TestableItem x1 = new TestableItem("test", 0);
         TestableItem x2 = new TestableItem("test", 0);
         test2.clearInventory();
-        test2.add(x1);
-        test2.add(x2);
+        assertTrue(test2.add(x1));
+        assertTrue(test2.add(x2));
 
         // Check using second item doesn't affect first
         test2.useItemAt(1, context);
