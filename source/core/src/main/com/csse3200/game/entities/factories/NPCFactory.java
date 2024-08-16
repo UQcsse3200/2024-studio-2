@@ -148,7 +148,7 @@ public class NPCFactory {
     Entity turtle = createFriendlyBaseNPC(target);
     TurtleConfig config = configs.turtle;
 
-    // Will need to replace sprites for lion instead of the ghost.
+    // Will need to replace sprites for turtle instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
