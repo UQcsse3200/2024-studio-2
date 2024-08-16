@@ -7,6 +7,8 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -18,7 +20,9 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
+  private boolean isInQuestMenu = false;
   EventService eventService = ServiceLocator.getEventService();
+  private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
   @Override
   public void create() {
@@ -26,6 +30,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
+    entity.getEvents().addListener("pause", this::pause);
   }
 
   @Override
@@ -71,5 +76,17 @@ public class PlayerActions extends Component {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
     eventService.globalEventHandler.trigger("attack");
+  }
+
+  void pause() {
+    if(isInQuestMenu){
+      eventService.globalEventHandler.trigger("resume");
+      isInQuestMenu = false;
+    }
+    else {
+      logger.info("Sending Global Pause");
+      eventService.globalEventHandler.trigger("pause");
+      isInQuestMenu = true;
+    }
   }
 }

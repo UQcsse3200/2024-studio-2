@@ -47,7 +47,7 @@ public class QuestPopup extends UIComponent {
             questCompleted.setPosition( displayX, displayY);
 
             questCompleted.addAction(Actions.sequence(
-                    Actions.fadeOut(0.8f),
+                    Actions.fadeOut(1f),
                     Actions.run(this::dispose)
             ));
         }

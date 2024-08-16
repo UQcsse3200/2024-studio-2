@@ -37,7 +37,7 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
   private static final String[] mainGameTextures = {"images/heart.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-
+  private boolean isPaused = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
@@ -67,6 +67,9 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
+    ServiceLocator.getEventService().globalEventHandler.addListener("pause",this::pause);
+    ServiceLocator.getEventService().globalEventHandler.addListener("resume",this::resume);
+
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
     ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
@@ -75,9 +78,11 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void render(float delta) {
+    if (!isPaused){
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
     renderer.render();
+    }
   }
 
   @Override
@@ -88,11 +93,13 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void pause() {
+    isPaused = true;
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
+    isPaused = false;
     logger.info("Game resumed");
   }
 

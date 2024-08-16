@@ -6,13 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.utils.math.Vector2Utils;
 
+
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-
   public KeyboardPlayerInputComponent() {
     super(5);
   }
@@ -44,6 +44,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
+        return true;
+      case Keys.ESCAPE:
+        entity.getEvents().trigger("pause");
         return true;
       default:
         return false;

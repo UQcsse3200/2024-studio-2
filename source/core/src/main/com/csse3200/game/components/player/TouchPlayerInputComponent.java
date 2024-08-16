@@ -12,7 +12,6 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class TouchPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-
   public TouchPlayerInputComponent() {
     super(5);
   }
@@ -42,6 +41,8 @@ public class TouchPlayerInputComponent extends InputComponent {
         walkDirection.add(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
+      case Input.Keys.ESCAPE:
+        entity.getEvents().trigger("pause");
       default:
         return false;
     }
@@ -95,4 +96,6 @@ public class TouchPlayerInputComponent extends InputComponent {
       entity.getEvents().trigger("walk", walkDirection);
     }
   }
+
+
 }
