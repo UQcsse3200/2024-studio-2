@@ -7,6 +7,7 @@ public class Task {
     private final int requiredTriggers;
     private int triggerCount;
     private boolean completed;
+    private boolean failed = false;
 
     public Task(String taskName, String description, String hint, int requiredTriggers) {
         this.taskName = taskName;
@@ -41,8 +42,15 @@ public class Task {
         return requiredTriggers;
     }
 
+    public boolean isFailed() {
+        return failed;
+    }
+    public void failTask() {
+        this.failed = true;
+    }
+
     public void handleEvent() {
-        if (!completed) {
+        if (!completed && !failed) {
             triggerCount++;
             if (triggerCount >= requiredTriggers) {
                 completed = true;

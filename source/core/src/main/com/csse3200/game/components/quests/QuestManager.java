@@ -27,10 +27,8 @@ public class QuestManager extends Component {
         List<Task> tasks1 = List.of(stepsTask,attackTask);
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false);
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, true,false);
-        quests.put(twoTaskQuest.getQuestName(), twoTaskQuest);
-        quests.put(firstStepsQuest.getQuestName(), firstStepsQuest);
-        subscribeToQuestEvents(twoTaskQuest);
-        subscribeToQuestEvents(firstStepsQuest);
+        addQuest(twoTaskQuest);
+        addQuest(firstStepsQuest);
     }
 
     private void subscribeToQuestEvents(QuestBasic quest) {
@@ -39,13 +37,29 @@ public class QuestManager extends Component {
         }
     }
 
+    public void addQuest(QuestBasic quest) {
+        quests.put(quest.getQuestName(), quest);
+        subscribeToQuestEvents(quest);
+    }
+
+    public QuestBasic getQuest(String questName) {
+        return quests.get(questName);
+    }
+
+    public void failQuest(String questName){
+        getQuest(questName).failQuest();
+    }
+
     public void progressQuest(String questName, String taskName) {
         QuestBasic quest = quests.get(questName);
-        if (quest != null && !quest.isQuestCompleted()) {
+        if (quest != null && !quest.isQuestCompleted() && !quest.isFailed()) {
             Task currentTask = quest.getTasks().get(quest.getProgression());
             if (Objects.equals(taskName, currentTask.getTaskName())) {
             currentTask.handleEvent();
-            if (currentTask.isCompleted()) {
+            if (currentTask.isFailed()) {
+                quest.failQuest();
+            }
+            else if (currentTask.isCompleted()) {
                 quest.progressQuest();
                 if (currentTask.isCompleted() && quest.isQuestCompleted()) {
                     questComplete.play();

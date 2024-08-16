@@ -21,6 +21,8 @@ public class QuestBasic {
 
     private final boolean isSecretQuest;
 
+    private boolean isFailed = false;
+
     public QuestBasic(String questName,String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest) {
         this.questName = questName;
         this.tasks = tasks;
@@ -64,9 +66,17 @@ public class QuestBasic {
     }
 
     public void progressQuest() {
-        if (!isQuestCompleted()) {
+        if (!isQuestCompleted() && !isFailed) {
                 currentTaskIndex++;
         }
+    }
+
+    public boolean isFailed(){
+        return this.isFailed;
+    }
+
+    public void failQuest(){
+        this.isFailed = true;
     }
 
     /** taskDescriptions indexing corresponds to number of tests completed
