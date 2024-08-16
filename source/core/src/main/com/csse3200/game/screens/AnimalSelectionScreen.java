@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -38,6 +37,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
         mainTable = new Table();
         mainTable.setFillParent(true);
+        mainTable.top().padTop(80); // Adjust padding to move images slightly down from the top
         stage.addActor(mainTable);
 
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -46,36 +46,54 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         Image animal2Image = new Image(new Texture("images/animal2.png"));
         Image animal3Image = new Image(new Texture("images/animal3.png"));
 
+        // Adjust image scale to make them larger but not too big
+        float imageScale = 1.2f;
+        animal1Image.setScale(imageScale);
+        animal2Image.setScale(imageScale);
+        animal3Image.setScale(imageScale);
+
         TextButton animal1Button = new TextButton("Animal 1", skin);
         TextButton animal2Button = new TextButton("Animal 2", skin);
         TextButton animal3Button = new TextButton("Animal 3", skin);
 
         selectButton = new TextButton("Ready?", skin);
+        selectButton.getLabel().setFontScale(1.5f); // Make the "Ready?" button text larger
         TextButton backButton = new TextButton("Go Back", skin);
 
+        // Adjust buttons size to make them bigger and elongated
+        selectButton.setSize(300, 60);
+        backButton.setSize(300, 60);
+
         Table animal1Table = new Table();
-        animal1Table.add(animal1Image).pad(10);
+        animal1Table.add(animal1Image).pad(20);
         animal1Table.row();
-        animal1Table.add(animal1Button).pad(10);
+        animal1Table.add(animal1Button).pad(10).center();
 
         Table animal2Table = new Table();
-        animal2Table.add(animal2Image).pad(10);
+        animal2Table.add(animal2Image).pad(20);
         animal2Table.row();
-        animal2Table.add(animal2Button).pad(10);
+        animal2Table.add(animal2Button).pad(10).center();
 
         Table animal3Table = new Table();
-        animal3Table.add(animal3Image).pad(10);
+        animal3Table.add(animal3Image).pad(20);
         animal3Table.row();
-        animal3Table.add(animal3Button).pad(10);
+        animal3Table.add(animal3Button).pad(10).center();
 
-        mainTable.add(animal1Table).pad(10);
-        mainTable.add(animal2Table).pad(10);
-        mainTable.add(animal3Table).pad(10);
+        mainTable.add(animal1Table).pad(10).expandX(); // Spread the images across the width
+        mainTable.add(animal2Table).pad(10).expandX();
+        mainTable.add(animal3Table).pad(10).expandX();
         mainTable.row();
 
-        mainTable.add(selectButton).pad(10).colspan(3);
-        mainTable.row();
-        mainTable.add(backButton).pad(10).colspan(3);
+        // Empty row to create space between images and buttons
+        mainTable.add().expandY();
+
+        // Place the "Ready?" and "Go Back" buttons side by side at the bottom center of the screen
+        Table buttonTable = new Table();
+        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(20);
+        buttonTable.add(backButton).padBottom(10).width(300).height(60);
+
+        // Center the buttonTable at the bottom of the screen
+        mainTable.add(buttonTable).center().padBottom(20).colspan(3).bottom();
 
         animal1Image.addListener(new ClickListener() {
             @Override
