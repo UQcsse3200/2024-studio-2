@@ -1,16 +1,19 @@
 {
   "chicken": {
     "health": 10,
-    "baseAttack": 1
+    "baseAttack": 1,
+    "isEnemy": 1
   },
   "ghost": {
     "health": 40,
-    "baseAttack": 10
+    "baseAttack": 10,
+    "isEnemy": 1
   },
   "ghostKing": {
     "health": 100,
     "baseAttack": 25,
-    "spookyFactor": 7
+    "spookyFactor": 7,
+    "isEnemy": 1
   }
 }
 
