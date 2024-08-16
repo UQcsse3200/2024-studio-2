@@ -9,4 +9,5 @@ public class NPCConfigs {
   public CowConfig cow = new CowConfig();
   public LionConfig lion = new LionConfig();
   public TurtleConfig turtle = new TurtleConfig();
+  public EagleConfig eagle = new EagleConfig();
 }

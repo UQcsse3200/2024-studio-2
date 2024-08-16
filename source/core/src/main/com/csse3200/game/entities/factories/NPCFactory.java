@@ -165,6 +165,33 @@ public class NPCFactory {
   }
 
   /**
+   * Creates an Eagle NPC.
+   * Uses ghost sprite as a placeholder
+   *
+   * @param target entity to move towards when in range.
+   * @return entity
+   */
+  public static Entity createEagle(Entity target) {
+    Entity eagle = createFriendlyBaseNPC(target);
+    EagleConfig config = configs.eagle;
+
+    // Will need to replace sprites for eagle instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    eagle
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+
+    eagle.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return eagle;
+  }
+
+  /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @return entity
