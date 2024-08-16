@@ -13,11 +13,7 @@ import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
-import com.csse3200.game.entities.configs.GhostKingConfig;
-import com.csse3200.game.entities.configs.CowConfig;
-import com.csse3200.game.entities.configs.LionConfig;
-import com.csse3200.game.entities.configs.NPCConfigs;
+import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -146,6 +142,26 @@ public class NPCFactory {
     lion.getComponent(AnimationRenderComponent.class).scaleEntity();
 
     return lion;
+  }
+
+  public static Entity createTurtle(Entity target) {
+    Entity turtle = createFriendlyBaseNPC(target);
+    TurtleConfig config = configs.turtle;
+
+    // Will need to replace sprites for lion instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    turtle
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+
+    turtle.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return turtle;
   }
 
   /**
