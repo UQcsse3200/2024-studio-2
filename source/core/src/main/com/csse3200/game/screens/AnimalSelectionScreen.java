@@ -61,8 +61,8 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         TextButton backButton = new TextButton("Go Back", skin);
 
         // Adjust buttons size to make them bigger and elongated
-        selectButton.setSize(300, 60);
-        backButton.setSize(300, 60);
+        selectButton.setSize(500, 60);
+        backButton.setSize(500, 60);
 
         Table animal1Table = new Table();
         animal1Table.add(animal1Image).pad(20);
@@ -70,9 +70,9 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         animal1Table.add(animal1Button).pad(10).center();
 
         Table animal2Table = new Table();
-        animal2Table.add(animal2Image).pad(20);
+        animal2Table.add(animal2Image).pad(20).padLeft(190);
         animal2Table.row();
-        animal2Table.add(animal2Button).pad(10).center();
+        animal2Table.add(animal2Button).pad(10).center().padLeft(190);
 
         Table animal3Table = new Table();
         animal3Table.add(animal3Image).pad(20);
@@ -89,11 +89,11 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
         // Place the "Ready?" and "Go Back" buttons side by side at the bottom center of the screen
         Table buttonTable = new Table();
-        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(20);
-        buttonTable.add(backButton).padBottom(10).width(300).height(60);
+        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250);
+        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380);
 
         // Center the buttonTable at the bottom of the screen
-        mainTable.add(buttonTable).center().padBottom(20).colspan(3).bottom();
+        mainTable.add(buttonTable).center().padBottom(60).colspan(60).bottom();
 
         animal1Image.addListener(new ClickListener() {
             @Override
