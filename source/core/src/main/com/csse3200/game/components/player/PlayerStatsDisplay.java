@@ -9,6 +9,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -20,11 +21,11 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Label healthLabel;
-
-  private Animation healthBarAnimation;
-
+  private Animation<Sprite> healthBarAnimation;
   private Texture healthBarImages;
-  private TextureRegion[][] tmpFrames = TextureRegion.split(healthBarImages, 110, 573);
+  private TextureRegion[] animationFrames;
+  private SpriteBatch batch;
+  private TextureAtlas textureAtlas;
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -43,6 +44,15 @@ public class PlayerStatsDisplay extends UIComponent {
    */
   private void addActors() {
     table = new Table();
+    //int index = 0;
+    //float stateTime = 0;
+    //batch = new SpriteBatch();
+    //textureAtlas = new TextureAtlas("healthBars.txt");
+    // healthBarAnimation = new Animation<>(0.066f, textureAtlas.createSprites("capguy"))
+
+    // healthBarImages = new Texture("spriteSheets/")
+    //TextureRegion[][] tmpFrames = TextureRegion.split(healthBarImages, 110, 573);
+    //animationFrames = new TextureRegion[11];
     table.top().left();
     table.setFillParent(true);
     table.padTop(45f).padLeft(5f);
@@ -54,6 +64,15 @@ public class PlayerStatsDisplay extends UIComponent {
     // Get the original width and height of the image
     float heartImageWidth = (float) (heartImage.getWidth() * 0.8);
     float heartImageHeight = (float) (heartImage.getHeight() * 0.5);
+
+    // Loop to decide health bar status
+    //for (int i = 0; i < 3; i++) {
+      //for (int j = 0; j < 3; j++) {
+        //if (index < 11) {
+          //animationFrames[index++] = tmpFrames[j][i];
+        //}
+      //}
+    //}
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
