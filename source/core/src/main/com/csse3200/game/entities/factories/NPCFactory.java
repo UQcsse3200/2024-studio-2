@@ -17,6 +17,7 @@ import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.GhostKingConfig;
 import com.csse3200.game.entities.configs.CowConfig;
 import com.csse3200.game.entities.configs.LionConfig;
+import com.csse3200.game.entities.configs.EagleConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -146,6 +147,33 @@ public class NPCFactory {
     lion.getComponent(AnimationRenderComponent.class).scaleEntity();
 
     return lion;
+  }
+
+  /**
+   * Creates an Eagle NPC.
+   * Uses ghost sprite as a placeholder
+   *
+   * @param target entity to move towards when in range.
+   * @return entity
+   */
+  public static Entity createEagle(Entity target) {
+    Entity eagle = createFriendlyBaseNPC(target);
+    EagleConfig config = configs.eagle;
+
+    // Will need to replace sprites for eagle instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    eagle
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+
+    eagle.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return eagle;
   }
 
   /**
