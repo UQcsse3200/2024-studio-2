@@ -76,9 +76,9 @@ public class ForestGameArea extends GameArea {
     spawnGhosts();
     //spawnGhostKing();
     spawnCow();
-    //spawnLion();
-    //spawnTurtle();
-    //spawnEagle();
+    spawnLion();
+    spawnTurtle();
+    spawnEagle();
     playMusic();
   }
 
@@ -139,10 +139,9 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    // Come back and change this to Spawn Ghosts
     for (int i = 0; i < 2; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhostKing(player);
+      Entity ghost = NPCFactory.createGhost(player);
       this.enemies.add(ghost);
       spawnEntityAt(ghost, randomPos, true, true);
     }
