@@ -74,6 +74,7 @@ public class ForestGameArea extends GameArea {
     //spawnGhostKing();
     spawnCow();
     spawnLion();
+    spawnEagle();
 
 
     playMusic();
@@ -172,6 +173,16 @@ public class ForestGameArea extends GameArea {
       spawnEntityAt(lion, randomPos, true, true);
 
     }
+
+  private void spawnEagle() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    Entity eagle = NPCFactory.createEagle(player);
+    spawnEntityAt(eagle, randomPos, true, true);
+  }
 
 
 
