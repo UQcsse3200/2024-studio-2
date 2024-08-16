@@ -44,7 +44,6 @@ public class MainMenuDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-
         Table settingMenu = new Table();
         Image title = new Image(ServiceLocator.getResourceService().getAsset("images/box_boy_title.png", Texture.class));
 
@@ -52,14 +51,12 @@ public class MainMenuDisplay extends UIComponent {
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
-        TextButton fullscreenToggleBtn = new TextButton("Minimize", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(exitBtn);
-        addButtonElevationEffect(fullscreenToggleBtn);
 
         startBtn.addListener(new ChangeListener() {
             @Override
@@ -86,7 +83,35 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        fullscreenToggleBtn.addListener(new ChangeListener() {
+        addExitConfirmation(exitBtn);
+
+        table.add(title).padTop(50f).padBottom(50f);
+        table.row();
+        table.add(startBtn).padTop(30f).width(200f).height(60f);
+        table.row();
+        table.add(loadBtn).padTop(15f).width(200f).height(60f);
+        table.row();
+        table.add(settingsBtn).padTop(15f).width(200f).height(60f);
+        table.row();
+        table.add(exitBtn).padTop(15f).width(200f).height(60f);
+        table.row();
+        table.add(versionLabel).padTop(20f);
+
+        stage.addActor(table);
+
+        // Add the minimize button to the top-right corner
+        addMinimizeButton();
+
+        makeSettingMenu(settingMenu);
+    }
+
+    /**
+     * Adds an elevation effect to buttons when hovered over.
+     */
+
+    private void addMinimizeButton() {
+        TextButton minimizeBtn = new TextButton("-", skin);
+        minimizeBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
@@ -98,31 +123,14 @@ public class MainMenuDisplay extends UIComponent {
                 logger.debug("Fullscreen toggled: " + !isFullscreen);
             }
         });
-        addExitConfirmation(exitBtn);
 
-        table.add(title).padTop(50f).padBottom(50f);
-        table.row();
-        table.add(startBtn).padTop(30f).width(200f).height(60f);
-        table.row();
-        table.add(loadBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(settingsBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(fullscreenToggleBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(exitBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(versionLabel).padTop(20f);
+        Table topRightTable = new Table();
+        topRightTable.top().right();
+        topRightTable.setFillParent(true);
+        topRightTable.add(minimizeBtn).size(40, 40).padTop(10).padRight(10);
 
-        stage.addActor(table);
-
-        makeSettingMenu(settingMenu);
+        stage.addActor(topRightTable);
     }
-
-    /**
-     * Adds an elevation effect to buttons when hovered over.
-     */
-
 
     private void makeSettingMenu(Table settingMenu) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -146,7 +154,6 @@ public class MainMenuDisplay extends UIComponent {
         topTable.top().padTop(10);
 
         Label title = new Label("Settings", skin, "title");
-        //settingMenu.row().expandY(); // Ensure title is at the top
 
         topTable.add(title).expandX().center();
         topTable.row();
@@ -200,6 +207,7 @@ public class MainMenuDisplay extends UIComponent {
                     }
                 });
     }
+
     private void addButtonElevationEffect(TextButton button) {
         button.addListener(new ClickListener() {
             @Override
