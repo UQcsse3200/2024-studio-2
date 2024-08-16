@@ -21,12 +21,12 @@ public class QuestManager extends Component {
         this.quests = new HashMap<>();
 
         // Manual test Quests
-        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5);
+        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
         List<Task> tasks = List.of(stepsTask);
         List<Task> tasks1 = List.of(stepsTask,attackTask);
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, true,false);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false);
         addQuest(twoTaskQuest);
         addQuest(firstStepsQuest);
     }
@@ -62,8 +62,12 @@ public class QuestManager extends Component {
             else if (currentTask.isCompleted()) {
                 quest.progressQuest();
                 if (currentTask.isCompleted() && quest.isQuestCompleted()) {
-                    questComplete.play();
-                    logger.info("{} completed!", quest.getQuestName());
+                    if(!quest.isAchievement() && !quest.isSecret()) {
+                        questComplete.play();
+                        eventService.globalEventHandler.trigger("questCompleted");
+                        eventService.globalEventHandler.trigger(questName);
+                        logger.info("{} completed!", quest.getQuestName());
+                    }
 
                 } else {
                     logger.info("Progress: {}/{}", quest.getProgression(), quest.getTasks().size());
