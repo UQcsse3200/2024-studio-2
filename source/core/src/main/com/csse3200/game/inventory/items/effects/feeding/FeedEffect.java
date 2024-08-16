@@ -6,12 +6,10 @@ public class FeedEffect implements AbstractEffect {
     /**
      * The amount of nutrition points this effect will restore from hunger when applied
      */
-    private int feedingAmount;
+    protected int feedingAmount;
 
     /**
      * Constructs a new {@code FoodEffect} with the specified feeding amount
-     *
-     * @param feedingAmount the amount of the nutrition to restore when the effect is applied
      */
     public FeedEffect(int feedingAmount) {
         this.feedingAmount = feedingAmount;
