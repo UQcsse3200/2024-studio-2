@@ -7,6 +7,15 @@
     "health": 100,
     "baseAttack": 25,
     "spookyFactor": 7
+  },
+  "cow": {
+    "health": 30,
+    "baseAttack": 0
+  },
+
+  "lion": {
+    "health": 30,
+    "baseAttack": 0
   }
 }
 

@@ -108,9 +108,9 @@ public class NPCFactory {
     // Will need to replace sprites for cow instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset("images/Cow.atlas", TextureAtlas.class));
     //animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
 
     cow.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
