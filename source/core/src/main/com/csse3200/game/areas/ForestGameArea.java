@@ -16,12 +16,14 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.ArrayList;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_TREES = 7;
-  private static final int NUM_GHOSTS = 2;
+  private static final int NUM_GHOSTS = 7;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
@@ -47,7 +49,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestMusic = {backgroundMusic};
 
   private final TerrainFactory terrainFactory;
-
+  private List<Entity> enemies;
   private Entity player;
 
   /**
@@ -58,6 +60,7 @@ public class ForestGameArea extends GameArea {
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
+    this.enemies = new ArrayList<>();
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -70,14 +73,12 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    //spawnGhosts();
+    spawnGhosts();
     //spawnGhostKing();
     spawnCow();
-    spawnLion();
-    spawnTurtle();
-    spawnEagle();
-
-
+    //spawnLion();
+    //spawnTurtle();
+    //spawnEagle();
     playMusic();
   }
 
@@ -138,9 +139,11 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    for (int i = 0; i < NUM_GHOSTS; i++) {
+    // Come back and change this to Spawn Ghosts
+    for (int i = 0; i < 2; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
+      Entity ghost = NPCFactory.createGhostKing(player);
+      this.enemies.add(ghost);
       spawnEntityAt(ghost, randomPos, true, true);
     }
   }
@@ -159,7 +162,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity cow = NPCFactory.createCow(player);
+    Entity cow = NPCFactory.createCow(player, this.enemies);
     spawnEntityAt(cow, randomPos, true, true);
 
   }
@@ -170,7 +173,7 @@ public class ForestGameArea extends GameArea {
 
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
-      Entity lion = NPCFactory.createLion(player);
+      Entity lion = NPCFactory.createLion(player, this.enemies);
       spawnEntityAt(lion, randomPos, true, true);
 
     }
@@ -181,7 +184,7 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
-    Entity turtle = NPCFactory.createTurtle(player);
+    Entity turtle = NPCFactory.createTurtle(player, this.enemies);
     spawnEntityAt(turtle, randomPos, true, true);
     }
 
@@ -191,7 +194,7 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
-    Entity eagle = NPCFactory.createEagle(player);
+    Entity eagle = NPCFactory.createEagle(player, this.enemies);
     spawnEntityAt(eagle, randomPos, true, true);
   }
 

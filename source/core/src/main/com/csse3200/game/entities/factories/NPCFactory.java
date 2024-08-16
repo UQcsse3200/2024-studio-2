@@ -23,6 +23,8 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -97,8 +99,8 @@ public class NPCFactory {
    * @param target entity to move towards when in range.
    * @return entity
    */
-  public static Entity createCow(Entity target) {
-    Entity cow = createFriendlyBaseNPC(target);
+  public static Entity createCow(Entity target, List<Entity> enemies) {
+    Entity cow = createFriendlyBaseNPC(target, enemies);
     CowConfig config = configs.cow;
 
     // Will need to replace sprites for cow instead of the ghost.
@@ -124,8 +126,8 @@ public class NPCFactory {
    * @param target entity to move towards when in range.
    * @return entity
    */
-  public static Entity createLion(Entity target) {
-    Entity lion = createFriendlyBaseNPC(target);
+  public static Entity createLion(Entity target, List<Entity> enemies) {
+    Entity lion = createFriendlyBaseNPC(target, enemies);
     LionConfig config = configs.lion;
 
     // Will need to replace sprites for lion instead of the ghost.
@@ -144,8 +146,8 @@ public class NPCFactory {
     return lion;
   }
 
-  public static Entity createTurtle(Entity target) {
-    Entity turtle = createFriendlyBaseNPC(target);
+  public static Entity createTurtle(Entity target, List<Entity> enemies) {
+    Entity turtle = createFriendlyBaseNPC(target, enemies);
     TurtleConfig config = configs.turtle;
 
     // Will need to replace sprites for turtle instead of the ghost.
@@ -171,8 +173,8 @@ public class NPCFactory {
    * @param target entity to move towards when in range.
    * @return entity
    */
-  public static Entity createEagle(Entity target) {
-    Entity eagle = createFriendlyBaseNPC(target);
+  public static Entity createEagle(Entity target, List<Entity> enemies) {
+    Entity eagle = createFriendlyBaseNPC(target, enemies);
     EagleConfig config = configs.eagle;
 
     // Will need to replace sprites for eagle instead of the ghost.
@@ -196,11 +198,17 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createFriendlyBaseNPC(Entity target) {
+  private static Entity createFriendlyBaseNPC(Entity target, List<Entity> enemies) {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-                    .addTask(new PauseTask(target, 10, 2f, 1f));
+                    .addTask(new PauseTask(target, 11, 2f, 1f));
+
+    // Avoid all the enemies on the game
+    for (Entity enemy : enemies) {
+      aiComponent.addTask(new AvoidTask(enemy, 10, 3f, 3f));
+    }
+
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())

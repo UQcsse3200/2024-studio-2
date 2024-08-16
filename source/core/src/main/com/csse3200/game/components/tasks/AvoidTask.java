@@ -9,6 +9,8 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 
 /** Moves away from a target entity until a safe distance is reached or line of sight is lost */
 public class AvoidTask extends DefaultTask implements PriorityTask {
@@ -39,6 +41,7 @@ public class AvoidTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
+
         movementTask = new MovementTask(getAvoidanceTarget());
         movementTask.create(owner);
         movementTask.start();
