@@ -13,11 +13,7 @@ import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
-import com.csse3200.game.entities.configs.GhostKingConfig;
-import com.csse3200.game.entities.configs.CowConfig;
-import com.csse3200.game.entities.configs.LionConfig;
-import com.csse3200.game.entities.configs.NPCConfigs;
+import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -27,6 +23,8 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -53,8 +51,8 @@ public class NPCFactory {
     BaseEntityConfig config = configs.ghost;
 
     AnimationRenderComponent animator =
-        new AnimationRenderComponent(
-            ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
@@ -101,8 +99,8 @@ public class NPCFactory {
    * @param target entity to move towards when in range.
    * @return entity
    */
-  public static Entity createCow(Entity target) {
-    Entity cow = createFriendlyBaseNPC(target);
+  public static Entity createCow(Entity target, List<Entity> enemies) {
+    Entity cow = createFriendlyBaseNPC(target, enemies);
     CowConfig config = configs.cow;
 
     // Will need to replace sprites for cow instead of the ghost.
@@ -128,8 +126,8 @@ public class NPCFactory {
    * @param target entity to move towards when in range.
    * @return entity
    */
-  public static Entity createLion(Entity target) {
-    Entity lion = createFriendlyBaseNPC(target);
+  public static Entity createLion(Entity target, List<Entity> enemies) {
+    Entity lion = createFriendlyBaseNPC(target, enemies);
     LionConfig config = configs.lion;
 
     // Will need to replace sprites for lion instead of the ghost.
@@ -148,16 +146,69 @@ public class NPCFactory {
     return lion;
   }
 
+  public static Entity createTurtle(Entity target, List<Entity> enemies) {
+    Entity turtle = createFriendlyBaseNPC(target, enemies);
+    TurtleConfig config = configs.turtle;
+
+    // Will need to replace sprites for turtle instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    turtle
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+
+    turtle.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return turtle;
+  }
+
+  /**
+   * Creates an Eagle NPC.
+   * Uses ghost sprite as a placeholder
+   *
+   * @param target entity to move towards when in range.
+   * @return entity
+   */
+  public static Entity createEagle(Entity target, List<Entity> enemies) {
+    Entity eagle = createFriendlyBaseNPC(target, enemies);
+    EagleConfig config = configs.eagle;
+
+    // Will need to replace sprites for eagle instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    eagle
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+
+    eagle.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return eagle;
+  }
+
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @return entity
    */
-  private static Entity createFriendlyBaseNPC(Entity target) {
+  private static Entity createFriendlyBaseNPC(Entity target, List<Entity> enemies) {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-                    .addTask(new PauseTask(target, 10, 2f, 1f));
+                    .addTask(new PauseTask(target, 11, 2f, 1f));
+
+    // Avoid all the enemies on the game
+    for (Entity enemy : enemies) {
+      aiComponent.addTask(new AvoidTask(enemy, 10, 3f, 3f));
+    }
+
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())
