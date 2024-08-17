@@ -5,5 +5,10 @@ package com.csse3200.game.entities.configs;
  */
 public class NPCConfigs {
   public BaseEntityConfig ghost = new BaseEntityConfig();
+
+  // Create config for Kangaroo boss
+  // for now is just a base entity
+  public BaseEntityConfig kangarooBoss = new BaseEntityConfig();
   public GhostKingConfig ghostKing = new GhostKingConfig();
+
 }

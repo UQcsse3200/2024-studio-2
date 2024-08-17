@@ -90,14 +90,14 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a ghost king entity.
+   * Creates a Kanga Boss entity. This is the NPC for the final boss of the game.
    *
    * @param target entity to chase
    * @return entity
    */
   public static Entity createKangaBossEntity(Entity target) {
-    Entity ghostKing = createBaseNPC(target);
-    GhostKingConfig config = configs.ghostKing;
+    Entity kangarooBoss = createBaseNPC(target);
+    BaseEntityConfig config = configs.kangarooBoss;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -106,13 +106,13 @@ public class NPCFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
 
-    ghostKing
+    kangarooBoss
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
             .addComponent(new GhostAnimationController());
 
-    ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
-    return ghostKing;
+    kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    return kangarooBoss;
   }
 
   /**
