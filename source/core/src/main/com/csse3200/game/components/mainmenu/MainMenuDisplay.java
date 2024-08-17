@@ -49,12 +49,14 @@ public class MainMenuDisplay extends UIComponent {
 
         TextButton startBtn = new TextButton("Start", skin);
         TextButton loadBtn = new TextButton("Load", skin);
+        TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
         TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
+        addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(exitBtn);
 
@@ -71,6 +73,14 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Load button clicked");
                 entity.getEvents().trigger("load");
+            }
+        });
+
+        minigamesBtn.addListener(new ChangeListener() { // Listener for Minigames button
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Minigames button clicked");
+                entity.getEvents().trigger("minigames"); // Trigger minigames event
             }
         });
 
@@ -91,6 +101,8 @@ public class MainMenuDisplay extends UIComponent {
         table.row();
         table.add(loadBtn).padTop(15f).width(200f).height(60f);
         table.row();
+        table.add(minigamesBtn).padTop(15f).width(200f).height(60f); // Add the Minigames button to the layout
+        table.row();
         table.add(settingsBtn).padTop(15f).width(200f).height(60f);
         table.row();
         table.add(exitBtn).padTop(15f).width(200f).height(60f);
@@ -104,10 +116,6 @@ public class MainMenuDisplay extends UIComponent {
 
         makeSettingMenu(settingMenu);
     }
-
-    /**
-     * Adds an elevation effect to buttons when hovered over.
-     */
 
     private void addMinimizeButton() {
         TextButton minimizeBtn = new TextButton("-", skin);
