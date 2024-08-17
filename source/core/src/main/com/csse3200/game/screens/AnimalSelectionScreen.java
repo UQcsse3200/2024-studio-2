@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 public class AnimalSelectionScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionScreen.class);
+    private static final int NUM_ANIMALS = 3;
+    private static final float IMAGE_SCALE = 1.2f;
     private final GdxGame game;
     private Stage stage;
     private Table mainTable;
@@ -42,50 +44,60 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        Image animal1Image = new Image(new Texture("images/animal1.png"));
-        Image animal2Image = new Image(new Texture("images/animal2.png"));
-        Image animal3Image = new Image(new Texture("images/animal3.png"));
+        // Arrays to store image paths, images, and buttons
+        String[] animalImagePaths = {
+                "images/animal1.png",
+                "images/animal2.png",
+                "images/animal3.png"
+        };
 
-        // Adjust image scale to make them larger but not too big
-        float imageScale = 1.2f;
-        animal1Image.setScale(imageScale);
-        animal2Image.setScale(imageScale);
-        animal3Image.setScale(imageScale);
+        Image[] animalImages = new Image[NUM_ANIMALS];
+        TextButton[] animalButtons = new TextButton[NUM_ANIMALS];
 
-        TextButton animal1Button = new TextButton("Animal 1", skin);
-        TextButton animal2Button = new TextButton("Animal 2", skin);
-        TextButton animal3Button = new TextButton("Animal 3", skin);
+        // Loop to initialize images and buttons, and add them to the main table
+        for (int i = 0; i < NUM_ANIMALS; i++) {
+            animalImages[i] = new Image(new Texture(animalImagePaths[i]));
+            animalImages[i].setScale(IMAGE_SCALE);
+
+            final int animalIndex = i; // Required for use in inner class
+            animalButtons[i] = new TextButton("Animal " + (i + 1), skin);
+
+            Table animalTable = new Table();
+
+            // Add extra padLeft for the second animal
+            if (i == 1) {
+                animalTable.add(animalImages[i]).pad(20).padLeft(240); // Original 190 + 50
+                animalTable.row();
+                animalTable.add(animalButtons[i]).pad(10).center().padLeft(240); // Original 190 + 50
+            } else {
+                animalTable.add(animalImages[i]).pad(20);
+                animalTable.row();
+                animalTable.add(animalButtons[i]).pad(10).center();
+            }
+
+            mainTable.add(animalTable).pad(10).expandX();
+
+            // Listener to handle animal selection
+            animalImages[i].addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    logger.debug("Animal {} image clicked", animalIndex + 1);
+                    selectAnimal(animalImages[animalIndex]);
+                }
+            });
+        }
+
+        mainTable.row();
+        mainTable.add().expandY(); // Empty row to create space between images and buttons
 
         selectButton = new TextButton("Ready?", skin);
         selectButton.getLabel().setFontScale(1.5f); // Make the "Ready?" button text larger
+
         TextButton backButton = new TextButton("Go Back", skin);
 
         // Adjust buttons size to make them bigger and elongated
         selectButton.setSize(500, 60);
         backButton.setSize(500, 60);
-
-        Table animal1Table = new Table();
-        animal1Table.add(animal1Image).pad(20);
-        animal1Table.row();
-        animal1Table.add(animal1Button).pad(10).center();
-
-        Table animal2Table = new Table();
-        animal2Table.add(animal2Image).pad(20).padLeft(190);
-        animal2Table.row();
-        animal2Table.add(animal2Button).pad(10).center().padLeft(190);
-
-        Table animal3Table = new Table();
-        animal3Table.add(animal3Image).pad(20);
-        animal3Table.row();
-        animal3Table.add(animal3Button).pad(10).center();
-
-        mainTable.add(animal1Table).pad(10).expandX(); // Spread the images across the width
-        mainTable.add(animal2Table).pad(10).expandX();
-        mainTable.add(animal3Table).pad(10).expandX();
-        mainTable.row();
-
-        // Empty row to create space between images and buttons
-        mainTable.add().expandY();
 
         // Place the "Ready?" and "Go Back" buttons side by side at the bottom center of the screen
         Table buttonTable = new Table();
@@ -94,30 +106,6 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
         // Center the buttonTable at the bottom of the screen
         mainTable.add(buttonTable).center().padBottom(60).colspan(60).bottom();
-
-        animal1Image.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.debug("Animal 1 image clicked");
-                selectAnimal(animal1Image);
-            }
-        });
-
-        animal2Image.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.debug("Animal 2 image clicked");
-                selectAnimal(animal2Image);
-            }
-        });
-
-        animal3Image.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.debug("Animal 3 image clicked");
-                selectAnimal(animal3Image);
-            }
-        });
 
         selectButton.addListener(new ChangeListener() {
             @Override
