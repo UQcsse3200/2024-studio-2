@@ -27,6 +27,6 @@ public class CombatActions extends Component {
    */
   private void onRun() {
     logger.info("Exiting combat screen to return to main game screen");
-    game.setScreen(GdxGame.ScreenType.COMBAT);
+    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
   }
 }
