@@ -17,6 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,11 +33,13 @@ class NPCFactoryTest {
     private Entity snake;
 
     private String[] textures = {
-            "images/ghost.png"
+            "images/ghost.png",
+            "images/Cow.png"
     };
 
     private String[] atlas = {
-            "images/ghost.atlas"
+            "images/ghost.atlas",
+            "images/Cow.atlas"
     };
 
 
@@ -55,11 +60,12 @@ class NPCFactoryTest {
         resourceService.loadAll();
 
         Entity player = new Entity();
-        cow = NPCFactory.createCow(player);
-        lion = NPCFactory.createLion(player);
-//        eagle = NPCFactory.createEagle(player);
-//        turtle = NPCFactory.createTurtle(player);
-//        snake = NPCFactory.createSnake(player);
+        List<Entity> enemies = new ArrayList<>();
+        cow = NPCFactory.createCow(player, enemies);
+        lion = NPCFactory.createLion(player, enemies);
+        eagle = NPCFactory.createEagle(player, enemies);
+        turtle = NPCFactory.createTurtle(player, enemies);
+//        snake = NPCFactory.createSnake(player, enemies);
     }
 
     @Test
