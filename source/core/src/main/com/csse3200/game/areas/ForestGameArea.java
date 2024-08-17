@@ -75,7 +75,7 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
     spawnGhosts();
     spawnGhostKing();
-    spawnBoss();
+    spawnKangaBoss();
 
     playMusic();
   }
@@ -133,12 +133,12 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-  private Entity spawnBoss() {
+  private Entity spawnKangaBoss() {
     // Create entity
-    Entity boss = NPCFactory.createBaseNPC(player);
+    Entity kangaBoss = NPCFactory.createBaseNPC(player);
     // Create in the world
-    spawnEntityAt(boss, BOSS_SPAWN, true, true);
-    return boss;
+    spawnEntityAt(kangaBoss, BOSS_SPAWN, true, true);
+    return kangaBoss;
   }
 
 
