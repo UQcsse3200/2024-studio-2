@@ -20,7 +20,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Inventory inventory;
     private final int xRange, yRange;
     private boolean toggle = false;
-    private Window window = new Window("Inventory", skin);
+    private Window window;
 
     /**
      * Constructor for a Player Inventory // TODO!!!!
@@ -49,7 +49,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             stage.getActors().removeValue(window, true); // close inventory
         } else {
             logger.info("Inventory toggled on.");
-            updateWindow();
+            createWindow();
             stage.addActor(window);
         }
     }
@@ -59,9 +59,16 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Handled by stage
     }
 
-    private void updateWindow() {
+    private void createWindow() {
+        // Delete old window
+        if (window != null) {
+            window.clear();
+            window.remove();
+            window = null;
+        }
+
         // Create the window (pop-up)
-        window.clear();
+        window = new Window("Inventory", skin);
         window.setSize(400, 400);  // Set appropriate size
         window.setPosition(100, 100);  // Set position on screen
 
