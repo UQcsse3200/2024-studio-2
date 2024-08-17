@@ -23,9 +23,12 @@ public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_TREES = 7;
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
-  // Spawn point for boss
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(10, 10);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(5, 10);
+  // Test Spawn for tree
+  private static final GridPoint2 TREE_SPAWN = new GridPoint2(20, 20);
+
+  // Test spawn point for boss
+  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(30, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -44,7 +47,7 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_3.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/final_boss_kangaroo.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
@@ -72,7 +75,7 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
-    spawnTrees();
+    spawnTree();
     player = spawnPlayer();
     spawnGhosts();
     spawnGhostKing();
@@ -126,6 +129,14 @@ public class ForestGameArea extends GameArea {
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
     }
+  }
+
+  /**
+   * Helper function to spawn a single tree for testing purposes.
+   */
+  private void spawnTree() {
+    Entity tree = ObstacleFactory.createTree();
+    spawnEntityAt(tree, TREE_SPAWN, true, false);
   }
 
   private Entity spawnPlayer() {

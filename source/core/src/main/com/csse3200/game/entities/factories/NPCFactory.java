@@ -101,10 +101,13 @@ public class NPCFactory {
     BaseEntityConfig config = configs.kangarooBoss;
 
     kangarooBoss
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo.png"));
+      .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+      .addComponent(new TextureRenderComponent("images/final_boss_kangaroo.png"));
 
     kangarooBoss.getComponent(TextureRenderComponent.class).scaleEntity();
+    System.out.println("OLD SCALE: " + kangarooBoss.getScale());
+    kangarooBoss.scaleHeight(3.0f);
+    System.out.println("NEW SCALE: " + kangarooBoss.getScale());
     return kangarooBoss;
   }
 
