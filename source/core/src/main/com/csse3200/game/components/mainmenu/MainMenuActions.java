@@ -60,7 +60,8 @@ public class MainMenuActions extends Component {
 
   private void onSnakeMiniGame() {
     logger.info("Launching settings screen");
-    game.setScreen(GdxGame.ScreenType.SNAKEGAMESCREEN);
+    game.setScreen(GdxGame.ScreenType.MiniGameMenuScreen);
   }
+
 
 }
