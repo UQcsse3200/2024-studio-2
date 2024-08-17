@@ -49,7 +49,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             stage.getActors().removeValue(window, true); // close inventory
         } else {
             logger.info("Inventory toggled on.");
-            createWindow();
+            generateWindow();
             stage.addActor(window);
         }
     }
@@ -59,7 +59,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Handled by stage
     }
 
-    private void createWindow() {
+    private void generateWindow() {
         // Delete old window
         if (window != null) {
             window.clear();
@@ -69,8 +69,8 @@ public class PlayerInventoryDisplay extends UIComponent {
 
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
-        window.setSize(400, 400);  // Set appropriate size
-        window.setPosition(100, 100);  // Set position on screen
+        window.setSize(800, 800);  // Set appropriate size
+        window.setPosition(600, 300);  // Set position on screen
 
         // Create the table for inventory slots
         Table table = new Table();
@@ -82,10 +82,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
         int numColumns = 9; // Example for 9 columns (like Minecraft)
 //        int numRows = (int) Math.ceil(inventory.getCapacity() / (float) numColumns);
-        int numRows = 1;
+        int numRows = 4;
 
         Drawable slotBackground = skin.getDrawable("slot-background");
-        // TODO: MAKE THE SLOTBACKGROUND LOAD IN PROPERLY!!!
 
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numColumns; col++) {
@@ -99,15 +98,15 @@ public class PlayerInventoryDisplay extends UIComponent {
 
                     // Add the item image to the slot
                     Image itemImage = new Image(new Texture("images/box_boy.png"));
-                    slot.add(itemImage).center().size(32, 32); // Adjust size to fit
+                    slot.add(itemImage).center().size(50, 50); // Adjust size to fit
 
                     // Add the slot to the inventory table
-                    table.add(slot).size(50, 50).pad(5); // Adjust size and padding
+                    table.add(slot).size(70, 70).pad(5); // Adjust size and padding
                 } else {
                     // Add an empty slot if no item exists for the cell
                     Table emptySlot = new Table();
                     emptySlot.setBackground(slotBackground);
-                    table.add(emptySlot).size(50, 50).pad(5);
+                    table.add(emptySlot).size(70, 70).pad(5);
                 }
             }
             table.row(); // Move to the next row in the table
@@ -118,29 +117,10 @@ public class PlayerInventoryDisplay extends UIComponent {
     /**
      * Removes the item from the inventory when player deletes are uses up an item
      *
-     * @param table representing the inventory UI where the items are displayed
-     * @param numCols the no of rows in inventory
-     * @param numRows the no of cols in inventory
      * @param item to be deleted in inventory
      */
-    public void removeItem(Table table, int numRows, int numCols, AbstractItem item) {
-        Drawable slotBackground = skin.getDrawable("slot-background");
-
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                AbstractItem indexItem = inventory.getAt(row * numRows + col);
-                Table slot = new Table();
-                slot.setBackground(slotBackground);
-                if (item.getItemCode() == indexItem.getItemCode()) {
-                    //clears the specific slot of the inventory where specified item was
-                    slot.clearChildren();
-                    inventory.deleteItem(indexItem.getItemCode());
-                } else {
-                    //Re-adds the current item if not the item specified to delete
-                    Image itemImage = new Image(new Texture("inventoryImages/emptySlot.png"));
-                    slot.add(itemImage).center().size(32, 32); //size here will need to be adjusted
-                }
-            }
-        }
+    public void removeItem(AbstractItem item) {
+        inventory.deleteItem(item.getItemCode());
+        generateWindow();
     }
 }
