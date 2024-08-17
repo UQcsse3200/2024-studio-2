@@ -115,5 +115,32 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     // TODO: Need to override dispose (with the new texture)
+    /**
+     * Removes the item from the inventory when player deletes are uses up an item
+     *
+     * @param table representing the inventory UI where the items are displayed
+     * @param numCols the no of rows in inventory
+     * @param numRows the no of cols in inventory
+     * @param item to be deleted in inventory
+     */
+    public void removeItem(Table table, int numRows, int numCols, AbstractItem item) {
+        Drawable slotBackground = skin.getDrawable("slot-background");
 
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                AbstractItem indexItem = inventory.getAt(row * numRows + col);
+                Table slot = new Table();
+                slot.setBackground(slotBackground);
+                if (item.getItemCode() == indexItem.getItemCode()) {
+                    //clears the specific slot of the inventory where specified item was
+                    slot.clearChildren();
+                    inventory.deleteItem(indexItem.getItemCode());
+                } else {
+                    //Re-adds the current item if not the item specified to delete
+                    Image itemImage = new Image(new Texture("inventoryImages/emptySlot.png"));
+                    slot.add(itemImage).center().size(32, 32); //size here will need to be adjusted
+                }
+            }
+        }
+    }
 }
