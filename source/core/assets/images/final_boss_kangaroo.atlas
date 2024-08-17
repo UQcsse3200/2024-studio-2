@@ -1,26 +1,23 @@
 final_boss_kangaroo.png
-size: 10000, 10000
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
+size: 1414,1444
 angry_float
-  rotate: false
-  xy: 0, 0
-  size: 400, 518
-  orig: 400, 518
-  offset: 0, 0
-  index: 0
+    rotate: false
+    xy: 0, 0
+    size: 1414, 1444
+    orig: 1414, 1444
+    offset: 0, 0
+    index: 0
 default
-  rotate: false
-  xy: 3200, 0
-  size: 400, 518
-  orig: 400, 518
-  offset: 0, 0
-  index: 0
+    rotate: false
+    xy: 0, 0
+    size: 1414, 1444
+    orig: 1414, 1444
+    offset: 0, 0
+    index: 0
 float
-  rotate: false
-  xy: 0, 518
-  size: 400, 518
-  orig: 400, 518
-  offset: 0, 0
-  index: 0
+    rotate: false
+    xy: 0, 0
+    size: 1414, 1444
+    orig: 1414, 1444
+    offset: 0, 0
+    index: 0
