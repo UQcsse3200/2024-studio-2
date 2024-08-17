@@ -94,7 +94,7 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createBaseNPC(Entity target) {
+  public static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
