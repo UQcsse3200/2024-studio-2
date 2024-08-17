@@ -11,15 +11,12 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-//import com.badlogic.gdx.utils.Array;
 
 
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
-    private final int xRange, yRange;
-    private boolean toggle = false;
+    private final int numCols, numRows;
     private Window window;
 
     /**
@@ -27,13 +24,20 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Must have capacity = xRange * yRange
      *
      * @param capacity TODO
-     * @param xRange TODO
-     * @param yRange TODO
+     * @param numCols TODO
      */
-    public PlayerInventoryDisplay(int capacity, int xRange, int yRange) {
+    public PlayerInventoryDisplay(int capacity, int numCols) {
+        if (numCols < 1) {
+            throw new IllegalArgumentException("Inventory dimensions must be positive!");
+        }
+        if (capacity % numCols != 0) { // TODO: WHAT IS THE RIGHT EXCEPTION TO THROW HERE?
+            String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
+            throw new NumberFormatException(msg);
+        }
+
         this.inventory = new Inventory(capacity);
-        this.xRange = xRange;
-        this.yRange = yRange;
+        this.numCols = numCols;
+        this.numRows = capacity / numCols;
     }
 
     @Override
@@ -43,10 +47,10 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     private void toggleInventory() {
-        logger.info("Inventory toggled.");
         if (stage.getActors().contains(window, true)) {
             logger.info("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
+            disposeWindow();
         } else {
             logger.info("Inventory toggled on.");
             generateWindow();
@@ -59,18 +63,20 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Handled by stage
     }
 
-    private void generateWindow() {
+    private void disposeWindow() {
         // Delete old window
         if (window != null) {
             window.clear();
             window.remove();
             window = null;
         }
+    }
 
+    private void generateWindow() {
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
-        window.setSize(800, 800);  // Set appropriate size
-        window.setPosition(600, 300);  // Set position on screen
+        window.setSize(1400, 800);  // Set appropriate size
+        window.setPosition(300, 300);  // Set position on screen
 
         // Create the table for inventory slots
         Table table = new Table();
@@ -80,15 +86,12 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.add(table).expand().fill();
 
         // Iterate over the inventory and add slots
-        int numColumns = 9; // Example for 9 columns (like Minecraft)
-//        int numRows = (int) Math.ceil(inventory.getCapacity() / (float) numColumns);
-        int numRows = 4;
 
         Drawable slotBackground = skin.getDrawable("slot-background");
 
         for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numColumns; col++) {
-                int index = row * numColumns + col;
+            for (int col = 0; col < numCols; col++) {
+                int index = row * numCols + col;
                 if (index < inventory.getCapacity()) {
                     AbstractItem item = inventory.getAt(index);
 
@@ -96,24 +99,23 @@ public class PlayerInventoryDisplay extends UIComponent {
                     Table slot = new Table();
                     slot.setBackground(slotBackground);
 
-                    // Add the item image to the slot
+                    // Add the item image to the slot TODO: ADD ITEM TEXTURES!
                     Image itemImage = new Image(new Texture("images/box_boy.png"));
-                    slot.add(itemImage).center().size(50, 50); // Adjust size to fit
+                    slot.add(itemImage).center().size(100, 100);
 
                     // Add the slot to the inventory table
-                    table.add(slot).size(70, 70).pad(5); // Adjust size and padding
+                    table.add(slot).size(120, 120).pad(5);
                 } else {
                     // Add an empty slot if no item exists for the cell
                     Table emptySlot = new Table();
                     emptySlot.setBackground(slotBackground);
-                    table.add(emptySlot).size(70, 70).pad(5);
+                    table.add(emptySlot).size(120, 120).pad(5);
                 }
             }
             table.row(); // Move to the next row in the table
         }
     }
 
-    // TODO: Need to override dispose (with the new texture)
     /**
      * Removes the item from the inventory when player deletes are uses up an item
      *
@@ -122,5 +124,11 @@ public class PlayerInventoryDisplay extends UIComponent {
     public void removeItem(AbstractItem item) {
         inventory.deleteItem(item.getItemCode());
         generateWindow();
+    }
+
+    @Override
+    public void dispose() {
+        disposeWindow();
+        super.dispose();
     }
 }
