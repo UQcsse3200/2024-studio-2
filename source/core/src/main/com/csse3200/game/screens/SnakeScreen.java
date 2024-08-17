@@ -1,87 +1,107 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
-import com.csse3200.game.input.InputService;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.ServiceLocator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.minigame.snake.SnakeGrid;
+import com.csse3200.game.components.minigame.snake.Apple;
 
+/**
+ * Represents the screen for the Snake game.
+ * Handles the rendering of the game components.
+ */
 public class SnakeScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
-
+    private final int CELL_SIZE = 55;
     private final GdxGame game;
-    private final Renderer renderer;
-    private Texture imageTexture;
+    private final SnakeGrid grid;
+    private final Apple apple;
+    private ShapeRenderer shapeRenderer;
 
+    /**
+     * Initialises the SnakeScreen with the provided game instance.
+     *
+     * @param game The main game instance that controls the screen.
+     */
     public SnakeScreen(GdxGame game) {
         this.game = game;
-
-        logger.debug("Initializing Snake Screen services");
-
-        // Register essential services
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
-        // Create renderer
-        renderer = RenderFactory.createRenderer();
-        renderer.getCamera().getEntity().setPosition(0f, 0f);
-
-        createUI();
-    }
-
-    @Override
-    public void render(float delta) {
-        ServiceLocator.getEntityService().update();
-        renderer.render();
-    }
-
-
-
-    @Override
-    public void dispose() {
-        logger.debug("Disposing Snake screen");
-
-
-        if (imageTexture != null) {
-            imageTexture.dispose();
-        }
-
-        renderer.dispose();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
+        this.grid = new SnakeGrid();
+        this.apple = new Apple(grid);
+        this.shapeRenderer = new ShapeRenderer();
     }
 
     /**
-     * Creates the UI for the Snake screen.
+     * Renders the Snake game screen, including the grid and the apple.
+     *
+     * This method is made for future use, so it will have a lot to change probably
+     *
+     * @param delta Time in seconds since the last frame.
      */
-    private void createUI() {
-        logger.debug("Creating Snake screen UI");
-        Stage stage = ServiceLocator.getRenderService().getStage();
-        stage.clear();
+    @Override
+    public void render(float delta) {
+        // Clear the screen
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Render the grid and the apple
+        renderGrid();
+        renderApple();
+    }
 
-        imageTexture = new Texture("/Users/manandeepsingh/Desktop/Studio-2_2024/2024-studio-2/source/core/assets/images/snakee.jpg");
+    /**
+     * Renders the game grid on the screen.
+     * The grid is centered and each cell is drawn with a white outline.
+     */
+    private void renderGrid() {
+        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
+        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
 
+        // Calculate the offset to center the grid
+        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
+        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        Image image = new Image(imageTexture);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.WHITE);
 
+        for (int x = 0; x < grid.getWidth(); x++) {
+            for (int y = 0; y < grid.getHeight(); y++) {
+                shapeRenderer.rect(offsetX + x * CELL_SIZE, offsetY + y * CELL_SIZE, CELL_SIZE,
+                        CELL_SIZE);
+            }
+        }
 
-        image.setSize(stage.getWidth(), stage.getHeight());
-        image.setPosition(0, 0);
+        shapeRenderer.end();
+    }
 
+    /**
+     * Renders the apple on the grid.
+     * The apple is displayed as a filled red square on the grid.
+     */
+    private void renderApple() {
 
-        stage.addActor(image);
+        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
+        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
 
+        // Calculate the offset to center the grid
+        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
+        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+
+        shapeRenderer.rect(offsetX + apple.getX() * CELL_SIZE, offsetY + apple.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+        shapeRenderer.end();
+    }
+
+    /**
+     * Disposes of resources used by the SnakeScreen.
+     * This includes the ShapeRenderer used for rendering the grid and apple.
+     */
+    @Override
+    public void dispose() {
+        shapeRenderer.dispose();
+        // Dispose of other resources if necessary
     }
 }
