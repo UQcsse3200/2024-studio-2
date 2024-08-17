@@ -105,6 +105,7 @@ public class NPCFactory {
     Entity cow = createFriendlyBaseNPC(target);
     CowConfig config = configs.cow;
 
+
     // Will need to replace sprites for cow instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(

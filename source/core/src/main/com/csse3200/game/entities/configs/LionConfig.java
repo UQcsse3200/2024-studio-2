@@ -7,4 +7,8 @@ public class LionConfig extends BaseEntityConfig {
 
 public String favouriteFood = "Meat";
 
+public int health = 40;
+
+public int baseAttack = 0;
+
 }
