@@ -87,7 +87,10 @@ public class MainMenuScreen extends ScreenAdapter {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(mainMenuTextures);
   }
-
+  /**
+   * Creates the main menu's ui including components for rendering ui elements to the screen and
+   * capturing and handling ui input.
+   */
   private void createUI() {
     logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
