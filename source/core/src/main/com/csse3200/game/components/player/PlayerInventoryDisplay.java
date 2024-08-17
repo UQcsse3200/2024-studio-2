@@ -77,8 +77,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 //        int numRows = (int) Math.ceil(inventory.getCapacity() / (float) numColumns);
         int numRows = 1;
 
-        Texture texture = new Texture("path/to/your/slot-background.png");
-        Image slotBackground = new Image(texture);
+        Drawable slotBackground = skin.getDrawable("slot-background");
         // TODO: MAKE THE SLOTBACKGROUND LOAD IN PROPERLY!!!
 
         for (int row = 0; row < numRows; row++) {
