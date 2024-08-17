@@ -21,6 +21,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
@@ -99,19 +100,11 @@ public class NPCFactory {
     Entity kangarooBoss = createBaseNPC(target);
     BaseEntityConfig config = configs.kangarooBoss;
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService()
-                            .getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new GhostAnimationController());
+            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo.png"));
 
-    kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    kangarooBoss.getComponent(TextureRenderComponent.class).scaleEntity();
     return kangarooBoss;
   }
 
