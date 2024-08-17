@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.ai.movement.MovementController;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,10 @@ import org.slf4j.LoggerFactory;
 public class PhysicsMovementComponent extends Component implements MovementController {
   private static final Logger logger = LoggerFactory.getLogger(PhysicsMovementComponent.class);
   private static final Vector2 maxSpeed = Vector2Utils.ONE;
-
+  /**
+   * Variable to set boss speed faster than player by a scale of 0.5.
+   */
+  private static final Vector2 maxBossSpeed = new Vector2(3.5f, 3.5f);
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
@@ -26,7 +30,20 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   public void update() {
     if (movementEnabled && targetPosition != null) {
       Body body = physicsComponent.getBody();
-      updateDirection(body);
+
+      // 15 is the id of the boss entity. This will be changed.
+      // I believe it will be necessary to make an entire boss
+      // component and set up the boss npc in a similar fashion to
+      // the player and use something like the PlayerAction class
+      // to alter movement and scale.
+
+      // also only works on startup as this is when
+      // boss entity id is 15
+      if (entity.getId() == 15) {
+        updateBossDirection(body);
+      } else {
+        updateDirection(body);
+      }
     }
   }
 
@@ -71,6 +88,19 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
     setToVelocity(body, desiredVelocity);
   }
+
+  /**
+   * Temporary class to update the boss speed. Will be removed
+   * as this class likely shouldn't be touched.
+   * @param body The entity body
+   */
+  private void updateBossDirection(Body body) {
+    System.out.println("updating boss speed");
+    Vector2 desiredVelocity = getDirection().scl(maxBossSpeed);
+    setToVelocity(body, desiredVelocity);
+  }
+
+
 
   private void setToVelocity(Body body, Vector2 desiredVelocity) {
     // impulse force = (desired velocity - current velocity) * mass

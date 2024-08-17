@@ -28,7 +28,7 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 TREE_SPAWN = new GridPoint2(20, 20);
 
   // Test spawn point for boss
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(30, 10);
+  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
