@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestBasicTest {
-    QuestBasic quest = new QuestBasic();
+    Quest quest = new Quest();
 
     @Test
     void basicQuestSetup() {
