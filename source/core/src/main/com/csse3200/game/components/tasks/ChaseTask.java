@@ -53,13 +53,15 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private static final String heartbeat = "sounds/heartbeat.mp3";
 
   void playTensionSound() {
-    if (heartbeatSound == null) {
+    if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
       heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
       heartbeatSound.setLooping(true);
       heartbeatSound.setVolume(0.6f);
     }
-    ForestGameArea.stopBackgroundMusic();
-    heartbeatSound.play();
+    if (heartbeatSound != null) {
+      ForestGameArea.stopBackgroundMusic();
+      heartbeatSound.play();
+    }
   }
 
   void stopTensionSound() {
@@ -83,7 +85,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     super.stop();
     movementTask.stop();
     stopTensionSound();
-    this.owner.getEntity().getEvents().trigger("chaseStop");
   }
 
   @Override
