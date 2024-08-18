@@ -3,6 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerActions;
+import com.csse3200.game.components.player.PlayerInventoryInputComponent;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.PlayerConfig;
@@ -43,6 +44,7 @@ public class PlayerFactory {
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(new PlayerInventoryDisplay(stats.inventoryCapacity, 9)) // TODO!!!
+            .addComponent(new PlayerInventoryInputComponent(stats.inventoryCapacity, 9)) // TODO!!!
             .addComponent(inputComponent)
             .addComponent(new PlayerStatsDisplay());
 
