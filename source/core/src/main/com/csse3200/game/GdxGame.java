@@ -70,12 +70,7 @@ public class GdxGame extends Game {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
-        // return new MainGameScreen(this);
-        /*
-        * For testing purposes we (combat team 10) can comment out the following line of code to activate
-        * the combat screen at the start to replace the main screen for testing purposes
-        * */
-        return new CombatScreen(this);
+        return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
       case COMBAT_SCREEN:
