@@ -30,11 +30,12 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
+        initializeUI();
         logger.info("AnimalSelectionScreen initialized");
     }
 
-    @Override
-    public void show() {
+    private void initializeUI() {
+        // Create and set up the stage and main table
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -92,7 +93,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         mainTable.add().expandY(); // Empty row to create space between images and buttons
 
         selectButton = new TextButton("Ready?", skin);
-        selectButton.getLabel().setFontScale(1.5f); // Make the "Ready?" button text larger
+        selectButton.getLabel().setFontScale(1.5f); // Made the "Ready?" button text larger
 
         TextButton backButton = new TextButton("Go Back", skin);
 
@@ -100,7 +101,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         selectButton.setSize(500, 60);
         backButton.setSize(500, 60);
 
-        // Place the "Ready?" and "Go Back" buttons side by side at the bottom center of the screen
+        // Placed the "Ready?" and "Go Back" buttons side by side at the bottom center of the screen
         Table buttonTable = new Table();
         buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250);
         buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380);
@@ -128,6 +129,10 @@ public class AnimalSelectionScreen extends ScreenAdapter {
                 game.setScreen(GdxGame.ScreenType.MAIN_MENU);
             }
         });
+    }
+
+    @Override
+    public void show() {
     }
 
     private void selectAnimal(Image animalImage) {
