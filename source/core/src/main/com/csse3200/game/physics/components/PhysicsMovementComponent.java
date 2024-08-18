@@ -16,7 +16,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   /**
    * Variable to set boss speed faster than player by a scale of 0.5.
    */
-  private static final Vector2 maxBossSpeed = new Vector2(3.5f, 3.5f);
+  private static final Vector2 maxBossSpeed = new Vector2(2.5f, 2.5f);
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
