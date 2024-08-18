@@ -5,4 +5,8 @@ package com.csse3200.game.entities.configs;
  */
 public class EagleConfig extends BaseEntityConfig {
 
+    public int health = 25;
+
+    public int baseAttack = 0;
+
 }
