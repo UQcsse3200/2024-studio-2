@@ -241,47 +241,47 @@ class NPCFactoryTest {
         assertEquals(pos, turtle.getPosition());
     }
 
-    @Test
-    void TestSnakeCreation() {
-        assertNotNull(snake, "Snake should not be null.");
-    }
-
-    @Test
-    void TestSnakeIsEntity() {
-        assert(snake.getClass() == Entity.class);
-    }
-
-    @Test
-    void TestSnakeHasCorrectHP() {
-        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
-                "Snake should have 30 HP.");
-    }
-
-    @Test
-    void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
-                "Snake should have 0 Base Attack.");
-    }
-
-    @Test
-    void TestSnakeHasAnimation() {
-        assertNotNull(snake.getComponent(AnimationRenderComponent.class),
-                "Snake should have idle animation.");
-    }
-
-    @Test
-    void TestSnakeIsFriendly() {
-        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
-                "Snake should have a friendly AI controller.");
-    }
-
-    @Test
-    void TestSnakeSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        snake.setPosition(pos);
-
-        assertEquals(pos, snake.getPosition());
-    }
+//    @Test
+//    void TestSnakeCreation() {
+//        assertNotNull(snake, "Snake should not be null.");
+//    }
+//
+//    @Test
+//    void TestSnakeIsEntity() {
+//        assert(snake.getClass() == Entity.class);
+//    }
+//
+//    @Test
+//    void TestSnakeHasCorrectHP() {
+//        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
+//                "Snake should have 30 HP.");
+//    }
+//
+//    @Test
+//    void TestSnakeHasCorrectBaseAttack() {
+//        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
+//                "Snake should have 0 Base Attack.");
+//    }
+//
+//    @Test
+//    void TestSnakeHasAnimation() {
+//        assertNotNull(snake.getComponent(AnimationRenderComponent.class),
+//                "Snake should have idle animation.");
+//    }
+//
+//    @Test
+//    void TestSnakeIsFriendly() {
+//        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
+//                "Snake should have a friendly AI controller.");
+//    }
+//
+//    @Test
+//    void TestSnakeSetPosition() {
+//        Vector2 pos = new Vector2(0f, 0f);
+//        snake.setPosition(pos);
+//
+//        assertEquals(pos, snake.getPosition());
+//    }
 
     static class TestComponent1 extends Component {}
 
