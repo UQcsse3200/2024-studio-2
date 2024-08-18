@@ -16,7 +16,7 @@ public class AbstractFood extends ConsumableItem {
      * The feeding effect that food can apply on animals
      */
     protected AbstractEffect feedingEffect;
-    protected Texture foodTexture;
+
     /**
      * Constructs a ConsumableItems with the specified uses
      *
@@ -25,11 +25,9 @@ public class AbstractFood extends ConsumableItem {
      * @param limit the stack limit of the item
      * @param quantity the initial quantity for this item
      */
-    public AbstractFood(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect,
-                        Texture foodTexture) {
+    public AbstractFood(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
         super(name, itemCode, limit, quantity);
         this.feedingEffect = feedingEffect;
-        this.foodTexture = foodTexture;
     }
 
     /**
@@ -44,13 +42,6 @@ public class AbstractFood extends ConsumableItem {
      */
     public void applyFeedingEffect() {
         this.feedingEffect.apply();
-    }
-
-    /**
-     * Gets the Texture of the food
-     */
-    public Texture getFoodTexture() {
-        return this.foodTexture;
     }
 
     /**
