@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
+import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
@@ -73,7 +74,7 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
-      case COMBAT_SCREEN:
+      case COMBAT:
         return new CombatScreen(this);
       default:
         return null;
@@ -81,7 +82,11 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
+<<<<<<< HEAD
     MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT_SCREEN
+=======
+    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT
+>>>>>>> 66c2edae170b65f669054d9c463c4eaf57806cc5
   }
 
   /**
