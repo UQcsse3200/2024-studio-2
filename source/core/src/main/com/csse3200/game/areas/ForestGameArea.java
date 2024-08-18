@@ -9,7 +9,6 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
@@ -52,6 +51,11 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
+
+  private static final String heartbeat = "sounds/heartbeat.mp3";
+  private static final String[] heartbeatSound = {heartbeat};
+
+  private static Music music;
 
   private final TerrainFactory terrainFactory;
 
@@ -175,10 +179,22 @@ public class ForestGameArea extends GameArea {
   }
 
   private void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
+  }
+
+  public static void stopBackgroundMusic() {
+    if (music != null) {
+      music.stop();
+    }
+  }
+
+  public static void playBackgroundMusic() {
+    if (music != null) {
+      music.play();
+    }
   }
 
   private void loadAssets() {
@@ -188,6 +204,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
     resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(heartbeatSound);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
