@@ -6,9 +6,7 @@ package com.csse3200.game.inventory.items;
 
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.inventory.items.food.AbstractFood;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 

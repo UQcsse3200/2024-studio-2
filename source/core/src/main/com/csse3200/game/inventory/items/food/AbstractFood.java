@@ -2,13 +2,12 @@ package com.csse3200.game.inventory.items.food;
 
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 import com.csse3200.game.inventory.items.exceptions.ConsumedException;
 
 /**
- * The AbstractFood class manages the amount of nutrition points (provided from food items) is added to the hunger bar
+ * The AbstractFood class manages the amount of hunger points (provided from food items) is added to the hunger bar
  * This classes applies the effect of the nutrition points towards the animal hunger bar
  */
 public class AbstractFood extends ConsumableItem {
@@ -18,7 +17,7 @@ public class AbstractFood extends ConsumableItem {
     protected AbstractEffect feedingEffect;
 
     /**
-     * Constructs a ConsumableItems with the specified uses
+     * Constructs a AbstractFood with the specified uses
      *
      * @param name the name of the item
      * @param itemCode the item code
