@@ -219,6 +219,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
     resourceService.unloadAssets(forestMusic);
+    resourceService.unloadAssets(heartbeatSound);
   }
 
   @Override
