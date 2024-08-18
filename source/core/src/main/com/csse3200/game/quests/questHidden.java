@@ -1,7 +1,7 @@
 package com.csse3200.game.quests;
 
 
-public class Achievement extends AbstractQuest {
+public class questHidden extends AbstractQuest {
     /**A description of the task. */
     private final String questDescription = "BASIC QUEST";
     /** The number of subtasks completed. */
