@@ -8,7 +8,6 @@ import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
-import com.csse3200.game.screens.CombatScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,11 +81,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-<<<<<<< HEAD
-    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT_SCREEN
-=======
-    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT
->>>>>>> 66c2edae170b65f669054d9c463c4eaf57806cc5
+    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT;
   }
 
   /**

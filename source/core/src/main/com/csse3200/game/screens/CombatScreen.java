@@ -1,6 +1,5 @@
 package com.csse3200.game.screens;
 
-<<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -23,17 +21,9 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
-=======
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.CombatGameArea;
-import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.combat.CombatExitDisplay;
->>>>>>> 66c2edae170b65f669054d9c463c4eaf57806cc5
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -51,16 +41,8 @@ import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-<<<<<<< HEAD
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-
 import com.badlogic.gdx.graphics.Color;
-
 import static com.badlogic.gdx.graphics.Color.*;
-import static javax.swing.text.html.HTML.Attribute.ALIGN;
 
 public class CombatScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
@@ -73,14 +55,7 @@ public class CombatScreen extends ScreenAdapter {
 
     // Following UI features to be initialized and used throughout combat
     private Label combatDialogue;
-    private Table tb;
-    private Table buttonTable;
     private Skin skin;
-    private TextButton attackButton;
-    private TextButton defendButton;
-    private TextButton accessInventoryButton;
-    private TextButton potionsButton;
-    private TextButton hitButton;
 
     public CombatScreen(GdxGame game) {
         this.game = game;
@@ -241,9 +216,6 @@ public class CombatScreen extends ScreenAdapter {
         bagButton.setSize(240,230);
         bagButton.setPosition(0,570, Align.left);
         st.addActor(bagButton);
-        // tb.row(); // create new row for button
-        // tb.padTop(10);
-        // tb.add(bagButton).size(270,200).height(100); // add button to table
 
         Texture potionsTexture = new Texture(Gdx.files.internal("source/core/assets/images/potions_button.png")); //load image
         Drawable potionsDrawable = new TextureRegionDrawable(new TextureRegion(potionsTexture));
@@ -251,50 +223,6 @@ public class CombatScreen extends ScreenAdapter {
         potionsButton.setSize(240,230);
         potionsButton.setPosition(0,440, Align.left);
         st.addActor(potionsButton);
-        // tb.row(); // create new row for button
-        // tb.padTop(10);
-        // tb.add(potionsButton).size(185,185).height(100);
-
-
-        /*
-        Texture hitTexture = new Texture(Gdx.files.internal("source/core/assets/images/hit_button.png"));
-        Drawable hitDrawable = new TextureRegionDrawable(new TextureRegion(hitTexture));
-        ImageButton hitButton = new ImageButton(hitDrawable);
-        hitButton.setSize(100,100);
-        // hitButton.setPosition(0,0);
-        tb.add(hitButton).size(140,150).height(100);
-
-        Texture bagTexture = new Texture(Gdx.files.internal("source/core/assets/images/bag_button.png"));
-        Drawable bagDrawable = new TextureRegionDrawable(new TextureRegion(bagTexture));
-        ImageButton bagButton = new ImageButton(bagDrawable);
-        bagButton.setSize(100,100);
-        // bagButton.setPosition(0,0);
-        tb.row();
-        tb.padTop(10);
-        tb.add(bagButton).size(270,200).height(100);
-        //.expandX()
-        //.fillX()
-
-        Texture potionsTexture = new Texture(Gdx.files.internal("source/core/assets/images/potions_button.png"));
-        Drawable potionsDrawable = new TextureRegionDrawable(new TextureRegion(potionsTexture));
-        ImageButton potionsButton = new ImageButton(potionsDrawable);
-        potionsButton.setSize(100,100);
-        // potionsButton.setPosition(0,0);
-        // tb.row();
-        tb.padTop(10);
-        tb.add(potionsButton).size(185,185).height(100);
-         */
-
-
-
-        // Add actionlisteners for buttons
-        hitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                // hit event
-                System.out.println("Hit Button Pressed");
-            }
-        });
 
     }
 
@@ -305,121 +233,3 @@ public class CombatScreen extends ScreenAdapter {
     // Function will handle player health, manage player/enemy turns
 
 }
-
-=======
-/**
- * The game screen containing the main game.
- *
- * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
- */
-public class CombatScreen extends ScreenAdapter {
-  private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png"};
-  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-
-  private final GdxGame game;
-  private final Renderer renderer;
-  private final PhysicsEngine physicsEngine;
-
-  public CombatScreen(GdxGame game) {
-    this.game = game;
-
-    logger.debug("Initialising combat screen services");
-    ServiceLocator.registerTimeSource(new GameTime());
-
-    PhysicsService physicsService = new PhysicsService();
-    ServiceLocator.registerPhysicsService(physicsService);
-    physicsEngine = physicsService.getPhysics();
-
-    ServiceLocator.registerInputService(new InputService());
-    ServiceLocator.registerResourceService(new ResourceService());
-
-    ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
-
-    renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
-    renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-
-    loadAssets();
-    createUI();
-
-    logger.debug("Initialising combat game screen entities");
-    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    CombatGameArea combatGameArea = new CombatGameArea(terrainFactory);
-    combatGameArea.create();
-  }
-
-  @Override
-  public void render(float delta) {
-    physicsEngine.update();
-    ServiceLocator.getEntityService().update();
-    renderer.render();
-  }
-
-  @Override
-  public void resize(int width, int height) {
-    renderer.resize(width, height);
-    logger.trace("Resized renderer: ({} x {})", width, height);
-  }
-
-  @Override
-  public void pause() {
-    logger.info("Game paused");
-  }
-
-  @Override
-  public void resume() {
-    logger.info("Game resumed");
-  }
-
-  @Override
-  public void dispose() {
-    logger.debug("Disposing main game screen");
-
-    renderer.dispose();
-    unloadAssets();
-
-    ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getResourceService().dispose();
-
-    ServiceLocator.clear();
-  }
-
-  private void loadAssets() {
-    logger.debug("Loading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(mainGameTextures);
-    ServiceLocator.getResourceService().loadAll();
-  }
-
-  private void unloadAssets() {
-    logger.debug("Unloading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(mainGameTextures);
-  }
-
-  /**
-   * Creates the main game's ui including components for rendering ui elements to the screen and
-   * capturing and handling ui input.
-   */
-  private void createUI() {
-    logger.debug("Creating ui");
-    Stage stage = ServiceLocator.getRenderService().getStage();
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
-    Entity ui = new Entity();
-    ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new PerformanceDisplay())
-        .addComponent(new CombatActions(this.game))
-        .addComponent(new CombatExitDisplay())
-        .addComponent(new Terminal())
-        .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
-
-    ServiceLocator.getEntityService().register(ui);
-  }
-}
->>>>>>> 66c2edae170b65f669054d9c463c4eaf57806cc5
