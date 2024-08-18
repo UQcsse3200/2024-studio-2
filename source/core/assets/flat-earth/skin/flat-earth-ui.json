@@ -253,7 +253,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	},
 	"slot-background": {
 		name: window,
-		"color": white
+		color: white
+	},
+	"slot-selected": {
+		name: window,
+		color: selection
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {

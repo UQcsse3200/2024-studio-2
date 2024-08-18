@@ -2,8 +2,10 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -18,6 +20,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Inventory inventory;
     private final int numCols, numRows;
     private Window window;
+    private Table selectedSlot;
+//    private final PlayerInventoryInputComponent inputComponent;
 
     /**
      * Constructor for a Player Inventory // TODO!!!!
@@ -38,6 +42,11 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.inventory = new Inventory(capacity);
         this.numCols = numCols;
         this.numRows = capacity / numCols;
+
+//        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
+//        //  OR INVENTORY SHOULD HAVE THIS!
+//        this.inputComponent = new PlayerInventoryInputComponent(
+//                numRows, numCols, 100, 100, 300, 300);
     }
 
     @Override
@@ -88,29 +97,49 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
 
         Drawable slotBackground = skin.getDrawable("slot-background");
+        final Drawable slotHighlight = skin.getDrawable("slot-selected");
 
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col;
-                if (index < inventory.getCapacity()) {
-                    AbstractItem item = inventory.getAt(index);
+                AbstractItem item = inventory.getAt(index);
 
-                    // Create the slot with a background
-                    Table slot = new Table();
-                    slot.setBackground(slotBackground);
+                // Create the slot with a background
+                final Table slot = new Table();
+                slot.setBackground(slotBackground);
 
-                    // Add the item image to the slot TODO: ADD ITEM TEXTURES!
+                // Add the item image to the slot TODO: ADD ITEM TEXTURES!
+                if (item != null) {
                     Image itemImage = new Image(new Texture("images/box_boy.png"));
                     slot.add(itemImage).center().size(100, 100);
 
-                    // Add the slot to the inventory table
-                    table.add(slot).size(120, 120).pad(5);
-                } else {
-                    // Add an empty slot if no item exists for the cell
-                    Table emptySlot = new Table();
-                    emptySlot.setBackground(slotBackground);
-                    table.add(emptySlot).size(120, 120).pad(5);
+                    // TODO: ADD THIS INTO ABSTRACT ITEM LATER - AND CREATE A DEFAULT VERSION OF
+                    //  THIS FOR NOW!!!
+//                    // Tooltip for item description
+//                    String description = item.getDescription();
+//                    Label tooltipLabel = new Label(description, new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE));
+//                    Tooltip<Table> tooltip = new Tooltip<>(new Table().add(tooltipLabel));
+//                    slot.addListener(tooltip);
                 }
+
+                // Click listener for selecting the slot (TODO: MOVE THIS LATER TO ONLY SELECT
+                //  TODO: SLOTS WITH ITEMS!!!)
+                slot.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        String msg = String.format("Slot at (%f, %f) clicked", x, y);
+                        logger.info(msg);
+                        if (selectedSlot != null) {
+                            selectedSlot.setBackground(slotBackground);
+                        }
+                        slot.setBackground(slotHighlight);
+                        selectedSlot = slot;
+                    }
+                });
+
+                // Add the slot to the inventory table
+                table.add(slot).size(120, 120).pad(5);
+
             }
             table.row(); // Move to the next row in the table
         }
