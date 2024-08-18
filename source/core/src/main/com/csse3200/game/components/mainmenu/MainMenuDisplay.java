@@ -25,6 +25,8 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.border.Border;
+
 /**
  * A UI component for displaying the Main menu.
  */
@@ -237,22 +239,57 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds an exit confirmation dialog when the exit button is clicked.
+     * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
     private void addExitConfirmation(TextButton exitBtn) {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Dialog dialog = new Dialog("Exit", skin) {
-                    public void result(Object obj) {
-                        if ((Boolean) obj) {
-                            Gdx.app.exit(); // Exit the game
-                        }
+                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+                pixmap.setColor(Color.WHITE);
+                pixmap.fill();
+
+                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+                pixmap.dispose();
+
+                final Dialog dialog = new Dialog("", skin);
+                dialog.setBackground(dialogBackground);
+                dialog.pad(40f);
+                dialog.setSize(500f, 300f);
+                dialog.setModal(true);
+
+                Label confirmLabel = new Label("Leave the game?", skin);
+                confirmLabel.setColor(Color.WHITE);
+                confirmLabel.setFontScale(1.5f);
+
+                TextButton yesBtn = new TextButton("Yes", skin);
+                TextButton noBtn = new TextButton("No", skin);
+
+                yesBtn.getLabel().setFontScale(1.2f);
+                noBtn.getLabel().setFontScale(1.2f);
+
+                yesBtn.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.app.exit();
                     }
-                };
-                dialog.text("Exit the game?");
-                dialog.button("Yes", true);
-                dialog.button("No", false);
+                });
+
+                noBtn.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        dialog.hide();
+                    }
+                });
+
+                dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
+                dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
+                dialog.getButtonTable().add(noBtn).width(150f).height(60f);
+
+                dialog.setPosition(
+                        (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
+                        (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
+                );
                 dialog.show(stage);
             }
         });
@@ -274,6 +311,7 @@ public class MainMenuDisplay extends UIComponent {
         super.dispose();
     }
 }
+
 //
 //
 //package com.csse3200.game.components.mainmenu;
