@@ -7,6 +7,7 @@ import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.screens.CombatScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,16 +70,23 @@ public class GdxGame extends Game {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
-        return new MainGameScreen(this);
+        // return new MainGameScreen(this);
+        /*
+        * For testing purposes we (combat team 10) can comment out the following line of code to activate
+        * the combat screen at the start to replace the main screen for testing purposes
+        * */
+        return new CombatScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
+      case COMBAT_SCREEN:
+        return new CombatScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS
+    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT_SCREEN
   }
 
   /**
