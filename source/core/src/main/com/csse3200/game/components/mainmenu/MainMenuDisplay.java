@@ -25,8 +25,6 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.border.Border;
-
 /**
  * A UI component for displaying the Main menu.
  */
