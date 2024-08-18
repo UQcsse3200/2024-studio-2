@@ -1,8 +1,10 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -20,6 +22,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final DebugRenderer debugRenderer;
   private final RaycastHit hit = new RaycastHit();
   private MovementTask movementTask;
+  private Music heartbeatSound;
 
   /**
    * @param target The entity to chase.
@@ -42,8 +45,28 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask = new MovementTask(target.getPosition());
     movementTask.create(owner);
     movementTask.start();
-    
+    playTensionSound();
+
     this.owner.getEntity().getEvents().trigger("chaseStart");
+  }
+
+  private static final String heartbeat = "sounds/heartbeat.mp3";
+
+  void playTensionSound() {
+    if (heartbeatSound == null) {
+      heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
+      heartbeatSound.setLooping(true);
+      heartbeatSound.setVolume(0.6f);
+    }
+    ForestGameArea.stopBackgroundMusic();
+    heartbeatSound.play();
+  }
+
+  void stopTensionSound() {
+    if (heartbeatSound != null) {
+      heartbeatSound.stop();
+    }
+    ForestGameArea.playBackgroundMusic();
   }
 
   @Override
@@ -59,6 +82,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void stop() {
     super.stop();
     movementTask.stop();
+    stopTensionSound();
+    this.owner.getEntity().getEvents().trigger("chaseStop");
   }
 
   @Override
