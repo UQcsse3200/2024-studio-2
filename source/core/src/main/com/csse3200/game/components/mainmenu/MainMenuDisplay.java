@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.AnimalSelectionScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -21,11 +19,6 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-    private final GdxGame game;
-
-    public MainMenuDisplay(GdxGame game) {
-        this.game = game;
-    }
 
     @Override
     public void create() {
@@ -37,7 +30,6 @@ public class MainMenuDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        // Load the title image
         Image title = new Image(
                 ServiceLocator.getResourceService()
                         .getAsset("images/box_boy_title.png", Texture.class));
@@ -53,7 +45,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 logger.debug("Start button clicked");
-                game.setScreen(new AnimalSelectionScreen(game));
+                entity.getEvents().trigger("start");
             }
         });
 

@@ -30,6 +30,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
+        logger.info("AnimalSelectionScreen initialized");
     }
 
     @Override
@@ -64,7 +65,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
             Table animalTable = new Table();
 
-            // Add extra padLeft for the second animal
+            // Added extra padLeft for the second animal - to make it in centre
             if (i == 1) {
                 animalTable.add(animalImages[i]).pad(20).padLeft(240); // Original 190 + 50
                 animalTable.row();

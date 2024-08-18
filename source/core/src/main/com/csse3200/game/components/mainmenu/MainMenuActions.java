@@ -26,11 +26,11 @@ public class MainMenuActions extends Component {
   }
 
   /**
-   * Swaps to the Main Game screen.
+   * Swaps to the Animal Selection screen.
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**
@@ -39,6 +39,7 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+    // Add load game logic here if needed in the future
   }
 
   /**
