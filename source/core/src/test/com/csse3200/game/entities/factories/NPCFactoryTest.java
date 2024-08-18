@@ -34,12 +34,16 @@ class NPCFactoryTest {
 
     private String[] textures = {
             "images/ghost.png",
-            "images/Cow.png"
+            "images/Cow.png",
+            "images/Lion-Spritesheet.png",
+            "images/snake.png"
     };
 
     private String[] atlas = {
             "images/ghost.atlas",
-            "images/Cow.atlas"
+            "images/Cow.atlas",
+            "images/lion.atlas",
+            "images/snake.atlas"
     };
 
 
@@ -65,7 +69,7 @@ class NPCFactoryTest {
         lion = NPCFactory.createLion(player, enemies);
         eagle = NPCFactory.createEagle(player, enemies);
         turtle = NPCFactory.createTurtle(player, enemies);
-//        snake = NPCFactory.createSnake(player, enemies);
+        snake = NPCFactory.createSnake(player, enemies);
     }
 
     @Test

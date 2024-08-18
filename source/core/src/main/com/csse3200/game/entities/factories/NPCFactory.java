@@ -134,7 +134,7 @@ public class NPCFactory {
     // Will need to replace sprites for lion instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/lion.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     lion
@@ -208,7 +208,7 @@ public class NPCFactory {
     // Will need to replace sprites for snake instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/Cow.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
     animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
     
     snake
