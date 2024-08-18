@@ -1,4 +1,4 @@
-Cow.png
+Lion-Spritesheet.png
 size: 16, 16
 format: RGBA8888
 filter: Nearest, Nearest
@@ -12,25 +12,39 @@ float
   index: 0
 float
   rotate: false
-  xy: 16, 0
+  xy: 0, 16
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
 float
   rotate: false
-  xy: 32, 0
+  xy: 0, 32
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 2
 float
   rotate: false
-  xy: 48, 0
+  xy: 16, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 3
+float
+  rotate: false
+  xy: 32, 16
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 4
+float
+  rotate: false
+  xy: 48, 32
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 5
 default
   rotate: false
   xy: 0, 0

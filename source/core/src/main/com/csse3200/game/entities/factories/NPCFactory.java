@@ -39,58 +39,58 @@ import java.util.ArrayList;
 public class NPCFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
-
-  /**
-   * Creates a ghost entity.
-   *
-   * @param target entity to chase
-   * @return entity
-   */
-  public static Entity createGhost(Entity target) {
-    Entity ghost = createBaseNPC(target);
-    BaseEntityConfig config = configs.ghost;
-
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-    ghost
-        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-        .addComponent(animator)
-        .addComponent(new GhostAnimationController());
-
-    ghost.getComponent(AnimationRenderComponent.class).scaleEntity();
-
-    return ghost;
-  }
-
-  /**
-   * Creates a ghost king entity.
-   *
-   * @param target entity to chase
-   * @return entity
-   */
-  public static Entity createGhostKing(Entity target) {
-    Entity ghostKing = createBaseNPC(target);
-    GhostKingConfig config = configs.ghostKing;
-
-    AnimationRenderComponent animator =
-        new AnimationRenderComponent(
-            ServiceLocator.getResourceService()
-                .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-
-    ghostKing
-        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-        .addComponent(animator)
-        .addComponent(new GhostAnimationController());
-
-    ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
-    return ghostKing;
-  }
+//
+//  /**
+//   * Creates a ghost entity.
+//   *
+//   * @param target entity to chase
+//   * @return entity
+//   */
+//  public static Entity createGhost(Entity target) {
+//    Entity ghost = createBaseNPC(target);
+//    BaseEntityConfig config = configs.ghost;
+//
+//    AnimationRenderComponent animator =
+//            new AnimationRenderComponent(
+//                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+//
+//    ghost
+//        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+//        .addComponent(animator)
+//        .addComponent(new GhostAnimationController());
+//
+//    ghost.getComponent(AnimationRenderComponent.class).scaleEntity();
+//
+//    return ghost;
+//  }
+//
+//  /**
+//   * Creates a ghost king entity.
+//   *
+//   * @param target entity to chase
+//   * @return entity
+//   */
+//  public static Entity createGhostKing(Entity target) {
+//    Entity ghostKing = createBaseNPC(target);
+//    GhostKingConfig config = configs.ghostKing;
+//
+//    AnimationRenderComponent animator =
+//        new AnimationRenderComponent(
+//            ServiceLocator.getResourceService()
+//                .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+//
+//    ghostKing
+//        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+//        .addComponent(animator)
+//        .addComponent(new GhostAnimationController());
+//
+//    ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
+//    return ghostKing;
+//  }
 
   /**
    * Creates a Cow NPC.
@@ -133,7 +133,7 @@ public class NPCFactory {
     // Will need to replace sprites for lion instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset("images/lion.atlas", TextureAtlas.class));
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     lion
@@ -191,6 +191,33 @@ public class NPCFactory {
     eagle.getComponent(AnimationRenderComponent.class).scaleEntity();
 
     return eagle;
+  }
+  
+  /**
+   * Creates a Snake NPC.
+   * Uses ghost sprite as a placeholder
+   *
+   * @param target entity to move towards when in range.
+   * @return entity
+   */
+  public static Entity createSnake(Entity target, List<Entity> enemies) {
+    Entity snake = createFriendlyBaseNPC(target, enemies);
+    SnakeConfig config = configs.snake;
+    
+    // Will need to replace sprites for snake instead of the ghost.
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/Cow.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
+    
+    snake
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new FriendlyNPCAnimationController());
+    
+    snake.getComponent(AnimationRenderComponent.class).scaleEntity();
+    
+    return snake;
   }
 
   /**
