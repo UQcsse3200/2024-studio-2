@@ -1,5 +1,6 @@
 package com.csse3200.game.components.player;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -47,6 +48,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.ESCAPE:
         entity.getEvents().trigger("pause");
+        return true;
+      case Input.Keys.Q:
+        entity.getEvents().trigger("quest");
         return true;
       default:
         return false;

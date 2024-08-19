@@ -54,4 +54,23 @@ public class EntityService {
       entity.dispose();
     }
   }
+
+  public void clearExtra() {
+    for (Entity entity : entities) {
+      entity.removeIfEnabled();
+    }
+  }
+
+  public void hide() {
+    for (Entity entity : entities) {
+      entity.setEnabled(false);
+    }
+  }
+
+  public void show() {
+    for (Entity entity : entities) {
+      entity.setEnabled(true);
+    }
+  }
+
 }

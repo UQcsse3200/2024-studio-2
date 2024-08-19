@@ -105,4 +105,17 @@ public class SortedIntMap<V> implements Iterable<V> {
     keys.insert(i, key);
     values.insert(i, value);
   }
+
+  /**
+   * Create a deep copy of this SortedIntMap.
+   *
+   * @return a new SortedIntMap instance with the same keys and values.
+   */
+
+  public SortedIntMap<V> copy() {
+    SortedIntMap<V> clonedMap = new SortedIntMap<>(keys.size);
+    clonedMap.keys.addAll(this.keys);
+    clonedMap.values.addAll(this.values);
+    return clonedMap;
+  }
 }

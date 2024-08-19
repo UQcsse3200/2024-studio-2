@@ -43,6 +43,8 @@ public class TouchPlayerInputComponent extends InputComponent {
         return true;
       case Input.Keys.ESCAPE:
         entity.getEvents().trigger("pause");
+      case Input.Keys.Q:
+        entity.getEvents().trigger("quest");
       default:
         return false;
     }

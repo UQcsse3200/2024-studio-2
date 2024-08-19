@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
 public class ResourceService implements Disposable {
 
   private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
-  private final AssetManager assetManager;
+  private AssetManager assetManager;
+  private AssetManager hiddenAssetManager;
 
   public ResourceService() {
     this(new AssetManager());
@@ -184,5 +185,31 @@ public class ResourceService implements Disposable {
   @Override
   public void dispose() {
     assetManager.clear();
+  }
+
+  public void hide() {
+    hiddenAssetManager = copyAssetManager(assetManager);
+    if(assetManager!=null){
+      assetManager.clear();
+    }
+  }
+
+  public void show() {
+    assetManager = copyAssetManager(hiddenAssetManager);
+    if(hiddenAssetManager!=null){
+      hiddenAssetManager.clear();
+    }
+  }
+
+  public AssetManager copyAssetManager(AssetManager originalManager) {
+    AssetManager newManager = new AssetManager();
+
+    for (String assetPath : originalManager.getAssetNames()) {
+      Class<?> assetType = originalManager.getAssetType(assetPath);
+      newManager.load(assetPath, assetType);
+    }
+
+    newManager.finishLoading();
+    return newManager;
   }
 }

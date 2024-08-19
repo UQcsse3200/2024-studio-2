@@ -3,6 +3,7 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
@@ -20,7 +21,7 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  private boolean isInQuestMenu = false;
+  private boolean isPaused = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
@@ -31,6 +32,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("pause", this::pause);
+    entity.getEvents().addListener("quest", this::quest);
   }
 
   @Override
@@ -79,14 +81,20 @@ public class PlayerActions extends Component {
   }
 
   void pause() {
-    if(isInQuestMenu){
+    if(isPaused){
       eventService.globalEventHandler.trigger("resume");
-      isInQuestMenu = false;
+      isPaused = false;
     }
     else {
-      logger.info("Sending Global Pause");
       eventService.globalEventHandler.trigger("pause");
-      isInQuestMenu = true;
+      isPaused = true;
     }
   }
+
+
+  void quest() {
+    logger.info("Extra Quest Screen added");
+      eventService.globalEventHandler.trigger("extraScreen", GdxGame.ScreenType.QUESTS);
+  }
+
 }

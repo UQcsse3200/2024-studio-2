@@ -38,9 +38,11 @@ public class MainGameScreen extends ScreenAdapter {
   private static final String[] mainGameTextures = {"images/heart.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
+  private boolean showing = true;
   private final GdxGame game;
-  private final Renderer renderer;
+  private Renderer renderer;
   private final PhysicsEngine physicsEngine;
+  private ForestGameArea gameArea;
 
   public MainGameScreen(GdxGame game) {
     this.game = game;
@@ -69,11 +71,11 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.getEventService().globalEventHandler.addListener("pause",this::pause);
     ServiceLocator.getEventService().globalEventHandler.addListener("resume",this::resume);
-
+    ServiceLocator.getEventService().globalEventHandler.addListener("extraScreen", game::swapExtraScreen);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
-    forestGameArea.create();
+    gameArea = new ForestGameArea(terrainFactory);
+    gameArea.create();
   }
 
   @Override
@@ -115,6 +117,30 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getResourceService().dispose();
 
     ServiceLocator.clear();
+  }
+
+
+  public void toggle() {
+    if(showing){
+      logger.info("Hiding main game screen");
+      unloadAssets();
+      ServiceLocator.getEntityService().hide();
+      ServiceLocator.getRenderService().hide();
+      ServiceLocator.getResourceService().hide();
+      showing = false;
+    }
+    else {
+      logger.info("Showing main game screen");
+      ServiceLocator.getResourceService().show();
+      ServiceLocator.getEntityService().clearExtra();
+      ServiceLocator.getEntityService().show();
+      ServiceLocator.getRenderService().show();
+      renderer = RenderFactory.createRenderer();
+      loadAssets();
+      createUI();
+      gameArea.create();
+      showing = true;
+    }
   }
 
   private void loadAssets() {
