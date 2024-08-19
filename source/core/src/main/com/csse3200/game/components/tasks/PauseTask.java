@@ -54,6 +54,8 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             Object config = configComponent.getConfig();
             if (config instanceof CowConfig) {
                 entity.getEvents().trigger("PausedCow");
+            } else if (config instanceof LionConfig) {
+                entity.getEvents().trigger("PausedLion");
             }
         } else {
             entity.getEvents().trigger("pauseStart");

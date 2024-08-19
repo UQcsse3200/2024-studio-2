@@ -51,6 +51,7 @@ public class ForestGameArea extends GameArea {
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
+  private static final String[] lionSounds = {"sounds/tiger-roar.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
@@ -183,6 +184,7 @@ public class ForestGameArea extends GameArea {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
       Entity lion = NPCFactory.createLion(player, this.enemies);
+      lion.getEvents().addListener("PausedLion", this::playLionSound);
       spawnEntityAt(lion, randomPos, true, true);
 
     }
@@ -224,10 +226,17 @@ public class ForestGameArea extends GameArea {
     mooingCowSound.setLooping(soundId, false);
   }
 
+  private void playLionSound() {
+    Sound lionSound = ServiceLocator.getResourceService().getAsset("sounds/tiger-roar.mp3", Sound.class);
+    long soundId = lionSound.play();
+    lionSound.setVolume(soundId, 0.3f);
+    lionSound.setLooping(soundId, false);
+  }
+
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
-    music.setVolume(0.3f);
+    music.setVolume(0.5f);
     music.play();
   }
 
@@ -238,6 +247,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
     resourceService.loadSounds(cowSounds);
+    resourceService.loadSounds(lionSounds);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -252,6 +262,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
+    resourceService.unloadAssets(cowSounds);
     resourceService.unloadAssets(forestMusic);
   }
 
