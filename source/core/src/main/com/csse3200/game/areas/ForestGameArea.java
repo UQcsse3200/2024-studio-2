@@ -1,6 +1,7 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
@@ -46,6 +47,7 @@ public class ForestGameArea extends GameArea {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+  private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
@@ -161,6 +163,8 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
+    playCowSound();
+
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity cow = NPCFactory.createCow(player, this.enemies);
     spawnEntityAt(cow, randomPos, true, true);
@@ -198,6 +202,12 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(eagle, randomPos, true, true);
   }
 
+  private void playCowSound() {
+    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset("sounds/mooing-cow.mp3", Sound.class);
+    long soundId = mooingCowSound.play();
+    mooingCowSound.setVolume(soundId, 0.3f);
+    mooingCowSound.setLooping(soundId, false);
+  }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
@@ -212,6 +222,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
+    resourceService.loadSounds(cowSounds);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {

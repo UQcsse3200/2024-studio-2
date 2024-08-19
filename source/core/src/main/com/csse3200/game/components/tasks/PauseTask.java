@@ -44,7 +44,6 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         movementTask = new MovementTask(target.getPosition());
         movementTask.create(owner);
         movementTask.start();
-
         this.owner.getEntity().getEvents().trigger("pauseStart");
     }
 
