@@ -9,6 +9,9 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.entities.configs.*;
+
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends DefaultTask implements PriorityTask {
@@ -45,7 +48,16 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         movementTask.create(owner);
         movementTask.start();
 
-        this.owner.getEntity().getEvents().trigger("pauseStart");
+        Entity entity = this.owner.getEntity();
+        ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
+        if (configComponent != null) {
+            Object config = configComponent.getConfig();
+            if (config instanceof CowConfig) {
+                entity.getEvents().trigger("PausedCow");
+            }
+        } else {
+            entity.getEvents().trigger("pauseStart");
+        }
     }
 
     @Override
