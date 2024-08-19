@@ -12,6 +12,7 @@ import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
@@ -113,7 +114,8 @@ public class NPCFactory {
 
     cow.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController());
+            .addComponent(new FriendlyNPCAnimationController())
+            .addComponent(new ConfigComponent(config));
 
     cow.getComponent(AnimationRenderComponent.class).scaleEntity();
 
