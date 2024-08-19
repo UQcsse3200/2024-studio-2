@@ -163,10 +163,11 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    playCowSound();
+    //playCowSound();
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity cow = NPCFactory.createCow(player, this.enemies);
+    cow.getEvents().addListener("PausedCow", this::playCowSound);
     spawnEntityAt(cow, randomPos, true, true);
 
   }
