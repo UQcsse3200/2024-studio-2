@@ -134,8 +134,8 @@ public class NPCFactory {
     // Will need to replace sprites for lion instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+                    ServiceLocator.getResourceService().getAsset("images/lion.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
 
     lion
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
