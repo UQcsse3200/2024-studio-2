@@ -1,18 +1,16 @@
 package com.csse3200.game.components.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 
 public class PlayerInventoryDisplay extends UIComponent {
@@ -20,8 +18,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Inventory inventory;
     private final int numCols, numRows;
     private Window window;
+    private Table table;
     private Table selectedSlot;
-//    private final PlayerInventoryInputComponent inputComponent;
 
     /**
      * Constructor for a Player Inventory // TODO!!!!
@@ -53,6 +51,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     public void create() {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
+        entity.getEvents().addListener("slotClicked", this::handleSlotClicked);
     }
 
     private void toggleInventory() {
@@ -84,18 +83,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void generateWindow() {
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
-        window.setSize(1400, 800);  // Set appropriate size
-        //window.setPosition(300, 300);  // Set position on screen
-
-        // Set position in stage center
-        window.setPosition(
-                (stage.getWidth() - window.getWidth()) / 2,
-                (stage.getHeight() - window.getHeight()) / 2
-        );
-
 
         // Create the table for inventory slots
-        Table table = new Table();
+        table = new Table();
         table.setFillParent(true);
 
         // Add the inventoryTable to the window
@@ -120,29 +110,16 @@ public class PlayerInventoryDisplay extends UIComponent {
                     Image itemImage = new Image(new Texture("images/box_boy.png"));
                     slot.add(itemImage).center().size(100, 100);
 
-                    // TODO: ADD THIS INTO ABSTRACT ITEM LATER - AND CREATE A DEFAULT VERSION OF
-                    //  THIS FOR NOW!!!
-//                    // Tooltip for item description
-//                    String description = item.getDescription();
+                    // TODO: ADD ITEM DESCRIPTION TO ABSTRACT ITEM!
+                    // TODO: FIGURE OUT HOW TO DO ITEM DESCRIPTION WITH HOVERING
+                    // Tooltip for item description
+//                    String description = "Hi my name is";
 //                    Label tooltipLabel = new Label(description, new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE));
-//                    Tooltip<Table> tooltip = new Tooltip<>(new Table().add(tooltipLabel));
-//                    slot.addListener(tooltip);
+//                    Table x = new Table();
+//                    x.add(tooltipLabel);
+//                    Tooltip<Table> tooltip = new Tooltip<>(x);
+//                    entity.getEvents().addListener(tooltip);
                 }
-
-                // Click listener for selecting the slot (TODO: MOVE THIS LATER TO ONLY SELECT
-                //  TODO: SLOTS WITH ITEMS!!!)
-                slot.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        String msg = String.format("Slot at (%f, %f) clicked", x, y);
-                        logger.info(msg);
-                        if (selectedSlot != null) {
-                            selectedSlot.setBackground(slotBackground);
-                        }
-                        slot.setBackground(slotHighlight);
-                        selectedSlot = slot;
-                    }
-                });
 
                 // Add the slot to the inventory table
                 table.add(slot).size(120, 120).pad(5);
@@ -150,6 +127,35 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
             table.row(); // Move to the next row in the table
         }
+
+        window.pack();
+        // Set position in stage center
+        window.setPosition(
+                (stage.getWidth() - window.getWidth()) / 2,
+                (stage.getHeight() - window.getHeight())
+        );
+    }
+
+    // TODO: CHANGE THIS TO CALCULATE ROW/COL RATHER THAN X/Y
+    // TODO: ALSO NEED TO CHANGE TO IGNORE PADDING (IE IF SOMEONE CLICKS BETWEEN ITEMS IGNORE THIS!)
+    private void handleSlotClicked(int sX, int sY) {
+        String msg1 = String.format("Received slot clicked at position (%d, %d)", sX, sY);
+
+        Vector2 coords = table.stageToLocalCoordinates(new Vector2(sX, sY));
+        int x = (int) coords.x;
+        int y = (int) coords.y;
+        String msg2 = String.format("These correspond to coordinates (%d, %d) of the table", x,
+                y);
+
+        int tX = x / 130;
+        int tY = - (1 + (y / 130));
+        String msg3 = String.format("These correspond to the slot at (%d, %d)", tX, tY);
+
+        String isIn = (tX >= 0 && tY >= 0 && tX < numCols && tY < numRows) ? "in" : "out";
+        String msg4 = "This is " + isIn + " of the inventory";
+
+        String msg = String.join("\n", new String[]{msg1, msg2, msg3, msg4});
+        logger.info(msg);
     }
 
     /**
