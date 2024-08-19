@@ -10,4 +10,5 @@ public class NPCConfigs {
   public LionConfig lion = new LionConfig();
   public TurtleConfig turtle = new TurtleConfig();
   public EagleConfig eagle = new EagleConfig();
+  public SnakeConfig snake = new SnakeConfig();
 }

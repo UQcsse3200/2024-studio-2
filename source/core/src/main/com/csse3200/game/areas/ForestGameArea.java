@@ -31,6 +31,8 @@ public class ForestGameArea extends GameArea {
     "images/tree.png",
     "images/ghost_king.png",
     "images/Cow.png",
+    "images/snake.png",
+    "images/Lion-Spritesheet.png",
     "images/ghost_1.png",
     "images/grass_1.png",
     "images/grass_2.png",
@@ -43,7 +45,8 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_3.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
+          "images/snake.atlas", "images/lion.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
@@ -74,12 +77,13 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnGhosts();
+    //spawnGhosts();
     //spawnGhostKing();
     spawnCow();
     spawnLion();
     spawnTurtle();
     spawnEagle();
+    spawnSnake();
     playMusic();
   }
 
@@ -136,26 +140,26 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-  private void spawnGhosts() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < 2; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
-      this.enemies.add(ghost);
-      spawnEntityAt(ghost, randomPos, true, true);
-    }
-  }
-
-  private void spawnGhostKing() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createGhostKing(player);
-    spawnEntityAt(ghostKing, randomPos, true, true);
-  }
+//  private void spawnGhosts() {
+//    GridPoint2 minPos = new GridPoint2(0, 0);
+//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+//
+//    for (int i = 0; i < 2; i++) {
+//      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+//      Entity ghost = NPCFactory.createGhost(player);
+//      this.enemies.add(ghost);
+//      spawnEntityAt(ghost, randomPos, true, true);
+//    }
+//  }
+//
+//  private void spawnGhostKing() {
+//    GridPoint2 minPos = new GridPoint2(0, 0);
+//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+//
+//    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+//    Entity ghostKing = NPCFactory.createGhostKing(player);
+//    spawnEntityAt(ghostKing, randomPos, true, true);
+//  }
 
   private void spawnCow() {
     GridPoint2 minPos = new GridPoint2(0, 0);
@@ -197,7 +201,16 @@ public class ForestGameArea extends GameArea {
     Entity eagle = NPCFactory.createEagle(player, this.enemies);
     spawnEntityAt(eagle, randomPos, true, true);
   }
-
+  
+  private void spawnSnake() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntityAt(snake, randomPos, true, true);
+  }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
