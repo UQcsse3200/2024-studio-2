@@ -19,7 +19,10 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final int numCols, numRows;
     private Window window;
     private Table table;
-    private Table selectedSlot;
+    private int selectedSlot = -1;
+    private final Table[] slots;
+    private final Drawable slotBackground = skin.getDrawable("slot-background");
+    private final Drawable slotHighlight = skin.getDrawable("slot-selected");
 
     /**
      * Constructor for a Player Inventory // TODO!!!!
@@ -40,6 +43,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.inventory = new Inventory(capacity);
         this.numCols = numCols;
         this.numRows = capacity / numCols;
+        slots =  new Table[numRows * numCols];
 
 //        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
 //        //  OR INVENTORY SHOULD HAVE THIS!
@@ -92,10 +96,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.add(table).expand().fill();
 
         // Iterate over the inventory and add slots
-
-        Drawable slotBackground = skin.getDrawable("slot-background");
-        final Drawable slotHighlight = skin.getDrawable("slot-selected");
-
+        // TODO: Maybe just iterate to numRows * numCols
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col;
@@ -123,7 +124,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
                 // Add the slot to the inventory table
                 table.add(slot).size(120, 120).pad(5);
-
+                slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
@@ -136,26 +137,58 @@ public class PlayerInventoryDisplay extends UIComponent {
         );
     }
 
-    // TODO: CHANGE THIS TO CALCULATE ROW/COL RATHER THAN X/Y
-    // TODO: ALSO NEED TO CHANGE TO IGNORE PADDING (IE IF SOMEONE CLICKS BETWEEN ITEMS IGNORE THIS!)
     private void handleSlotClicked(int sX, int sY) {
-        String msg1 = String.format("Received slot clicked at position (%d, %d)", sX, sY);
+        if (selectedSlot != -1) { // De-select previously selected slot
+            slots[selectedSlot].setBackground(slotBackground);
+        }
 
-        Vector2 coords = table.stageToLocalCoordinates(new Vector2(sX, sY));
-        int x = (int) coords.x;
-        int y = (int) coords.y;
-        String msg2 = String.format("These correspond to coordinates (%d, %d) of the table", x,
-                y);
+        selectedSlot = screenPosToClickedSlot(sX, sY); // Find newly selected slot
 
-        int tX = x / 130;
-        int tY = - (1 + (y / 130));
-        String msg3 = String.format("These correspond to the slot at (%d, %d)", tX, tY);
+        if (selectedSlot != -1) { // Highlight the selected slot
+            slots[selectedSlot].setBackground(slotHighlight);
 
-        String isIn = (tX >= 0 && tY >= 0 && tX < numCols && tY < numRows) ? "in" : "out";
-        String msg4 = "This is " + isIn + " of the inventory";
+            String msg = String.format("Clicked slot at index %d", selectedSlot);
+            logger.info(msg);
+        }
+    }
 
-        String msg = String.join("\n", new String[]{msg1, msg2, msg3, msg4});
-        logger.info(msg);
+    // Returns slot index if clicked, otherwise -1
+    // TODO: Decide whether to return index or slot itself
+    // TODO: NEED TO CLEAN UP THE MAPPING A LOT - FOR NOW JUST GET IT WORKING!
+    // TODO: Probably should add some of the math operations to the math util package
+    private int screenPosToClickedSlot(int sX, int sY) {
+        // Convert to table coordinates
+        Vector2 localXY = table.stageToLocalCoordinates(new Vector2(sX, sY));
+        int x = (int) localXY.x;
+        int y = (int) localXY.y;
+        String msg1 = String.format("Received click at (%d, %d)", x, y);
+        logger.info(msg1);
+
+        // Check position not in padded layer.
+        int xMod = ((x % 130) + 130) % 130;
+        int yMod = ((y % 130) + 130) % 130;
+        if (xMod < 5 || xMod >= 125 || yMod < 5 || yMod >= 125) {
+            String s = String.format("Click in padded layer or out of bounds at (%d, %d)", xMod,
+                    yMod);
+            logger.info(s);
+            return -1;
+        }
+
+        // Convert to table row/col (0 indexed from bottom left corner)
+        // TODO: MAKE SURE THIS IS THE SAME ORDER AS THE ORDER OF THE ACTUAL TABLE!!!
+        int row = numRows + (y / 130); // y coordinate is weird
+        int col = x / 130;
+        String msg2 = String.format("Clicked at row/col (%d, %d)", row, col);
+        logger.info(msg2);
+
+        // Check row/col is in table
+        if (row < 0 || col < 0 || row >= numRows || col >= numCols) {
+            logger.info("Clicked out of bounds");
+            return -1;
+        }
+
+        // Convert to slot index
+        return row * numCols + col;
     }
 
     /**
