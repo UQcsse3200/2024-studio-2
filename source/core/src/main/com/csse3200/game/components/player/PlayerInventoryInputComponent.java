@@ -42,7 +42,7 @@ public class PlayerInventoryInputComponent extends InputComponent {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (inventoryOpen) {
-            logger.info("MOUSE MOVED");
+            // logger.info("MOUSE MOVED");
             // Handle hover event, e.g., show item description
             handleHover(screenX, screenY);
         }
@@ -52,28 +52,34 @@ public class PlayerInventoryInputComponent extends InputComponent {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (inventoryOpen) {
-            logger.info("TOUCH DOWN");
-            int clickedSlot = getClickedSlot(screenX, screenY);
-            if (clickedSlot != -1) {
-                entity.getEvents().trigger("slotClicked", clickedSlot);
-                return true;
-            }
+            entity.getEvents().trigger("slotClicked", screenX, screenY);
+            String msg = String.format("slot clicked at (%d, %d)", screenX, screenY);
+            logger.info(msg);
+
+//            int c = getClickedSlot(screenX, screenY);
+//            if (c != -1) {
+//                String msg = String.format("slot clicked at (%d, %d)", c % numCols, c / numCols);
+//                logger.info(msg);
+//                entity.getEvents().trigger("slotClicked", c % numCols, c / numCols);
+//                return true;
+//            }
         }
         return false;
     }
 
     // TODO: DO THE MAPPING CORRECTLY HERE!
     private int getClickedSlot(int screenX, int screenY) {
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                int x = col * slotWidth;
-                int y = row * slotHeight;
-                if (screenX >= x && screenX < x + slotWidth && screenY >= y && screenY < y + slotHeight) {
-                    return row * numCols + col;
-                }
-            }
-        }
-        return -1;  // No slot clicked
+        return 1;
+//        for (int row = 0; row < numRows; row++) {
+//            for (int col = 0; col < numCols; col++) {
+//                int x = col * slotWidth;
+//                int y = row * slotHeight;
+//                if (screenX >= x && screenX < x + slotWidth && screenY >= y && screenY < y + slotHeight) {
+//                    return row * numCols + col;
+//                }
+//            }
+//        }
+//        return -1;  // No slot clicked
     }
 
     // TODO: DEAL WITH THIS FOR TOOLTIP OR JUST TRIGGER EVENT!
