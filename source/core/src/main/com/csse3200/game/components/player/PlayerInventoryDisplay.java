@@ -85,7 +85,14 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
         window.setSize(1400, 800);  // Set appropriate size
-        window.setPosition(300, 300);  // Set position on screen
+        //window.setPosition(300, 300);  // Set position on screen
+
+        // Set position in stage center
+        window.setPosition(
+                (stage.getWidth() - window.getWidth()) / 2,
+                (stage.getHeight() - window.getHeight()) / 2
+        );
+
 
         // Create the table for inventory slots
         Table table = new Table();
