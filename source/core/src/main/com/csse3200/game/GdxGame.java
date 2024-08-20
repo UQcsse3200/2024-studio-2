@@ -5,8 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.screens.MainGameScreenDup;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +32,11 @@ public class GdxGame extends Game {
     Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
+
+    ServiceLocator.registerEventService(new EventService());
+
+    ServiceLocator.getEventService().globalEventHandler.addListener("get screen", this::getScreen);
+    ServiceLocator.getEventService().globalEventHandler.addListener("overlay screen", this::overlayScreen);
   }
 
   /**
@@ -50,12 +58,31 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType));
+    setScreen(newScreen(screenType, null));
   }
 
-  public void overlayScreen (ScreenType screenType) {
-    logger.info("Setting game screen to {}", screenType);
+  /**
+   * Changes to a screen that already exists, disposing of the current screen
+   * @param screen to be switched to
+   */
+   public void setOldScreen(Screen screen) {
+    logger.info("Setting game screen to {}", screen);
     Screen currentScreen = getScreen();
+    if (currentScreen != null) {
+      currentScreen.dispose();
+    }
+    setScreen(screen);
+  }
+
+  /**
+   * Changes to a new screen, does NOT dispose of old screen
+   *
+   * @param screenType screen type
+   * @param screen Old screen if we want to remember/ return to it.
+   */
+  public void overlayScreen (ScreenType screenType, Screen screen) {
+    logger.info("Setting game screen to {}", screenType);
+    setScreen(newScreen(screenType, screen));
   }
 
   @Override
@@ -67,14 +94,17 @@ public class GdxGame extends Game {
   /**
    * Create a new screen of the provided type.
    * @param screenType screen type
+   * @param screen for returning to an old screen, may be null.
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType) {
+  private Screen newScreen(ScreenType screenType, Screen screen) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
+      case MAIN_GAME_DUP:
+        return new MainGameScreenDup(this, screen);
       case SETTINGS:
         return new SettingsScreen(this);
       default:
@@ -83,7 +113,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS
+    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS
   }
 
   /**

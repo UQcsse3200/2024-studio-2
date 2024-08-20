@@ -59,6 +59,9 @@ public class TouchAttackComponent extends Component {
       return;
     }
 
+
+
+    /*
     // Try to attack target.
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
     CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
@@ -73,6 +76,6 @@ public class TouchAttackComponent extends Component {
       Vector2 direction = target.getCenterPosition().sub(entity.getCenterPosition());
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
-    }
+    }*/
   }
 }
