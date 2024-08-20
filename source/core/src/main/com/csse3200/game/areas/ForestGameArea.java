@@ -33,7 +33,9 @@ public class ForestGameArea extends GameArea {
     "images/ghost_king.png",
     "images/Cow.png",
     "images/snake.png",
-    "images/Lion-Spritesheet.png",
+    "images/eagle.png",
+    "images/lion.png",
+    "images/turtle.png",
     "images/ghost_1.png",
     "images/grass_1.png",
     "images/grass_2.png",
@@ -47,7 +49,7 @@ public class ForestGameArea extends GameArea {
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
-          "images/snake.atlas", "images/lion.atlas"
+          "images/snake.atlas", "images/lion.atlas", "images/eagle.atlas", "images/turtle.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
