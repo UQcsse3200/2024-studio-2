@@ -32,6 +32,7 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
 
     @Override
@@ -44,7 +45,7 @@ public class MainMenuDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        Table settingMenu = new Table();
+        settingMenu = new Table();
         Image title = new Image(ServiceLocator.getResourceService().getAsset("images/box_boy_title.png", Texture.class));
 
         TextButton startBtn = new TextButton("Start", skin);
@@ -88,7 +89,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Settings button clicked");
-                settingMenu.setVisible(!settingMenu.isVisible());
+                settingMenu.setVisible(true);
                 table.setTouchable(Touchable.disabled);
             }
         });
@@ -124,10 +125,11 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
-                    Gdx.graphics.setWindowedMode(800, 600);
+                    Gdx.graphics.setWindowedMode(1000, 800);
                 } else {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
+                reposSettingMenu();
                 logger.debug("Fullscreen toggled: " + !isFullscreen);
             }
         });
@@ -151,8 +153,8 @@ public class MainMenuDisplay extends UIComponent {
         // Dispose of the Pixmap after creating the texture
         pixmap.dispose();
 
-        int screenWidth = (int) stage.getWidth();
-        int screenHeight = (int) stage.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
         settingMenu.setSize(550, 350);
         settingMenu.setBackground(backgroundDrawable);
@@ -197,8 +199,7 @@ public class MainMenuDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        // Toggle the visibility of the small menu
-                        settingMenu.setVisible(!settingMenu.isVisible());
+                        settingMenu.setVisible(false);
                         table.setTouchable(Touchable.enabled);
                     }
                 });
@@ -214,6 +215,18 @@ public class MainMenuDisplay extends UIComponent {
                         table.setTouchable(Touchable.enabled);
                     }
                 });
+    }
+
+    public void reposSettingMenu() {
+        if (settingMenu != null) {
+            // Center the menu on the screen
+            float screenWidth = Gdx.graphics.getWidth();
+            float screenHeight = Gdx.graphics.getHeight();
+            settingMenu.setPosition(
+                    (screenWidth - settingMenu.getWidth()) / 2,
+                    (screenHeight - settingMenu.getHeight()) / 2
+            );
+        }
     }
 
     private void addButtonElevationEffect(TextButton button) {
