@@ -34,9 +34,9 @@ public class GdxGame extends Game {
     setScreen(ScreenType.MAIN_MENU);
 
     ServiceLocator.registerEventService(new EventService());
+    System.out.println("Gets here Number 4!");
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("get screen", this::getScreen);
-    ServiceLocator.getEventService().globalEventHandler.addListener("overlay screen", this::overlayScreen);
+    ServiceLocator.getEventService().globalEventHandler.addListener("overlay",this::overlayMainGameDup);
   }
 
   /**
@@ -73,6 +73,12 @@ public class GdxGame extends Game {
     }
     setScreen(screen);
   }
+
+  public void overlayMainGameDup() {
+    System.out.println("Gets here Number 3!");
+
+    overlayScreen(ScreenType.MAIN_GAME_DUP, getScreen());
+   }
 
   /**
    * Changes to a new screen, does NOT dispose of old screen

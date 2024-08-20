@@ -49,7 +49,7 @@ public class MainGameScreenDup extends ScreenAdapter {
     this.game = game;
     oldScreen = screen;
 
-    logger.debug("Initialising main game screen services");
+    logger.debug("Initialising main game dup screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
     PhysicsService physicsService = new PhysicsService();
@@ -74,7 +74,7 @@ public class MainGameScreenDup extends ScreenAdapter {
     ServiceLocator.getEventService().globalEventHandler.addListener("pause",this::pause);
     ServiceLocator.getEventService().globalEventHandler.addListener("resume",this::resume);
 
-    logger.debug("Initialising main game screen entities");
+    logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
     ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
     forestGameArea.create();
