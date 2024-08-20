@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -31,6 +32,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("pause", this::pause);
+    entity.getEvents().addListener("gamePause", this::gamePause);
   }
 
   @Override
@@ -87,6 +89,14 @@ public class PlayerActions extends Component {
       logger.info("Sending Global Pause");
       eventService.globalEventHandler.trigger("pause");
       isInQuestMenu = true;
+    }
+  }
+
+  void gamePause() {
+    if (MainGameScreen.isPaused()) {
+      eventService.globalEventHandler.trigger("resume");
+    } else {
+      eventService.globalEventHandler.trigger("pause");
     }
   }
 }

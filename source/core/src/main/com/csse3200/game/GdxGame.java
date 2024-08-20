@@ -53,6 +53,11 @@ public class GdxGame extends Game {
     setScreen(newScreen(screenType));
   }
 
+  public void overlayScreen (ScreenType screenType) {
+    logger.info("Setting game screen to {}", screenType);
+    Screen currentScreen = getScreen();
+  }
+
   @Override
   public void dispose() {
     logger.debug("Disposing of current screen");
