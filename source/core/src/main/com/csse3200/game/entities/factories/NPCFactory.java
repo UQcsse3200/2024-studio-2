@@ -211,8 +211,8 @@ public class NPCFactory {
     // Will need to replace sprites for snake instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
+                    ServiceLocator.getResourceService().getAsset("images/snake.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     
     snake
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
