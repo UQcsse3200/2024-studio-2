@@ -12,6 +12,8 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.csse3200.game.utils.math.EuclideanDivision.mod;
+
 
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
@@ -165,18 +167,13 @@ public class PlayerInventoryDisplay extends UIComponent {
         logger.info(msg1);
 
         // Check position not in padded layer.
-        int xMod = ((x % 130) + 130) % 130;
-        int yMod = ((y % 130) + 130) % 130;
-        if (xMod < 5 || xMod >= 125 || yMod < 5 || yMod >= 125) {
-            String s = String.format("Click in padded layer or out of bounds at (%d, %d)", xMod,
-                    yMod);
-            logger.info(s);
+        if (mod(x, 130) < 5 || mod(x, 130) >= 125 || mod(y, 130) < 5 || mod(y, 130) >= 125) {
+            logger.info("Click in padded layer (or out of bounds)");
             return -1;
         }
 
-        // Convert to table row/col (0 indexed from bottom left corner)
-        // TODO: MAKE SURE THIS IS THE SAME ORDER AS THE ORDER OF THE ACTUAL TABLE!!!
-        int row = numRows + (y / 130); // y coordinate is weird
+        // Convert to table row/col (0 indexed from top left corner)
+        int row = numRows + (y / 130); // y coordinate starts at top left of table
         int col = x / 130;
         String msg2 = String.format("Clicked at row/col (%d, %d)", row, col);
         logger.info(msg2);
