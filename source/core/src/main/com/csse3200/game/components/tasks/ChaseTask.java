@@ -61,7 +61,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
       heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
       heartbeatSound.setLooping(true);
-      heartbeatSound.setVolume(0.6f);
+      heartbeatSound.setVolume(1.0f);
     }
     if (heartbeatSound != null) {
       ForestGameArea.stopBackgroundMusic();
