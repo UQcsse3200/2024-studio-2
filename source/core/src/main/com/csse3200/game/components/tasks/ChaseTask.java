@@ -71,9 +71,9 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
 
   void stopTensionSound() {
     if (heartbeatSound != null) {
+      ForestGameArea.playBackgroundMusic();
       heartbeatSound.stop();
     }
-    ForestGameArea.playBackgroundMusic();
   }
 
   @Override
