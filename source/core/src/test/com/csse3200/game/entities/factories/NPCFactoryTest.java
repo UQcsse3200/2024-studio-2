@@ -43,7 +43,9 @@ class NPCFactoryTest {
             "images/ghost.atlas",
             "images/Cow.atlas",
             "images/lion.atlas",
-            "images/snake.atlas"
+            "images/snake.atlas",
+            "images/eagle.atlas",
+            "images/turtle.atlas"
     };
 
 
