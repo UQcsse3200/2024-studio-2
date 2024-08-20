@@ -23,6 +23,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final RaycastHit hit = new RaycastHit();
   private MovementTask movementTask;
   private Music heartbeatSound;
+  private final boolean isBoss;
 
   /**
    * @param target The entity to chase.
@@ -30,13 +31,14 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
    * @param viewDistance Maximum distance from the entity at which chasing can start.
    * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
    */
-  public ChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
+  public ChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance, boolean isBoss) {
     this.target = target;
     this.priority = priority;
     this.viewDistance = viewDistance;
     this.maxChaseDistance = maxChaseDistance;
     physics = ServiceLocator.getPhysicsService().getPhysics();
     debugRenderer = ServiceLocator.getRenderService().getDebug();
+    this.isBoss = isBoss;
   }
 
   @Override
@@ -45,9 +47,12 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask = new MovementTask(target.getPosition());
     movementTask.create(owner);
     movementTask.start();
-    playTensionSound();
-
-    this.owner.getEntity().getEvents().trigger("chaseStart");
+    if (this.isBoss) {
+      playTensionSound();
+      this.owner.getEntity().getEvents().trigger("kangaChaseStart");
+    } else {
+      this.owner.getEntity().getEvents().trigger("chaseStart");
+    }
   }
 
   private static final String heartbeat = "sounds/heartbeat.mp3";
