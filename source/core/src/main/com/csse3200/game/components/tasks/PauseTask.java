@@ -11,7 +11,9 @@ import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.csse3200.game.ui.ChatOverlay;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends DefaultTask implements PriorityTask {
@@ -24,6 +26,8 @@ public class PauseTask extends DefaultTask implements PriorityTask {
     private final RaycastHit hit = new RaycastHit();
     private MovementTask movementTask;
     private boolean hasApproached;
+    private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
+    private ChatOverlay hint;
 
     /**
      * @param target The entity to pause when seen.
@@ -39,6 +43,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         this.physics = ServiceLocator.getPhysicsService().getPhysics();
         this.debugRenderer = ServiceLocator.getRenderService().getDebug();
         this.hasApproached = false;
+        this.hint = null;
     }
 
     @Override
@@ -65,25 +70,36 @@ public class PauseTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         float distanceToTarget = getDistanceToTarget();
-
+        //logger.info(String.format("%s", distanceToTarget));
         if (!hasApproached && distanceToTarget > maxPauseDistance && distanceToTarget <= viewDistance) {
             // Move towards the target until within maxPauseDistance
             movementTask.setTarget(target.getPosition());
             movementTask.update();
-            if (movementTask.getStatus() != Status.ACTIVE) {
-                movementTask.start();
-            }
+//            if (movementTask.getStatus() != Status.ACTIVE) {
+//                movementTask.start();
+//            }
 
-            this.hasApproached = true;
-            movementTask.stop();
-        } else if (hasApproached && distanceToTarget <= maxPauseDistance) {
+            this.owner.getEntity().getEvents().trigger("pauseStart");
+            //movementTask.stop();
+
+        } else if (!hasApproached && distanceToTarget <= maxPauseDistance) {
             // NPC pauses when close enough to the target
             hasApproached = true;
             this.owner.getEntity().getEvents().trigger("paused");
-        } else if (hasApproached && distanceToTarget > 1f) {
+            if (this.hint == null) {
+                hint = new ChatOverlay("This is Charlie the Cow.");
+            }
+            logger.info("Medium");
+            movementTask.stop();
+        } else if (hasApproached && distanceToTarget > maxPauseDistance) {
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
             this.owner.getEntity().getEvents().trigger("pauseEnd");
+            if (this.hint != null) {
+                hint.dispose();
+                hint = null;
+            }
+            logger.info("end");
         }
     }
 
