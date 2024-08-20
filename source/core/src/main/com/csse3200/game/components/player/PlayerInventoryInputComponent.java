@@ -1,30 +1,9 @@
 package com.csse3200.game.components.player;
 
 import com.csse3200.game.input.InputComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PlayerInventoryInputComponent extends InputComponent {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryInputComponent.class);
     private boolean inventoryOpen = false;
-    private final int numRows, numCols, slotWidth, slotHeight, windowX, windowY;
-
-    public PlayerInventoryInputComponent(int capacity, int numCols
-
-//            int numRows,
-//            int numCols,
-//            int slotHeight,
-//            int slotWidth,
-//            int windowX,
-//            int windowY
-    ) {
-        this.numCols = numCols;
-        this.numRows = capacity / numCols;
-        this.slotHeight = 100;
-        this.slotWidth = 100;
-        this.windowX = 300;
-        this.windowY = 300;
-    }
 
     @Override
     public void create() {
@@ -32,18 +11,12 @@ public class PlayerInventoryInputComponent extends InputComponent {
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
     }
 
-    private void toggleInventory() {
-        logger.info("Inventory toggled.");
-        inventoryOpen = !inventoryOpen;
-    }
+    private void toggleInventory() {inventoryOpen = !inventoryOpen;}
 
-    // TODO: FIGURE OUT WHEN THIS SHOULD RETURN FALSE, AND DECIDE HOW TO DETERMINE WHEN THE MOUSE
-    //  MOVES OFF THE SLOT!!!!
+    // TODO: THIS FUNCTIONALITY IS NOT YET IMPLEMENTED!
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (inventoryOpen) {
-            // logger.info("MOUSE MOVED");
-            // Handle hover event, e.g., show item description
             handleHover(screenX, screenY);
         }
         return true;
@@ -53,37 +26,23 @@ public class PlayerInventoryInputComponent extends InputComponent {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (inventoryOpen) {
             entity.getEvents().trigger("slotClicked", screenX, screenY);
-            String msg = String.format("slot clicked at (%d, %d)", screenX, screenY);
-            logger.info(msg);
-
-//            int c = getClickedSlot(screenX, screenY);
-//            if (c != -1) {
-//                String msg = String.format("slot clicked at (%d, %d)", c % numCols, c / numCols);
-//                logger.info(msg);
-//                entity.getEvents().trigger("slotClicked", c % numCols, c / numCols);
-//                return true;
-//            }
         }
         return false;
     }
 
-    // TODO: DO THE MAPPING CORRECTLY HERE!
-    private int getClickedSlot(int screenX, int screenY) {
-        return 1;
-//        for (int row = 0; row < numRows; row++) {
-//            for (int col = 0; col < numCols; col++) {
-//                int x = col * slotWidth;
-//                int y = row * slotHeight;
-//                if (screenX >= x && screenX < x + slotWidth && screenY >= y && screenY < y + slotHeight) {
-//                    return row * numCols + col;
-//                }
-//            }
-//        }
-//        return -1;  // No slot clicked
-    }
-
-    // TODO: DEAL WITH THIS FOR TOOLTIP OR JUST TRIGGER EVENT!
+    // TODO: THIS FUNCTION IS NOT YET IMPLEMENTED!!!
     private void handleHover(int screenX, int screenY) {
-        // Handle hover logic here (e.g., show item description in a tooltip)
+        // Handle hover logic her
+        // // TODO: ADD ITEM DESCRIPTION TO ABSTRACT ITEM!
+        //                    // TODO: FIGURE OUT HOW TO DO ITEM DESCRIPTION WITH HOVERING
+        //                    // Tooltip for item description
+        ////                    String description = "Hi my name is";
+        ////                    Label tooltipLabel = new Label(description, new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE));
+        ////                    Table x = new Table();
+        ////                    x.add(tooltipLabel);
+        ////                    Tooltip<Table> tooltip = new Tooltip<>(x);
+        ////                    entity.getEvents().addListener(tooltip);
+        // TODO: NEED TO ADD CORRESPONDING EVENT HANDLER TO PlayerInventoryDisplay ONCE THE
+        //  TRIGGER IS WRITTEN!!!
     }
 }

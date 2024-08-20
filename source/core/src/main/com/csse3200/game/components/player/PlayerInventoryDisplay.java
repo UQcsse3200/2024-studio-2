@@ -1,6 +1,5 @@
 package com.csse3200.game.components.player;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -11,10 +10,12 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
 
+// TODO: HANDLE DISPOSAL OF TABLES!!!
+// TODO: MAKE SLOT SIZE (IE INVENTORY SIZE) NOT A CONSTANT IN GENERATE WINDOW - MAKE IT A CLASS
+//  CONSTANT!!!
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
@@ -47,8 +48,8 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.numRows = capacity / numCols;
         slots =  new Table[numRows * numCols];
 
-//        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
-//        //  OR INVENTORY SHOULD HAVE THIS!
+        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
+        //  OR INVENTORY SHOULD HAVE THIS!
 //        this.inputComponent = new PlayerInventoryInputComponent(
 //                numRows, numCols, 100, 100, 300, 300);
     }
@@ -62,11 +63,11 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     private void toggleInventory() {
         if (stage.getActors().contains(window, true)) {
-            logger.info("Inventory toggled off.");
+            logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
         } else {
-            logger.info("Inventory toggled on.");
+            logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
         }
@@ -77,15 +78,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Handled by stage
     }
 
-    private void disposeWindow() {
-        // Delete old window
-        if (window != null) {
-            window.clear();
-            window.remove();
-            window = null;
-        }
-    }
-
     private void generateWindow() {
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
@@ -94,17 +86,16 @@ public class PlayerInventoryDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        // Add the inventoryTable to the window
+        // Add the table to the window
         window.add(table).expand().fill();
 
         // Iterate over the inventory and add slots
-        // TODO: Maybe just iterate to numRows * numCols
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
 
-                // Create the slot with a background
+                // Create the slot with the inventory background
                 final Table slot = new Table();
                 slot.setBackground(slotBackground);
 
@@ -112,27 +103,16 @@ public class PlayerInventoryDisplay extends UIComponent {
                 if (item != null) {
                     Image itemImage = new Image(new Texture("images/box_boy.png"));
                     slot.add(itemImage).center().size(100, 100);
-
-                    // TODO: ADD ITEM DESCRIPTION TO ABSTRACT ITEM!
-                    // TODO: FIGURE OUT HOW TO DO ITEM DESCRIPTION WITH HOVERING
-                    // Tooltip for item description
-//                    String description = "Hi my name is";
-//                    Label tooltipLabel = new Label(description, new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE));
-//                    Table x = new Table();
-//                    x.add(tooltipLabel);
-//                    Tooltip<Table> tooltip = new Tooltip<>(x);
-//                    entity.getEvents().addListener(tooltip);
                 }
 
-                // Add the slot to the inventory table
-                table.add(slot).size(120, 120).pad(5);
+                table.add(slot).size(120, 120).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
 
+        // Set position in stage top-center
         window.pack();
-        // Set position in stage center
         window.setPosition(
                 (stage.getWidth() - window.getWidth()) / 2,
                 (stage.getHeight() - window.getHeight())
@@ -140,49 +120,45 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     private void handleSlotClicked(int sX, int sY) {
-        if (selectedSlot != -1) { // De-select previously selected slot
-            slots[selectedSlot].setBackground(slotBackground);
-        }
+        // De-select previously selected slot
+        if (selectedSlot != -1) { slots[selectedSlot].setBackground(slotBackground);}
 
         selectedSlot = screenPosToClickedSlot(sX, sY); // Find newly selected slot
 
-        if (selectedSlot != -1) { // Highlight the selected slot
-            slots[selectedSlot].setBackground(slotHighlight);
-
-            String msg = String.format("Clicked slot at index %d", selectedSlot);
-            logger.info(msg);
-        }
+        // Highlight the selected slot
+        if (selectedSlot != -1) { slots[selectedSlot].setBackground(slotHighlight);}
     }
 
-    // Returns slot index if clicked, otherwise -1
-    // TODO: Decide whether to return index or slot itself
-    // TODO: NEED TO CLEAN UP THE MAPPING A LOT - FOR NOW JUST GET IT WORKING!
-    // TODO: Probably should add some of the math operations to the math util package
+    /**
+     * Converts screen coordinates to the index of the clicked slot in the inventory table.
+     *
+     * @param sX the x-coordinate of the screen position
+     * @param sY the y-coordinate of the screen position
+     * @return the index of the clicked slot, or -1 if the click is outside the table or within the
+     * padded area (ie the user clicked on a position where a slot doesn't exist)
+     */
     private int screenPosToClickedSlot(int sX, int sY) {
         // Convert to table coordinates
         Vector2 localXY = table.stageToLocalCoordinates(new Vector2(sX, sY));
         int x = (int) localXY.x;
         int y = (int) localXY.y;
-        String msg1 = String.format("Received click at (%d, %d)", x, y);
-        logger.info(msg1);
 
-        // Check position not in padded layer.
+        // Check position not in padded layer
         if (mod(x, 130) < 5 || mod(x, 130) >= 125 || mod(y, 130) < 5 || mod(y, 130) >= 125) {
-            logger.info("Click in padded layer (or out of bounds)");
             return -1;
         }
 
         // Convert to table row/col (0 indexed from top left corner)
         int row = numRows + (y / 130); // y coordinate starts at top left of table
         int col = x / 130;
-        String msg2 = String.format("Clicked at row/col (%d, %d)", row, col);
-        logger.info(msg2);
 
         // Check row/col is in table
         if (row < 0 || col < 0 || row >= numRows || col >= numCols) {
-            logger.info("Clicked out of bounds");
             return -1;
         }
+
+        String msg = String.format("Clicked at row/col (%d, %d)", row, col);
+        logger.debug(msg); // For debugging purposes
 
         // Convert to slot index
         return row * numCols + col;
@@ -202,5 +178,38 @@ public class PlayerInventoryDisplay extends UIComponent {
     public void dispose() {
         disposeWindow();
         super.dispose();
+    }
+
+    private void disposeWindow() {
+        // Delete old window
+        if (window != null) {
+            window.clear();
+            window.remove();
+            window = null;
+        }
+    }
+
+    // TODO - FIGURE OUT IF THIS FUNCTION IS NEEDED!!!!
+    private void disposeTable(Table table) {
+//        if (table != null) {
+//            // Remove the table from its parent (e.g., a window or stage)
+//            Actor parent = table.getParent();
+//            if (parent != null) {
+//                parent.removeActor(table);
+//            }
+//
+//            // Dispose of any children actors (if they are no longer needed)
+//            for (Actor actor : table.getChildren()) {
+//                if (actor instanceof Disposable) {
+//                    ((Disposable) actor).dispose();
+//                }
+//            }
+//
+//            // Clear all children
+//            table.clear();
+//
+//            // Optional: Set the table reference to null
+//            table = null;
+//        }
     }
 }

@@ -44,7 +44,7 @@ public class PlayerFactory {
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(new PlayerInventoryDisplay(stats.inventoryCapacity, 9)) // TODO!!!
-            .addComponent(new PlayerInventoryInputComponent(stats.inventoryCapacity, 9)) // TODO!!!
+            .addComponent(new PlayerInventoryInputComponent()) // TODO!!!
             .addComponent(inputComponent)
             .addComponent(new PlayerStatsDisplay());
 
