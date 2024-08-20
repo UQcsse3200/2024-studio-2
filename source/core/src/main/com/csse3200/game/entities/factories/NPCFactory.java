@@ -137,7 +137,7 @@ public class NPCFactory {
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/lion.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
 
     lion
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
