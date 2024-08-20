@@ -106,6 +106,7 @@ public class NPCFactory {
 
     kangarooBoss.getComponent(TextureRenderComponent.class).scaleEntity();
     kangarooBoss.scaleHeight(3.0f);
+
     return kangarooBoss;
   }
 

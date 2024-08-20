@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.ai.movement.MovementController;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,8 +98,6 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     Vector2 desiredVelocity = getDirection().scl(maxBossSpeed);
     setToVelocity(body, desiredVelocity);
   }
-
-
 
   private void setToVelocity(Body body, Vector2 desiredVelocity) {
     // impulse force = (desired velocity - current velocity) * mass
