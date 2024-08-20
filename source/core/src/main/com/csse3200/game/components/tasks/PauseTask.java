@@ -70,19 +70,16 @@ public class PauseTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         float distanceToTarget = getDistanceToTarget();
-        //logger.info(String.format("%s", distanceToTarget));
+
         if (!hasApproached && distanceToTarget > maxPauseDistance && distanceToTarget <= viewDistance) {
             // Move towards the target until within maxPauseDistance
+
             movementTask.setTarget(target.getPosition());
             movementTask.update();
-//            if (movementTask.getStatus() != Status.ACTIVE) {
-//                movementTask.start();
-//            }
-
             this.owner.getEntity().getEvents().trigger("pauseStart");
-            //movementTask.stop();
 
         } else if (!hasApproached && distanceToTarget <= maxPauseDistance) {
+
             // NPC pauses when close enough to the target
             hasApproached = true;
             this.owner.getEntity().getEvents().trigger("paused");
@@ -91,7 +88,9 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             }
             logger.info("Medium");
             movementTask.stop();
+
         } else if (hasApproached && distanceToTarget > maxPauseDistance) {
+
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
             this.owner.getEntity().getEvents().trigger("pauseEnd");
@@ -100,6 +99,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
                 hint = null;
             }
             logger.info("end");
+
         }
     }
 

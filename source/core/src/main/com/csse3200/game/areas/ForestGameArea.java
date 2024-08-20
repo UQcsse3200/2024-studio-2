@@ -164,61 +164,42 @@ public class ForestGameArea extends GameArea {
 //    spawnEntityAt(ghostKing, randomPos, true, true);
 //  }
 
-  private void spawnCow() {
+  private void spawnEntity(Entity entity, String eventName, String soundEffect) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    //playCowSound();
-
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity cow = NPCFactory.createCow(player, this.enemies);
-    cow.getEvents().addListener("PausedCow", this::playCowSound);
-    spawnEntityAt(cow, randomPos, true, true);
 
+    spawnEntityAt(entity, randomPos, true, true);
+  }
+
+  private void spawnCow() {
+    Entity cow = NPCFactory.createCow(player, this.enemies);
+    cow.getEvents().addListener("PausedLion", this::playLionSound);
+    spawnEntity(cow);
   }
 
   private void spawnLion() {
-      GridPoint2 minPos = new GridPoint2(0, 0);
-      GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    Entity lion = NPCFactory.createLion(player, this.enemies);
+    lion.getEvents().addListener("PausedLion", this::playLionSound);
+    spawnEntity(lion);
+  }
 
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-      Entity lion = NPCFactory.createLion(player, this.enemies);
-      lion.getEvents().addListener("PausedLion", this::playLionSound);
-      spawnEntityAt(lion, randomPos, true, true);
-
-    }
-
-    private void spawnTurtle() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
+  private void spawnTurtle() {
     Entity turtle = NPCFactory.createTurtle(player, this.enemies);
-    spawnEntityAt(turtle, randomPos, true, true);
-    }
+    spawnEntity(turtle, null, null);
+  }
 
   private void spawnEagle() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
     Entity eagle = NPCFactory.createEagle(player, this.enemies);
-    spawnEntityAt(eagle, randomPos, true, true);
+    spawnEntity(eagle, null, null);
+  }
+
+  private void spawnSnake() {
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntity(snake, null, null);
   }
   
-  private void spawnSnake() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-    Entity snake = NPCFactory.createSnake(player, this.enemies);
-    spawnEntityAt(snake, randomPos, true, true);
-  }
-
   private void playCowSound() {
     Sound mooingCowSound = ServiceLocator.getResourceService().getAsset("sounds/mooing-cow.mp3", Sound.class);
     long soundId = mooingCowSound.play();
