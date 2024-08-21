@@ -145,26 +145,26 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-//  private void spawnGhosts() {
-//    GridPoint2 minPos = new GridPoint2(0, 0);
-//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-//
-//    for (int i = 0; i < 2; i++) {
-//      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-//      Entity ghost = NPCFactory.createGhost(player);
-//      this.enemies.add(ghost);
-//      spawnEntityAt(ghost, randomPos, true, true);
-//    }
-//  }
-//
-//  private void spawnGhostKing() {
-//    GridPoint2 minPos = new GridPoint2(0, 0);
-//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-//
-//    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-//    Entity ghostKing = NPCFactory.createGhostKing(player);
-//    spawnEntityAt(ghostKing, randomPos, true, true);
-//  }
+  private void spawnGhosts() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    for (int i = 0; i < 2; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity ghost = NPCFactory.createGhost(player);
+      this.enemies.add(ghost);
+      spawnEntityAt(ghost, randomPos, true, true);
+    }
+  }
+
+  private void spawnGhostKing() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    Entity ghostKing = NPCFactory.createGhostKing(player);
+    spawnEntityAt(ghostKing, randomPos, true, true);
+  }
 
   private void spawnEntity(Entity entity, String eventName, String soundEffect) {
     GridPoint2 minPos = new GridPoint2(0, 0);
@@ -201,19 +201,20 @@ public class ForestGameArea extends GameArea {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
     spawnEntity(snake, null, null);
   }
-  
-  private void playCowSound() {
-    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset("sounds/mooing-cow.mp3", Sound.class);
+
+  private void playAnimalSound(String animalSoundPath) {
+    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
     long soundId = mooingCowSound.play();
     mooingCowSound.setVolume(soundId, 0.3f);
     mooingCowSound.setLooping(soundId, false);
   }
 
+  private void playCowSound() {
+    playAnimalSound(cowSounds[0]);
+  }
+
   private void playLionSound() {
-    Sound lionSound = ServiceLocator.getResourceService().getAsset("sounds/tiger-roar.mp3", Sound.class);
-    long soundId = lionSound.play();
-    lionSound.setVolume(soundId, 0.3f);
-    lionSound.setLooping(soundId, false);
+    playAnimalSound(lionSounds[0]);
   }
 
   private void playMusic() {
@@ -246,6 +247,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
     resourceService.unloadAssets(cowSounds);
+    resourceService.unloadAssets(lionSounds);
     resourceService.unloadAssets(forestMusic);
   }
 
