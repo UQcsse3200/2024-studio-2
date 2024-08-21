@@ -17,6 +17,7 @@ public class AnimalSelectionActions {
     private final DialogHelper dialogHelper;
     private Image selectedAnimalImage;
     private final GdxGame game;
+    private static String selectedAnimalImagePath;
 
     public AnimalSelectionActions(AnimalSelectionDisplay display, DialogHelper dialogHelper, GdxGame game) {
         this.display = display;
@@ -25,18 +26,30 @@ public class AnimalSelectionActions {
         addListeners();
     }
 
+    public static String getSelectedAnimalImagePath() {
+        return selectedAnimalImagePath;
+    }
+
+
     private void addListeners() {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
+        String[] animalImagePaths = {
+                "images/animal1.png",
+                "images/animal2.png",
+                "images/animal3.png"
+        };
+
 
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
+            final String animalImagePath = animalImagePaths[i];
 
             animalImages[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     logger.debug("Animal {} image clicked", animalIndex + 1);
-                    selectAnimal(animalImages[animalIndex]);
+                    selectAnimal(animalImages[animalIndex], animalImagePath);
                     showAnimalDialog(animalIndex);
                 }
             });
@@ -45,8 +58,9 @@ public class AnimalSelectionActions {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     logger.debug("Animal {} button clicked", animalIndex + 1);
-                    selectAnimal(animalImages[animalIndex]);
+                    selectAnimal(animalImages[animalIndex], animalImagePath);
                     showAnimalDialog(animalIndex);
+
                 }
             });
         }
@@ -73,11 +87,12 @@ public class AnimalSelectionActions {
         });
     }
 
-    void selectAnimal(Image animalImage) {
+    void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1);
         }
         selectedAnimalImage = animalImage;
+        selectedAnimalImagePath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1);
         logger.debug("Animal selected: {}", animalImage.getName());
     }

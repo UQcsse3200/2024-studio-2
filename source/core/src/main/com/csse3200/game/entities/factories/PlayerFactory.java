@@ -15,6 +15,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.animal.AnimalSelectionActions;
 
 /**
  * Factory to create a player entity.
@@ -31,12 +32,14 @@ public class PlayerFactory {
    * @return entity
    */
   public static Entity createPlayer() {
+    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
+
     Entity player =
         new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+            .addComponent(new TextureRenderComponent(imagePath))
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
