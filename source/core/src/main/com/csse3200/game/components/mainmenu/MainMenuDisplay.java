@@ -1,6 +1,7 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,9 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -35,6 +38,7 @@ public class MainMenuDisplay extends UIComponent {
     private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
+    private Dialog helpDialog;
 
     @Override
     public void create() {
@@ -137,75 +141,69 @@ public class MainMenuDisplay extends UIComponent {
 
         makeSettingMenu(settingMenu);
         }
-        //method for help window
+
         private void showHelpDialog() {
-            final int NUM_SLIDES = 6;
-            final float DIALOG_WIDTH = 1100f;
-            final float DIALOG_HEIGHT = 700f;
+            final int NUM_SLIDES = 5;
+            final float DIALOG_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
+            final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
 
-            // Create the dialog with a larger size
-            final Dialog helpDialog = new Dialog("Help", skin) {
-                @Override
-                public void result(Object obj) {
-                    // Optional: handle result if needed
-                }
-            };
-
-            // Set the dialog size
-            helpDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+            // Create a Window for the help screen
+            final Window helpWindow = new Window("Help", skin);
+            helpWindow.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+            helpWindow.setResizable(true);
+            helpWindow.setMovable(true);
 
             // Create a table to hold all slides
             final Table slideTable = new Table();
             slideTable.setFillParent(true);
 
-            Table[] slides = new Table[NUM_SLIDES];
-            for (int i = 0; i < NUM_SLIDES; i++) {
-                slides[i] = new Table();
-                Label titleLabel = new Label("Title " + (i + 1), skin, "title");
-                Label contentLabel = new Label("Content for slide " + (i + 1), skin);
-
-                slides[i].add(titleLabel).padTop(20f).expandX().center().row();
-                slides[i].add(contentLabel).padTop(20f).expandX().center().row();
-
-                // Add an exit button on the last slide
-                if (i == NUM_SLIDES - 1) {
-                    TextButton exitButton = new TextButton("Exit to Main Menu", skin);
-                    exitButton.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            helpDialog.hide(); // Hide the dialog
-                            entity.getEvents().trigger("showMainMenu"); // Trigger the event to show the main menu
-                        }
-                    });
-
-                    slides[i].add(exitButton).padTop(30f).expandX().center();
-                }
-            }
+            // Create slide instances
+            Table[] slideInstances = new Table[NUM_SLIDES];
+            slideInstances[0] = new Slides.MovementSlide(skin);
+            slideInstances[1] = new Slides.CombatSlide(skin);
+            slideInstances[2] = new Slides.StorylineSlide(skin);
+            slideInstances[3] = new Slides.MinigamesSlide(skin);
+            slideInstances[4] = new Slides.StatsSlide(skin);
 
             // Add the first slide to the slideTable
-            slideTable.add(slides[0]).expand().fill();
-            helpDialog.add(slideTable).expand().fill();
+            slideTable.add(slideInstances[0]).expand().fill().row();
 
             // Create a table for navigation buttons
             Table navigationTable = new Table();
             TextButton previousButton = new TextButton("Previous", skin);
             TextButton nextButton = new TextButton("Next", skin);
-
             navigationTable.add(previousButton).padRight(10);
             navigationTable.add(nextButton);
 
-            // Add the navigation buttons to the dialog's content
-            helpDialog.add(navigationTable).padTop(10).expandX().bottom().right();
+            // Create a table for the close button
+            Table closeButtonTable = new Table();
+            TextButton closeButton = new TextButton("X", skin);
+            closeButtonTable.add(closeButton).size(40, 40).right().pad(10);
 
-            final int[] currentSlide = {0}; // Use an array to modify value in lambda expressions
+            // Add the close button table to the top-right of the helpWindow
+            helpWindow.add(closeButtonTable).top().right().pad(1).row();
+            helpWindow.add().row();
+
+            // Add the slideTable to the helpWindow and position it to fill the window
+            helpWindow.add(slideTable).expand().fill().row();
+
+            // Add the navigation table to the bottom of the helpWindow
+            helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
+
+
+
+
+            final int[] currentSlide = {0};
 
             previousButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (currentSlide[0] > 0) {
-                        slides[currentSlide[0]].setVisible(false);
+                        slideInstances[currentSlide[0]].setVisible(false);
                         currentSlide[0]--;
-                        slides[currentSlide[0]].setVisible(true);
+                        slideInstances[currentSlide[0]].setVisible(true);
+                        slideTable.clear(); // Clear the table
+                        slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
                     }
                 }
             });
@@ -214,35 +212,78 @@ public class MainMenuDisplay extends UIComponent {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (currentSlide[0] < NUM_SLIDES - 1) {
-                        slides[currentSlide[0]].setVisible(false);
+                        slideInstances[currentSlide[0]].setVisible(false);
                         currentSlide[0]++;
-                        slides[currentSlide[0]].setVisible(true);
+                        slideInstances[currentSlide[0]].setVisible(true);
+                        slideTable.clear(); // Clear the table
+                        slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
                     }
                 }
             });
 
+            closeButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    helpWindow.remove(); // Close the help window
+                }
+            });
+
+            // Initially show only the first slide
+            slideInstances[0].setVisible(true);
             // Initially hide all slides except the first
             for (int i = 1; i < NUM_SLIDES; i++) {
-                slides[i].setVisible(false);
+                slideInstances[i].setVisible(false);
             }
 
-            // Center the dialog on the stage
-            helpDialog.setPosition(
-                    (stage.getWidth() - helpDialog.getWidth()) / 2,
-                    (stage.getHeight() - helpDialog.getHeight()) / 2
+            slideTable.clear(); // Clear any existing slides
+            slideTable.add(slideInstances[0]).expand().fill(); // Add the first slide
+
+            // Center the window on the stage
+            helpWindow.setPosition(
+                    (stage.getWidth() - helpWindow.getWidth()) / 2,
+                    (stage.getHeight() - helpWindow.getHeight()) / 2
             );
 
-            // Show the dialog
-            helpDialog.show(stage);
+            // Add an InputListener to handle keyboard input
+            helpWindow.addListener(new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    switch (keycode) {
+                        case Input.Keys.LEFT:
+                            if (currentSlide[0] > 0) {
+                                slideInstances[currentSlide[0]].setVisible(false);
+                                currentSlide[0]--;
+                                slideInstances[currentSlide[0]].setVisible(true);
+                                slideTable.clear(); // Clear the table
+                                slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            }
+                            return true;
+                        case Input.Keys.RIGHT:
+                            if (currentSlide[0] < NUM_SLIDES - 1) {
+                                slideInstances[currentSlide[0]].setVisible(false);
+                                currentSlide[0]++;
+                                slideInstances[currentSlide[0]].setVisible(true);
+                                slideTable.clear(); // Clear the table
+                                slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            }
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
 
-            // Force layout update
-            helpDialog.layout();
+            // Show the window
+            stage.addActor(helpWindow);
         }
+
+
+
     private void addMinimizeButton() {
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new TextButton("+", skin); // Start with the minus (minimize) icon
         } else {
-            toggleWindowBtn = new TextButton("+", skin);
+            toggleWindowBtn = new TextButton("-", skin);
         }
 
         //updateToggleWindowButtonText(); // Set initial text based on current screen mode
@@ -271,30 +312,6 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(topRightTable);
     }
-
-//    private void addMinimizeButton() {
-//        TextButton minimizeBtn = new TextButton("-", skin);
-//        minimizeBtn.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent event, Actor actor) {
-//                boolean isFullscreen = Gdx.graphics.isFullscreen();
-//                if (isFullscreen) {
-//                    Gdx.graphics.setWindowedMode(1000, 800);
-//                } else {
-//                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-//                }
-//                reposSettingMenu();
-//                logger.debug("Fullscreen toggled: " + !isFullscreen);
-//            }
-//        });
-//
-//        Table topRightTable = new Table();
-//        topRightTable.top().right();
-//        topRightTable.setFillParent(true);
-//        topRightTable.add(minimizeBtn).size(40, 40).padTop(10).padRight(10);
-//
-//        stage.addActor(topRightTable);
-//    }
 
     private void updateToggleWindowButtonText() {
         boolean isFullscreen = Gdx.graphics.isFullscreen();
