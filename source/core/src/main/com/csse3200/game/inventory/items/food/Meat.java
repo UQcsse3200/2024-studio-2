@@ -14,6 +14,6 @@ public class Meat extends AbstractFood {
      */
     public Meat(Texture foodTexture) {
         super("Carrot", 8, 10, 3, new FeedEffect(7));
-        this.meatTexture = new Texture("food/foodTexture/meat.png");
+        this.meatTexture = new Texture("foodTexture/meat.png");
     }
 }

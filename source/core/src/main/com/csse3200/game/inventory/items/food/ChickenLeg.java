@@ -14,6 +14,6 @@ public class ChickenLeg extends AbstractFood {
      */
     public ChickenLeg(Texture foodTexture) {
         super("Chicken Leg", 9, 10, 3, new FeedEffect(7));
-        this.meatTexture = new Texture("food/foodTexture/chicken_leg.png");
+        this.meatTexture = new Texture("foodTexture/chicken_leg.png");
     }
 }

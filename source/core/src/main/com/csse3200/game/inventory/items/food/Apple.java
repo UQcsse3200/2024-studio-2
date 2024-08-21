@@ -14,6 +14,6 @@ public class Apple extends AbstractFood {
      */
     public Apple(Texture foodTexture) {
         super("Apple", 5, 10, 5, new FeedEffect(2));
-        this.appleTexture = new Texture("food/foodTexture/apple.png");
+        this.appleTexture = new Texture("foodTexture/apple.png");
     }
 }
