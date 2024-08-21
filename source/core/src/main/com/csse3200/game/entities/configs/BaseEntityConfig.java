@@ -6,6 +6,4 @@ package com.csse3200.game.entities.configs;
 public class BaseEntityConfig {
     public int health = 1;
     public int baseAttack = 0;
-    public int strength = 0;
-    public int defense = 0;
 }

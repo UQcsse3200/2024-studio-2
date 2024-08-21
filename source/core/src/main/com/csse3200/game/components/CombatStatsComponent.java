@@ -13,15 +13,10 @@ public class CombatStatsComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
   private int baseAttack;
-  private int strength;
-  private int defense;
 
-
-  public CombatStatsComponent(int health, int baseAttack, int strength, int defense) {
+  public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
-    setStrength(strength);
-    setDefense(defense);
   }
 
   /**
@@ -65,51 +60,6 @@ public class CombatStatsComponent extends Component {
    */
   public void addHealth(int health) {
     setHealth(this.health + health);
-  }
-
-  /**
-   * Returns the entity's strength.
-   *
-   * @return entity's strength
-   */
-  public int getStrength() {
-    return strength;
-  }
-
-
-  /**
-   * Sets the entity's strength. Strength has a minimum bound of 0.
-   *
-   * @param strength Strength
-   */
-  public void setStrength(int strength) {
-    if (strength >= 0) {
-      this.strength = strength;
-    } else {
-      logger.error("Cannot set strength to a negative value");
-    }
-  }
-
-  /**
-   * Returns the entity's defense.
-   *
-   * @return entity's defense
-   */
-  public int getDefense() {
-    return defense;
-  }
-
-  /**
-   * Sets the entity's defense. Defense has a minimum bound of 0.
-   *
-   * @param defense Defense
-   */
-  public void setDefense(int defense) {
-    if (defense >= 0) {
-      this.defense = defense;
-    } else {
-      logger.error("Cannot set defense to a negative value");
-    }
   }
 
   /**

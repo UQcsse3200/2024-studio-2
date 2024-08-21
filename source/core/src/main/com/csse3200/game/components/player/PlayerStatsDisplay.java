@@ -16,8 +16,6 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Label healthLabel;
-  private Label strengthLabel;
-  private Label defenseLabel;
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -28,8 +26,6 @@ public class PlayerStatsDisplay extends UIComponent {
     addActors();
 
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
-    entity.getEvents().addListener("updateStrength", this::updatePlayerStrengthUI);
-    entity.getEvents().addListener("updateDefense", this::updatePlayerDefenseUI);
   }
 
   /**
@@ -42,36 +38,17 @@ public class PlayerStatsDisplay extends UIComponent {
     table.setFillParent(true);
     table.padTop(45f).padLeft(5f);
 
-
     // Heart image
     float heartSideLength = 30f;
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
 
     // Health text
-    CombatStatsComponent stats = entity.getComponent(CombatStatsComponent.class);
-    int health = stats.getHealth();
-    int strength = stats.getStrength();
-    int defense = stats.getDefense();
-
-
+    int health = entity.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("Health: %d", health);
     healthLabel = new Label(healthText, skin, "large");
 
-
-    CharSequence strengthText = String.format("Strength: %d", strength);
-    strengthLabel = new Label(strengthText, skin, "large");
-
-    CharSequence defenseText = String.format("Defense: %d", defense);
-    defenseLabel = new Label(defenseText, skin, "large");
-
-
     table.add(heartImage).size(heartSideLength).pad(5);
-    table.add(healthLabel).pad(5);
-    table.row();
-    table.add(strengthLabel).pad(5);
-    table.row();
-    table.add(defenseLabel).pad(5);
-
+    table.add(healthLabel);
     stage.addActor(table);
   }
 
@@ -89,31 +66,10 @@ public class PlayerStatsDisplay extends UIComponent {
     healthLabel.setText(text);
   }
 
-  /**
-   * Updates the player's strength on the UI.
-   * @param strength Player strength
-   */
-  public void updatePlayerStrengthUI(int strength) {
-    CharSequence text = String.format("Strength: %d", strength);
-    strengthLabel.setText(text);
-  }
-
-  /**
-   * Updates the player's defense on the UI.
-   * @param defense Player defense
-   */
-  public void updatePlayerDefenseUI(int defense) {
-    CharSequence text = String.format("Defense: %d", defense);
-    defenseLabel.setText(text);
-  }
-
   @Override
   public void dispose() {
     super.dispose();
     heartImage.remove();
     healthLabel.remove();
-    strengthLabel.remove();
-    defenseLabel.remove();
-
   }
 }
