@@ -177,7 +177,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnCow() {
     Entity cow = NPCFactory.createCow(player, this.enemies);
-    cow.getEvents().addListener("PausedLion", this::playLionSound);
+    cow.getEvents().addListener("PausedCow", this::playCowSound);
     spawnEntity(cow);
   }
 
