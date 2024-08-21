@@ -47,7 +47,7 @@ public class ChatOverlay {
         float imageY = (screenHeight - imageHeight) / 2;
 
         // Create and position the label
-        label = new Label(labelText, skin);
+        label = new Label(labelText, skin, "default-white");
         label.setFontScale(1.5f);
 
         // Calculate the center position for the label
