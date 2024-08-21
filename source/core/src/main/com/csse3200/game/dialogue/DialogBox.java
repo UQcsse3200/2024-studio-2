@@ -3,6 +3,8 @@ package com.csse3200.game.dialogue;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * Class used to represent the DialogBox displayed on screen
@@ -20,12 +22,12 @@ public class DialogBox extends Dialog {
     }
 
     /**
-     * Adds the dialog box entity to the stage to be rendered
+     * Packs the dialog box and adds it to the stage to be rendered
      *
      * @param stage - The stage on which the dialog box will be rendered onto
      */
     public void showDialogBox(Stage stage) {
-
+        this.show(stage);
     }
 
     /**
@@ -34,7 +36,7 @@ public class DialogBox extends Dialog {
      * @param dialog - The string to be outputted into the dialog box
      */
     public void addText(String dialog) {
-
+        this.text(dialog);
     }
 
 }
