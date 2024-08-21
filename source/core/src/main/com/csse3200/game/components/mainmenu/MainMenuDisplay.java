@@ -24,7 +24,7 @@ import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.csse3200.game.components.settingsmenu.UserSettings;
 /**
  * A UI component for displaying the Main menu.
  */
@@ -34,11 +34,18 @@ public class MainMenuDisplay extends UIComponent {
     private Table table;
     private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
+    private TextButton toggleWindowBtn;
 
     @Override
     public void create() {
         super.create();
         addActors();
+        applyUserSettings();
+    }
+
+    private void applyUserSettings() {
+        UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
+        UserSettings.applySettings(settings); // Apply settings to the game
     }
 
     private void addActors() {
@@ -231,24 +238,28 @@ public class MainMenuDisplay extends UIComponent {
             // Force layout update
             helpDialog.layout();
         }
-
-
-
-
-
-
     private void addMinimizeButton() {
-        TextButton minimizeBtn = new TextButton("-", skin);
-        minimizeBtn.addListener(new ChangeListener() {
+        if (Gdx.graphics.isFullscreen()) {
+            toggleWindowBtn = new TextButton("+", skin); // Start with the minus (minimize) icon
+        } else {
+            toggleWindowBtn = new TextButton("+", skin);
+        }
+
+        //updateToggleWindowButtonText(); // Set initial text based on current screen mode
+
+        toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
+                    // Switch to windowed mode
                     Gdx.graphics.setWindowedMode(1000, 800);
                 } else {
+                    // Switch to fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
                 reposSettingMenu();
+                updateToggleWindowButtonText(); // Update text after toggling
                 logger.debug("Fullscreen toggled: " + !isFullscreen);
             }
         });
@@ -256,10 +267,44 @@ public class MainMenuDisplay extends UIComponent {
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
-        topRightTable.add(minimizeBtn).size(40, 40).padTop(10).padRight(10);
+        topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
 
         stage.addActor(topRightTable);
     }
+
+//    private void addMinimizeButton() {
+//        TextButton minimizeBtn = new TextButton("-", skin);
+//        minimizeBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                boolean isFullscreen = Gdx.graphics.isFullscreen();
+//                if (isFullscreen) {
+//                    Gdx.graphics.setWindowedMode(1000, 800);
+//                } else {
+//                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+//                }
+//                reposSettingMenu();
+//                logger.debug("Fullscreen toggled: " + !isFullscreen);
+//            }
+//        });
+//
+//        Table topRightTable = new Table();
+//        topRightTable.top().right();
+//        topRightTable.setFillParent(true);
+//        topRightTable.add(minimizeBtn).size(40, 40).padTop(10).padRight(10);
+//
+//        stage.addActor(topRightTable);
+//    }
+
+    private void updateToggleWindowButtonText() {
+        boolean isFullscreen = Gdx.graphics.isFullscreen();
+        if (isFullscreen) {
+            toggleWindowBtn.setText("-"); // Show minus for minimizing
+        } else {
+            toggleWindowBtn.setText("+"); // Show plus for maximizing
+        }
+    }
+
 
     private void makeSettingMenu(Table settingMenu) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -441,145 +486,3 @@ public class MainMenuDisplay extends UIComponent {
         super.dispose();
     }
 }
-
-//
-//
-//package com.csse3200.game.components.mainmenu;
-//
-//import com.badlogic.gdx.graphics.Texture;
-//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.scenes.scene2d.Actor;
-//import com.badlogic.gdx.scenes.scene2d.InputEvent;
-//import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-//import com.badlogic.gdx.scenes.scene2d.ui.Image;
-//import com.badlogic.gdx.scenes.scene2d.ui.Table;
-//import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-//import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-//import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-//import com.csse3200.game.services.ServiceLocator;
-//import com.csse3200.game.ui.UIComponent;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-///**
-// * A ui component for displaying the Main menu.
-// */
-//public class MainMenuDisplay extends UIComponent {
-//    private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
-//    private static final float Z_INDEX = 2f;
-//    private Table table;
-//
-//    @Override
-//    public void create() {
-//        super.create();
-//        addActors();
-//    }
-//
-//    private void addActors() {
-//        table = new Table();
-//        table.setFillParent(true);
-//        Image title =
-//                new Image(
-//                        ServiceLocator.getResourceService()
-//                                .getAsset("images/box_boy_title.png", Texture.class));
-//
-//        TextButton startBtn = new TextButton("Start", skin);
-//        TextButton loadBtn = new TextButton("Load", skin);
-//        TextButton settingsBtn = new TextButton("Settings", skin);
-//        TextButton exitBtn = new TextButton("Exit", skin);
-//
-//        // Add elevation effect to buttons
-//        addButtonElevationEffect(startBtn);
-//        addButtonElevationEffect(loadBtn);
-//        addButtonElevationEffect(settingsBtn);
-//        addButtonElevationEffect(exitBtn);
-//
-//        // Triggers an event when the button is pressed
-//        startBtn.addListener(
-//                new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent changeEvent, Actor actor) {
-//                        logger.debug("Start button clicked");
-//                        entity.getEvents().trigger("start");
-//                    }
-//                });
-//
-//        loadBtn.addListener(
-//                new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent changeEvent, Actor actor) {
-//                        logger.debug("Load button clicked");
-//                        entity.getEvents().trigger("load");
-//                    }
-//                });
-//
-//        settingsBtn.addListener(
-//                new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent changeEvent, Actor actor) {
-//                        logger.debug("Settings button clicked");
-//                        entity.getEvents().trigger("settings");
-//                    }
-//                });
-//
-//        exitBtn.addListener(
-//                new ChangeListener() {
-//                    @Override
-//                    public void changed(ChangeEvent changeEvent, Actor actor) {
-//                        logger.debug("Exit button clicked");
-//                        entity.getEvents().trigger("exit");
-//                    }
-//                });
-//
-//        table.add(title);
-//        table.row();
-//        table.add(startBtn).padTop(30f);
-//        table.row();
-//        table.add(loadBtn).padTop(15f);
-//        table.row();
-//        table.add(settingsBtn).padTop(15f);
-//        table.row();
-//        table.add(exitBtn).padTop(15f);
-//
-//        stage.addActor(table);
-//    }
-//
-//    /**
-//     * An elevation effect on hovering over the button.
-//     */
-//    private void addButtonElevationEffect(TextButton button) {
-//        button.addListener(new ClickListener() {
-//            @Override
-//            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-//                button.addAction(Actions.parallel(
-//                        Actions.moveBy(0, 5, 0.1f),
-//                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-//                ));
-//            }
-//
-//            @Override
-//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-//                button.addAction(Actions.parallel(
-//                        Actions.moveBy(0, -5, 0.1f),
-//                        Actions.scaleTo(1f, 1f, 0.1f)
-//                ));
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void draw(SpriteBatch batch) {
-//        // draw is handled by the stage
-//    }
-//
-//    @Override
-//    public float getZIndex() {
-//        return Z_INDEX;
-//    }
-//
-//    @Override
-//    public void dispose() {
-//        table.clear();
-//        super.dispose();
-//    }
-//}
