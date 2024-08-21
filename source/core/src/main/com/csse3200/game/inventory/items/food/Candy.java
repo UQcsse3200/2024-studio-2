@@ -14,6 +14,6 @@ public class Candy extends AbstractFood {
      */
     public Candy(Texture foodTexture) {
         super("Candy", 7, 10, 1, new FeedEffect(10));
-        this.candyTexture = new Texture("food/foodTexture/candy.png");
+        this.candyTexture = new Texture("foodTexture/candy.png");
     }
 }
