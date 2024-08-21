@@ -54,6 +54,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
   private static final String[] lionSounds = {"sounds/tiger-roar.mp3"};
+  private static final String[] turtleSounds = {"sounds/turtle-hiss.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
@@ -189,7 +190,8 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTurtle() {
     Entity turtle = NPCFactory.createTurtle(player, this.enemies);
-    spawnEntity(turtle, null, null);
+    turtle.getEvents().addListener("PausedTurtle", this::playTurtleSound);
+    spawnEntity(turtle);
   }
 
   private void spawnEagle() {
@@ -217,6 +219,10 @@ public class ForestGameArea extends GameArea {
     playAnimalSound(lionSounds[0]);
   }
 
+  private void playTurtleSound() {
+    playAnimalSound(turtleSounds[0]);
+  }
+
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
@@ -232,6 +238,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadSounds(forestSounds);
     resourceService.loadSounds(cowSounds);
     resourceService.loadSounds(lionSounds);
+    resourceService.loadSounds(turtleSounds);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -248,6 +255,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestSounds);
     resourceService.unloadAssets(cowSounds);
     resourceService.unloadAssets(lionSounds);
+    resourceService.unloadAssets(turtleSounds);
     resourceService.unloadAssets(forestMusic);
   }
 

@@ -164,7 +164,8 @@ public class NPCFactory {
     turtle
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController());
+            .addComponent(new FriendlyNPCAnimationController())
+            .addComponent(new ConfigComponent(config));
 
     turtle.getComponent(AnimationRenderComponent.class).scaleEntity();
 
