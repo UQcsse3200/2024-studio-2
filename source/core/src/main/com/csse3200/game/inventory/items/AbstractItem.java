@@ -57,7 +57,7 @@ public abstract class AbstractItem {
 
         this.name = name;
         this.itemCode = itemCode;
-        this.limit = limit; // Default to non-stackable item
+        this.limit = limit;
         this.quantity = quantity;
     }
 
@@ -94,7 +94,7 @@ public abstract class AbstractItem {
      *
      * @return how much the quantity of this item can increase by
      */
-    public int numAddabble() {return limit - quantity;}
+    public int numAddable() {return limit - quantity;}
 
     /**
      * Increases the current quantity of the item by n.
@@ -104,7 +104,7 @@ public abstract class AbstractItem {
      * @throws IllegalArgumentException if the number of items cannot be increased by n
      */
     public void add(int n) {
-        if (numAddabble() < n) {
+        if (numAddable() < n) {
             throw new IllegalArgumentException("Cannot add this many items!");
         }
         quantity += n;
