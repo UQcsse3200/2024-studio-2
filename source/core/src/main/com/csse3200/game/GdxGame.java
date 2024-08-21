@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainMenuScreen;
-import com.csse3200.game.screens.QuestScreen;
 import com.csse3200.game.screens.SettingsScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +19,6 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
   private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
-  private QuestScreen extraScreen;
-  private MainGameScreen realScreen;
 
   @Override
   public void create() {
@@ -57,35 +54,6 @@ public class GdxGame extends Game {
     setScreen(newScreen(screenType));
   }
 
-  public void swapExtraScreen(ScreenType screenType){
-    if(this.extraScreen != null){
-      logger.info("Swapping back");
-      removeExtraScreen();
-    }
-    else {
-      addExtraScreen(screenType);
-    }
-  }
-
-  private void addExtraScreen(ScreenType screenType) {
-    logger.info("Adding extra game screen called: {}", screenType);
-    realScreen = (MainGameScreen) getScreen();
-    realScreen.toggle();
-    extraScreen = (QuestScreen) newScreen(screenType);
-    if (realScreen != null) {
-      realScreen.pause();
-    }
-    setScreen(this.extraScreen);
-  }
-
-  private void removeExtraScreen() {
-    logger.info("Removing extra game screen.");
-    //extraScreen.toggle();
-    realScreen.toggle();
-    setScreen(realScreen);
-    realScreen.resume();
-  }
-
   @Override
   public void dispose() {
     logger.debug("Disposing of current screen");
@@ -105,15 +73,13 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
-      case QUESTS:
-        return new QuestScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, QUESTS
+    MAIN_MENU, MAIN_GAME, SETTINGS
   }
 
   /**

@@ -3,8 +3,8 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.Menus.Menu.MenuType;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -21,7 +21,6 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  private boolean isPaused = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
@@ -81,20 +80,14 @@ public class PlayerActions extends Component {
   }
 
   void pause() {
-    if(isPaused){
-      eventService.globalEventHandler.trigger("resume");
-      isPaused = false;
-    }
-    else {
-      eventService.globalEventHandler.trigger("pause");
-      isPaused = true;
-    }
+    logger.info("Triggering addMenu for PauseMenu");
+      eventService.globalEventHandler.trigger("addMenu",MenuType.PAUSE_MENU);
   }
 
 
   void quest() {
-    logger.info("Extra Quest Screen added");
-      eventService.globalEventHandler.trigger("extraScreen", GdxGame.ScreenType.QUESTS);
+    logger.info("Triggering addMenu for QuestMenu");
+    eventService.globalEventHandler.trigger("addMenu",MenuType.QUEST_MENU);
   }
 
 }

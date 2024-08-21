@@ -55,22 +55,18 @@ public class EntityService {
     }
   }
 
-  public void clearExtra() {
-    for (Entity entity : entities) {
-      entity.removeIfEnabled();
-    }
-  }
-
-  public void hide() {
+  /**
+   * Pause all entities.
+   */
+  public void pauseScreen() {
     for (Entity entity : entities) {
       entity.setEnabled(false);
     }
   }
 
-  public void show() {
+  public void playScreen() {
     for (Entity entity : entities) {
       entity.setEnabled(true);
     }
   }
-
 }

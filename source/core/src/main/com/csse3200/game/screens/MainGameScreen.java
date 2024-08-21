@@ -4,6 +4,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.Menus.Menu;
+import com.csse3200.game.Menus.Menu.MenuType;
+import com.csse3200.game.Menus.PauseMenu;
+import com.csse3200.game.Menus.QuestMenu;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -27,6 +31,8 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * The game screen containing the main game.
@@ -37,14 +43,13 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
   private static final String[] mainGameTextures = {"images/heart.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-  private boolean isPaused = false;
-  private boolean showing = true;
+  private final Deque<Menu> enabledMenus = new LinkedList<>();
   private final GdxGame game;
-  private Renderer renderer;
+  private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
-  private ForestGameArea gameArea;
+  private final ForestGameArea gameArea;
 
-  public MainGameScreen(GdxGame game) {
+    public MainGameScreen(GdxGame game) {
     this.game = game;
 
     logger.debug("Initialising main game screen services");
@@ -69,22 +74,19 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("pause",this::pause);
-    ServiceLocator.getEventService().globalEventHandler.addListener("resume",this::resume);
-    ServiceLocator.getEventService().globalEventHandler.addListener("extraScreen", game::swapExtraScreen);
+    ServiceLocator.getEventService().globalEventHandler.addListener("addMenu",this::addMenu);
+    ServiceLocator.getEventService().globalEventHandler.addListener("removeMenu",this::removeMenu);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    gameArea = new ForestGameArea(terrainFactory);
+        this.gameArea = new ForestGameArea(terrainFactory);
     gameArea.create();
   }
 
   @Override
   public void render(float delta) {
-    if (!isPaused){
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
     renderer.render();
-    }
   }
 
   @Override
@@ -95,13 +97,11 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void pause() {
-    isPaused = true;
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
-    isPaused = false;
     logger.info("Game resumed");
   }
 
@@ -117,30 +117,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getResourceService().dispose();
 
     ServiceLocator.clear();
-  }
-
-
-  public void toggle() {
-    if(showing){
-      logger.info("Hiding main game screen");
-      unloadAssets();
-      ServiceLocator.getEntityService().hide();
-      ServiceLocator.getRenderService().hide();
-      ServiceLocator.getResourceService().hide();
-      showing = false;
-    }
-    else {
-      logger.info("Showing main game screen");
-      ServiceLocator.getResourceService().show();
-      ServiceLocator.getEntityService().clearExtra();
-      ServiceLocator.getEntityService().show();
-      ServiceLocator.getRenderService().show();
-      renderer = RenderFactory.createRenderer();
-      loadAssets();
-      createUI();
-      gameArea.create();
-      showing = true;
-    }
   }
 
   private void loadAssets() {
@@ -176,5 +152,58 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new TerminalDisplay());
 
     ServiceLocator.getEntityService().register(ui);
+  }
+
+  public void addMenu(MenuType menuType){
+    logger.info("Adding Menu {}",menuType);
+      if (enabledMenus.isEmpty()) {
+          this.safePause();
+      }
+      else {
+        enabledMenus.getFirst().pause();
+      }
+    switch (menuType) {
+      case QUEST_MENU:
+        enabledMenus.addFirst(new QuestMenu());
+        break;
+      case PAUSE_MENU:
+        enabledMenus.addFirst(new PauseMenu());
+        break;
+      default:
+        logger.warn("Unknown menu type: {}", menuType);
+        break;
+    }
+  }
+
+  public void removeMenu(){
+    logger.debug("Removing top Menu");
+
+    if (enabledMenus.isEmpty()){
+        this.safeResume();
+      return;
+    }
+
+    enabledMenus.getFirst().remove();
+
+    enabledMenus.removeFirst();
+
+    if (enabledMenus.isEmpty()){
+        this.safeResume();
+
+    } else {
+      enabledMenus.getFirst().resume();
+    }
+  }
+
+  public void safePause() {
+    logger.info("Game Safe soft paused");
+    gameArea.pauseMusic();
+    ServiceLocator.getEntityService().pauseScreen();
+  }
+
+  public void safeResume() {
+    logger.info("Game Safe soft resumed");
+    gameArea.playMusic();
+    ServiceLocator.getEntityService().playScreen();
   }
 }

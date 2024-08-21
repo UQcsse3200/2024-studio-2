@@ -53,7 +53,7 @@ public class Entity {
    * @param enabled true for enable, false for disable.
    */
   public void setEnabled(boolean enabled) {
-    logger.info("Setting enabled={} on entity {}", enabled, this);
+    logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
   }
 
@@ -205,13 +205,6 @@ public class Entity {
       component.dispose();
     }
     ServiceLocator.getEntityService().unregister(this);
-  }
-
-  public void removeIfEnabled() {
-    logger.info("Deleting entity {}", this);
-    if(enabled){
-      this.dispose();
-    }
   }
 
   /**

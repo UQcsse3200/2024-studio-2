@@ -158,6 +158,10 @@ public class ForestGameArea extends GameArea {
     music.setVolume(0.3f);
     music.play();
   }
+  public void pauseMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music.pause();
+  }
 
   public void loadAssets() {
     logger.debug("Loading assets");
@@ -174,7 +178,7 @@ public class ForestGameArea extends GameArea {
     }
   }
 
-  private void unloadAssets() {
+  public void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);

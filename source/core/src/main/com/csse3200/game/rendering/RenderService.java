@@ -19,10 +19,8 @@ public class RenderService implements Disposable {
   /**
    * Map from layer to list of renderables, allows us to render each layer in the correct order
    */
-  private SortedIntMap<Array<Renderable>> renderables =
+  private final SortedIntMap<Array<Renderable>> renderables =
       new SortedIntMap<>(INITIAL_LAYER_CAPACITY);
-  private SortedIntMap<Array<Renderable>> oldRenderables =
-          new SortedIntMap<>(INITIAL_LAYER_CAPACITY);
   /**
    * Register a new renderable.
    *
@@ -83,18 +81,6 @@ public class RenderService implements Disposable {
 
   @Override
   public void dispose() {
-    oldRenderables.clear();
     renderables.clear();
-  }
-  public void hide() {
-    oldRenderables.clear();
-    oldRenderables = renderables.copy();
-      renderables.clear();
-    }
-
-  public void show() {
-    renderables.clear();
-    renderables = oldRenderables.copy();
-    oldRenderables.clear();
   }
 }
