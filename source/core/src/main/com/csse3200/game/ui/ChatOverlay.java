@@ -47,7 +47,7 @@ public class ChatOverlay {
         float imageY = (screenHeight - imageHeight) / 2;
 
         // Create and position the label
-        label = new Label("I am a cow", skin);
+        label = new Label(labelText, skin);
         label.setFontScale(1.5f);
 
         // Calculate the center position for the label
@@ -61,16 +61,14 @@ public class ChatOverlay {
     }
 
     public void dispose() {
-        // Remove actors from stage
         if (backgroundImage != null) {
-            backgroundImage.remove(); // Removes from stage and updates internal state
+            backgroundImage.remove();
         }
 
         if (label != null) {
-            label.remove(); // Removes from stage and updates internal state
+            label.remove();
         }
 
-//         Dispose of resources
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }

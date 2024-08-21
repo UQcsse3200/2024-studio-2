@@ -28,6 +28,8 @@ public class PauseTask extends DefaultTask implements PriorityTask {
     private boolean hasApproached;
     private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
     private ChatOverlay hint;
+    private Entity entity;
+    private Object config;
 
     /**
      * @param target The entity to pause when seen.
@@ -44,6 +46,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         this.debugRenderer = ServiceLocator.getRenderService().getDebug();
         this.hasApproached = false;
         this.hint = null;
+        this.config = null;
     }
 
     @Override
@@ -52,11 +55,14 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         movementTask = new MovementTask(target.getPosition());
         movementTask.create(owner);
         movementTask.start();
+        triggerPauseEvent();
+    }
 
-        Entity entity = this.owner.getEntity();
+    private void triggerPauseEvent() {
+        this.entity = this.owner.getEntity();
         ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
-            Object config = configComponent.getConfig();
+            this.config = configComponent.getConfig();
             if (config instanceof CowConfig) {
                 entity.getEvents().trigger("PausedCow");
             } else if (config instanceof LionConfig) {
@@ -76,31 +82,40 @@ public class PauseTask extends DefaultTask implements PriorityTask {
 
             movementTask.setTarget(target.getPosition());
             movementTask.update();
-            this.owner.getEntity().getEvents().trigger("pauseStart");
 
         } else if (!hasApproached && distanceToTarget <= maxPauseDistance) {
 
             // NPC pauses when close enough to the target
             hasApproached = true;
-            this.owner.getEntity().getEvents().trigger("paused");
-            if (this.hint == null) {
-                hint = new ChatOverlay("This is Charlie the Cow.");
-            }
             logger.info("Medium");
+            createChatOverlay();
             movementTask.stop();
 
         } else if (hasApproached && distanceToTarget > maxPauseDistance) {
 
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
-            this.owner.getEntity().getEvents().trigger("pauseEnd");
+            logger.info("end");
+
             if (this.hint != null) {
                 hint.dispose();
                 hint = null;
             }
-            logger.info("end");
+
+            movementTask.start();
 
         }
+    }
+
+    private void createChatOverlay() {
+        if (this.hint == null) {
+            if (config instanceof CowConfig) {
+                hint = new ChatOverlay(((CowConfig) config).animalName);
+            } else if (config instanceof LionConfig) {
+                hint = new ChatOverlay(((LionConfig) config).animalName);
+            }
+        }
+
     }
 
     @Override
