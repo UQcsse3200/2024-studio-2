@@ -32,6 +32,7 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
 
     @Override
@@ -44,7 +45,7 @@ public class MainMenuDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        Table settingMenu = new Table();
+        settingMenu = new Table();
         Image title = new Image(ServiceLocator.getResourceService().getAsset("images/box_boy_title.png", Texture.class));
 
         TextButton startBtn = new TextButton("Start", skin);
@@ -90,7 +91,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Settings button clicked");
-                settingMenu.setVisible(!settingMenu.isVisible());
+                settingMenu.setVisible(true);
                 table.setTouchable(Touchable.disabled);
             }
         });
@@ -243,10 +244,11 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
-                    Gdx.graphics.setWindowedMode(800, 600);
+                    Gdx.graphics.setWindowedMode(1000, 800);
                 } else {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
+                reposSettingMenu();
                 logger.debug("Fullscreen toggled: " + !isFullscreen);
             }
         });
@@ -270,8 +272,8 @@ public class MainMenuDisplay extends UIComponent {
         // Dispose of the Pixmap after creating the texture
         pixmap.dispose();
 
-        int screenWidth = (int) stage.getWidth();
-        int screenHeight = (int) stage.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
         settingMenu.setSize(550, 350);
         settingMenu.setBackground(backgroundDrawable);
@@ -316,8 +318,7 @@ public class MainMenuDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        // Toggle the visibility of the small menu
-                        settingMenu.setVisible(!settingMenu.isVisible());
+                        settingMenu.setVisible(false);
                         table.setTouchable(Touchable.enabled);
                     }
                 });
@@ -333,6 +334,18 @@ public class MainMenuDisplay extends UIComponent {
                         table.setTouchable(Touchable.enabled);
                     }
                 });
+    }
+
+    public void reposSettingMenu() {
+        if (settingMenu != null) {
+            // Center the menu on the screen
+            float screenWidth = Gdx.graphics.getWidth();
+            float screenHeight = Gdx.graphics.getHeight();
+            settingMenu.setPosition(
+                    (screenWidth - settingMenu.getWidth()) / 2,
+                    (screenHeight - settingMenu.getHeight()) / 2
+            );
+        }
     }
 
     private void addButtonElevationEffect(TextButton button) {
@@ -356,22 +369,57 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds an exit confirmation dialog when the exit button is clicked.
+     * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
     private void addExitConfirmation(TextButton exitBtn) {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Dialog dialog = new Dialog("Exit", skin) {
-                    public void result(Object obj) {
-                        if ((Boolean) obj) {
-                            Gdx.app.exit(); // Exit the game
-                        }
+                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+                pixmap.setColor(Color.WHITE);
+                pixmap.fill();
+
+                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+                pixmap.dispose();
+
+                final Dialog dialog = new Dialog("", skin);
+                dialog.setBackground(dialogBackground);
+                dialog.pad(40f);
+                dialog.setSize(500f, 300f);
+                dialog.setModal(true);
+
+                Label confirmLabel = new Label("Leave the game?", skin);
+                confirmLabel.setColor(Color.WHITE);
+                confirmLabel.setFontScale(1.5f);
+
+                TextButton yesBtn = new TextButton("Yes", skin);
+                TextButton noBtn = new TextButton("No", skin);
+
+                yesBtn.getLabel().setFontScale(1.2f);
+                noBtn.getLabel().setFontScale(1.2f);
+
+                yesBtn.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        Gdx.app.exit();
                     }
-                };
-                dialog.text("Exit the game?");
-                dialog.button("Yes", true);
-                dialog.button("No", false);
+                });
+
+                noBtn.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        dialog.hide();
+                    }
+                });
+
+                dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
+                dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
+                dialog.getButtonTable().add(noBtn).width(150f).height(60f);
+
+                dialog.setPosition(
+                        (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
+                        (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
+                );
                 dialog.show(stage);
             }
         });
@@ -393,6 +441,7 @@ public class MainMenuDisplay extends UIComponent {
         super.dispose();
     }
 }
+
 //
 //
 //package com.csse3200.game.components.mainmenu;
