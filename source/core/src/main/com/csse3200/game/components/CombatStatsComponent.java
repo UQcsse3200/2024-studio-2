@@ -12,16 +12,18 @@ public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
-  private int baseAttack;
   private int strength;
   private int defense;
+  private int speed;
+  private int experience;
 
 
-  public CombatStatsComponent(int health, int baseAttack, int strength, int defense) {
+  public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
     setHealth(health);
-    setBaseAttack(baseAttack);
     setStrength(strength);
     setDefense(defense);
+    setSpeed(speed);
+    setExperience(experience);
   }
 
   /**
@@ -72,16 +74,18 @@ public class CombatStatsComponent extends Component {
    *
    * @return entity's strength
    */
+  /*
   public int getStrength() {
     return strength;
   }
-
+  */
 
   /**
    * Sets the entity's strength. Strength has a minimum bound of 0.
    *
    * @param strength Strength
    */
+  /*
   public void setStrength(int strength) {
     if (strength >= 0) {
       this.strength = strength;
@@ -89,6 +93,8 @@ public class CombatStatsComponent extends Component {
       logger.error("Cannot set strength to a negative value");
     }
   }
+  */
+
 
   /**
    * Returns the entity's defense.
@@ -113,12 +119,55 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Returns the entity's strength.
+   *
+   * @return entity's strength
+   */
+  public int getSpeed() {
+    return speed;
+  }
+
+
+  /**
+   * Sets the entity's strength. Strength has a minimum bound of 0.
+   *
+   * @param strength Strength
+   */
+  public void setSpeed(int speed) {
+    if (speed >= 0) {
+      this.speed = speed;
+    } else {
+      logger.error("Cannot set speed to a negative value");
+    }
+  }
+
+
+  public int getExperience() {
+    return experience;
+  }
+
+
+  /**
+   * Sets the entity's experience. experience has a minimum bound of 0.
+   *
+   * @param experience experience
+   */
+  public void setExperience(int experience) {
+    if (experience >= 0) {
+      this.experience = experience;
+    } else {
+      logger.error("Cannot set experience to a negative value");
+    }
+  }
+
+
+  /**
    * Returns the entity's base attack damage.
    *
    * @return base attack damage
    */
-  public int getBaseAttack() {
-    return baseAttack;
+  public int getStrength() {
+    return strength;
   }
 
   /**
@@ -126,16 +175,16 @@ public class CombatStatsComponent extends Component {
    *
    * @param attack Attack damage
    */
-  public void setBaseAttack(int attack) {
+  public void setStrength(int attack) {
     if (attack >= 0) {
-      this.baseAttack = attack;
+      this.strength = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
+    int newHealth = getHealth() - attacker.getStrength();
     setHealth(newHealth);
   }
 }
