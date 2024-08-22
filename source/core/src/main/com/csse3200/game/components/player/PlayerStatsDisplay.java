@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -114,6 +115,16 @@ public class PlayerStatsDisplay extends UIComponent {
   public void updatePlayerHealthUI(int health) {
     CharSequence text = String.format("Health: %d", health);
     healthLabel.setText(text);
+    int totalFrames = 11;
+    // Debugged and Developed with ChatGPT
+    // Calculate the frame index based on the current health
+    int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+    int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+    // Set the current frame of the health bar animation
+    TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
+    heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
   }
 
   @Override
