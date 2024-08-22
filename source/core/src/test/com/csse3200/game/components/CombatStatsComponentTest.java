@@ -42,14 +42,14 @@ class CombatStatsComponentTest {
   }
 
   @Test
-  void shouldSetGetBaseAttack() {
+  void shouldSetGetstrength() {
     CombatStatsComponent combat = new CombatStatsComponent(100, 20);
-    assertEquals(20, combat.getBaseAttack());
+    assertEquals(20, combat.getstrength());
 
-    combat.setBaseAttack(150);
-    assertEquals(150, combat.getBaseAttack());
+    combat.setstrength(150);
+    assertEquals(150, combat.getstrength());
 
-    combat.setBaseAttack(-50);
-    assertEquals(150, combat.getBaseAttack());
+    combat.setstrength(-50);
+    assertEquals(150, combat.getstrength());
   }
 }
