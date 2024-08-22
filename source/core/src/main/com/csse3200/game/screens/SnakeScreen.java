@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
+import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.Apple;
+import com.csse3200.game.components.minigame.snake.Snake;
 
 /**
  * Represents the screen for the Snake game.
@@ -18,6 +20,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final GdxGame game;
     private final SnakeGrid grid;
     private final Apple apple;
+    private final Snake snake;
     private ShapeRenderer shapeRenderer;
 
     /**
@@ -29,6 +32,7 @@ public class SnakeScreen extends ScreenAdapter {
         this.game = game;
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
+        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 1, 0.5f);
         this.shapeRenderer = new ShapeRenderer();
     }
 
@@ -45,8 +49,10 @@ public class SnakeScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Render the grid and the apple
+        snake.update(delta);
         renderGrid();
         renderApple();
+        renderHead();
     }
 
     /**
@@ -91,6 +97,27 @@ public class SnakeScreen extends ScreenAdapter {
         shapeRenderer.setColor(Color.RED);
 
         shapeRenderer.rect(offsetX + apple.getX() * CELL_SIZE, offsetY + apple.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+        shapeRenderer.end();
+    }
+
+    /**
+     * Renders the snake head on the grid.
+     * The snake head is displayed as a filled green square on the grid.
+     */
+    private void renderHead() {
+
+        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
+        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
+
+        // Calculate the offset to center the grid
+        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
+        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.GREEN);
+
+        shapeRenderer.rect(offsetX + snake.getX() * CELL_SIZE, offsetY + snake.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
         shapeRenderer.end();
     }
