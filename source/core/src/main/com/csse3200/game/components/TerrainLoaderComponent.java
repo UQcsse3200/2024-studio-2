@@ -14,7 +14,6 @@ import com.csse3200.game.services.ServiceLocator;
  * terrain chunks as the player moves.
  */
 public class TerrainLoaderComponent extends Component {
-  private static final GridPoint2 CHUNK_SIZE = new GridPoint2(16, 16);
   private final TerrainFactory terrainFactory;
   private GridPoint2 previousChunk;
 
@@ -60,6 +59,6 @@ public class TerrainLoaderComponent extends Component {
   }
 
   private GridPoint2 getPlayerChunk(Vector2 position) {
-    return new GridPoint2((int) position.x / CHUNK_SIZE.x, (int) position.y / CHUNK_SIZE.y);
+    return new GridPoint2((int) position.x / TerrainFactory.CHUNK_SIZE.x, (int) position.y / TerrainFactory.CHUNK_SIZE.y);
   }
 }
