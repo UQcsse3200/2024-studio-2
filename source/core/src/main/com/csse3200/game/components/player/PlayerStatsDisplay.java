@@ -1,5 +1,6 @@
 package com.csse3200.game.components.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.security.Provider;
+
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -20,6 +23,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
+  private Image iconImage;
+  private Image hungerImage;
+  private Image xpImage;
   private Label healthLabel;
   private Animation<Sprite> healthBarAnimation;
   private Texture healthBarImages;
@@ -59,6 +65,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     // Heart image
     float heartSideLength = 150f;
+    //iconImage = new Image(ServiceLocator.getResourceService().getAsset("images/player_icon_forest.png", Texture.class));
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
 
     // Get the original width and height of the image
