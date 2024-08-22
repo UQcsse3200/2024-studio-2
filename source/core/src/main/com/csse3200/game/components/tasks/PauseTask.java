@@ -93,7 +93,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             createChatOverlay();
             movementTask.stop();
 
-        } else if (hasApproached && distanceToTarget > maxPauseDistance) {
+        } else if (hasApproached && distanceToTarget > 1.5f) {
 
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
@@ -104,7 +104,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
                 hint = null;
             }
 
-            movementTask.start();
+            //movementTask.start();
 
         }
     }
