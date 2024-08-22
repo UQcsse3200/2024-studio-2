@@ -26,13 +26,19 @@ public class ChatOverlay {
     private TextButton backwardButton;
     private final int screenWidth = Gdx.graphics.getWidth();
 
-    public ChatOverlay(String labelText) {
+    private String[] hints;
+    private int currentHint;
+
+    public ChatOverlay(String[] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
+        this.hints = labelText;
+        this.currentHint = 0;
+
         createBackgroundImage("images/peach-bar.png", 700);
 
-        label = new Label(labelText, skin, "default-white");
+        label = new Label(hints[currentHint], skin, "default-white");
         label.setFontScale(1.5f);
 
         float labelWidth = label.getPrefWidth();
@@ -87,19 +93,15 @@ public class ChatOverlay {
 //        buttonStyle.over = skin.getDrawable("button-h");
         buttonStyle.over = buttonHoverDrawable;
 
-        forwardButton = new TextButton("Backward", buttonStyle);
-        backwardButton = new TextButton("Forward", buttonStyle);
+        backwardButton = new TextButton("Backward", buttonStyle);
+        forwardButton = new TextButton("Forward", buttonStyle);
 
         float buttonWidth = forwardButton.getWidth();
 
         float centerX = (screenWidth - (2 * buttonWidth + 20)) / 2; // 20 is spacing between buttons
 
-
-        forwardButton.setPosition(centerX, labelY - 100);
-        backwardButton.setPosition(centerX + buttonWidth + 20, labelY - 100); // 20 is spacing between buttons
-
-        forwardButton.setPosition(centerX, labelY - 275);
-        backwardButton.setPosition(centerX + buttonWidth + 20, labelY - 275); // 20 is spacing between buttons
+        forwardButton.setPosition(centerX + buttonWidth + 20, labelY - 275);
+        backwardButton.setPosition(centerX, labelY - 275); // 20 is spacing between buttons
 
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
@@ -122,11 +124,13 @@ public class ChatOverlay {
     }
 
     private void handleForwardButtonClick() {
-        System.out.println("Forward button clicked!");
+        currentHint = (currentHint + 1) % (hints.length);
+        label.setText(hints[currentHint]);
     }
 
     private void handleBackwardButtonClick() {
-        System.out.println("Backward button clicked!");
+        currentHint = (currentHint - 1 + hints.length) % hints.length;
+        label.setText(hints[currentHint]);
     }
 
     public void dispose() {

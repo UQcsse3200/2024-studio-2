@@ -47,6 +47,7 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         this.hasApproached = false;
         this.hint = null;
         this.config = null;
+
     }
 
     @Override
@@ -57,19 +58,16 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         movementTask.start();
         triggerPauseEvent();
     }
-
     private void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
         ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
             this.config = configComponent.getConfig();
-            if (config instanceof CowConfig) {
-                entity.getEvents().trigger("PausedCow");
-            } else if (config instanceof LionConfig) {
-                entity.getEvents().trigger("PausedLion");
-            } else if (config instanceof TurtleConfig) {
-                entity.getEvents().trigger("PausedTurtle");
-            }
+
+            String animalName = ((BaseEntityConfig) config).getAnimalName();
+            String eventName = String.format("Paused%s", animalName);
+            entity.getEvents().trigger(eventName);
+
         } else {
             entity.getEvents().trigger("pauseStart");
         }
@@ -90,7 +88,9 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             // NPC pauses when close enough to the target
             hasApproached = true;
             logger.info("Medium");
+
             createChatOverlay();
+
             movementTask.stop();
 
         } else if (hasApproached && distanceToTarget > 1.5f) {
@@ -110,13 +110,19 @@ public class PauseTask extends DefaultTask implements PriorityTask {
 
     private void createChatOverlay() {
         if (this.hint == null) {
-            if (config instanceof CowConfig) {
-                hint = new ChatOverlay(((CowConfig) config).animalName);
-            } else if (config instanceof LionConfig) {
-                hint = new ChatOverlay(((LionConfig) config).animalName);
-            } else if (config instanceof TurtleConfig) {
-                hint = new ChatOverlay(((TurtleConfig) config).animalName);
-            }
+            String[] hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
+            BaseEntityConfig config = ((BaseEntityConfig) this.config);
+            String name = ((BaseEntityConfig) this.config).getAnimalName();
+            hint = new ChatOverlay(hintText);
+
+
+//            if (config instanceof CowConfig) {
+//                //hint = new ChatOverlay(((CowConfig) config).getCurrentHint());
+//            } else if (config instanceof LionConfig) {
+//                hint = new ChatOverlay(((LionConfig) config).animalName);
+//            } else if (config instanceof TurtleConfig) {
+//                hint = new ChatOverlay(((TurtleConfig) config).animalName);
+//            }
         }
 
     }

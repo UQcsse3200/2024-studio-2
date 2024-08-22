@@ -6,9 +6,13 @@ package com.csse3200.game.entities.configs;
 public class LionConfig extends BaseEntityConfig {
 
     public String favouriteFood = "Meat";
-    public String animalName = "Lenny the Lion";
+    public String animalName = "Lion";
     public String soundPath = "sounds/tiger-roar.mp3";
     public int health = 40;
     public int baseAttack = 0;
+
+    public String getAnimalName() {
+        return "Lion";
+    }
 
 }
