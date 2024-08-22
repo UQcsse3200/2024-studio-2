@@ -105,7 +105,6 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             }
 
             //movementTask.start();
-
         }
     }
 

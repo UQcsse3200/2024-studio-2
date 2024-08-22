@@ -94,136 +94,75 @@ public class NPCFactory {
     return ghostKing;
   }
 
+
   /**
-   * Creates a Cow NPC.
-   * Uses ghost sprite as a placeholder
+   * Base method to create a friendly NPC.
    *
-   * @param target entity to move towards when in range.
+   * @param target   entity to move towards when in range.
+   * @param enemies  list of enemy entities.
+   * @param health   the health of the NPC.
+   * @param baseAttack the base attack of the NPC.
+   * @param atlasPath path to the texture atlas for the NPC.
+   * @param animationSpeed speed of the animation.
+   * @param config  the specific configuration object.
    * @return entity
    */
-  public static Entity createCow(Entity target, List<Entity> enemies) {
-    Entity cow = createFriendlyBaseNPC(target, enemies);
-    CowConfig config = configs.cow;
+  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, int health, int baseAttack, String atlasPath, float animationSpeed, Object config) {
+    Entity npc = createFriendlyBaseNPC(target, enemies);
 
-
-    // Will need to replace sprites for cow instead of the ghost.
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/Cow.atlas", TextureAtlas.class));
-    //animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
+                    ServiceLocator.getResourceService().getAsset(atlasPath, TextureAtlas.class));
+    animator.addAnimation("float", animationSpeed, Animation.PlayMode.LOOP);
 
-    cow.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+    npc.addComponent(new CombatStatsComponent(health, baseAttack))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(new ConfigComponent(config));
+            .addComponent(new ConfigComponent(config));  // Adding the config as a component
 
-    cow.getComponent(AnimationRenderComponent.class).scaleEntity();
+    npc.getComponent(AnimationRenderComponent.class).scaleEntity();
 
-    return cow;
+    return npc;
+  }
+
+  /**
+   * Creates a Cow NPC.
+   */
+  public static Entity createCow(Entity target, List<Entity> enemies) {
+    CowConfig config = configs.cow;
+    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/Cow.atlas", 0.2f, config);
   }
 
   /**
    * Creates a Lion NPC.
-   * Uses ghost sprite as a placeholder
-   *
-   * @param target entity to move towards when in range.
-   * @return entity
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
-    Entity lion = createFriendlyBaseNPC(target, enemies);
     LionConfig config = configs.lion;
-
-    // Will need to replace sprites for lion instead of the ghost.
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/lion.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.2f, Animation.PlayMode.LOOP);
-
-    lion
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(new ConfigComponent(config));
-
-    lion.getComponent(AnimationRenderComponent.class).scaleEntity();
-
-    return lion;
+    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/lion.atlas", 0.2f, config);
   }
 
+  /**
+   * Creates a Turtle NPC.
+   */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
-    Entity turtle = createFriendlyBaseNPC(target, enemies);
     TurtleConfig config = configs.turtle;
-
-    // Will need to replace sprites for turtle instead of the ghost.
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/turtle.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
-
-    turtle
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(new ConfigComponent(config));
-
-    turtle.getComponent(AnimationRenderComponent.class).scaleEntity();
-
-    return turtle;
+    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/turtle.atlas", 0.5f, config);
   }
 
   /**
    * Creates an Eagle NPC.
-   * Uses ghost sprite as a placeholder
-   *
-   * @param target entity to move towards when in range.
-   * @return entity
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
-    Entity eagle = createFriendlyBaseNPC(target, enemies);
     EagleConfig config = configs.eagle;
-
-    // Will need to replace sprites for eagle instead of the ghost.
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/eagle.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-    eagle
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController());
-
-    eagle.getComponent(AnimationRenderComponent.class).scaleEntity();
-
-    return eagle;
+    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/eagle.atlas", 0.1f, config);
   }
-  
+
   /**
    * Creates a Snake NPC.
-   * Uses ghost sprite as a placeholder
-   *
-   * @param target entity to move towards when in range.
-   * @return entity
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
-    Entity snake = createFriendlyBaseNPC(target, enemies);
     SnakeConfig config = configs.snake;
-    
-    // Will need to replace sprites for snake instead of the ghost.
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/snake.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    
-    snake
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new FriendlyNPCAnimationController());
-    
-    snake.getComponent(AnimationRenderComponent.class).scaleEntity();
-    
-    return snake;
+    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/snake.atlas", 0.1f, config);
   }
 
   /**
