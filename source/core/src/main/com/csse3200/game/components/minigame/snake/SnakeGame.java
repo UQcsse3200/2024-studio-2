@@ -13,5 +13,12 @@ public class SnakeGame {
     public SnakeGame(Snake snake, Apple apple) {
         this.snake = snake;
         this.apple = apple;
-    }    
+    }
+    
+    public void attemptEatFruit() {
+        if (apple.isTouchingSnakeHead(snake)) {
+            apple.spawn();
+            snake.grow();
+        }
+    }
 }

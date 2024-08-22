@@ -74,7 +74,7 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 1, 0.1f);
+        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 1, 0.05f);
         this.snakeGame = new SnakeGame(snake, apple);
         this.shapeRenderer = new ShapeRenderer();
     }
@@ -95,11 +95,13 @@ public class SnakeScreen extends ScreenAdapter {
         renderer.render();
 
         // Render the grid and the apple
+        snakeGame.attemptEatFruit();
         updateDirection();
         snake.update(delta);
         renderGrid();
         renderApple();
         renderHead();
+        renderBody();
     }
 
     /**
@@ -169,6 +171,28 @@ public class SnakeScreen extends ScreenAdapter {
         shapeRenderer.end();
     }
 
+    /**
+     * Renders the snake head on the grid.
+     * The snake head is displayed as a filled green square on the grid.
+     */
+    private void renderBody() {
+        for (Snake.Segment segment: snake.getBodySegments()) {
+            int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
+            int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
+    
+            // Calculate the offset to center the grid
+            float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
+            float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
+    
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.GOLD);
+    
+            shapeRenderer.rect(offsetX + segment.getX() * CELL_SIZE, offsetY + segment.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    
+            shapeRenderer.end();
+        }
+    }
+
     public Direction getInputDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             return Direction.RIGHT;
@@ -187,9 +211,7 @@ public class SnakeScreen extends ScreenAdapter {
 
     public void updateDirection() {
         Direction direction = getInputDirection();
-        if (direction != Direction.ZERO) {
-            snake.setDirection(direction);
-        }
+        snake.updateDirectionOnInput(direction);
     }
 
     @Override
