@@ -86,7 +86,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
+    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN);
     spawnEntity(new Entity().addComponent(terrain));
 
     // Terrain walls
@@ -114,6 +114,15 @@ public class ForestGameArea extends GameArea {
     //     ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
+  private void updateTerrain(GridPoint2 playerPosition) {
+    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition);
+    spawnEntity(new Entity().addComponent(terrain));
+  }
+
+  public void onPlayerMove(GridPoint2 newPlayerPosition) {
+    updateTerrain(newPlayerPosition);
+  }
+
   private void spawnTrees() {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
@@ -126,7 +135,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer(cameraComponent);
+    Entity newPlayer = PlayerFactory.createPlayer(cameraComponent, terrainFactory);
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
