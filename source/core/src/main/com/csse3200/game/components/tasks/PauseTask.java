@@ -115,6 +115,8 @@ public class PauseTask extends DefaultTask implements PriorityTask {
                 hint = new ChatOverlay(((CowConfig) config).animalName);
             } else if (config instanceof LionConfig) {
                 hint = new ChatOverlay(((LionConfig) config).animalName);
+            } else if (config instanceof TurtleConfig) {
+                hint = new ChatOverlay(((TurtleConfig) config).animalName);
             }
         }
 
