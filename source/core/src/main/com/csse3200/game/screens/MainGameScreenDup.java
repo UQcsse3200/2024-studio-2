@@ -45,7 +45,7 @@ import java.util.Map;
  */
 public class MainGameScreenDup extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreenDup.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/QuestsBG.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private boolean resting = false;

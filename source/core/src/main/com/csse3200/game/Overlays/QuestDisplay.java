@@ -1,5 +1,7 @@
 package com.csse3200.game.Overlays;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -31,25 +33,36 @@ public class QuestDisplay extends UIComponent {
     }
 
     private void addActors() {
-        // Title label
         Label title = new Label("Quests", skin, "title");
+        Image questsBackGround = new Image(
+                ServiceLocator.getResourceService()
+                        .getAsset("images/QuestsOverlay/QuestsBG.png", Texture.class));
 
-        // Create tables
+// Create tables for buttons and quests
         Table menuBtns = makeMenuBtns();
+        Table quests = makeSliders();
 
-        // Root table that holds everything
         rootTable = new Table();
         rootTable.setFillParent(true);
-
-        // Add title at the top, centered horizontally
-        rootTable.add(title).expandX().top().padTop(20f);
-
-        // Create another row for the menu buttons
+        rootTable.add(questsBackGround).center();
         rootTable.row();
-        rootTable.add(menuBtns).fillX();
+        rootTable.add(title).center().padTop(-questsBackGround.getHeight()*1.1f);
+        rootTable.row().padTop(10f);
+        rootTable.add(quests).center();
+        rootTable.row().padTop(10f);
+        rootTable.add(menuBtns).center();
 
-        // Add root table to the stage
+        // Add the root table to the stage
         stage.addActor(rootTable);
+    }
+
+    private Table makeSliders() {
+        Table table = new Table();
+        ProgressBar progressBarTest = new ProgressBar(0,2,1,false,skin);
+        Label titleTest = new Label("Test Quest", skin,"title", Color.BLACK);
+        table.add(titleTest);
+        table.add(progressBarTest).padRight(titleTest.getWidth());
+        return table;
     }
 
     private Table makeMenuBtns() {

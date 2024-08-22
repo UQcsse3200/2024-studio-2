@@ -33,9 +33,8 @@ public class QuestPopup extends UIComponent {
     @Override
     public void draw(SpriteBatch batch) {
         if(showing) {
-            questCompleted = new Label("Quest Completed!", skin);
+            questCompleted = new Label("Quest Completed!", skin,"title",Color.GOLD);
             questCompleted.setFontScale(fontScale);
-            questCompleted.getStyle().fontColor = Color.GOLD;
             stage.addActor(questCompleted);
             questCompleted.getWidth();
 
