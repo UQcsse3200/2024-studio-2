@@ -22,7 +22,7 @@ import java.util.Map;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private static final GridPoint2 CHUNK_SIZE = new GridPoint2(16, 16);
+  public static final GridPoint2 CHUNK_SIZE = new GridPoint2(2,2); // Minimum chunk size: 2x2
   private static final int TUFT_TILE_COUNT = 30;
   private static final int ROCK_TILE_COUNT = 30;
 
@@ -91,21 +91,26 @@ public class TerrainFactory {
     TiledMap tiledMap = new TiledMap();
 
     // Calculate player's chunk position
-    GridPoint2 playerChunk = new GridPoint2(playerPosition.x / CHUNK_SIZE.x, playerPosition.y / CHUNK_SIZE.y);
+    GridPoint2 playerChunk = new GridPoint2((int) Math.floor((float) playerPosition.x / CHUNK_SIZE.x), 
+                                            (int) Math.floor((float) playerPosition.y / CHUNK_SIZE.y));
 
-    // Load the 3x3 grid of chunks around the player
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
+    // Load the 5x5 grid of chunks around the player (to preload chunks one chunk away)
+    for (int dx = -2; dx <= 2; dx++) {
+      for (int dy = -2; dy <= 2; dy++) {
         GridPoint2 chunkPos = new GridPoint2(playerChunk.x + dx, playerChunk.y + dy);
 
         if (!loadedChunks.containsKey(chunkPos)) {
           TiledMapTileLayer chunkLayer = createForestDemoChunk(chunkPos.x, chunkPos.y, grass, grassTuft, rocks);
-          System.out.println("Already loaded chunk at " + chunkPos);
           loadedChunks.put(chunkPos, chunkLayer);
+          System.out.println("Loading new chunk at " + chunkPos);
+        } else {
+          System.out.println("Already loaded chunk at " + chunkPos);
         }
-        System.out.println("Loading new chunk at " + chunkPos);
 
-        tiledMap.getLayers().add(loadedChunks.get(chunkPos));
+        // Only add the chunk to the tiledMap if it is within the 3x3 grid centered on the player
+        if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
+          tiledMap.getLayers().add(loadedChunks.get(chunkPos));
+        }
       }
     }
 
