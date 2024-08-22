@@ -19,7 +19,9 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private static final GridPoint2 MAP_SIZE = new GridPoint2(30, 30);
+  private static final GridPoint2 CHUNK_SIZE = new GridPoint2(16, 16);
+  private static final int CHUNKS_X = 3;
+  private static final int CHUNKS_Y = 3;
   private static final int TUFT_TILE_COUNT = 30;
   private static final int ROCK_TILE_COUNT = 30;
 
@@ -86,12 +88,23 @@ public class TerrainFactory {
   }
 
   private TerrainComponent createForestDemoTerrain(
-      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
-    GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks);
-    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
+    float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
+  
+    TiledMap tiledMap = new TiledMap();
+
+    for (int chunkX = 0; chunkX < CHUNKS_X; chunkX++) {
+        for (int chunkY = 0; chunkY < CHUNKS_Y; chunkY++) {
+            TiledMapTileLayer chunkLayer = createForestDemoChunk(chunkX, chunkY, grass, grassTuft, rocks);
+            tiledMap.getLayers().add(chunkLayer);
+        }
+    }
+
+    // Adjust the scale factor to properly size the tiles
+    float tileScale = tileWorldSize / grass.getRegionWidth();
+    TiledMapRenderer renderer = createRenderer(tiledMap, tileScale);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
   }
+
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
     switch (orientation) {
@@ -106,23 +119,26 @@ public class TerrainFactory {
     }
   }
 
-  private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
-    TiledMap tiledMap = new TiledMap();
+  private TiledMapTileLayer createForestDemoChunk(
+      int chunkX, int chunkY, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
+    GridPoint2 tileSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
+    TiledMapTileLayer layer = new TiledMapTileLayer(CHUNK_SIZE.x, CHUNK_SIZE.y, tileSize.x, tileSize.y);
     TerrainTile grassTile = new TerrainTile(grass);
     TerrainTile grassTuftTile = new TerrainTile(grassTuft);
     TerrainTile rockTile = new TerrainTile(rocks);
-    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
-    // Create base grass
-    fillTiles(layer, MAP_SIZE, grassTile);
+    // Create base grass for the chunk
+    fillTiles(layer, CHUNK_SIZE, grassTile);
 
-    // Add some grass and rocks
-    fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
-    fillTilesAtRandom(layer, MAP_SIZE, rockTile, ROCK_TILE_COUNT);
+    // Add some grass and rocks within the chunk
+    fillTilesAtRandom(layer, CHUNK_SIZE, grassTuftTile, TUFT_TILE_COUNT);
+    fillTilesAtRandom(layer, CHUNK_SIZE, rockTile, ROCK_TILE_COUNT);
 
-    tiledMap.getLayers().add(layer);
-    return tiledMap;
+    // Offset the chunk's position on the map
+    layer.setOffsetX(chunkX * CHUNK_SIZE.x * tileSize.x);
+    layer.setOffsetY(chunkY * CHUNK_SIZE.y * tileSize.y);
+
+    return layer;
   }
 
   private static void fillTilesAtRandom(
@@ -147,11 +163,6 @@ public class TerrainFactory {
     }
   }
 
-  /**
-   * This enum should contain the different terrains in your game, e.g. forest, cave, home, all with
-   * the same oerientation. But for demonstration purposes, the base code has the same level in 3
-   * different orientations.
-   */
   public enum TerrainType {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
