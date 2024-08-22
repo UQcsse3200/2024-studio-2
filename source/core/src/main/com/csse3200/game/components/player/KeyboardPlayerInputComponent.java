@@ -47,7 +47,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         entity.getEvents().trigger("attack");
         return true;
       case Keys.ESCAPE:
-        entity.getEvents().trigger("pause");
+        entity.getEvents().trigger("rest");
         return true;
       case Input.Keys.Q:
         entity.getEvents().trigger("quest");

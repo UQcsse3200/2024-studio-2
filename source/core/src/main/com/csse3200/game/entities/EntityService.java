@@ -58,13 +58,13 @@ public class EntityService {
   /**
    * Pause all entities.
    */
-  public void pauseScreen() {
+  public void restWholeScreen() {
     for (Entity entity : entities) {
       entity.setEnabled(false);
     }
   }
 
-  public void playScreen() {
+  public void wakeWholeScreen() {
     for (Entity entity : entities) {
       entity.setEnabled(true);
     }

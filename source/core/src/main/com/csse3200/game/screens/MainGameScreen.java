@@ -4,10 +4,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.Menus.Menu;
-import com.csse3200.game.Menus.Menu.MenuType;
-import com.csse3200.game.Menus.PauseMenu;
-import com.csse3200.game.Menus.QuestMenu;
+import com.csse3200.game.Overlays.Overlay;
+import com.csse3200.game.Overlays.Overlay.MenuType;
+import com.csse3200.game.Overlays.PauseOverlay;
+import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -43,7 +43,7 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
   private static final String[] mainGameTextures = {"images/heart.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-  private final Deque<Menu> enabledMenus = new LinkedList<>();
+  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
@@ -74,8 +74,8 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("addMenu",this::addMenu);
-    ServiceLocator.getEventService().globalEventHandler.addListener("removeMenu",this::removeMenu);
+    ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
+    ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory);
@@ -154,56 +154,56 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addMenu(MenuType menuType){
-    logger.info("Adding Menu {}",menuType);
-      if (enabledMenus.isEmpty()) {
-          this.safePause();
+  public void addOverlay(MenuType menuType){
+    logger.info("Adding Overlay {}",menuType);
+      if (enabledOverlays.isEmpty()) {
+          this.rest();
       }
       else {
-        enabledMenus.getFirst().pause();
+        enabledOverlays.getFirst().rest();
       }
     switch (menuType) {
       case QUEST_MENU:
-        enabledMenus.addFirst(new QuestMenu());
+        enabledOverlays.addFirst(new QuestOverlay());
         break;
       case PAUSE_MENU:
-        enabledMenus.addFirst(new PauseMenu());
+        enabledOverlays.addFirst(new PauseOverlay());
         break;
       default:
-        logger.warn("Unknown menu type: {}", menuType);
+        logger.warn("Unknown Overlay type: {}", menuType);
         break;
     }
   }
 
-  public void removeMenu(){
-    logger.debug("Removing top Menu");
+  public void removeOverlay(){
+    logger.debug("Removing top Overlay");
 
-    if (enabledMenus.isEmpty()){
-        this.safeResume();
+    if (enabledOverlays.isEmpty()){
+        this.wake();
       return;
     }
 
-    enabledMenus.getFirst().remove();
+    enabledOverlays.getFirst().remove();
 
-    enabledMenus.removeFirst();
+    enabledOverlays.removeFirst();
 
-    if (enabledMenus.isEmpty()){
-        this.safeResume();
+    if (enabledOverlays.isEmpty()){
+        this.wake();
 
     } else {
-      enabledMenus.getFirst().resume();
+      enabledOverlays.getFirst().wake();
     }
   }
 
-  public void safePause() {
-    logger.info("Game Safe soft paused");
+  public void rest() {
+    logger.info("Screen is resting");
     gameArea.pauseMusic();
-    ServiceLocator.getEntityService().pauseScreen();
+    ServiceLocator.getEntityService().restWholeScreen();
   }
 
-  public void safeResume() {
-    logger.info("Game Safe soft resumed");
+  public void wake() {
+    logger.info("Screen is Awake");
     gameArea.playMusic();
-    ServiceLocator.getEntityService().playScreen();
+    ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

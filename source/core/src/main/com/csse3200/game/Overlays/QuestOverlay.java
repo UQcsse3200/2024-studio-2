@@ -1,4 +1,4 @@
-package com.csse3200.game.Menus;
+package com.csse3200.game.Overlays;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.entities.Entity;
@@ -7,25 +7,24 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+public class QuestOverlay extends Overlay {
+    private static final Logger logger = LoggerFactory.getLogger(QuestOverlay.class);
 
-public class PauseMenu extends Menu{
-    private static final Logger logger = LoggerFactory.getLogger(PauseMenu.class);
-
-    public PauseMenu() {
-        logger.debug("Initialising PauseMenu");
+    public QuestOverlay() {
+        logger.debug("Initialising QuestOverlay");
         createUI();
     }
 
     @Override
-    public void pause() {
-        logger.debug("PauseMenu paused");
-        super.pause();
+    public void rest() {
+        logger.info("QuestOverlay rested");
+        super.rest();
     }
 
     @Override
-    public void resume() {
-        logger.debug("PauseMenu resumed");
-        super.resume();
+    public void wake() {
+        logger.info("QuestOverlay awoken");
+        super.wake();
     }
 
     private void createUI() {
@@ -33,7 +32,7 @@ public class PauseMenu extends Menu{
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
         entities.add(ui);
-        ui.addComponent(new PauseDisplay()).addComponent(new InputDecorator(stage, 10));
+        ui.addComponent(new QuestDisplay()).addComponent(new InputDecorator(stage, 10));
         ServiceLocator.getEntityService().register(ui);
     }
 }

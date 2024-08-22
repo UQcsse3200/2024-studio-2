@@ -42,7 +42,7 @@ public class TouchPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         return true;
       case Input.Keys.ESCAPE:
-        entity.getEvents().trigger("pause");
+        entity.getEvents().trigger("rest");
       case Input.Keys.Q:
         entity.getEvents().trigger("quest");
       default:
