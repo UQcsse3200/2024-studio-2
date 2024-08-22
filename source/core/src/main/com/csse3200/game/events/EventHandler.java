@@ -29,6 +29,10 @@ public class EventHandler {
     listeners = new HashMap<>(0);
   }
 
+  public Map<String, Array<EventListener>> getListeners() {
+    return listeners;
+  }
+
   /**
    * Add a listener to an event with zero arguments
    *

@@ -8,6 +8,7 @@ import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainGameScreenDup;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
@@ -32,11 +33,6 @@ public class GdxGame extends Game {
     Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
-
-    ServiceLocator.registerEventService(new EventService());
-    System.out.println("Gets here Number 4!");
-
-    ServiceLocator.getEventService().globalEventHandler.addListener("overlay",this::overlayMainGameDup);
   }
 
   /**
@@ -58,25 +54,30 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null));
+    setScreen(newScreen(screenType, null, null));
   }
 
   /**
    * Changes to a screen that already exists, disposing of the current screen
    * @param screen to be switched to
    */
-   public void setOldScreen(Screen screen) {
+   public void setOldScreen(Screen screen, ServiceContainer container) {
     logger.info("Setting game screen to {}", screen);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
       currentScreen.dispose();
     }
     setScreen(screen);
+    ServiceLocator.registerEventService(container.getEventService());
+    ServiceLocator.registerRenderService(container.getRenderService());
+    ServiceLocator.registerPhysicsService(container.getPhysicsService());
+    ServiceLocator.registerTimeSource(container.getTimeSource());
+    ServiceLocator.registerInputService(container.getInputService());
+    ServiceLocator.registerResourceService(container.getResourceService());
+    ServiceLocator.registerEntityService(container.getEntityService());
   }
 
   public void overlayMainGameDup() {
-    System.out.println("Gets here Number 3!");
-
     overlayScreen(ScreenType.MAIN_GAME_DUP, getScreen());
    }
 
@@ -88,7 +89,13 @@ public class GdxGame extends Game {
    */
   public void overlayScreen (ScreenType screenType, Screen screen) {
     logger.info("Setting game screen to {}", screenType);
-    setScreen(newScreen(screenType, screen));
+    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
+            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
+            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
+            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+
+    ServiceLocator.clear();
+    setScreen(newScreen(screenType, screen, container));
   }
 
   @Override
@@ -101,16 +108,17 @@ public class GdxGame extends Game {
    * Create a new screen of the provided type.
    * @param screenType screen type
    * @param screen for returning to an old screen, may be null.
+   * @param container container for serivces, for returning to an old screen. may be null.
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, Screen screen) {
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
       case MAIN_GAME_DUP:
-        return new MainGameScreenDup(this, screen);
+        return new MainGameScreenDup(this, screen, container);
       case SETTINGS:
         return new SettingsScreen(this);
       default:

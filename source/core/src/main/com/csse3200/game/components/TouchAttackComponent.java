@@ -60,10 +60,7 @@ public class TouchAttackComponent extends Component {
       // Doesn't match our target layer, ignore
       return;
     }
-    ServiceLocator.getEventService().globalEventHandler.trigger("pause");
-    System.out.println("Gets here Number 1!");
-    ServiceLocator.getEventService().globalEventHandler.trigger("overlay");
-    System.out.println("Gets here Number 2!");
+
     /*
     // Try to attack target.
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;

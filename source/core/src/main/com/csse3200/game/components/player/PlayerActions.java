@@ -3,6 +3,7 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.eventservice.EventService;
@@ -25,6 +26,12 @@ public class PlayerActions extends Component {
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
+  private GdxGame game;
+
+  public PlayerActions(GdxGame game) {
+    this.game = game;
+  }
+
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
@@ -33,6 +40,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("pause", this::pause);
     entity.getEvents().addListener("gamePause", this::gamePause);
+    entity.getEvents().addListener("overlay",this::overlay);
   }
 
   @Override
@@ -98,5 +106,9 @@ public class PlayerActions extends Component {
     } else {
       eventService.globalEventHandler.trigger("pause");
     }
+  }
+
+  public void overlay(){
+    game.overlayMainGameDup();
   }
 }

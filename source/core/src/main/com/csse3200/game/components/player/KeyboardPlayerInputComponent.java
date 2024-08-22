@@ -53,6 +53,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.P:
         entity.getEvents().trigger("gamePause");
         return true;
+      case Keys.O:
+        entity.getEvents().trigger("overlay");
+        return true;
       default:
         return false;
     }

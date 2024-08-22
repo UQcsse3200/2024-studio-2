@@ -23,6 +23,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.terminal.Terminal;
@@ -44,10 +45,12 @@ public class MainGameScreenDup extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
+  private ServiceContainer oldScreenServices;
 
-  public MainGameScreenDup(GdxGame game, Screen screen) {
+  public MainGameScreenDup(GdxGame game, Screen screen, ServiceContainer container) {
     this.game = game;
     oldScreen = screen;
+    oldScreenServices = container;
 
     logger.debug("Initialising main game dup screen services");
     ServiceLocator.registerTimeSource(new GameTime());
@@ -76,7 +79,7 @@ public class MainGameScreenDup extends ScreenAdapter {
 
     logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
+    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory, game);
     forestGameArea.create();
   }
 
@@ -152,7 +155,7 @@ public class MainGameScreenDup extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
-        .addComponent(new MainGameDupExitDisplay(oldScreen))
+        .addComponent(new MainGameDupExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
