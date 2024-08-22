@@ -17,21 +17,23 @@ import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 CHUNK_SIZE = new GridPoint2(16, 16);
-  private static final int CHUNKS_X = 3;
-  private static final int CHUNKS_Y = 3;
   private static final int TUFT_TILE_COUNT = 30;
   private static final int ROCK_TILE_COUNT = 30;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
+  private final Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
 
   /**
    * Create a terrain factory with Orthogonal orientation
    *
-   * @param cameraComponent Camera to render terrains to. Must be ortographic.
+   * @param cameraComponent Camera to render terrains to. Must be orthographic.
    */
   public TerrainFactory(CameraComponent cameraComponent) {
     this(cameraComponent, TerrainOrientation.ORTHOGONAL);
@@ -49,54 +51,62 @@ public class TerrainFactory {
   }
 
   /**
-   * Create a terrain of the given type, using the orientation of the factory. This can be extended
-   * to add additional game terrains.
+   * Create a terrain of the given type, using the orientation of the factory.
+   * This method loads or generates the terrain chunks around the player's current position.
    *
    * @param terrainType Terrain to create
+   * @param playerPosition The current position of the player in the world
    * @return Terrain component which renders the terrain
    */
-  public TerrainComponent createTerrain(TerrainType terrainType) {
+  public TerrainComponent createTerrain(TerrainType terrainType, GridPoint2 playerPosition) {
     ResourceService resourceService = ServiceLocator.getResourceService();
+    TextureRegion grass, grassTuft, rocks;
+
     switch (terrainType) {
       case FOREST_DEMO:
-        TextureRegion orthoGrass =
-            new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
-        TextureRegion orthoTuft =
-            new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
-        TextureRegion orthoRocks =
-            new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
-        return createForestDemoTerrain(0.5f, orthoGrass, orthoTuft, orthoRocks);
+        grass = new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
+        grassTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
+        rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+        break;
       case FOREST_DEMO_ISO:
-        TextureRegion isoGrass =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
-        TextureRegion isoTuft =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
-        TextureRegion isoRocks =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
-        return createForestDemoTerrain(1f, isoGrass, isoTuft, isoRocks);
+        grass = new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
+        grassTuft = new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
+        rocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
+        break;
       case FOREST_DEMO_HEX:
-        TextureRegion hexGrass =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
-        TextureRegion hexTuft =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
-        TextureRegion hexRocks =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
-        return createForestDemoTerrain(1f, hexGrass, hexTuft, hexRocks);
+        grass = new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
+        grassTuft = new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
+        rocks = new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
+        break;
       default:
         return null;
     }
+
+    return createDynamicTerrain(1f, grass, grassTuft, rocks, playerPosition);
   }
 
-  private TerrainComponent createForestDemoTerrain(
-    float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
-  
+  private TerrainComponent createDynamicTerrain(
+      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, GridPoint2 playerPosition) {
+
     TiledMap tiledMap = new TiledMap();
 
-    for (int chunkX = 0; chunkX < CHUNKS_X; chunkX++) {
-        for (int chunkY = 0; chunkY < CHUNKS_Y; chunkY++) {
-            TiledMapTileLayer chunkLayer = createForestDemoChunk(chunkX, chunkY, grass, grassTuft, rocks);
-            tiledMap.getLayers().add(chunkLayer);
+    // Calculate player's chunk position
+    GridPoint2 playerChunk = new GridPoint2(playerPosition.x / CHUNK_SIZE.x, playerPosition.y / CHUNK_SIZE.y);
+
+    // Load the 3x3 grid of chunks around the player
+    for (int dx = -1; dx <= 1; dx++) {
+      for (int dy = -1; dy <= 1; dy++) {
+        GridPoint2 chunkPos = new GridPoint2(playerChunk.x + dx, playerChunk.y + dy);
+
+        if (!loadedChunks.containsKey(chunkPos)) {
+          TiledMapTileLayer chunkLayer = createForestDemoChunk(chunkPos.x, chunkPos.y, grass, grassTuft, rocks);
+          System.out.println("Already loaded chunk at " + chunkPos);
+          loadedChunks.put(chunkPos, chunkLayer);
         }
+        System.out.println("Loading new chunk at " + chunkPos);
+
+        tiledMap.getLayers().add(loadedChunks.get(chunkPos));
+      }
     }
 
     // Adjust the scale factor to properly size the tiles
@@ -104,7 +114,6 @@ public class TerrainFactory {
     TiledMapRenderer renderer = createRenderer(tiledMap, tileScale);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
   }
-
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
     switch (orientation) {
@@ -120,7 +129,7 @@ public class TerrainFactory {
   }
 
   private TiledMapTileLayer createForestDemoChunk(
-      int chunkX, int chunkY, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
+    int chunkX, int chunkY, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
     GridPoint2 tileSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
     TiledMapTileLayer layer = new TiledMapTileLayer(CHUNK_SIZE.x, CHUNK_SIZE.y, tileSize.x, tileSize.y);
     TerrainTile grassTile = new TerrainTile(grass);
@@ -134,9 +143,9 @@ public class TerrainFactory {
     fillTilesAtRandom(layer, CHUNK_SIZE, grassTuftTile, TUFT_TILE_COUNT);
     fillTilesAtRandom(layer, CHUNK_SIZE, rockTile, ROCK_TILE_COUNT);
 
-    // Offset the chunk's position on the map
+    // Offset the chunk's position on the map, correcting the Y-axis direction
     layer.setOffsetX(chunkX * CHUNK_SIZE.x * tileSize.x);
-    layer.setOffsetY(chunkY * CHUNK_SIZE.y * tileSize.y);
+    layer.setOffsetY(-chunkY * CHUNK_SIZE.y * tileSize.y);  // Notice the negative sign here
 
     return layer;
   }
