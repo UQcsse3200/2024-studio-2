@@ -67,10 +67,11 @@ public class PlayerStatsDisplay extends UIComponent {
     float heartSideLength = 150f;
     //iconImage = new Image(ServiceLocator.getResourceService().getAsset("images/player_icon_forest.png", Texture.class));
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
-
+    xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
     // Get the original width and height of the image
-    float heartImageWidth = (float) (heartImage.getWidth() * 0.8);
-    float heartImageHeight = (float) (heartImage.getHeight() * 0.5);
+
+    float barImageWidth = (float) (heartImage.getWidth() * 0.8);
+    float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
     // Loop to decide health bar status
     //for (int i = 0; i < 3; i++) {
@@ -83,11 +84,19 @@ public class PlayerStatsDisplay extends UIComponent {
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
-    CharSequence healthText = String.format("Health: %d", health);
+    CharSequence healthText = String.format("HP: %d", health);
     healthLabel = new Label(healthText, skin, "large");
 
-    table.add(heartImage).size(heartImageWidth, heartImageHeight).pad(5);
+    // Experience text maybe
+    CharSequence xpText = String.format("EXP: %d", 99);
+    Label xpLabel = new Label(xpText, skin, "large");
+
+
+    table.add(heartImage).size(barImageWidth, barImageHeight).pad(5);
     table.add(healthLabel);
+    table.row();
+    table.add(xpImage).size(barImageWidth, barImageHeight);
+    table.add(xpLabel);
     stage.addActor(table);
   }
 
