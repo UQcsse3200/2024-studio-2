@@ -29,9 +29,9 @@ public class AnimalSelectionDisplay {
         stage.addActor(mainTable);
 
         String[] animalImagePaths = {
-                "images/animal1.png",
-                "images/animal2.png",
-                "images/animal3.png"
+                "images/dog.png",
+                "images/croc.png",
+                "images/bird.png"
         };
 
         for (int i = 0; i < 3; i++) {

@@ -35,9 +35,9 @@ public class AnimalSelectionActions {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
         String[] animalImagePaths = {
-                "images/animal1.png",
-                "images/animal2.png",
-                "images/animal3.png"
+                "images/dog.png",
+                "images/croc.png",
+                "images/bird.png"
         };
 
 
