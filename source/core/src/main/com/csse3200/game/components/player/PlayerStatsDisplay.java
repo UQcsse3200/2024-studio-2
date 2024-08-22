@@ -26,6 +26,8 @@ public class PlayerStatsDisplay extends UIComponent {
 
   private Image xpImage;
   private Label healthLabel;
+  private Animation<TextureRegion> healthBarAnimation;
+  private TextureAtlas textureAtlas;
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -44,11 +46,22 @@ public class PlayerStatsDisplay extends UIComponent {
    */
   private void addActors() {
     table = new Table();
-
-
     table.top().left();
     table.setFillParent(true);
     table.padTop(45f).padLeft(5f);
+
+    // Animation Setup
+    // Load health bar frames into a TextureAtlas
+    textureAtlas = new TextureAtlas("spriteSheets/healthBars.txt"); // Load the atlas with health bar frames
+    TextureRegion[] healthBarFrames = new TextureRegion[11]; // Array to hold the frames
+
+    // Populate the array with frames based on your naming convention
+    for (int i = 0; i < healthBarFrames.length; i++) {
+      String frameName = (100 - i * 10) + "%_health"; // Create frame names like "100%_health"
+      healthBarFrames[i] = textureAtlas.findRegion(frameName); // Retrieve the frame
+    }
+
+    healthBarAnimation = new Animation<>(0.066f, healthBarFrames); // Create the animation with frame duration
 
     // Health Dimensions
     float heartSideLength = 150f;
@@ -97,5 +110,7 @@ public class PlayerStatsDisplay extends UIComponent {
     super.dispose();
     heartImage.remove();
     healthLabel.remove();
+    xpImage.remove();
+    textureAtlas.dispose();
   }
 }
