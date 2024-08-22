@@ -62,14 +62,30 @@ public class ChatOverlay {
     }
 
     private void createButtons(float labelX, float labelY, float newWidth) {
+
+        // load button image
+        Texture buttonImageTexture = new Texture(Gdx.files.internal("images/button.png"));
+        Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/button-hover.png"));
+
+        TextureRegionDrawable buttonImageDrawable = new TextureRegionDrawable(buttonImageTexture);
+        TextureRegionDrawable buttonHoverDrawable = new TextureRegionDrawable(buttonHoverTexture);
+
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = skin.getFont("button");
         buttonStyle.fontColor = skin.getColor("white");
         buttonStyle.downFontColor = skin.getColor("white");
         buttonStyle.overFontColor = skin.getColor("gray");
+
         buttonStyle.up = skin.getDrawable("button-c");
         buttonStyle.down = skin.getDrawable("button-p");
         buttonStyle.over = skin.getDrawable("button-h");
+
+        buttonStyle.up = buttonImageDrawable;
+//        buttonStyle.up = skin.getDrawable("button-c");
+//        buttonStyle.down = skin.getDrawable("button-p");
+        buttonStyle.down = buttonImageDrawable;
+//        buttonStyle.over = skin.getDrawable("button-h");
+        buttonStyle.over = buttonHoverDrawable;
 
         forwardButton = new TextButton("Backward", buttonStyle);
         backwardButton = new TextButton("Forward", buttonStyle);
@@ -78,8 +94,12 @@ public class ChatOverlay {
 
         float centerX = (screenWidth - (2 * buttonWidth + 20)) / 2; // 20 is spacing between buttons
 
+
         forwardButton.setPosition(centerX, labelY - 100);
         backwardButton.setPosition(centerX + buttonWidth + 20, labelY - 100); // 20 is spacing between buttons
+
+        forwardButton.setPosition(centerX, labelY - 275);
+        backwardButton.setPosition(centerX + buttonWidth + 20, labelY - 275); // 20 is spacing between buttons
 
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
