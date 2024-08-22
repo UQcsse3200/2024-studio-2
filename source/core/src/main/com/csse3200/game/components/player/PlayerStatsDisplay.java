@@ -27,7 +27,7 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image hungerImage;
   private Image xpImage;
   private Label healthLabel;
-  private Animation<Sprite> healthBarAnimation;
+  private Animation<TextureRegion> healthBarAnimation;
   private Texture healthBarImages;
   private TextureRegion[] animationFrames;
   private SpriteBatch batch;
@@ -50,42 +50,37 @@ public class PlayerStatsDisplay extends UIComponent {
    */
   private void addActors() {
     table = new Table();
-    //int index = 0;
-    //float stateTime = 0;
-    //batch = new SpriteBatch();
-    //textureAtlas = new TextureAtlas("healthBars.txt");
-    // healthBarAnimation = new Animation<>(0.066f, textureAtlas.createSprites("capguy"))
 
-    // healthBarImages = new Texture("spriteSheets/")
-    //TextureRegion[][] tmpFrames = TextureRegion.split(healthBarImages, 110, 573);
-    //animationFrames = new TextureRegion[11];
+    // Debugged and Developed Animation with ChatGPT
+    TextureRegion[] healthBarFrames = new TextureRegion[11]; // Adjust size according to your frames
+    for (int i = 0; i < healthBarFrames.length; i++) {
+      // Create the frame names based on your naming convention
+      String frameName = (100 - i * 10) + "%_health"; // This will create "100%_health", "90%_health", ..., "00%_health"
+      healthBarFrames[i] = textureAtlas.findRegion(frameName); // Retrieve the frame
+    }
+    healthBarAnimation = new Animation<>(0.066f, healthBarFrames);
+    textureAtlas = new TextureAtlas("healthBars.txt");
+
     table.top().left();
     table.setFillParent(true);
     table.padTop(45f).padLeft(5f);
 
-    // Heart image
+    // Health Dimensions
     float heartSideLength = 150f;
-    //iconImage = new Image(ServiceLocator.getResourceService().getAsset("images/player_icon_forest.png", Texture.class));
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
     xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
-    // Get the original width and height of the image
 
+    // Get the original width and height of the image
     float barImageWidth = (float) (heartImage.getWidth() * 0.8);
     float barImageHeight = (float) (heartImage.getHeight() * 0.5);
-
-    // Loop to decide health bar status
-    //for (int i = 0; i < 3; i++) {
-      //for (int j = 0; j < 3; j++) {
-        //if (index < 11) {
-          //animationFrames[index++] = tmpFrames[j][i];
-        //}
-      //}
-    //}
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("HP: %d", health);
     healthLabel = new Label(healthText, skin, "large");
+
+    // Health animation update
+    int frameIndex = Math.max(0, Math.min(healthBarFrames.length - 1, (health * (healthBarFrames.length - 1)) / health));
 
     // Experience text maybe
     CharSequence xpText = String.format("EXP: %d", 99);
