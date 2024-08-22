@@ -1,26 +1,33 @@
-transparent_chicken.png
-size: 1180, 842
+chicken.png
+size: 64, 16
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-walk
-  rotate: false
-  xy: 0, 0
-  size: 591, 842
-  orig: 591, 842
-  offset: 0, 0
-  index 0
-walk
-  rotate: false
-  xy: 0, 0
-  size: 591, 842
-  orig: 591, 842
-  offset: 0, 0
-  index 1
 default
   rotate: false
-  xy: 0, 842
-  size: 1180, 842
-  orig: 0, 842
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 0
+walk
+  rotate: false
+  xy: 16, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+walk
+  rotate: false
+  xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3

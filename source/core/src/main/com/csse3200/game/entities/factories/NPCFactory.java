@@ -53,7 +53,7 @@ public class NPCFactory {
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class));
-    animator.addAnimation("walk", 1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
     chicken
             .addComponent(animator)
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
