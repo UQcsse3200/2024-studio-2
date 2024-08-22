@@ -42,7 +42,6 @@ public class PauseDisplay extends UIComponent {
                                 .getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
         // Create tables
         Table menuBtns = makeMenuBtns();
-        //titleBackGround.setScale(0.75f);
         // Root table that holds everything
         rootTable = new Table();
         rootTable.setFillParent(true);
