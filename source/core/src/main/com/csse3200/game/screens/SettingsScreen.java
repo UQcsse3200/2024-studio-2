@@ -58,6 +58,7 @@ public class SettingsScreen extends ScreenAdapter {
     renderer.dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getEntityService().dispose();
+    ServiceLocator.getEventService().dispose();
 
     ServiceLocator.clear();
   }

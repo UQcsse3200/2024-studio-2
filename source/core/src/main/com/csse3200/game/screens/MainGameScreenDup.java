@@ -10,7 +10,6 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameDupExitDisplay;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -45,7 +44,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
-  private ServiceContainer oldScreenServices;
+  private final ServiceContainer oldScreenServices;
 
   public MainGameScreenDup(GdxGame game, Screen screen, ServiceContainer container) {
     this.game = game;
@@ -124,6 +123,8 @@ public class MainGameScreenDup extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
+    ServiceLocator.getEventService().dispose();
+
 
     ServiceLocator.clear();
   }

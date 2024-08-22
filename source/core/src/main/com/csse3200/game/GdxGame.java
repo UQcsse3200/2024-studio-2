@@ -10,7 +10,6 @@ import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.screens.SettingsScreen;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,13 +67,13 @@ public class GdxGame extends Game {
       currentScreen.dispose();
     }
     setScreen(screen);
-    ServiceLocator.registerEventService(container.getEventService());
-    ServiceLocator.registerRenderService(container.getRenderService());
-    ServiceLocator.registerPhysicsService(container.getPhysicsService());
     ServiceLocator.registerTimeSource(container.getTimeSource());
+    ServiceLocator.registerPhysicsService(container.getPhysicsService());
     ServiceLocator.registerInputService(container.getInputService());
     ServiceLocator.registerResourceService(container.getResourceService());
     ServiceLocator.registerEntityService(container.getEntityService());
+    ServiceLocator.registerRenderService(container.getRenderService());
+    ServiceLocator.registerEventService(container.getEventService());
   }
 
   public void overlayMainGameDup() {

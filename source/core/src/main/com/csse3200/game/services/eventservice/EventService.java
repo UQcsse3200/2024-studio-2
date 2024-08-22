@@ -8,4 +8,8 @@ public class EventService {
     public EventService() {
         globalEventHandler = new EventHandler();
     }
+
+    public void dispose() {
+        globalEventHandler.dispose();
+    }
 }
