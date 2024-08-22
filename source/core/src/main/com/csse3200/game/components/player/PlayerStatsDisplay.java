@@ -25,7 +25,10 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image heartImage;
 
   private Image xpImage;
+  private Image hungerImage;
   private Label healthLabel;
+  private Label xpLabel;
+  private Label hungerLabel;
   private Animation<TextureRegion> healthBarAnimation;
   private TextureAtlas textureAtlas;
 
@@ -67,6 +70,7 @@ public class PlayerStatsDisplay extends UIComponent {
     float heartSideLength = 150f;
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
     xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
+    hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
     // Get the original width and height of the image
     float barImageWidth = (float) (heartImage.getWidth() * 0.8);
@@ -79,15 +83,22 @@ public class PlayerStatsDisplay extends UIComponent {
     healthLabel = new Label(healthText, skin, "large");
 
     // Experience text maybe
-    CharSequence xpText = String.format("EXP: %d", 99);
-    Label xpLabel = new Label(xpText, skin, "large");
+    CharSequence xpText = String.format("EXP: %d", 100);
+    xpLabel = new Label(xpText, skin, "large");
+
+    // Hunger text maybe
+    CharSequence hungerText = String.format("HGR: %d", 100);
+    hungerLabel = new Label(hungerText, skin, "large");
 
     // Add all components to table
     table.add(heartImage).size(barImageWidth, barImageHeight).pad(5);
     table.add(healthLabel);
     table.row();
-    table.add(xpImage).size(barImageWidth, barImageHeight);
+    table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 0.95));
     table.add(xpLabel);
+    table.row();
+    table.add(hungerImage).size(barImageWidth, barImageHeight * 2);
+    table.add(hungerLabel);
     stage.addActor(table);
   }
 
@@ -111,6 +122,9 @@ public class PlayerStatsDisplay extends UIComponent {
     heartImage.remove();
     healthLabel.remove();
     xpImage.remove();
+    xpLabel.remove();
+    hungerImage.remove();
+    hungerLabel.remove();
     textureAtlas.dispose();
   }
 }
