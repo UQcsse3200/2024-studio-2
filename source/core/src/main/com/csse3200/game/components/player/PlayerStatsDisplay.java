@@ -10,7 +10,7 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
 /**
- * A ui component for displaying player stats, e.g. health.
+ * An ui component for displaying player stats, e.g. health.
  */
 public class PlayerStatsDisplay extends UIComponent {
   Table table;
