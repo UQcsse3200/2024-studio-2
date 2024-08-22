@@ -28,6 +28,10 @@ public class Snake {
         snakeBody.add(grid.getCell(startX, startY));
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public void move(Direction direction) {
         switch (direction) {
             case RIGHT: {
@@ -39,11 +43,11 @@ public class Snake {
                 return;
             }
             case UP: {
-                this.y -= 1;
+                this.y += 1;
                 return;
             }
             case DOWN: {
-                this.y += 1;
+                this.y -= 1;
                 return;
             }
         }
