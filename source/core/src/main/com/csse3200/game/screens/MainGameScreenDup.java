@@ -43,7 +43,7 @@ import java.util.LinkedList;
  */
 public class MainGameScreenDup extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreenDup.class);
-  private static final String[] mainGameTextures = {"images/heart.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private final GdxGame game;
@@ -169,15 +169,15 @@ public class MainGameScreenDup extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addOverlay(Overlay.MenuType menuType){
-    logger.info("Adding Overlay {}",menuType);
+  public void addOverlay(Overlay.OverlayType overlayType){
+    logger.info("Adding Overlay {}", overlayType);
     if (enabledOverlays.isEmpty()) {
       this.rest();
     }
     else {
       enabledOverlays.getFirst().rest();
     }
-    switch (menuType) {
+    switch (overlayType) {
       case QUEST_OVERLAY:
         enabledOverlays.addFirst(new QuestOverlay());
         break;
@@ -185,7 +185,7 @@ public class MainGameScreenDup extends ScreenAdapter {
         enabledOverlays.addFirst(new PauseOverlay());
         break;
       default:
-        logger.warn("Unknown Overlay type: {}", menuType);
+        logger.warn("Unknown Overlay type: {}", overlayType);
         break;
     }
   }

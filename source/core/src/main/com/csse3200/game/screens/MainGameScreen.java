@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.Overlays.Overlay;
-import com.csse3200.game.Overlays.Overlay.MenuType;
+import com.csse3200.game.Overlays.Overlay.OverlayType;
 import com.csse3200.game.Overlays.PauseOverlay;
 import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
@@ -41,7 +41,7 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
@@ -162,15 +162,15 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addOverlay(MenuType menuType){
-    logger.info("Adding Overlay {}",menuType);
+  public void addOverlay(OverlayType overlayType){
+    logger.info("Adding Overlay {}", overlayType);
       if (enabledOverlays.isEmpty()) {
           this.rest();
       }
       else {
         enabledOverlays.getFirst().rest();
       }
-    switch (menuType) {
+    switch (overlayType) {
       case QUEST_OVERLAY:
         enabledOverlays.addFirst(new QuestOverlay());
         break;
@@ -178,7 +178,7 @@ public class MainGameScreen extends ScreenAdapter {
         enabledOverlays.addFirst(new PauseOverlay());
         break;
       default:
-        logger.warn("Unknown Overlay type: {}", menuType);
+        logger.warn("Unknown Overlay type: {}", overlayType);
         break;
     }
   }

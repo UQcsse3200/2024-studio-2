@@ -33,7 +33,7 @@ public class Overlay {
         }
     }
 
-    public enum MenuType {
+    public enum OverlayType {
         PAUSE_OVERLAY, QUEST_OVERLAY
     }
 }
