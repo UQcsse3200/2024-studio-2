@@ -28,9 +28,6 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image xpImage;
   private Label healthLabel;
   private Animation<TextureRegion> healthBarAnimation;
-  private Texture healthBarImages;
-  private TextureRegion[] animationFrames;
-  private SpriteBatch batch;
   private TextureAtlas textureAtlas;
 
   /**
