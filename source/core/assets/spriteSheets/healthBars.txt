@@ -73,7 +73,7 @@ repeat: none
   orig: 573, 110
   offset: 0, 0
   index: -1
-00%_health
+0%_health
   rotate: false
   xy: 573, 330
   size: 573, 110
