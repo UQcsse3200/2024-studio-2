@@ -54,4 +54,19 @@ public class EntityService {
       entity.dispose();
     }
   }
+
+  /**
+   * Pause all entities.
+   */
+  public void restWholeScreen() {
+    for (Entity entity : entities) {
+      entity.setEnabled(false);
+    }
+  }
+
+  public void wakeWholeScreen() {
+    for (Entity entity : entities) {
+      entity.setEnabled(true);
+    }
+  }
 }

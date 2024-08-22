@@ -43,6 +43,16 @@ public class SettingsScreen extends ScreenAdapter {
   }
 
   @Override
+  public void pause() {
+    logger.info("Game paused");
+  }
+
+  @Override
+  public void resume() {
+    logger.info("Game resumed");
+  }
+
+  @Override
   public void render(float delta) {
     ServiceLocator.getEntityService().update();
     renderer.render();

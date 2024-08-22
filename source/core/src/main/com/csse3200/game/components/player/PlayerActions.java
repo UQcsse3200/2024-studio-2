@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.Overlays.Overlay.MenuType;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -22,11 +22,10 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  private boolean isPaused = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
-  private GdxGame game;
+  private final GdxGame game;
 
   public PlayerActions(GdxGame game) {
     this.game = game;
@@ -38,9 +37,9 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
-    entity.getEvents().addListener("pause", this::pause);
-    entity.getEvents().addListener("gamePause", this::gamePause);
-    entity.getEvents().addListener("overlay",this::overlay);
+    entity.getEvents().addListener("restMenu", this::restMenu);
+    entity.getEvents().addListener("quest", this::quest);
+    entity.getEvents().addListener("addMainGameScreen",this::addMainGameScreen);
   }
 
   @Override
@@ -88,27 +87,17 @@ public class PlayerActions extends Component {
     eventService.globalEventHandler.trigger("attack");
   }
 
-  void pause() {
-    if(isPaused){
-      eventService.globalEventHandler.trigger("resume");
-      isPaused = false;
-    }
-    else {
-      logger.info("Sending Global Pause");
-      eventService.globalEventHandler.trigger("pause");
-      isPaused = true;
-    }
+  void restMenu() {
+      logger.info("Sending Pause");
+      eventService.globalEventHandler.trigger("addOverlay",MenuType.PAUSE_OVERLAY);
   }
 
-  void gamePause() {
-    if (MainGameScreen.isPaused()) {
-      eventService.globalEventHandler.trigger("resume");
-    } else {
-      eventService.globalEventHandler.trigger("pause");
-    }
+  void quest() {
+    logger.debug("Triggering addOverlay for QuestOverlay");
+    eventService.globalEventHandler.trigger("addOverlay",MenuType.QUEST_OVERLAY);
   }
 
-  public void overlay(){
-    game.overlayMainGameDup();
+  public void addMainGameScreen(){
+    game.addMainGameDup();
   }
 }

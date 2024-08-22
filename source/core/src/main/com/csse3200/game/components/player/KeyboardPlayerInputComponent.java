@@ -4,8 +4,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 
@@ -48,13 +46,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         entity.getEvents().trigger("attack");
         return true;
       case Keys.ESCAPE:
-        entity.getEvents().trigger("pause");
+        entity.getEvents().trigger("restMenu");
         return true;
-      case Keys.P:
-        entity.getEvents().trigger("gamePause");
+      case Keys.Q:
+        entity.getEvents().trigger("quest");
         return true;
       case Keys.O:
-        entity.getEvents().trigger("overlay");
+        entity.getEvents().trigger("addMainGameScreen");
         return true;
       default:
         return false;

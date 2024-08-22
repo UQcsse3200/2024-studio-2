@@ -28,6 +28,7 @@ public class GdxGame extends Game {
     logger.info("Creating game");
     loadSettings();
 
+
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
 
@@ -48,7 +49,7 @@ public class GdxGame extends Game {
    * @param screenType screen type
    */
   public void setScreen(ScreenType screenType) {
-    logger.info("Setting game screen to {}", screenType);
+    logger.info("Setting screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
       currentScreen.dispose();
@@ -61,7 +62,7 @@ public class GdxGame extends Game {
    * @param screen to be switched to
    */
    public void setOldScreen(Screen screen, ServiceContainer container) {
-    logger.info("Setting game screen to {}", screen);
+    logger.info("Setting old screen: {}", screen);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
       currentScreen.dispose();
@@ -74,10 +75,11 @@ public class GdxGame extends Game {
     ServiceLocator.registerEntityService(container.getEntityService());
     ServiceLocator.registerRenderService(container.getRenderService());
     ServiceLocator.registerEventService(container.getEventService());
+    screen.resume();
   }
 
-  public void overlayMainGameDup() {
-    overlayScreen(ScreenType.MAIN_GAME_DUP, getScreen());
+  public void addMainGameDup() {
+    addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
    }
 
   /**
@@ -86,8 +88,9 @@ public class GdxGame extends Game {
    * @param screenType screen type
    * @param screen Old screen if we want to remember/ return to it.
    */
-  public void overlayScreen (ScreenType screenType, Screen screen) {
-    logger.info("Setting game screen to {}", screenType);
+  public void addScreen (ScreenType screenType, Screen screen) {
+    logger.info("Adding screen: {}", screenType);
+    screen.pause();
     ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
             ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
             ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
@@ -107,7 +110,7 @@ public class GdxGame extends Game {
    * Create a new screen of the provided type.
    * @param screenType screen type
    * @param screen for returning to an old screen, may be null.
-   * @param container container for serivces, for returning to an old screen. may be null.
+   * @param container container for services, for returning to an old screen. may be null.
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {

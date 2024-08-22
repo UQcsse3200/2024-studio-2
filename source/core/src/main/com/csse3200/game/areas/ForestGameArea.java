@@ -53,7 +53,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity player;
 
-  private GdxGame game;
+  private final GdxGame game;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -82,7 +82,7 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
-  private void displayUI() {
+  public void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     ui.addComponent(new QuestPopup());
@@ -156,14 +156,18 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(ghostKing, randomPos, true, true);
   }
 
-  private void playMusic() {
+  public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
   }
+  public void pauseMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music.pause();
+  }
 
-  private void loadAssets() {
+  public void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(forestTextures);
@@ -178,7 +182,7 @@ public class ForestGameArea extends GameArea {
     }
   }
 
-  private void unloadAssets() {
+  public void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);
