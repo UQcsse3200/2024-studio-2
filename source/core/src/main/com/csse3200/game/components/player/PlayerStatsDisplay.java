@@ -23,12 +23,9 @@ import java.security.Provider;
 public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
-  private Image iconImage;
-  private Image hungerImage;
+
   private Image xpImage;
   private Label healthLabel;
-  private Animation<TextureRegion> healthBarAnimation;
-  private TextureAtlas textureAtlas;
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -48,15 +45,6 @@ public class PlayerStatsDisplay extends UIComponent {
   private void addActors() {
     table = new Table();
 
-    // Debugged and Developed Animation with ChatGPT
-    TextureRegion[] healthBarFrames = new TextureRegion[11]; // Adjust size according to your frames
-    for (int i = 0; i < healthBarFrames.length; i++) {
-      // Create the frame names based on your naming convention
-      String frameName = (100 - i * 10) + "%_health"; // This will create "100%_health", "90%_health", ..., "00%_health"
-      healthBarFrames[i] = textureAtlas.findRegion(frameName); // Retrieve the frame
-    }
-    healthBarAnimation = new Animation<>(0.066f, healthBarFrames);
-    textureAtlas = new TextureAtlas("healthBars.txt");
 
     table.top().left();
     table.setFillParent(true);
@@ -73,17 +61,15 @@ public class PlayerStatsDisplay extends UIComponent {
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+    int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
     CharSequence healthText = String.format("HP: %d", health);
     healthLabel = new Label(healthText, skin, "large");
-
-    // Health animation update
-    int frameIndex = Math.max(0, Math.min(healthBarFrames.length - 1, (health * (healthBarFrames.length - 1)) / health));
 
     // Experience text maybe
     CharSequence xpText = String.format("EXP: %d", 99);
     Label xpLabel = new Label(xpText, skin, "large");
 
-
+    // Add all components to table
     table.add(heartImage).size(barImageWidth, barImageHeight).pad(5);
     table.add(healthLabel);
     table.row();
@@ -94,7 +80,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
   @Override
   public void draw(SpriteBatch batch)  {
-    // draw is handled by the stage
+    // handled by stage
   }
 
   /**
