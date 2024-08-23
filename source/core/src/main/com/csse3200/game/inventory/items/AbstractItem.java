@@ -14,7 +14,6 @@ public abstract class AbstractItem {
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative
-    protected final String category;
     protected String description; // Description of how the item can be used
 
     /**
@@ -23,17 +22,15 @@ public abstract class AbstractItem {
      *
      * @param name name of the item
      * @param itemCode unique item code (up to name)
-     * @param category the category to which the item belongs to
      * @param description a description of how the item can be used and what it does
      *
      * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
      */
-    public AbstractItem(String name, int itemCode, String category, String description) {
+    public AbstractItem(String name, int itemCode, String description) {
         this.name = name;
         this.itemCode = itemCode;
         this.limit = 1; // Default to non-stackable item
         this.quantity = 1;
-        this.category = category;
         this.description = description;
     }
 
@@ -44,15 +41,13 @@ public abstract class AbstractItem {
      * @param itemCode unique item code (up to name)
      * @param limit the maximum size of the item stack
      * @param quantity the initial starting quantity of the item
-     * @param category the category to which the item belongs to
      * @param description a description of how the item can be used and what it does
      *
      * @throws IllegalArgumentException if limit or quantity is negative, or quantity > limit
      *
      * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
      */
-    public AbstractItem(String name, int itemCode, int limit, int quantity, String category,
-                        String description) {
+    public AbstractItem(String name, int itemCode, int limit, int quantity, String description) {
         if (quantity < 0 || limit < 0 || quantity > limit) {
             String msg = "Quantity/Limit must be non-negative and quantity must be less than limit";
             throw new IllegalArgumentException(msg);
@@ -62,7 +57,6 @@ public abstract class AbstractItem {
         this.itemCode = itemCode;
         this.limit = limit; // Default to non-stackable item
         this.quantity = quantity;
-        this.category = category;
         this.description = description;
     }
 
@@ -93,15 +87,6 @@ public abstract class AbstractItem {
      * @return the quantity of the item
      */
     public int getQuantity() {return quantity;}
-
-    /**
-     * Returns the category of the current item
-     *
-     * @return category of item
-     */
-    public String getCategory() {
-        return category;
-    }
 
     /**
      * Returns a description of how the current item can be used and what it does
