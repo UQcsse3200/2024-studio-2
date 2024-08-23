@@ -98,6 +98,7 @@ public class SnakeScreen extends ScreenAdapter {
         if (snakeGame.boundaryDetection()) {
             handleBoundaryCollision();
             delta = 0;
+            // TODO: stop the rendering updating stuff idk how to do it
         }
 
         // Render the grid and the apple
