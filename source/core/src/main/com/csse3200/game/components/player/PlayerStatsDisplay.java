@@ -32,6 +32,11 @@ public class PlayerStatsDisplay extends UIComponent {
   private Label hungerLabel;
   private Animation<TextureRegion> healthBarAnimation;
   private TextureAtlas textureAtlas;
+  private Label strengthLabel;
+  private Label defenseLabel;
+  private Label speedLabel;
+  private Label experienceLabel;
+
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -42,6 +47,12 @@ public class PlayerStatsDisplay extends UIComponent {
     addActors();
 
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+
+    entity.getEvents().addListener("updateStrength", this::updatePlayerStrengthUI);
+    entity.getEvents().addListener("updateDefense", this::updatePlayerDefenseUI);
+    entity.getEvents().addListener("updateSpeed", this::updatePlayerSpeedUI);
+    entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
+
   }
 
   /**
@@ -78,10 +89,13 @@ public class PlayerStatsDisplay extends UIComponent {
     float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
     // Health text
+
+
+
+
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
     int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
     CharSequence healthText = String.format("HP: %d", health);
-    healthLabel = new Label(healthText, skin, "large");
 
     // Experience text maybe
     CharSequence xpText = String.format("EXP: %d", 100);
@@ -125,6 +139,40 @@ public class PlayerStatsDisplay extends UIComponent {
     // Set the current frame of the health bar animation
     TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
     heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+  }
+
+
+  /**
+   * Updates the player's strength on the UI.
+   * @param strength Player strength
+   */
+
+  public void updatePlayerStrengthUI(int strength) {
+    CharSequence text = String.format("Strength: %d", strength);
+    strengthLabel.setText(text);
+  }
+
+  /**
+   * Updates the player's defense on the UI.
+   * @param defense Player defense
+   */
+  public void updatePlayerDefenseUI(int defense) {
+    CharSequence text = String.format("Defense: %d", defense);
+    defenseLabel.setText(text);
+  }
+
+  /**
+   * Updates the player's speed on the UI.
+   * @param speed Player speed
+   */
+  public void updatePlayerSpeedUI(int speed) {
+    CharSequence text = String.format("Speed: %d", speed);
+    speedLabel.setText(text);
+  }
+
+  public void updatePlayerExperienceUI(int experience) {
+    CharSequence text = String.format("Experience: %d", experience);
+    experienceLabel.setText(text);
   }
 
   @Override
