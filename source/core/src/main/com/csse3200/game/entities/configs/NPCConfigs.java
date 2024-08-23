@@ -7,4 +7,5 @@ public class NPCConfigs {
   public BaseEntityConfig ghost = new BaseEntityConfig();
   public GhostKingConfig ghostKing = new GhostKingConfig();
   public ChickenConfig chicken = new ChickenConfig();
+  public FrogConfig frog = new FrogConfig();
 }
