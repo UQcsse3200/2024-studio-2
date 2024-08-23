@@ -63,7 +63,6 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
             this.config = configComponent.getConfig();
-
             String animalName = ((BaseEntityConfig) config).getAnimalName();
             String eventName = String.format("Paused%s", animalName);
             entity.getEvents().trigger(eventName);
@@ -78,8 +77,8 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         float distanceToTarget = getDistanceToTarget();
 
         if (!hasApproached && distanceToTarget > maxPauseDistance && distanceToTarget <= viewDistance) {
-            // Move towards the target until within maxPauseDistance
 
+            // Move towards the target until within maxPauseDistance
             movementTask.setTarget(target.getPosition());
             movementTask.update();
 
@@ -114,15 +113,6 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             BaseEntityConfig config = ((BaseEntityConfig) this.config);
             String name = ((BaseEntityConfig) this.config).getAnimalName();
             hint = new ChatOverlay(hintText);
-
-
-//            if (config instanceof CowConfig) {
-//                //hint = new ChatOverlay(((CowConfig) config).getCurrentHint());
-//            } else if (config instanceof LionConfig) {
-//                hint = new ChatOverlay(((LionConfig) config).animalName);
-//            } else if (config instanceof TurtleConfig) {
-//                hint = new ChatOverlay(((TurtleConfig) config).animalName);
-//            }
         }
 
     }

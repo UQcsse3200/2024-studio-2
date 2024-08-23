@@ -88,6 +88,7 @@ public class ForestGameArea extends GameArea {
     spawnCow();
     spawnLion();
     spawnTurtle();
+    spawnCow();
     //spawnEagle();
     //spawnSnake();
     //playMusic();
