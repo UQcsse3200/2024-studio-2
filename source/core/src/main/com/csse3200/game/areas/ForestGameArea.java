@@ -86,11 +86,11 @@ public class ForestGameArea extends GameArea {
     //spawnGhosts();
     //spawnGhostKing();
     spawnCow();
-//    spawnLion();
-    //spawnTurtle();
+    spawnLion();
+    spawnTurtle();
     //spawnEagle();
     //spawnSnake();
-    playMusic();
+    //playMusic();
   }
 
   private void displayUI() {
@@ -161,47 +161,44 @@ public class ForestGameArea extends GameArea {
   private void spawnGhostKing() {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity ghostKing = NPCFactory.createGhostKing(player);
     spawnEntityAt(ghostKing, randomPos, true, true);
   }
 
-  private void spawnEntity(Entity entity, String eventName, String soundEffect) {
+  private void spawnEntityOnMap(Entity entity) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
     spawnEntityAt(entity, randomPos, true, true);
   }
 
   private void spawnCow() {
     Entity cow = NPCFactory.createCow(player, this.enemies);
     cow.getEvents().addListener("PausedCow", this::playCowSound);
-    spawnEntity(cow);
+    spawnEntityOnMap(cow);
   }
 
   private void spawnLion() {
     Entity lion = NPCFactory.createLion(player, this.enemies);
     lion.getEvents().addListener("PausedLion", this::playLionSound);
-    spawnEntity(lion);
+    spawnEntityOnMap(lion);
   }
 
   private void spawnTurtle() {
     Entity turtle = NPCFactory.createTurtle(player, this.enemies);
     turtle.getEvents().addListener("PausedTurtle", this::playTurtleSound);
-    spawnEntity(turtle);
+    spawnEntityOnMap(turtle);
   }
 
   private void spawnEagle() {
     Entity eagle = NPCFactory.createEagle(player, this.enemies);
-    spawnEntity(eagle, null, null);
+    spawnEntityOnMap(eagle);
   }
 
   private void spawnSnake() {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
-    spawnEntity(snake, null, null);
+    spawnEntityOnMap(snake);
   }
 
   private void playAnimalSound(String animalSoundPath) {
