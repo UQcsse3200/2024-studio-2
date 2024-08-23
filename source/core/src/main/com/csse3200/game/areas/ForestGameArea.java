@@ -49,6 +49,13 @@ public class ForestGameArea extends GameArea {
           "images/snake.atlas", "images/lion.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+<<<<<<< Updated upstream
+=======
+  private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
+  private static final String[] lionSounds = {"sounds/tiger-roar.mp3"};
+  private static final String[] turtleSounds = {"sounds/turtle-hiss.mp3"};
+  private static final String[] snakeSounds = {"sounds/snake-hiss.mp3"};
+>>>>>>> Stashed changes
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
@@ -82,9 +89,15 @@ public class ForestGameArea extends GameArea {
     spawnCow();
     spawnLion();
     spawnTurtle();
+<<<<<<< Updated upstream
     spawnEagle();
     spawnSnake();
     playMusic();
+=======
+    //spawnEagle();
+    spawnSnake();
+    //playMusic();
+>>>>>>> Stashed changes
   }
 
   private void displayUI() {
@@ -209,7 +222,35 @@ public class ForestGameArea extends GameArea {
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     
     Entity snake = NPCFactory.createSnake(player, this.enemies);
+<<<<<<< Updated upstream
     spawnEntityAt(snake, randomPos, true, true);
+=======
+    snake.getEvents().addListener("PausedSnake", this::playSnakeSound);
+    spawnEntityOnMap(snake);
+  }
+
+  private void playAnimalSound(String animalSoundPath) {
+    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+    long soundId = mooingCowSound.play();
+    mooingCowSound.setVolume(soundId, 0.3f);
+    mooingCowSound.setLooping(soundId, false);
+  }
+
+  private void playCowSound() {
+    playAnimalSound(cowSounds[0]);
+  }
+
+  private void playLionSound() {
+    playAnimalSound(lionSounds[0]);
+  }
+
+  private void playTurtleSound() {
+    playAnimalSound(turtleSounds[0]);
+>>>>>>> Stashed changes
+  }
+  
+  private void playSnakeSound() {
+    playAnimalSound(snakeSounds[0]);
   }
 
   private void playMusic() {
@@ -225,6 +266,13 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
+<<<<<<< Updated upstream
+=======
+    resourceService.loadSounds(cowSounds);
+    resourceService.loadSounds(lionSounds);
+    resourceService.loadSounds(turtleSounds);
+    resourceService.loadSounds(snakeSounds);
+>>>>>>> Stashed changes
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -239,6 +287,13 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
+<<<<<<< Updated upstream
+=======
+    resourceService.unloadAssets(cowSounds);
+    resourceService.unloadAssets(lionSounds);
+    resourceService.unloadAssets(turtleSounds);
+    resourceService.loadSounds(snakeSounds);
+>>>>>>> Stashed changes
     resourceService.unloadAssets(forestMusic);
   }
 
