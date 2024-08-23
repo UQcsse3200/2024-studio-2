@@ -16,7 +16,7 @@ public abstract class AbstractItem {
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative
-    private Texture texture = null;
+    private String texturePath = null;
 
     /**
      * Constructs an AbstractItem with the specified name and item code. Defaults to single
@@ -132,7 +132,7 @@ public abstract class AbstractItem {
      * @param texturePath The file path of the texture to set.
      */
     protected void setTexture(String texturePath) {
-        this.texture = new Texture(texturePath);
+        this.texturePath = texturePath;
     }
 
     /**
@@ -142,9 +142,9 @@ public abstract class AbstractItem {
      * @throws IllegalAccessError if the texture has not been set prior to calling this method.
      */
     public Texture getTexture() throws IllegalAccessError {
-        if (this.texture == null) {
+        if (this.texturePath == null) {
             throw new IllegalAccessError("Cannot access texture without setting first!");
         }
-        return this.texture;
+        return new Texture(texturePath);
     }
 }
