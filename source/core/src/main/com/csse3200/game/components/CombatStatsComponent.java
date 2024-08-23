@@ -17,6 +17,9 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
+  private int baseAttack;
+  private int attack;
+
 
   public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
       this.maxHealth = health;
@@ -135,7 +138,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Sets the entity's strength. Strength has a minimum bound of 0.
    *
-   * @param strength Strength
+   * @param
    */
   public void setSpeed(int speed) {
     if (speed >= 0) {
@@ -164,7 +167,10 @@ public class CombatStatsComponent extends Component {
     }
   }
 
-
+  public void hit(CombatStatsComponent attacker) {
+    int newHealth = getHealth() - attacker.getBaseAttack();
+    setHealth(newHealth);
+  }
   /**
 
    * Returns the entity's base attack damage.
@@ -174,15 +180,16 @@ public class CombatStatsComponent extends Component {
   public int getBaseAttack() {
     return baseAttack;
   }
-    public int getStrength() {
-        return strength;
-    }
+  public int getStrength() {
+    return strength;
+  }
+
   /**
    * Sets the entity's attack damage. Attack damage has a minimum bound of 0.
    *
-   * @param attack Attack damage
+   * @param
    */
-  public void setBaseAttack(int attack) {
+  public void setBaseAttack(int baseAttack) {
     if (attack >= 0) {
       this.baseAttack = attack;
 
@@ -198,16 +205,13 @@ public class CombatStatsComponent extends Component {
         }
     }
 
-  public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
-    setHealth(newHealth);
-  }
-    public void hit(CombatStatsComponent attacker) {
-        int newHealth = getHealth() - attacker.getStrength();
-        setHealth(newHealth);
-    }
+
 
   public int getMaxHealth() {
-    return maxHealth;
+
+
+      return maxHealth;
   }
+
+
 }
