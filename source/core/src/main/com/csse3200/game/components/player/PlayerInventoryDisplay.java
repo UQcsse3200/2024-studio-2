@@ -3,7 +3,11 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -220,5 +224,25 @@ public class PlayerInventoryDisplay extends UIComponent {
 //            // Optional: Set the table reference to null
 //            table = null;
 //        }
+    }
+
+    private void addButtonElevationEffect(TextButton button) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, 5, 0.1f),
+                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
+                ));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, -5, 0.1f),
+                        Actions.scaleTo(1f, 1f, 0.1f)
+                ));
+            }
+        });
     }
 }
