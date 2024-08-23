@@ -24,44 +24,11 @@ public class LionConfig extends BaseEntityConfig {
         return hints.get(hintLevel);
     }
 
-    public void incrementHintLevel() {
-        if (hints != null && hintLevel < (hints.size() - 1)) {
-            hintLevel = hintLevel + 1;
-            restartCurrentHint();
-        }
-    }
-
     public int getHintLevel() {
         if (hints != null) {
             return hintLevel;
         }
         return -1;
-    }
-
-    public void restartCurrentHint() {
-        if (hints != null) {
-            this.currentHint = 0;
-        }
-    }
-
-    public String getCurrentHint() {
-        if (hints != null) {
-            String[] hint = hints.get(hintLevel);
-            return hint[currentHint];
-        }
-        return "";
-    }
-
-    public void incrementCurrentHint() {
-        if (hints != null) {
-            currentHint = (currentHint + 1) % (hints.get(hintLevel)).length;
-        }
-    }
-
-    public void decrementCurrentHint() {
-        if (hints != null) {
-            currentHint = (currentHint - 1) % (hints.get(hintLevel)).length;
-        }
     }
 
     public String getAnimalName() {
