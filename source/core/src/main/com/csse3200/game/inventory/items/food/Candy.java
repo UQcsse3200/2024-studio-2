@@ -8,12 +8,13 @@ import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
  */
 public class Candy extends AbstractFood {
     protected Texture candyTexture;
+    private final static String path = "images/foodTexture/candy.png";
 
     /**
      * Constructs a Candy class with while assigning fields with set values.
      */
     public Candy(Texture foodTexture) {
         super("Candy", 7, 10, 1, new FeedEffect(10));
-        this.candyTexture = new Texture("foodTexture/candy.png");
+        this.setTexture(path);
     }
 }
