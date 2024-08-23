@@ -22,9 +22,11 @@ import java.util.Map;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  public static final GridPoint2 CHUNK_SIZE = new GridPoint2(2,2); // Minimum chunk size: 2x2
-  private static final int TUFT_TILE_COUNT = 30;
-  private static final int ROCK_TILE_COUNT = 30;
+  private static final int chunkSize = 5;
+  public static final GridPoint2 CHUNK_SIZE = new GridPoint2(chunkSize,chunkSize); // Minimum chunk size: 2x2
+  private static final int TUFT_TILE_COUNT = 3;
+  private static final int ROCK_TILE_COUNT = 1;
+  
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -94,7 +96,7 @@ public class TerrainFactory {
     GridPoint2 playerChunk = new GridPoint2((int) Math.floor((float) playerPosition.x / CHUNK_SIZE.x), 
                                             (int) Math.floor((float) playerPosition.y / CHUNK_SIZE.y));
 
-    // Load the 5x5 grid of chunks around the player (to preload chunks one chunk away)
+    // Load the 5x5 (3x3 expanded by 1 towards each direction) grid of chunks around the player (to preload chunks one chunk away)
     for (int dx = -2; dx <= 2; dx++) {
       for (int dy = -2; dy <= 2; dy++) {
         GridPoint2 chunkPos = new GridPoint2(playerChunk.x + dx, playerChunk.y + dy);
@@ -108,7 +110,7 @@ public class TerrainFactory {
         }
 
         // Only add the chunk to the tiledMap if it is within the 3x3 grid centered on the player
-        if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
+        if (dx <= 1 && dy <= 1 && dx >= -1 && dy >= -1) {
           tiledMap.getLayers().add(loadedChunks.get(chunkPos));
         }
       }

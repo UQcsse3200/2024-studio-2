@@ -1,4 +1,4 @@
-package com.csse3200.game.components;
+package com.csse3200.game.areas.terrain;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
