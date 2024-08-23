@@ -70,15 +70,17 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
-        case MiniGameMenuScreen:
-      return new MiniGameMenuScreen(this);
+      case MiniGameMenuScreen:
+          return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+          return new LoadingScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen
+    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen, LOADING_SCREEN
   }
 
   /**

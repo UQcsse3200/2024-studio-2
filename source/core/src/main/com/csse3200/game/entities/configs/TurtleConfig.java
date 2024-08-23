@@ -2,17 +2,19 @@ package com.csse3200.game.entities.configs;
 
 import java.util.Map;
 
-/**
- * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
- */
-public class BaseEntityConfig {
-    public int health = 1;
+public class TurtleConfig extends BaseEntityConfig {
+    public String favouriteFood = "Algae";
+    public String soundPath = "sounds/turtle-hiss.mp3";
+    public String animalName = "Turtle";
+    public int health = 20;
     public int baseAttack = 0;
-    public String animalName = "";
 
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
+    public static final Map<Integer, String[]> hints = Map.of(
+            0, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."},
+            1, new String[]{"This is Turtle specific hint 2.", "We hope you're having fun"}
+    );
+    public static int hintLevel = 0;
+    public static int currentHint = 0;
 
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
@@ -59,6 +61,6 @@ public class BaseEntityConfig {
     }
 
     public String getAnimalName() {
-        return animalName;
+        return "Turtle";
     }
 }

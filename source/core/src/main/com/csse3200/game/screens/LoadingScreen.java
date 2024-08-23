@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.loading.LoadingDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -18,16 +19,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** The game screen containing the settings. */
-public class SettingsScreen extends ScreenAdapter {
-  private static final Logger logger = LoggerFactory.getLogger(SettingsScreen.class);
+public class LoadingScreen extends ScreenAdapter {
+  private static final Logger logger = LoggerFactory.getLogger(LoadingScreen.class);
 
   private final GdxGame game;
   private final Renderer renderer;
+  private LoadingDisplay loadingDisplay;
 
-  public SettingsScreen(GdxGame game) {
+  public LoadingScreen(GdxGame game) {
     this.game = game;
 
-    logger.debug("Initialising settings screen services");
+    logger.debug("Initialising loading screen services");
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
@@ -39,11 +41,14 @@ public class SettingsScreen extends ScreenAdapter {
 
     createUI();
   }
-
   @Override
   public void render(float delta) {
     ServiceLocator.getEntityService().update();
     renderer.render();
+    if (loadingDisplay.isLoadingFinished()) {
+      game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    }
+
   }
 
   @Override
@@ -68,7 +73,8 @@ public class SettingsScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new SettingsMenuDisplay()).addComponent(new InputDecorator(stage, 10));
+    loadingDisplay = new LoadingDisplay();
+    ui.addComponent(loadingDisplay).addComponent(new InputDecorator(stage, 10));
     ServiceLocator.getEntityService().register(ui);
   }
 }

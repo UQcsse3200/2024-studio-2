@@ -9,7 +9,6 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
  */
 public class GhostAnimationController extends Component {
   AnimationRenderComponent animator;
-
   @Override
   public void create() {
     super.create();
@@ -17,11 +16,9 @@ public class GhostAnimationController extends Component {
     entity.getEvents().addListener("wanderStart", this::animateWander);
     entity.getEvents().addListener("chaseStart", this::animateChase);
   }
-
   void animateWander() {
     animator.startAnimation("float");
   }
-
   void animateChase() {
     animator.startAnimation("angry_float");
   }
