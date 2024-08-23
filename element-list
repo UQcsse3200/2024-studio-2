@@ -26,6 +26,7 @@ com.csse3200.game.rendering
 com.csse3200.game.screens
 com.csse3200.game.services
 com.csse3200.game.ui
+com.csse3200.game.ui.DialogueBox
 com.csse3200.game.ui.terminal
 com.csse3200.game.ui.terminal.commands
 com.csse3200.game.utils
