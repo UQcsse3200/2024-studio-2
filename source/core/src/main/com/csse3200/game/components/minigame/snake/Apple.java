@@ -38,6 +38,10 @@ public class Apple {
         grid.setOccupied(x, y, true);
     }
 
+    public boolean isTouchingSnakeHead(Snake snake) {
+        return snake.getX() == x && snake.getY() == y;
+    }
+
     public int getX() {
         return x;
     }
