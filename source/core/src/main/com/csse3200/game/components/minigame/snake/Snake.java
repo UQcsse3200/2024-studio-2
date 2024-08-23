@@ -85,10 +85,18 @@ public class Snake {
         }
     }
 
+    /**
+     *
+     * @return the x co-ordinate of the head
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return the y coordinate of the head
+     */
     public int getY() {
         return y;
     }

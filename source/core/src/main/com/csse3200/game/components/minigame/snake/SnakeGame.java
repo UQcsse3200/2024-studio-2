@@ -20,5 +20,6 @@ public class SnakeGame {
             apple.spawn();
             snake.grow();
         }
+        // Check boundries
     }
 }
