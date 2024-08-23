@@ -38,7 +38,7 @@ public class ChatOverlay {
         this.hints = labelText;
         this.currentHint = 0;
 
-        createBackgroundImage("images/peach-bar.png", 700);
+        createBackgroundImage("images/blue-bar.png", 700);
 
         label = new Label(hints[currentHint], skin, "default-white");
         label.setFontScale(1.5f);
@@ -72,8 +72,8 @@ public class ChatOverlay {
     private void createButtons(float labelX, float labelY, float newWidth) {
 
         // load button image
-        Texture buttonImageTexture = new Texture(Gdx.files.internal("images/button.png"));
-        Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/button-hover.png"));
+        Texture buttonImageTexture = new Texture(Gdx.files.internal("images/blue-button.png"));
+        Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
         TextureRegionDrawable buttonImageDrawable = new TextureRegionDrawable(buttonImageTexture);
         TextureRegionDrawable buttonHoverDrawable = new TextureRegionDrawable(buttonHoverTexture);
@@ -82,7 +82,7 @@ public class ChatOverlay {
         buttonStyle.font = skin.getFont("button");
         buttonStyle.fontColor = skin.getColor("white");
         buttonStyle.downFontColor = skin.getColor("white");
-        buttonStyle.overFontColor = skin.getColor("gray");
+        buttonStyle.overFontColor = skin.getColor("black");
 
         buttonStyle.up = skin.getDrawable("button-c");
         buttonStyle.down = skin.getDrawable("button-p");

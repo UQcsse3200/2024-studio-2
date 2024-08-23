@@ -7,11 +7,12 @@ import java.util.Map;
  */
 public class SnakeConfig extends BaseEntityConfig {
 	
-	public String favouriteFood = "Egg";
-	public String animalName = "Snake";
-	public String soundPath = "sounds/snake-hiss.mp3";
+
 	public int health = 30;
 	public int baseAttack = 0;
+	public String favouriteFood = "Apple";
+	public String animalName = "Snake";
+	public String soundPath = "sounds/snake-hiss.mp3";
 	
 	public static final Map<Integer, String[]> hints = Map.of(
 			0, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."},
