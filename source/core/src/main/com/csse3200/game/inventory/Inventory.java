@@ -194,7 +194,7 @@ public class Inventory implements InventoryInterface {
             // Iterate through map and if we can add any more items, add them
             for (Integer i : mapping.get(item.getItemCode())) {
                 AbstractItem x = inventory[i];
-                if (x.numAddabble() >= 1) {
+                if (x.numAddable() >= 1) {
                     x.add(1);
                     return true;
                 }

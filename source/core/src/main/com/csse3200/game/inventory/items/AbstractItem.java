@@ -1,5 +1,7 @@
 package com.csse3200.game.inventory.items;
 
+import com.badlogic.gdx.graphics.Texture;
+
 /**
  * Abstract base class for items that can be used by a player.
  * <p>
@@ -14,6 +16,7 @@ public abstract class AbstractItem {
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative
+    private String texturePath = null;
 
     /**
      * Constructs an AbstractItem with the specified name and item code. Defaults to single
@@ -51,7 +54,7 @@ public abstract class AbstractItem {
 
         this.name = name;
         this.itemCode = itemCode;
-        this.limit = limit; // Default to non-stackable item
+        this.limit = limit;
         this.quantity = quantity;
     }
 
@@ -88,7 +91,7 @@ public abstract class AbstractItem {
      *
      * @return how much the quantity of this item can increase by
      */
-    public int numAddabble() {return limit - quantity;}
+    public int numAddable() {return limit - quantity;}
 
     /**
      * Increases the current quantity of the item by n.
@@ -98,7 +101,7 @@ public abstract class AbstractItem {
      * @throws IllegalArgumentException if the number of items cannot be increased by n
      */
     public void add(int n) {
-        if (numAddabble() < n) {
+        if (numAddable() < n) {
             throw new IllegalArgumentException("Cannot add this many items!");
         }
         quantity += n;
@@ -122,4 +125,26 @@ public abstract class AbstractItem {
      * @return whether there are none of this item remaining
      */
     public boolean isEmpty() {return quantity == 0;}
+
+    /**
+     * Sets the texture of the object using the provided file path.
+     *
+     * @param texturePath The file path of the texture to set.
+     */
+    protected void setTexture(String texturePath) {
+        this.texturePath = texturePath;
+    }
+
+    /**
+     * Retrieves the texture of the object.
+     *
+     * @return The texture associated with this object.
+     * @throws IllegalAccessError if the texture has not been set prior to calling this method.
+     */
+    public Texture getTexture() throws IllegalAccessError {
+        if (this.texturePath == null) {
+            throw new IllegalAccessError("Cannot access texture without setting first!");
+        }
+        return new Texture(texturePath);
+    }
 }
