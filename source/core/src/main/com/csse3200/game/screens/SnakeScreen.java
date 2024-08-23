@@ -75,7 +75,7 @@ public class SnakeScreen extends ScreenAdapter {
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
         this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 20);
-        this.snakeGame = new SnakeGame(snake, apple);
+        this.snakeGame = new SnakeGame(snake, apple, grid);
         this.shapeRenderer = new ShapeRenderer();
     }
 
@@ -94,14 +94,26 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().update();
         renderer.render();
 
+        // Check if the snake has hit the boundary
+        if (snakeGame.boundaryDetection()) {
+            handleBoundaryCollision();
+            delta = 0;
+        }
+
         // Render the grid and the apple
-        snakeGame.attemptEatFruit();
         updateDirection();
+        snakeGame.attemptEatFruit();
         snake.update(delta);
         renderGrid();
         renderApple();
         renderHead();
         renderBody();
+    }
+
+    private void handleBoundaryCollision() {
+        logger.info("Snake has hit the boundary!");
+        System.out.println("hit the boundary");
+        // TODO: Add logic to handle the game over or reset snake position.
     }
 
     /**
