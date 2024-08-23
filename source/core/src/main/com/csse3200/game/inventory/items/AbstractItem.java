@@ -1,6 +1,6 @@
 package com.csse3200.game.inventory.items;
+
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 
 /**
  * Abstract base class for items that can be used by a player.
@@ -16,8 +16,7 @@ public abstract class AbstractItem {
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative
-
-    protected Texture itemTexture;
+    private Texture texture = null;
 
     /**
      * Constructs an AbstractItem with the specified name and item code. Defaults to single
@@ -33,8 +32,6 @@ public abstract class AbstractItem {
         this.itemCode = itemCode;
         this.limit = 1; // Default to non-stackable item
         this.quantity = 1;
-        this.itemTexture = null;
-
     }
 
     /**
@@ -129,8 +126,14 @@ public abstract class AbstractItem {
      */
     public boolean isEmpty() {return quantity == 0;}
 
-    public void getTexture(String texture) {
-        this.itemTexture = new Texture(texture);
+    protected void setTexture(String texturePath) {
+        this.texture = new Texture(texturePath);
+    }
+
+    public Texture getTexture() throws IllegalAccessError {
+        if (this.texture == null) {
+            throw new IllegalAccessError("Cannot access texture without setting first!");
+        }
+        return this.texture;
     }
 }
-
