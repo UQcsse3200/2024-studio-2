@@ -44,6 +44,10 @@ public abstract class AbstractQuest {
      * True if quest has failed.
      */
     private boolean isFailed = false;
+    /**
+     * True if quest is active (not completed or failed).
+     */
+    private boolean isActive = true;
 
     /** Constructor design for implementing subclasses. */
     public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest) {
@@ -52,6 +56,7 @@ public abstract class AbstractQuest {
         this.tasks = tasks;
         this.isAchievement = isAchievement;
         this.isSecretQuest = isSecretQuest;
+        this.isActive = true;
     }
 
     /** Returns quest name. */
@@ -97,6 +102,9 @@ public abstract class AbstractQuest {
         if (!isQuestCompleted() && !isFailed) {
             currentTaskIndex++;
         }
+        if(isQuestCompleted()){
+            this.isActive = false;
+        }
     }
     /** Returns true if quest is failed. */
     public boolean isFailed() {
@@ -104,6 +112,7 @@ public abstract class AbstractQuest {
     }
     /** Earmarks quest as having failed.*/
     public void failQuest() {
+        this.isActive = false;
         this.isFailed = true;
     }
 
@@ -134,5 +143,9 @@ public abstract class AbstractQuest {
     /** Returns true if the quest is secret (e.g. progression, XP, etc). */
     public boolean isSecret() {
         return isSecretQuest;
+    }
+    /** Returns true if the quest is secret (e.g. progression, XP, etc). */
+    public boolean isActive() {
+        return isActive;
     }
 }

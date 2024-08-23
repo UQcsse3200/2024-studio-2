@@ -9,10 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class QuestManager extends Component {
-    private final HashMap<String, QuestBasic> quests;
+    private final HashMap<String, AbstractQuest> quests;
     private final EventService eventService = ServiceLocator.getEventService();
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
@@ -42,7 +43,11 @@ public class QuestManager extends Component {
         subscribeToQuestEvents(quest);
     }
 
-    public QuestBasic getQuest(String questName) {
+    public List<AbstractQuest> getAllQuests(){
+        return new ArrayList<>(this.quests.values());
+    }
+
+    public AbstractQuest getQuest(String questName) {
         return quests.get(questName);
     }
 
@@ -51,7 +56,7 @@ public class QuestManager extends Component {
     }
 
     public void progressQuest(String questName, String taskName) {
-        QuestBasic quest = quests.get(questName);
+        AbstractQuest quest = quests.get(questName);
         if (quest != null && !quest.isQuestCompleted() && !quest.isFailed()) {
             Task currentTask = quest.getTasks().get(quest.getProgression());
             if (Objects.equals(taskName, currentTask.getTaskName())) {
