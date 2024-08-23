@@ -9,6 +9,11 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.entities.configs.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.csse3200.game.ui.ChatOverlay;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends DefaultTask implements PriorityTask {
@@ -21,6 +26,10 @@ public class PauseTask extends DefaultTask implements PriorityTask {
     private final RaycastHit hit = new RaycastHit();
     private MovementTask movementTask;
     private boolean hasApproached;
+    private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
+    private ChatOverlay hint;
+    private Entity entity;
+    private Object config;
 
     /**
      * @param target The entity to pause when seen.
@@ -36,6 +45,9 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         this.physics = ServiceLocator.getPhysicsService().getPhysics();
         this.debugRenderer = ServiceLocator.getRenderService().getDebug();
         this.hasApproached = false;
+        this.hint = null;
+        this.config = null;
+
     }
 
     @Override
@@ -44,8 +56,20 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         movementTask = new MovementTask(target.getPosition());
         movementTask.create(owner);
         movementTask.start();
+        triggerPauseEvent();
+    }
+    private void triggerPauseEvent() {
+        this.entity = this.owner.getEntity();
+        ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
+        if (configComponent != null) {
+            this.config = configComponent.getConfig();
+            String animalName = ((BaseEntityConfig) config).getAnimalName();
+            String eventName = String.format("Paused%s", animalName);
+            entity.getEvents().trigger(eventName);
 
-        this.owner.getEntity().getEvents().trigger("pauseStart");
+        } else {
+            entity.getEvents().trigger("pauseStart");
+        }
     }
 
     @Override
@@ -53,24 +77,44 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         float distanceToTarget = getDistanceToTarget();
 
         if (!hasApproached && distanceToTarget > maxPauseDistance && distanceToTarget <= viewDistance) {
+
             // Move towards the target until within maxPauseDistance
             movementTask.setTarget(target.getPosition());
             movementTask.update();
-            if (movementTask.getStatus() != Status.ACTIVE) {
-                movementTask.start();
-            }
 
-            this.hasApproached = true;
-            movementTask.stop();
-        } else if (hasApproached && distanceToTarget <= maxPauseDistance) {
+        } else if (!hasApproached && distanceToTarget <= maxPauseDistance) {
+
             // NPC pauses when close enough to the target
             hasApproached = true;
-            this.owner.getEntity().getEvents().trigger("paused");
-        } else if (hasApproached && distanceToTarget > 1f) {
+            logger.info("Medium");
+
+            createChatOverlay();
+
+            movementTask.stop();
+
+        } else if (hasApproached && distanceToTarget > 1.5f) {
+
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
-            this.owner.getEntity().getEvents().trigger("pauseEnd");
+            logger.info("end");
+
+            if (this.hint != null) {
+                hint.dispose();
+                hint = null;
+            }
+
+            //movementTask.start();
         }
+    }
+
+    private void createChatOverlay() {
+        if (this.hint == null) {
+            String[] hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
+            BaseEntityConfig config = ((BaseEntityConfig) this.config);
+            String name = ((BaseEntityConfig) this.config).getAnimalName();
+            hint = new ChatOverlay(hintText);
+        }
+
     }
 
     @Override

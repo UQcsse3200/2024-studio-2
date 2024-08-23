@@ -5,6 +5,11 @@ package com.csse3200.game.entities.configs;
  */
 public class SnakeConfig extends BaseEntityConfig {
 	
+
+	public int health = 30;
+	public int baseAttack = 0;
 	public String favouriteFood = "Egg";
+
+
 	
 }

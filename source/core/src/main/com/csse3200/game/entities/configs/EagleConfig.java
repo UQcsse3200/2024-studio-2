@@ -8,5 +8,5 @@ public class EagleConfig extends BaseEntityConfig {
     public int health = 25;
 
     public int baseAttack = 0;
-
+    public String favouriteFood = "Fish";
 }
