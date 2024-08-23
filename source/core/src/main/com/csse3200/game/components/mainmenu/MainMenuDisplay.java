@@ -39,12 +39,14 @@ public class MainMenuDisplay extends UIComponent {
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Dialog helpDialog;
+    private Texture backgroundTexture;
 
     @Override
     public void create() {
         super.create();
         addActors();
         applyUserSettings();
+        backgroundTexture = new Texture("images/BackgroundSplash.png");
     }
 
     private void applyUserSettings() {
@@ -57,7 +59,6 @@ public class MainMenuDisplay extends UIComponent {
         table.setFillParent(true);
 
         settingMenu = new Table();
-        Image title = new Image(ServiceLocator.getResourceService().getAsset("images/box_boy_title.png", Texture.class));
 
         TextButton startBtn = new TextButton("Start", skin);
         TextButton loadBtn = new TextButton("Load", skin);
@@ -118,8 +119,6 @@ public class MainMenuDisplay extends UIComponent {
 
         addExitConfirmation(exitBtn);
 
-        table.add(title).padTop(50f).padBottom(50f);
-        table.row();
         table.add(startBtn).padTop(30f).width(200f).height(60f);
         table.row();
         table.add(loadBtn).padTop(15f).width(200f).height(60f);
@@ -487,7 +486,10 @@ public class MainMenuDisplay extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
+        batch = new SpriteBatch();
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
     }
 
     @Override
