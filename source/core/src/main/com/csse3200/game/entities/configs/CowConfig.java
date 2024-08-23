@@ -12,26 +12,12 @@ public class CowConfig extends BaseEntityConfig {
     public final int health = 30;
     public final int baseAttack = 0;
 
-    public static final Map<Integer, String[]> hints = Map.of(
-            0, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."},
-            1, new String[]{"This is cow specific hint 2.", "We hope you're having fun"}
-    );
-    public static int hintLevel = 0;
-    public static int currentHint = 0;
-
-    public String[] getStringHintLevel() {
-        return hints.get(hintLevel);
-    }
-
-    public int getHintLevel() {
-        if (hints != null) {
-            return hintLevel;
-        }
-        return -1;
-    }
-
-
-    public String getAnimalName() {
-        return "Cow";
+    public CowConfig() {
+        this.hints = Map.of(
+                0, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."},
+                1, new String[]{"This is cow specific hint 2.", "We hope you're having fun"}
+        );;
+        this.hintLevel = 0;
+        this.currentHint = 0;
     }
 }

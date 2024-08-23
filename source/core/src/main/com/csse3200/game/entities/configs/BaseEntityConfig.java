@@ -6,13 +6,26 @@ import java.util.Map;
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseEntityConfig {
-    public int health = 1;
-    public int baseAttack = 0;
-    public String animalName = "";
+    public int health = 1; // Remain public as per the base game
+    public int baseAttack = 0; // Remain public as per the base game
+    private String animalName = "";
+    protected Map<Integer, String[]> hints = null;
+    protected int hintLevel = 0;
+    protected int currentHint = 0;
 
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
+    protected BaseEntityConfig() {}
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public int getBaseAttack () {
+        return this.baseAttack;
+    }
 
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
@@ -56,9 +69,5 @@ public class BaseEntityConfig {
         if (hints != null) {
             currentHint = (currentHint - 1) % (hints.get(hintLevel)).length;
         }
-    }
-
-    public String getAnimalName() {
-        return animalName;
     }
 }
