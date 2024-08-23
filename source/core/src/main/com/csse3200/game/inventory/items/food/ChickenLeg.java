@@ -8,12 +8,13 @@ import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
  */
 public class ChickenLeg extends AbstractFood {
     protected Texture meatTexture;
+    private final static String path = "images/foodTexture/chicken_leg.png";
 
     /**
      * Constructs a ChickenLeg class with while assigning fields with set values.
      */
     public ChickenLeg(Texture foodTexture) {
         super("Chicken Leg", 9, 10, 3, new FeedEffect(7));
-        this.meatTexture = new Texture("foodTexture/chicken_leg.png");
+        this.setTexture(path);
     }
 }
