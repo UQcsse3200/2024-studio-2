@@ -4,6 +4,8 @@ import com.csse3200.game.inventory.items.AbstractItem;
 
 import java.util.*;
 
+//TODO implement testing for categorise - need to pull item classes
+
 /**
  * Class for managing inventory actions. Sorts inventory items by name, item code or quantity.
  * Categorises items by class. Allows for searching through inventory for item name
