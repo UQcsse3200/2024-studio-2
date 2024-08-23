@@ -6,6 +6,8 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.Apple;
 
+import java.util.List;
+
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
@@ -26,6 +28,7 @@ public class SnakeGame {
         }
     }
 
+
     /**
      * Detects if the snake it at the boundary of the grid
      *
@@ -42,6 +45,25 @@ public class SnakeGame {
         }
         if (snakeX < 0 || snakeX > (grid_width -1)) {
             return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Determines if the snake has run into itself
+     * @return true if the head of the snake has run into the body, otherwise false
+     */
+    public boolean snakeCollisionDetection() {
+
+        int snakeHeadX = snake.getX();
+        int snakeHeadY = snake.getY();
+        System.out.println("got here");
+        List<Snake.Segment> snakeSegs = snake.getBodySegments();
+        for (int i = 0; i <= snakeSegs.size() - 1; i += 1) {
+             if (snakeSegs.get(i).getX() == snakeHeadX && snakeSegs.get(i).getY() == snakeHeadY) {
+                return true;
+             }
         }
         return false;
     }

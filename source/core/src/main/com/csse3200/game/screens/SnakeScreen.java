@@ -74,7 +74,7 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 20);
+        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
         this.snakeGame = new SnakeGame(snake, apple, grid);
         this.shapeRenderer = new ShapeRenderer();
     }
@@ -95,7 +95,7 @@ public class SnakeScreen extends ScreenAdapter {
         renderer.render();
 
         // Check if the snake has hit the boundary
-        if (snakeGame.boundaryDetection()) {
+        if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
             handleBoundaryCollision();
             delta = 0;
             // TODO: stop the rendering updating stuff idk how to do it
@@ -112,7 +112,7 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     private void handleBoundaryCollision() {
-        logger.info("Snake has hit the boundary!");
+        // logger.info("Snake has hit the boundary!");
         // TODO: Add logic to handle the game over or reset snake position.
     }
 
