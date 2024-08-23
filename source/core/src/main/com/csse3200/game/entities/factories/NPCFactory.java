@@ -64,6 +64,26 @@ public class NPCFactory {
     return chicken;
   }
 
+  public static Entity createFrog(Entity target) {
+    Entity frog = createBaseNPC(target);
+    BaseEntityConfig config = configs.frog;
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class));
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    frog
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new GhostAnimationController());
+
+    frog.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return frog;
+  }
+
   /**
    * Creates a ghost entity.
    *

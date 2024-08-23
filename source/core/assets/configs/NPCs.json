@@ -4,6 +4,11 @@
     "baseAttack": 1,
     "isEnemy": 1
   },
+  "frog": {
+    "health": 100,
+    "baseAttack": 25,
+    "isEnemy": 1
+  },
   "ghost": {
     "health": 40,
     "baseAttack": 10,
