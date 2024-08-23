@@ -59,6 +59,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("slotClicked", this::handleSlotClicked);
+        entity.getEvents().addListener("addItem", this::addItem);
     }
 
     private void toggleInventory() {
@@ -172,6 +173,14 @@ public class PlayerInventoryDisplay extends UIComponent {
     public void removeItem(AbstractItem item) {
         inventory.deleteItem(item.getItemCode());
         generateWindow();
+    }
+
+    private void addItem(AbstractItem item) {
+        if (this.inventory.add(item)) {
+            entity.getEvents().trigger("itemPickedUp", true);
+        } else {
+            entity.getEvents().trigger("itemPickedUp", false);
+        }
     }
 
     @Override
