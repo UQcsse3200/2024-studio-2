@@ -3,10 +3,16 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
@@ -31,12 +37,16 @@ class NPCFactoryTest {
     private Entity eagle;
     private Entity turtle;
     private Entity snake;
+    private static final NPCConfigs configs =
+            FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
             "images/ghost.png",
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
-            "images/snake.png"
+            "images/snake.png",
+            "images/eagle.png",
+            "images/turtle.png"
     };
 
     private String[] atlas = {
@@ -80,8 +90,33 @@ class NPCFactoryTest {
     }
 
     @Test
+    void TestCowName() {
+        String name = configs.cow.getAnimalName();
+        assertEquals("Cow", name);
+    }
+
+    @Test
     void TestCowIsEntity() {
         assert(cow.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestCowHasPhysicsComponent() {
+        assertNotNull(cow.getComponent(PhysicsComponent.class));
+    }
+
+    @Test
+    void TestCowHasPhysicsMovementComponent() {
+        assertNotNull(cow.getComponent(PhysicsMovementComponent.class));
+    }
+
+    @Test
+    void TestCowHasColliderComponent() {
+        assertNotNull(cow.getComponent(ColliderComponent.class));
+    }
+    @Test
+    void TestCowHasConfigComponent() {
+        assertNotNull(cow.getComponent(ConfigComponent.class));
     }
 
     @Test
@@ -98,7 +133,7 @@ class NPCFactoryTest {
 
     @Test
     void TestCowHasAnimation() {
-        assertNotNull(cow.getComponent(AnimationRenderComponent.class),
+        assertTrue(cow.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
                 "Cow should have idle animation.");
     }
 
@@ -116,6 +151,26 @@ class NPCFactoryTest {
         assertEquals(pos, cow.getPosition());
     }
 
+    @Test
+    void TestCowGetInitialHintLevel() {
+        CowConfig cowConfig = configs.cow;
+        int hintLevel = cowConfig.getHintLevel();
+        assertEquals(0, hintLevel);
+    }
+
+    @Test
+    void TestUpdateCowHint() {
+        CowConfig cowConfig = configs.cow;
+        cowConfig.incrementHintLevel();
+        assertEquals(1, cowConfig.getHintLevel());
+        cowConfig.restartCurrentHint();
+
+    }
+
+    @Test
+    void TestCowHintIsNotNull() {
+        assertNotNull(configs.cow.getCurrentHint());
+    }
 
 
 
@@ -127,8 +182,34 @@ class NPCFactoryTest {
     }
 
     @Test
+    void TestLionName() {
+        String name = configs.lion.getAnimalName();
+        assertEquals("Lion", name);
+    }
+
+    @Test
     void TestLionIsEntity() {
         assert(lion.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestLionHasPhysicsComponent() {
+        assertNotNull(lion.getComponent(PhysicsComponent.class));
+    }
+
+    @Test
+    void TestLionHasPhysicsMovementComponent() {
+        assertNotNull(lion.getComponent(PhysicsMovementComponent.class));
+    }
+
+    @Test
+    void TestLionHasColliderComponent() {
+        assertNotNull(lion.getComponent(ColliderComponent.class));
+    }
+
+    @Test
+    void TestLionHasConfigComponent() {
+        assertNotNull(lion.getComponent(ConfigComponent.class));
     }
 
     @Test
@@ -144,8 +225,8 @@ class NPCFactoryTest {
     }
 
     @Test
-    void TestLionHasAnimation() {
-        assertNotNull(lion.getComponent(AnimationRenderComponent.class),
+    void TestLionHasIdleAnimation() {
+        assertTrue(lion.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Lion should have idle animation.");
     }
 
@@ -164,13 +245,64 @@ class NPCFactoryTest {
     }
 
     @Test
+    void TestLionGetInitialHintLevel() {
+        LionConfig lionConfig = configs.lion;
+        int hintLevel = lionConfig.getHintLevel();
+        assertEquals(0, hintLevel);
+    }
+
+    @Test
+    void TestUpdateLionHint() {
+        configs.lion.incrementHintLevel();
+        assertEquals(1, configs.lion.getHintLevel());
+        configs.lion.restartCurrentHint();
+
+    }
+
+    @Test
+    void TestLionHintIsNotNull() {
+        assertNotNull(configs.lion.getCurrentHint());
+    }
+
+
+
+
+
+    @Test
     void TestEagleCreation() {
         assertNotNull(eagle, "Eagle should not be null.");
     }
 
+//    @Test
+//    void TestEagleName() {
+//        String name = configs.eagle.getAnimalName();
+//        assertEquals("Eagle", name);
+//    }
+//
     @Test
     void TestEagleIsEntity() {
         assert(eagle.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestEagleHasPhysicsComponent() {
+        assertNotNull(eagle.getComponent(PhysicsComponent.class));
+    }
+
+    @Test
+    void TestEagleHasPhysicsMovementComponent() {
+        assertNotNull(eagle.getComponent(PhysicsMovementComponent.class));
+    }
+
+    @Test
+    void TestEagleHasColliderComponent() {
+        assertNotNull(eagle.getComponent(ColliderComponent.class));
+    }
+
+
+    @Test
+    void TestEagleHasConfigComponent() {
+        assertNotNull(eagle.getComponent(ConfigComponent.class));
     }
 
     @Test
@@ -186,8 +318,8 @@ class NPCFactoryTest {
     }
 
     @Test
-    void TestEagleHasAnimation() {
-        assertNotNull(eagle.getComponent(AnimationRenderComponent.class),
+    void TestEagleHasIdleAnimation() {
+        assertTrue(eagle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Eagle should have idle animation.");
     }
 
@@ -205,14 +337,63 @@ class NPCFactoryTest {
         assertEquals(pos, eagle.getPosition());
     }
 
+
+//    @Test
+//    void TestEagleGetInitialHintLevel() {
+//        EagleConfig eagleConfig = configs.eagle;
+//        int hintLevel = eagleConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+//    @Test
+//    void TestUpdateEagleHint() {
+//        configs.eagle.incrementHintLevel();
+//        assertEquals(1, configs.eagle.getHintLevel());
+//        configs.eagle.restartCurrentHint();
+//
+//    }
+//
+//    @Test
+//    void TestEagleHintIsNotNull() {
+//        assertNotNull(configs.eagle.getCurrentHint());
+//    }
+
+
+
     @Test
     void TestTurtleCreation() {
         assertNotNull(turtle, "Turtle should not be null.");
     }
 
     @Test
+    void TestTurtleName() {
+        String name = configs.turtle.getAnimalName();
+        assertEquals("Turtle", name);
+    }
+
+    @Test
     void TestTurtleIsEntity() {
         assert(turtle.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestTurtleHasPhysicsComponent() {
+        assertNotNull(turtle.getComponent(PhysicsComponent.class));
+    }
+
+    @Test
+    void TestTurtleHasPhysicsMovementComponent() {
+        assertNotNull(turtle.getComponent(PhysicsMovementComponent.class));
+    }
+
+    @Test
+    void TestTurtleHasColliderComponent() {
+        assertNotNull(turtle.getComponent(ColliderComponent.class));
+    }
+
+    @Test
+    void TestTurtleHasConfigComponent() {
+        assertNotNull(turtle.getComponent(ConfigComponent.class));
     }
 
     @Test
@@ -228,8 +409,8 @@ class NPCFactoryTest {
     }
 
     @Test
-    void TestTurtleHasAnimation() {
-        assertNotNull(turtle.getComponent(AnimationRenderComponent.class),
+    void TestTurtleHasIdleAnimation() {
+        assertTrue(turtle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Turtle should have idle animation.");
     }
 
@@ -247,14 +428,64 @@ class NPCFactoryTest {
         assertEquals(pos, turtle.getPosition());
     }
 
+
+    @Test
+    void TestTurtleGetInitialHintLevel() {
+        TurtleConfig turtleConfig = configs.turtle;
+        int hintLevel = turtleConfig.getHintLevel();
+        assertEquals(0, hintLevel);
+    }
+
+    @Test
+    void TestUpdateTurtleHint() {
+        configs.turtle.incrementHintLevel();
+        assertEquals(1, configs.turtle.getHintLevel());
+        configs.turtle.restartCurrentHint();
+
+    }
+
+    @Test
+    void TestTurtleHintIsNotNull() {
+        assertNotNull(configs.turtle.getCurrentHint());
+    }
+
+
+
+
     @Test
     void TestSnakeCreation() {
         assertNotNull(snake, "Snake should not be null.");
     }
 
+//    @Test
+//    void TestSnakeName() {
+//        String name = configs.snake.getAnimalName();
+//        assertEquals("Snake", name);
+//    }
+
     @Test
     void TestSnakeIsEntity() {
         assert(snake.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestSnakeHasPhysicsComponent() {
+        assertNotNull(snake.getComponent(PhysicsComponent.class));
+    }
+
+    @Test
+    void TestSnakeHasPhysicsMovementComponent() {
+        assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
+    }
+
+    @Test
+    void TestSnakeHasColliderComponent() {
+        assertNotNull(snake.getComponent(ColliderComponent.class));
+    }
+
+    @Test
+    void TestSnakeHasConfigComponent() {
+        assertNotNull(snake.getComponent(ConfigComponent.class));
     }
 
     @Test
@@ -270,8 +501,8 @@ class NPCFactoryTest {
     }
 
     @Test
-    void TestSnakeHasAnimation() {
-        assertNotNull(snake.getComponent(AnimationRenderComponent.class),
+    void TestSnakeHasIdleAnimation() {
+        assertTrue(snake.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Snake should have idle animation.");
     }
 
@@ -288,6 +519,26 @@ class NPCFactoryTest {
 
         assertEquals(pos, snake.getPosition());
     }
+
+//    @Test
+//    void TestSnakeGetInitialHintLevel() {
+//        SnakeConfig snakeConfig = configs.snake;
+//        int hintLevel = snakeConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+//    @Test
+//    void TestUpdateSnakeHint() {
+//        configs.snake.incrementHintLevel();
+//        assertEquals(1, configs.snake.getHintLevel());
+//        configs.snake.restartCurrentHint();
+//
+//    }
+//
+//    @Test
+//    void TestSnakeHintIsNotNull() {
+//        assertNotNull(configs.snake.getCurrentHint());
+//    }
 
     static class TestComponent1 extends Component {}
 
