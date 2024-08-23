@@ -3,16 +3,22 @@ package com.csse3200.game.entities.configs;
 import java.util.Map;
 
 /**
- * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
+ * Defines the Lion's statistics stored in lion config files to be loaded by the NPC factory.
  */
-public class BaseEntityConfig {
-    public int health = 1;
-    public int baseAttack = 0;
-    public String animalName = "";
+public class LionConfig extends BaseEntityConfig {
 
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
+    public String favouriteFood = "Meat";
+    public String animalName = "Lion";
+    public String soundPath = "sounds/tiger-roar.mp3";
+    public int health = 40;
+    public int baseAttack = 0;
+
+    public static final Map<Integer, String[]> hints = Map.of(
+            0, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."},
+            1, new String[]{"This is lion specific hint 2.", "We hope you're having fun"}
+    );
+    public static int hintLevel = 0;
+    public static int currentHint = 0;
 
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
@@ -59,6 +65,6 @@ public class BaseEntityConfig {
     }
 
     public String getAnimalName() {
-        return animalName;
+        return "Lion";
     }
 }
