@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Align;
+
 
 
 public class ChatOverlay {
@@ -93,15 +95,19 @@ public class ChatOverlay {
 //        buttonStyle.over = skin.getDrawable("button-h");
         buttonStyle.over = buttonHoverDrawable;
 
-        backwardButton = new TextButton("Backward", buttonStyle);
-        forwardButton = new TextButton("Forward", buttonStyle);
+        backwardButton = new TextButton("Back", buttonStyle);
+        forwardButton = new TextButton("Continue", buttonStyle);
+        backwardButton.padLeft(50f); // Align text in button
+        forwardButton.padLeft(55f); // Align text in button
+
+        forwardButton.getLabel().setAlignment(Align.center);
 
         float buttonWidth = forwardButton.getWidth();
 
-        float centerX = (screenWidth - (2 * buttonWidth + 20)) / 2; // 20 is spacing between buttons
+        float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
         forwardButton.setPosition(centerX + buttonWidth + 20, labelY - 275);
-        backwardButton.setPosition(centerX, labelY - 275); // 20 is spacing between buttons
+        backwardButton.setPosition(centerX, labelY - 275);
 
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
