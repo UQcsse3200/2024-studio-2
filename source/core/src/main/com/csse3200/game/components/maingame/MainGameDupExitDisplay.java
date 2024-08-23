@@ -18,8 +18,8 @@ public class MainGameDupExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainGameDupExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
-  private Screen screen;
-  private ServiceContainer container;
+  private final Screen screen;
+  private final ServiceContainer container;
 
   public MainGameDupExitDisplay(Screen screen, ServiceContainer container) {
     this.screen = screen;
@@ -37,14 +37,13 @@ public class MainGameDupExitDisplay extends UIComponent {
     table.top().right();
     table.setFillParent(true);
 
-    TextButton mainMenuBtn = new TextButton("Exit", skin);
+    TextButton mainMenuBtn = new TextButton("Delete this Screen", skin);
 
     // Triggers an event when the button is pressed.
     mainMenuBtn.addListener(
       new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          logger.debug("Exit button clicked");
           entity.getEvents().trigger("returnToMainGame", screen, container);
         }
       });
