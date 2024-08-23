@@ -53,9 +53,9 @@ public class MiniGameMenuScreen implements Screen {
         buttonStyle.disabled = skin.newDrawable("default-round", Color.GRAY);
 
 
-        snakeTexture = new Texture(Gdx.files.internal("images/MiniGameSnake.png"));
-        skyTexture = new Texture(Gdx.files.internal("images/Flappy_bird.png"));
-        waterTexture = new Texture(Gdx.files.internal("images/Underwater_maze.png"));
+        snakeTexture = new Texture(Gdx.files.internal("images/minigames/Snake.png"));
+        skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
+        waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
 
 
         Image snakeImage = new Image(snakeTexture);
