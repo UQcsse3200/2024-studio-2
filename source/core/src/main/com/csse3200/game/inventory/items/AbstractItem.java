@@ -126,10 +126,21 @@ public abstract class AbstractItem {
      */
     public boolean isEmpty() {return quantity == 0;}
 
+    /**
+     * Sets the texture of the object using the provided file path.
+     *
+     * @param texturePath The file path of the texture to set.
+     */
     protected void setTexture(String texturePath) {
         this.texture = new Texture(texturePath);
     }
 
+    /**
+     * Retrieves the texture of the object.
+     *
+     * @return The texture associated with this object.
+     * @throws IllegalAccessError if the texture has not been set prior to calling this method.
+     */
     public Texture getTexture() throws IllegalAccessError {
         if (this.texture == null) {
             throw new IllegalAccessError("Cannot access texture without setting first!");
