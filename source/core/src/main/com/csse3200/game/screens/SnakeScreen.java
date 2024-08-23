@@ -53,6 +53,13 @@ public class SnakeScreen extends ScreenAdapter {
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
+     */
+    public SnakeScreen() {
+        this(null);
+    }
+
+    /**
+     * Initialises the SnakeScreen with the provided game instance.
      *
      * @param game The main game instance that controls the screen.
      */
@@ -194,16 +201,16 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     public Direction getInputDirection() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) | Gdx.input.isKeyPressed(Input.Keys.D)) {
             return Direction.RIGHT;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) | Gdx.input.isKeyPressed(Input.Keys.A)) {
             return Direction.LEFT;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) | Gdx.input.isKeyPressed(Input.Keys.W)) {
             return Direction.UP;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) | Gdx.input.isKeyPressed(Input.Keys.S)) {
             return Direction.DOWN;
         }
         return Direction.ZERO;
