@@ -13,15 +13,10 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 
 /** Moves away from a target entity until a safe distance is reached or line of sight is lost */
-public class AvoidTask extends DefaultTask implements PriorityTask {
-    private final Entity target;
-    private final int priority;
+public class AvoidTask extends ChaseTask {
+
     private final float safeDistance;
     private final float minAvoidDistance;
-    private final PhysicsEngine physics;
-    private final DebugRenderer debugRenderer;
-    private final RaycastHit hit = new RaycastHit();
-    private MovementTask movementTask;
 
     /**
      * @param target The entity to avoid.
@@ -30,12 +25,10 @@ public class AvoidTask extends DefaultTask implements PriorityTask {
      * @param minAvoidDistance Minimum distance to avoid moving away from the target.
      */
     public AvoidTask(Entity target, int priority, float safeDistance, float minAvoidDistance) {
-        this.target = target;
-        this.priority = priority;
+        // Call parent constructor
+        super(target, priority, safeDistance, minAvoidDistance);
         this.safeDistance = safeDistance;
         this.minAvoidDistance = minAvoidDistance;
-        this.physics = ServiceLocator.getPhysicsService().getPhysics();
-        this.debugRenderer = ServiceLocator.getRenderService().getDebug();
     }
 
     @Override
@@ -59,12 +52,6 @@ public class AvoidTask extends DefaultTask implements PriorityTask {
     }
 
     @Override
-    public void stop() {
-        super.stop();
-        movementTask.stop();
-    }
-
-    @Override
     public int getPriority() {
         if (status == Status.ACTIVE) {
             return getActivePriority();
@@ -80,36 +67,19 @@ public class AvoidTask extends DefaultTask implements PriorityTask {
         return entityPosition.cpy().add(directionAway.scl(minAvoidDistance));
     }
 
-    private float getDistanceToTarget() {
-        return owner.getEntity().getPosition().dst(target.getPosition());
-    }
-
-    private int getActivePriority() {
-        float dst = getDistanceToTarget();
+    protected int getActivePriority() {
+        float dst = super.getDistanceToTarget();
         if (dst > safeDistance || !isTargetVisible()) {
             return -1; // Safe distance reached, stop avoiding
         }
         return priority;
     }
 
-    private int getInactivePriority() {
+    protected int getInactivePriority() {
         float dst = getDistanceToTarget();
         if (dst < safeDistance && isTargetVisible()) {
             return priority;
         }
         return -1;
-    }
-
-    private boolean isTargetVisible() {
-        Vector2 from = owner.getEntity().getCenterPosition();
-        Vector2 to = target.getCenterPosition();
-
-        // If there is an obstacle in the path to the target, not visible.
-        if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
-            return false;
-        }
-        debugRenderer.drawLine(from, to);
-        return true;
     }
 }

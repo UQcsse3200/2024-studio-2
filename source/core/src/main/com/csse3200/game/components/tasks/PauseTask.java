@@ -16,15 +16,8 @@ import org.slf4j.LoggerFactory;
 import com.csse3200.game.ui.ChatOverlay;
 
 /** Pauses near a target entity until they move too far away or out of sight */
-public class PauseTask extends DefaultTask implements PriorityTask {
-    private final Entity target;
-    private final int priority;
-    private final float viewDistance;
+public class PauseTask extends ChaseTask {
     private final float maxPauseDistance;
-    private final PhysicsEngine physics;
-    private final DebugRenderer debugRenderer;
-    private final RaycastHit hit = new RaycastHit();
-    private MovementTask movementTask;
     private boolean hasApproached;
     private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
     private ChatOverlay hint;
@@ -38,27 +31,20 @@ public class PauseTask extends DefaultTask implements PriorityTask {
      * @param maxPauseDistance Maximum distance from the entity to pause.
      */
     public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
-        this.target = target;
-        this.priority = priority;
-        this.viewDistance = viewDistance;
+        super(target, priority, viewDistance, maxPauseDistance);
         this.maxPauseDistance = maxPauseDistance;
-        this.physics = ServiceLocator.getPhysicsService().getPhysics();
-        this.debugRenderer = ServiceLocator.getRenderService().getDebug();
         this.hasApproached = false;
         this.hint = null;
         this.config = null;
-
     }
 
     @Override
     public void start() {
         super.start();
-        movementTask = new MovementTask(target.getPosition());
-        movementTask.create(owner);
-        movementTask.start();
         triggerPauseEvent();
     }
-    private void triggerPauseEvent() {
+
+    protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
         ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
@@ -66,7 +52,6 @@ public class PauseTask extends DefaultTask implements PriorityTask {
             String animalName = ((BaseEntityConfig) config).getAnimalName();
             String eventName = String.format("Paused%s", animalName);
             entity.getEvents().trigger(eventName);
-
         } else {
             entity.getEvents().trigger("pauseStart");
         }
@@ -107,23 +92,15 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         }
     }
 
-    private void createChatOverlay() {
+    protected void createChatOverlay() {
         if (this.hint == null) {
             String[] hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
             BaseEntityConfig config = ((BaseEntityConfig) this.config);
             String name = ((BaseEntityConfig) this.config).getAnimalName();
             hint = new ChatOverlay(hintText);
         }
-
     }
 
-    @Override
-    public void stop() {
-        super.stop();
-        movementTask.stop();
-    }
-
-    @Override
     public int getPriority() {
         if (status == Status.ACTIVE) {
             return getActivePriority();
@@ -132,36 +109,25 @@ public class PauseTask extends DefaultTask implements PriorityTask {
         return getInactivePriority();
     }
 
-    private float getDistanceToTarget() {
+    protected float getDistanceToTarget() {
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
-    private int getActivePriority() {
+    @Override
+    protected int getActivePriority() {
         float distance = getDistanceToTarget();
-        if (distance > viewDistance || !isTargetVisible()) {
+        if (distance > getViewDistance() || !isTargetVisible()) {
             return -1; // Too far or not visible, stop the task
         }
         return priority;
     }
 
-    private int getInactivePriority() {
+    @Override
+    protected int getInactivePriority() {
         float distance = getDistanceToTarget();
-        if (distance < viewDistance && isTargetVisible()) {
+        if (distance < getViewDistance() && isTargetVisible()) {
             return priority;
         }
         return -1;
-    }
-
-    private boolean isTargetVisible() {
-        Vector2 from = owner.getEntity().getCenterPosition();
-        Vector2 to = target.getCenterPosition();
-
-        // If there is an obstacle in the path to the player, not visible.
-        if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
-            return false;
-        }
-        debugRenderer.drawLine(from, to);
-        return true;
     }
 }
