@@ -112,7 +112,6 @@ public class SnakeScreen extends ScreenAdapter {
 
     private void handleBoundaryCollision() {
         logger.info("Snake has hit the boundary!");
-        System.out.println("hit the boundary");
         // TODO: Add logic to handle the game over or reset snake position.
     }
 
