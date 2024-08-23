@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+  private int maxHealth;
   private int health;
   private int baseAttack;
 
   public CombatStatsComponent(int health, int baseAttack) {
+    this.maxHealth = health;
     setHealth(health);
     setBaseAttack(baseAttack);
   }
@@ -87,5 +89,9 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+  }
+
+  public int getMaxHealth() {
+    return maxHealth;
   }
 }
