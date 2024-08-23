@@ -5,9 +5,6 @@ import java.util.Map;
 public class TurtleConfig extends BaseEntityConfig {
     private String favouriteFood = "Algae";
     private String soundPath = "sounds/turtle-hiss.mp3";
-    private String animalName = "Turtle";
-    private int health = 20;
-    private int baseAttack = 0;
 
     protected TurtleConfig() {
         this.hints = Map.of(
@@ -16,5 +13,8 @@ public class TurtleConfig extends BaseEntityConfig {
         );
         this.hintLevel = 0;
         this.currentHint = 0;
+        this.health = 20;
+        this.baseAttack = 0;
+        this.animalName = "Turtle";
     }
 }

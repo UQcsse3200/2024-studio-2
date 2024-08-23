@@ -8,7 +8,7 @@ import java.util.Map;
 public class BaseEntityConfig {
     public int health = 1; // Remain public as per the base game
     public int baseAttack = 0; // Remain public as per the base game
-    private String animalName = "";
+    protected String animalName = "";
     protected Map<Integer, String[]> hints = null;
     protected int hintLevel = 0;
     protected int currentHint = 0;

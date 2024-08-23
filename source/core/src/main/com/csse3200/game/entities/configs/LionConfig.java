@@ -7,10 +7,7 @@ import java.util.Map;
  */
 public class LionConfig extends BaseEntityConfig {
     private String favouriteFood = "Meat";
-    private String animalName = "Lion";
     private String soundPath = "sounds/tiger-roar.mp3";
-    private int health = 40;
-    private int baseAttack = 0;
 
     protected LionConfig() {
         this.hints = Map.of(
@@ -19,5 +16,8 @@ public class LionConfig extends BaseEntityConfig {
         );
         this.hintLevel = 0;
         this.currentHint = 0;
+        this.health = 40;
+        this.baseAttack = 0;
+        this.animalName = "Lion";
     }
 }

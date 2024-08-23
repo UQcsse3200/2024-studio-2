@@ -6,11 +6,7 @@ import java.util.Map;
  * Defines the Eagle's statistics stored in eagle config files to be loaded by the NPC factory.
  */
 public class EagleConfig extends BaseEntityConfig {
-    public int health = 25;
-    public int baseAttack = 0;
-    
     protected String favouriteFood = "Fish";
-    protected String animalName = "Eagle";
     protected String soundPath = "sounds/eagle-scream.mp3";
 
     protected EagleConfig() {
@@ -20,5 +16,8 @@ public class EagleConfig extends BaseEntityConfig {
         );
         this.hintLevel = 0;
         this.currentHint = 0;
+        this.health = 25;
+        this.baseAttack = 0;
+        this.animalName = "Eagle";
     }
 }

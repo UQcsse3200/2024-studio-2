@@ -8,9 +8,6 @@ import java.util.Map;
 public class CowConfig extends BaseEntityConfig {
     public final String favouriteColour = "Hay";
     public final String soundPath = "sounds/mooing-cow.mp3";
-    public final String animalName = "Cow";
-    public final int health = 30;
-    public final int baseAttack = 0;
 
     public CowConfig() {
         this.hints = Map.of(
@@ -19,5 +16,8 @@ public class CowConfig extends BaseEntityConfig {
         );;
         this.hintLevel = 0;
         this.currentHint = 0;
+        this.health = 30;
+        this.baseAttack = 0;
+        this.animalName =  "Cow";
     }
 }
