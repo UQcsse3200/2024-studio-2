@@ -81,7 +81,7 @@ public class Snake {
         moveTimer -= dt;
         if (moveTimer <= 0) {
             move(direction);
-            moveTimer = movePeriod;
+            moveTimer += movePeriod;
         }
     }
 
