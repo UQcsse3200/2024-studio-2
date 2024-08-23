@@ -53,13 +53,6 @@ public class SnakeScreen extends ScreenAdapter {
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
-     */
-    public SnakeScreen() {
-        this(null);
-    }
-
-    /**
-     * Initialises the SnakeScreen with the provided game instance.
      *
      * @param game The main game instance that controls the screen.
      */
