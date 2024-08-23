@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -8,6 +9,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 import com.csse3200.game.components.minigame.snake.Apple;
+import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.factories.RenderFactory;
+import com.csse3200.game.input.InputService;
+import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Represents the screen for the Snake game.
@@ -27,6 +34,17 @@ public class SnakeScreen extends ScreenAdapter {
      */
     public SnakeScreen(GdxGame game) {
         this.game = game;
+
+        final Renderer renderer;
+        // Register essential services
+        ServiceLocator.registerInputService(new InputService());
+        ServiceLocator.registerEntityService(new EntityService());
+        ServiceLocator.registerRenderService(new RenderService());
+
+        // Create renderer
+        renderer = RenderFactory.createRenderer();
+        renderer.getCamera().getEntity().setPosition(0f, 0f);
+
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
         this.shapeRenderer = new ShapeRenderer();
