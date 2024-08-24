@@ -84,65 +84,102 @@ class NPCFactoryTest {
         snake = NPCFactory.createSnake(player, enemies);
     }
 
+    /**
+     * Tests Creation of a cow.
+     */
     @Test
     void TestCowCreation() {
         assertNotNull(cow, "Cow should not be null.");
     }
 
+    /**
+     * Tests that the Cow has the correct name.
+     */
     @Test
     void TestCowName() {
         String name = configs.cow.getAnimalName();
         assertEquals("Cow", name);
     }
 
+    /**
+     * Tests that the cow is an Entity.
+     */
     @Test
     void TestCowIsEntity() {
         assert(cow.getClass() == Entity.class);
     }
 
+    /**
+     * Tests that the cow has a physics component.
+     */
     @Test
     void TestCowHasPhysicsComponent() {
         assertNotNull(cow.getComponent(PhysicsComponent.class));
     }
 
+    /**
+     * Tests that the cow has a physics movement component.
+     */
     @Test
     void TestCowHasPhysicsMovementComponent() {
         assertNotNull(cow.getComponent(PhysicsMovementComponent.class));
     }
 
+    /**
+     * Tests the cow has a collider component.
+     */
     @Test
     void TestCowHasColliderComponent() {
         assertNotNull(cow.getComponent(ColliderComponent.class));
     }
+
+    /**
+     * Tests that the cow has stat config component.
+     */
     @Test
     void TestCowHasConfigComponent() {
         assertNotNull(cow.getComponent(ConfigComponent.class));
     }
 
+    /**
+     * Tests that the cow has the correct HP stat.
+     */
     @Test
     void TestCowHasCorrectHP() {
         assertEquals(30, cow.getComponent(CombatStatsComponent.class).getHealth(),
                 "Cow should have 30 HP.");
     }
 
+    /**
+     * Tests that the cow has the correct base attack stat.
+     */
     @Test
     void TestCowHasCorrectBaseAttack() {
         assertEquals(0, cow.getComponent(CombatStatsComponent.class).getBaseAttack(),
                 "Cow should have 0 Base Attack.");
     }
 
+    /**
+     * Tests that the cow has an idle animation.
+     */
     @Test
     void TestCowHasAnimation() {
         assertTrue(cow.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
                 "Cow should have idle animation.");
     }
 
+    /**
+     * Tests that the cow is a friendly NPC meaning it won't attack players.
+     */
     @Test
     void TestCowIsFriendly() {
         assertNotNull(cow.getComponent(FriendlyNPCAnimationController.class),
                 "Cow should have a friendly AI controller.");
     }
 
+    /**
+     * Tests that the cow is in the correct spot when placed.
+     */
     @Test
     void TestCowSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
@@ -151,6 +188,9 @@ class NPCFactoryTest {
         assertEquals(pos, cow.getPosition());
     }
 
+    /**
+     * Tests that the cow's hint system works by getting current hint level to display hints.
+     */
     @Test
     void TestCowGetInitialHintLevel() {
         CowConfig cowConfig = configs.cow;
@@ -158,6 +198,9 @@ class NPCFactoryTest {
         assertEquals(0, hintLevel);
     }
 
+    /**
+     * Tests that the cow updates its hint when the hint level is incremented.
+     */
     @Test
     void TestUpdateCowHint() {
         CowConfig cowConfig = configs.cow;
@@ -167,6 +210,9 @@ class NPCFactoryTest {
 
     }
 
+    /**
+     * Tests that the cow hint exists.
+     */
     @Test
     void TestCowHintIsNotNull() {
         assertNotNull(configs.cow.getCurrentHint());
@@ -175,67 +221,103 @@ class NPCFactoryTest {
 
 
 
-
+    /**
+     * Tests Creation of a lion.
+     */
     @Test
     void TestLionCreation() {
         assertNotNull(lion, "Lion should not be null.");
     }
 
+    /**
+     * Tests that the lion has the correct name.
+     */
     @Test
     void TestLionName() {
         String name = configs.lion.getAnimalName();
         assertEquals("Lion", name);
     }
 
+    /**
+     * Tests that the lion is an Entity.
+     */
     @Test
     void TestLionIsEntity() {
         assert(lion.getClass() == Entity.class);
     }
 
+    /**
+     * Tests that the lion has a physics component.
+     */
     @Test
     void TestLionHasPhysicsComponent() {
         assertNotNull(lion.getComponent(PhysicsComponent.class));
     }
 
+    /**
+     * Tests that the lion has a physics movement component.
+     */
     @Test
     void TestLionHasPhysicsMovementComponent() {
         assertNotNull(lion.getComponent(PhysicsMovementComponent.class));
     }
 
+    /**
+     * Tests the lion has a collider component.
+     */
     @Test
     void TestLionHasColliderComponent() {
         assertNotNull(lion.getComponent(ColliderComponent.class));
     }
+
+    /**
+     * Tests that the lion has stat config component.
+     */
 
     @Test
     void TestLionHasConfigComponent() {
         assertNotNull(lion.getComponent(ConfigComponent.class));
     }
 
+    /**
+     * Tests that the lion has the correct HP stat.
+     */
     @Test
     void TestLionHasCorrectHP() {
         assertEquals(40, lion.getComponent(CombatStatsComponent.class).getHealth(),
                 "Lion should have 40 HP.");
     }
 
+    /**
+     * Tests that the lion has the correct base attack stat.
+     */
     @Test
     void TestLionHasCorrectBaseAttack() {
         assertEquals(0, lion.getComponent(CombatStatsComponent.class).getBaseAttack(),
                 "Lion should have 0 Base Attack.");
     }
 
+    /**
+     * Tests that the lion has an idle animation.
+     */
     @Test
     void TestLionHasIdleAnimation() {
         assertTrue(lion.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Lion should have idle animation.");
     }
 
+    /**
+     * Tests that the lion is a friendly NPC meaning it won't attack players.
+     */
     @Test
     void TestLionIsFriendly() {
         assertNotNull(lion.getComponent(FriendlyNPCAnimationController.class),
                 "Lion should have a friendly AI controller.");
     }
 
+    /**
+     * Tests that the lion is in the correct spot when placed.
+     */
     @Test
     void TestLionSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
@@ -244,6 +326,9 @@ class NPCFactoryTest {
         assertEquals(pos, lion.getPosition());
     }
 
+    /**
+     * Tests that the lion's hint system works by getting current hint level to display hints.
+     */
     @Test
     void TestLionGetInitialHintLevel() {
         LionConfig lionConfig = configs.lion;
@@ -251,6 +336,9 @@ class NPCFactoryTest {
         assertEquals(0, hintLevel);
     }
 
+    /**
+     * Tests that the lion updates its hint when the hint level is incremented.
+     */
     @Test
     void TestUpdateLionHint() {
         configs.lion.incrementHintLevel();
@@ -259,6 +347,9 @@ class NPCFactoryTest {
 
     }
 
+    /**
+     * Tests that the lion hint exists.
+     */
     @Test
     void TestLionHintIsNotNull() {
         assertNotNull(configs.lion.getCurrentHint());
@@ -267,68 +358,103 @@ class NPCFactoryTest {
 
 
 
-
+    /**
+     * Tests Creation of an eagle.
+     */
     @Test
     void TestEagleCreation() {
         assertNotNull(eagle, "Eagle should not be null.");
     }
 
+    /**
+     * Tests that the eagle has the correct name.
+     */
 //    @Test
 //    void TestEagleName() {
 //        String name = configs.eagle.getAnimalName();
 //        assertEquals("Eagle", name);
 //    }
 //
+    /**
+     * Tests that the eagle is an Entity.
+     */
     @Test
     void TestEagleIsEntity() {
         assert(eagle.getClass() == Entity.class);
     }
 
+    /**
+     * Tests that the eagle has a physics component.
+     */
     @Test
     void TestEagleHasPhysicsComponent() {
         assertNotNull(eagle.getComponent(PhysicsComponent.class));
     }
 
+    /**
+     * Tests that the eagle has a physics movement component.
+     */
     @Test
     void TestEagleHasPhysicsMovementComponent() {
         assertNotNull(eagle.getComponent(PhysicsMovementComponent.class));
     }
 
+    /**
+     * Tests the eagle has a collider component.
+     */
     @Test
     void TestEagleHasColliderComponent() {
         assertNotNull(eagle.getComponent(ColliderComponent.class));
     }
 
+    /**
+     * Tests that the eagle has stat config component.
+     */
 
     @Test
     void TestEagleHasConfigComponent() {
         assertNotNull(eagle.getComponent(ConfigComponent.class));
     }
 
+    /**
+     * Tests that the eagle has the correct HP stat.
+     */
     @Test
     void TestEagleHasCorrectHP() {
         assertEquals(25, eagle.getComponent(CombatStatsComponent.class).getHealth(),
                 "Eagle should have 25 HP.");
     }
 
+    /**
+     * Tests that the eagle has the correct base attack stat.
+     */
     @Test
     void TestEagleHasCorrectBaseAttack() {
         assertEquals(0, eagle.getComponent(CombatStatsComponent.class).getBaseAttack(),
                 "Eagle should have 0 Base Attack.");
     }
 
+    /**
+     * Tests that the eagle has an idle animation.
+     */
     @Test
     void TestEagleHasIdleAnimation() {
         assertTrue(eagle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Eagle should have idle animation.");
     }
 
+    /**
+     * Tests that the eagle is a friendly NPC meaning it won't attack players.
+     */
     @Test
     void TestEagleIsFriendly() {
         assertNotNull(eagle.getComponent(FriendlyNPCAnimationController.class),
                 "Eagle should have a friendly AI controller.");
     }
 
+    /**
+     * Tests that the eagle is in the correct spot when placed.
+     */
     @Test
     void TestEagleSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
@@ -337,7 +463,9 @@ class NPCFactoryTest {
         assertEquals(pos, eagle.getPosition());
     }
 
-
+    /**
+     * Tests that the eagle's hint system works by getting current hint level to display hints.
+     */
 //    @Test
 //    void TestEagleGetInitialHintLevel() {
 //        EagleConfig eagleConfig = configs.eagle;
@@ -345,6 +473,9 @@ class NPCFactoryTest {
 //        assertEquals(0, hintLevel);
 //    }
 //
+    /**
+     * Tests that the eagle updates its hint when the hint level is incremented.
+     */
 //    @Test
 //    void TestUpdateEagleHint() {
 //        configs.eagle.incrementHintLevel();
@@ -353,6 +484,9 @@ class NPCFactoryTest {
 //
 //    }
 //
+    /**
+     * Tests that the eagle hint exists.
+     */
 //    @Test
 //    void TestEagleHintIsNotNull() {
 //        assertNotNull(configs.eagle.getCurrentHint());
@@ -360,66 +494,103 @@ class NPCFactoryTest {
 
 
 
+
+    /**
+     * Tests Creation of a turtle.
+     */
     @Test
     void TestTurtleCreation() {
         assertNotNull(turtle, "Turtle should not be null.");
     }
 
+    /**
+     * Tests that the turtle has the correct name.
+     */
     @Test
     void TestTurtleName() {
         String name = configs.turtle.getAnimalName();
         assertEquals("Turtle", name);
     }
 
+    /**
+     * Tests that the turtle is an Entity.
+     */
     @Test
     void TestTurtleIsEntity() {
         assert(turtle.getClass() == Entity.class);
     }
 
+    /**
+     * Tests that the turtle has a physics component.
+     */
     @Test
     void TestTurtleHasPhysicsComponent() {
         assertNotNull(turtle.getComponent(PhysicsComponent.class));
     }
 
+    /**
+     * Tests that the turtle has a physics movement component.
+     */
     @Test
     void TestTurtleHasPhysicsMovementComponent() {
         assertNotNull(turtle.getComponent(PhysicsMovementComponent.class));
     }
 
+    /**
+     * Tests the turtle has a collider component.
+     */
     @Test
     void TestTurtleHasColliderComponent() {
         assertNotNull(turtle.getComponent(ColliderComponent.class));
     }
 
+    /**
+     * Tests that the turtle has stat config component.
+     */
     @Test
     void TestTurtleHasConfigComponent() {
         assertNotNull(turtle.getComponent(ConfigComponent.class));
     }
 
+    /**
+     * Tests that the turtle has the correct HP stat.
+     */
     @Test
     void TestTurtleHasCorrectHP() {
         assertEquals(20, turtle.getComponent(CombatStatsComponent.class).getHealth(),
                 "Turtle should have 20 HP.");
     }
 
+    /**
+     * Tests that the turtle has the correct base attack stat.
+     */
     @Test
     void TestTurtleHasCorrectBaseAttack() {
         assertEquals(0, turtle.getComponent(CombatStatsComponent.class).getBaseAttack(),
                 "Turtle should have 0 Base Attack.");
     }
 
+    /**
+     * Tests that the turtle has an idle animation.
+     */
     @Test
     void TestTurtleHasIdleAnimation() {
         assertTrue(turtle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Turtle should have idle animation.");
     }
 
+    /**
+     * Tests that the turtle is a friendly NPC meaning it won't attack players.
+     */
     @Test
     void TestTurtleIsFriendly() {
         assertNotNull(turtle.getComponent(FriendlyNPCAnimationController.class),
                 "Turtle should have a friendly AI controller.");
     }
 
+    /**
+     * Tests that the turtle is in the correct spot when placed.
+     */
     @Test
     void TestTurtleSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
@@ -428,7 +599,9 @@ class NPCFactoryTest {
         assertEquals(pos, turtle.getPosition());
     }
 
-
+    /**
+     * Tests that the turtle's hint system works by getting current hint level to display hints.
+     */
     @Test
     void TestTurtleGetInitialHintLevel() {
         TurtleConfig turtleConfig = configs.turtle;
@@ -436,6 +609,9 @@ class NPCFactoryTest {
         assertEquals(0, hintLevel);
     }
 
+    /**
+     * Tests that the turtle updates its hint when the hint level is incremented.
+     */
     @Test
     void TestUpdateTurtleHint() {
         configs.turtle.incrementHintLevel();
@@ -444,6 +620,9 @@ class NPCFactoryTest {
 
     }
 
+    /**
+     * Tests that the turtle hint exists.
+     */
     @Test
     void TestTurtleHintIsNotNull() {
         assertNotNull(configs.turtle.getCurrentHint());
@@ -451,67 +630,103 @@ class NPCFactoryTest {
 
 
 
-
+    /**
+     * Tests Creation of a snake.
+     */
     @Test
     void TestSnakeCreation() {
         assertNotNull(snake, "Snake should not be null.");
     }
 
+    /**
+     * Tests that the snake has the correct name.
+     */
 //    @Test
 //    void TestSnakeName() {
 //        String name = configs.snake.getAnimalName();
 //        assertEquals("Snake", name);
 //    }
 
+    /**
+     * Tests that the snake is an Entity.
+     */
     @Test
     void TestSnakeIsEntity() {
         assert(snake.getClass() == Entity.class);
     }
+
+    /**
+     * Tests that the snake has a physics component.
+     */
 
     @Test
     void TestSnakeHasPhysicsComponent() {
         assertNotNull(snake.getComponent(PhysicsComponent.class));
     }
 
+    /**
+     * Tests that the snake has a physics movement component.
+     */
     @Test
     void TestSnakeHasPhysicsMovementComponent() {
         assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
     }
 
+    /**
+     * Tests the snake has a collider component.
+     */
     @Test
     void TestSnakeHasColliderComponent() {
         assertNotNull(snake.getComponent(ColliderComponent.class));
     }
 
+    /**
+     * Tests that the snake has stat config component.
+     */
     @Test
     void TestSnakeHasConfigComponent() {
         assertNotNull(snake.getComponent(ConfigComponent.class));
     }
 
+    /**
+     * Tests that the snake has the correct HP stat.
+     */
     @Test
     void TestSnakeHasCorrectHP() {
         assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
                 "Snake should have 30 HP.");
     }
 
+    /**
+     * Tests that the snake has the correct base attack stat.
+     */
     @Test
     void TestSnakeHasCorrectBaseAttack() {
         assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
                 "Snake should have 0 Base Attack.");
     }
 
+    /**
+     * Tests that the snake has an idle animation.
+     */
     @Test
     void TestSnakeHasIdleAnimation() {
         assertTrue(snake.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
                 "Snake should have idle animation.");
     }
 
+    /**
+     * Tests that the snake is a friendly NPC meaning it won't attack players.
+     */
     @Test
     void TestSnakeIsFriendly() {
         assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
                 "Snake should have a friendly AI controller.");
     }
 
+    /**
+     * Tests that the snake is in the correct spot when placed.
+     */
     @Test
     void TestSnakeSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
@@ -520,6 +735,9 @@ class NPCFactoryTest {
         assertEquals(pos, snake.getPosition());
     }
 
+    /**
+     * Tests that the snake's hint system works by getting current hint level to display hints.
+     */
 //    @Test
 //    void TestSnakeGetInitialHintLevel() {
 //        SnakeConfig snakeConfig = configs.snake;
@@ -527,6 +745,9 @@ class NPCFactoryTest {
 //        assertEquals(0, hintLevel);
 //    }
 //
+    /**
+     * Tests that the snake updates its hint when the hint level is incremented.
+     */
 //    @Test
 //    void TestUpdateSnakeHint() {
 //        configs.snake.incrementHintLevel();
@@ -535,6 +756,9 @@ class NPCFactoryTest {
 //
 //    }
 //
+    /**
+     * Tests that the snake hint exists.
+     */
 //    @Test
 //    void TestSnakeHintIsNotNull() {
 //        assertNotNull(configs.snake.getCurrentHint());
