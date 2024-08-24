@@ -11,6 +11,7 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.Vector2Utils;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
@@ -24,6 +25,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private MovementTask movementTask;
   private Music heartbeatSound;
   private final boolean isBoss;
+  private static final String heartbeat = "sounds/heartbeat.mp3";
+  private final Vector2 bossSpeed;
 
   /**
    * @param target The entity to chase.
@@ -38,24 +41,28 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     this.maxChaseDistance = maxChaseDistance;
     physics = ServiceLocator.getPhysicsService().getPhysics();
     debugRenderer = ServiceLocator.getRenderService().getDebug();
+    bossSpeed = Vector2Utils.TWOHALF;
     this.isBoss = isBoss;
   }
 
   @Override
   public void start() {
     super.start();
-    movementTask = new MovementTask(target.getPosition());
-    movementTask.create(owner);
-    movementTask.start();
+    // If chase task is for a boss entity create a move task increased speed.
     if (this.isBoss) {
+      movementTask = new MovementTask(target.getPosition(), bossSpeed);
+      movementTask.create(owner);
+      movementTask.start();
       playTensionSound();
       this.owner.getEntity().getEvents().trigger("kangaChaseStart");
     } else {
+      movementTask = new MovementTask(target.getPosition());
+      movementTask.create(owner);
+      movementTask.start();
       this.owner.getEntity().getEvents().trigger("chaseStart");
     }
   }
 
-  private static final String heartbeat = "sounds/heartbeat.mp3";
 
   void playTensionSound() {
     if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
