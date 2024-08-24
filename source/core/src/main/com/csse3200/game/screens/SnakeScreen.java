@@ -39,6 +39,9 @@ import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.graphics.Color;
+
+
 /**
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
@@ -100,6 +103,7 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         // Clear the screen
+        Gdx.gl.glClearColor(Color.BLUE.r, Color.BLUE.g, Color.BLUE.b, Color.BLUE.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Keeps the exit button
@@ -276,6 +280,12 @@ public class SnakeScreen extends ScreenAdapter {
      */
     @Override
     public void dispose() {
+//        Gdx.gl.glClearColor(Color.rgba8888(248,249,178,255),
+//                Color.rgba8888(248,249,178,255),
+//                Color.rgba8888(248,249,178,255),
+//                Color.rgba8888(248,249,178,255));
+        Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+
         logger.debug("Disposing snake minigame screen");
 
         renderer.dispose();
