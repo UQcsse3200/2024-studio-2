@@ -39,10 +39,12 @@ public class QuestManager extends Component {
         // Initialise 2 Step Test Quest
         ArrayList<String[]> test2StepTextProg1 = new ArrayList<>();
 
-        // Adding String[] arrays individually
-        test2StepTextProg1.add(new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."});
-        test2StepTextProg1.add(new String[]{"This is cow specific hint 2.", "We hope you're having fun"});
-        Map<DialogueKey,ArrayList<String[]>> test2TaskQuestDialogue = Map.of(new DialogueKey("cow",1),test2StepTextProg1);
+        test2StepTextProg1.add(new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest.."});
+        test2StepTextProg1.add(new String[]{"Press Spacebar!"});
+        ArrayList<String[]> test2StepTextProg2 = new ArrayList<>();
+        test2StepTextProg2.add(new String[]{"Yippeee!", "You completed your Quest!"});
+
+        Map<DialogueKey,ArrayList<String[]>> test2TaskQuestDialogue = Map.of(new DialogueKey("Cow",1),test2StepTextProg1, new DialogueKey("Cow", 2),test2StepTextProg2);
         List<Task> tasks1 = List.of(stepsTask,attackTask);
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false,test2TaskQuestDialogue);
         addQuest(twoTaskQuest);
