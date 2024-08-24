@@ -1,6 +1,8 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -40,8 +42,6 @@ import com.csse3200.game.components.minigame.snake.SnakeGame;
  */
 public class SnakeScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
-    private static final String[] snakeMiniGameTextures = {};
-    private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
     private final int CELL_SIZE = 55;
     private final GdxGame game;
     private final SnakeGame snakeGame;
@@ -49,7 +49,8 @@ public class SnakeScreen extends ScreenAdapter {
     private final Apple apple;
     private final Snake snake;
     private final Renderer renderer;
-    private ShapeRenderer shapeRenderer;
+    private SpriteBatch spriteBatch;
+    private Texture appleTexture, snakeTexture, snakeBody, grassTexture;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -67,6 +68,7 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerTimeSource(new GameTime());
 
         renderer = RenderFactory.createRenderer();
+        spriteBatch = new SpriteBatch();
 
         loadAssets();
         createUI();
@@ -76,7 +78,6 @@ public class SnakeScreen extends ScreenAdapter {
         this.apple = new Apple(grid);
         this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
         this.snakeGame = new SnakeGame(snake, apple, grid);
-        this.shapeRenderer = new ShapeRenderer();
     }
 
     /**
@@ -105,10 +106,12 @@ public class SnakeScreen extends ScreenAdapter {
         updateDirection();
         snakeGame.attemptEatFruit();
         snake.update(delta);
+
+        spriteBatch.begin();
         renderGrid();
         renderApple();
-        renderHead();
-        renderBody();
+        renderSnake();
+        spriteBatch.end();
     }
 
     private void handleBoundaryCollision() {
@@ -118,7 +121,6 @@ public class SnakeScreen extends ScreenAdapter {
 
     /**
      * Renders the game grid on the screen.
-     * The grid is centered and each cell is drawn with a white outline.
      */
     private void renderGrid() {
         int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
@@ -128,82 +130,93 @@ public class SnakeScreen extends ScreenAdapter {
         float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
         float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
-
         for (int x = 0; x < grid.getWidth(); x++) {
             for (int y = 0; y < grid.getHeight(); y++) {
-                shapeRenderer.rect(offsetX + x * CELL_SIZE, offsetY + y * CELL_SIZE, CELL_SIZE,
-                        CELL_SIZE);
+                spriteBatch.draw(grassTexture, offsetX + x * CELL_SIZE, offsetY + y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
-
-        shapeRenderer.end();
     }
 
+
     /**
-     * Renders the apple on the grid.
-     * The apple is displayed as a filled red square on the grid.
+     * Renders the apple on the grid using the apple texture.
      */
     private void renderApple() {
-
         int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
         int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
 
-        // Calculate the offset to center the grid
         float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
         float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-
-        shapeRenderer.rect(offsetX + apple.getX() * CELL_SIZE, offsetY + apple.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-        shapeRenderer.end();
+        spriteBatch.draw(appleTexture, offsetX + apple.getX() * CELL_SIZE, offsetY + apple.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     /**
-     * Renders the snake head on the grid.
-     * The snake head is displayed as a filled green square on the grid.
+     * Renders the snake on the grid using the snake texture.
      */
-    private void renderHead() {
-
+    private void renderSnake() {
         int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
         int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
 
-        // Calculate the offset to center the grid
         float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
         float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GREEN);
+        // Get the current direction of the snake
+        Direction direction = snake.getDirection();
+        float rotation = 0f;
 
-        shapeRenderer.rect(offsetX + snake.getX() * CELL_SIZE, offsetY + snake.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        switch (direction) {
+            case UP:
+                rotation = 180f;
+                break;
+            case DOWN:
+                rotation = 0f;
+                break;
+            case LEFT:
+                rotation = 270f;
+                break;
+            case RIGHT:
+                rotation = 90f;
+                break;
+            default:
+                break;
+        }
 
-        shapeRenderer.end();
-    }
+        // Render snake head with rotation
+        spriteBatch.draw(
+                snakeTexture,
+                offsetX + snake.getX() * CELL_SIZE,  // x position
+                offsetY + snake.getY() * CELL_SIZE,  // y position
+                CELL_SIZE / 2f,                      // originX (center of the texture)
+                CELL_SIZE / 2f,                      // originY (center of the texture)
+                CELL_SIZE,                           // width
+                CELL_SIZE,                           // height
+                1f,                                  // scaleX
+                1f,                                  // scaleY
+                rotation,                            // rotation in degrees
+                0,                                   // srcX (region's x-coordinate)
+                0,                                   // srcY (region's y-coordinate)
+                snakeTexture.getWidth(),             // srcWidth (width of the texture)
+                snakeTexture.getHeight(),            // srcHeight (height of the texture)
+                false,                               // flipX
+                false                                // flipY
+        );
 
-    /**
-     * Renders the snake head on the grid.
-     * The snake head is displayed as a filled green square on the grid.
-     */
-    private void renderBody() {
-        for (Snake.Segment segment: snake.getBodySegments()) {
-            int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-            int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
-    
-            // Calculate the offset to center the grid
-            float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-            float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
-    
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(Color.GOLD);
-    
-            shapeRenderer.rect(offsetX + segment.getX() * CELL_SIZE, offsetY + segment.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-    
-            shapeRenderer.end();
+        // Render snake body
+        for (Snake.Segment segment : snake.getBodySegments()) {
+            spriteBatch.draw(snakeBody, offsetX + segment.getX() * CELL_SIZE,
+                    offsetY + segment.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
     }
+
+
+
+
+    /**
+     * Renders the snake head on the grid.
+     * The snake head is displayed as a filled green square on the grid.
+     */
+
 
     public Direction getInputDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -251,6 +264,7 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Disposing snake minigame screen");
 
         renderer.dispose();
+        spriteBatch.dispose();
         unloadAssets();
 
         ServiceLocator.getEntityService().dispose();
@@ -259,20 +273,28 @@ public class SnakeScreen extends ScreenAdapter {
 
         ServiceLocator.clear();
 
-        shapeRenderer.dispose();
     }
 
     private void loadAssets() {
         logger.debug("Loading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(snakeMiniGameTextures);
+        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
+                "images/minigames/grass.jpg", "images/minigames/snakebody.png"};
+        resourceService.loadTextures(textures);
         ServiceLocator.getResourceService().loadAll();
+
+        appleTexture = resourceService.getAsset("images/minigames/apple.png", Texture.class);
+        snakeTexture = resourceService.getAsset("images/minigames/snakehead.png", Texture.class);
+        snakeBody = resourceService.getAsset("images/minigames/snakebody.png", Texture.class);
+        grassTexture = resourceService.getAsset("images/minigames/grass.jpg", Texture.class);
     }
 
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(snakeMiniGameTextures);
+        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
+                "images/minigames/grass.jpg", "images/minigames/snakebody.jpg"};
+        resourceService.unloadAssets(textures);
     }
 
     /**
