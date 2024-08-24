@@ -102,8 +102,8 @@ public class SnakeScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        // Clear the screen
-        Gdx.gl.glClearColor(Color.BLUE.r, Color.BLUE.g, Color.BLUE.b, Color.BLUE.a);
+        // background colour rgb 50, 82, 29, 1
+        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Keeps the exit button
@@ -132,10 +132,20 @@ public class SnakeScreen extends ScreenAdapter {
             renderScore();
         } else {
             // Optionally, you can render a game-over screen or message here
-            // renderGameOver();
+            renderGameOver();
         }
     }
 
+    private void renderGameOver() {
+        // clean background and set to green
+        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Keeps the exit button
+        ServiceLocator.getEntityService().update();
+        renderer.render();
+        renderScore();
+    }
     private void handleBoundaryCollision() {
         logger.info("Snake has hit the boundary or itself!");
     }
@@ -280,10 +290,7 @@ public class SnakeScreen extends ScreenAdapter {
      */
     @Override
     public void dispose() {
-//        Gdx.gl.glClearColor(Color.rgba8888(248,249,178,255),
-//                Color.rgba8888(248,249,178,255),
-//                Color.rgba8888(248,249,178,255),
-//                Color.rgba8888(248,249,178,255));
+        // colour is rgb(248,249,178,255)
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
 
         logger.debug("Disposing snake minigame screen");

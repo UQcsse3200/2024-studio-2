@@ -185,5 +185,8 @@ public class MiniGameMenuScreen implements Screen {
         snakeTexture.dispose(); // Dispose of the textures
         skyTexture.dispose();
         waterTexture.dispose();
+
+        // Added to make sure the game screen colour stays the same at the end
+        Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
     }
 }
