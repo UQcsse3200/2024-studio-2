@@ -29,7 +29,7 @@ public class InventoryTest {
     private static class TestableItem extends ConsumableItem {
 
         public TestableItem(String name, int itemCode) {
-            super(name, itemCode, 2, 2);
+            super(name, itemCode, 2, 2, "description");
         }
 
         @Override
