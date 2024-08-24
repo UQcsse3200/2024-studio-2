@@ -54,6 +54,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.O:
         entity.getEvents().trigger("addMainGameScreen");
         return true;
+      case Keys.C:
+        entity.getEvents().trigger("startCombat");
+        return true;
       default:
         return false;
     }

@@ -39,7 +39,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
-    entity.getEvents().addListener("addMainGameScreen",this::addMainGameScreen);
+    entity.getEvents().addListener("addMainGameScreen", this::addMainGameScreen);
+    entity.getEvents().addListener("startCombat", this::startCombat);
   }
 
   @Override
@@ -99,5 +100,9 @@ public class PlayerActions extends Component {
 
   public void addMainGameScreen(){
     game.addMainGameDup();
+  }
+
+  public void startCombat(){
+    game.addCombatScreen();
   }
 }

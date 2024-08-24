@@ -68,6 +68,9 @@ public class TouchAttackComponent extends Component {
       targetStats.hit(combatStats);
     }
 
+    // Trigger event to start combat screen
+    target.getEvents().trigger("startCombat");
+/*
     // Apply knockback
     PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
     if (physicsComponent != null && knockbackForce > 0f) {
@@ -76,5 +79,7 @@ public class TouchAttackComponent extends Component {
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
+
+     */
   }
 }
