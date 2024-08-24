@@ -33,6 +33,8 @@ public class Snake {
         this.direction = direction;
     }
 
+    public Direction getDirection() {return this.direction;}
+
     public void updateDirectionOnInput(Direction direction) {
         if (direction == Direction.UP && this.direction != Direction.DOWN) {
             this.direction = direction;
