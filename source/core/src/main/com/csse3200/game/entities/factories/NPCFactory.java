@@ -107,7 +107,7 @@ public class NPCFactory {
    * @param config  the specific configuration object.
    * @return entity
    */
-  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, int health, int baseAttack, String atlasPath, float animationSpeed, BaseEntityConfig config) {
+  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, String atlasPath, float animationSpeed, BaseEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
     AnimationRenderComponent animator =
@@ -115,7 +115,7 @@ public class NPCFactory {
                     ServiceLocator.getResourceService().getAsset(atlasPath, TextureAtlas.class));
     animator.addAnimation("float", animationSpeed, Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(health, baseAttack))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack()))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent(config));
@@ -130,7 +130,7 @@ public class NPCFactory {
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
     CowConfig config = configs.cow;
-    return createFriendlyNPC(target, enemies, config.getHealth(), config.getBaseAttack(), "images/Cow.atlas", 0.2f, config);
+    return createFriendlyNPC(target, enemies, "images/Cow.atlas", 0.2f, config);
   }
 
   /**
@@ -138,7 +138,7 @@ public class NPCFactory {
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
     LionConfig config = configs.lion;
-    return createFriendlyNPC(target, enemies, config.getHealth(), config.getBaseAttack(), "images/lion.atlas", 0.2f, config);
+    return createFriendlyNPC(target, enemies, "images/lion.atlas", 0.2f, config);
   }
 
   /**
@@ -146,7 +146,7 @@ public class NPCFactory {
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
     TurtleConfig config = configs.turtle;
-    return createFriendlyNPC(target, enemies, config.getHealth(), config.getBaseAttack(), "images/turtle.atlas", 0.5f, config);
+    return createFriendlyNPC(target, enemies, "images/turtle.atlas", 0.5f, config);
   }
 
   /**
@@ -154,7 +154,7 @@ public class NPCFactory {
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
     EagleConfig config = configs.eagle;
-    return createFriendlyNPC(target, enemies, config.getHealth(), config.getBaseAttack(), "images/eagle.atlas", 0.1f, config);
+    return createFriendlyNPC(target, enemies, "images/eagle.atlas", 0.1f, config);
   }
 
   /**
@@ -162,7 +162,7 @@ public class NPCFactory {
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
     SnakeConfig config = configs.snake;
-    return createFriendlyNPC(target, enemies, config.getHealth(), config.getBaseAttack(), "images/snake.atlas", 0.1f, config);
+    return createFriendlyNPC(target, enemies, "images/snake.atlas", 0.1f, config);
   }
 
   /**

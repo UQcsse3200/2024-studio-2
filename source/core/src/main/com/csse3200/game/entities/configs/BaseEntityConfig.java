@@ -10,8 +10,13 @@ public class BaseEntityConfig {
     public int baseAttack = 0; // Remain public as per the base game
     protected String animalName = "";
     protected String[] baseHint = null;
+    protected String[] soundPath = null;
 
     protected BaseEntityConfig() {}
+
+    public String[] getSoundPath() {
+        return this.soundPath;
+    }
 
     public int getHealth() {
         return this.health;

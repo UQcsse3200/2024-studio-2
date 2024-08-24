@@ -11,6 +11,8 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
+import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -56,11 +58,14 @@ public class ForestGameArea extends GameArea {
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
 
-  private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
-  private static final String[] lionSounds = {"sounds/tiger-roar.mp3"};
-  private static final String[] turtleSounds = {"sounds/turtle-hiss.mp3"};
-  private static final String[] snakeSounds = {"sounds/snake-hiss.mp3"};
-  private static final String[] eagleSounds = {"sounds/eagle-scream.mp3"};
+  private static final List<String[]> soundArrays = List.of(
+          new String[] {"sounds/mooing-cow.mp3"},
+          new String[] {"sounds/tiger-roar.mp3"},
+          new String[] {"sounds/turtle-hiss.mp3"},
+          new String[] {"sounds/snake-hiss.mp3"},
+          new String[] {"sounds/eagle-scream.mp3"}
+  );
+
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
@@ -186,61 +191,48 @@ public class ForestGameArea extends GameArea {
 
   private void spawnCow() {
     Entity cow = NPCFactory.createCow(player, this.enemies);
-    cow.getEvents().addListener("PausedCow", this::playCowSound);
+    cow.getEvents().addListener("PausedCow", () -> playAnimalSound(cow));
     spawnEntityOnMap(cow);
   }
 
   private void spawnLion() {
     Entity lion = NPCFactory.createLion(player, this.enemies);
-    lion.getEvents().addListener("PausedLion", this::playLionSound);
+    lion.getEvents().addListener("PausedLion", () -> playAnimalSound(lion));
     spawnEntityOnMap(lion);
   }
 
   private void spawnTurtle() {
     Entity turtle = NPCFactory.createTurtle(player, this.enemies);
-    turtle.getEvents().addListener("PausedTurtle", this::playTurtleSound);
+    turtle.getEvents().addListener("PausedTurtle", () -> playAnimalSound(turtle));
     spawnEntityOnMap(turtle);
   }
 
   private void spawnEagle() {
     Entity eagle = NPCFactory.createEagle(player, this.enemies);
-    eagle.getEvents().addListener("PausedEagle", this::playEagleSound);
+    eagle.getEvents().addListener("PausedEagle", () -> playAnimalSound(eagle));
     spawnEntityOnMap(eagle);
   }
 
   private void spawnSnake() {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
-    snake.getEvents().addListener("PausedSnake", this::playSnakeSound);
+    snake.getEvents().addListener("PausedSnake", () -> playAnimalSound(snake));
     spawnEntityOnMap(snake);
   }
 
-  private void playAnimalSound(String animalSoundPath) {
-    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-    long soundId = mooingCowSound.play();
-    mooingCowSound.setVolume(soundId, 0.3f);
-    mooingCowSound.setLooping(soundId, false);
-  }
+  private void playAnimalSound(Entity entity) {
+    ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
+    BaseEntityConfig config = (configComponent != null) ? configComponent.getConfig() : null;
+    String[] animalSoundPaths = (config != null) ? ((BaseEntityConfig) config).getSoundPath() : null;
 
-  private void playCowSound() {
-    playAnimalSound(cowSounds[0]);
+    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+      for (String animalSoundPath : animalSoundPaths) {
+        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        long soundId = animalSound.play();
+        animalSound.setVolume(soundId, 0.3f);
+        animalSound.setLooping(soundId, false);
+      }
+    }
   }
-
-  private void playLionSound() {
-    playAnimalSound(lionSounds[0]);
-  }
-
-  private void playTurtleSound() {
-    playAnimalSound(turtleSounds[0]);
-  }
-  
-  private void playSnakeSound() {
-    playAnimalSound(snakeSounds[0]);
-  }
-
-  private void playEagleSound() {
-    playAnimalSound(eagleSounds[0]);
-  }
-
 
   public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
@@ -260,11 +252,9 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(questSounds);
     resourceService.loadSounds(forestSounds);
-    resourceService.loadSounds(cowSounds);
-    resourceService.loadSounds(lionSounds);
-    resourceService.loadSounds(turtleSounds);
-    resourceService.loadSounds(snakeSounds);
-    resourceService.loadSounds(eagleSounds);
+    for (String[] sounds : soundArrays) {
+      resourceService.loadSounds(sounds);
+    }
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -279,11 +269,9 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
-    resourceService.unloadAssets(cowSounds);
-    resourceService.unloadAssets(lionSounds);
-    resourceService.unloadAssets(turtleSounds);
-    resourceService.loadSounds(snakeSounds);
-    resourceService.unloadAssets(eagleSounds);
+    for (String[] sounds : soundArrays) {
+      resourceService.unloadAssets(sounds);
+    }
     resourceService.unloadAssets(forestMusic);
   }
 
