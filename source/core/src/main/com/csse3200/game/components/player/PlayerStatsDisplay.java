@@ -139,6 +139,7 @@ public class PlayerStatsDisplay extends UIComponent {
         stage.addActor(table);
     }
 
+
     @Override
     public void draw(SpriteBatch batch) {
         // handled by stage
