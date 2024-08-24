@@ -19,14 +19,14 @@ public class ConsumableItemTest {
      * Concrete subclass of ConsumableItems for testing purposes.
      */
     private static class TestableItem extends ConsumableItem {
-        public TestableItem(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity);
+        public TestableItem(String name, int itemCode, int limit, int quantity, String description) {
+            super(name, itemCode, limit, quantity, description);
         }
     }
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        item = new TestableItem("test", 3, 10, 3);
+        item = new TestableItem("test", 3, 10, 3, "description");
         context = new ItemUsageContext();
     }
 

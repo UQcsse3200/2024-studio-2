@@ -22,8 +22,8 @@ public class AbstractItemTest {
     private static class TestableItem1 extends AbstractItem {
         public int numUsed = 0;
 
-        public TestableItem1(String name, int itemCode) {
-            super(name, itemCode);
+        public TestableItem1(String name, int itemCode, String description) {
+            super(name, itemCode, description);
         }
 
         @Override
@@ -39,8 +39,8 @@ public class AbstractItemTest {
     private static class TestableItem2 extends AbstractItem {
         public int numUsed = 0;
 
-        public TestableItem2(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity);
+        public TestableItem2(String name, int itemCode, int limit, int quantity, String description) {
+            super(name, itemCode, limit, quantity, description);
         }
 
         @Override
@@ -53,8 +53,8 @@ public class AbstractItemTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        item1 = new TestableItem1("Test1", 0);
-        item2 = new TestableItem2("Test2", 1, 10, 5);
+        item1 = new TestableItem1("Test1", 0, "description");
+        item2 = new TestableItem2("Test2", 1, 10, 5, "description");
         context = new ItemUsageContext();
     }
 

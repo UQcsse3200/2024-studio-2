@@ -11,7 +11,7 @@ import com.csse3200.game.inventory.items.exceptions.ConsumedException;
  */
 public abstract class ConsumableItem extends AbstractItem {
 
-    /**
+        /**
      * Constructs a ConsumableItem with given initial starting quantity and stack limit.
      * <p><b>Note - a consumable item cannot be created without a limit/quantity specified.</b></p>
      *
