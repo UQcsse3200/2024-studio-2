@@ -1,5 +1,6 @@
 package com.csse3200.game.inventory;
 
+import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.inventory.items.AbstractItem;
 
 import java.util.*;
@@ -10,15 +11,49 @@ import java.util.*;
  * Class for managing inventory actions. Sorts inventory items by name, item code or quantity.
  * Categorises items by class. Allows for searching through inventory for item name
  */
-public class InventoryManager {
-    private final Inventory inventory;  // inventory storing items
+public class InventoryManager extends Inventory {
+    // maps item names to inventory indices where they are stored
+    private final Map<String, TreeSet<Integer>> itemsByName;
+    // maps item quantity to inventory indices where they are stored
+    private final IntMap<TreeSet<Integer>> itemsByQuantity;
+    // maps item categories to indices where they are stored
+    private final Map<String, TreeSet<Integer>> categorisedItems;
+    private List<AbstractItem> sortedName;
+    private List<AbstractItem> sortedQuantity;
+
 
     /**
      * Consutructs an inventory manager class for the given inventory
-     * @param inventory inventory holding items
+     * @param capacity maximum number of items in inventory
      */
-    public InventoryManager(Inventory inventory) {
-        this.inventory = inventory;
+    public InventoryManager(int capacity) {
+        super(capacity);
+        this.itemsByName = new HashMap<>();
+        this.itemsByQuantity = new IntMap<>();
+        this.categorisedItems = new HashMap<>();
+    }
+
+
+    public void addtoNameMap() {
+        this.sortedName = this.sortByName();
+        for (AbstractItem item : this.sortedName) {
+            int index = this.getIndex(item.getItemCode());
+            if (!itemsByName.containsKey(item.getName())) {
+                itemsByName.put(item.getName(), new TreeSet<>());
+            }
+            itemsByName.get(item.getName()).add(index);
+        }
+    }
+
+    public void addtoQuantityMap() {
+        this.sortedQuantity = this.sortByQuantity();
+        for (AbstractItem item : this.sortedQuantity) {
+            int index = this.getIndex(item.getItemCode());
+            if (!itemsByQuantity.containsKey(item.getQuantity())) {
+                itemsByQuantity.put(item.getQuantity(), new TreeSet<>());
+            }
+            itemsByQuantity.get(item.getQuantity()).add(index);
+        }
     }
 
     /**
@@ -76,32 +111,27 @@ public class InventoryManager {
 
     /**
      * Categorises items in inventory.
-     * @return map containing the category as the key, and list of items in that category as value
      */
-    public Map<String, List<AbstractItem>> categorise() {
+    public void categorise() {
         List<AbstractItem> items = this.getItems();
-        Map<String, List<AbstractItem>> categorisedItems = new HashMap<>();
+//        Map<String, List<AbstractItem>> categorisedItems = new HashMap<>();
 
         for (AbstractItem item : items) {
             String category = item.getClass().getSuperclass().getSimpleName();
-            if (categorisedItems.containsKey(category)) {
-                categorisedItems.get(category).add(item);
-            } else {
-                List<AbstractItem> categoryItem = new ArrayList<>();
-                categoryItem.add(item);
-                categorisedItems.put(category, categoryItem);
+            int index = this.getIndex(item.getItemCode());
+            if (!categorisedItems.containsKey(category)) {
+                categorisedItems.put(category, new TreeSet<>());
             }
+            categorisedItems.get(category).add(index);
         }
-        return categorisedItems;
     }
 
     /**
-     * Gets all items in given category
+     * Gets all items indices in given category
      * @param category the category of items
-     * @return items in given category
+     * @return item indices in given category
      */
-    public List<AbstractItem> getByCategory(String category) {
-        Map<String, List<AbstractItem>> categorisedItems = this.categorise();
+    public TreeSet<Integer> getByCategory(String category) {
         return categorisedItems.get(category);
     }
 
@@ -112,8 +142,8 @@ public class InventoryManager {
      */
     private List<AbstractItem> getItems() {
         List<AbstractItem> items = new ArrayList<>();
-        for (int i = 0; i < inventory.getCapacity(); i++) {
-            AbstractItem item = inventory.getAt(i);
+        for (int i = 0; i < this.getCapacity(); i++) {
+            AbstractItem item = this.getAt(i);
             if (item != null) {
                 items.add(item);
             }
