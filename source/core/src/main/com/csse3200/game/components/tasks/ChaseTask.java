@@ -1,8 +1,10 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -20,6 +22,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final DebugRenderer debugRenderer;
   private final RaycastHit hit = new RaycastHit();
   private MovementTask movementTask;
+  private Music heartbeatSound;
+  private final boolean isBoss;
 
   /**
    * @param target The entity to chase.
@@ -27,13 +31,14 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
    * @param viewDistance Maximum distance from the entity at which chasing can start.
    * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
    */
-  public ChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
+  public ChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance, boolean isBoss) {
     this.target = target;
     this.priority = priority;
     this.viewDistance = viewDistance;
     this.maxChaseDistance = maxChaseDistance;
     physics = ServiceLocator.getPhysicsService().getPhysics();
     debugRenderer = ServiceLocator.getRenderService().getDebug();
+    this.isBoss = isBoss;
   }
 
   @Override
@@ -42,8 +47,33 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask = new MovementTask(target.getPosition());
     movementTask.create(owner);
     movementTask.start();
-    
-    this.owner.getEntity().getEvents().trigger("chaseStart");
+    if (this.isBoss) {
+      playTensionSound();
+      this.owner.getEntity().getEvents().trigger("kangaChaseStart");
+    } else {
+      this.owner.getEntity().getEvents().trigger("chaseStart");
+    }
+  }
+
+  private static final String heartbeat = "sounds/heartbeat.mp3";
+
+  void playTensionSound() {
+    if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
+      heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
+      heartbeatSound.setLooping(true);
+      heartbeatSound.setVolume(1.0f);
+    }
+    if (heartbeatSound != null) {
+      ForestGameArea.stopBackgroundMusic();
+      heartbeatSound.play();
+    }
+  }
+
+  void stopTensionSound() {
+    if (heartbeatSound != null) {
+      ForestGameArea.playBackgroundMusic();
+      heartbeatSound.stop();
+    }
   }
 
   @Override
@@ -59,6 +89,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void stop() {
     super.stop();
     movementTask.stop();
+    stopTensionSound();
   }
 
   @Override

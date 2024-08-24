@@ -13,10 +13,12 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
+
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
   }
+
   @Override
   public void update() {
     if (movementEnabled && targetPosition != null) {
@@ -24,6 +26,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
       updateDirection(body);
     }
   }
+
   /**
    * Enable/disable movement for the controller. Disabling will immediately set velocity to 0.
    *
@@ -37,15 +40,20 @@ public class PhysicsMovementComponent extends Component implements MovementContr
       setToVelocity(body, Vector2.Zero);
     }
   }
+
   @Override
   public boolean getMoving() {
     return movementEnabled;
   }
-  /** @return Target position in the world */
+
+  /**
+   * @return Target position in the world
+   */
   @Override
   public Vector2 getTarget() {
     return targetPosition;
   }
+
   /**
    * Set a target to move towards. The entity will be steered towards it in a straight line, not
    * using pathfinding or avoiding other entities.
@@ -57,16 +65,19 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     logger.trace("Setting target to {}", target);
     this.targetPosition = target;
   }
+
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
     setToVelocity(body, desiredVelocity);
   }
+
   private void setToVelocity(Body body, Vector2 desiredVelocity) {
     // impulse force = (desired velocity - current velocity) * mass
     Vector2 velocity = body.getLinearVelocity();
     Vector2 impulse = desiredVelocity.cpy().sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
+
   private Vector2 getDirection() {
     // Move towards targetPosition based on our current position
     return targetPosition.cpy().sub(entity.getPosition()).nor();
@@ -80,5 +91,4 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   public void changeMaxSpeed(Vector2 maxSpeed) {
     this.maxSpeed = maxSpeed;
   }
-
 }
