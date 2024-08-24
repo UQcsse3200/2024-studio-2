@@ -48,21 +48,21 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   @Override
   public void start() {
     super.start();
-    // If chase task is for a boss entity create a move task increased speed.
+
+    String event = this.isBoss ? "kangaChaseStart" : "chaseStart";
+
+    // Set movementTask based on npc type
+    movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+            new MovementTask(target.getPosition());
+    movementTask.create(owner);
+    movementTask.start();
+
+    this.owner.getEntity().getEvents().trigger(event);
+
     if (this.isBoss) {
-      movementTask = new MovementTask(target.getPosition(), bossSpeed);
-      movementTask.create(owner);
-      movementTask.start();
       playTensionSound();
-      this.owner.getEntity().getEvents().trigger("kangaChaseStart");
-    } else {
-      movementTask = new MovementTask(target.getPosition());
-      movementTask.create(owner);
-      movementTask.start();
-      this.owner.getEntity().getEvents().trigger("chaseStart");
     }
   }
-
 
   void playTensionSound() {
     if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
