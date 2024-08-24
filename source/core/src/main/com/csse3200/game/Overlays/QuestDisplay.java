@@ -173,17 +173,18 @@ public class QuestDisplay extends UIComponent {
 
 
     private void addActors() {
-        Label title = new Label("Quests", skin, "title");
+        Label title = new Label("QUESTS", skin, "title");
+        title.setColor(Color.RED);
+        title.setFontScale(1.2f);
 
         Image questsBackGround = new Image(
                 ServiceLocator.getResourceService()
-                        .getAsset("images/QuestsOverlay/QuestsBGG.png", Texture.class));
+                        .getAsset("images/QuestsOverlay/Quests_Scroll.png", Texture.class));
         background = new Table();
         background.setFillParent(true);
         background.setDebug(true);
         background.add(questsBackGround).center();
         stage.addActor(background);
-
 
         Table menuBtns = makeMenuBtns();
         Table questsTable = makeSliders();
@@ -191,20 +192,25 @@ public class QuestDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setSize(background.getWidth(), background.getHeight());
         rootTable.setFillParent(true);
-        rootTable.add(title).center();
+
+
+        float paddingTop = 28f;
+
+        rootTable.add(title).center().padTop(paddingTop);
+
 
         if (questsTable.hasChildren()) {
             rootTable.row();
-            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f);
+            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f).padTop(paddingTop);
         }
 
 
         rootTable.row();
         rootTable.add(menuBtns).center().padTop(10f);
 
-
         stage.addActor(rootTable);
     }
+
 
     @Override
     protected void draw(SpriteBatch batch) {
