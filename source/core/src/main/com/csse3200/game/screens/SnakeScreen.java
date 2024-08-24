@@ -82,7 +82,7 @@ public class SnakeScreen extends ScreenAdapter {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
-        //font.getData().setScale(2.0f); // Adjust as needed
+        //font.getData().setScale(2.0f);
 
         loadAssets();
         createUI();
@@ -165,7 +165,11 @@ public class SnakeScreen extends ScreenAdapter {
 
         for (int x = 0; x < grid.getWidth(); x++) {
             for (int y = 0; y < grid.getHeight(); y++) {
-                spriteBatch.draw(grassTexture, offsetX + x * CELL_SIZE, offsetY + y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                spriteBatch.draw(grassTexture,
+                        offsetX + x * CELL_SIZE,
+                        offsetY + y * CELL_SIZE,
+                        CELL_SIZE,
+                        CELL_SIZE);
             }
         }
     }
@@ -180,7 +184,11 @@ public class SnakeScreen extends ScreenAdapter {
         float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
         float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        spriteBatch.draw(appleTexture, offsetX + apple.getX() * CELL_SIZE, offsetY + apple.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        spriteBatch.draw(appleTexture,
+                offsetX + apple.getX() * CELL_SIZE,
+                offsetY + apple.getY() * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE);
     }
 
     /**
@@ -236,11 +244,33 @@ public class SnakeScreen extends ScreenAdapter {
     private void renderGameScore() {
         spriteBatch.begin();
 
-        int offsetX = (Gdx.graphics.getWidth() / 2) - 130;
-        int offsetY = Gdx.graphics.getHeight() - 20;
+        // Score location (center)
+//        int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
+//        int offsetScoreY = Gdx.graphics.getHeight() - 20;
 
+        // Medal location (to the side)
+        int offsetMedalX = ((Gdx.graphics.getWidth() / 25) * 19);
+        int offsetMedalY = Gdx.graphics.getHeight() / 2;
+
+        // Score at the top of the screen
+        font.getData().setScale(4.0f);
         String scoreText = "Score: " + snakeGame.getScore();
-        font.draw(spriteBatch, scoreText, offsetX, offsetY);
+        font.draw(spriteBatch, scoreText, offsetMedalX, offsetMedalY + 300);
+
+        // Score Medal definitions
+        font.getData().setScale(3.0f);
+        String medals = "Medals";
+        font.draw(spriteBatch, medals, offsetMedalX, offsetMedalY + 70);
+        font.getData().setScale(2.0f);
+        String goldScore = "Gold:  Score >= 30";
+        font.draw(spriteBatch, goldScore, offsetMedalX, offsetMedalY);
+        String silverScore = "Silver:  Score < 30";
+        font.draw(spriteBatch, silverScore, offsetMedalX, offsetMedalY - 50);
+        String bronzeScore = "Bronze:  Score < 15";
+        font.draw(spriteBatch, bronzeScore, offsetMedalX, offsetMedalY - 100);
+        String failScore = "Fail:  Score < 5";
+        font.draw(spriteBatch, failScore, offsetMedalX, offsetMedalY - 150);
+
 
         spriteBatch.end();
     }
@@ -252,7 +282,7 @@ public class SnakeScreen extends ScreenAdapter {
         int centerY = Gdx.graphics.getHeight() / 2;
 
         font.getData().setScale(6.0f);
-        String endGameText = "End of MiniGame";
+        String endGameText = "End of Mini-Game";
         font.draw(spriteBatch, endGameText, centerX - 300, centerY + 300);
 
         font.getData().setScale(5.0f);
@@ -261,7 +291,7 @@ public class SnakeScreen extends ScreenAdapter {
 
 
         font.getData().setScale(3.0f);
-        String scoreFunnyText = "Damn that was a short snake...";
+        String scoreFunnyText = "Damn that was a small snake...";
         font.draw(spriteBatch, scoreFunnyText, centerX -300, centerY -  300);
 
         spriteBatch.end();
