@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
@@ -46,7 +48,8 @@ public class ForestGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
+    "images/Healthpotion.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
@@ -84,9 +87,12 @@ public class ForestGameArea extends GameArea {
 
     displayUI();
 
+
+
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
+    spawnHealthPotion();
     //spawnGhosts();
     //spawnGhostKing();
     spawnCow();
@@ -215,6 +221,11 @@ public class ForestGameArea extends GameArea {
   private void spawnSnake() {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
     spawnEntityOnMap(snake);
+  }
+
+  private void spawnHealthPotion() {
+    Entity healthPotion = ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
+    spawnEntityAt(healthPotion, new GridPoint2(9, 9), true, true);
   }
 
   private void playAnimalSound(String animalSoundPath) {
