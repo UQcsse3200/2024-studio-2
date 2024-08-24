@@ -25,6 +25,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Keys.W:
         walkDirection.add(Vector2Utils.UP);
@@ -67,6 +70,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Keys.W:
         walkDirection.sub(Vector2Utils.UP);
