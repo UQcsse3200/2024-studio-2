@@ -1,35 +1,51 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Null;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 public class QuestManager extends Component {
     private final HashMap<String, AbstractQuest> quests;
     private final EventService eventService = ServiceLocator.getEventService();
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
+    private final Map<String, String[]> relevantQuests;
+
 
     public QuestManager() {
         this.quests = new HashMap<>();
 
+        // This will load from files
+        this.relevantQuests = Map.of("cow", new String[]{"2 Task Quest"});
+
         // Manual test Quests
+
+        // Initialise tasks
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
+
+        // Initialise First Steps Test Quest
         List<Task> tasks = List.of(stepsTask);
-        List<Task> tasks1 = List.of(stepsTask,attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false);
-        addQuest(twoTaskQuest);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
         addQuest(firstStepsQuest);
+
+
+        // Initialise 2 Step Test Quest
+        ArrayList<String[]> test2StepTextProg1 = new ArrayList<>();
+
+        // Adding String[] arrays individually
+        test2StepTextProg1.add(new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."});
+        test2StepTextProg1.add(new String[]{"This is cow specific hint 2.", "We hope you're having fun"});
+        Map<DialogueKey,ArrayList<String[]>> test2TaskQuestDialogue = Map.of(new DialogueKey("cow",1),test2StepTextProg1);
+        List<Task> tasks1 = List.of(stepsTask,attackTask);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest","Move then Attack for a Test Quest", tasks1, false,false,test2TaskQuestDialogue);
+        addQuest(twoTaskQuest);
     }
 
     private void subscribeToQuestEvents(QuestBasic quest) {
@@ -80,5 +96,22 @@ public class QuestManager extends Component {
             }
             }
        }
+    }
+
+    /** Returns all the dialogue for all quests for the given npc */
+    @Null
+    public ArrayList<String[]> getDialogue(String npcName){
+        String[] npcRelevantQuests = relevantQuests.get(npcName);
+        ArrayList<String[]> npcDialogue = new ArrayList<>();
+        for (String questName : npcRelevantQuests) {
+            AbstractQuest quest = quests.get(questName);
+            if (quest != null) {
+                ArrayList<String[]> dialogue = quest.getDialogue(npcName);
+                if (dialogue != null) {
+                    npcDialogue.addAll(dialogue);
+            }
+        }
+        }
+        return npcDialogue;
     }
 }
