@@ -69,6 +69,14 @@ public class SnakeGame {
     }
 
     /**
+     * Sets the score (used for testing only)
+     * @param value: the value for the score to be set to
+     */
+    public void set_score(int value) {
+        this.score = value;
+    }
+
+    /**
      * Detects if the snake it at the boundary of the grid
      *
      * @return true if it is, false otherwise
