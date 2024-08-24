@@ -96,7 +96,6 @@ public class SnakeGame {
 
         int snakeHeadX = snake.getX();
         int snakeHeadY = snake.getY();
-        System.out.println("got here");
         List<Snake.Segment> snakeSegs = snake.getBodySegments();
         for (int i = 0; i <= snakeSegs.size() - 1; i += 1) {
              if (snakeSegs.get(i).getX() == snakeHeadX && snakeSegs.get(i).getY() == snakeHeadY) {

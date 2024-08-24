@@ -34,6 +34,9 @@ import com.csse3200.game.components.minigame.snake.Apple;
 import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /**
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
@@ -50,6 +53,9 @@ public class SnakeScreen extends ScreenAdapter {
     private final Snake snake;
     private final Renderer renderer;
     private ShapeRenderer shapeRenderer;
+
+    private BitmapFont font;
+    private SpriteBatch batch;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -77,6 +83,13 @@ public class SnakeScreen extends ScreenAdapter {
         this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
         this.snakeGame = new SnakeGame(snake, apple, grid);
         this.shapeRenderer = new ShapeRenderer();
+
+        // Sets the score
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.getData().setScale(5);
+
+        batch = new SpriteBatch();
     }
 
     /**
@@ -89,35 +102,39 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         // Clear the screen
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Keeps the exit button
+        ServiceLocator.getEntityService().update();
+        renderer.render();
+
         if (!snakeGame.getIsGameOver()) {
-
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            ServiceLocator.getEntityService().update();
-            renderer.render();
 
             // Check if the snake has hit the boundary
             if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
                 snakeGame.setIsGameOver(true);
                 handleBoundaryCollision();
+            } else {
+                // Only update direction and snake position if the game is not over
+                updateDirection();
+                snakeGame.attemptEatFruit();
+                snake.update(delta);
             }
 
-            // Render the grid and the apple
-            updateDirection();
-            snakeGame.attemptEatFruit();
-            snake.update(delta);
-            renderGrid();
+            // Render the grid, apple, snake, and score
             renderApple();
             renderHead();
             renderBody();
             renderScore();
+            renderGrid();
+        } else {
+            // Optionally, you can render a game-over screen or message here
+            // renderGameOver();
         }
-
     }
 
     private void handleBoundaryCollision() {
-        // logger.info("Snake has hit the boundary!");
-        // TODO: Add logic to handle the game over or reset snake position.
+        logger.info("Snake has hit the boundary or itself!");
     }
 
     /**
@@ -210,10 +227,15 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     private void renderScore() {
-//        shapeRenderer.begin();
-//        shapeRenderer.setColor(Color.RED);
-//        shapeRenderer.line(0, 0, 100, 100);
-//        shapeRenderer.end();
+        batch.begin();
+
+        float offsetX = Gdx.graphics.getWidth() / 2 - 125;
+        float offsetY = Gdx.graphics.getHeight() - 20;
+
+        String scoreText = "Score: " + snakeGame.getScore();
+        font.draw(batch, scoreText, offsetX, offsetY); // Positioning at the top-left
+
+        batch.end();
     }
 
     public Direction getInputDirection() {
@@ -271,6 +293,9 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.clear();
 
         shapeRenderer.dispose();
+
+        font.dispose();
+        batch.dispose();
     }
 
     private void loadAssets() {
