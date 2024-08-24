@@ -152,8 +152,8 @@ public class CombatScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new MainGameActions(this.game))
-                .addComponent(new MainGameExitDisplay())
+                .addComponent(new CombatActions(this.game))
+                .addComponent(new CombatExitDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
@@ -181,18 +181,18 @@ public class CombatScreen extends ScreenAdapter {
         buttonStyle.fontColor = Color.ORANGE;
         skin.add("default", buttonStyle); // Register the style with the name "default"
 
-        /*
-        tb = new Table(); // table to store buttons for actions & combat dialogue
-        // tb.setFillParent(true);
-        tb.setSize(0, 900);
-        tb.setPosition(0,0);
-        tb.align(Align.left | Align.top);
-        tb.pad(0);
-        tb.left().top();
-        tb.defaults().pad(0);
-        tb.setDebug(true);
-        st.addActor(tb);
-       */
+
+//        tb = new Table(); // table to store buttons for actions & combat dialogue
+//        // tb.setFillParent(true);
+//        tb.setSize(0, 900);
+//        tb.setPosition(0,0);
+//        tb.align(Align.left | Align.top);
+//        tb.pad(0);
+//        tb.left().top();
+//        tb.defaults().pad(0);
+//        tb.setDebug(true);
+//        st.addActor(tb);
+
 
         combatDialogue = new Label("Begin Combat!", skin); // text will be incrementally updated during combat
         combatDialogue.setFontScale(2.0f);
@@ -202,7 +202,7 @@ public class CombatScreen extends ScreenAdapter {
         // tb.add(combatDialogue).expandX().fillX().padBottom(10).padLeft(5); // add the combat dialogue to the table
 
         // Create new texture and drawable instance for hit image to be used as imagebutton
-        Texture hitTexture = new Texture(Gdx.files.internal("source/core/assets/images/hit_button.png")); // load image
+        Texture hitTexture = new Texture(Gdx.files.internal("images/hit_button.png")); // load image
         Drawable hitDrawable = new TextureRegionDrawable(new TextureRegion(hitTexture));
         ImageButton hitButton = new ImageButton(hitDrawable);
         hitButton.setSize(240,230);
@@ -210,14 +210,14 @@ public class CombatScreen extends ScreenAdapter {
         // tb.add(hitButton).size(270,270).height(100); // add button to table
         st.addActor(hitButton);
 
-        Texture bagTexture = new Texture(Gdx.files.internal("source/core/assets/images/bag_button.png")); // load image
+        Texture bagTexture = new Texture(Gdx.files.internal("images/bag_button.png")); // load image
         Drawable bagDrawable = new TextureRegionDrawable(new TextureRegion(bagTexture));
         ImageButton bagButton = new ImageButton(bagDrawable);
         bagButton.setSize(240,230);
         bagButton.setPosition(0,570, Align.left);
         st.addActor(bagButton);
 
-        Texture potionsTexture = new Texture(Gdx.files.internal("source/core/assets/images/potions_button.png")); //load image
+        Texture potionsTexture = new Texture(Gdx.files.internal("images/potions_button.png")); //load image
         Drawable potionsDrawable = new TextureRegionDrawable(new TextureRegion(potionsTexture));
         ImageButton potionsButton = new ImageButton(potionsDrawable);
         potionsButton.setSize(240,230);
