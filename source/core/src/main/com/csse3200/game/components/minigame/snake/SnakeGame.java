@@ -32,7 +32,7 @@ public class SnakeGame {
     /**
      * Detects if the snake it at the boundary of the grid
      *
-     * @return 1 if it is, 0 otherwise
+     * @return true if it is, false otherwise
      */
     public boolean boundaryDetection() {
         int snakeX = snake.getX();

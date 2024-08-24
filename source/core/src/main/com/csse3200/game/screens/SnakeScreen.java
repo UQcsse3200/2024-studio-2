@@ -109,6 +109,7 @@ public class SnakeScreen extends ScreenAdapter {
         renderApple();
         renderHead();
         renderBody();
+        renderScore();
     }
 
     private void handleBoundaryCollision() {
@@ -203,6 +204,13 @@ public class SnakeScreen extends ScreenAdapter {
     
             shapeRenderer.end();
         }
+    }
+
+    private void renderScore() {
+//        shapeRenderer.begin();
+//        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.line(0, 0, 100, 100);
+//        shapeRenderer.end();
     }
 
     public Direction getInputDirection() {
