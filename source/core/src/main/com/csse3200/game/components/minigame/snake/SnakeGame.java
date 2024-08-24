@@ -11,23 +11,30 @@ import java.util.List;
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
-
     private SnakeGrid grid;
-
-        // TODO: add grid
+    private int score;
+        // to-do add grid
     public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
         this.snake = snake;
         this.apple = apple;
         this.grid = snakeGrid;
+        this.score = 0;
     }
-    
+
+    public int getScore() {
+        return score;
+    }
+
     public void attemptEatFruit() {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
+            score += calculateScore();
         }
     }
-
+    private int calculateScore() {
+        return 1;
+    }
 
     /**
      * Detects if the snake it at the boundary of the grid
