@@ -24,9 +24,8 @@ public class PauseTask extends ChaseTask {
     private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
     private ChatOverlay hint;
     private Entity entity;
-    private Object config;
     private QuestManager questManager;
-
+    private BaseEntityConfig config;
 
     /**
      * @param target The entity to pause when seen.
@@ -51,7 +50,7 @@ public class PauseTask extends ChaseTask {
 
     protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
-        ConfigComponent<?> configComponent = (ConfigComponent<?>) entity.getComponent(ConfigComponent.class);
+        ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
             this.config = configComponent.getConfig();
             String animalName = ((BaseEntityConfig) config).getAnimalName();
