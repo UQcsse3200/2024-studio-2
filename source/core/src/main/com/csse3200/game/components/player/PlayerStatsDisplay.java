@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A UI component for displaying player stats, e.g. health.
  */
@@ -159,6 +158,7 @@ public class PlayerStatsDisplay extends UIComponent {
         logger.info("Made it to this updateHealth function");
         logger.info("{}", health);
         healthLabel.setText(text);
+        int totalFrames = 11;
 
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
