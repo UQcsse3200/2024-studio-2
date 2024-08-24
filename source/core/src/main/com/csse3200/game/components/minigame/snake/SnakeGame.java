@@ -11,23 +11,62 @@ import java.util.List;
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
-
     private SnakeGrid grid;
+    private int score;
+    private Boolean isGameOver;
 
-        // TODO: add grid
     public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
         this.snake = snake;
         this.apple = apple;
         this.grid = snakeGrid;
+        this.score = 0;
+        this.isGameOver = false;
     }
-    
+
+    /**
+     * Getter for the isGameOver variable
+     * @return isGameOver, is true if over, else false
+     */
+    public boolean getIsGameOver() {
+        return isGameOver;
+    }
+
+    /**
+     * Set the isGameOver function. Is true if over, else false
+     * @param state: the state to set the isGameOver to
+     */
+    public void setIsGameOver(boolean state) {
+        this.isGameOver = state;
+    }
+
+    /**
+     * Returns the current score of the game.
+     * @return the current score of the game.
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Attempts to eat the apple in the snake game if the snake has reached it.
+     * If the snake can eat the apple then a new apple will spawn, the snake will grow
+     * and the score will increase.
+     */
     public void attemptEatFruit() {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
+            score += calculateScore();
         }
     }
 
+    /**
+     * Adds constant to the score
+     * @return the constant to add to the score
+     */
+    private int calculateScore() {
+        return 1;
+    }
 
     /**
      * Detects if the snake it at the boundary of the grid
@@ -48,7 +87,6 @@ public class SnakeGame {
         }
         return false;
     }
-
 
     /**
      * Determines if the snake has run into itself
