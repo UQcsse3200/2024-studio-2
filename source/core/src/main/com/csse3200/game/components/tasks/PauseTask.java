@@ -14,6 +14,8 @@ import com.csse3200.game.entities.configs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.quests.AbstractQuest;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends ChaseTask {
@@ -23,6 +25,8 @@ public class PauseTask extends ChaseTask {
     private ChatOverlay hint;
     private Entity entity;
     private Object config;
+    private QuestManager questManager;
+
 
     /**
      * @param target The entity to pause when seen.
@@ -33,6 +37,7 @@ public class PauseTask extends ChaseTask {
     public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
         super(target, priority, viewDistance, maxPauseDistance);
         this.maxPauseDistance = maxPauseDistance;
+        this.questManager = this.target.getComponent(QuestManager.class);
         this.hasApproached = false;
         this.hint = null;
         this.config = null;
@@ -94,9 +99,21 @@ public class PauseTask extends ChaseTask {
 
     protected void createChatOverlay() {
         if (this.hint == null) {
-            String[] hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
-            BaseEntityConfig config = ((BaseEntityConfig) this.config);
-            String name = ((BaseEntityConfig) this.config).getAnimalName();
+            AbstractQuest currentQuest = null;
+            for (AbstractQuest quest : questManager.getAllQuests()) {
+                if (quest.isActive()) {
+                    currentQuest = quest;
+                }
+            }
+
+            String[] hintText;
+            if (currentQuest != null) {
+                String hint = currentQuest.getCurrentTaskHint();
+                hintText = new String[] { hint };
+            } else {
+                hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
+            }
+
             hint = new ChatOverlay(hintText);
         }
     }

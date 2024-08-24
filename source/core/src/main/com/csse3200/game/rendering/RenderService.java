@@ -21,7 +21,6 @@ public class RenderService implements Disposable {
    */
   private final SortedIntMap<Array<Renderable>> renderables =
       new SortedIntMap<>(INITIAL_LAYER_CAPACITY);
-
   /**
    * Register a new renderable.
    *

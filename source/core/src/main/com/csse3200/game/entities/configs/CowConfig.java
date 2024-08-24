@@ -11,11 +11,7 @@ public class CowConfig extends BaseEntityConfig {
     public final String animalName = "Cow";
     public final int health = 30;
     public final int baseAttack = 0;
-
-    public static final Map<Integer, String[]> hints = Map.of(
-            0, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."},
-            1, new String[]{"This is cow specific hint 2.", "We hope you're having fun"}
-    );
+    public static final String[] baseMessage = new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."};
     public static int hintLevel = 0;
     public static int currentHint = 0;
 
@@ -30,8 +26,4 @@ public class CowConfig extends BaseEntityConfig {
         return -1;
     }
 
-
-    public String getAnimalName() {
-        return "Cow";
-    }
 }
