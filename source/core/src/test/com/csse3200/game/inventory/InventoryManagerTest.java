@@ -29,14 +29,14 @@ public class InventoryManagerTest {
         item2 = new TestItem("Sword", 99, 10, 10, "weapon");
         item3 = new TestItem("Grape", 4, 3, 2, "food");
 
-        inventory1.add(item1);
+        inventoryManagerOne = new InventoryManager(1);
+        inventoryManagerThree = new InventoryManager(3);
 
-        inventory3.add(item1);
-        inventory3.add(item2);
-        inventory3.add(item3);
+        inventoryManagerOne.add(item1);
 
-        inventoryManagerOne = new InventoryManager(inventory1);
-        inventoryManagerThree = new InventoryManager(inventory3);
+        inventoryManagerThree.add(item1);
+        inventoryManagerThree.add(item2);
+        inventoryManagerThree.add(item3);
     }
 
     @Test
