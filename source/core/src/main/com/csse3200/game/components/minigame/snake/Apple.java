@@ -34,8 +34,6 @@ public class Apple {
             x = random.nextInt(grid.getWidth());
             y = random.nextInt(grid.getHeight());
         } while (grid.isOccupied(x, y)); // Ensure the apple doesn't spawn on top of the snake
-
-        grid.setOccupied(x, y, true);
     }
 
     public boolean isTouchingSnakeHead(Snake snake) {

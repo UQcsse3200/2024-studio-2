@@ -73,8 +73,10 @@ public class Snake {
             }
         }
         if (snakeBody.size() >= length) {
-            snakeBody.removeFirst();
+            Segment removed = snakeBody.removeFirst();
+            grid.setOccupied(removed.getX(), removed.getY(), false);
         }
+        grid.setOccupied(x, y, true);
     }
 
     void grow() {
