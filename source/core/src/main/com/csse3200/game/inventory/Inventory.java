@@ -26,9 +26,9 @@ import static java.util.Arrays.fill;
  */
 public class Inventory implements InventoryInterface {
     private final int capacity; // The maximum number of items the inventory can hold.
-    private int freeSlots; // The current number of available slots in the inventory.
+    private int freeSlots; // The curressnt number of available slots in the inventory.
     private int nextIndex = 0; // The index where the next item can be stored.
-    // Maps item codes to sets of inventory indices where they are stored.
+    // Maps item codes to sets of inventory indices where they are stored.ss
     private final IntMap<TreeSet<Integer>> mapping;
     // Array representing the inventory, holding items or null values.
     private final AbstractItem[] inventory; // Array of actual items & null values
