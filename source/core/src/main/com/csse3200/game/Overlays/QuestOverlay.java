@@ -11,6 +11,7 @@ public class QuestOverlay extends Overlay {
     private static final Logger logger = LoggerFactory.getLogger(QuestOverlay.class);
 
     public QuestOverlay() {
+        super();
         logger.debug("Initialising QuestOverlay");
         createUI();
     }
@@ -31,7 +32,7 @@ public class QuestOverlay extends Overlay {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        entities.add(ui);
+        super.add(ui);
         ui.addComponent(new QuestDisplay()).addComponent(new InputDecorator(stage, 10));
         ServiceLocator.getEntityService().register(ui);
     }

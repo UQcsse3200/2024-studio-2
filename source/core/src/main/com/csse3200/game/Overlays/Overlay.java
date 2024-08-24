@@ -7,29 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Overlay {
-    List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
 
     public Overlay(){}
 
+    public void add(Entity entity) {
+        entities.add(entity);
+    }
+
     public void remove() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             entity.dispose();
         }
-        entities.clear();
+        this.entities.clear();
 
     }
 
     public void rest() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             entity.setEnabled(false);
-            ServiceLocator.getEntityService().unregister(entity);
         }
     }
 
     public void wake() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             entity.setEnabled(true);
-            ServiceLocator.getEntityService().register(entity);
         }
     }
 

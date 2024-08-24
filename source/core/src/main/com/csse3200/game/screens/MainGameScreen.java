@@ -182,11 +182,11 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   public void removeOverlay(){
-    logger.debug("Removing top Overlay");
+    logger.info("Removing top Overlay");
 
     if (enabledOverlays.isEmpty()){
         this.wake();
-      return;
+        return;
     }
 
     enabledOverlays.getFirst().remove();
