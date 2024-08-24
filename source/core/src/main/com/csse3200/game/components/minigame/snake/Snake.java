@@ -15,6 +15,7 @@ public class Snake {
     private final Deque<Segment> snakeBody;
     private int length = 1;
     private Direction direction;
+    private Direction nextDirection;
     private final float movePeriod;
     private float moveTimer;
 
@@ -23,6 +24,7 @@ public class Snake {
         this.movePeriod = movePeriod;
         this.moveTimer = movePeriod;
         this.direction = startDirection;
+        this.nextDirection = startDirection;
         this.length = startLength;
         x = startX;
         y = startY;
@@ -37,16 +39,16 @@ public class Snake {
 
     public void updateDirectionOnInput(Direction direction) {
         if (direction == Direction.UP && this.direction != Direction.DOWN) {
-            this.direction = direction;
+            this.nextDirection = direction;
         }
         if (direction == Direction.DOWN && this.direction != Direction.UP) {
-            this.direction = direction;
+            this.nextDirection = direction;
         }
         if (direction == Direction.LEFT && this.direction != Direction.RIGHT) {
-            this.direction = direction;
+            this.nextDirection = direction;
         }
         if (direction == Direction.RIGHT && this.direction != Direction.LEFT) {
-            this.direction = direction;
+            this.nextDirection = direction;
         }
     }
 
@@ -82,6 +84,7 @@ public class Snake {
     public void update(float dt) {
         moveTimer -= dt;
         if (moveTimer <= 0) {
+            direction = nextDirection;
             move(direction);
             moveTimer += movePeriod;
         }
