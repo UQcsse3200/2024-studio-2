@@ -143,6 +143,8 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
+        System.out.println("Made it to this updateHealth function");
+        System.out.println(health);
         healthLabel.setText(text);
         int totalFrames = 11;
 

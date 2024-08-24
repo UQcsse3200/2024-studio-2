@@ -17,11 +17,9 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
-  private int baseAttack;
 
   public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
       this.maxHealth = health;
-      setBaseAttack(baseAttack);
       setHealth(health);
       setStrength(strength);
       setDefense(defense);
@@ -164,32 +162,11 @@ public class CombatStatsComponent extends Component {
     }
   }
 
-
-  /**
-
-   * Returns the entity's base attack damage.
-   *
-   * @return base attack damage
-   */
-  public int getBaseAttack() {
-    return baseAttack;
-  }
-  /**
-   * Sets the entity's attack damage. Attack damage has a minimum bound of 0.
-   *
-   * @param attack Attack damage
-   */
-  public void setBaseAttack(int attack) {
-    if (attack >= 0) {
-      this.baseAttack = attack;
-
-    } else {
-      logger.error("Can not set base attack to a negative attack value");
-    }
-  }
-
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
+    int newHealth = getHealth() - attacker.getStrength();
+    System.out.println("Attacker Attack:");
+    System.out.println(attacker.getStrength());
+    System.out.println(newHealth);
     setHealth(newHealth);
   }
 
