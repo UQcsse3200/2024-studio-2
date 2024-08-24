@@ -12,7 +12,7 @@ public class PauseOverlay extends Overlay {
     private static final Logger logger = LoggerFactory.getLogger(PauseOverlay.class);
 
     public PauseOverlay() {
-        super();
+        super(OverlayType.PAUSE_OVERLAY);
         logger.debug("Initialising PauseOverlay");
         createUI();
     }

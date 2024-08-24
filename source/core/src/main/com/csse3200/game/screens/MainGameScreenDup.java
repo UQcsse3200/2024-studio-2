@@ -34,7 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -52,6 +54,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  private final HashMap<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
   private final ForestGameArea gameArea;
 
   public MainGameScreenDup(GdxGame game, Screen screen, ServiceContainer container) {
@@ -170,7 +173,10 @@ public class MainGameScreenDup extends ScreenAdapter {
   }
 
   public void addOverlay(Overlay.OverlayType overlayType){
-    logger.info("Adding Overlay {}", overlayType);
+    logger.debug("Attempting to Add {} Overlay", overlayType);
+    if (activeOverlayTypes.get(overlayType)){
+      return;
+    }
     if (enabledOverlays.isEmpty()) {
       this.rest();
     }
@@ -188,6 +194,8 @@ public class MainGameScreenDup extends ScreenAdapter {
         logger.warn("Unknown Overlay type: {}", overlayType);
         break;
     }
+    logger.info("Added {} Overlay", overlayType);
+    activeOverlayTypes.put(overlayType,true);
   }
 
   public void removeOverlay(){
@@ -197,9 +205,9 @@ public class MainGameScreenDup extends ScreenAdapter {
       this.wake();
       return;
     }
-
-    enabledOverlays.getFirst().remove();
-
+    Overlay currentFirst = enabledOverlays.getFirst();
+    activeOverlayTypes.put(currentFirst.overlayType,false);
+    currentFirst.remove();
     enabledOverlays.removeFirst();
 
     if (enabledOverlays.isEmpty()){

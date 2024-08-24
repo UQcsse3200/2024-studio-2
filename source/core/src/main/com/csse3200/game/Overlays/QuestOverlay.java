@@ -11,7 +11,7 @@ public class QuestOverlay extends Overlay {
     private static final Logger logger = LoggerFactory.getLogger(QuestOverlay.class);
 
     public QuestOverlay() {
-        super();
+        super(OverlayType.QUEST_OVERLAY);
         logger.debug("Initialising QuestOverlay");
         createUI();
     }

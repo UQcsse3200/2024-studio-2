@@ -31,6 +31,7 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -48,6 +49,7 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final ForestGameArea gameArea;
+  private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
     public MainGameScreen(GdxGame game) {
     this.game = game;
@@ -161,7 +163,10 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   public void addOverlay(OverlayType overlayType){
-    logger.info("Adding Overlay {}", overlayType);
+    logger.debug("Attempting to Add {} Overlay", overlayType);
+    if (activeOverlayTypes.get(overlayType)){
+      return;
+    }
       if (enabledOverlays.isEmpty()) {
           this.rest();
       }
@@ -179,6 +184,8 @@ public class MainGameScreen extends ScreenAdapter {
         logger.warn("Unknown Overlay type: {}", overlayType);
         break;
     }
+    logger.info("Added {} Overlay", overlayType);
+    activeOverlayTypes.put(overlayType,true);
   }
 
   public void removeOverlay(){
@@ -188,9 +195,9 @@ public class MainGameScreen extends ScreenAdapter {
         this.wake();
         return;
     }
-
-    enabledOverlays.getFirst().remove();
-
+    Overlay currentFirst = enabledOverlays.getFirst();
+    activeOverlayTypes.put(currentFirst.overlayType,false);
+    currentFirst.remove();
     enabledOverlays.removeFirst();
 
     if (enabledOverlays.isEmpty()){
