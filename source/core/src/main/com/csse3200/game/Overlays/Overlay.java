@@ -23,8 +23,8 @@ public class Overlay {
             entity.dispose();
         }
         this.entities.clear();
-
     }
+
 
     public void rest() {
         for (Entity entity : this.entities) {

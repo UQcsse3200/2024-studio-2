@@ -48,6 +48,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
+  private boolean resting = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
@@ -117,7 +118,9 @@ public class MainGameScreenDup extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    gameArea.playMusic();
+    if (!resting) {
+      gameArea.playMusic();
+    }
     logger.info("Game resumed");
   }
 
@@ -220,12 +223,14 @@ public class MainGameScreenDup extends ScreenAdapter {
 
   public void rest() {
     logger.info("Screen is resting");
+    resting = true;
     gameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
   public void wake() {
     logger.info("Screen is Awake");
+    resting = false;
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

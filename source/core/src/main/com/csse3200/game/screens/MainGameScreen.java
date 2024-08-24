@@ -45,6 +45,7 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
+  private boolean resting = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
@@ -87,9 +88,9 @@ public class MainGameScreen extends ScreenAdapter {
   @Override
   public void render(float delta) {
     if (!isPaused){
-    physicsEngine.update();
-    ServiceLocator.getEntityService().update();
-    renderer.render();
+      physicsEngine.update();
+      ServiceLocator.getEntityService().update();
+      renderer.render();
     }
   }
 
@@ -109,7 +110,9 @@ public class MainGameScreen extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    gameArea.playMusic();
+    if (!resting) {
+      gameArea.playMusic();
+    }
     logger.info("Game resumed");
   }
 
@@ -210,12 +213,14 @@ public class MainGameScreen extends ScreenAdapter {
 
   public void rest() {
     logger.info("Screen is resting");
+    resting = true;
     gameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
   public void wake() {
     logger.info("Screen is Awake");
+    resting = false;
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
