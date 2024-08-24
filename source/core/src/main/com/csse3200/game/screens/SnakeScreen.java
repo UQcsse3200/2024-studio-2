@@ -90,29 +90,32 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         // Clear the screen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (!snakeGame.getIsGameOver()) {
 
-        ServiceLocator.getEntityService().update();
-        renderer.render();
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Check if the snake has hit the boundary
-        if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
-            handleBoundaryCollision();
-            delta = 0;
-            // TODO: stop the rendering updating stuff idk how to do it
+            ServiceLocator.getEntityService().update();
+            renderer.render();
+
+            // Check if the snake has hit the boundary
+            if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
+                snakeGame.setIsGameOver(true);
+                handleBoundaryCollision();
+            }
+
+            // Render the grid and the apple
+            updateDirection();
+            snakeGame.attemptEatFruit();
+            snake.update(delta);
+
+            spriteBatch.begin();
+            renderGrid();
+            renderApple();
+            renderSnake();
+            spriteBatch.end();
         }
-
-        // Render the grid and the apple
-        updateDirection();
-        snakeGame.attemptEatFruit();
-        snake.update(delta);
-
-        spriteBatch.begin();
-        renderGrid();
-        renderApple();
-        renderSnake();
-        spriteBatch.end();
     }
+
 
     private void handleBoundaryCollision() {
         // logger.info("Snake has hit the boundary!");
