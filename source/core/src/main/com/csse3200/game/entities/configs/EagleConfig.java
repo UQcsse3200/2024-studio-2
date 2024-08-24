@@ -10,12 +10,7 @@ public class EagleConfig extends BaseEntityConfig {
     protected String soundPath = "sounds/eagle-scream.mp3";
 
     protected EagleConfig() {
-        this.hints = Map.of(
-                0, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."},
-                1, new String[]{"This is eagle specific hint 2.", "We hope you're having fun"}
-        );
-        this.hintLevel = 0;
-        this.currentHint = 0;
+        this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."};
         this.health = 25;
         this.baseAttack = 0;
         this.animalName = "Eagle";

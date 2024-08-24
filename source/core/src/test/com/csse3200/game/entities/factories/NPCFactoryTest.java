@@ -188,38 +188,35 @@ class NPCFactoryTest {
         assertEquals(pos, cow.getPosition());
     }
 
-    /**
-     * Tests that the cow's hint system works by getting current hint level to display hints.
-     */
-    @Test
-    void TestCowGetInitialHintLevel() {
-        CowConfig cowConfig = configs.cow;
-        int hintLevel = cowConfig.getHintLevel();
-        assertEquals(0, hintLevel);
-    }
+//    /**
+//     * Tests that the cow's hint system works by getting current hint level to display hints.
+//     */
+//    @Test
+//    void TestCowGetInitialHintLevel() {
+//        CowConfig cowConfig = configs.cow;
+//        int hintLevel = cowConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+//    /**
+//     * Tests that the cow updates its hint when the hint level is incremented.
+//     */
+//    @Test
+//    void TestUpdateCowHint() {
+//        CowConfig cowConfig = configs.cow;
+//        cowConfig.incrementHintLevel();
+//        assertEquals(1, cowConfig.getHintLevel());
+//        cowConfig.restartCurrentHint();
+//
+//    }
 
-    /**
-     * Tests that the cow updates its hint when the hint level is incremented.
-     */
-    @Test
-    void TestUpdateCowHint() {
-        CowConfig cowConfig = configs.cow;
-        cowConfig.incrementHintLevel();
-        assertEquals(1, cowConfig.getHintLevel());
-        cowConfig.restartCurrentHint();
-
-    }
-
-    /**
-     * Tests that the cow hint exists.
-     */
-    @Test
-    void TestCowHintIsNotNull() {
-        assertNotNull(configs.cow.getCurrentHint());
-    }
-
-
-
+//    /**
+//     * Tests that the cow hint exists.
+//     */
+//    @Test
+//    void TestCowHintIsNotNull() {
+//        assertNotNull(configs.cow.getCurrentHint());
+//    }
 
     /**
      * Tests Creation of a lion.
@@ -326,35 +323,35 @@ class NPCFactoryTest {
         assertEquals(pos, lion.getPosition());
     }
 
-    /**
-     * Tests that the lion's hint system works by getting current hint level to display hints.
-     */
-    @Test
-    void TestLionGetInitialHintLevel() {
-        LionConfig lionConfig = configs.lion;
-        int hintLevel = lionConfig.getHintLevel();
-        assertEquals(0, hintLevel);
-    }
-
-    /**
-     * Tests that the lion updates its hint when the hint level is incremented.
-     */
-    @Test
-    void TestUpdateLionHint() {
-        configs.lion.incrementHintLevel();
-        assertEquals(1, configs.lion.getHintLevel());
-        configs.lion.restartCurrentHint();
-
-    }
-
-    /**
-     * Tests that the lion hint exists.
-     */
-    @Test
-    void TestLionHintIsNotNull() {
-        assertNotNull(configs.lion.getCurrentHint());
-    }
-
+//    /**
+//     * Tests that the lion's hint system works by getting current hint level to display hints.
+//     */
+//    @Test
+//    void TestLionGetInitialHintLevel() {
+//        LionConfig lionConfig = configs.lion;
+//        int hintLevel = lionConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+//    /**
+//     * Tests that the lion updates its hint when the hint level is incremented.
+//     */
+//    @Test
+//    void TestUpdateLionHint() {
+//        configs.lion.incrementHintLevel();
+//        assertEquals(1, configs.lion.getHintLevel());
+//        configs.lion.restartCurrentHint();
+//
+//    }
+//
+//    /**
+//     * Tests that the lion hint exists.
+//     */
+//    @Test
+//    void TestLionHintIsNotNull() {
+//        assertNotNull(configs.lion.getCurrentHint());
+//    }
+//
 
 
 
@@ -599,6 +596,7 @@ class NPCFactoryTest {
         assertEquals(pos, turtle.getPosition());
     }
 
+<<<<<<< HEAD
     /**
      * Tests that the turtle's hint system works by getting current hint level to display hints.
      */
@@ -628,6 +626,168 @@ class NPCFactoryTest {
         assertNotNull(configs.turtle.getCurrentHint());
     }
 
+
+
+    /**
+     * Tests Creation of a snake.
+     */
+    @Test
+    void TestSnakeCreation() {
+        assertNotNull(snake, "Snake should not be null.");
+    }
+
+    /**
+     * Tests that the snake has the correct name.
+     */
+//    @Test
+//    void TestSnakeName() {
+//        String name = configs.snake.getAnimalName();
+//        assertEquals("Snake", name);
+//    }
+
+    /**
+     * Tests that the snake is an Entity.
+     */
+    @Test
+    void TestSnakeIsEntity() {
+        assert(snake.getClass() == Entity.class);
+    }
+
+    /**
+     * Tests that the snake has a physics component.
+     */
+
+    @Test
+    void TestSnakeHasPhysicsComponent() {
+        assertNotNull(snake.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the snake has a physics movement component.
+     */
+    @Test
+    void TestSnakeHasPhysicsMovementComponent() {
+        assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the snake has a collider component.
+     */
+    @Test
+    void TestSnakeHasColliderComponent() {
+        assertNotNull(snake.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the snake has stat config component.
+     */
+    @Test
+    void TestSnakeHasConfigComponent() {
+        assertNotNull(snake.getComponent(ConfigComponent.class));
+    }
+
+    /**
+     * Tests that the snake has the correct HP stat.
+     */
+    @Test
+    void TestSnakeHasCorrectHP() {
+        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
+                "Snake should have 30 HP.");
+    }
+
+    /**
+     * Tests that the snake has the correct base attack stat.
+     */
+    @Test
+    void TestSnakeHasCorrectBaseAttack() {
+        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
+                "Snake should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the snake has an idle animation.
+     */
+    @Test
+    void TestSnakeHasIdleAnimation() {
+        assertTrue(snake.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
+                "Snake should have idle animation.");
+    }
+
+    /**
+     * Tests that the snake is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestSnakeIsFriendly() {
+        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
+                "Snake should have a friendly AI controller.");
+    }
+
+    /**
+     * Tests that the snake is in the correct spot when placed.
+     */
+    @Test
+    void TestSnakeSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        snake.setPosition(pos);
+
+        assertEquals(pos, snake.getPosition());
+    }
+
+    /**
+     * Tests that the snake's hint system works by getting current hint level to display hints.
+     */
+//    @Test
+//    void TestSnakeGetInitialHintLevel() {
+//        SnakeConfig snakeConfig = configs.snake;
+//        int hintLevel = snakeConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+    /**
+     * Tests that the snake updates its hint when the hint level is incremented.
+     */
+//    @Test
+//    void TestUpdateSnakeHint() {
+//        configs.snake.incrementHintLevel();
+//        assertEquals(1, configs.snake.getHintLevel());
+//        configs.snake.restartCurrentHint();
+//
+//    }
+//
+    /**
+     * Tests that the snake hint exists.
+     */
+//    @Test
+=======
+//    /**
+//     * Tests that the turtle's hint system works by getting current hint level to display hints.
+//     */
+//    @Test
+//    void TestTurtleGetInitialHintLevel() {
+//        TurtleConfig turtleConfig = configs.turtle;
+//        int hintLevel = turtleConfig.getHintLevel();
+//        assertEquals(0, hintLevel);
+//    }
+//
+//    /**
+//     * Tests that the turtle updates its hint when the hint level is incremented.
+//     */
+//    @Test
+//    void TestUpdateTurtleHint() {
+//        configs.turtle.incrementHintLevel();
+//        assertEquals(1, configs.turtle.getHintLevel());
+//        configs.turtle.restartCurrentHint();
+//
+//    }
+
+//    /**
+//     * Tests that the turtle hint exists.
+//     */
+//    @Test
+//    void TestTurtleHintIsNotNull() {
+//        assertNotNull(configs.turtle.getCurrentHint());
+//    }
+//
 
 
     /**

@@ -13,12 +13,6 @@ public class SnakeConfig extends BaseEntityConfig {
 	protected SnakeConfig() {
 		this.health = 30;
 		this.baseAttack = 0;
-		this.hints = Map.of(
-				0, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."},
-				1, new String[]{"This is snake specific hint 2.", "We hope you're having fun"}
-		);
-		this.hintLevel = 0;
-		this.currentHint = 0;
-
+		this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."};
 	}
 }
