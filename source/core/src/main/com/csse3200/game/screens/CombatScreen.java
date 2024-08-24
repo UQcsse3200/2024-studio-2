@@ -122,6 +122,7 @@ public class CombatScreen extends ScreenAdapter {
 
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
+        ServiceLocator.getResourceService().dispose();
 
         ServiceLocator.clear();
     }

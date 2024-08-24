@@ -23,7 +23,7 @@ public class CombatActions extends Component {
   }
 
   /**
-   * Swaps to the Main Menu screen.
+   * Swaps to the Main Game screen.
    */
   private void onRun() {
     logger.info("Exiting combat screen to return to main game screen");
