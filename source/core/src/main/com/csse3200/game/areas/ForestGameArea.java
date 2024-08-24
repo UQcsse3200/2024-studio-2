@@ -1,14 +1,17 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
@@ -17,6 +20,8 @@ import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.ArrayList;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -29,6 +34,11 @@ public class ForestGameArea extends GameArea {
     "images/box_boy_leaf.png",
     "images/tree.png",
     "images/ghost_king.png",
+    "images/Cow.png",
+    "images/snake.png",
+    "images/eagle.png",
+    "images/lion.png",
+    "images/turtle.png",
     "images/ghost_1.png",
     "images/grass_1.png",
     "images/grass_2.png",
@@ -38,17 +48,24 @@ public class ForestGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
+    "images/Healthpotion.png",
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
+          "images/snake.atlas", "images/lion.atlas", "images/eagle.atlas", "images/turtle.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+  private static final String[] cowSounds = {"sounds/mooing-cow.mp3"};
+  private static final String[] lionSounds = {"sounds/tiger-roar.mp3"};
+  private static final String[] turtleSounds = {"sounds/turtle-hiss.mp3"};
+  private static final String[] eagleSounds = {"sounds/eagle-scream.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
   private final TerrainFactory terrainFactory;
   private CameraComponent cameraComponent;
+  private List<Entity> enemies;
   private Entity player;
 
   /**
@@ -60,6 +77,7 @@ public class ForestGameArea extends GameArea {
     super();
     this.terrainFactory = terrainFactory;
     this.cameraComponent = cameraComponent;
+    this.enemies = new ArrayList<>();
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -69,13 +87,21 @@ public class ForestGameArea extends GameArea {
 
     displayUI();
 
+
+
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnGhosts();
-    spawnGhostKing();
-
-    playMusic();
+    spawnHealthPotion();
+    //spawnGhosts();
+    //spawnGhostKing();
+    spawnCow();
+    spawnLion();
+    spawnTurtle();
+    spawnCow();
+    spawnEagle();
+    //spawnSnake();
+    //playMusic();
   }
 
   private void displayUI() {
@@ -147,6 +173,7 @@ public class ForestGameArea extends GameArea {
     for (int i = 0; i < NUM_GHOSTS; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity ghost = NPCFactory.createGhost(player);
+      this.enemies.add(ghost);
       spawnEntityAt(ghost, randomPos, true, true);
     }
   }
@@ -158,6 +185,70 @@ public class ForestGameArea extends GameArea {
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity ghostKing = NPCFactory.createGhostKing(player);
     spawnEntityAt(ghostKing, randomPos, true, true);
+  }
+
+  private void spawnEntityOnMap(Entity entity) {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    spawnEntityAt(entity, randomPos, true, true);
+  }
+
+  private void spawnCow() {
+    Entity cow = NPCFactory.createCow(player, this.enemies);
+    cow.getEvents().addListener("PausedCow", this::playCowSound);
+    spawnEntityOnMap(cow);
+  }
+
+  private void spawnLion() {
+    Entity lion = NPCFactory.createLion(player, this.enemies);
+    lion.getEvents().addListener("PausedLion", this::playLionSound);
+    spawnEntityOnMap(lion);
+  }
+
+  private void spawnTurtle() {
+    Entity turtle = NPCFactory.createTurtle(player, this.enemies);
+    turtle.getEvents().addListener("PausedTurtle", this::playTurtleSound);
+    spawnEntityOnMap(turtle);
+  }
+
+  private void spawnEagle() {
+    Entity eagle = NPCFactory.createEagle(player, this.enemies);
+    eagle.getEvents().addListener("PausedEagle", this::playEagleSound);
+    spawnEntityOnMap(eagle);
+  }
+
+  private void spawnSnake() {
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntityOnMap(snake);
+  }
+
+  private void spawnHealthPotion() {
+    Entity healthPotion = ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
+    spawnEntityAt(healthPotion, new GridPoint2(9, 9), true, true);
+  }
+
+  private void playAnimalSound(String animalSoundPath) {
+    Sound mooingCowSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+    long soundId = mooingCowSound.play();
+    mooingCowSound.setVolume(soundId, 0.3f);
+    mooingCowSound.setLooping(soundId, false);
+  }
+
+  private void playCowSound() {
+    playAnimalSound(cowSounds[0]);
+  }
+
+  private void playLionSound() {
+    playAnimalSound(lionSounds[0]);
+  }
+
+  private void playTurtleSound() {
+    playAnimalSound(turtleSounds[0]);
+  }
+
+  private void playEagleSound() {
+    playAnimalSound(eagleSounds[0]);
   }
 
   private void playMusic() {
@@ -173,6 +264,10 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
+    resourceService.loadSounds(cowSounds);
+    resourceService.loadSounds(lionSounds);
+    resourceService.loadSounds(turtleSounds);
+    resourceService.loadSounds(eagleSounds);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -187,6 +282,10 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
+    resourceService.unloadAssets(cowSounds);
+    resourceService.unloadAssets(lionSounds);
+    resourceService.unloadAssets(turtleSounds);
+    resourceService.unloadAssets(eagleSounds);
     resourceService.unloadAssets(forestMusic);
   }
 
