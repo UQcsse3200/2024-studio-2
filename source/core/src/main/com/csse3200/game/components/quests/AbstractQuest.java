@@ -144,7 +144,8 @@ public abstract class AbstractQuest {
     public boolean isSecret() {
         return isSecretQuest;
     }
-    /** Returns true if the quest is secret (e.g. progression, XP, etc). */
+
+    /** Returns true if the quest is active */
     public boolean isActive() {
         return isActive;
     }
