@@ -25,7 +25,7 @@ public class BaseEntityConfig {
         return this.baseAttack;
     }
 
-    public String[] getStringHintLevel() {
+    public String[] getBaseHint() {
         return baseHint;
     }
 

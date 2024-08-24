@@ -110,7 +110,7 @@ public class PauseTask extends ChaseTask {
                 String hint = currentQuest.getCurrentTaskHint();
                 hintText = new String[] { hint };
             } else {
-                hintText = ((BaseEntityConfig) this.config).getStringHintLevel();
+                hintText = ((BaseEntityConfig) this.config).getBaseHint();
             }
 
             hint = new ChatOverlay(hintText);
