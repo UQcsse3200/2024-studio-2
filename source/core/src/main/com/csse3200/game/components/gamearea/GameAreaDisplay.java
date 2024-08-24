@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.ui.UIComponent;
-
 /**
  * Displays the name of the current game area.
  */
@@ -41,7 +40,8 @@ public class GameAreaDisplay extends UIComponent {
         playerIcon = new Image(playerIconTexture);
         // Set the size of the icon to match the label's height
         float titleHeight = title.getPrefHeight();
-        playerIcon.setSize(titleHeight, titleHeight);
+        float scaleFactor = 5f;
+        playerIcon.setSize(titleHeight * scaleFactor, titleHeight * scaleFactor);
 
         // Create a table for the top UI
         Table topTable = new Table();
@@ -50,13 +50,13 @@ public class GameAreaDisplay extends UIComponent {
         topTable.top().left();
 
         // Add the player icon to the right side of the table
-        topTable.add(playerIcon).size(titleHeight, titleHeight).align(Align.left | Align.top).pad(10); // Padding from the edges
+        topTable.add(playerIcon).size(titleHeight * scaleFactor, titleHeight * scaleFactor).align(Align.left | Align.top).pad(10); // Padding from the edges
 
         // Add space to push the icon to the right
         topTable.add().expandX();
         // This expands the space between the title and the icon
 
-        topTable.add(title).align(Align.right | Align.top).pad(10); // Padding from the edges
+        topTable.add(title).align(Align.center | Align.top).pad(10); // Padding from the edges
 
         // Add the table to the stage
         stage.addActor(topTable);
