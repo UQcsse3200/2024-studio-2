@@ -19,12 +19,11 @@ import java.security.Provider;
 
 
 /**
- * A ui component for displaying player stats, e.g. health.
+ * A UI component for displaying player stats, e.g. health.
  */
 public class PlayerStatsDisplay extends UIComponent {
     Table table;
     private Image heartImage;
-
     private Image xpImage;
     private Image hungerImage;
     private Label healthLabel;
@@ -33,6 +32,7 @@ public class PlayerStatsDisplay extends UIComponent {
     private Animation<TextureRegion> healthBarAnimation;
     private TextureAtlas[] textureAtlas;
 
+
     /**
      * Creates reusable ui styles and adds actors to the stage.
      */
@@ -40,8 +40,8 @@ public class PlayerStatsDisplay extends UIComponent {
     public void create() {
         super.create();
         addActors();
-
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+        entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
     }
 
     /**
@@ -67,8 +67,8 @@ public class PlayerStatsDisplay extends UIComponent {
         //TextureRegion[] hungerBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         //for (int i = 0; i < hungerBarFrames.length; i++) {
-            //String frameName = (100 - i * 10) + "%_health";
-            //hungerBarFrames[i] = textureAtlas[0].findRegion(frameName);
+        //String frameName = (100 - i * 10) + "%_health";
+        //hungerBarFrames[i] = textureAtlas[0].findRegion(frameName);
         //}
         //hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
 
@@ -94,6 +94,12 @@ public class PlayerStatsDisplay extends UIComponent {
         table.setFillParent(true);
         table.padTop(45f).padLeft(5f);
 
+        // Health text
+        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+        CharSequence healthText = String.format("HP: %d", health);
+        healthLabel = new Label(healthText, skin, "large");
+
+
         initBarAnimations();
 
         // Health Dimensions
@@ -104,11 +110,6 @@ public class PlayerStatsDisplay extends UIComponent {
         // Get the original width and height of the image
         float barImageWidth = (float) (heartImage.getWidth() * 0.8);
         float barImageHeight = (float) (heartImage.getHeight() * 0.5);
-
-        // Health text
-        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
-        CharSequence healthText = String.format("HP: %d", health);
-        healthLabel = new Label(healthText, skin, "large");
 
         // Experience text maybe
         CharSequence xpText = String.format("EXP: %d", 100);
@@ -144,6 +145,7 @@ public class PlayerStatsDisplay extends UIComponent {
         CharSequence text = String.format("HP: %d", health);
         healthLabel.setText(text);
         int totalFrames = 11;
+
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
         int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
@@ -153,6 +155,11 @@ public class PlayerStatsDisplay extends UIComponent {
         // Set the current frame of the health bar animation
         TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
         heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
+
+    public void updatePlayerExperienceUI(int experience) {
+        CharSequence text = String.format("EXP: %d", experience);
+        xpLabel.setText(text);
     }
 
     @Override
@@ -170,3 +177,4 @@ public class PlayerStatsDisplay extends UIComponent {
         textureAtlas[0].dispose();
     }
 }
+
