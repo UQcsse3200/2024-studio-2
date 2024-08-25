@@ -41,12 +41,28 @@ public interface InventoryInterface {
     boolean hasItem(int itemCode);
 
     /**
+     * Checks if an item with the given name exists in the inventory.
+     *
+     * @param name the name of the item.
+     * @return {@code true} if the item is present, {@code false} otherwise.
+     */
+    boolean hasItem(String name);
+
+    /**
      * Retrieves the index of an item with the specified code.
      *
      * @param itemCode the code of the item to retrieve the index for
      * @return the index of the item in the inventory, or -1 if the item is not found
      */
     int getIndex(int itemCode);
+
+    /**
+     * Retrieves the index of the first occurrence of an item with the given name.
+     *
+     * @param name the name of the item.
+     * @return the index of the item, or -1 if the item is not found.
+     */
+    int getIndex(String name);
 
     /**
      * Retrieves the item at the specified index in the inventory.
