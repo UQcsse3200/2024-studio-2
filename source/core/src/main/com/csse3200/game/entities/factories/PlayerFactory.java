@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraComponent;
@@ -33,13 +34,13 @@ public class PlayerFactory {
    * Create a player entity.
    * @return entity
    */
-  public static Entity createPlayer(CameraComponent cameraComponent, TerrainFactory terrainFactory) {
+  public static Entity createPlayer(CameraComponent cameraComponent, TerrainComponent terrain) {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
     Entity player =
         new Entity()
-            .addComponent(new TerrainLoaderComponent(terrainFactory))
+            .addComponent(new TerrainLoaderComponent(terrain))
             .addComponent(cameraComponent)
             .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
             .addComponent(new PhysicsComponent())

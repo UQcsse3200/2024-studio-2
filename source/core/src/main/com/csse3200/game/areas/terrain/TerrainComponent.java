@@ -1,26 +1,38 @@
 package com.csse3200.game.areas.terrain;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a map of tiles that
  * shows the 'ground' in the game. Enabling/disabling this component will show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
-  private static final int TERRAIN_LAYER = 0;
+  public static final int CHUNK_SIZE = 16;
 
-  private final TiledMap tiledMap;
-  private final TiledMapRenderer tiledMapRenderer;
-  private final OrthographicCamera camera;
-  private final TerrainOrientation orientation;
-  private final float tileSize;
+  private static final int TERRAIN_LAYER = 0;
+  private TiledMap tiledMap;
+  private TiledMapRenderer tiledMapRenderer;
+  private OrthographicCamera camera;
+  private TerrainOrientation orientation;
+  private float tileSize;
+
+  private TextureRegion grass, grassTuft, rocks;
+  private Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -33,6 +45,16 @@ public class TerrainComponent extends RenderComponent {
     this.orientation = orientation;
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
+
+    ResourceService resourceService = ServiceLocator.getResourceService();
+
+    // get asset
+    this.grass = new TextureRegion(resourceService.getAsset("images/gt.png", Texture.class));
+    this.grassTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
+    this.rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+
+    TerrainTile grassTuftTile = new TerrainTile(grassTuft);
+    TerrainTile rockTile = new TerrainTile(rocks);
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -51,6 +73,26 @@ public class TerrainComponent extends RenderComponent {
         return new Vector2(x * tileSize, y * tileSize);
       default:
         return null;
+    }
+  }
+
+  public void getChunks() {
+  }
+
+  public void loadChunk(GridPoint2 position) {
+
+  }
+
+  public void fillChunk(GridPoint2 position) {
+    TerrainTile grassTile = new TerrainTile(grass);
+    System.out.println("got some chunks");
+
+    for (int x = 0; x < CHUNK_SIZE; x++) {
+      for (int y = 0; y < CHUNK_SIZE; y++) {
+        Cell cell = new Cell();
+        cell.setTile(grassTile);
+        ((TiledMapTileLayer)tiledMap.getLayers().get("forest")).setCell(x, y, cell);
+      } 
     }
   }
 

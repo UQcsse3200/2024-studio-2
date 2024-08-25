@@ -1,9 +1,12 @@
 package com.csse3200.game.areas.terrain;
 
+import java.awt.print.PrinterIOException;
+
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
@@ -14,7 +17,7 @@ import com.csse3200.game.services.ServiceLocator;
  * terrain chunks as the player moves.
  */
 public class TerrainLoaderComponent extends Component {
-  private final TerrainFactory terrainFactory;
+  private TerrainComponent terrain;
   private GridPoint2 previousChunk;
 
   /**
@@ -22,20 +25,23 @@ public class TerrainLoaderComponent extends Component {
    * 
    * @param terrainFactory The factory used to generate or load terrain chunks.
    */
-  public TerrainLoaderComponent(TerrainFactory terrainFactory) {
-    this.terrainFactory = terrainFactory;
+  public TerrainLoaderComponent(TerrainComponent terrain) {
+    this.terrain = terrain;
   }
 
   @Override
   public void create() {
     // Initialize the player's starting chunk position and load the initial chunks.
     previousChunk = getPlayerChunk(entity.getPosition());
+    System.out.println(previousChunk);
     loadInitialChunks();
   }
 
   @Override
   public void update() {
     Vector2 currentPosition = entity.getPosition();
+    //System.out.println(currentPosition);
+    System.out.println(previousChunk);
     GridPoint2 currentChunk = getPlayerChunk(currentPosition);
 
     // Only load new chunks if the player has moved to a different chunk.
@@ -51,14 +57,18 @@ public class TerrainLoaderComponent extends Component {
   }
 
   private void loadChunks(Vector2 position) {
-    TerrainComponent terrainComponent = terrainFactory.createTerrain(TerrainFactory.TerrainType.FOREST_DEMO, new GridPoint2((int) position.x, (int) position.y));
-    
-    // Create an entity for the terrain and add it to the game world
-    Entity terrainEntity = new Entity().addComponent(terrainComponent);
-    ServiceLocator.getEntityService().register(terrainEntity);
+
+    terrain.fillChunk(getPlayerChunk(position));
+  
+    //TerrainComponent terrainComponent = terrainFactory.createTerrain(TerrainFactory.TerrainType.FOREST_DEMO, new GridPoint2((int) position.x, (int) position.y), new GridPoint2(5, 5));
+    //
+    //// Create an entity for the terrain and add it to the game world
+    //Entity terrainEntity = new Entity().addComponent(terrainComponent);
+    //ServiceLocator.getEntityService().register(terrainEntity);
   }
 
+
   private GridPoint2 getPlayerChunk(Vector2 position) {
-    return new GridPoint2((int) position.x / TerrainFactory.CHUNK_SIZE.x, (int) position.y / TerrainFactory.CHUNK_SIZE.y);
+    return new GridPoint2((int) position.x / TerrainFactory.CHUNK_SIZE, (int) position.y / TerrainFactory.CHUNK_SIZE);
   }
 }
