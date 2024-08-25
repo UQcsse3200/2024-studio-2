@@ -11,12 +11,21 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+  private int maxHealth;
   private int health;
-  private int baseAttack;
+  private int strength;
+  private int defense;
+  private int speed;
+  private int experience;
 
-  public CombatStatsComponent(int health, int baseAttack) {
-    setHealth(health);
-    setBaseAttack(baseAttack);
+  public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
+      this.maxHealth = health;
+      setHealth(health);
+      setStrength(strength);
+      setDefense(defense);
+      setSpeed(speed);
+      setExperience(experience);
+
   }
 
   /**
@@ -63,29 +72,105 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Returns the entity's base attack damage.
+
+   * Returns the entity's strength.
    *
-   * @return base attack damage
+   * @return entity's strength
    */
-  public int getBaseAttack() {
-    return baseAttack;
+
+  public int getStrength() {
+    return strength;
   }
 
   /**
-   * Sets the entity's attack damage. Attack damage has a minimum bound of 0.
+   * Sets the entity's strength. Strength has a minimum bound of 0.
    *
-   * @param attack Attack damage
+   * @param strength Strength
    */
-  public void setBaseAttack(int attack) {
-    if (attack >= 0) {
-      this.baseAttack = attack;
+
+  public void setStrength(int strength) {
+    if (strength >= 0) {
+      this.strength = strength;
     } else {
-      logger.error("Can not set base attack to a negative attack value");
+      logger.error("Cannot set strength to a negative value");
+    }
+  }
+
+
+
+  /**
+   * Returns the entity's defense.
+   *
+   * @return entity's defense
+   */
+  public int getDefense() {
+    return defense;
+  }
+
+  /**
+   * Sets the entity's defense. Defense has a minimum bound of 0.
+   *
+   * @param defense Defense
+   */
+  public void setDefense(int defense) {
+    if (defense >= 0) {
+      this.defense = defense;
+    } else {
+      logger.error("Cannot set defense to a negative value");
+    }
+  }
+
+  /**
+   * Returns the entity's strength.
+   *
+   * @return entity's strength
+   */
+  public int getSpeed() {
+    return speed;
+  }
+
+
+  /**
+   * Sets the entity's strength. Strength has a minimum bound of 0.
+   *
+   * @param speed speed
+   */
+  public void setSpeed(int speed) {
+    if (speed >= 0) {
+      this.speed = speed;
+    } else {
+      logger.error("Cannot set speed to a negative value");
+    }
+  }
+
+
+  public int getExperience() {
+    return experience;
+  }
+
+
+  /**
+   * Sets the entity's experience. experience has a minimum bound of 0.
+   *
+   * @param experience experience
+   */
+  public void setExperience(int experience) {
+    if (experience >= 0) {
+      this.experience = experience;
+    } else {
+      logger.error("Cannot set experience to a negative value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
+    int newHealth = getHealth() - attacker.getStrength();
+    System.out.println("Attacker Attack:");
+    System.out.println(attacker.getStrength());
+    System.out.println(newHealth);
     setHealth(newHealth);
+  }
+
+  public int getMaxHealth() {
+    return maxHealth;
   }
 }
