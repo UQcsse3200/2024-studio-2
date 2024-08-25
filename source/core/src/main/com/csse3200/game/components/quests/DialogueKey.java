@@ -8,7 +8,9 @@ import java.util.Objects;
  * Key to identify dialogues based on the NPC's.
  */
 public class DialogueKey {
+        /** Name of each NPC*/
         private final String npcName;
+        /** Progression level tracker. */
         private final Integer progressionLevel;
 
         /**
