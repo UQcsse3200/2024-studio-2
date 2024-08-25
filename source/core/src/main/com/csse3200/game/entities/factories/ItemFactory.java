@@ -21,26 +21,23 @@ import static com.csse3200.game.physics.PhysicsLayer.OBSTACLE;
 // TODO: Remove texturePath from createItem input and use item.getTexture (or add a function to
 //  get the texture path instead of the texture!)
 public class ItemFactory {
-    private static Entity createItem(Entity target, AbstractItem item, String texturePath, Object config) {
+    private static Entity createItem(Entity target, AbstractItem item, String texturePath) {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item));
 
         Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(OBSTACLE))
-                .addComponent(new ConfigComponent(config))
                 .addComponent(aiComponent);
         itemEntity.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         return itemEntity;
     }
 
     public static Entity createHealthPotion(Entity target, HealingPotion healthPotion) {
-        HealingPotionsEntityConfig config = new HealingPotionsEntityConfig();//configs.healingPotions;
-        return createItem(target, healthPotion, "images/Healthpotion.png", config);
+        return createItem(target, healthPotion, "images/Healthpotion.png");
     }
 
     public static Entity createApple(Entity target, Foods.Apple apple) {
-        AppleEntityConfig config = new AppleEntityConfig();
-        return createItem(target, apple, "images/foodtexture/Apple.png", config);
+        return createItem(target, apple, "images/foodtexture/Apple.png");
     }
 }
