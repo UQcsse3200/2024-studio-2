@@ -10,6 +10,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
@@ -48,7 +49,7 @@ public class ItemFactory {
 
     private static Entity createItem(Entity target, AbstractItem item, String texturePath) {
         AITaskComponent aiComponent = new AITaskComponent()
-                .addTask(new ItemProximityTask(target,20, 1f) );
+                .addTask(new ItemProximityTask(target,20, 1f, item) );
 
         Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
                 .addComponent(new PhysicsComponent())

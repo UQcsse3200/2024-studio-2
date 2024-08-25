@@ -3,8 +3,10 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.inventory.items.AbstractItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,27 +17,41 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private final int priority;
     private final float proximityThreshold;
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
+    private final AbstractItem item;
+    private boolean itemPickedUp = false;
 
-    public ItemProximityTask(Entity target, int priority, float proximityThreshold) {
+    public ItemProximityTask(Entity target, int priority, float proximityThreshold, AbstractItem item) {
         this.target = target;
         this.priority = priority;
         this.proximityThreshold = proximityThreshold;
+        this.item = item;
     }
 
     @Override
     public void start() {
         super.start();
+        this.target.getEvents().addListener("pickUpItem", this::addToInventory);
     }
 
-    public void update() {
-        if (isPlayerNearItem()) {
-            logger.debug("Player is within pickup range of the item.");
-            this.owner.getEntity().getEvents().trigger("PlayerNearItem");
-        }
-        if (hasPlayerPickedUpNearItem()) {
-            logger.debug("Item in range of player has been picked up.");
+    public void addToInventory() {
+        if (!itemPickedUp && isPlayerNearItem()) { // Check if the item hasn't been picked up and player is near
+            PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
+            if (display != null) {
+                display.getEntity().getEvents().trigger("addItem", item);
+                logger.info("Item added to inventory.");
+                itemPickedUp = true; // Set flag to prevent further triggering
+                owner.getEntity().dispose();
+
+            } else {
+                logger.error("PlayerInventoryDisplay component not found on target entity.");
+            }
+        } else if (!isPlayerNearItem()) {
+            logger.info("Player is not close enough to pick up the item.");
         }
     }
+
+
+
 
     @Override
     public int getPriority() {
