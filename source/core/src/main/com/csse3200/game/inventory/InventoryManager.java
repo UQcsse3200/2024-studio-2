@@ -12,13 +12,10 @@ import java.util.*;
  * Categorises items by class. Allows for searching through inventory for item name
  */
 public class InventoryManager extends Inventory {
-    // maps item names to inventory indices where they are stored
-    private final Map<String, TreeSet<Integer>> itemsByName;
     // maps item quantity to inventory indices where they are stored
     private final IntMap<TreeSet<Integer>> itemsByQuantity;
     // maps item categories to indices where they are stored
     private final Map<String, TreeSet<Integer>> categorisedItems;
-    private List<AbstractItem> sortedName;
     private List<AbstractItem> sortedQuantity;
 
 
@@ -28,20 +25,8 @@ public class InventoryManager extends Inventory {
      */
     public InventoryManager(int capacity) {
         super(capacity);
-        this.itemsByName = new HashMap<>();
         this.itemsByQuantity = new IntMap<>();
         this.categorisedItems = new HashMap<>();
-    }
-
-    public void addToNameMap() {
-        this.sortedName = this.sortByName();
-        for (AbstractItem item : this.sortedName) {
-            int index = this.getIndex(item.getItemCode());
-            if (!itemsByName.containsKey(item.getName())) {
-                itemsByName.put(item.getName(), new TreeSet<>());
-            }
-            itemsByName.get(item.getName()).add(index);
-        }
     }
 
     public void addToQuantityMap() {
@@ -53,18 +38,6 @@ public class InventoryManager extends Inventory {
             }
             itemsByQuantity.get(item.getQuantity()).add(index);
         }
-    }
-
-    /**
-     * Sorts items in inventory by name
-     * @return list of sorted items
-     */
-    public List<AbstractItem> sortByName() {
-        List<AbstractItem> items = this.getItems();
-        items.sort(
-                Comparator.comparing(AbstractItem::getName)
-        );
-        return items;
     }
 
     /**
