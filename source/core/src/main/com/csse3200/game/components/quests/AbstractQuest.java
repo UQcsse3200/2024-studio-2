@@ -2,7 +2,6 @@ package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.utils.Null;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public abstract class AbstractQuest {
      * DialogueKey(String npcName, Integer ProgressionLevel)
      * to a dialogue map relevant to the npc
      */
-    private final Map<DialogueKey,ArrayList<String[]>> questDialogue;
+    private final Map<DialogueKey,String[]> questDialogue;
     /**
      * Number of tasks completed for current quest.
      */
@@ -50,7 +49,7 @@ public abstract class AbstractQuest {
     private boolean isActive;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,ArrayList<String[]>> dialogue) {
+    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
@@ -151,9 +150,9 @@ public abstract class AbstractQuest {
         return isActive;
     }
 
-    /** Returns the current dialogue for the given npc */
+    /** Returns the current quest dialogue for the given npc */
     @Null
-    public ArrayList<String[]> getDialogue(String npcName) {
+    public String[] getDialogue(String npcName) {
         if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
             return questDialogue.get(new DialogueKey(npcName, getProgression()));
         }

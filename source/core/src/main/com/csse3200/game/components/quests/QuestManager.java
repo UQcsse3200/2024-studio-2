@@ -1,6 +1,7 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Null;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
@@ -30,11 +31,11 @@ public class QuestManager extends Component {
     /** Map of relevant quests. */
     private final Map<String, String[]> relevantQuests;
 
-    /**Constructs questmanager instance */
+    /**Constructs questManager instance */
     public QuestManager() {
         this.quests = new HashMap<>();
         this.relevantQuests = Map.of(
-                "cow", new String[]{"2 Task Quest"}
+                "Cow", new String[]{"2 Task Quest"}
         );
         testQuests();
     }
@@ -48,13 +49,10 @@ public class QuestManager extends Component {
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
         addQuest(firstStepsQuest);
 
-        ArrayList<String[]> test2StepTextProg1 = new ArrayList<>();
-        test2StepTextProg1.add(new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest.."});
-        test2StepTextProg1.add(new String[]{"Press Spacebar!"});
-        ArrayList<String[]> test2StepTextProg2 = new ArrayList<>();
-        test2StepTextProg2.add(new String[]{"Yippeee!", "You completed your Quest!"});
+        String[] test2StepTextProg1 = new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest...","Press Spacebar!"};
+        String[] test2StepTextProg2 = new String[]{"Yippeee!", "You completed your Quest!"};
 
-        Map<DialogueKey, ArrayList<String[]>> test2TaskQuestDialogue = Map.of(
+        Map<DialogueKey, String[]> test2TaskQuestDialogue = Map.of(
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
@@ -178,21 +176,20 @@ public class QuestManager extends Component {
         }
     }
 
-    /** Returns all the dialogue for all quests for the given npc */
-    public ArrayList<String[]> getDialogue(String npcName) {
+    /** Returns all the dialogue for all quests for the given npc
+     * In sprint 2 will return a struct containing all dialogue for (String questName : npcRelevantQuests)
+     * Need to have null checks for npcName being in npcRelevantQuests
+     * */
+    @Null
+    public String[] getDialogue(String npcName) {
         String[] npcRelevantQuests = relevantQuests.get(npcName);
-        ArrayList<String[]> npcDialogue = new ArrayList<>();
         if (npcRelevantQuests != null) {
-            for (String questName : npcRelevantQuests) {
-                QuestBasic quest = quests.get(questName);
-                if (quest != null) {
-                    ArrayList<String[]> dialogue = quest.getDialogue(npcName);
-                    if (dialogue != null) {
-                        npcDialogue.addAll(dialogue);
-                    }
-                }
+            String singleRelevantQuest = npcRelevantQuests[0];
+            QuestBasic quest = quests.get(singleRelevantQuest);
+            if (quest != null) {
+                return quest.getDialogue(npcName);
             }
         }
-        return npcDialogue;
+        return null;
     }
 }
