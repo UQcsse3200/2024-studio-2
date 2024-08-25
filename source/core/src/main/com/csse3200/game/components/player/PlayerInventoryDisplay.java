@@ -233,12 +233,12 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void addItem(AbstractItem item) {
         if (this.inventory.add(item)) {
             entity.getEvents().trigger("itemPickedUp", true);
-//            if (toggle) {
-//                generateWindow();
-//                stage.addActor(window);
-//            }
         } else {
             entity.getEvents().trigger("itemPickedUp", false);
+        }
+        if (toggle) {
+            toggleInventory(); // Hacky way to regenerate inventory without duplicating code
+            toggleInventory();
         }
     }
 
