@@ -6,10 +6,8 @@ import com.csse3200.game.entities.configs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.ui.ChatOverlay;
-import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.AbstractQuest;
-import com.csse3200.game.services.ServiceLocator;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends ChaseTask {
@@ -20,7 +18,6 @@ public class PauseTask extends ChaseTask {
     private Entity entity;
     private final QuestManager questManager;
     private BaseEntityConfig config;
-    private EntityChatService chatOverlayService;
 
     /**
      * @param target The entity to pause when seen.
@@ -35,7 +32,6 @@ public class PauseTask extends ChaseTask {
         this.hasApproached = false;
         this.hint = null;
         this.config = null;
-        this.chatOverlayService = ServiceLocator.getEntityChatService();
     }
 
     @Override
@@ -47,13 +43,19 @@ public class PauseTask extends ChaseTask {
     protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
         ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
-        if (configComponent != null) {
-            this.config = (BaseEntityConfig) configComponent.getConfig();
+        this.config = (BaseEntityConfig) configComponent.getConfig();
+
+        if (configComponent != null && this.config != null) {
+            String[] hintText = this.questManager.getDialogue( this.config.getAnimalName() );
+            if (hintText == null) {
+                hintText = this.config.getBaseHint();
+            }
+
             String animalName = (config).getAnimalName();
-            String eventName = String.format("Paused%s", animalName);
-            entity.getEvents().trigger(eventName);
+            String eventName = String.format("PauseStart%s", animalName);
+            entity.getEvents().trigger(eventName, hintText);
         } else {
-            entity.getEvents().trigger("pauseStart");
+            entity.getEvents().trigger("PauseStart");
         }
     }
 
@@ -71,10 +73,6 @@ public class PauseTask extends ChaseTask {
 
             // NPC pauses when close enough to the target
             hasApproached = true;
-            logger.info("Medium");
-
-            createChatOverlay();
-
             movementTask.stop();
 
         } else if (hasApproached && distanceToTarget > 1.5f) {
@@ -88,24 +86,7 @@ public class PauseTask extends ChaseTask {
             } else {
                 entity.getEvents().trigger("pauseEnd");
             }
-
-            this.chatOverlayService.disposeCurrentOverlay();
         }
-    }
-
-    protected void createChatOverlay() {
-        if (chatOverlayService == null) {
-            return;
-        }
-
-        logger.info(this.config.getAnimalName());
-        String[] hintText = this.questManager.getDialogue( this.config.getAnimalName() );
-
-        if (hintText == null) {
-            hintText = this.config.getBaseHint();
-        }
-
-        this.chatOverlayService.updateText(hintText);
     }
 
     public int getPriority() {

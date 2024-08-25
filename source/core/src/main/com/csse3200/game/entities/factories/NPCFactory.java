@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.entities.EntityChatService;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -126,11 +128,15 @@ public class NPCFactory {
 
     npc.getComponent(AnimationRenderComponent.class).scaleEntity();
 
+
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
     // Add Sounds Effect to FNPCs
     String[] animalSoundPaths = config.getSoundPath();
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
-      String eventName = String.format("Paused%s", config.getAnimalName());
-      npc.getEvents().addListener(eventName, () -> playAnimalSound(animalSoundPaths));
+      String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
+      String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
+      npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
 
@@ -178,7 +184,7 @@ public class NPCFactory {
     return createFriendlyNPC(target, enemies, "images/snake.atlas", 0.1f, config);
   }
 
-  private static void playAnimalSound(String[] animalSoundPaths) {
+  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
         Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
@@ -187,6 +193,14 @@ public class NPCFactory {
         animalSound.setLooping(soundId, false);
       }
     }
+
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.updateText(hintText);
+  }
+
+  private static void endDialogue() {
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.disposeCurrentOverlay();
   }
 
   /**
