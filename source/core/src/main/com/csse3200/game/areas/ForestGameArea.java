@@ -220,7 +220,6 @@ public class ForestGameArea extends GameArea {
   private  void spawnApple() {
     Entity apple = ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
     spawnEntityAt(apple, new GridPoint2(4, 9), true, false);
-//    }
   }
 
   private void playAnimalSound(String animalSoundPath) {

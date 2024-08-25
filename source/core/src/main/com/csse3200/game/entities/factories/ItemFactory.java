@@ -8,7 +8,6 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
