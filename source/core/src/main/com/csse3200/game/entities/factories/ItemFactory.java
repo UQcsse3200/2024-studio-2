@@ -16,6 +16,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -28,6 +29,12 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -55,4 +62,7 @@ public class ItemFactory {
         return createItem(target, healthPotion, "images/Healthpotion.png");
     }
 
+    public static Entity createApple(Entity target, Foods.Apple apple) {
+        return createItem(target, apple, "images/foodtexture/Apple.png");
+    }
 }

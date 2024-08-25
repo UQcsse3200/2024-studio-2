@@ -5,8 +5,16 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.tasks.ItemProximityTask;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.ItemFactory;
+import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -18,6 +26,7 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
+  private boolean picking = false;
 
   @Override
   public void create() {
