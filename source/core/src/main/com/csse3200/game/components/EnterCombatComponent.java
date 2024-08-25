@@ -2,10 +2,9 @@ package com.csse3200.game.components;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -38,8 +37,7 @@ public class EnterCombatComponent extends Component {
     }
 
     private void onCollisionStart(Fixture me, Fixture other) {
-        Logger logger = LoggerFactory.getLogger(EnterCombatComponent.class);
-        logger.info("collision Hit");
+
         if (hitboxComponent.getFixture() != me) {
             // Not triggered by hitbox, ignore
             return;
@@ -49,7 +47,8 @@ public class EnterCombatComponent extends Component {
             // Doesn't match our target layer, ignore
             return;
         }
-        game.addMainGameDup();
+
+        game.enterCombatScreen(entity, ((BodyUserData) other.getBody().getUserData()).entity);
     }
 }
 

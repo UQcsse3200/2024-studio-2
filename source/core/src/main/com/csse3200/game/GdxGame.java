@@ -3,11 +3,9 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.UserSettings;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.screens.MainGameScreenDup;
-import com.csse3200.game.screens.MainMenuScreen;
-import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -54,7 +52,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null, null));
+    setScreen(newScreen(screenType, null, null,null,null));
   }
 
   /**
@@ -82,6 +80,10 @@ public class GdxGame extends Game {
     addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
    }
 
+  public void enterCombatScreen(Entity player, Entity enemy) {
+    addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
+  }
+
   /**
    * Changes to a new screen, does NOT dispose of old screen
    *
@@ -97,7 +99,26 @@ public class GdxGame extends Game {
             ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container));
+    setScreen(newScreen(screenType, screen, container,null,null));
+  }
+
+  /**
+   * Overloaded to add new combat screen
+   * Changes to a new screen, does NOT dispose of old screen
+   *
+   * @param screenType screen type
+   * @param screen Old screen if we want to remember/ return to it.
+   */
+  public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
+    logger.info("Add combat Screen: {}", screenType);
+    screen.pause();
+    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
+            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
+            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
+            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+
+    ServiceLocator.clear();
+    setScreen(newScreen(screenType, screen, container, player, enemy));
   }
 
   @Override
@@ -113,7 +134,7 @@ public class GdxGame extends Game {
    * @param container container for services, for returning to an old screen. may be null.
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
@@ -121,6 +142,8 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case MAIN_GAME_DUP:
         return new MainGameScreenDup(this, screen, container);
+      case COMBAT:
+        return new CombatScreen(this, screen, container, player, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
       default:
@@ -129,7 +152,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS
+    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, COMBAT
   }
 
   /**
