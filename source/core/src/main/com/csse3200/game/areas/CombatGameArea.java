@@ -22,11 +22,14 @@ public class CombatGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
   private static final int NUM_TREES = 7;
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 12);
+  private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 13);
+
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
+    "images/final_boss_kangaroo_idle.png",
     "images/ghost_king.png",
     "images/ghost_1.png",
     "images/grass_1.png",
@@ -50,14 +53,24 @@ public class CombatGameArea extends GameArea {
 
   private Entity player;
 
+  // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
+  // planned functionality -- callumR
+  private Entity combatEnemyNPC;
+
+
   /**
-   * Initialise this ForestGameArea to use the provided TerrainFactory.
+   * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
+   * has engaged combat with.
+   *
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
    * @requires terrainFactory != null
    */
+  // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
+  // Then this enemy can be spawned within this class in some function spawn_enemy()
   public CombatGameArea(TerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
+    //this.enemyNPC = enemyNPC;
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -68,10 +81,8 @@ public class CombatGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
-    //spawnTrees();
-    //player = spawnPlayer();
-    //spawnGhosts();
-    //spawnGhostKing();
+    player = spawnPlayer();
+    spawnCombatEnemy();
 
     playMusic();
   }
@@ -112,48 +123,21 @@ public class CombatGameArea extends GameArea {
         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
-  private void spawnTrees() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_TREES; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
-    }
-  }
-
+  /** Spawn a player for testing purposes. Currently, this player can be moved */
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
-  private void spawnGhosts() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_GHOSTS; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
-      spawnEntityAt(ghost, randomPos, true, true);
-    }
+  /** Spawn a combat enemy. Different to a regular enemy npc */
+  private void spawnCombatEnemy() {
+    // Create entity
+    this.combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
+    // Create in the world
+    spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }
 
-  private void spawnGhostKing() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createGhostKing(player);
-    spawnEntityAt(ghostKing, randomPos, true, true);
-  }
-
-  // Need function spawn_enemy() which spawns the enemy which has collided with the player
-  // this will essentially be the combat trigger for now.
-  // Need to figure how to track a collision (when a collision occurs create a bool
-  // and pass it to this class possibly). Once that has happened i need to render that
-  // enemy in to the combat game area.
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);

@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -119,6 +120,26 @@ public class NPCFactory {
   }
 
   /**
+   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
+   * there is no chase task included. This is where abilities could potentially be.
+   * loaded.
+   *
+   * @return entity
+   */
+  public static Entity createKangaBossCombatEntity() {
+    Entity kangarooBoss = createCombatBossNPC();
+    BaseEntityConfig config = configs.kangarooBoss;
+
+    kangarooBoss
+            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack));
+
+    kangarooBoss.scaleHeight(3.0f);
+
+    return kangarooBoss;
+  }
+
+  /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @return entity
@@ -159,6 +180,25 @@ public class NPCFactory {
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
                     .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+  /**
+   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  public static Entity createCombatBossNPC() {
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
