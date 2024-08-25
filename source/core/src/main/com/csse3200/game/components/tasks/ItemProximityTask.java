@@ -1,12 +1,9 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEntityItemConfig;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.ItemOverlay;
@@ -59,7 +56,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 
     private void createItemOverlay() {
         if (this.itemOverlay == null) {
-            String[] itemText = {item.getDescription()};
+            String[] itemText = {item.getDescription() + "press P to pick it up."};
             itemOverlay = new ItemOverlay(itemText);
         }
     }

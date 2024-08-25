@@ -43,7 +43,7 @@ public class HealingPotion extends AbstractPotion{
     public HealingPotion(String name, int itemCode, int limit, int quantity) {
         super(name, itemCode, limit, quantity, List.of(new HealEffect (50)));
         this.setTexture(path);
-        this.setDescription("This is a health potion, press P to pick up");
+        this.setDescription("This is a health potion");
     }
 
     /**
