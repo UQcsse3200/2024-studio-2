@@ -4,7 +4,7 @@ import java.util.List;
 
 /** A basic Quest class that stores quest and subtask progression (# of
  * subtasks completed), descriptions and hints. **/
-public class QuestBasic {
+public class QuestBasic extends AbstractQuest {
 
     private final String questName;
 
