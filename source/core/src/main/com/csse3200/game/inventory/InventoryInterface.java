@@ -111,4 +111,14 @@ public interface InventoryInterface {
      * @param item the item to add to the inventory
      */
     void addAt(int index, AbstractItem item);
+
+    /**
+     * Sorts the inventory by item code.
+     */
+    void sortByCode();
+
+    /**
+     * Sorts the inventory by item name.
+     */
+    void sortByName();
 }

@@ -176,4 +176,24 @@ public class InventoryTest {
         test2.useItem(0, context);
         assertFalse(test2.hasItem(0));
     }
+
+    @Test
+    void testSortByCode() {
+        // Add items to inventory in reverse (descending) order
+        Inventory inventory = new Inventory(13);
+        for (int i = 0; i < 5; i++) {
+            inventory.add(new TestableItem("test_" + i, 4 - i));
+        }
+
+        // Check items are input in reverse (descending) order
+        for (int i = 0; i < 5; i++) {
+            assertEquals(4 - i, inventory.getAt(i).getItemCode());
+        }
+
+        // Sort items and check they are in correct (ascending) order.
+        inventory.sortByCode();
+        for (int i = 0; i < 5; i++) {
+            assertEquals(i, inventory.getAt(i).getItemCode());
+        }
+    }
 }

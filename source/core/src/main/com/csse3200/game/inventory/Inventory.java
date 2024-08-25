@@ -2,9 +2,10 @@ package com.csse3200.game.inventory;
 
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.badlogic.gdx.utils.IntMap;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
 
@@ -17,6 +18,8 @@ import static java.util.Arrays.fill;
 // TODO: Add inventory view class which adds support for rendering inventory
 // TODO: Possibly make abstract item a functional interface.
 // TODO: Change itemCode in AbstractItem to a static attribute!
+// TODO: Get rid of item name and use getSimpleName() instead.
+// TODO: Replace data structures with libGDX optimised structures.
 
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
@@ -29,9 +32,11 @@ public class Inventory implements InventoryInterface {
     private int freeSlots; // The current number of available slots in the inventory.
     private int nextIndex = 0; // The index where the next item can be stored.
     // Maps item codes to sets of inventory indices where they are stored.
-    private final IntMap<TreeSet<Integer>> mapping;
+    private TreeMap<Integer, TreeSet<Integer>> codeToIndices;
+    // Maps item names to sets of inventory indices where they are stored.
+    private TreeMap<String, TreeSet<Integer>> nameToIndices; // TODO: IMPLEMENT
     // Array representing the inventory, holding items or null values.
-    private final AbstractItem[] inventory; // Array of actual items & null values
+    private AbstractItem[] inventory; // Array of actual items & null values
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -46,7 +51,8 @@ public class Inventory implements InventoryInterface {
 
         this.capacity = capacity;
         this.freeSlots = capacity;
-        this.mapping = new IntMap<>();
+        this.codeToIndices = new TreeMap<>();
+        this.nameToIndices = new TreeMap<>();
         this.inventory = new AbstractItem[capacity];
     }
 
@@ -82,7 +88,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public boolean hasItem(int code) {
-        return mapping.containsKey(code);
+        return codeToIndices.containsKey(code);
     }
 
     /**
@@ -145,7 +151,7 @@ public class Inventory implements InventoryInterface {
     public void clearInventory() {
         freeSlots = capacity;
         nextIndex = 0;
-        mapping.clear();
+        codeToIndices.clear();
         fill(inventory, null);
     }
 
@@ -191,9 +197,9 @@ public class Inventory implements InventoryInterface {
         }
 
         // Check if item is already present:
-        if (mapping.containsKey(item.getItemCode())) {
+        if (codeToIndices.containsKey(item.getItemCode())) {
             // Iterate through map and if we can add any more items, add them
-            for (Integer i : mapping.get(item.getItemCode())) {
+            for (Integer i : codeToIndices.get(item.getItemCode())) {
                 AbstractItem x = inventory[i];
                 if (x.numAddable() >= 1) {
                     x.add(1);
@@ -227,6 +233,42 @@ public class Inventory implements InventoryInterface {
         this.addToMapping(item.getItemCode(), index);
     }
 
+    /**
+     * Sorts the inventory by item code (in ascending order)
+     */
+    @Override
+    public void sortByCode() {
+        // Create new underlying memory:
+        AbstractItem[] newInventory = new AbstractItem[capacity];
+
+        // Iterate through items (sorted by code) and reindex in order:
+        int i = 0; // Index counter
+        for (Map.Entry<Integer, TreeSet<Integer>> entry : codeToIndices.entrySet()) {
+            TreeSet<Integer> newIndices = new TreeSet<>();
+            TreeSet<Integer> oldIndices = entry.getValue();
+
+            // For each item, reindex and add to new underlying memory representation:
+            for (Integer index : oldIndices) {
+                newInventory[i] = inventory[index];
+                newIndices.add(i);
+                i++;
+            }
+
+            // Replace indices with re-indexed set.
+            entry.setValue(newIndices);
+        }
+
+        inventory = newInventory;
+    }
+
+    /**
+     * Sorts the inventory by item name.
+     */
+    @Override
+    public void sortByName() {
+        // TODO: IMPLEMENT
+    }
+
     // PRIVATE HELPER FUNCTIONS:
     /**
      * Adds an item to a new slot in the inventory.
@@ -255,10 +297,10 @@ public class Inventory implements InventoryInterface {
      * @param index the index where the item is stored.
      */
     private void addToMapping(int itemCode, int index) {
-        if (!mapping.containsKey(itemCode)) {
-            mapping.put(itemCode, new TreeSet<>());
+        if (!codeToIndices.containsKey(itemCode)) {
+            codeToIndices.put(itemCode, new TreeSet<>());
         }
-        mapping.get(itemCode).add(index);
+        codeToIndices.get(itemCode).add(index);
     }
 
     /**
@@ -269,7 +311,7 @@ public class Inventory implements InventoryInterface {
      *         or {@link Optional#empty()} if the item is not in the inventory.
      */
     private Optional<Integer> getItemIndex(int code) {
-        return this.hasItem(code) ? Optional.of(mapping.get(code).first()) : Optional.empty();
+        return this.hasItem(code) ? Optional.of(codeToIndices.get(code).first()) : Optional.empty();
     }
 
     /**
@@ -294,11 +336,11 @@ public class Inventory implements InventoryInterface {
     private void removeAt(int index) {
         int code = inventory[index].getItemCode();
         inventory[index] = null;
-        mapping.get(code).remove(index);
+        codeToIndices.get(code).remove(index);
         freeSlots++;
 
-        if (mapping.get(code).isEmpty()) { // Remove item from mapping if no instances remain.
-            mapping.remove(code);
+        if (codeToIndices.get(code).isEmpty()) { // Remove item from mapping if no instances remain.
+            codeToIndices.remove(code);
         }
 
         if (index < nextIndex) { // Update the next available index if necessary.
