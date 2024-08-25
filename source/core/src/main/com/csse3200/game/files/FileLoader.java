@@ -87,6 +87,17 @@ public class FileLoader {
     file.writeString(json.prettyPrint(object), false);
   }
 
+  public static void deleteJson(String filename, Location location) {
+      FileHandle file = getFileHandle(filename, location);
+      assert file != null;
+      file.delete();
+      FileHandle directory = file.parent();
+
+      if (directory.list().length == 0) {
+        directory.delete();
+      }
+  }
+
   private static FileHandle getFileHandle(String filename, Location location) {
     switch (location) {
       case CLASSPATH:
