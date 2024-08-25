@@ -1,7 +1,5 @@
 package com.csse3200.game.entities;
 
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.components.Component;
 import com.csse3200.game.ui.ChatOverlay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +32,12 @@ public class EntityChatService {
     /**
      * Update the current chat overlay if it exists.
      */
-    public void updateText(String[] Text) {
+    public void updateText(String[] text) {
         if (currentOverlay != null) {
             currentOverlay.dispose();
             currentOverlay = null;
         }
 
-        currentOverlay = new ChatOverlay(Text);
+        currentOverlay = new ChatOverlay(text);
     }
 }

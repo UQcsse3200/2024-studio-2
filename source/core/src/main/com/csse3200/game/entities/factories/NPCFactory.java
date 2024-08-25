@@ -1,6 +1,5 @@
 package com.csse3200.game.entities.factories;
 
-import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.audio.Sound;
@@ -27,11 +26,6 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
-import java.util.ArrayList;
-import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.AbstractQuest;
-import com.csse3200.game.ui.ChatOverlay;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.EntityChatService;
 
 /**
@@ -106,8 +100,6 @@ public class NPCFactory {
    *
    * @param target   entity to move towards when in range.
    * @param enemies  list of enemy entities.
-   * @param health   the health of the NPC.
-   * @param baseAttack the base attack of the NPC.
    * @param atlasPath path to the texture atlas for the NPC.
    * @param animationSpeed speed of the animation.
    * @param config  the specific configuration object.
@@ -124,12 +116,10 @@ public class NPCFactory {
     npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack()))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(new ConfigComponent(config));
+            .addComponent(new ConfigComponent<>(config));
 
     npc.getComponent(AnimationRenderComponent.class).scaleEntity();
 
-
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
     // Add Sounds Effect to FNPCs
     String[] animalSoundPaths = config.getSoundPath();
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
@@ -138,8 +128,6 @@ public class NPCFactory {
       npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
-
-
     
     return npc;
   }

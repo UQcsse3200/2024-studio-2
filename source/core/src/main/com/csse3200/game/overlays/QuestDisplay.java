@@ -1,4 +1,4 @@
-package com.csse3200.game.Overlays;
+package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

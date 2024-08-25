@@ -1,4 +1,4 @@
-package com.csse3200.game.Overlays;
+package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -99,9 +99,6 @@ public class PauseDisplay extends UIComponent {
                     }
                 });
 
-        //button.setScale(0.75f);
-        //button2.setScale(0.75f);
-        // Layout buttons in a table
         Table table = new Table();
         table.add(button).size(button.getWidth() * 0.75f, button.getHeight() * 0.75f).center();
         table.row();

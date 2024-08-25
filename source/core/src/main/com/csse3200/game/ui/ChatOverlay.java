@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Align;
 
 
@@ -89,10 +87,7 @@ public class ChatOverlay {
         buttonStyle.over = skin.getDrawable("button-h");
 
         buttonStyle.up = buttonImageDrawable;
-//        buttonStyle.up = skin.getDrawable("button-c");
-//        buttonStyle.down = skin.getDrawable("button-p");
         buttonStyle.down = buttonImageDrawable;
-//        buttonStyle.over = skin.getDrawable("button-h");
         buttonStyle.over = buttonHoverDrawable;
 
         backwardButton = new TextButton("Back", buttonStyle);

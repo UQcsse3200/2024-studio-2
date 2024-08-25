@@ -1,16 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.physics.PhysicsEngine;
-import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.raycast.RaycastHit;
-import com.csse3200.game.rendering.DebugRenderer;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.physics.components.PhysicsComponent;
-import com.csse3200.game.physics.components.PhysicsMovementComponent;
 
 /** Moves away from a target entity until a safe distance is reached or line of sight is lost */
 public class AvoidTask extends ChaseTask {
@@ -67,6 +58,7 @@ public class AvoidTask extends ChaseTask {
         return entityPosition.cpy().add(directionAway.scl(minAvoidDistance));
     }
 
+    @Override
     protected int getActivePriority() {
         float dst = super.getDistanceToTarget();
         if (dst > safeDistance || !isTargetVisible()) {
@@ -75,6 +67,7 @@ public class AvoidTask extends ChaseTask {
         return priority;
     }
 
+    @Override
     protected int getInactivePriority() {
         float dst = getDistanceToTarget();
         if (dst < safeDistance && isTargetVisible()) {

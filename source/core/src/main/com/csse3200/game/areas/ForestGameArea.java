@@ -1,7 +1,6 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
@@ -11,8 +10,6 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
-import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -98,14 +95,12 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    //spawnGhosts();
-    //spawnGhostKing();
     spawnCow();
     spawnLion();
     spawnTurtle();
     spawnEagle();
     spawnSnake();
-    //playMusic();
+    playMusic();
   }
 
   public void displayUI() {
@@ -213,21 +208,6 @@ public class ForestGameArea extends GameArea {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
     spawnEntityOnMap(snake);
   }
-
-//  private void playAnimalSound(Entity entity) {
-//    ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
-//    BaseEntityConfig config = (configComponent != null) ? configComponent.getConfig() : null;
-//    String[] animalSoundPaths = (config != null) ? ((BaseEntityConfig) config).getSoundPath() : null;
-//
-//    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
-//      for (String animalSoundPath : animalSoundPaths) {
-//        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-//        long soundId = animalSound.play();
-//        animalSound.setVolume(soundId, 0.3f);
-//        animalSound.setLooping(soundId, false);
-//      }
-//    }
-//  }
 
   public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
