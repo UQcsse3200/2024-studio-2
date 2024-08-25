@@ -136,6 +136,7 @@ public class Renderer implements Disposable {
     batch.dispose();
   }
 
+
   public Stage getStage() {
     return stage;
   }

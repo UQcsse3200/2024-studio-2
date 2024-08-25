@@ -12,7 +12,6 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class TouchPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-
   public TouchPlayerInputComponent() {
     super(5);
   }
@@ -41,6 +40,15 @@ public class TouchPlayerInputComponent extends InputComponent {
       case Input.Keys.RIGHT:
         walkDirection.add(Vector2Utils.RIGHT);
         triggerWalkEvent();
+        return true;
+      case Input.Keys.ESCAPE:
+        entity.getEvents().trigger("restMenu");
+        return true;
+      case Input.Keys.Q:
+        entity.getEvents().trigger("quest");
+        return true;
+      case Input.Keys.O:
+        entity.getEvents().trigger("addMainGameScreen");
         return true;
       default:
         return false;
@@ -95,4 +103,6 @@ public class TouchPlayerInputComponent extends InputComponent {
       entity.getEvents().trigger("walk", walkDirection);
     }
   }
+
+
 }
