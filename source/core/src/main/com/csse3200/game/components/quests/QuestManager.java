@@ -19,10 +19,15 @@ import java.util.Objects;
  * Handles the storage and retrieval of quests and integrates with the event system.
  */
 public class QuestManager extends Component {
+    /** Map to store quests. */
     private final HashMap<String, QuestBasic> quests;
+    /** Event service to handle global events. */
     private final EventService eventService = ServiceLocator.getEventService();
+    /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
+    /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
+    /** Map of relevant quests. */
     private final Map<String, String[]> relevantQuests;
 
     /**Constructs questmanager instance */
