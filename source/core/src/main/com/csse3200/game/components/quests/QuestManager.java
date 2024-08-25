@@ -42,13 +42,17 @@ public class QuestManager extends Component {
 
     /**Sets up the tasks for the quests and dialogues.  */
     private void testQuests() {
+
+        //creates test tasks
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
 
+        //creates single task quest
         List<Task> tasks = List.of(stepsTask);
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
         addQuest(firstStepsQuest);
 
+        //creates 2 task quest
         String[] test2StepTextProg1 = new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest...","Press Spacebar!"};
         String[] test2StepTextProg2 = new String[]{"Yippeee!", "You completed your Quest!"};
 
@@ -126,7 +130,7 @@ public class QuestManager extends Component {
 
         Task currentTask = quest.getTasks().get(quest.getProgression());
         currentTask.handleEvent();
-
+        //check if quest is failed or completed
         if (currentTask.isFailed()) {
             quest.failQuest();
             logger.info("{} failed!", quest.getQuestName());
@@ -154,7 +158,7 @@ public class QuestManager extends Component {
      */
 
     private void completeTask(QuestBasic quest) {
-        quest.progressQuest();
+        quest.progressQuest(); //advance quest progression
         if (quest.isQuestCompleted()) {
             handleQuestCompletion(quest);
         } else {
@@ -183,6 +187,7 @@ public class QuestManager extends Component {
     @Null
     public String[] getDialogue(String npcName) {
         String[] npcRelevantQuests = relevantQuests.get(npcName);
+        //retrieve NPC dialogue
         if (npcRelevantQuests != null) {
             String singleRelevantQuest = npcRelevantQuests[0];
             QuestBasic quest = quests.get(singleRelevantQuest);
