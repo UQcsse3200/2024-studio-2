@@ -191,48 +191,43 @@ public class ForestGameArea extends GameArea {
 
   private void spawnCow() {
     Entity cow = NPCFactory.createCow(player, this.enemies);
-    cow.getEvents().addListener("PausedCow", () -> playAnimalSound(cow));
     spawnEntityOnMap(cow);
   }
 
   private void spawnLion() {
     Entity lion = NPCFactory.createLion(player, this.enemies);
-    lion.getEvents().addListener("PausedLion", () -> playAnimalSound(lion));
     spawnEntityOnMap(lion);
   }
 
   private void spawnTurtle() {
     Entity turtle = NPCFactory.createTurtle(player, this.enemies);
-    turtle.getEvents().addListener("PausedTurtle", () -> playAnimalSound(turtle));
     spawnEntityOnMap(turtle);
   }
 
   private void spawnEagle() {
     Entity eagle = NPCFactory.createEagle(player, this.enemies);
-    eagle.getEvents().addListener("PausedEagle", () -> playAnimalSound(eagle));
     spawnEntityOnMap(eagle);
   }
 
   private void spawnSnake() {
     Entity snake = NPCFactory.createSnake(player, this.enemies);
-    snake.getEvents().addListener("PausedSnake", () -> playAnimalSound(snake));
     spawnEntityOnMap(snake);
   }
 
-  private void playAnimalSound(Entity entity) {
-    ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
-    BaseEntityConfig config = (configComponent != null) ? configComponent.getConfig() : null;
-    String[] animalSoundPaths = (config != null) ? ((BaseEntityConfig) config).getSoundPath() : null;
-
-    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
-      for (String animalSoundPath : animalSoundPaths) {
-        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-        long soundId = animalSound.play();
-        animalSound.setVolume(soundId, 0.3f);
-        animalSound.setLooping(soundId, false);
-      }
-    }
-  }
+//  private void playAnimalSound(Entity entity) {
+//    ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
+//    BaseEntityConfig config = (configComponent != null) ? configComponent.getConfig() : null;
+//    String[] animalSoundPaths = (config != null) ? ((BaseEntityConfig) config).getSoundPath() : null;
+//
+//    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+//      for (String animalSoundPath : animalSoundPaths) {
+//        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+//        long soundId = animalSound.play();
+//        animalSound.setVolume(soundId, 0.3f);
+//        animalSound.setLooping(soundId, false);
+//      }
+//    }
+//  }
 
   public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);

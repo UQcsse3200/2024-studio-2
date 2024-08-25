@@ -3,6 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -122,6 +123,13 @@ public class NPCFactory {
 
     npc.getComponent(AnimationRenderComponent.class).scaleEntity();
 
+    // Add Sounds Effect to FNPCs
+    String[] animalSoundPaths = config.getSoundPath();
+    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+      String eventName = String.format("Paused%s", config.getAnimalName());
+      npc.getEvents().addListener(eventName, () -> playAnimalSound(animalSoundPaths));
+    }
+    
     return npc;
   }
 
@@ -163,6 +171,17 @@ public class NPCFactory {
   public static Entity createSnake(Entity target, List<Entity> enemies) {
     SnakeConfig config = configs.snake;
     return createFriendlyNPC(target, enemies, "images/snake.atlas", 0.1f, config);
+  }
+
+  private static void playAnimalSound(String[] animalSoundPaths) {
+    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+      for (String animalSoundPath : animalSoundPaths) {
+        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        long soundId = animalSound.play();
+        animalSound.setVolume(soundId, 0.3f);
+        animalSound.setLooping(soundId, false);
+      }
+    }
   }
 
   /**
