@@ -8,6 +8,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
@@ -21,6 +22,9 @@ import static com.csse3200.game.physics.PhysicsLayer.OBSTACLE;
 // TODO: Remove texturePath from createItem input and use item.getTexture (or add a function to
 //  get the texture path instead of the texture!)
 public class ItemFactory {
+   // private static final ItemConfigs configs =
+     //       FileLoader.readClass(ItemConfigs.class, "configs/Items.json");
+
     private static Entity createItem(Entity target, AbstractItem item, String texturePath, Object config) {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item))
@@ -37,7 +41,7 @@ public class ItemFactory {
     }
 
     public static Entity createHealthPotion(Entity target, HealingPotion healthPotion) {
-        HealingPotionsEntityConfig config = new HealingPotionsEntityConfig();
+        HealingPotionsEntityConfig config = new HealingPotionsEntityConfig();//configs.healingPotions;
         return createItem(target, healthPotion, "images/Healthpotion.png", config);
     }
 
