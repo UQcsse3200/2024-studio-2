@@ -27,9 +27,7 @@ public class ItemFactory {
 
     private static Entity createItem(Entity target, AbstractItem item, String texturePath, Object config) {
         AITaskComponent aiComponent = new AITaskComponent()
-                .addTask(new ItemProximityTask(target,20, 1f, item))
-                .addTask(new ItemPickupTask(target, 21, 2f, 1f) {
-                });
+                .addTask(new ItemProximityTask(target,20, 1f, item));
 
         Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
                 .addComponent(new PhysicsComponent())

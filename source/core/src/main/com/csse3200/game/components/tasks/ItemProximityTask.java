@@ -3,10 +3,13 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEntityItemConfig;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.ui.ItemOverlay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,18 +22,50 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
     private final AbstractItem item;
     private boolean itemPickedUp = false;
+    private boolean hasApproached;
+    private Object config;
+    private ItemOverlay itemOverlay;
 
     public ItemProximityTask(Entity target, int priority, float proximityThreshold, AbstractItem item) {
         this.target = target;
         this.priority = priority;
         this.proximityThreshold = proximityThreshold;
         this.item = item;
+        this.hasApproached = false;
     }
 
     @Override
     public void start() {
         super.start();
         this.target.getEvents().addListener("pickUpItem", this::addToInventory);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        if(isPlayerNearItem() && !this.hasApproached) {
+            this.hasApproached = true;
+            createItemOverlay();
+        }
+        else if (!isPlayerNearItem() && this.hasApproached) {
+            this.hasApproached = false;
+            if (this.itemOverlay != null) {
+                itemOverlay.dispose();
+                itemOverlay = null;
+            }
+
+        }
+    }
+
+    private void createItemOverlay() {
+        if (this.itemOverlay == null) {
+            ConfigComponent<?> configComponent = (ConfigComponent<?>) this.owner.getEntity().getComponent(ConfigComponent.class);
+            this.config = configComponent.getConfig();
+            String[] itemText = ((BaseEntityItemConfig) this.config).getItemDescription();
+            BaseEntityItemConfig config = ((BaseEntityItemConfig) this.config);
+            String name = ((BaseEntityItemConfig) this.config).getItemName();
+            itemOverlay = new ItemOverlay(itemText);
+        }
     }
 
     public void addToInventory() {
@@ -41,6 +76,8 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
                 logger.info("Item added to inventory.");
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
+                itemOverlay.dispose();
+                itemOverlay = null;
 
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
