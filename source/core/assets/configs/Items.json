@@ -1,9 +1,0 @@
-{
-  "apple": {
-    "name": "Apple",
-    "quantity": 5,
-    "itemCode": 3,
-    "limit": 10,
-    "feedEffectValue": 2
-  }
-}
