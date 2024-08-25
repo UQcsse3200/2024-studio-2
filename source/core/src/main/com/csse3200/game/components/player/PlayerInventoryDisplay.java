@@ -106,7 +106,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
                 // Add the item image to the slot
                 if (item != null) {
-                    Image itemImage = new Image(item.getTexture());
+                    Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
                     addHoverListener(slot);
                 }
