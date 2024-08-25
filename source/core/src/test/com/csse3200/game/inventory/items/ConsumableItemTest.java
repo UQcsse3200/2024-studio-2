@@ -20,7 +20,7 @@ public class ConsumableItemTest {
      */
     private static class TestableItem extends ConsumableItem {
         public TestableItem(String name, int itemCode, int limit, int quantity, String description) {
-            super(name, itemCode, limit, quantity, description);
+            super(name, itemCode, limit, quantity);
         }
     }
 
