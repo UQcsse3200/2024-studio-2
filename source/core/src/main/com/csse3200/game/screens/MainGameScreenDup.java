@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -232,6 +231,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   public void wake() {
     logger.info("Screen is Awake");
     resting = false;
+    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
