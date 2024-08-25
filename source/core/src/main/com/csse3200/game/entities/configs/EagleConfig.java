@@ -1,7 +1,5 @@
 package com.csse3200.game.entities.configs;
 
-import java.util.Map;
-
 /**
  * Defines the Eagle's statistics stored in eagle config files to be loaded by the NPC factory.
  */

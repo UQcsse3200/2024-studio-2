@@ -16,14 +16,8 @@ public class EntityChatService {
      *
      * @param hintText The text to display in the chat overlay.
      */
-    public void EntityChatService(String[] hintText) {
-        if (currentOverlay != null) {
-            currentOverlay.dispose();
-            currentOverlay = null;
-        }
-
-        currentOverlay = new ChatOverlay(hintText);
-        logger.debug("Created new chat overlay with hint: {}", String.join(", ", hintText));
+    public EntityChatService() {
+        currentOverlay = null;
     }
 
     /**
