@@ -3,6 +3,7 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -42,6 +43,9 @@ public class PlayerStatsDisplay extends UIComponent {
     addActors();
 
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+
+    // Add listener for kanga chase start to trigger beating effect
+    entity.getEvents().addListener("kangaChaseStart", this::startHealthBarBeating);
   }
 
   /**
@@ -125,6 +129,22 @@ public class PlayerStatsDisplay extends UIComponent {
     // Set the current frame of the health bar animation
     TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
     heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+  }
+
+  /**
+   * Starts the beating animation for the health bar during boss chase.
+   */
+  public void startHealthBarBeating() {
+    // Stop any existing beating actions
+    heartImage.clearActions();
+
+    // Add a beating effect using Actions
+    heartImage.addAction(Actions.forever(
+            Actions.sequence(
+                    Actions.scaleTo(1.0f, 1.05f, 0.3f), // Slightly enlarge
+                    Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
+            )
+    ));
   }
 
   @Override

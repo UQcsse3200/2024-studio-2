@@ -49,6 +49,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask.start();
     if (this.isBoss) {
       playTensionSound();
+      this.target.getEvents().trigger("kangaChaseStart");
       this.owner.getEntity().getEvents().trigger("kangaChaseStart");
     } else {
       this.owner.getEntity().getEvents().trigger("chaseStart");
