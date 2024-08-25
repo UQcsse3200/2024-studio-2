@@ -117,28 +117,44 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        addExitConfirmation(exitBtn);
-
-        table.add(startBtn).padTop(30f).width(200f).height(60f);
-        table.row();
-        table.add(loadBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(minigamesBtn).padTop(15f).width(200f).height(60f); // Add the Minigames button to the layout
-        table.row();
-        table.add(settingsBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(helpBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(exitBtn).padTop(15f).width(200f).height(60f);
-        table.row();
-        table.add(versionLabel).padTop(20f);
-
-        stage.addActor(table);
+        System.out.println(Gdx.graphics.getWidth());
+        System.out.println(Gdx.graphics.getHeight());
 
         // Add the minimize button to the top-right corner
         addMinimizeButton();
 
+        addExitConfirmation(exitBtn);
+
+        table.setBounds(0,-190,200,1000);
+        table.add(startBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(loadBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(minigamesBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(settingsBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(helpBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(exitBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(versionLabel).padTop(140f);
+
+        sizeTable();
+
+        stage.addActor(table);
+
         addSettingMenu();
+    }
+
+    private void sizeTable() {
+        if (Gdx.graphics.isFullscreen()) {
+            // full screen sizing
+            table.setBounds(0,-200,200,1000);
+        } else {
+            // small screen sizing
+            table.setBounds(0,-230,200,1000);
+        }
     }
 
     private void showHelpDialog() {
@@ -278,9 +294,9 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addMinimizeButton() {
         if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("+", skin); // Start with the minus (minimize) icon
+            toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
         } else {
-            toggleWindowBtn = new TextButton("-", skin);
+            toggleWindowBtn = new TextButton("+", skin);
         }
 
         //updateToggleWindowButtonText(); // Set initial text based on current screen mode
@@ -291,7 +307,7 @@ public class MainMenuDisplay extends UIComponent {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
                     // Switch to windowed mode
-                    Gdx.graphics.setWindowedMode(1000, 800);
+                    Gdx.graphics.setWindowedMode(1200, 750);
                 } else {
                     // Switch to fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
@@ -299,14 +315,13 @@ public class MainMenuDisplay extends UIComponent {
                 updateSettingMenu();
                 updateToggleWindowButtonText(); // Update text after toggling
                 logger.debug("Fullscreen toggled: " + !isFullscreen);
+                sizeTable();
             }
         });
-
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
         topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
-
         stage.addActor(topRightTable);
     }
 
@@ -318,7 +333,6 @@ public class MainMenuDisplay extends UIComponent {
             toggleWindowBtn.setText("+"); // Show plus for maximizing
         }
     }
-
 
     private void addSettingMenu() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
