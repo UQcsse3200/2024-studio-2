@@ -101,8 +101,10 @@ public class PlayerInventoryDisplay extends UIComponent {
 
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(skin);
+                // final ImageButton slot = new ImageButton(skin, "inventory-slot");
+                // TODO: ADD INVENTORY STYLE - this requires adding these images to the skin!
 
-                // Add the item image to the slot TODO: ADD ITEM TEXTURES!
+                // Add the item image to the slot
                 if (item != null) {
                     Image itemImage = new Image(item.getTexture());
                     slot.add(itemImage).center().size(100, 100);
