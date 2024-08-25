@@ -59,11 +59,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 
     private void createItemOverlay() {
         if (this.itemOverlay == null) {
-            ConfigComponent<?> configComponent = (ConfigComponent<?>) this.owner.getEntity().getComponent(ConfigComponent.class);
-            this.config = configComponent.getConfig();
-            String[] itemText = ((BaseEntityItemConfig) this.config).getItemDescription();
-            BaseEntityItemConfig config = ((BaseEntityItemConfig) this.config);
-            String name = ((BaseEntityItemConfig) this.config).getItemName();
+            String[] itemText = {item.getDescription()};
             itemOverlay = new ItemOverlay(itemText);
         }
     }
@@ -86,9 +82,6 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
             logger.info("Player is not close enough to pick up the item.");
         }
     }
-
-
-
 
     @Override
     public int getPriority() {
