@@ -4,17 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.entities.Entity;
-import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.events.EventHandler;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.ValueExp;
 import java.util.Objects;
 
 public class ItemProximityTask extends DefaultTask implements PriorityTask {
-    private Entity target = null;
+    private final Entity target;
     private final int priority;
     private final float proximityThreshold;
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
@@ -25,10 +22,6 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         this.proximityThreshold = proximityThreshold;
     }
 
-    protected Entity item = owner.getEntity();
-    protected Vector2 targetPosition = this.target.getPosition();
-    protected Vector2 itemPosition = item.getPosition();
-
     @Override
     public void start() {
         super.start();
@@ -36,29 +29,12 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 
     public void update() {
         if (isPlayerNearItem()) {
-            logger.info("Player is within pickup range of the item.");
+            logger.debug("Player is within pickup range of the item.");
             this.owner.getEntity().getEvents().trigger("PlayerNearItem");
         }
         if (hasPlayerPickedUpNearItem()) {
-            logger.info("Item in range of player has been picked up.");
+            logger.debug("Item in range of player has been picked up.");
         }
-    }
-
-    /**
-     * returns the item vector from player
-     *
-     * @return itemPosition the position of the item from player
-     */
-    public Vector2 getItemPositionVector() {
-        return itemPosition;
-    }
-
-    /**
-     * Returns the item entity
-     * @return item the item entity
-     */
-    public Entity getItemEntity() {
-        return item;
     }
 
     @Override
@@ -73,8 +49,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     }
 
     private boolean isPlayerNearItem() {
-        float distance = targetPosition.dst(itemPosition);
-        return distance <= proximityThreshold;
+        return target.getPosition().dst(owner.getEntity().getPosition()) <= proximityThreshold;
     }
 
     /**
@@ -91,14 +66,5 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 //        Vector2 itemPosition = item.getPosition();
 //        float distance = targetPosition.dst(itemPosition);
 //        return distance > proximityThreshold;
-    }
-
-    /**
-     * Retrieves the item associated with this task.
-     *
-     * @return the entity representing the item
-     */
-    public Entity getTargetItem() {
-        return owner.getEntity();
     }
 }
