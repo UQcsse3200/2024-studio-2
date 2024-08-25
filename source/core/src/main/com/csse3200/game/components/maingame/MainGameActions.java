@@ -43,7 +43,7 @@ public class MainGameActions extends Component {
   }
 
   /**
-   * Swaps from combat screen to Main Game screen upon the event of a won combat sequence.
+   * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
@@ -52,7 +52,7 @@ public class MainGameActions extends Component {
   }
 
   /**
-   * Swaps from combat screen to Main Game screen upon the event of a lost combat sequence.
+   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
    */
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");

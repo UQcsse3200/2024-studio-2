@@ -3,6 +3,7 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
@@ -79,8 +80,11 @@ public class GdxGame extends Game {
     addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
    }
 
-  public void addCombatScreen() {
-    addScreen(ScreenType.COMBAT, getScreen());
+  //public void addCombatScreen() {
+  //  addScreen(ScreenType.COMBAT, getScreen());
+  //}
+  public void addCombatScreen(Entity enemy) {
+    addScreen(ScreenType.COMBAT, getScreen(), enemy);
   }
 
   /**
@@ -90,6 +94,24 @@ public class GdxGame extends Game {
    * @param screen Old screen if we want to remember/ return to it.
    */
   public void addScreen (ScreenType screenType, Screen screen) {
+    logger.info("Adding screen: {}", screenType);
+    screen.pause();
+    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
+            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
+            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
+            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+
+    ServiceLocator.clear();
+    setScreen(newScreen(screenType, screen, container));
+  }
+
+  /**
+   * Changes to a new screen, does NOT dispose of old screen
+   *
+   * @param screenType screen type
+   * @param screen Old screen if we want to remember/ return to it.
+   */
+  public void addScreen (ScreenType screenType, Screen screen, Entity enemy) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
     ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),

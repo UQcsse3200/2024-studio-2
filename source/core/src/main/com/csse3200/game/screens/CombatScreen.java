@@ -7,13 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.Overlays.Overlay;
 import com.csse3200.game.Overlays.PauseOverlay;
-import com.csse3200.game.Overlays.QuestOverlay;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.combat.CombatDisplay;
+import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
-import com.csse3200.game.components.maingame.MainGameDupExitDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -53,7 +50,7 @@ public class CombatScreen extends ScreenAdapter {
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-  private final ForestGameArea gameArea;
+  //private final ForestGameArea gameArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container) {
     this.game = game;
@@ -86,8 +83,8 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    this.gameArea = new ForestGameArea(terrainFactory, game);
-    this.gameArea.create();
+    //this.gameArea = new ForestGameArea(terrainFactory, game);
+    //this.gameArea.create();
   }
 
   @Override
@@ -108,14 +105,14 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    gameArea.pauseMusic();
+    //gameArea.pauseMusic();
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
     isPaused = false;
-    gameArea.playMusic();
+    //gameArea.playMusic();
     logger.info("Game resumed");
   }
 
@@ -162,7 +159,7 @@ public class CombatScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
-        .addComponent(new CombatDisplay(oldScreen, oldScreenServices))
+        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
@@ -210,13 +207,13 @@ public class CombatScreen extends ScreenAdapter {
 
   public void rest() {
     logger.info("Screen is resting");
-    gameArea.pauseMusic();
+    //gameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
   public void wake() {
     logger.info("Screen is Awake");
-    gameArea.playMusic();
+    //gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

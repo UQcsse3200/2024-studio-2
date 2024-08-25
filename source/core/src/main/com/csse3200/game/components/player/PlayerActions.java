@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.Overlays.Overlay.OverlayType;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -102,7 +103,7 @@ public class PlayerActions extends Component {
     game.addMainGameDup();
   }
 
-  public void startCombat(){
-    game.addCombatScreen();
+  public void startCombat(Entity enemy){
+    game.addCombatScreen(enemy);
   }
 }

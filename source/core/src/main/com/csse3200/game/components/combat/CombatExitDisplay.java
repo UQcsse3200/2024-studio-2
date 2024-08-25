@@ -14,14 +14,14 @@ import org.slf4j.LoggerFactory;
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
-public class CombatDisplay extends UIComponent {
-  private static final Logger logger = LoggerFactory.getLogger(CombatDisplay.class);
+public class CombatExitDisplay extends UIComponent {
+  private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
   private final Screen screen;
   private final ServiceContainer container;
 
-  public CombatDisplay(Screen screen, ServiceContainer container) {
+  public CombatExitDisplay(Screen screen, ServiceContainer container) {
     this.screen = screen;
     this.container = container;
   }
