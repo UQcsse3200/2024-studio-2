@@ -41,7 +41,7 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quests_Scroll.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
