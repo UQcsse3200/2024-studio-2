@@ -87,6 +87,14 @@ public class FileLoader {
     file.writeString(json.prettyPrint(object), false);
   }
 
+  /**
+   * Delete json from specified directory.
+   * Removes directory if it contains no more files.
+   *
+   * @param filename File to delete.
+   * @param location File storage type. See
+   *     https://github.com/libgdx/libgdx/wiki/File-handling#file-storage-types
+   */
   public static void deleteJson(String filename, Location location) {
       FileHandle file = getFileHandle(filename, location);
       assert file != null;
