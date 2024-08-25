@@ -120,7 +120,8 @@ public class GdxGame extends Game {
             ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container));
+    // setScreen(newScreen(screenType, screen, container));
+    setScreen(newScreen(screenType, screen, container, enemy));
   }
 
   @Override
