@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.csse3200.game.inventory.Inventory;
@@ -23,11 +25,12 @@ import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
+    private static final float Z_INDEX = 3f;
     private final int numCols, numRows;
     private Window window;
     private Table table;
     private int selectedSlot = -1;
-    private final Table[] slots;
+    private final ImageButton[] slots;
     private final Drawable slotBackground = skin.getDrawable("slot-background");
     private final Drawable slotHighlight = skin.getDrawable("slot-selected");
 
@@ -36,7 +39,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Must have capacity = xRange * yRange
      *
      * @param capacity TODO
-     * @param numCols TODO
+     * @param numCols  TODO
      */
     public PlayerInventoryDisplay(int capacity, int numCols) {
         if (numCols < 1) {
@@ -50,7 +53,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.inventory = new Inventory(capacity);
         this.numCols = numCols;
         this.numRows = capacity / numCols;
-        slots =  new Table[numRows * numCols];
+        slots = new ImageButton[numRows * numCols];
 
         // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
         //  OR INVENTORY SHOULD HAVE THIS!
@@ -91,9 +94,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        // Add the table to the window
-        window.add(table).expand().fill();
-
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -101,7 +101,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 AbstractItem item = inventory.getAt(index);
 
                 // Create the slot with the inventory background
-                final Table slot = new Table();
+                final ImageButton slot = new ImageButton(skin);
                 slot.setBackground(slotBackground);
 
                 // Add the item image to the slot TODO: ADD ITEM TEXTURES!
@@ -110,11 +110,41 @@ public class PlayerInventoryDisplay extends UIComponent {
                     slot.add(itemImage).center().size(100, 100);
                 }
 
+                // Add hover listener for highlighting
+                slot.addListener(new InputListener() {
+                    @Override
+                    public boolean mouseMoved(InputEvent event, float x, float y) {
+                        slot.setBackground(slotHighlight); // Highlight slot on hover
+                        return true;
+                    }
+
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                        slot.setBackground(slotBackground); // Revert to default background when mouse exits
+                    }
+                });
+
                 table.add(slot).size(120, 120).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
+
+
+        TextButton startBtn = new TextButton("Start", skin);
+        addButtonElevationEffect(startBtn);
+
+        startBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Start button clicked");
+                entity.getEvents().trigger("start");
+            }
+        });
+        table.add(startBtn).padTop(30f).width(200f).height(60f);
+
+        // Add the table to the window
+        window.add(table).expand().fill();
 
         // Set position in stage top-center
         window.pack();
@@ -122,16 +152,41 @@ public class PlayerInventoryDisplay extends UIComponent {
                 (stage.getWidth() - window.getWidth()) / 2,
                 (stage.getHeight() - window.getHeight())
         );
+
+    }
+
+    private void addButtonElevationEffect(TextButton button) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, 5, 0.1f),
+                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
+                ));
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, -5, 0.1f),
+                        Actions.scaleTo(1f, 1f, 0.1f)
+                ));
+            }
+        });
     }
 
     private void handleSlotClicked(int sX, int sY) {
         // De-select previously selected slot
-        if (selectedSlot != -1) { slots[selectedSlot].setBackground(slotBackground);}
+        if (selectedSlot != -1) {
+            slots[selectedSlot].setBackground(slotBackground);
+        }
 
         selectedSlot = screenPosToClickedSlot(sX, sY); // Find newly selected slot
 
         // Highlight the selected slot
-        if (selectedSlot != -1) { slots[selectedSlot].setBackground(slotHighlight);}
+        if (selectedSlot != -1) {
+            slots[selectedSlot].setBackground(slotHighlight);
+        }
     }
 
     /**
@@ -226,7 +281,13 @@ public class PlayerInventoryDisplay extends UIComponent {
 //        }
     }
 
-    private void addButtonElevationEffect(TextButton button) {
+    @Override
+    public float getZIndex() {
+        return Z_INDEX;
+    }
+
+
+    private void addHoverHighlighter(ImageButton button) {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -244,5 +305,22 @@ public class PlayerInventoryDisplay extends UIComponent {
                 ));
             }
         });
+    }
+
+    private void createButton() {
+        // Create the ImageButtonStyle
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = skin.getDrawable("button-up");
+        style.down = skin.getDrawable("button-down");
+        style.checked = skin.getDrawable("button-checked");
+
+        // Create the ImageButton using the style
+        ImageButton imageButton = new ImageButton(style);
+
+        // Set a listener to handle button clicks
+        addHoverHighlighter(imageButton);
+
+        // Add the ImageButton to a stage or table
+            stage.addActor(imageButton);
     }
 }
