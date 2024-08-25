@@ -20,7 +20,6 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private final AbstractItem item;
     private boolean itemPickedUp = false;
     private boolean hasApproached;
-    private Object config;
     private ItemOverlay itemOverlay;
 
     public ItemProximityTask(Entity target, int priority, float proximityThreshold, AbstractItem item) {
