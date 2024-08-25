@@ -68,6 +68,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
                 logger.info("Item added to inventory.");
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
+                logger.info("I WAS DISPOSED OF!");
                 itemOverlay.dispose();
                 itemOverlay = null;
 
