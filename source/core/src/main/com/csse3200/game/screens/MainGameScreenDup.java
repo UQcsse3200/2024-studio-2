@@ -118,6 +118,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
+    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
     if (!resting) {
       gameArea.playMusic();
     }
