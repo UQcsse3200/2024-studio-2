@@ -118,7 +118,7 @@ public class NPCFactory {
                     ServiceLocator.getResourceService().getAsset(atlasPath, TextureAtlas.class));
     animator.addAnimation("float", animationSpeed, Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(100, 0, 0, 0, 0))
+    npc.addComponent(new CombatStatsComponent(health, 0, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent(config));  // Adding the config as a component
