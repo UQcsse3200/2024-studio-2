@@ -46,7 +46,8 @@ import static com.badlogic.gdx.graphics.Color.*;
 
 public class CombatScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-    private static final String[] combatTextures = {"images/heart.png"}; // Add relevant combat assets
+    private static final String[] combatTextures = {"images/health_bar_x1.png", "images/player_icon_forest.png",
+                                                    "images/xp_bar.png", "images/hunger_bar.png"};
     private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
 
     private final GdxGame game;
@@ -82,8 +83,8 @@ public class CombatScreen extends ScreenAdapter {
 
         logger.debug("Initialising combat game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
-        forestGameArea.create();
+        CombatGameArea combatGameArea = new CombatGameArea(terrainFactory);
+        combatGameArea.create();
 
         logger.debug("Initializing combat screen entities");
         createCombatEntities();
@@ -229,6 +230,7 @@ public class CombatScreen extends ScreenAdapter {
 
     private void createCombatEntities() {
         // Create and initialize entities relevant to the combat, such as the player, enemies, etc.
+
     }
 
     // Function will handle player health, manage player/enemy turns

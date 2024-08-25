@@ -25,7 +25,6 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(5, 10);
   // Test Spawn for tree
   private static final GridPoint2 TREE_SPAWN = new GridPoint2(20, 20);
-
   // Test spawn point for boss
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
@@ -149,12 +148,11 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-  private Entity spawnKangarooBoss() {
+  private void spawnKangarooBoss() {
     // Create entity
     Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
     // Create in the world
     spawnEntityAt(kangarooBoss, KANGAROO_BOSS_SPAWN, true, true);
-    return kangarooBoss;
   }
 
 

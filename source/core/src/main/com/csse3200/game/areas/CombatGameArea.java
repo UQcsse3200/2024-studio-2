@@ -67,7 +67,7 @@ public class CombatGameArea extends GameArea {
 
     displayUI();
 
-    //spawnTerrain();
+    spawnTerrain();
     //spawnTrees();
     //player = spawnPlayer();
     //spawnGhosts();
@@ -78,7 +78,7 @@ public class CombatGameArea extends GameArea {
 
   private void displayUI() {
     Entity ui = new Entity();
-    //ui.addComponent(new GameAreaDisplay("Box Forest"));
+    ui.addComponent(new GameAreaDisplay("Box Forest"));
     spawnEntity(ui);
   }
 
@@ -148,6 +148,12 @@ public class CombatGameArea extends GameArea {
     Entity ghostKing = NPCFactory.createGhostKing(player);
     spawnEntityAt(ghostKing, randomPos, true, true);
   }
+
+  // Need function spawn_enemy() which spawns the enemy which has collided with the player
+  // this will essentially be the combat trigger for now.
+  // Need to figure how to track a collision (when a collision occurs create a bool
+  // and pass it to this class possibly). Once that has happened i need to render that
+  // enemy in to the combat game area.
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
