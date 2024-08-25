@@ -12,11 +12,12 @@ import com.badlogic.gdx.graphics.Texture;
  * </p>
  */
 public abstract class AbstractItem {
-    protected String name;
+    protected String name; // TODO: May be unnecessary - can use getSimpleName instead!
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative
-    private String texturePath = null;
+    protected String description; // Description of the item
+    private String texturePath = null; // Path to the texture for this item
 
     /**
      * Constructs an AbstractItem with the specified name and item code. Defaults to single
@@ -87,6 +88,27 @@ public abstract class AbstractItem {
     public int getQuantity() {return quantity;}
 
     /**
+     * Returns a description of how the current item can be used and what it does
+     *
+     * @return description of item
+     */
+    public String getDescription() {
+        if (this.description == null) {
+            throw new IllegalAccessError("Cannot access description without setting first!");
+        }
+        return description;
+    }
+
+    /**
+     * If what item can do, update the description of current item
+     *
+     * @param description description of item
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Checks the number of this item that can be further stacked.
      *
      * @return how much the quantity of this item can increase by
@@ -138,12 +160,12 @@ public abstract class AbstractItem {
     /**
      * Retrieves the texture of the object.
      *
-     * @return Path to the texture associated with this object.
-     * @throws IllegalAccessError if the texture path has not been set prior to calling this method.
+     * @return The path to the texture associated with this object.
+     * @throws IllegalAccessError if the texture has not been set prior to calling this method.
      */
     public String getTexturePath() throws IllegalAccessError {
         if (this.texturePath == null) {
-            throw new IllegalAccessError("Cannot access texture path without setting first!");
+            throw new IllegalAccessError("Cannot access path to texture without setting first!");
         }
         return texturePath;
     }
