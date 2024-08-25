@@ -60,6 +60,7 @@ public class NPCFactory {
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
+    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
 
     return chicken;
   }
@@ -80,6 +81,7 @@ public class NPCFactory {
             .addComponent(new GhostAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
+    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
 
     return frog;
   }

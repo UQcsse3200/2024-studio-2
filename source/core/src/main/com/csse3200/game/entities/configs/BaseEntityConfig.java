@@ -7,6 +7,6 @@ public class BaseEntityConfig {
     public int health = 1;
     public int baseAttack = 0;
     public int baseDefense = 0;
-    public int speed = 0;
+    public float speed = 0;
     public int isEnemy = 0;
 }

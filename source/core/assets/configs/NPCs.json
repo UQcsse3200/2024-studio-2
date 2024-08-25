@@ -3,7 +3,7 @@
     "health": 10,
     "baseAttack": 1,
     "baseDefense": 1,
-    "speed": 3,
+    "speed": 2,
     "isEnemy": 1
   },
   "frog": {
