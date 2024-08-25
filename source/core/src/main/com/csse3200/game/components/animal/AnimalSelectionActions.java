@@ -1,13 +1,12 @@
 package com.csse3200.game.components.animal;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.ui.DialogueBox.DialogBox;
 import com.csse3200.game.ui.DialogueBox.DialogHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,16 +95,15 @@ public class AnimalSelectionActions {
     }
 
     private void showSelectionAlert() {
-        float dialogWidth = 400;  // Set desired width
-        float dialogHeight = 200; // Set desired height
-        float xPosition = (Gdx.graphics.getWidth() - dialogWidth) / 2f; // Centered horizontally
-        float yPosition = (Gdx.graphics.getHeight() - dialogHeight) / 2f; // Centered vertically
+        Dialog dialog = new Dialog("Alert", display.getSkin()) {
+            @Override
+            protected void result(Object object) {
+            }
+        };
 
-        String[] titles = { "Alert" };
-        String[] contents = { "Please select an animal first." };
-
-        DialogBox dialogBox = new DialogBox(titles, contents, display.getSkin(), dialogWidth, dialogHeight, 2, 3);
-        dialogBox.display(display.getStage());
+        dialog.text("Please select an animal first.");
+        dialog.button("OK", true);
+        dialog.show(display.getStage());
     }
 
     private void showAnimalDialog(int animalIndex) {
@@ -114,24 +112,12 @@ public class AnimalSelectionActions {
                 "This animal has unique characteristics.\n" +
                 "It possesses special abilities.";
 
-        // Dialog box dimensions
-        float dialogWidth = 1200;  // Width of the dialog box
-        float dialogHeight = 400; // Height of the dialog box
+        // Set dialog width, height, and image position
+        float imageWidth = 100;  // Adjust as needed
+        float imageHeight = 100; // Adjust as needed
+        float imageX = 50;       // Adjust as needed
+        float imageY = 150;      // Adjust as needed
 
-        // Calculate center position
-        float xPosition = (Gdx.graphics.getWidth() - dialogWidth) / 2f;
-        float yPosition = (Gdx.graphics.getHeight() - dialogHeight) / 2f;
-
-        // Define vertical offset to shift the dialog down
-        float verticalOffset = 120f;  // Adjust this value as needed
-
-        // Adjust yPosition to shift the dialog box down
-        yPosition -= verticalOffset;
-
-        // Display the dialog box
-        dialogHelper.displayDialog(title, content, dialogWidth, dialogHeight, xPosition, yPosition);
+        dialogHelper.displayDialog(title, content, imageWidth, imageHeight, imageX, imageY);
     }
-
-
-
 }
