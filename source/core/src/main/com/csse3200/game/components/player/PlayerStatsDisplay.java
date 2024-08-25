@@ -44,8 +44,9 @@ public class PlayerStatsDisplay extends UIComponent {
 
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
 
-    // Add listener for kanga chase start to trigger beating effect
-    entity.getEvents().addListener("kangaChaseStart", this::startHealthBarBeating);
+    // Add listener for kanga chase start/stop to trigger beating effect
+    entity.getEvents().addListener("startHealthBarBeating", this::startHealthBarBeating);
+    entity.getEvents().addListener("stopHealthBarBeating", this::stopHealthBarBeating);
   }
 
   /**
@@ -145,6 +146,11 @@ public class PlayerStatsDisplay extends UIComponent {
                     Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
             )
     ));
+  }
+
+  public void stopHealthBarBeating() {
+    heartImage.clearActions();
+    heartImage.setScale(1.0f); // Reset to normal scale
   }
 
   @Override
