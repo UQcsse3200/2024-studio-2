@@ -2,6 +2,7 @@ package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.utils.Null;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public abstract class AbstractQuest {
     private boolean isActive;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
+    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement,
+                         Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
@@ -84,6 +86,9 @@ public abstract class AbstractQuest {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
         }
+        if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
+        }
         return tasks.get(currentTaskIndex).getDescription();
     }
 
@@ -94,6 +99,8 @@ public abstract class AbstractQuest {
     public String getCurrentTaskHint() {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
+        } if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
         }
         return tasks.get(currentTaskIndex).getHint();
     }
@@ -126,8 +133,8 @@ public abstract class AbstractQuest {
     /**
      * Returns the number of tasks to be completed for an individual test.
      */
-    public int getNumTasksCompleted() {
-        return (tasks.size() - 1) - currentTaskIndex;
+    public int getNumTasksToComplete() {
+        return tasks.size() - currentTaskIndex;
     }
 
     /**
@@ -156,6 +163,6 @@ public abstract class AbstractQuest {
         if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
             return questDialogue.get(new DialogueKey(npcName, getProgression()));
         }
-            return null;
+        return null;
     }
 }
