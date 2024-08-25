@@ -20,6 +20,7 @@ public class PauseTask extends ChaseTask {
     private Entity entity;
     private final QuestManager questManager;
     private BaseEntityConfig config;
+    private EntityChatService chatOverlayService;
 
     /**
      * @param target The entity to pause when seen.
@@ -34,6 +35,7 @@ public class PauseTask extends ChaseTask {
         this.hasApproached = false;
         this.hint = null;
         this.config = null;
+        this.chatOverlayService = ServiceLocator.getEntityChatService();
     }
 
     @Override
@@ -87,31 +89,23 @@ public class PauseTask extends ChaseTask {
                 entity.getEvents().trigger("pauseEnd");
             }
 
-            EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-            chatOverlayService.disposeCurrentOverlay();
-
-            //movementTask.start();
+            this.chatOverlayService.disposeCurrentOverlay();
         }
     }
 
     protected void createChatOverlay() {
-        EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
         if (chatOverlayService == null) {
             return;
         }
 
-        String[] hintText = null;
-        for (AbstractQuest quest : questManager.getAllQuests()) {
-            if (quest.isActive()) {
-                hintText = new String[] {quest.getCurrentTaskHint()};
-            }
-        }
+        logger.info(this.config.getAnimalName());
+        String[] hintText = this.questManager.getDialogue( this.config.getAnimalName() );
 
         if (hintText == null) {
-            hintText = ((BaseEntityConfig) this.config).getBaseHint();
+            hintText = this.config.getBaseHint();
         }
 
-        chatOverlayService.updateText(hintText);
+        this.chatOverlayService.updateText(hintText);
     }
 
     public int getPriority() {
