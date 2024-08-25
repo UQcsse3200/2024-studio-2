@@ -3,6 +3,7 @@ package com.csse3200.game.areas;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
@@ -51,6 +52,7 @@ public class CombatGameArea extends GameArea {
 
   private Entity player;
 
+  private final GdxGame game;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
@@ -61,9 +63,10 @@ public class CombatGameArea extends GameArea {
    */
   // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
   // Then this enemy can be spawned within this class in some function spawn_enemy()
-  public CombatGameArea(TerrainFactory terrainFactory) {
+  public CombatGameArea(TerrainFactory terrainFactory, GdxGame game) {
     super();
     this.terrainFactory = terrainFactory;
+    this.game = game;
     //this.enemyNPC = enemyNPC;
   }
 
@@ -119,7 +122,7 @@ public class CombatGameArea extends GameArea {
 
   /** Spawn a player for testing purposes. Currently, this player can be moved */
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer();
+    Entity newPlayer = PlayerFactory.createPlayer(game);
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

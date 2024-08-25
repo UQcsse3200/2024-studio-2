@@ -1,16 +1,18 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.Overlays.Overlay;
-import com.csse3200.game.Overlays.Overlay.OverlayType;
 import com.csse3200.game.Overlays.PauseOverlay;
 import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
+import com.csse3200.game.components.maingame.MainGameDupExitDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -21,15 +23,16 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,24 +42,27 @@ import java.util.LinkedList;
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class MainGameScreen extends ScreenAdapter {
-  private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/health_bar_x1.png", "images/player_icon_forest.png",
-                                                    "images/xp_bar.png", "images/hunger_bar.png", "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png"};
+public class MainGameScreenDup extends ScreenAdapter {
+  private static final Logger logger = LoggerFactory.getLogger(MainGameScreenDup.class);
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
   private boolean resting = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
+  private final Screen oldScreen;
+  private final ServiceContainer oldScreenServices;
+  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  private final HashMap<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
   private final ForestGameArea gameArea;
-  private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
-  public MainGameScreen(GdxGame game) {
+  public MainGameScreenDup(GdxGame game, Screen screen, ServiceContainer container) {
     this.game = game;
+    oldScreen = screen;
+    oldScreenServices = container;
 
-    logger.debug("Initialising main game screen services");
+    logger.debug("Initialising main game dup screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
     PhysicsService physicsService = new PhysicsService();
@@ -80,18 +86,18 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
-    logger.debug("Initialising main game screen entities");
+    logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        this.gameArea = new ForestGameArea(terrainFactory, game);
-    gameArea.create();
+    this.gameArea = new ForestGameArea(terrainFactory, game);
+    this.gameArea.create();
   }
 
   @Override
   public void render(float delta) {
     if (!isPaused){
-      physicsEngine.update();
-      ServiceLocator.getEntityService().update();
-      renderer.render();
+    physicsEngine.update();
+    ServiceLocator.getEntityService().update();
+    renderer.render();
     }
   }
 
@@ -130,6 +136,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getResourceService().dispose();
     ServiceLocator.getEventService().dispose();
 
+
     ServiceLocator.clear();
   }
 
@@ -160,6 +167,7 @@ public class MainGameScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
+        .addComponent(new MainGameDupExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
@@ -167,17 +175,17 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addOverlay(OverlayType overlayType){
+  public void addOverlay(Overlay.OverlayType overlayType){
     logger.debug("Attempting to Add {} Overlay", overlayType);
     if (activeOverlayTypes.get(overlayType)){
       return;
     }
-      if (enabledOverlays.isEmpty()) {
-          this.rest();
-      }
-      else {
-        enabledOverlays.getFirst().rest();
-      }
+    if (enabledOverlays.isEmpty()) {
+      this.rest();
+    }
+    else {
+      enabledOverlays.getFirst().rest();
+    }
     switch (overlayType) {
       case QUEST_OVERLAY:
         enabledOverlays.addFirst(new QuestOverlay());
@@ -194,11 +202,11 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   public void removeOverlay(){
-    logger.info("Removing top Overlay");
+    logger.debug("Removing top Overlay");
 
     if (enabledOverlays.isEmpty()){
-        this.wake();
-        return;
+      this.wake();
+      return;
     }
     Overlay currentFirst = enabledOverlays.getFirst();
     activeOverlayTypes.put(currentFirst.overlayType,false);
@@ -206,7 +214,7 @@ public class MainGameScreen extends ScreenAdapter {
     enabledOverlays.removeFirst();
 
     if (enabledOverlays.isEmpty()){
-        this.wake();
+      this.wake();
 
     } else {
       enabledOverlays.getFirst().wake();

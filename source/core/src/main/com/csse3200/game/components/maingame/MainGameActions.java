@@ -1,7 +1,10 @@
 package com.csse3200.game.components.maingame;
 
+import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MainGameActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
-  private GdxGame game;
+  private final GdxGame game;
 
   public MainGameActions(GdxGame game) {
     this.game = game;
@@ -19,7 +22,8 @@ public class MainGameActions extends Component {
 
   @Override
   public void create() {
-    entity.getEvents().addListener("exit", this::onExit);
+    ServiceLocator.getEventService().globalEventHandler.addListener("exit", this::onExit);
+    entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 
   /**
@@ -28,5 +32,11 @@ public class MainGameActions extends Component {
   private void onExit() {
     logger.info("Exiting main game screen");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+  }
+
+  private void onReturnToMainGame(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen");
+    // change to new GDXgame function
+    game.setOldScreen(screen, container);
   }
 }

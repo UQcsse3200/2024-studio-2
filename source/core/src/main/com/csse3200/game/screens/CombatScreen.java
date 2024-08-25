@@ -20,7 +20,6 @@ import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.areas.CombatGameArea;
 import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.combat.CombatExitDisplay;
@@ -83,7 +82,7 @@ public class CombatScreen extends ScreenAdapter {
 
         logger.debug("Initialising combat game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        CombatGameArea combatGameArea = new CombatGameArea(terrainFactory);
+        CombatGameArea combatGameArea = new CombatGameArea(terrainFactory, game);
         combatGameArea.create();
 
         logger.debug("Initializing combat screen entities");
