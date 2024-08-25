@@ -34,7 +34,7 @@ public class Inventory implements InventoryInterface {
     // Maps item codes to sets of inventory indices where they are stored.
     private TreeMap<Integer, TreeSet<Integer>> codeToIndices;
     // Maps item names to sets of inventory indices where they are stored.
-    private TreeMap<String, TreeSet<Integer>> nameToIndices; // TODO: IMPLEMENT
+    private TreeMap<String, TreeSet<Integer>> nameToIndices;
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] inventory; // Array of actual items & null values
 
