@@ -22,6 +22,10 @@ public class AvoidTask extends ChaseTask {
         this.minAvoidDistance = minAvoidDistance;
     }
 
+    /**
+     * Starts the avoidance behavior by initializing and starting the movement task.
+     * Triggers the "avoidStart" event to indicate the beginning of avoidance.
+     */
     @Override
     public void start() {
         super.start();
@@ -33,6 +37,11 @@ public class AvoidTask extends ChaseTask {
         this.owner.getEntity().getEvents().trigger("avoidStart");
     }
 
+
+    /**
+     * Updates the avoidance behavior by setting the current target for the movement task
+     * and updating its state. If the movement task is not active, it restarts the task.
+     */
     @Override
     public void update() {
         movementTask.setTarget(getAvoidanceTarget());
@@ -42,6 +51,12 @@ public class AvoidTask extends ChaseTask {
         }
     }
 
+    /**
+     * Returns the priority level of the avoidance behavior.
+     * Determines the priority based on whether the task is currently active or inactive.
+     *
+     * @return the priority level of the avoidance behavior.
+     */
     @Override
     public int getPriority() {
         if (status == Status.ACTIVE) {
@@ -51,6 +66,13 @@ public class AvoidTask extends ChaseTask {
         return getInactivePriority();
     }
 
+    /**
+     * Calculates the avoidance target position based on the entity's current position,
+     * the target's position, and the minimum avoidance distance.
+     * The avoidance target is calculated to be away from the target's position.
+     *
+     * @return a Vector2 representing the target position to move towards for avoidance.
+     */
     private Vector2 getAvoidanceTarget() {
         Vector2 entityPosition = owner.getEntity().getPosition();
         Vector2 targetPosition = target.getPosition();
@@ -58,6 +80,13 @@ public class AvoidTask extends ChaseTask {
         return entityPosition.cpy().add(directionAway.scl(minAvoidDistance));
     }
 
+    /**
+     * Returns the priority level when the avoidance behavior is active.
+     * If the distance to the target is greater than the safe distance or the target is not visible,
+     * the avoidance behavior should stop and the method returns -1.
+     *
+     * @return the active priority level or -1 if the behavior should stop.
+     */
     @Override
     protected int getActivePriority() {
         float dst = super.getDistanceToTarget();
@@ -67,6 +96,13 @@ public class AvoidTask extends ChaseTask {
         return priority;
     }
 
+    /**
+     * Returns the priority level when the avoidance behavior is inactive.
+     * If the distance to the target is less than the safe distance and the target is visible,
+     * the method returns the set priority; otherwise, it returns -1.
+     *
+     * @return the inactive priority level or -1 if the behavior should not activate.
+     */
     @Override
     protected int getInactivePriority() {
         float dst = getDistanceToTarget();

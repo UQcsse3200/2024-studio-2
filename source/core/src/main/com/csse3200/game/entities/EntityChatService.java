@@ -11,8 +11,6 @@ public class EntityChatService {
 
     /**
      * Create a new chat overlay with the given hint text.
-     *
-     * @param hintText The text to display in the chat overlay.
      */
     public EntityChatService() {
         currentOverlay = null;
