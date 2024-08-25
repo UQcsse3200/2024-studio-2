@@ -236,7 +236,6 @@ public class QuestDisplay extends UIComponent {
                         .getAsset("images/QuestsOverlay/Quest_SBG.png", Texture.class));
         background = new Table();
         background.setFillParent(true);
-        background.setDebug(true);
         background.add(questsBackGround).center();
         stage.addActor(background);
 
