@@ -18,9 +18,11 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
+  private int maxHunger;
 
   public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
       this.maxHealth = health;
+      this.maxHunger=hunger;
       setHealth(health);
       setHunger(hunger);
       setStrength(strength);
@@ -199,7 +201,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Adds to the player's defense. The amount added can be negative.
    *
-   * @param defense defense to add
+   * //@param defense defense to add
    */
   public void addSpeed(int speed) {
     setSpeed(this.speed + speed);
@@ -244,5 +246,8 @@ public class CombatStatsComponent extends Component {
 
   public int getMaxHealth() {
     return maxHealth;
+  }
+  public int getMaxHunger() {
+    return maxHunger;
   }
 }
