@@ -13,14 +13,16 @@ public class CombatStatsComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int maxHealth;
   private int health;
+  private int hunger;
   private int strength;
   private int defense;
   private int speed;
   private int experience;
 
-  public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
       this.maxHealth = health;
       setHealth(health);
+      setHunger(hunger);
       setStrength(strength);
       setDefense(defense);
       setSpeed(speed);
@@ -72,6 +74,41 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Returns the entity's hunger.
+   *
+   * @return entity's hunger
+   */
+  public int getHunger() {
+    return hunger;
+  }
+
+  /**
+   * Sets the entity's hunger. hunger has a minimum bound of 0.
+   *
+   * @param hunger hunger
+   */
+  public void setHunger(int hunger) {
+    if (hunger >= 0) {
+      this.hunger = hunger;
+    } else {
+      this.hunger = 0;
+    }
+    if (entity != null) {
+      entity.getEvents().trigger("updateHunger", this.hunger);
+    }
+  }
+
+  /**
+   * Adds to the player's hunger. The amount added can be negative.
+   *
+   * @param hunger hunger to add
+   */
+  public void addHunger(int hunger) {
+    setHunger(this.hunger + hunger);
+  }
+
+
+  /**
 
    * Returns the entity's strength.
    *
@@ -96,7 +133,14 @@ public class CombatStatsComponent extends Component {
     }
   }
 
-
+  /**
+   * Adds to the player's strength. The amount added can be negative.
+   *
+   * @param strength strength to add
+   */
+  public void addStrength(int strength) {
+    setStrength(this.strength + strength);
+  }
 
   /**
    * Returns the entity's defense.
@@ -121,9 +165,18 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Returns the entity's strength.
+   * Adds to the player's defense. The amount added can be negative.
    *
-   * @return entity's strength
+   * @param defense defense to add
+   */
+  public void addDefense(int defense) {
+    setDefense(this.defense + defense);
+  }
+
+  /**
+   * Returns the entity's speed.
+   *
+   * @return entity's speed
    */
   public int getSpeed() {
     return speed;
@@ -131,7 +184,7 @@ public class CombatStatsComponent extends Component {
 
 
   /**
-   * Sets the entity's strength. Strength has a minimum bound of 0.
+   * Sets the entity's speed. speed has a minimum bound of 0.
    *
    * @param speed speed
    */
@@ -141,6 +194,15 @@ public class CombatStatsComponent extends Component {
     } else {
       logger.error("Cannot set speed to a negative value");
     }
+  }
+
+  /**
+   * Adds to the player's defense. The amount added can be negative.
+   *
+   * @param defense defense to add
+   */
+  public void addSpeed(int speed) {
+    setSpeed(this.speed + speed);
   }
 
 
@@ -161,6 +223,16 @@ public class CombatStatsComponent extends Component {
       logger.error("Cannot set experience to a negative value");
     }
   }
+
+  /**
+   * Adds to the player's experience. The amount added can be negative.
+   *
+   * @param experience experience to add
+   */
+  public void addExperience(int experience) {
+    setExperience(this.experience + experience);
+  }
+
 
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getStrength();

@@ -60,7 +60,7 @@ public class NPCFactory {
 
     ghost
 
-        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience))
+        .addComponent(new CombatStatsComponent(config.health, config.hunger, config.strength, config.defense, config.speed, config.experience))
 
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
@@ -89,7 +89,7 @@ public class NPCFactory {
 
     ghostKing
 
-        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience))
+        .addComponent(new CombatStatsComponent(config.health, config.hunger, config.strength, config.defense, config.speed, config.experience))
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
 
@@ -118,7 +118,7 @@ public class NPCFactory {
                     ServiceLocator.getResourceService().getAsset(atlasPath, TextureAtlas.class));
     animator.addAnimation("float", animationSpeed, Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(health, 0, 0, 0, 0))
+    npc.addComponent(new CombatStatsComponent(health, 100, 0, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent(config));  // Adding the config as a component

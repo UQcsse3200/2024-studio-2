@@ -42,6 +42,7 @@ public class PlayerStatsDisplay extends UIComponent {
         addActors();
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
+        entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
     }
 
     /**
@@ -162,6 +163,11 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         xpLabel.setText(text);
+    }
+
+    public void updatePlayerHungerUI(int hunger) {
+        CharSequence text = String.format("HGR: %d", hunger);
+        hungerLabel.setText(text);
     }
 
     @Override
