@@ -26,9 +26,21 @@ import java.util.List;
  * It manages the layout and rendering of quest-related information.
  */
 public class QuestDisplay extends UIComponent {
+    /**
+     * Logger for logging events related to quest display.
+     */
     private static final Logger logger = LoggerFactory.getLogger(QuestDisplay.class);
+    /**
+     * The event service used to handle events related to quest display.
+     */
     EventService eventService = ServiceLocator.getEventService();
+    /**
+     * The background table for UI elements.
+     */
     private Table background;
+    /**
+     * The root table for UI elements.
+     */
     private Table rootTable;
 
     /** Comparator to sort quests showing active, completed then failed quests */

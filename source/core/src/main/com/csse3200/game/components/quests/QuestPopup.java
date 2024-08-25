@@ -14,9 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
  * A popup UI that displays a popup message when a quest is completed.
  */
 public class QuestPopup extends UIComponent {
+    /** Flag to see if popup is displaying. */
     private boolean showing = false;
+    /** Label for quest completion. */
     private Label questCompleted;
+    /** Event service for UI. */
     private final EventService eventService = ServiceLocator.getEventService();
+    /** Scale of font size. */
     private static final float  fontScale = 2f;
 
     /**

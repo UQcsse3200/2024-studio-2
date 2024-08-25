@@ -1,14 +1,6 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.physics.PhysicsEngine;
-import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.raycast.RaycastHit;
-import com.csse3200.game.rendering.DebugRenderer;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
 import org.slf4j.Logger;
@@ -17,6 +9,7 @@ import com.csse3200.game.ui.ChatOverlay;
 import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.services.ServiceLocator;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends ChaseTask {
@@ -25,7 +18,7 @@ public class PauseTask extends ChaseTask {
     private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
     private ChatOverlay hint;
     private Entity entity;
-    private QuestManager questManager;
+    private final QuestManager questManager;
     private BaseEntityConfig config;
 
     /**
