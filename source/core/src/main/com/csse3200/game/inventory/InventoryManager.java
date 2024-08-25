@@ -34,7 +34,7 @@ public class InventoryManager extends Inventory {
     }
 
 
-    public void addtoNameMap() {
+    public void addToNameMap() {
         this.sortedName = this.sortByName();
         for (AbstractItem item : this.sortedName) {
             int index = this.getIndex(item.getItemCode());
@@ -45,7 +45,7 @@ public class InventoryManager extends Inventory {
         }
     }
 
-    public void addtoQuantityMap() {
+    public void addToQuantityMap() {
         this.sortedQuantity = this.sortByQuantity();
         for (AbstractItem item : this.sortedQuantity) {
             int index = this.getIndex(item.getItemCode());
