@@ -1,6 +1,8 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
@@ -43,12 +45,16 @@ public class CombatGameArea extends GameArea {
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
+  private static final String[] combatBaseTexture = {
+    "images/combat_base.png"
+  };
+  private static final String[] combatTextureAtlas = {
+    "images/combatBase.atlas"
+  };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
-
   private final TerrainFactory terrainFactory;
-
   private Entity player;
 
 
@@ -145,6 +151,8 @@ public class CombatGameArea extends GameArea {
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadTextureAtlases(combatTextureAtlas);
+    resourceService.loadTextures(combatBaseTexture);
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
@@ -154,11 +162,25 @@ public class CombatGameArea extends GameArea {
       // This could be upgraded to a loading screen
       logger.info("Loading... {}%", resourceService.getProgress());
     }
-  }
+
+    /*
+    TextureAtlas combatAtlas = ServiceLocator.getResourceService().getAsset("images/combatBase.atlas", TextureAtlas.class);
+    if (combatAtlas == null) {
+      logger.error("Combat texture atlas failed to load.");
+    } else {
+      TextureRegion combatBaseTextureRegion = combatAtlas.findRegion("combat_base"); // Check if name matches
+      if (combatBaseTextureRegion == null) {
+        logger.error("Combat base texture region not found in atlas.");
+      }
+    }
+    */
+ }
 
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.unloadAssets(combatBaseTexture);
+    resourceService.unloadAssets(combatTextureAtlas);
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);

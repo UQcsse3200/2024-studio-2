@@ -1,0 +1,12 @@
+combat_base.png
+size: 512, 288
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+combat_base
+  rotate: false
+  xy: 10, 10
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 10
