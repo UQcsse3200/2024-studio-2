@@ -40,8 +40,6 @@ public class TerrainLoaderComponent extends Component {
   @Override
   public void update() {
     Vector2 currentPosition = entity.getPosition();
-    //System.out.println(currentPosition);
-    System.out.println(previousChunk);
     GridPoint2 currentChunk = getPlayerChunk(currentPosition);
 
     // Only load new chunks if the player has moved to a different chunk.
@@ -57,16 +55,8 @@ public class TerrainLoaderComponent extends Component {
   }
 
   private void loadChunks(Vector2 position) {
-
-    terrain.fillChunk(getPlayerChunk(position));
-  
-    //TerrainComponent terrainComponent = terrainFactory.createTerrain(TerrainFactory.TerrainType.FOREST_DEMO, new GridPoint2((int) position.x, (int) position.y), new GridPoint2(5, 5));
-    //
-    //// Create an entity for the terrain and add it to the game world
-    //Entity terrainEntity = new Entity().addComponent(terrainComponent);
-    //ServiceLocator.getEntityService().register(terrainEntity);
+    terrain.loadChunks(getPlayerChunk(position));
   }
-
 
   private GridPoint2 getPlayerChunk(Vector2 position) {
     return new GridPoint2((int) position.x / TerrainFactory.CHUNK_SIZE, (int) position.y / TerrainFactory.CHUNK_SIZE);

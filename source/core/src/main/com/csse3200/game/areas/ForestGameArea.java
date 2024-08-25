@@ -9,6 +9,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -20,8 +21,8 @@ import org.slf4j.LoggerFactory;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final GridPoint2 MAP_SIZE = new GridPoint2(20, 20);
-  private static final int NUM_TREES = 7;
+  private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
+  private static final int NUM_TREES = 7000;
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(0, 1);
   private static final float WALL_WIDTH = 0.1f;
@@ -76,7 +77,7 @@ public class ForestGameArea extends GameArea {
     spawnGhosts();
     spawnGhostKing();
 
-    //playMusic();
+    playMusic();
   }
 
   private void displayUI() {
@@ -95,24 +96,24 @@ public class ForestGameArea extends GameArea {
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    // // Left
-    // spawnEntityAt(
-    //     ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    // // Right
-    // spawnEntityAt(
-    //     ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //     new GridPoint2(tileBounds.x, 0),
-    //     false,
-    //     false);
-    // // Top
-    // spawnEntityAt(
-    //     ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //     new GridPoint2(0, tileBounds.y),
-    //     false,
-    //     false);
-    // // Bottom
-    // spawnEntityAt(
-    //     ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+     // Left
+     spawnEntityAt(
+         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
+     // Right
+     spawnEntityAt(
+         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+         new GridPoint2(tileBounds.x, 0),
+         false,
+         false);
+     // Top
+     spawnEntityAt(
+         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+         new GridPoint2(0, tileBounds.y),
+         false,
+         false);
+     // Bottom
+     spawnEntityAt(
+         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void updateTerrain(GridPoint2 playerPosition) {
@@ -126,7 +127,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTrees() {
     GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
 
     for (int i = 0; i < NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);

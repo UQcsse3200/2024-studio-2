@@ -13,13 +13,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.areas.terrain.TerrainChunk;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Render a tiled terrain for a given tiled map and orientation. A terrain is a map of tiles that
- * shows the 'ground' in the game. Enabling/disabling this component will show/hide the terrain.
+ * Render a tiled terrain for a given tiled map and orientation. A terrain is a
+ * map of tiles that
+ * shows the 'ground' in the game. Enabling/disabling this component will
+ * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
@@ -31,8 +34,9 @@ public class TerrainComponent extends RenderComponent {
   private TerrainOrientation orientation;
   private float tileSize;
 
-  private TextureRegion grass, grassTuft, rocks;
-  private Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
+  // private TextureRegion grass, grassTuft, rocks;
+  private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
+  private TerrainResource terrainResource;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -46,15 +50,7 @@ public class TerrainComponent extends RenderComponent {
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
 
-    ResourceService resourceService = ServiceLocator.getResourceService();
-
-    // get asset
-    this.grass = new TextureRegion(resourceService.getAsset("images/gt.png", Texture.class));
-    this.grassTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
-    this.rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
-
-    TerrainTile grassTuftTile = new TerrainTile(grassTuft);
-    TerrainTile rockTile = new TerrainTile(rocks);
+    this.terrainResource = new TerrainResource();
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -79,21 +75,78 @@ public class TerrainComponent extends RenderComponent {
   public void getChunks() {
   }
 
-  public void loadChunk(GridPoint2 position) {
+  public void fillChunk(GridPoint2 chunkPos) {
+
+    if (loadedChunks.containsKey(chunkPos))
+      return;
+
+    TerrainChunk chunk = new TerrainChunk(chunkPos, tiledMap);
+
+    System.out.println("got a chunks");
+    if ((chunkPos.x < 0 || chunkPos.y < 0) ||
+        (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
+            chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
+      return;
+
+    if (!loadedChunks.containsKey(chunkPos)) {
+      TerrainTile grassTile = new TerrainTile(this.terrainResource.getGrass());
+      // TerrainTile grassTuftTile = new TerrainTile(grassTuft);
+      // TerrainTile rockTile = new TerrainTile(rocks);
+
+      for (int x = chunkPos.x * CHUNK_SIZE; x < (chunkPos.x + 1) * CHUNK_SIZE; x++) {
+        for (int y = chunkPos.y * CHUNK_SIZE; y < (chunkPos.y + 1) * CHUNK_SIZE; y++) {
+          Cell cell = new Cell();
+          cell.setTile(grassTile);
+          ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
+        }
+      }
+
+      loadedChunks.put(chunkPos, chunk);
+      System.out.println("Loading new chunk at " + chunkPos);
+    } else {
+      System.out.println("Already loaded chunk at " + chunkPos);
+    }
 
   }
 
-  public void fillChunk(GridPoint2 position) {
-    TerrainTile grassTile = new TerrainTile(grass);
-    System.out.println("got some chunks");
+  public void loadChunks(GridPoint2 chunkPos) {
 
-    for (int x = 0; x < CHUNK_SIZE; x++) {
-      for (int y = 0; y < CHUNK_SIZE; y++) {
-        Cell cell = new Cell();
-        cell.setTile(grassTile);
-        ((TiledMapTileLayer)tiledMap.getLayers().get("forest")).setCell(x, y, cell);
-      } 
-    }
+    System.out.println("got some chunks--------------------");
+    // top left
+    GridPoint2 tl = new GridPoint2(chunkPos.x - 1, chunkPos.y + 1);
+    fillChunk(tl);
+
+    // top
+    GridPoint2 t = new GridPoint2(chunkPos.x, chunkPos.y + 1);
+    fillChunk(t);
+
+    // top right
+    GridPoint2 tr = new GridPoint2(chunkPos.x + 1, chunkPos.y + 1);
+    fillChunk(tr);
+
+    // left
+    GridPoint2 l = new GridPoint2(chunkPos.x - 1, chunkPos.y);
+    fillChunk(l);
+
+    // player position
+    System.out.println("Player position: " + chunkPos);
+    fillChunk(chunkPos);
+
+    // right
+    GridPoint2 r = new GridPoint2(chunkPos.x + 1, chunkPos.y);
+    fillChunk(r);
+
+    // bottom left
+    GridPoint2 bl = new GridPoint2(chunkPos.x - 1, chunkPos.y - 1);
+    fillChunk(bl);
+
+    // bottom
+    GridPoint2 b = new GridPoint2(chunkPos.x, chunkPos.y - 1);
+    fillChunk(b);
+
+    // bottom right
+    GridPoint2 br = new GridPoint2(chunkPos.x + 1, chunkPos.y - 1);
+    fillChunk(br);
   }
 
   public float getTileSize() {
@@ -101,7 +154,7 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public GridPoint2 getMapBounds(int layer) {
-    TiledMapTileLayer terrainLayer = (TiledMapTileLayer)tiledMap.getLayers().get(layer);
+    TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     return new GridPoint2(terrainLayer.getWidth(), terrainLayer.getHeight());
   }
 
@@ -135,5 +188,33 @@ public class TerrainComponent extends RenderComponent {
     ORTHOGONAL,
     ISOMETRIC,
     HEXAGONAL
+  }
+
+  public class TerrainResource {
+    public TextureRegion grass;
+    public TextureRegion grassTuft;
+    public TextureRegion rocks;
+
+    public TerrainResource() {
+      ResourceService resourceService = ServiceLocator.getResourceService();
+
+      // get asset
+      this.grass = new TextureRegion(resourceService.getAsset("images/gt.png", Texture.class));
+      this.grassTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
+      this.rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+    }
+
+    private TextureRegion getGrass() {
+      return this.grass;
+    }
+
+    private TextureRegion getGrassTuft() {
+      return this.grassTuft;
+    }
+
+    private TextureRegion getRocks() {
+      return this.rocks;
+    }
+
   }
 }
