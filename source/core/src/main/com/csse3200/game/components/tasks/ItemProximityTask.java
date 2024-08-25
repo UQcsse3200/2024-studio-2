@@ -32,13 +32,12 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-
-        this.owner.getEntity().getEvents().trigger("pickUp");
     }
 
     public void update() {
         if (isPlayerNearItem()) {
             logger.info("Player is within pickup range of the item.");
+            this.owner.getEntity().getEvents().trigger("PlayerNearItem");
         }
         if (hasPlayerPickedUpNearItem()) {
             logger.info("Item in range of player has been picked up.");
