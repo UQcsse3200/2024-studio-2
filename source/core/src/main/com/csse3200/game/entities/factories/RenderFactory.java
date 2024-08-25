@@ -11,7 +11,7 @@ public class RenderFactory {
     return new Entity().addComponent(new CameraComponent());
   }
 
-public static Renderer createRenderer() {
+  public static Renderer createRenderer() {
     Entity camera = createCamera();
     ServiceLocator.getEntityService().register(camera);
     CameraComponent camComponent = camera.getComponent(CameraComponent.class);

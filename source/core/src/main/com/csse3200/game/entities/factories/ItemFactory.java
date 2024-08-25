@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import static com.csse3200.game.physics.PhysicsLayer.OBSTACLE;
 
 
+// TODO: Remove texturePath from createItem input and use item.getTexture (or add a function to
+//  get the texture path instead of the texture!)
 public class ItemFactory {
 
 
