@@ -169,5 +169,4 @@ public abstract class AbstractItem {
         }
         return new Texture(texturePath);
     }
-
 }
