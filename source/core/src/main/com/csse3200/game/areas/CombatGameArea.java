@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
-  private static final int NUM_TREES = 7;
-  private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 12);
   private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 13);
 
@@ -52,10 +50,6 @@ public class CombatGameArea extends GameArea {
   private final TerrainFactory terrainFactory;
 
   private Entity player;
-
-  // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
-  // planned functionality -- callumR
-  private Entity combatEnemyNPC;
 
 
   /**
@@ -133,7 +127,9 @@ public class CombatGameArea extends GameArea {
   /** Spawn a combat enemy. Different to a regular enemy npc */
   private void spawnCombatEnemy() {
     // Create entity
-    this.combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
+    // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
+    // planned functionality -- callumR
+    Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
     // Create in the world
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }

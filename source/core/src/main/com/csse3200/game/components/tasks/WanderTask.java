@@ -48,8 +48,8 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     waitTask.create(owner);
     movementTask = new MovementTask(getRandomPosInRange());
     movementTask.create(owner);
-
     movementTask.start();
+
     currentTask = movementTask;
 
     if (this.isBoss) {
