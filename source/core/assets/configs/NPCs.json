@@ -2,16 +2,22 @@
   "chicken": {
     "health": 10,
     "baseAttack": 1,
+    "baseDefense": 1,
+    "speed": 3,
     "isEnemy": 1
   },
   "frog": {
     "health": 100,
     "baseAttack": 25,
+    "baseDefense": 25,
+    "speed": 0.5,
     "isEnemy": 1
   },
   "ghost": {
     "health": 40,
     "baseAttack": 10,
+    "baseDefense": 10,
+    "speed": 1,
     "isEnemy": 1
   },
   "ghostKing": {
