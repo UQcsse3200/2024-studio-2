@@ -8,7 +8,11 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.Overlays.Overlay;
 import com.csse3200.game.Overlays.PauseOverlay;
 import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.CombatExitDisplay;
+import com.csse3200.game.components.combat.CombatStatsDisplay;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
@@ -49,15 +53,21 @@ public class CombatScreen extends ScreenAdapter {
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
+  private final Entity player;
   private final Entity enemy;
+  private CombatStatsComponent playerCombatStats;
+  private CombatStatsComponent enemyCombatStats;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-  //private final ForestGameArea gameArea;
 
-  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity enemy) {
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
+    this.player = player;
     this.enemy = enemy;
+
+    this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
+    this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
 
     logger.debug("Initialising combat screen services");
     ServiceLocator.registerTimeSource(new GameTime());
@@ -85,8 +95,6 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    //this.gameArea = new ForestGameArea(terrainFactory, game);
-    //this.gameArea.create();
   }
 
   @Override
@@ -159,9 +167,11 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game))
+        //.addComponent(new PerformanceDisplay())
+        //.addComponent(new MainGameActions(this.game))
+        .addComponent(new CombatActions(this.game))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
+        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());

@@ -98,14 +98,14 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    //spawnGhosts();
+    spawnGhosts();
     spawnGhostKing();
     spawnCow();
     spawnLion();
     spawnTurtle();
     spawnEagle();
     spawnSnake();
-    //playMusic();
+    playMusic();
   }
 
   public void displayUI() {
