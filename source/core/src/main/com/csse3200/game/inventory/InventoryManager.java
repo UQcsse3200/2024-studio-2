@@ -20,7 +20,7 @@ public class InventoryManager extends Inventory {
 
 
     /**
-     * Consutructs an inventory manager class for the given inventory
+     * Constructs an inventory manager class for the given inventory
      * @param capacity maximum number of items in inventory
      */
     public InventoryManager(int capacity) {

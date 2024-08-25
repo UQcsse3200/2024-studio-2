@@ -1,16 +1,19 @@
 package com.csse3200.game.inventory;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(GameExtension.class)
 public class InventoryManagerTest {
     private InventoryManager inventoryManagerThree;
     private InventoryManager inventoryManagerOne;
