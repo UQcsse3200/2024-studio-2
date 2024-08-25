@@ -146,7 +146,7 @@ public class QuestDisplay extends UIComponent {
     //sorts color
     private Color determineQuestColor(AbstractQuest quest) {
         if (quest.isQuestCompleted()) {
-            return Color.GOLD;
+            return Color.GOLDENROD;
         } else if (quest.isFailed()) {
             return Color.RED;
         } else {
