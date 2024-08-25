@@ -4,36 +4,50 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Overlay {
-    List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
+    public final OverlayType overlayType;
 
-    public Overlay(){}
-
-    public void remove() {
-        for (Entity entity : entities) {
-            entity.dispose();
-        }
-        entities.clear();
-
+    public Overlay(OverlayType overlayType){
+        this.overlayType = overlayType;
     }
 
+    public void add(Entity entity) {
+        entities.add(entity);
+    }
+
+    public void remove() {
+        for (Entity entity : this.entities) {
+            entity.dispose();
+        }
+        this.entities.clear();
+    }
+
+
     public void rest() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             entity.setEnabled(false);
-            ServiceLocator.getEntityService().unregister(entity);
         }
     }
 
     public void wake() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             entity.setEnabled(true);
-            ServiceLocator.getEntityService().register(entity);
         }
     }
 
     public enum OverlayType {
         PAUSE_OVERLAY, QUEST_OVERLAY
+    }
+
+    public static HashMap<OverlayType, Boolean> getNewActiveOverlayList(){
+        HashMap<OverlayType, Boolean> overlayList = new HashMap<OverlayType, Boolean>();
+        for (OverlayType overlayType : OverlayType.values()) {
+            overlayList.put(overlayType, false);
+        }
+        return overlayList;
     }
 }

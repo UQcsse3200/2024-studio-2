@@ -34,7 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -46,12 +48,14 @@ public class MainGameScreenDup extends ScreenAdapter {
   private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
+  private boolean resting = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  private final HashMap<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
   private final ForestGameArea gameArea;
 
   public MainGameScreenDup(GdxGame game, Screen screen, ServiceContainer container) {
@@ -114,7 +118,9 @@ public class MainGameScreenDup extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    gameArea.playMusic();
+    if (!resting) {
+      gameArea.playMusic();
+    }
     logger.info("Game resumed");
   }
 
@@ -170,7 +176,10 @@ public class MainGameScreenDup extends ScreenAdapter {
   }
 
   public void addOverlay(Overlay.OverlayType overlayType){
-    logger.info("Adding Overlay {}", overlayType);
+    logger.debug("Attempting to Add {} Overlay", overlayType);
+    if (activeOverlayTypes.get(overlayType)){
+      return;
+    }
     if (enabledOverlays.isEmpty()) {
       this.rest();
     }
@@ -188,6 +197,8 @@ public class MainGameScreenDup extends ScreenAdapter {
         logger.warn("Unknown Overlay type: {}", overlayType);
         break;
     }
+    logger.info("Added {} Overlay", overlayType);
+    activeOverlayTypes.put(overlayType,true);
   }
 
   public void removeOverlay(){
@@ -197,9 +208,9 @@ public class MainGameScreenDup extends ScreenAdapter {
       this.wake();
       return;
     }
-
-    enabledOverlays.getFirst().remove();
-
+    Overlay currentFirst = enabledOverlays.getFirst();
+    activeOverlayTypes.put(currentFirst.overlayType,false);
+    currentFirst.remove();
     enabledOverlays.removeFirst();
 
     if (enabledOverlays.isEmpty()){
@@ -212,12 +223,14 @@ public class MainGameScreenDup extends ScreenAdapter {
 
   public void rest() {
     logger.info("Screen is resting");
+    resting = true;
     gameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
   public void wake() {
     logger.info("Screen is Awake");
+    resting = false;
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

@@ -12,6 +12,7 @@ public class PauseOverlay extends Overlay {
     private static final Logger logger = LoggerFactory.getLogger(PauseOverlay.class);
 
     public PauseOverlay() {
+        super(OverlayType.PAUSE_OVERLAY);
         logger.debug("Initialising PauseOverlay");
         createUI();
     }
@@ -32,7 +33,7 @@ public class PauseOverlay extends Overlay {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        entities.add(ui);
+        super.add(ui);
         ui.addComponent(new PauseDisplay()).addComponent(new InputDecorator(stage, 10));
         ServiceLocator.getEntityService().register(ui);
     }
