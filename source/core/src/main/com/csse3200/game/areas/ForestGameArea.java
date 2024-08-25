@@ -219,12 +219,6 @@ public class ForestGameArea extends GameArea {
 
   private  void spawnApple() {
     Entity apple = ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
-    //spawnEntityAt(apple, new GridPoint2(4, 9), true, true);
-//    GridPoint2 minPos = new GridPoint2(2, 2);
-//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(4, 4);
-
-//    for (int i = 0; i < NUM_APPLES; i++) {
-//      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     spawnEntityAt(apple, new GridPoint2(4, 9), true, false);
 //    }
   }
