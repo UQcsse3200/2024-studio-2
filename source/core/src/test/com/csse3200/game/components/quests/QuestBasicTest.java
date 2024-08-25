@@ -17,7 +17,7 @@ class QuestBasicTest {
 
         // Create the quest with the task
         quest = new QuestBasic("First Steps","Take your first steps in this world!", List.of(stepsTask),
-                true,false,null);
+                true,false,null,null);
     }
 
     @Test

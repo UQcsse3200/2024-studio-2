@@ -1,8 +1,8 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.utils.Null;
+import com.csse3200.game.services.ServiceLocator;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +49,11 @@ public abstract class AbstractQuest {
      */
     private boolean isActive;
 
+    private String[] taskCompletionTriggers;
+
     /** Constructor design for implementing subclasses. */
     public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement,
-                         Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
+                         Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue, String[] taskCompletionTriggers) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
@@ -59,6 +61,7 @@ public abstract class AbstractQuest {
         this.isSecretQuest = isSecretQuest;
         this.isActive = true;
         this.questDialogue = dialogue;
+        this.taskCompletionTriggers = taskCompletionTriggers;
     }
 
     /** Returns quest name. */
@@ -107,10 +110,18 @@ public abstract class AbstractQuest {
     /** Progress (increments) number of quest subtasks completed. */
     public void progressQuest() {
         if (!isQuestCompleted() && !isFailed) {
+            if(taskCompletionTriggers!=null){
+                ServiceLocator.getEventService().globalEventHandler.trigger(taskCompletionTriggers[currentTaskIndex]);
+            }
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
             this.isActive = false;
+            if(taskCompletionTriggers!=null){
+                if(taskCompletionTriggers.length != 0 ){
+                    ServiceLocator.getEventService().globalEventHandler.trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
+                }
+            }
         }
     }
     /** Returns true if quest is failed. */

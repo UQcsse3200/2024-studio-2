@@ -46,10 +46,11 @@ public class QuestManager extends Component {
         //creates test tasks
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
+        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1);
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null,null);
         addQuest(firstStepsQuest);
 
         //creates 2 task quest
@@ -60,9 +61,16 @@ public class QuestManager extends Component {
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
+
+        String[] test2StepCompletionTriggers = new String[]{"","spawnKangaBoss"};
         List<Task> tasks1 = List.of(stepsTask, attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, false, test2TaskQuestDialogue);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, false, test2TaskQuestDialogue,test2StepCompletionTriggers);
         addQuest(twoTaskQuest);
+
+        // Creates test quest that requires completion of 2 task quest
+        List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
+        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,false,null,null);
+        addQuest(finalQuest);
     }
 
     /**
