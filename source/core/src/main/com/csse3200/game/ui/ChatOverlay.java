@@ -56,7 +56,7 @@ public class ChatOverlay {
         label.setPosition(labelX, labelY);
         stage.addActor(label);
 
-        createButtons(labelX, labelY, backgroundImage.getWidth());
+        createButtons(labelY);
     }
 
     /**
@@ -83,11 +83,9 @@ public class ChatOverlay {
     /**
      * Creates forward and backward navigation buttons for cycling through hint messages.
      *
-     * @param labelX The x-coordinate for button positioning relative to the label.
      * @param labelY The y-coordinate for button positioning relative to the label.
-     * @param newWidth The width of the background image to align the buttons.
      */
-    private void createButtons(float labelX, float labelY, float newWidth) {
+    private void createButtons(float labelY) {
         // Load button images
         Texture buttonImageTexture = new Texture(Gdx.files.internal("images/blue-button.png"));
         Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
