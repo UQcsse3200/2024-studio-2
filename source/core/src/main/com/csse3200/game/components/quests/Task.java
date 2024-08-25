@@ -1,14 +1,21 @@
 package com.csse3200.game.components.quests;
 
 
-/**Handles the tasks for each quest*/
+/** Handles the tasks for each quest*/
 public class Task {
+    /** The name of the task.*/
     private final String taskName;
+    /** A description of what the task involves. */
     private final String description;
+    /** A hint  related to completing the task. */
     private final String hint;
+    /** The number of triggers required to complete task.*/
     private final int requiredTriggers;
+    /** Number of times a task has been triggered. */
     private int triggerCount;
+    /** True if the task is completed. */
     private boolean completed;
+    /** True if the task has failed. */
     private boolean failed = false;
 
     /**
