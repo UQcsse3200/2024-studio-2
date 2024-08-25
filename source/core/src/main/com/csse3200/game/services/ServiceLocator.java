@@ -1,9 +1,11 @@
 package com.csse3200.game.services;
 
+import com.badlogic.gdx.Gdx;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,8 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
+  private static EventService eventService;
+
 
 
   public static EntityService getEntityService() {
@@ -49,6 +53,8 @@ public class ServiceLocator {
     return resourceService;
   }
 
+  public static EventService getEventService() {return eventService;}
+
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
@@ -72,11 +78,17 @@ public class ServiceLocator {
   public static void registerInputService(InputService source) {
     logger.debug("Registering input service {}", source);
     inputService = source;
+    Gdx.input.setInputProcessor(inputService);
   }
 
   public static void registerResourceService(ResourceService source) {
     logger.debug("Registering resource service {}", source);
     resourceService = source;
+  }
+
+  public static void registerEventService(EventService source) {
+    logger.debug("Registering event service {}", source);
+    eventService = source;
   }
 
   public static void clear() {
@@ -86,6 +98,7 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
+    eventService = null;
   }
 
   private ServiceLocator() {
