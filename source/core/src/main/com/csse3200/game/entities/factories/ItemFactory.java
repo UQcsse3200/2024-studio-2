@@ -18,14 +18,13 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import static com.csse3200.game.physics.PhysicsLayer.OBSTACLE;
 
 
-// TODO: Remove texturePath from createItem input and use item.getTexture (or add a function to
-//  get the texture path instead of the texture!)
 public class ItemFactory {
-    private static Entity createItem(Entity target, AbstractItem item, String texturePath) {
+    private static Entity createItem(Entity target, AbstractItem item) {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item));
 
-        Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
+        //Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
+        Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(item.getTexturePath()))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(OBSTACLE))
                 .addComponent(aiComponent);
@@ -34,10 +33,10 @@ public class ItemFactory {
     }
 
     public static Entity createHealthPotion(Entity target, HealingPotion healthPotion) {
-        return createItem(target, healthPotion, "images/Healthpotion.png");
+        return createItem(target, healthPotion);
     }
 
     public static Entity createApple(Entity target, Foods.Apple apple) {
-        return createItem(target, apple, "images/foodtexture/Apple.png");
+        return createItem(target, apple);
     }
 }

@@ -16,7 +16,7 @@ public class Foods {
          */
         public Apple(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(2));
-            this.setTexture(path);
+            this.setTexturePath(path);
             this.setDescription("This is an apple, press P to pick up");
         }
     }
@@ -33,7 +33,7 @@ public class Foods {
          */
         public ChickenLeg(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(7));
-            this.setTexture(path);
+            this.setTexturePath(path);
             this.setDescription("This is an chicken leg");
         }
     }
@@ -50,7 +50,7 @@ public class Foods {
          */
         public Meat(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(7));
-            this.setTexture(path);
+            this.setTexturePath(path);
             this.setDescription("This is meat");
         }
     }
@@ -67,7 +67,7 @@ public class Foods {
          */
         public Candy(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(10));
-            this.setTexture(path);
+            this.setTexturePath(path);
             this.setDescription("This is candy");
         }
     }
@@ -84,7 +84,7 @@ public class Foods {
          */
         public Carrot(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(3));
-            this.setTexture(path);
+            this.setTexturePath(path);
             this.setDescription("This is a carrot");
         }
     }
