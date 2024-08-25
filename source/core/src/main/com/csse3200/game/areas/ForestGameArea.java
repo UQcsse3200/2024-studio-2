@@ -60,6 +60,9 @@ public class ForestGameArea extends GameArea {
 
   private Entity player;
 
+  // Boolean to ensure that only a single boss entity is spawned when a trigger happens
+  private boolean kangarooBossSpawned = false;
+
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
@@ -82,7 +85,11 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
     spawnGhosts();
     spawnGhostKing();
-    spawnKangarooBoss();
+
+    // Add listener for event which will trigger the spawn of Kanga Boss
+    this.player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+    // Initialize the flag when creating the area
+    kangarooBossSpawned = false;
 
     playMusic();
   }
@@ -149,10 +156,14 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnKangarooBoss() {
-    // Create entity
-    Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
-    // Create in the world
-    spawnEntityAt(kangarooBoss, KANGAROO_BOSS_SPAWN, true, true);
+    if (!kangarooBossSpawned) {
+      // Create entity
+      Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+      // Create in the world
+      spawnEntityAt(kangarooBoss, KANGAROO_BOSS_SPAWN, true, true);
+      // Set flag to true after Kanga Boss is spawned
+      kangarooBossSpawned = true;
+    }
   }
 
 
