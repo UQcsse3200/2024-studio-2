@@ -19,8 +19,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Comparator;
 import java.util.List;
 
+
 /**
- * Settings menu display and logic.
+ * A public class that represents the settings menu display and logic for managing and showing quests onto the screen.
+ * This handles the user interface components.
+ * It manages the layout and rendering of quest-related information.
  */
 public class QuestDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(QuestDisplay.class);
@@ -57,6 +60,11 @@ public class QuestDisplay extends UIComponent {
         addActors();
     }
 
+    /**
+     * Creates and updates a table with sliders to display quest progression.
+     * @return A table containing sliders for each quest's progression.
+     */
+
     //makes sliders for progression
     private Table makeSliders() {
         QuestManager questManager = (QuestManager) ServiceLocator.getEntityService().getSpecificComponent(QuestManager.class);
@@ -79,6 +87,11 @@ public class QuestDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Creates and adds a label to the table that shows the number of completed quests.
+     * @param table Table where the label will be added.
+     */
+
     //creates quest completed label
     private void addQuestsCompletedLabel(Table table) {
         Label questsCompletedLabel = new Label("Quests Completed: 0", skin, "title");
@@ -86,6 +99,12 @@ public class QuestDisplay extends UIComponent {
         questsCompletedLabel.setFontScale(0.6f);
         table.add(questsCompletedLabel).colspan(2).center().padBottom(10f).row();
     }
+
+    /**
+     * Adds quest components such as progress bars, checkboxes, and hints to display.
+     * @param table The table to which quest components are added to.
+     * @param quest The quest for which components are being added to.
+     */
 
     //handles all components such as progress bar, checkbox etc
     private void addQuestComponents(Table table, AbstractQuest quest) {
@@ -107,6 +126,11 @@ public class QuestDisplay extends UIComponent {
         table.row().padTop(10f);
     }
 
+    /**
+     * Returns the color representing the quests' status.
+     * @param quest The quest for which the color is based upon.
+     */
+
     //sorts color
     private Color determineQuestColor(AbstractQuest quest) {
         if (quest.isQuestCompleted()) {
@@ -117,6 +141,12 @@ public class QuestDisplay extends UIComponent {
             return Color.BROWN;
         }
     }
+
+    /**
+     * Adds hint labels for each task within quest labels to the table.
+     * @param table The table to which task hints are added to.
+     * @param quest The quest whose task hints are to be added to.
+     */
 
     //handles hints for each task
     private void addTaskHints(Table table, AbstractQuest quest) {
@@ -129,12 +159,23 @@ public class QuestDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Updates and displays the number of quests completed.
+     * @param table The table containing the label to update.
+     * @param questList The list of quests.
+     */
+
     //updates quests count
     private void updateQuestsCompletedLabel(Table table, List<QuestBasic> questList) {
         long completedCount = questList.stream().filter(AbstractQuest::isQuestCompleted).count();
         Label questsCompletedLabel = (Label) table.getChildren().get(0);
         questsCompletedLabel.setText("Quests Completed: " + completedCount);
     }
+
+    /**
+     * Creates and returns a table containing menu buttons for navigating the quest menu.
+     * @return A table containing the menu buttons.
+     */
 
     //menu button
     private Table makeMenuBtns() {
@@ -167,10 +208,17 @@ public class QuestDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Handles exiting the quest menu
+     */
+
     private void exitMenu() {
         eventService.globalEventHandler.trigger("removeOverlay");
     }
 
+    /**
+     * Adds actors to the stage for displaying the quest UI components.
+     */
 
     private void addActors() {
         Label title = new Label("QUESTS", skin, "title");
@@ -211,16 +259,28 @@ public class QuestDisplay extends UIComponent {
         stage.addActor(rootTable);
     }
 
+    /**
+     * Draws the quest UI onto the screen.
+     * @param batch The sprite batch used for drawing.
+     */
+
 
     @Override
     protected void draw(SpriteBatch batch) {
         // draw is handled by the stage
     }
 
+    /**
+     * Updates the quest UI based on time.
+     */
     @Override
     public void update() {
         stage.act(ServiceLocator.getTimeSource().getDeltaTime());
     }
+
+    /**
+     * Disposes of assets used by the quest display.
+     */
 
     @Override
     public void dispose() {

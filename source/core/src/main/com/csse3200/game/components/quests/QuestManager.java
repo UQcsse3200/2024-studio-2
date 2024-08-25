@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
+/**
+ * Manages, tracks and updates the quests within the game.
+ * Handles the storage and retrieval of quests and integrates with the event system.
+ */
 public class QuestManager extends Component {
     private final HashMap<String, QuestBasic> quests;
     private final EventService eventService = ServiceLocator.getEventService();
@@ -20,6 +25,7 @@ public class QuestManager extends Component {
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
     private final Map<String, String[]> relevantQuests;
 
+    /**Constructs questmanager instance */
     public QuestManager() {
         this.quests = new HashMap<>();
         this.relevantQuests = Map.of(
@@ -28,18 +34,15 @@ public class QuestManager extends Component {
         testQuests();
     }
 
+    /**Sets up the tasks for the quests and dialogues.  */
     private void testQuests() {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
-
-
 
         List<Task> tasks = List.of(stepsTask);
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
         addQuest(firstStepsQuest);
 
-
-        // Initialise 2 Step Test Quest
         ArrayList<String[]> test2StepTextProg1 = new ArrayList<>();
         test2StepTextProg1.add(new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest.."});
         test2StepTextProg1.add(new String[]{"Press Spacebar!"});
@@ -55,6 +58,10 @@ public class QuestManager extends Component {
         addQuest(twoTaskQuest);
     }
 
+    /**
+     * Subscribes to event notifications for tasks quest.
+     * @param quest The quest related to the quests.
+     */
     private void subscribeToQuestEvents(QuestBasic quest) {
         for (Task task : quest.getTasks()) {
             eventService.globalEventHandler.addListener(task.getTaskName(),
@@ -62,18 +69,38 @@ public class QuestManager extends Component {
         }
     }
 
+    /**
+     * Adds a new quest to the manager.
+     * @param quest The quest to be added.
+     */
+
     public void addQuest(QuestBasic quest) {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
 
+    /**
+     * Gets a list of all quests in QuestManager.
+     * @return A list of all quests.
+     */
     public List<QuestBasic> getAllQuests() {
         return new ArrayList<>(quests.values());
     }
 
+    /**
+     * Returns a quest by name.
+     * @param questName The name of the quest to get.
+     * @return The quest with the name.
+     */
+
     public QuestBasic getQuest(String questName) {
         return quests.get(questName);
     }
+
+    /**
+     * Checks if quest is failed.
+     * @param questName The name of the quest to fail.
+     */
 
     public void failQuest(String questName) {
         QuestBasic quest = getQuest(questName);
@@ -82,6 +109,12 @@ public class QuestManager extends Component {
         }
     }
 
+
+    /**
+     * Progresses the  quest based on completion and updates the quest status..
+     * @param questName The name of the quest.
+     * @param taskName  The name of the task.
+     */
     public void progressQuest(String questName, String taskName) {
         QuestBasic quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
@@ -99,11 +132,23 @@ public class QuestManager extends Component {
         }
     }
 
+    /**
+     * Determines if a quest can be progressed based on its current state and the provided task name.
+     * @param quest    The quest to check for.
+     * @param taskName The name of the task to validate.
+     * @return true if the quest can be progressed
+     */
+
     private boolean canProgressQuest(QuestBasic quest, String taskName) {
         return !quest.isQuestCompleted() &&
                 !quest.isFailed() &&
                 Objects.equals(taskName, quest.getTasks().get(quest.getProgression()).getTaskName());
     }
+
+    /**
+     * Completes the task of the updates the quest progression.
+     * @param quest The quest to be completed.
+     */
 
     private void completeTask(QuestBasic quest) {
         quest.progressQuest();
@@ -113,6 +158,11 @@ public class QuestManager extends Component {
             logger.info("Progress: {}/{}", quest.getProgression(), quest.getTasks().size());
         }
     }
+
+    /**
+     * Handle quest completion.
+     * @param quest The quest that has been completed.
+     */
 
     private void handleQuestCompletion(QuestBasic quest) {
         if (!quest.isAchievement() && !quest.isSecret()) {
