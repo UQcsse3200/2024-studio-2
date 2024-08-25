@@ -233,7 +233,7 @@ public class QuestDisplay extends UIComponent {
 
         Image questsBackGround = new Image(
                 ServiceLocator.getResourceService()
-                        .getAsset("images/QuestsOverlay/Quests_Scroll.png", Texture.class));
+                        .getAsset("images/QuestsOverlay/Quest_SBG.png", Texture.class));
         background = new Table();
         background.setFillParent(true);
         background.setDebug(true);
