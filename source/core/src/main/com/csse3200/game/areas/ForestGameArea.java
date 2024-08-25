@@ -11,6 +11,7 @@ import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_TREES = 7;
+  private  static final int NUM_APPLES = 15;
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
@@ -50,6 +52,7 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
     "images/Healthpotion.png",
+    "images/foodtexture/Apple.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
@@ -93,6 +96,7 @@ public class ForestGameArea extends GameArea {
     spawnTrees();
     player = spawnPlayer();
     spawnHealthPotion();
+    spawnApple();
     //spawnGhosts();
     //spawnGhostKing();
     spawnCow();
@@ -226,6 +230,18 @@ public class ForestGameArea extends GameArea {
   private void spawnHealthPotion() {
     Entity healthPotion = ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
     spawnEntityAt(healthPotion, new GridPoint2(9, 9), true, true);
+  }
+
+  private  void spawnApple() {
+    Entity apple = ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
+    //spawnEntityAt(apple, new GridPoint2(4, 9), true, true);
+//    GridPoint2 minPos = new GridPoint2(2, 2);
+//    GridPoint2 maxPos = terrain.getMapBounds(0).sub(4, 4);
+
+//    for (int i = 0; i < NUM_APPLES; i++) {
+//      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      spawnEntityAt(apple, new GridPoint2(4, 9), true, false);
+//    }
   }
 
   private void playAnimalSound(String animalSoundPath) {

@@ -2,9 +2,21 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.areas.terrain.TerrainComponent;
+import com.csse3200.game.components.tasks.ItemProximityTask;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.utils.math.Vector2Utils;
+
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
@@ -12,6 +24,8 @@ import com.csse3200.game.utils.math.Vector2Utils;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private Vector2 itemPosition = new Vector2();
+  private TerrainComponent terrain;
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -77,6 +91,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.E:
         entity.getEvents().trigger("toggleInventory");
+        return true;
+      case Keys.P:
+        entity.getEvents().trigger("pickUpItem");
         return true;
       default:
         return false;
