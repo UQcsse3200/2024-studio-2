@@ -28,7 +28,7 @@ public class QuestManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
-    /** Map of relevant quests. */
+    /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
 
     /**Constructs questManager instance */
