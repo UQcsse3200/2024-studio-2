@@ -33,7 +33,7 @@ import java.util.List;
  */
 
 public class HealingPotion extends AbstractPotion{
-    private final static String path = "HealthPotionSprite.png";
+    private final static String path = "images/Healthpotion.png";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
