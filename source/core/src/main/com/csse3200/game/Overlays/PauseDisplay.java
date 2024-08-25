@@ -52,23 +52,28 @@ public class PauseDisplay extends UIComponent {
         rootTable.row().padTop(10f);
         rootTable.add(menuBtns).fillX();
 
+
         // Add root table to the stage
         stage.addActor(rootTable);
     }
 
     private Table makeMenuBtns() {
         // Create buttons
-        TextButton exitBtn = new TextButton("Resume", skin);
+        TextButton resumeBtn = new TextButton("Resume", skin);
         TextButton questsBtn = new TextButton("Quest Tracker", skin);
+        TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
         Image button = new Image(
                 ServiceLocator.getResourceService()
                         .getAsset("images/PauseOverlay/Button.png", Texture.class));
         Image button2 = new Image(
                 ServiceLocator.getResourceService()
                         .getAsset("images/PauseOverlay/Button.png", Texture.class));
+        Image button3 = new Image(
+                ServiceLocator.getResourceService()
+                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
 
         // Add listeners for buttons
-        exitBtn.addListener(new ChangeListener() {
+        resumeBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 logger.debug("Exit button clicked");
@@ -84,6 +89,16 @@ public class PauseDisplay extends UIComponent {
             }
         });
 
+        // Triggers an event when the button is pressed.
+        mainMenuBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Exit button clicked");
+                        eventService.globalEventHandler.trigger("exit");
+                    }
+                });
+
         //button.setScale(0.75f);
         //button2.setScale(0.75f);
         // Layout buttons in a table
@@ -94,7 +109,11 @@ public class PauseDisplay extends UIComponent {
         table.row().padTop(10f);
         table.add(button2).size(button2.getWidth() * 0.75f, button2.getHeight() * 0.75f).center();
         table.row();
-        table.add(exitBtn).center().padTop(-button.getHeight()*0.75f);
+        table.add(resumeBtn).center().padTop(-button.getHeight()*0.75f);
+        table.row().padTop(10f);
+        table.add(button3).size(button3.getWidth() * 0.75f, button3.getHeight() * 0.75f).center();
+        table.row();
+        table.add(mainMenuBtn).center().padTop(-button.getHeight()*0.75f);
 
         return table;
     }

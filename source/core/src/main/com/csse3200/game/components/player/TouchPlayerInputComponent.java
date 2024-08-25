@@ -24,6 +24,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Input.Keys.UP:
         walkDirection.add(Vector2Utils.UP);
@@ -63,6 +66,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Input.Keys.UP:
         walkDirection.sub(Vector2Utils.UP);
@@ -92,6 +98,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    if(!this.enabled){
+      return false;
+    }
     entity.getEvents().trigger("attack");
     return true;
   }

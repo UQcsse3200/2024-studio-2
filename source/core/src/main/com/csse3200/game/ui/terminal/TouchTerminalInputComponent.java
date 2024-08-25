@@ -39,6 +39,9 @@ public class TouchTerminalInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     return terminal.isOpen();
   }
 
@@ -52,6 +55,9 @@ public class TouchTerminalInputComponent extends InputComponent {
   @Override
   public boolean keyTyped(char character) {
     if (!terminal.isOpen()) {
+      return false;
+    }
+    if(!this.enabled){
       return false;
     }
 
@@ -82,6 +88,9 @@ public class TouchTerminalInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     return terminal.isOpen();
   }
 
@@ -93,6 +102,9 @@ public class TouchTerminalInputComponent extends InputComponent {
    */
   @Override
   public boolean scrolled(float amountX, float amountY) {
+    if(!this.enabled){
+      return false;
+    }
     if (amountY < 0) {
       terminal.setOpen();
     } else if (amountY > 0) {

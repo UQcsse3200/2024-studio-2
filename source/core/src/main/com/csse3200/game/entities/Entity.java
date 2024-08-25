@@ -55,6 +55,9 @@ public class Entity {
   public void setEnabled(boolean enabled) {
     logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
+    for (Component component :createdComponents) {
+      component.setEnabled(enabled);
+    }
   }
 
   /**

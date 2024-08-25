@@ -1,8 +1,12 @@
 package com.csse3200.game.components.quests;
 
-import java.util.List;
+import com.badlogic.gdx.utils.Null;
 
-/** A abstract Quest class that contains the design for Quest classes that store quest
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/** An abstract Quest class that contains the design for Quest classes that store quest
  *  and subtask progression (# of subtasks completed), descriptions and hints. **/
 public abstract class AbstractQuest {
     /**
@@ -27,15 +31,11 @@ public abstract class AbstractQuest {
      */
     protected final boolean isSecretQuest;
     /**
-     * taskDescriptions indexing corresponds to number of tests completed
-     * and each entry consists of a subtask description.
+     * questDialogue is a dict that relates
+     * DialogueKey(String npcName, Integer ProgressionLevel)
+     * to a dialogue map relevant to the npc
      */
-    private final String[] taskDescriptions = new String[]{"default", "QUEST COMPLETED"};
-    /**
-     * taskHints indexing corresponds to number of tests completed
-     * and each entry consists of a substring hint to be given to NPCs
-     */
-    private final String[] taskHints = new String[]{"default", "QUEST COMPLETED"};
+    private final Map<DialogueKey,ArrayList<String[]>> questDialogue;
     /**
      * Number of tasks completed for current quest.
      */
@@ -47,16 +47,17 @@ public abstract class AbstractQuest {
     /**
      * True if quest is active (not completed or failed).
      */
-    private boolean isActive = true;
+    private boolean isActive;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest) {
+    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,ArrayList<String[]>> dialogue) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
         this.isAchievement = isAchievement;
         this.isSecretQuest = isSecretQuest;
         this.isActive = true;
+        this.questDialogue = dialogue;
     }
 
     /** Returns quest name. */
@@ -144,8 +145,18 @@ public abstract class AbstractQuest {
     public boolean isSecret() {
         return isSecretQuest;
     }
-    /** Returns true if the quest is secret (e.g. progression, XP, etc). */
+
+    /** Returns true if the quest is active */
     public boolean isActive() {
         return isActive;
+    }
+
+    /** Returns the current dialogue for the given npc */
+    @Null
+    public ArrayList<String[]> getDialogue(String npcName) {
+        if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
+            return questDialogue.get(new DialogueKey(npcName, getProgression()));
+        }
+            return null;
     }
 }
