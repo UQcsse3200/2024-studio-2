@@ -21,6 +21,7 @@ public class MainMenuActions extends Component {
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
+    entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
   }
@@ -39,6 +40,16 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+  }
+
+  /**
+   * Opens a new combat screen.
+   * The combat screen will not actually be called from the main menu screen.
+   * This is for testing purposes only.
+   */
+  private void onCombat() {
+    logger.info("Start combat");
+    game.setScreen(GdxGame.ScreenType.COMBAT);
   }
 
   /**

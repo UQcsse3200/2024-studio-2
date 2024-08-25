@@ -25,7 +25,6 @@ import java.security.Provider;
 public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
-
   private Image xpImage;
   private Image hungerImage;
   private Label healthLabel;

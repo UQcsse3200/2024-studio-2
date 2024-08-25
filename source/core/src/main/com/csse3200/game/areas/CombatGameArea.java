@@ -5,33 +5,29 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.utils.math.GridPoint2Utils;
-import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.utils.math.GridPoint2Utils;
+import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
-public class ForestGameArea extends GameArea {
-  private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final int NUM_TREES = 7;
-  private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(5, 10);
-  // Test Spawn for tree
-  private static final GridPoint2 TREE_SPAWN = new GridPoint2(20, 20);
-  // Test spawn point for boss
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
+public class CombatGameArea extends GameArea {
+  private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 12);
+  private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 13);
+
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
-    "images/final_boss_kangaroo.png",
+    "images/final_boss_kangaroo_idle.png",
     "images/ghost_king.png",
     "images/ghost_1.png",
     "images/grass_1.png",
@@ -45,29 +41,30 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_3.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/final_boss_kangaroo.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
-  private static final String heartbeat = "sounds/heartbeat.mp3";
-  private static final String[] heartbeatSound = {heartbeat};
-
-  private static Music music;
-
   private final TerrainFactory terrainFactory;
 
   private Entity player;
 
+
   /**
-   * Initialise this ForestGameArea to use the provided TerrainFactory.
+   * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
+   * has engaged combat with.
+   *
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
    * @requires terrainFactory != null
    */
-  public ForestGameArea(TerrainFactory terrainFactory) {
+  // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
+  // Then this enemy can be spawned within this class in some function spawn_enemy()
+  public CombatGameArea(TerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
+    //this.enemyNPC = enemyNPC;
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -78,11 +75,8 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
-    spawnTree();
     player = spawnPlayer();
-    spawnGhosts();
-    spawnGhostKing();
-    spawnKangarooBoss();
+    spawnCombatEnemy();
 
     playMusic();
   }
@@ -123,76 +117,29 @@ public class ForestGameArea extends GameArea {
         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
-  private void spawnTrees() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_TREES; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
-    }
-  }
-
-  /**
-   * Helper function to spawn a single tree for testing purposes.
-   */
-  private void spawnTree() {
-    Entity tree = ObstacleFactory.createTree();
-    spawnEntityAt(tree, TREE_SPAWN, true, false);
-  }
-
+  /** Spawn a player for testing purposes. Currently, this player can be moved */
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
-  private void spawnKangarooBoss() {
+  /** Spawn a combat enemy. Different to a regular enemy npc */
+  private void spawnCombatEnemy() {
     // Create entity
-    Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+    // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
+    // planned functionality -- callumR
+    Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
     // Create in the world
-    spawnEntityAt(kangarooBoss, KANGAROO_BOSS_SPAWN, true, true);
+    spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }
 
-
-  private void spawnGhosts() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_GHOSTS; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
-      spawnEntityAt(ghost, randomPos, true, true);
-    }
-  }
-
-  private void spawnGhostKing() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createGhostKing(player);
-    spawnEntityAt(ghostKing, randomPos, true, true);
-  }
 
   private void playMusic() {
-    music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
-  }
-
-  public static void stopBackgroundMusic() {
-    if (music != null) {
-      music.stop();
-    }
-  }
-
-  public static void playBackgroundMusic() {
-    if (music != null) {
-      music.play();
-    }
   }
 
   private void loadAssets() {
@@ -202,7 +149,6 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
     resourceService.loadMusic(forestMusic);
-    resourceService.loadMusic(heartbeatSound);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
@@ -217,7 +163,6 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
     resourceService.unloadAssets(forestMusic);
-    resourceService.unloadAssets(heartbeatSound);
   }
 
   @Override

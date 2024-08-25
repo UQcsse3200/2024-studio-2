@@ -11,6 +11,7 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.Vector2Utils;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
@@ -24,6 +25,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private MovementTask movementTask;
   private Music heartbeatSound;
   private final boolean isBoss;
+  private static final String heartbeat = "sounds/heartbeat.mp3";
+  private final Vector2 bossSpeed;
 
   /**
    * @param target The entity to chase.
@@ -38,25 +41,29 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     this.maxChaseDistance = maxChaseDistance;
     physics = ServiceLocator.getPhysicsService().getPhysics();
     debugRenderer = ServiceLocator.getRenderService().getDebug();
+    bossSpeed = Vector2Utils.TWOHALF;
     this.isBoss = isBoss;
   }
 
   @Override
   public void start() {
     super.start();
-    movementTask = new MovementTask(target.getPosition());
+
+    String event = this.isBoss ? "kangaChaseStart" : "chaseStart";
+
+    // Set movementTask based on npc type
+    movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+            new MovementTask(target.getPosition());
     movementTask.create(owner);
     movementTask.start();
+
+    this.owner.getEntity().getEvents().trigger(event);
+
     if (this.isBoss) {
       playTensionSound();
       this.target.getEvents().trigger("startHealthBarBeating");
-      this.owner.getEntity().getEvents().trigger("kangaChaseStart");
-    } else {
-      this.owner.getEntity().getEvents().trigger("chaseStart");
     }
   }
-
-  private static final String heartbeat = "sounds/heartbeat.mp3";
 
   void playTensionSound() {
     if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
@@ -90,8 +97,11 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void stop() {
     super.stop();
     movementTask.stop();
-    stopTensionSound();
-    this.target.getEvents().trigger("stopHealthBarBeating");
+
+      if (this.isBoss) {
+          stopTensionSound();
+          this.target.getEvents().trigger("stopHealthBarBeating");
+    }
   }
 
   @Override

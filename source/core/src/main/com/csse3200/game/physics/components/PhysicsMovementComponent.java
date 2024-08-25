@@ -1,10 +1,8 @@
 package com.csse3200.game.physics.components;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.ai.movement.MovementController;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {
   private static final Logger logger = LoggerFactory.getLogger(PhysicsMovementComponent.class);
-  private Vector2 maxSpeed = Vector2Utils.ONE;
+  private Vector2 defaultSpeed = Vector2Utils.ONE;
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
@@ -26,10 +24,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   public void update() {
     if (movementEnabled && targetPosition != null) {
       Body body = physicsComponent.getBody();
-        updateDirection(body);
+      updateDirection(body);
     }
   }
-
 
   /**
    * Enable/disable movement for the controller. Disabling will immediately set velocity to 0.
@@ -50,7 +47,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     return movementEnabled;
   }
 
-  /** @return Target position in the world */
+  /**
+   * @return Target position in the world
+   */
   @Override
   public Vector2 getTarget() {
     return targetPosition;
@@ -69,7 +68,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   private void updateDirection(Body body) {
-    Vector2 desiredVelocity = getDirection().scl(maxSpeed);
+    Vector2 desiredVelocity = getDirection().scl(defaultSpeed);
     setToVelocity(body, desiredVelocity);
   }
 
@@ -91,6 +90,6 @@ public class PhysicsMovementComponent extends Component implements MovementContr
    * @param maxSpeed new max speed
    */
   public void changeMaxSpeed(Vector2 maxSpeed) {
-    this.maxSpeed = maxSpeed;
+    this.defaultSpeed = maxSpeed;
   }
 }
