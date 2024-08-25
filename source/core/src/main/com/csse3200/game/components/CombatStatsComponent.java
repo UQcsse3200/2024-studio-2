@@ -12,14 +12,16 @@ public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int maxHealth;
+  private int maxHunger;
   private int health;
   private int strength;
   private int defense;
   private int speed;
   private int experience;
 
-  public CombatStatsComponent(int health, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int strength, int defense, int speed, int experience,int hunger) {
       this.maxHealth = health;
+      this.maxHunger=hunger;
       setHealth(health);
       setStrength(strength);
       setDefense(defense);
@@ -169,6 +171,13 @@ public class CombatStatsComponent extends Component {
     System.out.println(newHealth);
     setHealth(newHealth);
   }
+
+  public int getMaxHunger()
+  {
+    return maxHunger;
+  }
+
+
 
   public int getMaxHealth() {
     return maxHealth;

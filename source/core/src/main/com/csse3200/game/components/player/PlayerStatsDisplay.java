@@ -31,6 +31,7 @@ public class PlayerStatsDisplay extends UIComponent {
     private Label xpLabel;
     private Label hungerLabel;
     private Animation<TextureRegion> healthBarAnimation;
+    private Animation<TextureRegion> hungerBarAnimation;
     private TextureAtlas[] textureAtlas;
 
 
@@ -42,6 +43,7 @@ public class PlayerStatsDisplay extends UIComponent {
         super.create();
         addActors();
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+        entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
     }
 
@@ -55,14 +57,18 @@ public class PlayerStatsDisplay extends UIComponent {
         textureAtlas = new TextureAtlas[3];
         // HealthBar initialisation
         textureAtlas[0] = new TextureAtlas("spriteSheets/healthBars.txt");
-        TextureRegion[] healthBarFrames = new TextureRegion[11];
+        textureAtlas[1] = new TextureAtlas("hungerbar.atlas");
+        TextureRegion[] hungerBarFrames = new TextureRegion[11];
+        TextureRegion[] healthBarFrames = new TextureRegion[12];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < healthBarFrames.length; i++) {
             String frameName = (100 - i * 10) + "%_health";
+            String frameName2 = (100 - i * 11) + "%_hunger";
+            healthBarFrames[i] = textureAtlas[0].findRegion(frameName);
             healthBarFrames[i] = textureAtlas[0].findRegion(frameName);
         }
         healthBarAnimation = new Animation<>(0.066f, healthBarFrames);
-
+        hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
         // HungerBar initialisation
         //textureAtlas[1] = new TextureAtlas("spriteSheets/hungerBars.txt");
         //TextureRegion[] hungerBarFrames = new TextureRegion[11];
@@ -162,6 +168,24 @@ public class PlayerStatsDisplay extends UIComponent {
         // Set the current frame of the health bar animation
         TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
         heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
+    public void updatePlayerHungerUI(int hunger) {
+
+        CharSequence text = String.format("HGR: %d", hunger);
+        System.out.println("Made it to this updateHealth function");
+        System.out.println(hunger);
+        hungerLabel.setText(text);
+        int totalFrames = 11;
+
+        // Debugged and Developed with ChatGPT
+        // Calculate the frame index based on the current health
+        int maxHunger = entity.getComponent(CombatStatsComponent.class).getMaxHunger();
+        int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
+        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+        // Set the current frame of the health bar animation
+        TextureRegion currentFrame = hungerBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        hungerImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
 
     public void updatePlayerExperienceUI(int experience) {

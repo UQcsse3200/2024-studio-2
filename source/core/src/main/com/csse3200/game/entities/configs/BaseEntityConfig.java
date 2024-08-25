@@ -9,4 +9,5 @@ public class BaseEntityConfig {
     public int defense = 0;
     public int speed = 1;
     public int experience = 0;
+    public int hunger = 1;
 }

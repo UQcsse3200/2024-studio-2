@@ -55,7 +55,7 @@ public class NPCFactory {
 
     ghost
 
-        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience))
+        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience,config.hunger))
 
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
@@ -84,7 +84,7 @@ public class NPCFactory {
 
     ghostKing
 
-        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience))
+        .addComponent(new CombatStatsComponent(config.health, config.strength, config.defense, config.speed, config.experience,config.hunger))
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
 
