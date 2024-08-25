@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
 
+// TODO: HANDLE REGENERATION OF WINDOW IF ITEM IS PICKED UP WHILST WINDOW IS OPEN!
 // TODO: HANDLE DISPOSAL OF TABLES!!!
 // TODO: MAKE SLOT SIZE (IE INVENTORY SIZE) NOT A CONSTANT IN GENERATE WINDOW - MAKE IT A CLASS
 //  CONSTANT!!!
@@ -29,6 +30,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private int selectedSlot = -1;
     private final ImageButton[] slots;
     Label useItemMessage;
+    private boolean toggle = false; // Whether inventory is toggled on;
 
     /**
      * Constructor for a Player Inventory // TODO!!!!
@@ -70,10 +72,12 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
+            toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
+            toggle = true;
         }
     }
 
@@ -100,7 +104,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
                 // Add the item image to the slot TODO: ADD ITEM TEXTURES!
                 if (item != null) {
-                    Image itemImage = new Image(new Texture("images/box_boy.png"));
+                    Image itemImage = new Image(item.getTexture());
                     slot.add(itemImage).center().size(100, 100);
                     addHoverListener(slot);
                 }
@@ -229,6 +233,10 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void addItem(AbstractItem item) {
         if (this.inventory.add(item)) {
             entity.getEvents().trigger("itemPickedUp", true);
+//            if (toggle) {
+//                generateWindow();
+//                stage.addActor(window);
+//            }
         } else {
             entity.getEvents().trigger("itemPickedUp", false);
         }
