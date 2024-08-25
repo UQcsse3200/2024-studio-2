@@ -49,13 +49,15 @@ public class CombatScreen extends ScreenAdapter {
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
+  private final Entity enemy;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   //private final ForestGameArea gameArea;
 
-  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container) {
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity enemy) {
     this.game = game;
-    oldScreen = screen;
-    oldScreenServices = container;
+    this.oldScreen = screen;
+    this.oldScreenServices = container;
+    this.enemy = enemy;
 
     logger.debug("Initialising combat screen services");
     ServiceLocator.registerTimeSource(new GameTime());
