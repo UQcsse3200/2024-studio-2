@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.Overlays.Overlay.OverlayType;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -39,7 +40,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
-    entity.getEvents().addListener("addMainGameScreen",this::addMainGameScreen);
+    entity.getEvents().addListener("addMainGameScreen", this::addMainGameScreen);
+    entity.getEvents().addListener("startCombat", this::startCombat);
   }
 
   @Override
@@ -99,5 +101,9 @@ public class PlayerActions extends Component {
 
   public void addMainGameScreen(){
     game.addMainGameDup();
+  }
+
+  public void startCombat(Entity enemy){
+    game.addCombatScreen(enemy);
   }
 }
