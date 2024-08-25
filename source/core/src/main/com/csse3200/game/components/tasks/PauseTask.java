@@ -1,21 +1,12 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.physics.PhysicsEngine;
-import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.raycast.RaycastHit;
-import com.csse3200.game.rendering.DebugRenderer;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.ui.ChatOverlay;
 import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.AbstractQuest;
 
 /** Pauses near a target entity until they move too far away or out of sight */
 public class PauseTask extends ChaseTask {
@@ -24,7 +15,7 @@ public class PauseTask extends ChaseTask {
     private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
     private ChatOverlay hint;
     private Entity entity;
-    private QuestManager questManager;
+    private final QuestManager questManager;
     private BaseEntityConfig config;
 
     /**
@@ -98,22 +89,16 @@ public class PauseTask extends ChaseTask {
 
     protected void createChatOverlay() {
         if (this.hint == null) {
-            AbstractQuest currentQuest = null;
-            for (AbstractQuest quest : questManager.getAllQuests()) {
-                if (quest.isActive()) {
-                    currentQuest = quest;
-                }
+            String animalName = ((BaseEntityConfig) config).getAnimalName();
+            Logger logger = LoggerFactory.getLogger(PauseTask.class);
+            logger.info("animalName = {}",animalName);
+            String[] dialogue = questManager.getDialogue(animalName);
+
+            if (dialogue == null) {
+                dialogue = ((BaseEntityConfig) config).getBaseHint();
             }
 
-            String[] hintText;
-            if (currentQuest != null) {
-                String hint = currentQuest.getCurrentTaskHint();
-                hintText = new String[] { hint };
-            } else {
-                hintText = ((BaseEntityConfig) this.config).getBaseHint();
-            }
-
-            hint = new ChatOverlay(hintText);
+            hint = new ChatOverlay(dialogue);
         }
     }
 
