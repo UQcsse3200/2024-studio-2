@@ -2,6 +2,7 @@ package com.csse3200.game.entities.factories;
 
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.EnterCombatComponent;
 import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -34,20 +35,21 @@ public class PlayerFactory {
    */
   public static Entity createPlayer(GdxGame game) {
     InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForPlayer();
+            ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
     Entity player =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions(game))
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-            .addComponent(new InventoryComponent(stats.gold))
-            .addComponent(inputComponent)
-            .addComponent(new QuestManager())
-            .addComponent(new PlayerStatsDisplay());
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new EnterCombatComponent(PhysicsLayer.NPC, game))
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+                    .addComponent(new PlayerActions(game))
+                    .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
+                    .addComponent(new InventoryComponent(stats.gold))
+                    .addComponent(inputComponent)
+                    .addComponent(new QuestManager())
+                    .addComponent(new PlayerStatsDisplay());
 
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);

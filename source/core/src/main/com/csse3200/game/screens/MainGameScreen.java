@@ -13,6 +13,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
@@ -41,7 +42,7 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quests_Scroll.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
@@ -67,6 +68,8 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
+    //register the EntityChatService
+    ServiceLocator.registerEntityChatService(new EntityChatService());
 
     ServiceLocator.registerEventService(new EventService());
 

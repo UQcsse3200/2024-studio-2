@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -45,7 +44,7 @@ import java.util.Map;
  */
 public class MainGameScreenDup extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreenDup.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quests_Scroll.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private boolean resting = false;
