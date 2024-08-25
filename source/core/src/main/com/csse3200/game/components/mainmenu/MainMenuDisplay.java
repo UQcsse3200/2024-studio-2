@@ -107,13 +107,14 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        helpBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Help button clicked");
-                entity.getEvents().trigger("help");
-                showHelpDialog();
-            }
+    exitBtn.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+
+            logger.debug("Exit button clicked");
+            entity.getEvents().trigger("exit");
+          }
         });
 
         addExitConfirmation(exitBtn);

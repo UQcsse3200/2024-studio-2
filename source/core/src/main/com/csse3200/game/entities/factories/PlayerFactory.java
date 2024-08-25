@@ -15,6 +15,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.animal.AnimalSelectionActions;
 
 /**
  * Factory to create a player entity.
@@ -31,20 +32,33 @@ public class PlayerFactory {
    * @return entity
    */
   public static Entity createPlayer() {
+    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
+
     Entity player =
         new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+            .addComponent(new TextureRenderComponent(imagePath))
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions())
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-            .addComponent(new InventoryComponent(stats.gold))
-            .addComponent(inputComponent)
-            .addComponent(new PlayerStatsDisplay());
+            .addComponent(new PlayerActions());
+            if (imagePath.equals("images/dog.png")) {
+              player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
+
+            } else if (imagePath.equals("images/croc.png")) {
+              player.addComponent(new CombatStatsComponent(90, 100, 90, 70, 30, 0));
+            } else if (imagePath.equals("images/bird.png")) {
+              player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0));
+            }
+            player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+
+            player.addComponent(new InventoryComponent(stats.gold));
+            player.addComponent(inputComponent);
+            player.addComponent(new PlayerStatsDisplay());
+
+
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);

@@ -45,7 +45,10 @@ public class ForestGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
+          "images/dog.png",
+          "images/croc.png",
+          "images/bird.png"
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
@@ -84,8 +87,8 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    //spawnGhosts();
-    //spawnGhostKing();
+//    spawnGhosts();
+//    spawnGhostKing();
     spawnCow();
     spawnLion();
     spawnTurtle();
