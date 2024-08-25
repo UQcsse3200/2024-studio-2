@@ -20,7 +20,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-        DialogHelper dialogHelper = new DialogHelper(stage, skin);
+        DialogHelper dialogHelper = new DialogHelper(skin, stage); // Corrected order here
 
         display = new AnimalSelectionDisplay(stage, skin);
         actions = new AnimalSelectionActions(display, dialogHelper, game);  // Passed the game instance to actions

@@ -1,25 +1,20 @@
 package com.csse3200.game.ui.DialogueBox;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.csse3200.game.components.Component;
-import com.csse3200.game.services.ServiceLocator;
 
-public class DialogHelper extends Component {
-    private Stage stage;
-    private DialogBox dialogBox;
-    private Skin skin;
+public class DialogHelper {
+    private final Skin skin;
+    private final Stage stage;
 
-    public DialogHelper() {
-        this.stage = ServiceLocator.getRenderService().getStage();
-    }
-    public DialogHelper(Stage stage, Skin skin) {
-        this.stage = stage;
+    public DialogHelper(Skin skin, Stage stage) {
         this.skin = skin;
+        this.stage = stage;
     }
 
-    public void displayDialog(String[] titles, String[] content) {
-        dialogBox = new DialogBox(titles, content, skin);
+    public void displayDialog(String title, String content, float width, float height, float xPosition, float yPosition) {
+        DialogBox dialogBox = new DialogBox(new String[]{title}, new String[]{content}, skin, width, height, xPosition, yPosition);
         dialogBox.display(stage);
     }
 }

@@ -1,12 +1,13 @@
 package com.csse3200.game.components.animal;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.ui.DialogueBox.DialogBox;
 import com.csse3200.game.ui.DialogueBox.DialogHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,6 @@ public class AnimalSelectionActions {
         return selectedAnimalImagePath;
     }
 
-
     private void addListeners() {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
@@ -39,7 +39,6 @@ public class AnimalSelectionActions {
                 "images/croc.png",
                 "images/bird.png"
         };
-
 
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
@@ -60,7 +59,6 @@ public class AnimalSelectionActions {
                     logger.debug("Animal {} button clicked", animalIndex + 1);
                     selectAnimal(animalImages[animalIndex], animalImagePath);
                     showAnimalDialog(animalIndex);
-
                 }
             });
         }
@@ -98,24 +96,42 @@ public class AnimalSelectionActions {
     }
 
     private void showSelectionAlert() {
-        Dialog dialog = new Dialog("Alert", display.getSkin()) {
-            @Override
-            protected void result(Object object) {
-            }
-        };
+        float dialogWidth = 400;  // Set desired width
+        float dialogHeight = 200; // Set desired height
+        float xPosition = (Gdx.graphics.getWidth() - dialogWidth) / 2f; // Centered horizontally
+        float yPosition = (Gdx.graphics.getHeight() - dialogHeight) / 2f; // Centered vertically
 
-        dialog.text("Please select an animal first.");
-        dialog.button("OK", true);
-        dialog.show(display.getStage());
+        String[] titles = { "Alert" };
+        String[] contents = { "Please select an animal first." };
+
+        DialogBox dialogBox = new DialogBox(titles, contents, display.getSkin(), dialogWidth, dialogHeight, 2, 3);
+        dialogBox.display(display.getStage());
     }
 
     private void showAnimalDialog(int animalIndex) {
-        String[] titles = {"Animal " + (animalIndex + 1), "Characteristics", "Abilities"};
-        String[] content = {
-                "You've selected Animal " + (animalIndex + 1) + ".",
-                "This animal has unique characteristics.",
-                "It possesses special abilities."
-        };
-        dialogHelper.displayDialog(titles, content);
+        String title = "Animal " + (animalIndex + 1);
+        String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
+                "This animal has unique characteristics.\n" +
+                "It possesses special abilities.";
+
+        // Dialog box dimensions
+        float dialogWidth = 1200;  // Width of the dialog box
+        float dialogHeight = 400; // Height of the dialog box
+
+        // Calculate center position
+        float xPosition = (Gdx.graphics.getWidth() - dialogWidth) / 2f;
+        float yPosition = (Gdx.graphics.getHeight() - dialogHeight) / 2f;
+
+        // Define vertical offset to shift the dialog down
+        float verticalOffset = 120f;  // Adjust this value as needed
+
+        // Adjust yPosition to shift the dialog box down
+        yPosition -= verticalOffset;
+
+        // Display the dialog box
+        dialogHelper.displayDialog(title, content, dialogWidth, dialogHeight, xPosition, yPosition);
     }
+
+
+
 }

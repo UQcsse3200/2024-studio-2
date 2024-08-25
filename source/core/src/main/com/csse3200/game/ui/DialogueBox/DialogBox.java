@@ -10,17 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.services.ServiceLocator;
 
 public class DialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
-    private final TextButton nextButton;
+    private final TextButton confirmButton;
     private String[] titles;
     private String[] content;
     private int currentIndex = 0;
 
-    public DialogBox(String[] titles, String[] content, Skin skin) {
+    public DialogBox(String[] titles, String[] content, Skin skin, float width, float height, float xPosition, float yPosition) {
         super("", skin);
         this.titles = titles;
         this.content = content;
@@ -33,16 +32,19 @@ public class DialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Continue", skin);
+        confirmButton = new TextButton("Confirm Selection", skin);
         addActionListeners();
         createDialogLayout();
+
+        setSize(width, height);
+        setPosition(xPosition, yPosition);
     }
 
     private void addActionListeners() {
-        nextButton.addListener(new ChangeListener() {
+        confirmButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                proceedToNext();
+                hide(); // Close dialog
             }
         });
     }
@@ -52,13 +54,9 @@ public class DialogBox extends Dialog {
         contentTable.pad(20);
         contentTable.add(titleLabel).padBottom(15).row();
         contentTable.add(contentLabel).width(400).row();
-
-        // Add next button at the bottom
-        contentTable.add(nextButton).padTop(20);
+        contentTable.add(confirmButton).padTop(20);
 
         getContentTable().add(contentTable).expand().center();
-        setSize(500, 300);
-        setPosition((Gdx.graphics.getWidth() - getWidth()) / 2f, (Gdx.graphics.getHeight() - getHeight()) / 2f);
     }
 
     private void proceedToNext() {
