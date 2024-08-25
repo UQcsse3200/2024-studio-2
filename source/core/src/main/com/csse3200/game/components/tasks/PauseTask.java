@@ -14,6 +14,7 @@ import com.csse3200.game.entities.configs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.AbstractQuest;
 
@@ -52,8 +53,8 @@ public class PauseTask extends ChaseTask {
         this.entity = this.owner.getEntity();
         ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
         if (configComponent != null) {
-            this.config = configComponent.getConfig();
-            String animalName = ((BaseEntityConfig) config).getAnimalName();
+            this.config = (BaseEntityConfig) configComponent.getConfig();
+            String animalName = (config).getAnimalName();
             String eventName = String.format("Paused%s", animalName);
             entity.getEvents().trigger(eventName);
         } else {
@@ -85,36 +86,39 @@ public class PauseTask extends ChaseTask {
 
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
-            logger.info("end");
-
-            if (this.hint != null) {
-                hint.dispose();
-                hint = null;
+            if (this.config != null) {
+                String animalName = (config).getAnimalName();
+                String eventName = String.format("PauseEnd%s", animalName);
+                entity.getEvents().trigger(eventName);
+            } else {
+                entity.getEvents().trigger("pauseEnd");
             }
+
+            EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+            chatOverlayService.disposeCurrentOverlay();
 
             //movementTask.start();
         }
     }
 
     protected void createChatOverlay() {
-        if (this.hint == null) {
-            AbstractQuest currentQuest = null;
-            for (AbstractQuest quest : questManager.getAllQuests()) {
-                if (quest.isActive()) {
-                    currentQuest = quest;
-                }
-            }
-
-            String[] hintText;
-            if (currentQuest != null) {
-                String hint = currentQuest.getCurrentTaskHint();
-                hintText = new String[] { hint };
-            } else {
-                hintText = ((BaseEntityConfig) this.config).getBaseHint();
-            }
-
-            hint = new ChatOverlay(hintText);
+        EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+        if (chatOverlayService == null) {
+            return;
         }
+
+        String[] hintText = null;
+        for (AbstractQuest quest : questManager.getAllQuests()) {
+            if (quest.isActive()) {
+                hintText = new String[] {quest.getCurrentTaskHint()};
+            }
+        }
+
+        if (hintText == null) {
+            hintText = ((BaseEntityConfig) this.config).getBaseHint();
+        }
+
+        chatOverlayService.updateText(hintText);
     }
 
     public int getPriority() {

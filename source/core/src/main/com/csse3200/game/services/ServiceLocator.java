@@ -2,6 +2,7 @@ package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
   private static EntityService entityService;
+  private static EntityChatService entityChatService;
   private static RenderService renderService;
   private static PhysicsService physicsService;
   private static GameTime timeSource;
@@ -27,7 +29,9 @@ public class ServiceLocator {
   private static ResourceService resourceService;
   private static EventService eventService;
 
-
+  public static EntityChatService getEntityChatService() {
+    return entityChatService;
+  }
 
   public static EntityService getEntityService() {
     return entityService;
@@ -58,6 +62,11 @@ public class ServiceLocator {
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
+  }
+
+  public static void registerEntityChatService(EntityChatService service) {
+    logger.debug("Registering entity chat service {}", service);
+    entityChatService = service;
   }
 
   public static void registerRenderService(RenderService service) {

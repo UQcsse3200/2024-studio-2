@@ -28,6 +28,9 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
 import java.util.ArrayList;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.ui.ChatOverlay;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -129,6 +132,8 @@ public class NPCFactory {
       String eventName = String.format("Paused%s", config.getAnimalName());
       npc.getEvents().addListener(eventName, () -> playAnimalSound(animalSoundPaths));
     }
+
+
     
     return npc;
   }
