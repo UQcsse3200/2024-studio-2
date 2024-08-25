@@ -130,6 +130,10 @@ public class GdxGame extends Game {
     getScreen().dispose();
   }
 
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+    return newScreen(screenType, screen, container, null);
+  }
+
   /**
    * Create a new screen of the provided type.
    * @param screenType screen type
@@ -137,7 +141,7 @@ public class GdxGame extends Game {
    * @param container container for services, for returning to an old screen. may be null.
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity enemy) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
@@ -146,7 +150,7 @@ public class GdxGame extends Game {
       case MAIN_GAME_DUP:
         return new MainGameScreenDup(this, screen, container);
       case COMBAT:
-        return new CombatScreen(this, screen, container);
+        return new CombatScreen(this, screen, container, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
       default:
