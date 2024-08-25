@@ -22,9 +22,6 @@ import static com.csse3200.game.physics.PhysicsLayer.OBSTACLE;
 // TODO: Remove texturePath from createItem input and use item.getTexture (or add a function to
 //  get the texture path instead of the texture!)
 public class ItemFactory {
-   // private static final ItemConfigs configs =
-     //       FileLoader.readClass(ItemConfigs.class, "configs/Items.json");
-
     private static Entity createItem(Entity target, AbstractItem item, String texturePath, Object config) {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item));
