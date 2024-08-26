@@ -42,6 +42,7 @@ class NPCFactoryTest {
 
     private String[] textures = {
             "images/ghost.png",
+            "images/ghostKing.png",
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
@@ -51,6 +52,7 @@ class NPCFactoryTest {
 
     private String[] atlas = {
             "images/ghost.atlas",
+            "images/ghostKing.atlas",
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",

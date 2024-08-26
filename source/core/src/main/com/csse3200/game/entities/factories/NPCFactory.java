@@ -54,9 +54,9 @@ public class NPCFactory {
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/ghost.atlas", TextureAtlas.class));
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("angry_float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
+    animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
     ghost
         .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -81,9 +81,10 @@ public class NPCFactory {
     AnimationRenderComponent animator =
         new AnimationRenderComponent(
             ServiceLocator.getResourceService()
-                .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+                .getAsset(config.getSpritePath(), TextureAtlas.class));
+    System.out.println(config.getSpritePath());
+    animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
+    animator.addAnimation("angry_float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
     ghostKing
         .addComponent(new CombatStatsComponent(config.health, config.baseAttack))

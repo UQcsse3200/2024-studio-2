@@ -8,7 +8,7 @@ public class BaseEntityConfig {
     public int baseAttack = 0; // Remain public as per the base game
     protected String animalName = "";
     protected String[] baseHint = null;
-    protected String spritePath = null;
+    protected String spritePath = "images/ghost.atlas";
     protected float animationSpeed = 0.1f;
     protected String[] soundPath = null;
 
