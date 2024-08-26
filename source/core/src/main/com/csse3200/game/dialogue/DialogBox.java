@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  * @author GPA Reapers (Team 11 UI(Stats))
  */
 public class DialogBox extends Dialog {
-    private Skin skin;
+    private final Skin skin;
     public DialogBox(String title, Skin skin) {
         super(title, skin);
         this.skin = skin;

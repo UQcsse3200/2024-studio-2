@@ -21,16 +21,34 @@ public class ObstacleFactory {
    */
   public static Entity createTree() {
     Entity tree =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/tree.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/tree.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
     tree.scaleHeight(2.5f);
     PhysicsUtils.setScaledCollider(tree, 0.5f, 0.2f);
     return tree;
+  }
+
+  /**
+   * Creates a combat base entity to spawn onto combat screen
+   * @return entity
+   */
+  public static Entity createCombatBase() {
+    Entity base =
+        new Entity()
+            .addComponent(new TextureRenderComponent("images/combat_base.png"))
+            .addComponent(new PhysicsComponent())
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    base.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    base.getComponent(TextureRenderComponent.class).scaleEntity();
+    base.scaleHeight(4.0f);
+    PhysicsUtils.setScaledCollider(base, 1.0f, 1.0f);
+    return base;
   }
 
   /**

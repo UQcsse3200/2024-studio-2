@@ -6,7 +6,7 @@ repeat: none
 combat_base
   rotate: false
   xy: 10, 10
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: 10
+  size: 512, 288
+  orig: 512, 288
+  offset: 10, 10
+  index: 20

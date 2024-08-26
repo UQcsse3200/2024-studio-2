@@ -17,7 +17,7 @@ public class GameAreaDisplay extends UIComponent {
     private Label title;
     private Texture playerIconTexture;
     private Image playerIcon;
-    private static Integer iconScale = 3;
+    private static final Integer iconScale = 3;
 
     public GameAreaDisplay(String gameAreaName) {
         this.gameAreaName = gameAreaName;

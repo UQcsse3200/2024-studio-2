@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private GdxGame game;
+  private final GdxGame game;
 
   public CombatActions(GdxGame game) {
     this.game = game;

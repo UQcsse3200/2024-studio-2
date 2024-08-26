@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
-  private int maxHealth;
+  private final int maxHealth;
   private int health;
   private int baseAttack;
 

@@ -81,7 +81,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT;
+    MAIN_MENU, MAIN_GAME, SETTINGS, COMBAT
   }
 
   /**

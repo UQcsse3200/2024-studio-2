@@ -40,10 +40,11 @@ public class CombatGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
+    "images/combat_base.png",
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/combatBase.atlas"
   };
   private static final String[] combatBaseTexture = {
     "images/combat_base.png"
@@ -77,13 +78,11 @@ public class CombatGameArea extends GameArea {
   @Override
   public void create() {
     loadAssets();
-
     displayUI();
-
     spawnTerrain();
+    spawnBase();
     player = spawnPlayer();
     spawnCombatEnemy();
-
     playMusic();
   }
 
@@ -91,6 +90,18 @@ public class CombatGameArea extends GameArea {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     spawnEntity(ui);
+  }
+
+  // spawns a combat base
+  private void spawnBase() {
+      GridPoint2 pos1 = new GridPoint2(20, 16);
+      Entity base1 = ObstacleFactory.createCombatBase();
+      spawnEntityAt(base1, pos1, true, false);
+
+    GridPoint2 pos2 = new GridPoint2(9, 6);
+    Entity base2 = ObstacleFactory.createCombatBase();
+    spawnEntityAt(base2, pos2, true, false);
+
   }
 
   private void spawnTerrain() {
@@ -173,7 +184,8 @@ public class CombatGameArea extends GameArea {
         logger.error("Combat base texture region not found in atlas.");
       }
     }
-    */
+
+     */
  }
 
   private void unloadAssets() {
