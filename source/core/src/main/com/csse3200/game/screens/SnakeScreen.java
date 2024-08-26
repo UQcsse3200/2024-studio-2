@@ -10,6 +10,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 import com.csse3200.game.entities.Entity;
@@ -40,6 +41,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * Handles the rendering of the game components.
  */
 public class SnakeScreen extends ScreenAdapter {
+
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
     private static final int CELL_SIZE = 55;
     private final GdxGame game;
@@ -125,7 +127,8 @@ public class SnakeScreen extends ScreenAdapter {
             renderGameScore();
         } else {
             // Optionally, you can render a game-over screen or message here
-            renderGameOver();
+            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
+            //renderGameOver();
         }
     }
 

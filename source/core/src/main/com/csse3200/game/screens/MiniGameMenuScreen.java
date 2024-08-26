@@ -82,7 +82,7 @@ public class MiniGameMenuScreen implements Screen {
 
         exitButtonTable.add(exitButton).pad(10);
 
-        stage.addActor(exitButtonTable);//
+        stage.addActor(exitButtonTable);
 
 
         exitButton.addListener(new ClickListener() {
