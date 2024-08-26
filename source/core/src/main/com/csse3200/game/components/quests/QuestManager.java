@@ -13,12 +13,14 @@ import java.util.Objects;
 
 public class QuestManager extends Component {
     private final HashMap<String, QuestBasic> quests;
+    private final HashMap<String, QuestHidden> achievements;
     private final EventService eventService = ServiceLocator.getEventService();
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
 
     public QuestManager() {
         this.quests = new HashMap<>();
+        this.achievements = new HashMap<>();
 
         // Manual test Quests
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
@@ -29,6 +31,8 @@ public class QuestManager extends Component {
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false);
         addQuest(twoTaskQuest);
         addQuest(firstStepsQuest);
+        QuestHidden tempAchievement = new QuestHidden("Test Achievement","This is a test achievement");
+        addAchievement(tempAchievement);
     }
 
     private void subscribeToQuestEvents(QuestBasic quest) {
@@ -37,13 +41,26 @@ public class QuestManager extends Component {
         }
     }
 
+    private void subscribeToAchievementEvents(QuestHidden achievement) {
+        eventService.globalEventHandler.addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
+    }
+
     public void addQuest(QuestBasic quest) {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
 
+    public void addAchievement(QuestHidden achievement) {
+        achievements.put(achievement.getQuestName(), achievement);
+        subscribeToAchievementEvents(achievement);
+    }
+
     public QuestBasic getQuest(String questName) {
         return quests.get(questName);
+    }
+
+    public QuestHidden getAchievement(String achievementName) {
+        return achievements.get(achievementName);
     }
 
     public void failQuest(String questName){
@@ -75,5 +92,15 @@ public class QuestManager extends Component {
             }
             }
        }
+    }
+
+    public void completeAchievement(String achievementName) {
+        QuestHidden achievement = achievements.get(achievementName);
+        if (achievement != null && !achievement.isCompleted()) {
+            achievement.complete();
+            questComplete.play();
+            eventService.globalEventHandler.trigger("achievementCompleted");
+            logger.info("{} Completed!", achievement.getQuestName());
+        }
     }
 }

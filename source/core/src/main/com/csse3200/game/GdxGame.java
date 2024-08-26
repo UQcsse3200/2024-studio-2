@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.*;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,9 +75,7 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
-  public void addMainGameDup() {
-    addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
-   }
+
 
   /**
    * Changes to a new screen, does NOT dispose of old screen
@@ -114,8 +114,6 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      case MAIN_GAME_DUP:
-        return new MainGameScreenDup(this, screen, container);
       case SETTINGS:
         return new SettingsScreen(this);
       case ACHIEVEMENTS:
@@ -130,7 +128,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen, LOADING_SCREEN, ACHIEVEMENTS
+    MAIN_MENU, MAIN_GAME, SETTINGS, MiniGameMenuScreen, LOADING_SCREEN, ACHIEVEMENTS
   }
 
   /**

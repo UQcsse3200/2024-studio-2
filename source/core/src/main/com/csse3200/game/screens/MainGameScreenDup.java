@@ -114,7 +114,6 @@ public class MainGameScreenDup extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    gameArea.playMusic();
     logger.info("Game resumed");
   }
 
@@ -218,7 +217,6 @@ public class MainGameScreenDup extends ScreenAdapter {
 
   public void wake() {
     logger.info("Screen is Awake");
-    gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

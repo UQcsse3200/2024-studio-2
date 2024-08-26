@@ -39,7 +39,6 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
-    entity.getEvents().addListener("addMainGameScreen",this::addMainGameScreen);
   }
 
   @Override
@@ -67,6 +66,7 @@ public class PlayerActions extends Component {
     this.walkDirection = direction;
     moving = true;
     eventService.globalEventHandler.trigger("steps");
+    eventService.globalEventHandler.trigger("Test Achievement");
   }
 
   /**
@@ -97,7 +97,4 @@ public class PlayerActions extends Component {
     eventService.globalEventHandler.trigger("addOverlay", OverlayType.QUEST_OVERLAY);
   }
 
-  public void addMainGameScreen(){
-    game.addMainGameDup();
-  }
 }

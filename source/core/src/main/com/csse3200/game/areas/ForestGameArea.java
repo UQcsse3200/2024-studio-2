@@ -77,6 +77,7 @@ public class ForestGameArea extends GameArea {
     super();
     this.terrainFactory = terrainFactory;
     this.enemies = new ArrayList<>();
+    this.game = game;
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
