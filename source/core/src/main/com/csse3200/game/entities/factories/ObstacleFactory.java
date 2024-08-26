@@ -42,12 +42,12 @@ public class ObstacleFactory {
         new Entity()
             .addComponent(new TextureRenderComponent("images/combat_base.png"))
             .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLATFORM));
 
     base.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     base.getComponent(TextureRenderComponent.class).scaleEntity();
     base.scaleHeight(4.0f);
-    PhysicsUtils.setScaledCollider(base, 1.0f, 1.0f);
+    PhysicsUtils.setScaledCollider(base, 0.2f, 0.2f);
     return base;
   }
 

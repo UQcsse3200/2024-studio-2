@@ -8,6 +8,9 @@ public class PhysicsLayer {
   public static final short OBSTACLE = (1 << 2);
   // NPC (Non-Playable Character) colliders
   public static final short NPC = (1 << 3);
+
+  // Platform objects that players can move on/over e.g. combat base
+  public static final short PLATFORM = (1 << 4);
   public static final short ALL = ~0;
 
   public static boolean contains(short filterBits, short layer) {
