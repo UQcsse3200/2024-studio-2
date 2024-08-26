@@ -52,7 +52,7 @@ public class MiniGameMenuScreen implements Screen {
         buttonStyle.down = skin.newDrawable("default-round", Color.RED);
         buttonStyle.disabled = skin.newDrawable("default-round", Color.GRAY);
 
-
+        TextButton exitButton = new TextButton("Exit", buttonStyle);
         snakeTexture = new Texture(Gdx.files.internal("images/minigames/Snake.png"));
         skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
         waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
@@ -82,6 +82,23 @@ public class MiniGameMenuScreen implements Screen {
 
 
         stage.addActor(table);
+
+        Table exitButtonTable = new Table();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+
+        exitButtonTable.add(exitButton).pad(10);
+
+        stage.addActor(exitButtonTable);//
+
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main screen
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
 
 
         snakeImage.addListener(new ClickListener() {
