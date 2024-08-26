@@ -38,33 +38,26 @@ public class MiniGameMenuScreen implements Screen {
 
         font = new BitmapFont();
 
-
         font.getData().setScale(2);
 
-
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
 
         TextButton exitButton = new TextButton("Exit",skin);
         snakeTexture = new Texture(Gdx.files.internal("images/minigames/Snake.png"));
         skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
         waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
 
-
         Image snakeImage = new Image(snakeTexture);
         Image skyImage = new Image(skyTexture);
         Image waterImage = new Image(waterTexture);
-
 
         TextButton snakeButton = new TextButton("Snake", skin);
         TextButton skyButton = new TextButton("Flappy bird", skin);
         TextButton waterButton = new TextButton("Underwater maze", skin);
 
-
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-
 
         table.add(snakeImage).pad(10).row();
         table.add(snakeButton).pad(10).row();
@@ -72,7 +65,6 @@ public class MiniGameMenuScreen implements Screen {
         table.add(skyButton).pad(10).row();
         table.add(waterImage).pad(10).row();
         table.add(waterButton).pad(10).row();
-
 
         stage.addActor(table);
 
@@ -84,7 +76,6 @@ public class MiniGameMenuScreen implements Screen {
 
         stage.addActor(exitButtonTable);//
 
-
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -92,7 +83,6 @@ public class MiniGameMenuScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-
 
         snakeImage.addListener(new ClickListener() {
             @Override
@@ -110,8 +100,6 @@ public class MiniGameMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Change button color to green when clicked
                 skyImage.setColor(Color.GREEN);
-                // Switch to SkyScreen
-              //  game.setScreen(new SkyScreen(game));
             }
         });
 
@@ -121,8 +109,6 @@ public class MiniGameMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Change button color to green when clicked
                 waterImage.setColor(Color.GREEN);
-                // Switch to WaterScreen
-              //  game.setScreen(new WaterScreen(game));
             }
         });
 
@@ -143,8 +129,6 @@ public class MiniGameMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Change button color to green when clicked
                 skyButton.setColor(Color.GREEN);
-                // Switch to SkyScreen
-              //  game.setScreen(new SkyScreen(game));
             }
         });
 
@@ -154,8 +138,6 @@ public class MiniGameMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Change button color to green when clicked
                 waterButton.setColor(Color.GREEN);
-                // Switch to WaterScreen
-              //  game.setScreen(new WaterScreen(game));
             }
         });
     }

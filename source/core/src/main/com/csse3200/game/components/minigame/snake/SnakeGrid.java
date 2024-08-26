@@ -21,11 +21,6 @@ public class SnakeGrid extends Grid {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public boolean isCollision(int x, int y) {
-        // Check if a cell is occupied, snakes body and head and apples
-        return isOccupied(x, y);
-    }
-
     public Vector2 tileToWorldPosition(Vector2 gridPosition, int cellSize) {
         int gridWidthInPixels = getWidth() * cellSize;
         int gridHeightInPixels = getHeight() * cellSize;
