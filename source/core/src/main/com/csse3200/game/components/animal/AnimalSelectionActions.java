@@ -15,7 +15,7 @@ public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
     private final AnimalSelectionDisplay display;
     private final PopUpHelper dialogHelper;
-    private Image selectedAnimalImage;
+    private static Image selectedAnimalImage;
     private final GdxGame game;
     private static String selectedAnimalImagePath;
 
