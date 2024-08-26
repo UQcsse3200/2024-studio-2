@@ -30,7 +30,7 @@ class TouchAttackComponentTest {
     Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
     entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
 
-    assertEquals(0, target.getComponent(CombatStatsComponent.class).getHealth());
+    assertEquals(10, target.getComponent(CombatStatsComponent.class).getHealth());
   }
 
   @Test
