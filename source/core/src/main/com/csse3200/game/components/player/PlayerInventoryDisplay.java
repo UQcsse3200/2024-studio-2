@@ -2,20 +2,16 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.csse3200.game.utils.math.EuclideanDivision.mod;
-
 
 // TODO: MAKE SLOT SIZE (IE INVENTORY SIZE) NOT A CONSTANT IN GENERATE WINDOW - MAKE IT A CLASS
 //  CONSTANT!!!
@@ -26,7 +22,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final int numCols, numRows;
     private Window window;
     private Table table;
-    private int selectedSlot = -1;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
 
@@ -41,7 +36,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         if (numCols < 1) {
             throw new IllegalArgumentException("Inventory dimensions must be positive!");
         }
-        if (capacity % numCols != 0) { // TODO: WHAT IS THE RIGHT EXCEPTION TO THROW HERE?
+        if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
@@ -50,18 +45,12 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];
-
-        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
-        //  OR INVENTORY SHOULD HAVE THIS!
-        //  this.inputComponent = new PlayerInventoryInputComponent(
-        //          numRows, numCols, 100, 100, 300, 300);
     }
 
     @Override
     public void create() {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
-        entity.getEvents().addListener("slotClicked", this::handleSlotClicked);
         entity.getEvents().addListener("addItem", this::addItem);
     }
 
@@ -157,55 +146,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                 regenerateInventory();
             }
         });
-    }
-
-    private void handleSlotClicked(int sX, int sY) {
-        // De-select previously selected slot
-        if (selectedSlot != -1) {
-            return;
-        }
-
-        selectedSlot = screenPosToClickedSlot(sX, sY); // Find newly selected slot
-
-        // Highlight the selected slot
-        if (selectedSlot != -1) {
-            return;
-        }
-    }
-
-    /**
-     * Converts screen coordinates to the index of the clicked slot in the inventory table.
-     *
-     * @param sX the x-coordinate of the screen position
-     * @param sY the y-coordinate of the screen position
-     * @return the index of the clicked slot, or -1 if the click is outside the table or within the
-     * padded area (ie the user clicked on a position where a slot doesn't exist)
-     */
-    private int screenPosToClickedSlot(int sX, int sY) {
-        // Convert to table coordinates
-        Vector2 localXY = table.stageToLocalCoordinates(new Vector2(sX, sY));
-        int x = (int) localXY.x;
-        int y = (int) localXY.y;
-
-        // Check position not in padded layer
-        if (mod(x, 130) < 5 || mod(x, 130) >= 125 || mod(y, 130) < 5 || mod(y, 130) >= 125) {
-            return -1;
-        }
-
-        // Convert to table row/col (0 indexed from top left corner)
-        int row = numRows + (y / 130); // y coordinate starts at top left of table
-        int col = x / 130;
-
-        // Check row/col is in table
-        if (row < 0 || col < 0 || row >= numRows || col >= numCols) {
-            return -1;
-        }
-
-        String msg = String.format("Clicked at row/col (%d, %d)", row, col);
-        logger.info(msg); // For debugging purposes
-
-        // Convert to slot index
-        return row * numCols + col;
     }
 
     /**
