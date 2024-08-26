@@ -14,8 +14,6 @@ import static java.util.Arrays.fill;
 // TODO: Add support for indexing, searching and sorting alphabetically by name
 // TODO: Error checking here and in abstract item needs to become significantly more rigorous
 // TODO: Naming and spell checking also needs to be run here and on abstract item.
-// TODO: Add inventory view class which adds support for rendering inventory
-// TODO: Possibly make abstract item a functional interface.
 // TODO: Change itemCode in AbstractItem to a static attribute!
 
 /**
