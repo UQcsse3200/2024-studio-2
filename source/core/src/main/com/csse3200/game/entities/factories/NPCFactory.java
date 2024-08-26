@@ -49,12 +49,10 @@ public class NPCFactory {
     Entity chicken = createBaseNPC(target);
     BaseEntityConfig config = configs.chicken;
 
-    /*TODO
-      Change this to an animation for a chicken */
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class));
-    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.25f, Animation.PlayMode.LOOP);
     chicken
             .addComponent(animator)
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))

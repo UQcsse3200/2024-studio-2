@@ -13,13 +13,19 @@ public class ChickenAnimationController extends Component {
   @Override
   public void create() {
     super.create();
+    // Get the AnimationRenderComponent associated with the entity and store it in the animator field
     animator = this.entity.getComponent(AnimationRenderComponent.class);
-    entity.getEvents().addListener("wanderStart", this::animateWander);
-    entity.getEvents().addListener("chaseStart", this::animateWander);
+    entity.getEvents().addListener("wanderLeft", this::animateWanderLeft);
+    entity.getEvents().addListener("wanderRight", this::animateWanderRight);
   }
 
-  void animateWander() {
-    animator.startAnimation("walk");
+  void animateWanderLeft() {
+    animator.setFlipX(true);
+    animator.startAnimation("float");
   }
 
+  void animateWanderRight() {
+    animator.setFlipX(false);
+    animator.startAnimation("float");
+  }
 }
