@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -171,6 +172,26 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the cow has the correct sound path.
+     */
+    @Test
+    void TestCowHasCorrectSoundPath() {
+        String[] sound = configs.cow.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.mp3"}));
+    }
+
+    /**
+     * Tests that the cow has the correct base hint.
+     */
+    @Test
+    void TestCowHasCorrectBaseHint() {
+        String[] baseHint = configs.cow.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."}));
+    }
+
+    /**
      * Tests that the cow has an idle animation.
      */
     @Test
@@ -284,6 +305,26 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the lion has the correct sound path.
+     */
+    @Test
+    void TestLionHasCorrectSoundPath() {
+        String[] sound = configs.lion.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.mp3"}));
+    }
+
+    /**
+     * Tests that the lion has the correct base hint.
+     */
+    @Test
+    void TestLionHasCorrectBaseHint() {
+        String[] baseHint = configs.lion.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}));
+    }
+
+    /**
      * Tests that the lion has an idle animation.
      */
     @Test
@@ -326,6 +367,15 @@ class NPCFactoryTest {
     @Test
     void testEagleBaseHint() {
         assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}, configs.eagle.getBaseHint());
+    }
+
+    /**
+     * Tests that the eagle's name is correct.
+     */
+    @Test
+    void TestEagleName() {
+        String name = configs.eagle.getAnimalName();
+        assertEquals("Eagle", name);
     }
 
     /**
@@ -388,6 +438,26 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the eagle has the correct sound path.
+     */
+    @Test
+    void TestEagleHasCorrectSoundPath() {
+        String[] sound = configs.eagle.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.mp3"}));
+    }
+
+    /**
+     * Tests that the eagle has the correct base hint.
+     */
+    @Test
+    void TestEagleHasCorrectBaseHint() {
+        String[] baseHint = configs.eagle.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}));
+    }
+
+    /**
      * Tests that the eagle has an idle animation.
      */
     @Test
@@ -415,7 +485,6 @@ class NPCFactoryTest {
 
         assertEquals(pos, eagle.getPosition());
     }
-
 
     /**
      * Tests Creation of a turtle.
@@ -501,6 +570,26 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the turtle has the correct sound path.
+     */
+    @Test
+    void TestTurtleHasCorrectSoundPath() {
+        String[] sound = configs.turtle.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
+    }
+
+    /**
+     * Tests that the turtle has the correct base hint.
+     */
+    @Test
+    void TestTurtleHasCorrectBaseHint() {
+        String[] baseHint = configs.turtle.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
+    }
+
+    /**
      * Tests that the turtle has an idle animation.
      */
     @Test
@@ -538,6 +627,14 @@ class NPCFactoryTest {
         assertNotNull(snake, "Snake should not be null.");
     }
 
+    /**
+     * Tests that the snake has the correct name.
+     */
+    @Test
+    void TestSnakeName() {
+        String name = configs.snake.getAnimalName();
+        assertEquals("Snake", name);
+    }
 
     /**
      * Tests that the snake is an Entity.
@@ -606,6 +703,26 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the snake has the correct sound path.
+     */
+    @Test
+    void TestSnakeHasCorrectSoundPath() {
+        String[] sound = configs.snake.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.mp3"}));
+    }
+
+    /**
+     * Tests that the snake has the correct base hint.
+     */
+    @Test
+    void TestSnakeHasCorrectBaseHint() {
+        String[] baseHint = configs.snake.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."}));
+    }
+
+    /**
      * Tests that the snake has an idle animation.
      */
     @Test
@@ -614,6 +731,14 @@ class NPCFactoryTest {
                 "Snake should have idle animation.");
     }
 
+    /**
+     * Tests that the snake is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestSnakeIsFriendly() {
+        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
+                "Snake should have a friendly AI controller.");
+    }
 
     /**
      * Tests that the snake is in the correct spot when placed.
