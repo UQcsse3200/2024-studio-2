@@ -13,6 +13,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
+import java.util.Arrays;
 import org.slf4j.LoggerFactory;
 import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
@@ -232,6 +233,8 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     @Override
     public void dispose() {
+        disposeSlots();
+        disposeTable();
         disposeWindow();
         super.dispose();
     }
@@ -246,27 +249,22 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     // TODO - FIGURE OUT IF THIS FUNCTION IS NEEDED!!!!
-    private void disposeTable(Table table) {
-//        if (table != null) {
-//            // Remove the table from its parent (e.g., a window or stage)
-//            Actor parent = table.getParent();
-//            if (parent != null) {
-//                parent.removeActor(table);
-//            }
-//
-//            // Dispose of any children actors (if they are no longer needed)
-//            for (Actor actor : table.getChildren()) {
-//                if (actor instanceof Disposable) {
-//                    ((Disposable) actor).dispose();
-//                }
-//            }
-//
-//            // Clear all children
-//            table.clear();
-//
-//            // Optional: Set the table reference to null
-//            table = null;
-//        }
+    private void disposeTable() {
+        if (table != null) {
+            table.clear();
+            table.remove();
+            table = null;
+        }
+    }
+
+    private void disposeSlots() {
+        for (int i = 0; i < inventory.getCapacity(); i++) {
+            if (slots[i] != null) {
+                slots[i].clear();
+                slots[i].remove();
+                slots[i] = null;
+            }
+        }
     }
 
     @Override
