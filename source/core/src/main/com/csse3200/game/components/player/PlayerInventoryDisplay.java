@@ -97,31 +97,25 @@ public class PlayerInventoryDisplay extends UIComponent {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
 
-                Stack slotStack = new Stack();
-
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(skin);
-
-                slotStack.add(slot);
 
                 // final ImageButton slot = new ImageButton(skin, "inventory-slot");
                 // TODO: ADD INVENTORY STYLE - this requires adding these images to the skin!
 
                 // Add the item image to the slot
                 if (item != null) {
+                    addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
-
-                    // Create the label to show quantity/limit
-                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
-                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
-                    quantityLimitLabel.setAlignment(Align.bottomRight); // Align label to bottom-right
-
-                    slotStack.add(quantityLimitLabel);
-                    addSlotListeners(slot, item, index);
+//
+//                    // Create the label to show quantity/limit
+//                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
+//                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
+//                    slot.add(quantityLimitLabel).center();
                 }
 
-                table.add(slotStack).size(120, 120).pad(5); // Add the slot to the table
+                table.add(slot).size(120, 120).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table

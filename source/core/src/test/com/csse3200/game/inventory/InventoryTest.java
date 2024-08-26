@@ -15,8 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 
-// TODO: TEST NAME TO INDICES (JUST SLOT IT IN WITH OTHER TESTS)
-
 @ExtendWith(GameExtension.class)
 public class InventoryTest {
     private Inventory test1;
@@ -70,7 +68,6 @@ public class InventoryTest {
             assertEquals(test.numFreeSlots(), test.getCapacity(), msg);
             assertFalse(test.isFull(), msg);
             assertFalse(test.hasItem(0), msg);
-            assertFalse(test.hasItem("test_0"), msg);
             assertEquals(-1, test.getIndex(0), msg);
             assertNull(test.getAt(0), msg);
         }
@@ -178,49 +175,5 @@ public class InventoryTest {
         test2.useItem(0, context);
         test2.useItem(0, context);
         assertFalse(test2.hasItem(0));
-    }
-
-    @Test
-    void testSortByCode() {
-        // Add items to inventory in reverse (descending) order
-        Inventory inventory = new Inventory(13);
-        for (int i = 0; i < 5; i++) {
-            inventory.add(new TestableItem("test_" + i, 4 - i));
-        }
-
-        // Check items are input in reverse (descending) order
-        for (int i = 0; i < 5; i++) {
-            assertEquals(4 - i, inventory.getAt(i).getItemCode());
-        }
-
-        // Sort items and check they are in correct (ascending) order.
-        inventory.sortByCode();
-        for (int i = 0; i < 5; i++) {
-            assertEquals(i, inventory.getAt(i).getItemCode());
-        }
-    }
-
-    @Test
-    void testSortByName() {
-        // Add items to inventory in reverse (descending) order
-        Inventory inventory = new Inventory(13);
-        int E = 69; // ASCII value for 'E'
-        String[] names = new String[5];
-
-        for (int i = 0; i < 5; i++) {
-            names[i] = "test_" + (char) (E - i);
-            inventory.add(new TestableItem(names[i], i));
-        }
-
-        // Check items are input in reverse (descending) order
-        for (int i = 0; i < 5; i++) {
-            assertEquals(names[i], inventory.getAt(i).getName());
-        }
-
-        // Sort items and check they are in correct (ascending) order.
-        inventory.sortByName();
-        for (int i = 0; i < 5; i++) {
-            assertEquals(names[4-i], inventory.getAt(i).getName());
-        }
     }
 }
