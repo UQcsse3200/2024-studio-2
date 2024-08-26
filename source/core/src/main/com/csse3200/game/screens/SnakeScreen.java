@@ -1,6 +1,6 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.Application;
+// import com.badlogic.gdx.Application;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.slf4j.Logger;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+// import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+// import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
@@ -37,9 +37,9 @@ import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.badlogic.gdx.graphics.Color;
+// import com.badlogic.gdx.graphics.Color;
 
 
 /**
@@ -48,7 +48,7 @@ import com.badlogic.gdx.graphics.Color;
  */
 public class SnakeScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
-    private final int CELL_SIZE = 55;
+    private static final int CELL_SIZE = 55;
     private final GdxGame game;
     private final SnakeGame snakeGame;
     private final SnakeGrid grid;
@@ -395,16 +395,21 @@ public class SnakeScreen extends ScreenAdapter {
 
     private void loadAssets() {
         logger.debug("Loading snake minigame assets");
+
+        String appleImage = "images/minigames/apple.png";
+        String snakeheadImage = "images/minigames/snakehead.png";
+        String grassImage = "images/minigames/grass.jpg";
+        String snakebodyImage = "images/minigames/snakebody.png";
+
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
-                "images/minigames/grass.jpg", "images/minigames/snakebody.png"};
+        String[] textures = {appleImage, snakeheadImage, grassImage, snakebodyImage};
         resourceService.loadTextures(textures);
         ServiceLocator.getResourceService().loadAll();
 
-        appleTexture = resourceService.getAsset("images/minigames/apple.png", Texture.class);
-        snakeTexture = resourceService.getAsset("images/minigames/snakehead.png", Texture.class);
-        snakeBody = resourceService.getAsset("images/minigames/snakebody.png", Texture.class);
-        grassTexture = resourceService.getAsset("images/minigames/grass.jpg", Texture.class);
+        appleTexture = resourceService.getAsset(appleImage, Texture.class);
+        snakeTexture = resourceService.getAsset(snakeheadImage, Texture.class);
+        snakeBody = resourceService.getAsset(snakebodyImage, Texture.class);
+        grassTexture = resourceService.getAsset(grassImage, Texture.class);
     }
 
     private void unloadAssets() {

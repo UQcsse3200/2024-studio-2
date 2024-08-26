@@ -72,7 +72,7 @@ public class SnakeGame {
      * Sets the score (used for testing only)
      * @param value: the value for the score to be set to
      */
-    public void set_score(int value) {
+    public void setScore(int value) {
         this.score = value;
     }
 
