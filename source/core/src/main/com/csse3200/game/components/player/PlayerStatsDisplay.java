@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 /**
  * A UI component for displaying player stats, e.g. health.
  */
@@ -31,7 +30,9 @@ public class PlayerStatsDisplay extends UIComponent {
     private Label hungerLabel;
     private Animation<TextureRegion> healthBarAnimation;
     private Animation<TextureRegion> hungerBarAnimation;
+    private Animation<TextureRegion> xpBarAnimation;
     private TextureAtlas[] textureAtlas;
+    private static int totalFrames = 11;
     private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
 
 
@@ -70,20 +71,20 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] hungerBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < hungerBarFrames.length; i++) {
-        String frameName = (100 - i * 10) + "%_hunger";
-        hungerBarFrames[i] = textureAtlas[1].findRegion(frameName);
+            String frameName = (100 - i * 10) + "%_hunger";
+            hungerBarFrames[i] = textureAtlas[1].findRegion(frameName);
         }
         hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
 
         // xpBar initialisation
-        // textureAtlas[2] = new TextureAtlas("spriteSheets/xpBars.atlas");
-        // TextureRegion[] xpBarFrames = new TextureRegion[11];
+        textureAtlas[2] = new TextureAtlas("spriteSheets/xpBars.atlas");
+        TextureRegion[] xpBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
-        //for (int i = 0; i < xpBarFrames.length; i++) {
-        //String frameName = (100 - i * 10) + "%_health";
-        //xpBarFrames[i] = textureAtlas[0].findRegion(frameName);
-        //}
-        //xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
+        for (int i = 0; i < xpBarFrames.length; i++) {
+            String frameName = (i * 10) + "%_xp";
+            xpBarFrames[i] = textureAtlas[2].findRegion(frameName);
+        }
+        xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
     }
 
     /**
@@ -146,10 +147,9 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
-       logger.info("Made it to this updateHealth function");
-      logger.info("{}", health);
+        logger.info("Made it to this updateHealth function");
+        logger.info("{}", health);
         healthLabel.setText(text);
-        int totalFrames = 11;
 
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
@@ -161,13 +161,13 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
         heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
+
     public void updatePlayerHungerUI(int hunger) {
 
         CharSequence text = String.format("HGR: %d", hunger);
-      logger.info("Made it to this updateHealth function");
-      logger.info("{}", hunger);
+        logger.info("Made it to this updateHealth function");
+        logger.info("{}", hunger);
         hungerLabel.setText(text);
-        int totalFrames = 11;
 
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
@@ -183,8 +183,18 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         xpLabel.setText(text);
-    }
 
+        // Debugged and Developed with ChatGPT
+        // Calculate the frame index based on the current health as no xp implementation yet
+        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+        int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+        // Set the current frame of the health bar animation
+        TextureRegion currentFrame = xpBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        xpImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
 
 
     @Override
@@ -196,7 +206,9 @@ public class PlayerStatsDisplay extends UIComponent {
         xpLabel.remove();
         hungerImage.remove();
         hungerLabel.remove();
-        textureAtlas[0].dispose();
+        for (int i = 0; i < textureAtlas.length; i++) {
+            textureAtlas[i].dispose();
+        }
     }
 }
 
