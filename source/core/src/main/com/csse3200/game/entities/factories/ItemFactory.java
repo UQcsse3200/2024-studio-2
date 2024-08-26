@@ -31,11 +31,11 @@ public class ItemFactory {
         return itemEntity;
     }
 
-    public static Entity createHealthPotion(Entity target, HealingPotion healthPotion) {
-        return createItem(target, healthPotion);
+    public static Entity createHealthPotion(Entity target) {
+        return createItem(target, new HealingPotion(5));
     }
 
-    public static Entity createApple(Entity target, Foods.Apple apple) {
-        return createItem(target, apple);
+    public static Entity createApple(Entity target) {
+        return createItem(target, new Foods.Apple(5));
     }
 }

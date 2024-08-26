@@ -225,12 +225,12 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnHealthPotions() {
-    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
+    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
     spawnRandomObstacle(healthPotionGenerator, NUM_HEALTH_POTIONS);
   }
 
   private  void spawnApples() {
-    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
+    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
     spawnRandomObstacle(appleGenerator, NUM_APPLES);
   }
 

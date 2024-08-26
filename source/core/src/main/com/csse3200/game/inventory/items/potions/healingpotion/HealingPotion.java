@@ -40,8 +40,8 @@ public class HealingPotion extends AbstractPotion{
      *
      * @param quantity the number of uses this potion has
      */
-    public HealingPotion(String name, int itemCode, int limit, int quantity) {
-        super(name, itemCode, limit, quantity, List.of(new HealEffect (50)));
+    public HealingPotion(int quantity) {
+        super("Health Potion", 2, 10, quantity, List.of(new HealEffect (50)));
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
     }
