@@ -16,21 +16,27 @@ public class FrogAnimationController extends Component {
     animator = this.entity.getComponent(AnimationRenderComponent.class);
     entity.getEvents().addListener("wanderLeft", this::animateWanderLeft);
     entity.getEvents().addListener("wanderRight", this::animateWanderRight);
-    entity.getEvents().addListener("chaseStart", this::animateChase);
+    entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
+    entity.getEvents().addListener("chaseRight", this::animateChaseRight);
   }
 
   void animateWanderLeft() {
-    System.out.println("WanderLeft");
     animator.setFlipX(true);
     animator.startAnimation("float");
   }
   void animateWanderRight() {
-    System.out.println("WanderRight");
     animator.setFlipX(false);
     animator.startAnimation("float");
   }
 
-  void animateChase() {
+  void animateChaseLeft() {
+    animator.setFlipX(true);
     animator.startAnimation("angry_float");
   }
+
+  void animateChaseRight() {
+    animator.setFlipX(false);
+    animator.startAnimation("angry_float");
+  }
+
 }

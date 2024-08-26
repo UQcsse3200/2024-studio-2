@@ -39,20 +39,38 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   @Override
   public void start() {
     super.start();
-    movementTask = new MovementTask(target.getPosition());
+    Vector2 currentPos = owner.getEntity().getPosition();
+    Vector2 targetPos = target.getPosition();
+    movementTask = new MovementTask(targetPos);
     movementTask.create(owner);
     movementTask.start();
-    
+
+    if (targetPos.x - currentPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("chaseLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("chaseRight");
+    }
+
     this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
   @Override
   public void update() {
-    movementTask.setTarget(target.getPosition());
+    Vector2 currentPos = owner.getEntity().getPosition();
+    Vector2 targetPos = target.getPosition();
+
+    movementTask.setTarget(targetPos);
     movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
     }
+
+    if (targetPos.x - currentPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("chaseLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("chaseRight");
+    }
+
   }
 
   @Override
