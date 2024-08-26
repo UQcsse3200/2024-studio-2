@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 12);
-  private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 13);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(9, 15);
+  private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 15);
 
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
@@ -80,11 +80,13 @@ public class CombatGameArea extends GameArea {
     loadAssets();
     displayUI();
     spawnTerrain();
-    spawnBase();
+
     player = spawnPlayer();
     spawnCombatEnemy();
+    spawnBase(); // spawn combat base
     playMusic();
   }
+
 
   private void displayUI() {
     Entity ui = new Entity();
@@ -94,14 +96,13 @@ public class CombatGameArea extends GameArea {
 
   // spawns a combat base
   private void spawnBase() {
-      GridPoint2 pos1 = new GridPoint2(20, 16);
-      Entity base1 = ObstacleFactory.createCombatBase();
-      spawnEntityAt(base1, pos1, true, false);
+    GridPoint2 pos1 = new GridPoint2(20, 16);
+    Entity base1 = ObstacleFactory.createCombatBase();
+    spawnEntityAt(base1, pos1, true, false);
 
     GridPoint2 pos2 = new GridPoint2(9, 6);
     Entity base2 = ObstacleFactory.createCombatBase();
     spawnEntityAt(base2, pos2, true, false);
-
   }
 
   private void spawnTerrain() {
@@ -132,6 +133,24 @@ public class CombatGameArea extends GameArea {
     // Bottom
     spawnEntityAt(
         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+
+    // spawnCombatBases();
+  }
+
+  private void spawnCombatBases() {
+    // Define positions for combat bases
+    GridPoint2[] combatBasePositions = {
+            new GridPoint2(20, 16),  // Example positions
+            new GridPoint2(9, 6),
+            // Add more positions as needed
+    };
+
+    // Create and spawn combat bases
+    for (GridPoint2 position : combatBasePositions) {
+      Entity combatBase = ObstacleFactory.createCombatBase();
+      // Adjust position as needed
+      spawnEntityAt(combatBase, position, false, false);
+    }
   }
 
   /** Spawn a player for testing purposes. Currently, this player can be moved */
@@ -184,7 +203,6 @@ public class CombatGameArea extends GameArea {
         logger.error("Combat base texture region not found in atlas.");
       }
     }
-
      */
  }
 
