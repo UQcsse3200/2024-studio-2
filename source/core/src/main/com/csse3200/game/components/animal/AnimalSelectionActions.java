@@ -19,6 +19,13 @@ public class AnimalSelectionActions {
     private final GdxGame game;
     private static String selectedAnimalImagePath;
 
+    /**
+     * Constructor to initialize AnimalSelectionActions.
+     *
+     * @param display       The display component for animal selection.
+     * @param dialogHelper  Helper for displaying dialogs.
+     * @param game          Reference to the main game instance.
+     */
     public AnimalSelectionActions(AnimalSelectionDisplay display, DialogHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
@@ -26,10 +33,18 @@ public class AnimalSelectionActions {
         addListeners();
     }
 
+    /**
+     * Getter for the selected animal image path.
+     *
+     * @return Path to the selected animal's image.
+     */
     public static String getSelectedAnimalImagePath() {
         return selectedAnimalImagePath;
     }
 
+    /**
+     * Adds click listeners to the animal images, buttons, and other UI elements.
+     */
     private void addListeners() {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
@@ -39,10 +54,12 @@ public class AnimalSelectionActions {
                 "images/bird.png"
         };
 
+        // Add listeners to each animal image and button
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
             final String animalImagePath = animalImagePaths[i];
 
+            // Listener for animal images
             animalImages[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -52,6 +69,7 @@ public class AnimalSelectionActions {
                 }
             });
 
+            // Listener for animal buttons
             animalButtons[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -62,6 +80,7 @@ public class AnimalSelectionActions {
             });
         }
 
+        // Listener for the "Select" button
         display.getSelectButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -78,6 +97,7 @@ public class AnimalSelectionActions {
             }
         });
 
+        // Listener for the "Back" button
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,20 +107,34 @@ public class AnimalSelectionActions {
         });
     }
 
+    /**
+     * Handles the selection of an animal. Updates the selected image and path.
+     *
+     * @param animalImage     The image of the selected animal.
+     * @param animalImagePath The file path of the selected animal's image.
+     */
     void selectAnimal(Image animalImage, String animalImagePath) {
+        // Reset the previous selection
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1);
         }
+
+        // Highlight the new selection
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1);
+
         logger.debug("Animal selected: {}", animalImage.getName());
     }
 
+    /**
+     * Displays an alert dialog if no animal is selected when "Select" is clicked.
+     */
     private void showSelectionAlert() {
         Dialog dialog = new Dialog("Alert", display.getSkin()) {
             @Override
             protected void result(Object object) {
+                // No action needed here
             }
         };
 
@@ -109,6 +143,11 @@ public class AnimalSelectionActions {
         dialog.show(display.getStage());
     }
 
+    /**
+     * Shows a dialog with details about the selected animal.
+     *
+     * @param animalIndex The index of the selected animal.
+     */
     private void showAnimalDialog(int animalIndex) {
         String title = "Animal " + (animalIndex + 1);
         String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
