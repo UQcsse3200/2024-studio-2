@@ -84,7 +84,7 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
+        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.snakeGame = new SnakeGame(snake, apple, grid);
 
     }
