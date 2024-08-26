@@ -6,6 +6,8 @@ package com.csse3200.game.entities.configs;
 public class EagleConfig extends BaseEntityConfig {
     protected EagleConfig() {
         this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."};
+        this.spritePath = "images/eagle.atlas";
+        this.animationSpeed = 0.1f;
         this.soundPath = new String[] {"sounds/eagle-scream.mp3"};
         this.health = 25;
         this.baseAttack = 0;

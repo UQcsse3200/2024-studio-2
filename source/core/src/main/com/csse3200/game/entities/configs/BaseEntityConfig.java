@@ -8,9 +8,19 @@ public class BaseEntityConfig {
     public int baseAttack = 0; // Remain public as per the base game
     protected String animalName = "";
     protected String[] baseHint = null;
+    protected String spritePath = null;
+    protected float animationSpeed = 0.1f;
     protected String[] soundPath = null;
 
     protected BaseEntityConfig() {}
+
+    public String getSpritePath() {
+        return this.spritePath;
+    }
+
+    public float getAnimationSpeed() {
+        return this.animationSpeed;
+    }
 
     public String[] getSoundPath() {
         return this.soundPath;
