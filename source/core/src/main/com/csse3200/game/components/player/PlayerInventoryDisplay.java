@@ -112,7 +112,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                     // Create the label to show quantity/limit
                     String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
                     Label quantityLimitLabel = new Label(quantityLimitText, skin);
-                    slot.add(quantityLimitLabel).center()≠;
+                    slot.add(quantityLimitLabel).center();
                 }
 
                 table.add(slot).size(120, 120).pad(5); // Add the slot to the table
