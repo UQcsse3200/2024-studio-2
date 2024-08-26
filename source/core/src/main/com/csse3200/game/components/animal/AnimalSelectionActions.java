@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.DialogueBox.DialogHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +67,10 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(new MainGameScreen(game)); // Transition to the game screen
+
+                    // Transition to the loading screen instead of directly to the game screen
+                    game.setScreen(new LoadingScreen(game));
+
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert();
