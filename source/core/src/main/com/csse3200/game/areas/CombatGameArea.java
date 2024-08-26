@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
@@ -56,8 +57,12 @@ public class CombatGameArea extends GameArea {
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
   private final TerrainFactory terrainFactory;
-  private Entity player;
 
+  private enum Turn { PLAYER, ENEMY }
+  private Turn currentTurn;
+  private Entity player;
+  private Entity combatEnemyNPC;
+  private boolean isCombatEnd = false;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
@@ -82,8 +87,49 @@ public class CombatGameArea extends GameArea {
     spawnTerrain();
     spawnBase();
     player = spawnPlayer();
-    spawnCombatEnemy();
+    combatEnemyNPC = spawnCombatEnemy();
+    currentTurn = Turn.PLAYER;
     playMusic();
+  }
+
+  /** This function will be connected to combat buttons */
+  public void onPlayerTurnCompleted() {
+    if (currentTurn == Turn.PLAYER && !isCombatEnd) {
+      handlePlayerTurn();
+      checkCombatEnd();
+      if (!isCombatEnd) {
+        switchToEnemyTurn();
+      }
+    }
+  }
+
+  private void switchToEnemyTurn() {
+    currentTurn = Turn.ENEMY;
+    logger.info("Switching to Enemy Turn");
+    handleEnemyTurn();
+    checkCombatEnd();
+    if (!isCombatEnd) {
+      currentTurn = Turn.PLAYER;
+      logger.info("Switching to Player Turn");
+    }
+  }
+
+  private void handlePlayerTurn() {
+    combatEnemyNPC.getComponent(CombatStatsComponent.class).hit(player.getComponent(CombatStatsComponent.class));
+    logger.info("Enemy health after player turn: {}", combatEnemyNPC.getComponent(CombatStatsComponent.class).getHealth());
+  }
+
+  private void handleEnemyTurn() {
+    player.getComponent(CombatStatsComponent.class).hit(combatEnemyNPC.getComponent(CombatStatsComponent.class));
+    logger.info("Player health after enemy turn: {}", player.getComponent(CombatStatsComponent.class).getHealth());
+  }
+
+  private void checkCombatEnd() {
+    if (player.getComponent(CombatStatsComponent.class).isDead()
+            || combatEnemyNPC.getComponent(CombatStatsComponent.class).isDead()) {
+      isCombatEnd = true;
+      logger.info("Combat ended");
+    }
   }
 
   private void displayUI() {
@@ -142,13 +188,14 @@ public class CombatGameArea extends GameArea {
   }
 
   /** Spawn a combat enemy. Different to a regular enemy npc */
-  private void spawnCombatEnemy() {
+  private Entity spawnCombatEnemy() {
     // Create entity
     // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
     // planned functionality -- callumR
     Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
     // Create in the world
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
+    return combatEnemyNPC;
   }
 
 
