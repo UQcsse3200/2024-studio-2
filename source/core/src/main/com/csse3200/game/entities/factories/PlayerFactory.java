@@ -43,8 +43,8 @@ public class PlayerFactory {
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-            .addComponent(new PlayerInventoryDisplay(stats.inventoryCapacity, 9)) // TODO!!!
-            .addComponent(new PlayerInventoryInputComponent()) // TODO!!!
+            .addComponent(new PlayerInventoryDisplay(stats.inventoryCapacity, 9))
+            .addComponent(new PlayerInventoryInputComponent())
             .addComponent(inputComponent)
             .addComponent(new PlayerStatsDisplay());
 
