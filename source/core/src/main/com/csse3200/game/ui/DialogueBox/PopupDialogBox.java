@@ -8,33 +8,34 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-public class DialogBox extends Dialog {
+public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
     private final TextButton nextButton;
-    private final Image dialogImage;
-    private final float imageWidth;
-    private final float imageHeight;
-    private final float imageX;
-    private final float imageY;
+    private final Image animalImage;
+    private final Image healthBarImage;
+
+    private final float dialogWidth;
+    private final float dialogHeight;
 
     private String[] titles;
     private String[] content;
     private int currentIndex = 0;
 
-    // Updated constructor to include image size and position
-    public DialogBox(String[] titles, String[] content, Skin skin, float imageWidth, float imageHeight, float imageX, float imageY) {
+    public PopupDialogBox(String[] titles, String[] content, String animalImagePath, Skin skin, float dialogWidth, float dialogHeight) {
         super("", skin);
         this.titles = titles;
         this.content = content;
-        this.imageWidth = imageWidth;
-        this.imageHeight = imageHeight;
-        this.imageX = imageX;
-        this.imageY = imageY;
+        this.dialogWidth = dialogWidth;
+        this.dialogHeight = dialogHeight;
 
-        // Load and initialize the image
-        Texture texture = new Texture(Gdx.files.internal("images/health_bar_x1.png"));
-        dialogImage = new Image(texture);
+        // Load the animal image
+        Texture animalTexture = new Texture(Gdx.files.internal(animalImagePath));
+        animalImage = new Image(animalTexture);
+
+        // Load the health bar image
+        Texture healthTexture = new Texture(Gdx.files.internal("images/health_bar_x1.png"));
+        healthBarImage = new Image(healthTexture);
 
         // Initialize labels and buttons
         titleLabel = new Label(titles[currentIndex], skin);
@@ -44,7 +45,7 @@ public class DialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Continue", skin);
+        nextButton = new TextButton("Confirm", skin);
         addActionListeners();
         createDialogLayout();
     }
@@ -62,19 +63,22 @@ public class DialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        // Add the image
-        dialogImage.setSize(imageWidth, imageHeight); // Set image size
-        dialogImage.setPosition(imageX, imageY);       // Set image position
+        // Layout: Image on the left, text on the right
+        Table innerTable = new Table();
+        innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
+        innerTable.add(contentLabel).width(dialogWidth * 0.5f);
 
-        contentTable.add(dialogImage).expandX().center().row(); // Add image to table
-        contentTable.add(titleLabel).padBottom(15).row();
-        contentTable.add(contentLabel).width(400).row();
+        // Add the health bar image below the text
+        contentTable.add(innerTable).expandX().center().row();
+        contentTable.add(healthBarImage).width(dialogWidth * 0.3f).padTop(10).row();
 
-        // Add next button at the bottom
+        // Add the next button at the bottom
         contentTable.add(nextButton).padTop(20);
 
         getContentTable().add(contentTable).expand().center();
-        setSize(500, 300);  // Adjust size as needed
+
+        // Set the size of the dialog box
+        setSize(dialogWidth, dialogHeight);
         setPosition((Gdx.graphics.getWidth() - getWidth()) / 2f, (Gdx.graphics.getHeight() - getHeight()) / 2f);
     }
 
