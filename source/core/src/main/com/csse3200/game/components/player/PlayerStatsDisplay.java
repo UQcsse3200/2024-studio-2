@@ -1,6 +1,5 @@
 package com.csse3200.game.components.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,13 +13,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.security.Provider;
 
 
 /**
  * A UI component for displaying player stats, e.g. health.
  */
+
 public class PlayerStatsDisplay extends UIComponent {
     Table table;
     private Image heartImage;
@@ -32,6 +33,7 @@ public class PlayerStatsDisplay extends UIComponent {
     private Animation<TextureRegion> healthBarAnimation;
     private Animation<TextureRegion> hungerBarAnimation;
     private TextureAtlas[] textureAtlas;
+    private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
 
 
     /**
@@ -163,7 +165,7 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerHungerUI(int hunger) {
 
         CharSequence text = String.format("HGR: %d", hunger);
-        System.out.println("Made it to this updateHealth function");
+      logger.info("Made it to this updateHealth function");
         System.out.println(hunger);
         hungerLabel.setText(text);
         int totalFrames = 11;
