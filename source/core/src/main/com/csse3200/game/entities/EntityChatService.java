@@ -8,12 +8,26 @@ public class EntityChatService {
     private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
 
     private ChatOverlay currentOverlay;
+    private String[] hints;
 
     /**
      * Create a new chat overlay with the given hint text.
      */
     public EntityChatService() {
         currentOverlay = null;
+        hints = null;
+    }
+
+    /**
+     * Retrieves a copy of the hints array used in the chat overlay.
+     * This method returns a copy of the internal hints array to
+     * prevent external modification of the original data.
+     *
+     * @return a copy of the hints array as a String[]
+     */
+    public String[] getHints() {
+        // Return a copy of the hints array to prevent modification of the original array
+        return hints.clone();
     }
 
     /**
@@ -31,6 +45,7 @@ public class EntityChatService {
             currentOverlay.dispose();
             currentOverlay = null;
             logger.debug("Disposed of current chat overlay.");
+            hints = null;
         }
     }
 
@@ -38,11 +53,12 @@ public class EntityChatService {
      * Update the current chat overlay if it exists.
      */
     public void updateText(String[] text) {
+        hints = text;
         if (currentOverlay != null) {
             currentOverlay.dispose();
             currentOverlay = null;
         }
 
-        currentOverlay = new ChatOverlay(text);
+        currentOverlay = new ChatOverlay(hints);
     }
 }

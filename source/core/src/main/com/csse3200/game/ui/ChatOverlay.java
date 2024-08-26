@@ -45,8 +45,8 @@ public class ChatOverlay {
 
         createBackgroundImage("images/blue-bar.png", 700);
 
-        label = new Label(hints[currentHint], skin, "default-white");
-        label.setFontScale(1.5f);
+        this.label = new Label(hints[currentHint], skin, "default-white");
+        this.label.setFontScale(1.5f);
 
         float labelWidth = label.getPrefWidth();
         float labelHeight = label.getPrefHeight();
@@ -57,6 +57,33 @@ public class ChatOverlay {
         stage.addActor(label);
 
         createButtons(labelY);
+    }
+
+    /**
+     * Returns the hints array.
+     *
+     * @return The hints array.
+     */
+    public String[] getHints() {
+        return this.hints;
+    }
+
+    /**
+     * Returns the current hint index.
+     *
+     * @return The current hint index.
+     */
+    public int getCurrentHint() {
+        return this.currentHint;
+    }
+
+    /**
+     * Allows access to the labels text
+     *
+     * @return the current label on the image
+     */
+    public Label getLabel() {
+        return this.label;
     }
 
     /**
@@ -179,5 +206,23 @@ public class ChatOverlay {
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }
+    }
+
+    /**
+     * Gets the forward button used for navigating to the next hint.
+     *
+     * @return the forward TextButton instance.
+     */
+    public TextButton getForwardButton() {
+        return forwardButton;
+    }
+
+    /**
+     * Gets the backward button used for navigating to the previous hint.
+     *
+     * @return the backward TextButton instance.
+     */
+    public TextButton getBackwardButton() {
+        return backwardButton;
     }
 }
