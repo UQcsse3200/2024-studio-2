@@ -43,16 +43,10 @@ public class MiniGameMenuScreen implements Screen {
         font.getData().setScale(2);
 
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
 
-        TextButtonStyle buttonStyle = new TextButtonStyle();
-        buttonStyle.font = font;
-        buttonStyle.up = skin.newDrawable("default-round", Color.BLUE);
-        buttonStyle.down = skin.newDrawable("default-round", Color.RED);
-        buttonStyle.disabled = skin.newDrawable("default-round", Color.GRAY);
-
-        TextButton exitButton = new TextButton("Exit", buttonStyle);
+        TextButton exitButton = new TextButton("Exit",skin);
         snakeTexture = new Texture(Gdx.files.internal("images/minigames/Snake.png"));
         skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
         waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
@@ -63,9 +57,9 @@ public class MiniGameMenuScreen implements Screen {
         Image waterImage = new Image(waterTexture);
 
 
-        TextButton snakeButton = new TextButton("Snake", buttonStyle);
-        TextButton skyButton = new TextButton("Flappy bird", buttonStyle);
-        TextButton waterButton = new TextButton("Underwater maze", buttonStyle);
+        TextButton snakeButton = new TextButton("Snake", skin);
+        TextButton skyButton = new TextButton("Flappy bird", skin);
+        TextButton waterButton = new TextButton("Underwater maze", skin);
 
 
         Table table = new Table();
