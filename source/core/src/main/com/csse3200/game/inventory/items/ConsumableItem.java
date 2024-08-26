@@ -20,7 +20,7 @@ public abstract class ConsumableItem extends AbstractItem {
      * @param limit the stack limit of the item
      * @param quantity the initial quantity for this item
      */
-    public ConsumableItem(String name, int itemCode, int limit, int quantity) {
+    protected ConsumableItem(String name, int itemCode, int limit, int quantity) {
         super(name, itemCode, limit, quantity);
     }
 

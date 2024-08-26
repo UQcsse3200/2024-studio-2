@@ -11,16 +11,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class AbstractPotionTest  {
+class AbstractPotionTest  {
     private HealingPotion healingPotion;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         healingPotion = new HealingPotion( 3);
     }
 
     @Test
-    public void testApplyEffect() {
+    void testApplyEffect() {
         healingPotion.useItem(null);
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");
 

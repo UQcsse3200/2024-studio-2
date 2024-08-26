@@ -1,7 +1,5 @@
 package com.csse3200.game.inventory.items;
 
-import com.badlogic.gdx.graphics.Texture;
-
 /**
  * Abstract base class for items that can be used by a player.
  * <p>
@@ -28,7 +26,7 @@ public abstract class AbstractItem {
      *
      * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
      */
-    public AbstractItem(String name, int itemCode) {
+    protected AbstractItem(String name, int itemCode) {
         this.name = name;
         this.itemCode = itemCode;
         this.limit = 1; // Default to non-stackable item
@@ -47,7 +45,7 @@ public abstract class AbstractItem {
      *
      * <p><strong>Note - all concrete subclasses must provide a unique itemCode</strong></p>
      */
-    public AbstractItem(String name, int itemCode, int limit, int quantity) {
+    protected AbstractItem(String name, int itemCode, int limit, int quantity) {
         if (quantity < 0 || limit < 0 || quantity > limit) {
             String msg = "Quantity/Limit must be non-negative and quantity must be less than limit";
             throw new IllegalArgumentException(msg);
