@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
@@ -96,8 +98,13 @@ public class PlayerInventoryDisplay extends UIComponent {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
 
+                Stack slotStack = new Stack();
+
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(skin);
+
+                slotStack.add(slot);
+
                 // final ImageButton slot = new ImageButton(skin, "inventory-slot");
                 // TODO: ADD INVENTORY STYLE - this requires adding these images to the skin!
 
@@ -105,10 +112,17 @@ public class PlayerInventoryDisplay extends UIComponent {
                 if (item != null) {
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
+
+                    // Create the label to show quantity/limit
+                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
+                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
+                    quantityLimitLabel.setAlignment(Align.bottomRight); // Align label to bottom-right
+
+                    slotStack.add(quantityLimitLabel);
                     addSlotListeners(slot, item, index);
                 }
 
-                table.add(slot).size(120, 120).pad(5); // Add the slot to the table
+                table.add(slotStack).size(120, 120).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
