@@ -6,7 +6,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.ui.ItemOverlay;
+import com.csse3200.game.ui.ChatOverlay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private final AbstractItem item;
     private boolean itemPickedUp = false;
     private boolean hasApproached;
-    private ItemOverlay itemOverlay;
+    private ChatOverlay itemOverlay;
 
     public ItemProximityTask(Entity target, int priority, float proximityThreshold, AbstractItem item) {
         this.target = target;
@@ -55,8 +55,8 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 
     private void createItemOverlay() {
         if (this.itemOverlay == null) {
-            String[] itemText = {item.getDescription() + "press P to pick it up."};
-            itemOverlay = new ItemOverlay(itemText);
+            String[] itemText = {item.getDescription() + "- press P to pick it up."};
+            itemOverlay = new ChatOverlay(itemText);
         }
     }
 
