@@ -108,7 +108,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 if (item != null) {
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
-                    addHoverListener(slot);
+                    addSlotListeners(slot, item, index);
                 }
 
                 table.add(slot).size(120, 120).pad(5); // Add the slot to the table
@@ -132,7 +132,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * This code was partially inspired by the code generated the highlighting of buttons on the
      * main menu screen. TODO: These should be abstracted away into a utility class!
      */
-    private void addHoverListener(ImageButton slot) {
+    private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
@@ -148,22 +148,11 @@ public class PlayerInventoryDisplay extends UIComponent {
         slot.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("BUTTON WAS CLICKED");
-//                entity.getEvents().trigger("start");
+                logger.debug("Item {} was used", item.getName());
+                inventory.useItemAt(index, null);
+                regenerateInventory();
             }
         });
-
-//        // Add hover listener for highlighting
-//        slot.addListener(new InputListener() {
-//            @Override
-//            public boolean mouseMoved(InputEvent event, float x, float y) {
-//                return true;
-//            }
-//
-//            @Override
-//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-//            }
-//        });
     }
 
     private void handleSlotClicked(int sX, int sY) {
@@ -231,6 +220,10 @@ public class PlayerInventoryDisplay extends UIComponent {
         } else {
             entity.getEvents().trigger("itemPickedUp", false);
         }
+        regenerateInventory();
+    }
+
+    private void regenerateInventory() {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();
