@@ -12,49 +12,74 @@ public class AnimalSelectionDisplay {
     private final TextButton selectButton;
     private final TextButton backButton;
 
+    /**
+     * Constructor for AnimalSelectionDisplay.
+     *
+     * @param stage The stage where UI elements are added.
+     * @param skin  The skin for styling UI elements.
+     */
     public AnimalSelectionDisplay(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
+
+        // Initialize arrays to hold images and buttons for the animals
         this.animalImages = new Image[3];
         this.animalButtons = new TextButton[3];
+
+        // Initialize the select and back buttons
         this.selectButton = new TextButton("Ready?", skin);
         this.backButton = new TextButton("Go Back", skin);
+
+        // Set up the display of the selection screen
         initializeDisplay();
     }
 
+    /**
+     * Initializes the display by setting up the layout of images and buttons on the stage.
+     */
     private void initializeDisplay() {
+        // Create the main table layout for positioning UI elements
         Table mainTable = new Table();
-        mainTable.setFillParent(true);
-        mainTable.top().padTop(80);
-        stage.addActor(mainTable);
+        mainTable.setFillParent(true); // Make the table fill the entire stage
+        mainTable.top().padTop(80); // Align the table to the top with some padding
+        stage.addActor(mainTable); // Add the table to the stage
 
+        // Paths to the images of the animals
         String[] animalImagePaths = {
                 "images/dog.png",
                 "images/croc.png",
                 "images/bird.png"
         };
 
+        // Add images and buttons for each animal
         for (int i = 0; i < 3; i++) {
-            animalImages[i] = new Image(new Texture(animalImagePaths[i]));
-            animalButtons[i] = new TextButton("Animal " + (i + 1), skin);
+            animalImages[i] = new Image(new Texture(animalImagePaths[i])); // Load the animal image
+            animalButtons[i] = new TextButton("Animal " + (i + 1), skin); // Create a button for the animal
 
+            // Create a table for each animal's image and button
             Table animalTable = new Table();
-            animalTable.add(animalImages[i]).pad(20).padLeft(180);
-            animalTable.row();
-            animalTable.add(animalButtons[i]).pad(10).padLeft(180);
+            animalTable.add(animalImages[i]).pad(20).padLeft(180); // Position the image with padding
+            animalTable.row(); // Move to the next row in the table
+            animalTable.add(animalButtons[i]).pad(10).padLeft(180); // Position the button with padding
 
+            // Add the animal table to the main table
             mainTable.add(animalTable).pad(10).expandX();
         }
 
+        // Add space between the animal selection and buttons
         mainTable.row();
         mainTable.add().expandY();
 
+        // Create a table for the select and back buttons
         Table buttonTable = new Table();
-        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250);
-        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380);
+        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250); // Position the select button
+        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380); // Position the back button
 
+        // Add the button table to the main table
         mainTable.add(buttonTable).center().padBottom(60).colspan(60).bottom();
     }
+
+    // Getters for accessing the UI elements
 
     public Image[] getAnimalImages() {
         return animalImages;
