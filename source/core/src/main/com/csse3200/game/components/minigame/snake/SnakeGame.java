@@ -2,6 +2,9 @@ package com.csse3200.game.components.minigame.snake;
 
 import java.util.List;
 
+/*
+ * This holds the logic for the Snake mini game. 
+ */
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
@@ -9,6 +12,9 @@ public class SnakeGame {
     private int score;
     private Boolean isGameOver;
 
+    /*
+    * Initialise values
+    */
     public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
         this.snake = snake;
         this.apple = apple;
@@ -64,7 +70,7 @@ public class SnakeGame {
 
     /**
      * Sets the score (used for testing only)
-     * @param value: the value for the score to be set to
+     * @param value: the value for the score to be set to.
      */
     public void setScore(int value) {
         this.score = value;

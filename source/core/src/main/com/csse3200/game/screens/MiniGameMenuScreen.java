@@ -111,6 +111,7 @@ public class MiniGameMenuScreen implements Screen {
             }
         });
 
+        // TODO: Will update as new minigames are implemented.
         skyImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -121,6 +122,7 @@ public class MiniGameMenuScreen implements Screen {
             }
         });
 
+        // TODO: Will update as new minigames are implemented.
         waterImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -142,6 +144,7 @@ public class MiniGameMenuScreen implements Screen {
             }
         });
 
+        // TODO: Will update as new minigames are implemented.
         skyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -152,6 +155,7 @@ public class MiniGameMenuScreen implements Screen {
             }
         });
 
+        // TODO: Will update as new minigames are implemented.
         waterButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
