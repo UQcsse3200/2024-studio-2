@@ -117,7 +117,7 @@ public class PlayerStatsDisplay extends UIComponent {
    * @param health player health
    */
   public void updatePlayerHealthUI(int health) {
-    CharSequence text = String.format("Health: %d", health);
+    CharSequence text = String.format("HP: %d", health);
     healthLabel.setText(text);
     int totalFrames = 11;
     // Debugged and Developed with ChatGPT
