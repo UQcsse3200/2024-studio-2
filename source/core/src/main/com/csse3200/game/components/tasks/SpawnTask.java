@@ -27,7 +27,6 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
         // Position the NPC at the spawn location
         owner.getEntity().setPosition(spawnPosition);
         // Trigger the spawn animation or other spawn logic
-        this.owner.getEntity().getEvents().trigger("spawnChicken");
     }
 
     @Override
