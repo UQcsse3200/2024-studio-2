@@ -41,16 +41,26 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   public void start() {
     super.start();
     startPos = owner.getEntity().getPosition();
+    Vector2 newPos = getRandomPosInRange();
 
     waitTask = new WaitTask(waitTime);
     waitTask.create(owner);
-    movementTask = new MovementTask(getRandomPosInRange());
+    movementTask = new MovementTask(newPos);
     movementTask.create(owner);
 
     movementTask.start();
     currentTask = movementTask;
 
-    this.owner.getEntity().getEvents().trigger("wanderStart");
+    if (newPos.x - startPos.x < 0) {
+      logger.debug("wandering right");
+      System.out.println("wandering left");
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+    } else {
+      System.out.println("wandering right");
+      logger.debug("wandering left");
+      this.owner.getEntity().getEvents().trigger("wanderRight");
+    }
+    // this.owner.getEntity().getEvents().trigger("wanderStart");
   }
 
   @Override
@@ -71,7 +81,15 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   }
 
   private void startMoving() {
+    Vector2 newPos = getRandomPosInRange();
+
+    if (newPos.x - startPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("wanderRight");
+    }
     logger.debug("Starting moving");
+
     movementTask.setTarget(getRandomPosInRange());
     swapTask(movementTask);
   }

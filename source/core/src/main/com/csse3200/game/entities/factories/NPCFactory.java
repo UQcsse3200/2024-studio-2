@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
+import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.tasks.ChaseTask;
@@ -78,7 +79,7 @@ public class NPCFactory {
     frog
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
-            .addComponent(new GhostAnimationController());
+            .addComponent(new FrogAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
     frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
