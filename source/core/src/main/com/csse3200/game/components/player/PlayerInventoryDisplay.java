@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
@@ -29,7 +30,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private int selectedSlot = -1;
     private final ImageButton[] slots;
-    Label useItemMessage;
     private boolean toggle = false; // Whether inventory is toggled on;
 
     /**
@@ -133,30 +133,23 @@ public class PlayerInventoryDisplay extends UIComponent {
      * main menu screen. TODO: These should be abstracted away into a utility class!
      */
     private void addHoverListener(ImageButton slot) {
-        // Create a label for showing the use item message
-        if (useItemMessage == null) {
-            useItemMessage = new Label("Press 'U' to use the item", skin);
-            useItemMessage.setColor(Color.WHITE);
-            useItemMessage.setVisible(true); // Initially hidden
-            stage.addActor(useItemMessage);
-        }
-
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                // Show the message
-                useItemMessage.setPosition(event.getStageX(), 0);
-                useItemMessage.setVisible(true);
-                stage.addActor(useItemMessage);
                 return true;
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // Hide the message
-                useItemMessage.setVisible(false);
-                useItemMessage.remove();
+            }
+        });
+
+        slot.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.info("BUTTON WAS CLICKED");
+//                entity.getEvents().trigger("start");
             }
         });
 

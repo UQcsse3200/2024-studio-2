@@ -15,7 +15,7 @@ public class Foods {
          * Constructs an Apple class  while assigning fields with set values.
          */
         public Apple(int quantity) {
-            super("Apple", 2, 10, quantity, new FeedEffect(2));
+            super("Apple", 11, 1, quantity, new FeedEffect(2));
             this.setTexturePath(path);
             this.setDescription("This is an apple, press P to pick up");
         }
