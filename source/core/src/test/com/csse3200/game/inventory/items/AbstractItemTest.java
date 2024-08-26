@@ -106,7 +106,4 @@ public class AbstractItemTest {
         assertEquals(1, item2.numUsed, msg);
         assertEquals(originalQuantity - 1, item2.getQuantity(), msg);
     }
-
-
-    // TODO: ADD TEST FOR SETTING/GETTING TEXTURE!!!
 }

@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
  * </p>
  */
 public abstract class AbstractItem {
-    protected String name; // TODO: May be unnecessary - can use getSimpleName instead!
+    protected String name; // Name of the item
     protected final int itemCode; // Unique up to item name
     protected final int limit; // Must be non-negative
     protected int quantity; // Must be non-negative

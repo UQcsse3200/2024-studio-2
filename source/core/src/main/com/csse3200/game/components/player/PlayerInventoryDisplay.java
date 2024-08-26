@@ -16,9 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
-
-// TODO: MAKE SLOT SIZE (IE INVENTORY SIZE) NOT A CONSTANT IN GENERATE WINDOW - MAKE IT A CLASS
-//  CONSTANT!!!
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
@@ -31,17 +28,17 @@ public class PlayerInventoryDisplay extends UIComponent {
     private boolean toggle = false; // Whether inventory is toggled on;
 
     /**
-     * Constructor for a Player Inventory // TODO!!!!
+     * Constructor for a Player Inventory
      * Must have capacity = xRange * yRange
      *
-     * @param capacity TODO
-     * @param numCols  TODO
+     * @param capacity the max amount of items the inventory can hold
+     * @param numCols  the no of cols the inventory will display
      */
     public PlayerInventoryDisplay(int capacity, int numCols) {
         if (numCols < 1) {
             throw new IllegalArgumentException("Inventory dimensions must be positive!");
         }
-        if (capacity % numCols != 0) { // TODO: WHAT IS THE RIGHT EXCEPTION TO THROW HERE?
+        if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
@@ -50,11 +47,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];
-
-        // TODO: MOVE THIS INTO THE PLAYER CLASS MAYBE? NOT SURE WHETHER PLAYER SHOULD HAVE THIS
-        //  OR INVENTORY SHOULD HAVE THIS!
-        //  this.inputComponent = new PlayerInventoryInputComponent(
-        //          numRows, numCols, 100, 100, 300, 300);
     }
 
     @Override
@@ -101,7 +93,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                 final ImageButton slot = new ImageButton(skin);
 
                 // final ImageButton slot = new ImageButton(skin, "inventory-slot");
-                // TODO: ADD INVENTORY STYLE - this requires adding these images to the skin!
 
                 // Add the item image to the slot
                 if (item != null) {
@@ -134,7 +125,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     /**
      * This code was partially inspired by the code generated the highlighting of buttons on the
-     * main menu screen. TODO: These should be abstracted away into a utility class!
+     * main menu screen.
      */
     private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message

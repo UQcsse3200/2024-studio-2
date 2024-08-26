@@ -8,16 +8,6 @@ import java.util.Optional;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
 
-// TODO List (for version 1 and future implementations):
-// TODO: Write Wiki page
-// TODO: Add support for adding multiple of an item, or adding until full
-// TODO: Add support for indexing, searching and sorting alphabetically by name
-// TODO: Error checking here and in abstract item needs to become significantly more rigorous
-// TODO: Naming and spell checking also needs to be run here and on abstract item.
-// TODO: Add inventory view class which adds support for rendering inventory
-// TODO: Possibly make abstract item a functional interface.
-// TODO: Change itemCode in AbstractItem to a static attribute!
-
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
  * manipulation. This class supports adding and removing items, checking inventory status, and

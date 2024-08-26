@@ -103,11 +103,5 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private boolean hasPlayerPickedUpNearItem() {
         EventHandler eventHandler = new EventHandler();
         return Objects.equals(eventHandler.getLastTriggeredEvent(), "itemPickedUp");
-        // TO DO uncomment this when removal of spawn items on map will be implemented
-//        Entity item = owner.getEntity();
-//        Vector2 targetPosition = target.getPosition();
-//        Vector2 itemPosition = item.getPosition();
-//        float distance = targetPosition.dst(itemPosition);
-//        return distance > proximityThreshold;
     }
 }

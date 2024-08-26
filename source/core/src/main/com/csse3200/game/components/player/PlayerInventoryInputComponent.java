@@ -13,7 +13,6 @@ public class PlayerInventoryInputComponent extends InputComponent {
 
     private void toggleInventory() {inventoryOpen = !inventoryOpen;}
 
-    // TODO: THIS FUNCTIONALITY IS NOT YET IMPLEMENTED!
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (inventoryOpen) {
@@ -30,19 +29,6 @@ public class PlayerInventoryInputComponent extends InputComponent {
         return false;
     }
 
-    // TODO: THIS FUNCTION IS NOT YET IMPLEMENTED!!!
     private void handleHover(int screenX, int screenY) {
-        // Handle hover logic her
-        // // TODO: ADD ITEM DESCRIPTION TO ABSTRACT ITEM!
-        //                    // TODO: FIGURE OUT HOW TO DO ITEM DESCRIPTION WITH HOVERING
-        //                    // Tooltip for item description
-        ////                    String description = "Hi my name is";
-        ////                    Label tooltipLabel = new Label(description, new Label.LabelStyle(skin.getFont("default-font"), Color.WHITE));
-        ////                    Table x = new Table();
-        ////                    x.add(tooltipLabel);
-        ////                    Tooltip<Table> tooltip = new Tooltip<>(x);
-        ////                    entity.getEvents().addListener(tooltip);
-        // TODO: NEED TO ADD CORRESPONDING EVENT HANDLER TO PlayerInventoryDisplay ONCE THE
-        //  TRIGGER IS WRITTEN!!!
     }
 }
