@@ -65,7 +65,8 @@ public class TouchAttackComponent extends Component {
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
     CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
     if (targetStats != null) {
-      targetStats.hit(combatStats);
+      // Trigger event to start combat screen
+      target.getEvents().trigger("startCombat", this.entity);
     }
 
     // Apply knockback

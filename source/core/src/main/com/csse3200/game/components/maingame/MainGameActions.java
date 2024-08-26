@@ -24,6 +24,8 @@ public class MainGameActions extends Component {
   public void create() {
     ServiceLocator.getEventService().globalEventHandler.addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
+    entity.getEvents().addListener("combatWin", this::onCombatWin);
+    entity.getEvents().addListener("combatLose", this::onCombatLoss);
   }
 
   /**
@@ -37,6 +39,24 @@ public class MainGameActions extends Component {
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen");
     // change to new GDXgame function
+    game.setOldScreen(screen, container);
+  }
+
+  /**
+   * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
+   */
+  private void onCombatWin(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen after combat win.");
+    // Set current screen to original MainGameScreen
+    game.setOldScreen(screen, container);
+  }
+
+  /**
+   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
+   */
+  private void onCombatLoss(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen after combat loss.");
+    // Set current screen to original MainGameScreen
     game.setOldScreen(screen, container);
   }
 }

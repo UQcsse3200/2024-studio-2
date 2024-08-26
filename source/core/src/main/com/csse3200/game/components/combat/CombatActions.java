@@ -1,7 +1,10 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private GdxGame game;
+  private final GdxGame game;
 
   public CombatActions(GdxGame game) {
     this.game = game;
@@ -19,14 +22,21 @@ public class CombatActions extends Component {
 
   @Override
   public void create() {
-    entity.getEvents().addListener("run", this::onRun);
+    ServiceLocator.getEventService().globalEventHandler.addListener("exit", this::onExit);
+    entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 
   /**
-   * Swaps to the Main Game screen.
+   * Swaps to the Main Menu screen.
    */
-  private void onRun() {
-    logger.info("Exiting combat screen to return to main game screen");
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+  private void onExit() {
+    logger.info("Exiting main game screen");
+    game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+  }
+
+  private void onReturnToMainGame(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen");
+    // change to new GDXgame function
+    game.setOldScreen(screen, container);
   }
 }
