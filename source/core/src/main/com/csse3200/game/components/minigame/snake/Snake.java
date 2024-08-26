@@ -69,7 +69,7 @@ public class Snake {
      * moves the snake in a direction
      */
     public void move(Direction direction) {
-        snakeBody.add(new Segment(x, y));
+        snakeBody.add(new Segment(x, y, this.direction));
         switch (direction) {
             case RIGHT: {
                 this.x += 1;
@@ -140,8 +140,16 @@ public class Snake {
      * Returns the full snake in segments
      */
     public List<Segment> getBodySegments() {
-        return new ArrayList<Segment>(snakeBody);
+        return new ArrayList<>(snakeBody);
     }
+
+    public Segment getLastSegment() {
+        if (snakeBody.isEmpty()) {
+            return null; // Return null if no segments exist
+        }
+        return snakeBody.getFirst();
+    }
+
 
     /*
      * Stores each segment of the snake
@@ -149,10 +157,12 @@ public class Snake {
     public class Segment {
         private int x;
         private int y;
+        private Direction direction;
 
-        public Segment(int x, int y) {
+        public Segment(int x, int y, Direction direction) {
             this.x = x;
             this.y = y;
+            this.direction = direction;
         }
 
         /*
@@ -167,6 +177,29 @@ public class Snake {
          */
         public int getY() {
             return y;
+        }
+
+        public Direction getDirection() {return this.direction;}
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true; // Check if the same object
+            if (o == null || getClass() != o.getClass()) return false; // Check for null and class type
+
+            Segment segment = (Segment) o;
+
+            // Compare x, y, and direction fields
+            if (x != segment.x) return false;
+            if (y != segment.y) return false;
+            return direction == segment.direction;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = x;
+            result = 31 * result + y;
+            result = 31 * result + (direction != null ? direction.hashCode() : 0);
+            return result;
         }
 
     }
