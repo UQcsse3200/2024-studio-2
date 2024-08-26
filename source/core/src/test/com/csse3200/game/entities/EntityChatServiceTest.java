@@ -11,7 +11,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.ui.DialogueBox;
 import com.badlogic.gdx.Gdx;
 
 @ExtendWith(GameExtension.class)
@@ -72,7 +72,7 @@ class EntityChatServiceTest {
         entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
 
-        ChatOverlay chatOverlay = entityChatService.getCurrentOverlay();
+        DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
 
         String page1 = chatOverlay.getLabel().getText().toString();
         String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHint()];

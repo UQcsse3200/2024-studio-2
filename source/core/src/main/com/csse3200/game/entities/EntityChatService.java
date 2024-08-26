@@ -1,13 +1,13 @@
 package com.csse3200.game.entities;
 
-import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.ui.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EntityChatService {
     private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
 
-    private ChatOverlay currentOverlay;
+    private DialogueBox currentOverlay;
     private String[] hints;
 
     /**
@@ -33,7 +33,7 @@ public class EntityChatService {
     /**
      * Returns the currentOverlay which can be null or not null
      * */
-    public ChatOverlay getCurrentOverlay() {
+    public DialogueBox getCurrentOverlay() {
         return this.currentOverlay;
     }
 
@@ -59,6 +59,6 @@ public class EntityChatService {
             currentOverlay = null;
         }
 
-        currentOverlay = new ChatOverlay(hints);
+        currentOverlay = new DialogueBox(hints);
     }
 }

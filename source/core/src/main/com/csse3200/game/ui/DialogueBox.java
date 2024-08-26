@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Align;
  * Represents a chat overlay UI component that displays a series of hint messages
  * and allows navigation between them using forward and backward buttons.
  */
-public class ChatOverlay {
+public class DialogueBox {
 
     private final Stage stage;
     private final Skin skin;
@@ -36,7 +36,7 @@ public class ChatOverlay {
      *
      * @param labelText The array of hint messages to display.
      */
-    public ChatOverlay(String[] labelText) {
+    public DialogueBox(String[] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
