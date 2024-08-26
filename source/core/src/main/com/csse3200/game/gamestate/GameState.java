@@ -8,5 +8,7 @@ import com.csse3200.game.gamestate.data.WorldState;
  * Not to be kept between playthroughs.
  */
 public class GameState {
+    private GameState() {}
+
     public static WorldState env = new WorldState();
 }

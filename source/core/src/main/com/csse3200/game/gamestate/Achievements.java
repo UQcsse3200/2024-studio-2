@@ -6,5 +6,5 @@ package com.csse3200.game.gamestate;
  * To be kept between playthroughs.
  */
 public class Achievements {
-
+    private Achievements() {}
 }

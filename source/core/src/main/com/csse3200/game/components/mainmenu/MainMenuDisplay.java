@@ -107,6 +107,16 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+      minigamesBtn.addListener(
+              new ChangeListener() {
+                  @Override
+                  public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                      logger.debug("SnakeGame button clicked");
+                      entity.getEvents().trigger("SnakeGame");
+                  }
+              });
+
         helpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
