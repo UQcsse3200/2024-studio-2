@@ -250,14 +250,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	radio-pressed-p: {
 		name: radio-pressed
 		color: pressed
-	},
-	"slot-background": {
-		name: window,
-		color: white
-	},
-	"slot-selected": {
-		name: window,
-		color: selection
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
@@ -271,7 +263,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		down: button-close-p
 		over: button-close-h
 	}
-},
+}
 com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 	default: {
 		checkboxOn: checkbox-pressed-c

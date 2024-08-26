@@ -1,8 +1,5 @@
 package com.csse3200.game.inventory.items;
 
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
@@ -38,9 +35,4 @@ public class AbstractFoodTest {
         item = new TestableItem("test", 3, 10, 3, effect1);
         context = new ItemUsageContext();
     }
-
-//    @Test
-//    void testHungerEffectApply() {
-//
-//    }
 }

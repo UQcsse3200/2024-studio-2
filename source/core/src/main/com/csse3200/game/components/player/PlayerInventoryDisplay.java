@@ -2,20 +2,22 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
+/**
+ * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
+ * It creates a window with a table of inventory slots that can display items, handle item usage,
+ * and update dynamically when the inventory changes.
+ */
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
@@ -23,16 +25,16 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final int numCols, numRows;
     private Window window;
     private Table table;
-    private int selectedSlot = -1;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
 
     /**
-     * Constructor for a Player Inventory
-     * Must have capacity = xRange * yRange
+     * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
+     * The capacity must be evenly divisible by the number of columns.
      *
-     * @param capacity the max amount of items the inventory can hold
-     * @param numCols  the no of cols the inventory will display
+     * @param capacity The total number of slots in the inventory.
+     * @param numCols  The number of columns in the inventory display.
+     * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     public PlayerInventoryDisplay(int capacity, int numCols) {
         if (numCols < 1) {
@@ -49,14 +51,20 @@ public class PlayerInventoryDisplay extends UIComponent {
         slots = new ImageButton[numRows * numCols];
     }
 
+    /**
+     * Initializes the component by setting up event listeners for toggling the inventory display
+     * and adding items.
+     */
     @Override
     public void create() {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
-        entity.getEvents().addListener("slotClicked", this::handleSlotClicked);
         entity.getEvents().addListener("addItem", this::addItem);
     }
 
+    /**
+     * Toggles the inventory display on or off based on its current state.
+     */
     private void toggleInventory() {
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
@@ -71,11 +79,19 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Handles drawing of the component. The actual rendering is managed by the stage.
+     *
+     * @param batch The SpriteBatch used for drawing.
+     */
     @Override
     public void draw(SpriteBatch batch) {
         // Handled by stage
     }
 
+    /**
+     * Generates the inventory window and populates it with inventory slots.
+     */
     private void generateWindow() {
         // Create the window (pop-up)
         window = new Window("Inventory", skin);
@@ -99,11 +115,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
-//
-//                    // Create the label to show quantity/limit
-//                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
-//                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
-//                    slot.add(quantityLimitLabel).center();
                 }
 
                 table.add(slot).size(120, 120).pad(5); // Add the slot to the table
@@ -124,8 +135,12 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
-     * This code was partially inspired by the code generated the highlighting of buttons on the
-     * main menu screen.
+     * Adds listeners to the inventory slots for handling hover and click events.
+     * This allows items to be used and inventory to be regenerated.
+     *
+     * @param slot  The ImageButton representing the inventory slot.
+     * @param item  The item in the slot.
+     * @param index The index of the slot in the inventory.
      */
     private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
@@ -150,65 +165,21 @@ public class PlayerInventoryDisplay extends UIComponent {
         });
     }
 
-    private void handleSlotClicked(int sX, int sY) {
-        // De-select previously selected slot
-        if (selectedSlot != -1) {
-            return;
-        }
-
-        selectedSlot = screenPosToClickedSlot(sX, sY); // Find newly selected slot
-
-        // Highlight the selected slot
-        if (selectedSlot != -1) {
-            return;
-        }
-    }
-
     /**
-     * Converts screen coordinates to the index of the clicked slot in the inventory table.
+     * Removes an item from the inventory and updates the display.
      *
-     * @param sX the x-coordinate of the screen position
-     * @param sY the y-coordinate of the screen position
-     * @return the index of the clicked slot, or -1 if the click is outside the table or within the
-     * padded area (ie the user clicked on a position where a slot doesn't exist)
-     */
-    private int screenPosToClickedSlot(int sX, int sY) {
-        // Convert to table coordinates
-        Vector2 localXY = table.stageToLocalCoordinates(new Vector2(sX, sY));
-        int x = (int) localXY.x;
-        int y = (int) localXY.y;
-
-        // Check position not in padded layer
-        if (mod(x, 130) < 5 || mod(x, 130) >= 125 || mod(y, 130) < 5 || mod(y, 130) >= 125) {
-            return -1;
-        }
-
-        // Convert to table row/col (0 indexed from top left corner)
-        int row = numRows + (y / 130); // y coordinate starts at top left of table
-        int col = x / 130;
-
-        // Check row/col is in table
-        if (row < 0 || col < 0 || row >= numRows || col >= numCols) {
-            return -1;
-        }
-
-        String msg = String.format("Clicked at row/col (%d, %d)", row, col);
-        logger.info(msg); // For debugging purposes
-
-        // Convert to slot index
-        return row * numCols + col;
-    }
-
-    /**
-     * Removes the item from the inventory when player deletes are uses up an item
-     *
-     * @param item to be deleted in inventory
+     * @param item The item to be removed from the inventory.
      */
     public void removeItem(AbstractItem item) {
         inventory.deleteItem(item.getItemCode());
         generateWindow();
     }
 
+    /**
+     * Adds an item to the inventory and triggers an event if successful.
+     *
+     * @param item The item to be added to the inventory.
+     */
     private void addItem(AbstractItem item) {
         if (this.inventory.add(item)) {
             entity.getEvents().trigger("itemPickedUp", true);
@@ -218,6 +189,10 @@ public class PlayerInventoryDisplay extends UIComponent {
         regenerateInventory();
     }
 
+    /**
+     * Regenerates the inventory display by toggling it off and on.
+     * This method is used to refresh the inventory UI without duplicating code.
+     */
     private void regenerateInventory() {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
@@ -225,6 +200,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Disposes of the resources used by the component, including the window, table, and slots.
+     */
     @Override
     public void dispose() {
         disposeSlots();
@@ -233,6 +211,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.dispose();
     }
 
+    /**
+     * Disposes of the inventory window, clearing its contents and removing it from the stage.
+     */
     private void disposeWindow() {
         // Delete old window
         if (window != null) {
@@ -242,6 +223,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Disposes of the inventory table, clearing its contents and removing it from the stage.
+     */
     private void disposeTable() {
         if (table != null) {
             table.clear();
@@ -250,6 +234,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Disposes of the inventory slots, clearing their contents and removing them from the stage.
+     */
     private void disposeSlots() {
         for (int i = 0; i < inventory.getCapacity(); i++) {
             if (slots[i] != null) {
@@ -260,6 +247,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * @return The z-index for this component.
+     */
     @Override
     public float getZIndex() {
         return Z_INDEX;
