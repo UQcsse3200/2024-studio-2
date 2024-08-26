@@ -47,7 +47,7 @@ public abstract class AbstractQuest {
      * True if quest is active (not completed or failed).
      */
     private boolean isActive;
-
+    /** Triggers for task completion. */
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
