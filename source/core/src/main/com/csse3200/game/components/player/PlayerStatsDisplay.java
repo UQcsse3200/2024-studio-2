@@ -76,8 +76,8 @@ public class PlayerStatsDisplay extends UIComponent {
         hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
 
         // xpBar initialisation
-        // textureAtlas[2] = new TextureAtlas("spriteSheets/xpBars.txt");
-        //TextureRegion[] xpBarFrames = new TextureRegion[11];
+        // textureAtlas[2] = new TextureAtlas("spriteSheets/xpBars.atlas");
+        // TextureRegion[] xpBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         //for (int i = 0; i < xpBarFrames.length; i++) {
         //String frameName = (100 - i * 10) + "%_health";
