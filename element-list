@@ -8,6 +8,8 @@ com.csse3200.game.components.gamearea
 com.csse3200.game.components.loading
 com.csse3200.game.components.maingame
 com.csse3200.game.components.mainmenu
+com.csse3200.game.components.minigame
+com.csse3200.game.components.minigame.snake
 com.csse3200.game.components.npc
 com.csse3200.game.components.player
 com.csse3200.game.components.settingsmenu

@@ -61,6 +61,8 @@ loadScripts(document, 'script');</script>
 <li><a href="com/csse3200/game/components/loading/package-tree.html">com.csse3200.game.components.loading</a>, </li>
 <li><a href="com/csse3200/game/components/maingame/package-tree.html">com.csse3200.game.components.maingame</a>, </li>
 <li><a href="com/csse3200/game/components/mainmenu/package-tree.html">com.csse3200.game.components.mainmenu</a>, </li>
+<li><a href="com/csse3200/game/components/minigame/package-tree.html">com.csse3200.game.components.minigame</a>, </li>
+<li><a href="com/csse3200/game/components/minigame/snake/package-tree.html">com.csse3200.game.components.minigame.snake</a>, </li>
 <li><a href="com/csse3200/game/components/npc/package-tree.html">com.csse3200.game.components.npc</a>, </li>
 <li><a href="com/csse3200/game/components/player/package-tree.html">com.csse3200.game.components.player</a>, </li>
 <li><a href="com/csse3200/game/components/settingsmenu/package-tree.html">com.csse3200.game.components.settingsmenu</a>, </li>
@@ -125,6 +127,7 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">com.csse3200.game.physics.raycast.<a href="com/csse3200/game/physics/raycast/AllHitCallback.html" class="type-name-link" title="class in com.csse3200.game.physics.raycast">AllHitCallback</a> (implements com.badlogic.gdx.physics.box2d.RayCastCallback)</li>
+<li class="circle">com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/Apple.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">Apple</a></li>
 <li class="circle">com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEntityConfig.html" class="type-name-link" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a>
 <ul>
 <li class="circle">com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/CowConfig.html" class="type-name-link" title="class in com.csse3200.game.entities.configs">CowConfig</a></li>
@@ -219,6 +222,12 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" class="type-name-link" title="class in com.csse3200.game.gamestate">GameState</a></li>
 <li class="circle">com.csse3200.game.services.<a href="com/csse3200/game/services/GameTime.html" class="type-name-link" title="class in com.csse3200.game.services">GameTime</a></li>
+<li class="circle">com.csse3200.game.components.minigame.<a href="com/csse3200/game/components/minigame/Grid.html" class="type-name-link" title="class in com.csse3200.game.components.minigame">Grid</a>
+<ul>
+<li class="circle">com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/SnakeGrid.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">SnakeGrid</a></li>
+</ul>
+</li>
+<li class="circle">com.csse3200.game.components.minigame.<a href="com/csse3200/game/components/minigame/GridCell.html" class="type-name-link" title="class in com.csse3200.game.components.minigame">GridCell</a></li>
 <li class="circle">com.csse3200.game.utils.math.<a href="com/csse3200/game/utils/math/GridPoint2Utils.html" class="type-name-link" title="class in com.csse3200.game.utils.math">GridPoint2Utils</a></li>
 <li class="circle">com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.html" class="type-name-link" title="class in com.csse3200.game.input">InputFactory</a>
 <ul>
@@ -228,6 +237,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">com.csse3200.game.input.<a href="com/csse3200/game/input/InputService.html" class="type-name-link" title="class in com.csse3200.game.input">InputService</a> (implements com.badlogic.gdx.input.GestureDetector.GestureListener, com.badlogic.gdx.InputProcessor)</li>
 <li class="circle">com.csse3200.game.concurrency.<a href="com/csse3200/game/concurrency/JobSystem.html" class="type-name-link" title="class in com.csse3200.game.concurrency">JobSystem</a></li>
+<li class="circle">com.csse3200.game.screens.<a href="com/csse3200/game/screens/MiniGameMenuScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">MiniGameMenuScreen</a> (implements com.badlogic.gdx.Screen)</li>
 <li class="circle">com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" class="type-name-link" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></li>
 <li class="circle">com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">NPCFactory</a></li>
 <li class="circle">com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ObstacleFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">ObstacleFactory</a></li>
@@ -250,11 +260,15 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.screens.<a href="com/csse3200/game/screens/MainGameScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">MainGameScreen</a></li>
 <li class="circle">com.csse3200.game.screens.<a href="com/csse3200/game/screens/MainMenuScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">MainMenuScreen</a></li>
 <li class="circle">com.csse3200.game.screens.<a href="com/csse3200/game/screens/SettingsScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">SettingsScreen</a></li>
+<li class="circle">com.csse3200.game.screens.<a href="com/csse3200/game/screens/SnakeScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">SnakeScreen</a></li>
 </ul>
 </li>
 <li class="circle">com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceLocator.html" class="type-name-link" title="class in com.csse3200.game.services">ServiceLocator</a></li>
 <li class="circle">com.csse3200.game.physics.raycast.<a href="com/csse3200/game/physics/raycast/SingleHitCallback.html" class="type-name-link" title="class in com.csse3200.game.physics.raycast">SingleHitCallback</a> (implements com.badlogic.gdx.physics.box2d.RayCastCallback)</li>
 <li class="circle">com.csse3200.game.components.mainmenu.<a href="com/csse3200/game/components/mainmenu/Slides.html" class="type-name-link" title="class in com.csse3200.game.components.mainmenu">Slides</a></li>
+<li class="circle">com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/Snake.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">Snake</a></li>
+<li class="circle">com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/Snake.Segment.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></li>
+<li class="circle">com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/SnakeGame.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">SnakeGame</a></li>
 <li class="circle">com.csse3200.game.utils.<a href="com/csse3200/game/utils/SortedIntMap.html" class="type-name-link" title="class in com.csse3200.game.utils">SortedIntMap</a>&lt;V&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;)</li>
 <li class="circle">com.csse3200.game.utils.<a href="com/csse3200/game/utils/StringDecorator.html" class="type-name-link" title="class in com.csse3200.game.utils">StringDecorator</a>&lt;T&gt;</li>
 <li class="circle">com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainFactory.html" class="type-name-link" title="class in com.csse3200.game.areas.terrain">TerrainFactory</a></li>
@@ -304,6 +318,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" class="type-name-link external-link" title="class or interface in java.lang">Enum</a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;T&gt;, java.lang.constant.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/constant/Constable.html" title="class or interface in java.lang.constant" class="external-link">Constable</a>, java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
+<li class="circle">com.csse3200.game.components.minigame.<a href="com/csse3200/game/components/minigame/Direction.html" class="type-name-link" title="enum class in com.csse3200.game.components.minigame">Direction</a></li>
 <li class="circle">com.csse3200.game.files.<a href="com/csse3200/game/files/FileLoader.Location.html" class="type-name-link" title="enum class in com.csse3200.game.files">FileLoader.Location</a></li>
 <li class="circle">com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" class="type-name-link" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></li>
 <li class="circle">com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.InputType.html" class="type-name-link" title="enum class in com.csse3200.game.input">InputFactory.InputType</a></li>
