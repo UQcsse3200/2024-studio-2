@@ -7,6 +7,9 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ArrayList;
 
+/*
+ * Class for the snake in the snake game
+ */
 public class Snake {
     private int x;
     private int y;
@@ -30,12 +33,23 @@ public class Snake {
         snakeBody = new ArrayDeque<>();
     }
 
+    /*
+     * Sets the direction the snake is moving
+     * @param direction: the direction to set to 
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
+    /*
+     * Get the current direction of the snake
+     */
     public Direction getDirection() {return this.direction;}
 
+    /*
+     * Update snake direction with checks
+     * @param direction: the direction to update to
+     */
     public void updateDirectionOnInput(Direction direction) {
         if (direction == Direction.UP && this.direction != Direction.DOWN) {
             this.nextDirection = direction;
@@ -51,6 +65,9 @@ public class Snake {
         }
     }
 
+    /*
+     * moves the snake in a direction
+     */
     public void move(Direction direction) {
         snakeBody.add(new Segment(x, y));
         switch (direction) {
@@ -80,6 +97,9 @@ public class Snake {
         grid.setOccupied(x, y, true);
     }
 
+    /*
+     * grows the snake (increase it's length)
+     */
     void grow() {
         length += 1;
     }
@@ -109,10 +129,16 @@ public class Snake {
         return y;
     }
 
+    /*
+     * Returns the full snake in segments
+     */
     public List<Segment> getBodySegments() {
         return new ArrayList<Segment>(snakeBody);
     }
 
+    /*
+     * Stores each segment of the snake
+     */
     public class Segment {
         private int x;
         private int y;
@@ -122,10 +148,16 @@ public class Snake {
             this.y = y;
         }
 
+        /*
+         * get Y co-ordinate of the snake segment
+         */
         public int getX() {
             return x;
         }
     
+        /*
+         * get X xo-ordinate of the snake segment
+         */
         public int getY() {
             return y;
         }
