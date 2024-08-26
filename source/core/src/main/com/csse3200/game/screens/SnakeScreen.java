@@ -108,7 +108,7 @@ public class SnakeScreen extends ScreenAdapter {
             // Check if the snake has hit the boundary
             if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
                 snakeGame.setIsGameOver(true);
-                handleBoundaryCollision();
+                logger.info("Snake has hit the boundary or itself!");
             } else {
                 // Only update direction and snake position if the game is not over
                 updateDirection();
@@ -129,6 +129,9 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
+    /*
+     * Renders the screen when the game ends.
+     */
     private void renderGameOver() {
         // clean background and set to green
         Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
@@ -137,11 +140,7 @@ public class SnakeScreen extends ScreenAdapter {
         // Keeps the exit button
         ServiceLocator.getEntityService().update();
         renderer.render();
-        renderEndScore();
-    }
-
-    private void handleBoundaryCollision() {
-        logger.info("Snake has hit the boundary or itself!");
+        renderEndMessage();
     }
 
     /**
@@ -233,6 +232,9 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
+    /*
+     * Puts the game score lable to the right side of the game
+     */
     private void renderGameScore() {
         spriteBatch.begin();
 
@@ -266,7 +268,10 @@ public class SnakeScreen extends ScreenAdapter {
         spriteBatch.end();
     }
 
-    private void renderEndScore() {
+    /*
+     * Renders the messages on the end game screen
+     */
+    private void renderEndMessage() {
         spriteBatch.begin();
 
         int centerX = Gdx.graphics.getWidth() / 2;
@@ -385,6 +390,9 @@ public class SnakeScreen extends ScreenAdapter {
         font.dispose();
     }
 
+    /*
+     * Loads the assets for the game
+     */
     private void loadAssets() {
         logger.debug("Loading snake minigame assets");
 
@@ -404,6 +412,9 @@ public class SnakeScreen extends ScreenAdapter {
         grassTexture = resourceService.getAsset(grassImage, Texture.class);
     }
 
+    /*
+     * Unloads assests for the game
+     */
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();

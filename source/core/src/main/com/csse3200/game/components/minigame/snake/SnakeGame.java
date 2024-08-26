@@ -63,6 +63,7 @@ public class SnakeGame {
     /**
      * Adds constant to the score
      * @return the constant to add to the score
+     * TODO: Might change scoreing system, hence the function
      */
     private int calculateScore() {
         return 1;
