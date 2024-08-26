@@ -21,7 +21,7 @@ public class ItemFactory {
 
         Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(item.getTexturePath()))
                 .addComponent(new PhysicsComponent())
-                .addComponent(new ColliderComponent().setLayer(OBSTACLE))
+//                .addComponent(new ColliderComponent().setLayer(OBSTACLE))
                 .addComponent(aiComponent);
         itemEntity.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         return itemEntity;
