@@ -1,6 +1,5 @@
 package com.csse3200.game.components.player;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,13 +12,10 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
-import java.util.Arrays;
 import org.slf4j.LoggerFactory;
 import static com.csse3200.game.utils.math.EuclideanDivision.mod;
 
 
-// TODO: HANDLE REGENERATION OF WINDOW IF ITEM IS PICKED UP WHILST WINDOW IS OPEN!
-// TODO: HANDLE DISPOSAL OF TABLES!!!
 // TODO: MAKE SLOT SIZE (IE INVENTORY SIZE) NOT A CONSTANT IN GENERATE WINDOW - MAKE IT A CLASS
 //  CONSTANT!!!
 public class PlayerInventoryDisplay extends UIComponent {
@@ -248,7 +244,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
-    // TODO - FIGURE OUT IF THIS FUNCTION IS NEEDED!!!!
     private void disposeTable() {
         if (table != null) {
             table.clear();
