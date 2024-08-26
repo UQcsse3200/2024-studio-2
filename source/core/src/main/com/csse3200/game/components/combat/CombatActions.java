@@ -2,6 +2,7 @@ package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
@@ -15,9 +16,11 @@ import org.slf4j.LoggerFactory;
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
+  private final Entity enemy; // Each combat can only have one enemy.
 
-  public CombatActions(GdxGame game) {
+  public CombatActions(GdxGame game, Entity enemy) {
     this.game = game;
+    this.enemy = enemy;
   }
 
   @Override
@@ -47,6 +50,8 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
+    // Kill enemy.
+    this.enemy.dispose();
     // Set current screen to original MainGameScreen
     game.setOldScreen(screen, container);
   }
