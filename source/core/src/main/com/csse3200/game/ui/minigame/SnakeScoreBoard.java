@@ -17,6 +17,7 @@ public class SnakeScoreBoard {
     private Label bronzeLabel;
     private Label silverLabel;
     private Label goldLabel;
+    private Label medalLabel;
     private Table table;
 
     public SnakeScoreBoard(int initialScore) {
@@ -28,6 +29,12 @@ public class SnakeScoreBoard {
         scoreLabel.setFontScale(2.0f);
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.center);
+
+        // Create Medal Title
+        medalLabel = new Label("Medals", skin, "default-white");
+        medalLabel.setFontScale(2.0f);
+        medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create labels for Bronze, Silver, Gold
         bronzeLabel = new Label("Bronze: 5", skin, "default-white");
@@ -48,6 +55,9 @@ public class SnakeScoreBoard {
 
         // Add the score label to the table with increased padding
         table.add(scoreLabel).padTop(100).padBottom(40).expandX().fillX().colspan(2);
+        table.row(); // Move to the next row
+
+        table.add(medalLabel).center().padTop(100).padBottom(20).expandX().fillX().padLeft(120);
         table.row(); // Move to the next row
 
         // Add the Bronze, Silver, Gold labels to the table with increased padding
