@@ -23,7 +23,6 @@ public class ItemFactory {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item));
 
-        //Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(texturePath))
         Entity itemEntity = new  Entity().addComponent(new TextureRenderComponent(item.getTexturePath()))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(OBSTACLE))

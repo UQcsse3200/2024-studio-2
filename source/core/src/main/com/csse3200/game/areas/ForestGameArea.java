@@ -22,12 +22,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_TREES = 7;
-  private  static final int NUM_APPLES = 15;
+  private  static final int NUM_APPLES = 4;
+  private  static final int NUM_HEALTH_POTIONS = 2;
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
@@ -90,8 +93,8 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnHealthPotion();
-    spawnApple();
+    spawnHealthPotions();
+    spawnApples();
     //spawnGhosts();
     //spawnGhostKing();
     spawnCow();
@@ -140,13 +143,29 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnTrees() {
+    spawnRandomObstacle(ObstacleFactory::createTree, NUM_TREES);
+  }
+
+  private void spawnRandomObstacle(Supplier<Entity> creator, int numEntities) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    for (int i = 0; i < NUM_TREES; i++) {
+    for (int i = 0; i < numEntities; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
+      Entity obstacle = creator.get();
+      spawnEntityAt(obstacle, randomPos, true, false);
+    }
+  }
+
+  private void spawnRandomEnemy(Supplier<Entity> creator, int numEntities) {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    for (int i = 0; i < numEntities; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      this.enemies.add(enemy);
+      spawnEntityAt(enemy, randomPos, true, true);
     }
   }
 
@@ -157,15 +176,8 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnGhosts() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_GHOSTS; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
-      this.enemies.add(ghost);
-      spawnEntityAt(ghost, randomPos, true, true);
-    }
+    Supplier<Entity> ghostGenerator = () -> NPCFactory.createGhost(player);
+    spawnRandomEnemy(ghostGenerator, NUM_GHOSTS);
   }
 
   private void spawnGhostKing() {
@@ -212,14 +224,14 @@ public class ForestGameArea extends GameArea {
     spawnEntityOnMap(snake);
   }
 
-  private void spawnHealthPotion() {
-    Entity healthPotion = ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
-    spawnEntityAt(healthPotion, new GridPoint2(9, 9), true, true);
+  private void spawnHealthPotions() {
+    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player, new HealingPotion("Potion", 2,5, 4));
+    spawnRandomObstacle(healthPotionGenerator, NUM_HEALTH_POTIONS);
   }
 
-  private  void spawnApple() {
-    Entity apple = ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
-    spawnEntityAt(apple, new GridPoint2(4, 9), true, false);
+  private  void spawnApples() {
+    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player, new Foods.Apple("Apple", 3, 10, 5));
+    spawnRandomObstacle(appleGenerator, NUM_APPLES);
   }
 
   private void playAnimalSound(String animalSoundPath) {
