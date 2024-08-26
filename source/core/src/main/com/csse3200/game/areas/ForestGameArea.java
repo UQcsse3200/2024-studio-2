@@ -98,7 +98,7 @@ public class ForestGameArea extends GameArea {
     spawnCow();
     spawnEagle();
     //spawnSnake();
-    //playMusic();
+    playMusic();
   }
 
     /**
@@ -242,7 +242,7 @@ public class ForestGameArea extends GameArea {
         playAnimalSound(eagleSounds[0]);
     }
 
-  private void playMusic() {
+  public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
