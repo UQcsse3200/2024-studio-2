@@ -226,7 +226,7 @@ public class ForestGameArea extends GameArea {
     spawnRandomObstacle(healthPotionGenerator, NUM_HEALTH_POTIONS);
   }
 
-  private  void spawnApples() {
+  private void spawnApples() {
     Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
     spawnRandomObstacle(appleGenerator, NUM_APPLES);
   }

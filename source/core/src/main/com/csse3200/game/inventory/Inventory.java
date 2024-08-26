@@ -61,6 +61,11 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * @return the number of slots currently used in the inventory
+     */
+    public int getSize() {return this.getCapacity() - this.numFreeSlots();}
+
+    /**
      * @return {@code true} if the inventory is full, {@code false} otherwise.
      */
     @Override

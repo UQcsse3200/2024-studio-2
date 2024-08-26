@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.inventory.Inventory;
@@ -60,6 +61,24 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("addItem", this::addItem);
+    }
+
+    /**
+     * @return whether the inventory is displayed for testing purposes.
+     */
+    public boolean isToggled() {
+        return toggle;
+    }
+
+    /**
+     * @return the inventory for testing purposes
+     */
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     /**
@@ -254,6 +273,4 @@ public class PlayerInventoryDisplay extends UIComponent {
     public float getZIndex() {
         return Z_INDEX;
     }
-
-
 }
