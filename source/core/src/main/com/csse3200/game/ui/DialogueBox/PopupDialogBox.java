@@ -13,7 +13,8 @@ public class PopupDialogBox extends Dialog {
     private final Label contentLabel;
     private final TextButton nextButton;
     private final Image animalImage;
-    private final Image healthBarImage;
+    private final Image healthBarImage1;
+    private final Image healthBarImage2;
 
     private final float dialogWidth;
     private final float dialogHeight;
@@ -33,9 +34,10 @@ public class PopupDialogBox extends Dialog {
         Texture animalTexture = new Texture(Gdx.files.internal(animalImagePath));
         animalImage = new Image(animalTexture);
 
-        // Load the health bar image
+        // Load the health bar images
         Texture healthTexture = new Texture(Gdx.files.internal("images/health_bar_x1.png"));
-        healthBarImage = new Image(healthTexture);
+        healthBarImage1 = new Image(healthTexture);
+        healthBarImage2 = new Image(healthTexture);
 
         // Initialize labels and buttons
         titleLabel = new Label(titles[currentIndex], skin);
@@ -63,16 +65,27 @@ public class PopupDialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        // Layout: Image on the left, text on the right
+        // Layout: Image on the left, text and health bars on the right
+        Table rightTable = new Table();
+
+        // Text on top 1/3 of the right side
+        Table textTable = new Table();
+        textTable.add(contentLabel).width(dialogWidth * 0.3f).top().expandY();
+        rightTable.add(textTable).width(dialogWidth * 0.3f).expandX().row();
+
+        // Health bars on bottom 2/3 of the right side
+        Table healthTable = new Table();
+        healthTable.add(healthBarImage1).width(dialogWidth * 0.3f).height(dialogHeight * 0.2f).padTop(10).row();
+        healthTable.add(healthBarImage2).width(dialogWidth * 0.3f).height(dialogHeight * 0.2f).padTop(10);
+        rightTable.add(healthTable).expandX().fillY().top();
+
+        // Add image and right table to the content layout
         Table innerTable = new Table();
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
-        innerTable.add(contentLabel).width(dialogWidth * 0.5f);
+        innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add the health bar image below the text
+        // Add inner table and next button to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(healthBarImage).width(dialogWidth * 0.3f).padTop(10).row();
-
-        // Add the next button at the bottom
         contentTable.add(nextButton).padTop(20);
 
         getContentTable().add(contentTable).expand().center();
