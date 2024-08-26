@@ -1,13 +1,9 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
