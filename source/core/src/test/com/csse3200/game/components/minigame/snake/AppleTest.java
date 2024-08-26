@@ -28,8 +28,8 @@ public class AppleTest {
     @Test
     public void testAppleRespawn() {
         Apple apple = new Apple(grid);
-        int firstX = apple.getX();
-        int firstY = apple.getY();
+        // int firstX = apple.getX();
+        // int firstY = apple.getY();
 
         apple.spawn();
         int newX = apple.getX();
