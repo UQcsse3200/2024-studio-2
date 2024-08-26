@@ -148,7 +148,7 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
        logger.info("Made it to this updateHealth function");
-        System.out.println(health);
+      logger.info("{}", health);
         healthLabel.setText(text);
         int totalFrames = 11;
 
@@ -166,7 +166,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
         CharSequence text = String.format("HGR: %d", hunger);
       logger.info("Made it to this updateHealth function");
-        System.out.println(hunger);
+      logger.info("{}", hunger);
         hungerLabel.setText(text);
         int totalFrames = 11;
 
