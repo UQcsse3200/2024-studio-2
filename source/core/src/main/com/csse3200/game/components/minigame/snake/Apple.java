@@ -47,4 +47,12 @@ public class Apple {
     public int getY() {
         return y;
     }
+
+    /*
+     * Set apple location. Used for testing and debugging only.
+     */
+    public void setAppleLocation(int newX, int newY) {
+        x = newX;
+        y = newY;
+    }
 }

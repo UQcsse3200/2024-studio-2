@@ -103,6 +103,13 @@ public class Snake {
     void grow() {
         length += 1;
     }
+
+    /*
+     * Returns current snake length. Used only for testing.
+     */
+    public int getLength() {
+        return length;
+    }
     
     public void update(float dt) {
         moveTimer -= dt;
