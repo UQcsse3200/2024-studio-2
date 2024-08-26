@@ -197,9 +197,6 @@ public class PlayerStatsDisplay extends UIComponent {
         xpLabel.remove();
         hungerImage.remove();
         hungerLabel.remove();
-        //for (int i = 0; i < textureAtlas.length; i++) {
-        //    textureAtlas[i].dispose();
-        //}
         textureAtlas[0].dispose();
     }
 }
