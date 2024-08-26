@@ -117,6 +117,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
+    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
     if (!resting) {
       gameArea.playMusic();
     }
@@ -230,6 +231,7 @@ public class MainGameScreenDup extends ScreenAdapter {
   public void wake() {
     logger.info("Screen is Awake");
     resting = false;
+    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

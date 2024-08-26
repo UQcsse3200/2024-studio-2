@@ -108,6 +108,14 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
+  /**
+   * gets the player
+   * @return player entity
+   */
+  public Entity getPlayer () {
+    return player;
+  }
+
   public void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
