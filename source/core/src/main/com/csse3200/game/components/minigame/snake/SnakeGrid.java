@@ -21,10 +21,8 @@ public class SnakeGrid extends Grid {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    // We can add snake-specific methods here if needed.
-    // No thar should be in snake Game
     public boolean isCollision(int x, int y) {
-        // Check if a cell is occupied (could represent the snake's body)
+        // Check if a cell is occupied, snakes body and head and apples
         return isOccupied(x, y);
     }
 

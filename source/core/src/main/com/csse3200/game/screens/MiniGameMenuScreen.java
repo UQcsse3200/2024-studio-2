@@ -164,7 +164,6 @@ public class MiniGameMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         // Set the background color to black
-        //Gdx.gl.glClearColor(0, 0, 0, 1); // RGBA values (black)
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
