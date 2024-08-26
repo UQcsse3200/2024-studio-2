@@ -122,13 +122,17 @@ public class GdxGame extends Game {
         return new SettingsScreen(this);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, ACHIEVEMENTS
+
+    MAIN_MENU, MAIN_GAME, SETTINGS, LOADING_SCREEN, ACHIEVEMENTS
+
   }
 
   /**

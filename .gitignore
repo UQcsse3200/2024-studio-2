@@ -2,4 +2,8 @@
 
 ### Gradle ###
 .gradle/
-*.json
+
+
+
+**/.DS_Store
+

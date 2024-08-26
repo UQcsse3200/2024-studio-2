@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.loading.LoadingDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -14,48 +15,40 @@ import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** The game screen containing the settings. */
-public class SettingsScreen extends ScreenAdapter {
-  private static final Logger logger = LoggerFactory.getLogger(SettingsScreen.class);
+public class LoadingScreen extends ScreenAdapter {
+  private static final Logger logger = LoggerFactory.getLogger(LoadingScreen.class);
 
   private final GdxGame game;
   private final Renderer renderer;
+  private LoadingDisplay loadingDisplay;
 
-  public SettingsScreen(GdxGame game) {
+  public LoadingScreen(GdxGame game) {
     this.game = game;
 
-    logger.debug("Initialising settings screen services");
+    logger.debug("Initialising loading screen services");
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerTimeSource(new GameTime());
-    ServiceLocator.registerEventService(new EventService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(5f, 5f);
 
     createUI();
   }
-
-  @Override
-  public void pause() {
-    logger.info("Game paused");
-  }
-
-  @Override
-  public void resume() {
-    logger.info("Game resumed");
-  }
-
   @Override
   public void render(float delta) {
     ServiceLocator.getEntityService().update();
     renderer.render();
+    if (loadingDisplay.isLoadingFinished()) {
+      game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    }
+
   }
 
   @Override
@@ -68,7 +61,6 @@ public class SettingsScreen extends ScreenAdapter {
     renderer.dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getEventService().dispose();
 
     ServiceLocator.clear();
   }
@@ -81,7 +73,8 @@ public class SettingsScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new SettingsMenuDisplay()).addComponent(new InputDecorator(stage, 10));
+    loadingDisplay = new LoadingDisplay();
+    ui.addComponent(loadingDisplay).addComponent(new InputDecorator(stage, 10));
     ServiceLocator.getEntityService().register(ui);
   }
 }
