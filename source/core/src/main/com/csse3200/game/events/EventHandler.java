@@ -156,4 +156,16 @@ public class EventHandler {
   private static void logTrigger(String eventName) {
     logger.debug("Triggering event {}", eventName);
   }
+
+  public void removeListener(String eventName, EventListener0 listenerToRemove) {
+    logger.debug("Removing listener {} from event {}", listenerToRemove, eventName);
+    Array<EventListener> eventListeners = listeners.getOrDefault(eventName, null);
+    if (eventListeners != null) {
+      eventListeners.removeValue(listenerToRemove, true);
+      if (eventListeners.size == 0) {
+        listeners.remove(eventName);
+      }
+    }
+  }
+
 }

@@ -24,10 +24,14 @@ public abstract class GameArea implements Disposable {
     areaEntities = new ArrayList<>();
   }
 
-  /** Create the game area in the world. */
+  /**
+   * Create the game area in the world.
+   */
   public abstract void create();
 
-  /** Dispose of all internal entities in the area */
+  /**
+   * Dispose of all internal entities in the area
+   */
   public void dispose() {
     for (Entity entity : areaEntities) {
       entity.dispose();
@@ -47,13 +51,13 @@ public abstract class GameArea implements Disposable {
   /**
    * Spawn entity on a given tile. Requires the terrain to be set first.
    *
-   * @param entity Entity (not yet registered)
+   * @param entity  Entity (not yet registered)
    * @param tilePos tile position to spawn at
    * @param centerX true to center entity X on the tile, false to align the bottom left corner
    * @param centerY true to center entity Y on the tile, false to align the bottom left corner
    */
   protected void spawnEntityAt(
-      Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
+          Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
     Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
     float tileSize = terrain.getTileSize();
 

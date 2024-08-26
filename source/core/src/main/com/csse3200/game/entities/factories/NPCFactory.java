@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+//import com.csse3200.game.components.npc.AnimationTransitionComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.tasks.ChaseTask;
+import com.csse3200.game.components.tasks.SpawnTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
@@ -48,12 +50,13 @@ public class NPCFactory {
     Entity chicken = createBaseNPC(target);
     BaseEntityConfig config = configs.chicken;
 
-    /*TODO
-      Change this to an animation for a chicken */
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class));
+    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
+
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
     animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+
     chicken
             .addComponent(animator)
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -144,6 +147,7 @@ public class NPCFactory {
   private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
+                .addTask(new SpawnTask(new Vector2(2f, 2f), 2f))
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
             .addTask(new ChaseTask(target, 10, 3f, 4f));
     Entity npc =
