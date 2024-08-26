@@ -24,7 +24,7 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final int NUM_TREES = 7000;
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(0, 1);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -91,29 +91,29 @@ public class ForestGameArea extends GameArea {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
-    // Terrain walls
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+    // // Terrain walls
+    // float tileSize = terrain.getTileSize();
+    // GridPoint2 tileBounds = terrain.getMapBounds(0);
+    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-     // Left
-     spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-     // Right
-     spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-         new GridPoint2(tileBounds.x, 0),
-         false,
-         false);
-     // Top
-     spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-         new GridPoint2(0, tileBounds.y),
-         false,
-         false);
-     // Bottom
-     spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+    //  // Left
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
+    //  // Right
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+    //      new GridPoint2(tileBounds.x, 0),
+    //      false,
+    //      false);
+    //  // Top
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+    //      new GridPoint2(0, tileBounds.y),
+    //      false,
+    //      false);
+    //  // Bottom
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void updateTerrain(GridPoint2 playerPosition) {
