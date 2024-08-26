@@ -102,6 +102,15 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the Cow has the correct base hint.
+     */
+    @Test
+    void testCowBaseHint() {
+        assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."}, configs.cow.getBaseHint());
+    }
+
+
+    /**
      * Tests that the cow is an Entity.
      */
     @Test
@@ -194,6 +203,14 @@ class NPCFactoryTest {
     @Test
     void TestLionCreation() {
         assertNotNull(lion, "Lion should not be null.");
+    }
+
+    /**
+     * Tests that the Lion has the correct base hint.
+     */
+    @Test
+    void testLionBaseHint() {
+        assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}, configs.lion.getBaseHint());
     }
 
     /**
@@ -299,6 +316,14 @@ class NPCFactoryTest {
     @Test
     void TestEagleCreation() {
         assertNotNull(eagle, "Eagle should not be null.");
+    }
+
+    /**
+     * Tests that the Eagle has the correct base hint.
+     */
+    @Test
+    void testEagleBaseHint() {
+        assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}, configs.eagle.getBaseHint());
     }
 
     /**
@@ -416,6 +441,14 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the turtle has the correct base hint.
+     */
+    @Test
+    void testTurtleBaseHint() {
+        assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}, configs.turtle.getBaseHint());
+    }
+
+    /**
      * Tests that the turtle has a physics component.
      */
     @Test
@@ -513,9 +546,16 @@ class NPCFactoryTest {
     }
 
     /**
+     * Tests that the Snake has the correct base hint.
+     */
+    @Test
+    void testSnakeBaseHint() {
+        assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."}, configs.snake.getBaseHint());
+    }
+
+    /**
      * Tests that the snake has a physics component.
      */
-
     @Test
     void TestSnakeHasPhysicsComponent() {
         assertNotNull(snake.getComponent(PhysicsComponent.class));
