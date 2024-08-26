@@ -48,7 +48,7 @@ public abstract class AbstractPotion extends ConsumableItem {
      * @param possibleEffects a list of {@link AbstractEffect} objects representing the effects that this
      * potion can apply
      */
-    public AbstractPotion(String name, int itemCode, int limit, int quantity, List<AbstractEffect> possibleEffects) {
+    protected AbstractPotion(String name, int itemCode, int limit, int quantity, List<AbstractEffect> possibleEffects) {
         super(name, itemCode, limit, quantity);
         this.possibleEffects = possibleEffects;
 

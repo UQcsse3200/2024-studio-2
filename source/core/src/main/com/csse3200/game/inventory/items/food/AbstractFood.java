@@ -24,7 +24,7 @@ public class AbstractFood extends ConsumableItem {
      * @param limit the stack limit of the item
      * @param quantity the initial quantity for this item
      */
-    public AbstractFood(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
+    protected AbstractFood(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
         super(name, itemCode, limit, quantity);
         this.feedingEffect = feedingEffect;
     }
