@@ -64,6 +64,7 @@ class QuestBasicTest {
         assertEquals(1, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
         assertTrue(quest.isAchievement());
+        assertTrue(quest.isFailed());
         assertFalse(quest.isActive());
         assertFalse(quest.isSecret());
     }
