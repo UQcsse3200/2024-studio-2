@@ -238,9 +238,9 @@ public class CombatStatsComponent extends Component {
 
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getStrength();
-    System.out.println("Attacker Attack:");
-    System.out.println(attacker.getStrength());
-    System.out.println(newHealth);
+    logger.info("Attacker Attack:");
+    logger.info("Attacker's Strength: {}", attacker.getStrength());
+    logger.info("New Health: {}", newHealth);
     setHealth(newHealth);
   }
 
