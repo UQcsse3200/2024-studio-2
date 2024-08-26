@@ -3,16 +3,22 @@ package com.csse3200.game.entities.configs;
 import java.util.Map;
 
 /**
- * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
+ * Defines the Eagle's statistics stored in eagle config files to be loaded by the NPC factory.
  */
-public class BaseEntityConfig {
-    public int health = 1;
-    public int baseAttack = 0;
-    public String animalName = "";
+public class EagleConfig extends BaseEntityConfig {
 
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
+    public String favouriteFood = "Fish";
+    public String animalName = "Eagle";
+    public String soundPath = "sounds/eagle-scream.mp3";
+    public int health = 25;
+    public int baseAttack = 0;
+
+    public static final Map<Integer, String[]> hints = Map.of(
+            0, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."},
+            1, new String[]{"This is eagle specific hint 2.", "We hope you're having fun"}
+    );
+    public static int hintLevel = 0;
+    public static int currentHint = 0;
 
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
@@ -61,4 +67,5 @@ public class BaseEntityConfig {
     public String getAnimalName() {
         return animalName;
     }
+
 }

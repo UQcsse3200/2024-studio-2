@@ -3,16 +3,21 @@ package com.csse3200.game.entities.configs;
 import java.util.Map;
 
 /**
- * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
+ * Defines the Cow's statistics stored in cow config files to be loaded by the NPC factory.
  */
-public class BaseEntityConfig {
-    public int health = 1;
-    public int baseAttack = 0;
-    public String animalName = "";
+public class CowConfig extends BaseEntityConfig {
+    public final String favouriteColour = "Hay";
+    public final String soundPath = "sounds/mooing-cow.mp3";
+    public final String animalName = "Cow";
+    public final int health = 30;
+    public final int baseAttack = 0;
 
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
+    public static final Map<Integer, String[]> hints = Map.of(
+            0, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."},
+            1, new String[]{"This is cow specific hint 2.", "We hope you're having fun"}
+    );
+    public static int hintLevel = 0;
+    public static int currentHint = 0;
 
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
@@ -59,6 +64,6 @@ public class BaseEntityConfig {
     }
 
     public String getAnimalName() {
-        return animalName;
+        return "Cow";
     }
 }

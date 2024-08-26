@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
+import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.MainGameScreenDup;
 import com.csse3200.game.screens.MainMenuScreen;
@@ -123,13 +124,17 @@ public class GdxGame extends Game {
         return new MainGameScreenDup(this, screen, container);
       case SETTINGS:
         return new SettingsScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS
+
+    MAIN_MENU, MAIN_GAME, SETTINGS, LOADING_SCREEN
+
   }
 
   /**
