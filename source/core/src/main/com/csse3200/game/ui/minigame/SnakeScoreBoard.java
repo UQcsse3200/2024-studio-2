@@ -28,7 +28,7 @@ public class SnakeScoreBoard {
         scoreLabel = new Label("Score: " + initialScore, skin, "default-white");
         scoreLabel.setFontScale(2.0f);
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-        scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.center);
+        scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create Medal Title
         medalLabel = new Label("Medals", skin, "default-white");
@@ -54,7 +54,7 @@ public class SnakeScoreBoard {
         table.top().right(); // Align the table to the top-right corner
 
         // Add the score label to the table with increased padding
-        table.add(scoreLabel).padTop(100).padBottom(40).expandX().fillX().colspan(2);
+        table.add(scoreLabel).center().padTop(120).padBottom(40).expandX().fillX().padLeft(120);
         table.row(); // Move to the next row
 
         table.add(medalLabel).center().padTop(100).padBottom(20).expandX().fillX().padLeft(120);
