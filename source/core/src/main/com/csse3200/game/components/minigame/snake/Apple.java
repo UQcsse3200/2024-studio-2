@@ -12,6 +12,7 @@ public class Apple {
     private int x;
     private int y;
     private final Grid grid;
+    private final Random random; 
 
     /**
      * Creates an apple associated with a specific grid.
@@ -21,6 +22,7 @@ public class Apple {
      */
     public Apple(Grid grid) {
         this.grid = grid;
+        this.random = new Random();
         spawn();
     }
 
@@ -29,7 +31,6 @@ public class Apple {
      * The apple will not be placed in a cell that is already occupied.
      */
     public void spawn() {
-        Random random = new Random();
         do {
             x = random.nextInt(grid.getWidth());
             y = random.nextInt(grid.getHeight());

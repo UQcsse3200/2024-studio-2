@@ -1,13 +1,9 @@
 package com.csse3200.game.components.minigame.snake;
 
 import com.csse3200.game.components.minigame.*;
-import com.csse3200.game.screens.SnakeScreen;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
 
 public class SnakeGameTest {
 
@@ -15,7 +11,6 @@ public class SnakeGameTest {
     Apple apple;
     SnakeGrid grid;
     SnakeGame snakeGame;
-    // private static final Logger logger = LoggerFactory.getLogger(SnakeGameTest.class);
 
     @Before
     public void setUp() {
@@ -36,7 +31,8 @@ public class SnakeGameTest {
     @Test
     public void testScoreSnakeLengthIncrease() {
         this.snakeGame = new SnakeGame(snake, apple, grid);
-        apple.setAppleLocation(snake.getX(), snake.getY());
+
+        // Move apple to snakes head
         apple.setAppleLocation(snake.getX(), snake.getY());
         snakeGame.attemptEatFruit();
         assertTrue(snakeGame.getScore() == 1); // score increases
