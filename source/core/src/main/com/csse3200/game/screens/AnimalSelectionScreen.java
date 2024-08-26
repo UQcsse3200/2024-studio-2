@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalSelectionDisplay;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.ui.DialogueBox.DialogHelper;
+import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
 public class AnimalSelectionScreen extends ScreenAdapter {
     private Stage stage;
@@ -29,7 +29,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         // Initialize the dialog helper with the skin and stage
-        DialogHelper dialogHelper = new DialogHelper(skin, stage);
+        PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
 
         // Set up the display component for animal selection, passing in the stage and skin
         display = new AnimalSelectionDisplay(stage, skin);

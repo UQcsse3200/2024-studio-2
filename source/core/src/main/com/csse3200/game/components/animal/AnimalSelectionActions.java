@@ -7,19 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.screens.LoadingScreen;
-import com.csse3200.game.ui.DialogueBox.DialogHelper;
+import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
     private final AnimalSelectionDisplay display;
-    private final DialogHelper dialogHelper;
+    private final PopUpHelper dialogHelper;
     private Image selectedAnimalImage;
     private final GdxGame game;
     private static String selectedAnimalImagePath;
 
-    public AnimalSelectionActions(AnimalSelectionDisplay display, DialogHelper dialogHelper, GdxGame game) {
+    public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;

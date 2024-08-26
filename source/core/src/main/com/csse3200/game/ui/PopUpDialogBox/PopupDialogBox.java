@@ -1,4 +1,4 @@
-package com.csse3200.game.ui.DialogueBox;
+package com.csse3200.game.ui.PopUpDialogBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
