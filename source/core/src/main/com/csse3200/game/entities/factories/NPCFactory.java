@@ -52,9 +52,7 @@ public class NPCFactory {
     Entity ghost = createBaseNPC(target);
     BaseEntityConfig config = configs.ghost;
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("angry_float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
@@ -78,11 +76,7 @@ public class NPCFactory {
     Entity ghostKing = createBaseNPC(target);
     GhostKingConfig config = configs.ghostKing;
 
-    AnimationRenderComponent animator =
-        new AnimationRenderComponent(
-            ServiceLocator.getResourceService()
-                .getAsset(config.getSpritePath(), TextureAtlas.class));
-    System.out.println(config.getSpritePath());
+    AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
     animator.addAnimation("angry_float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
@@ -109,9 +103,7 @@ public class NPCFactory {
   private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
     npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack()))
@@ -171,6 +163,12 @@ public class NPCFactory {
   public static Entity createSnake(Entity target, List<Entity> enemies) {
     SnakeConfig config = configs.snake;
     return createFriendlyNPC(target, enemies, config);
+  }
+
+  private static AnimationRenderComponent init_animator(BaseEntityConfig entity_config) {
+    return new AnimationRenderComponent(
+            ServiceLocator.getResourceService()
+                    .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
