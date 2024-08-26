@@ -101,6 +101,17 @@ public class SnakeScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Key functionality for escape and restart
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
+            // Restart the game
+            game.setScreen(new SnakeScreen(game));
+        }
+        
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setScreen(new MiniGameMenuScreen(game));
+        }
+
         // Keeps the exit button
         ServiceLocator.getEntityService().update();
         renderer.render();
@@ -126,24 +137,9 @@ public class SnakeScreen extends ScreenAdapter {
             spriteBatch.end();
             renderGameScore();
         } else {
-            // Optionally, you can render a game-over screen or message here
+            // Go to end game screen
             game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
-            //renderGameOver();
         }
-    }
-
-    /*
-     * Renders the screen when the game ends.
-     */
-    private void renderGameOver() {
-        // clean background and set to green
-        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Keeps the exit button
-        ServiceLocator.getEntityService().update();
-        renderer.render();
-        renderEndMessage();
     }
 
     /**
@@ -241,7 +237,7 @@ public class SnakeScreen extends ScreenAdapter {
     private void renderGameScore() {
         spriteBatch.begin();
 
-        // Offset for score location int he center of the screen 
+        // Offset for score location in the center of the screen 
         // int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
         // int offsetScoreY = Gdx.graphics.getHeight() - 20;
 
@@ -267,63 +263,6 @@ public class SnakeScreen extends ScreenAdapter {
         font.draw(spriteBatch, bronzeScore, offsetMedalX, offsetMedalY - 100);
         String failScore = "Fail:  Score < 5";
         font.draw(spriteBatch, failScore, offsetMedalX, offsetMedalY - 150);
-
-        spriteBatch.end();
-    }
-
-    /*
-     * Renders the messages on the end game screen
-     */
-    private void renderEndMessage() {
-        spriteBatch.begin();
-
-        int centerX = Gdx.graphics.getWidth() / 2;
-        int centerY = Gdx.graphics.getHeight() / 2;
-
-        String scoreFunnyText = "Damn that was a small snake...";
-
-        if (snakeGame.getScore() < 5) {
-            //Failed
-            // same old green
-            Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }
-        else if (snakeGame.getScore() < 15) {
-            // Bronze
-            // rgba(169,113,66,255)
-            Gdx.gl.glClearColor(169f/255f, 113f/255f, 66f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "Damn that was a small snake...";
-
-        }
-        else if (snakeGame.getScore() < 30) {
-            // Silver
-            // rgb 115, 122, 140, 1
-            Gdx.gl.glClearColor(115f/255f, 122f/255f, 140f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "Nawww, look he's almost fully grown";
-        }
-        else {
-            // Gold
-            // rgb 173, 162, 114, 1
-            Gdx.gl.glClearColor(173f/255f, 162f/255f, 114f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "That's a really big snake alright";
-        }
-        // Keeps the exit button
-        ServiceLocator.getEntityService().update();
-        renderer.render();
-
-        font.getData().setScale(6.0f);
-        String endGameText = "End of Mini-Game";
-        font.draw(spriteBatch, endGameText, centerX - 300, centerY + 300);
-
-        font.getData().setScale(5.0f);
-        String scoreText = "Score: " + snakeGame.getScore();
-        font.draw(spriteBatch, scoreText, centerX  - 140, centerY + 5);
-
-        font.getData().setScale(3.0f);
-        font.draw(spriteBatch, scoreFunnyText, centerX -300, centerY -  300);
 
         spriteBatch.end();
     }
@@ -448,4 +387,3 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().register(ui);
     }
 }
-
