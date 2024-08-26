@@ -160,12 +160,12 @@ public abstract class AbstractItem {
     /**
      * Retrieves the texture of the object.
      *
-     * @return Path to the texture associated with this object.
-     * @throws IllegalAccessError if the texture path has not been set prior to calling this method.
+     * @return The path to the texture associated with this object.
+     * @throws IllegalAccessError if the texture has not been set prior to calling this method.
      */
     public String getTexturePath() throws IllegalAccessError {
         if (this.texturePath == null) {
-            throw new IllegalAccessError("Cannot access texture path without setting first!");
+            throw new IllegalAccessError("Cannot access path to texture without setting first!");
         }
         return texturePath;
     }
