@@ -10,7 +10,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 import com.csse3200.game.entities.Entity;
@@ -51,7 +50,15 @@ public class SnakeScreen extends ScreenAdapter {
     private final Snake snake;
     private final Renderer renderer;
     private SpriteBatch spriteBatch;
-    private Texture appleTexture, snakeTexture, snakeBody, grassTexture;
+    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
+            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
+
+    private final String appleImage = "images/minigames/apple.png";
+    private final String snakeheadImage = "images/minigames/snakehead.png";
+    private final String grassImage = "images/minigames/grass.jpg";
+    private final String snakeBodyHorizontalImage = "images/minigames/snakebodyhorizontal.png";
+    private final String snakeBodyVerticalImage = "images/minigames/snakebodyvertical.png";
+    private final String snakeBodyBentImage = "images/minigames/snakebodybent.png";
 
     private BitmapFont font;
 
@@ -98,7 +105,7 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         // background colour rgb 50, 82, 29, 1
-        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
+        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Key functionality for escape and restart
@@ -225,9 +232,60 @@ public class SnakeScreen extends ScreenAdapter {
         );
 
         // Render snake body
+        Direction prevDirection = direction;
+        float segmentX, segmentY;
+        Snake.Segment lastSegment = snake.getLastSegment();
+
         for (Snake.Segment segment : snake.getBodySegments()) {
-            spriteBatch.draw(snakeBody, offsetX + segment.getX() * CELL_SIZE,
-                    offsetY + segment.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+            Direction currentDirection = segment.getDirection();
+            Texture bodyTexture;
+            rotation = 0f;
+
+            segmentX = offsetX + segment.getX() * CELL_SIZE;
+            segmentY = offsetY + segment.getY() * CELL_SIZE;
+
+            if ((prevDirection != currentDirection && !segment.equals(lastSegment))) {
+                bodyTexture = snakeBodyBentTexture;
+
+                // Simplified rotation logic
+                if (prevDirection == Direction.UP) {
+                    rotation = (currentDirection == Direction.RIGHT) ? 0f : 270f;
+                } else if (prevDirection == Direction.RIGHT) {
+                    rotation = (currentDirection == Direction.DOWN) ? 270f : 180f;
+                } else if (prevDirection == Direction.DOWN) {
+                    rotation = (currentDirection == Direction.LEFT) ? 180f : 90f;
+                } else if (prevDirection == Direction.LEFT) {
+                    rotation = (currentDirection == Direction.UP) ? 90f : 0f;
+                }
+            } else {
+                // Handle straight segments
+                if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
+                    bodyTexture = snakeBodyHorizontalTexture;
+                } else {
+                    bodyTexture = snakeBodyVerticalTexture;
+                }
+            }
+
+            spriteBatch.draw(
+                    bodyTexture,
+                    segmentX,                      // x position
+                    segmentY,                      // y position
+                    CELL_SIZE / 2f,                // originX (center of the texture)
+                    CELL_SIZE / 2f,                // originY (center of the texture)
+                    CELL_SIZE,                     // width
+                    CELL_SIZE,                     // height
+                    1f,                            // scaleX
+                    1f,                            // scaleY
+                    rotation,                      // rotation in degrees
+                    0,                             // srcX (region's x-coordinate)
+                    0,                             // srcY (region's y-coordinate)
+                    bodyTexture.getWidth(),        // srcWidth (width of the texture)
+                    bodyTexture.getHeight(),       // srcHeight (height of the texture)
+                    false,                         // flipX
+                    false                          // flipY
+            );
+            prevDirection = currentDirection;
         }
     }
 
@@ -338,19 +396,19 @@ public class SnakeScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading snake minigame assets");
 
-        String appleImage = "images/minigames/apple.png";
-        String snakeheadImage = "images/minigames/snakehead.png";
-        String grassImage = "images/minigames/grass.jpg";
-        String snakebodyImage = "images/minigames/snakebody.png";
-
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {appleImage, snakeheadImage, grassImage, snakebodyImage};
+        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
+                snakeBodyVerticalImage, snakeBodyBentImage};
         resourceService.loadTextures(textures);
         ServiceLocator.getResourceService().loadAll();
 
         appleTexture = resourceService.getAsset(appleImage, Texture.class);
         snakeTexture = resourceService.getAsset(snakeheadImage, Texture.class);
-        snakeBody = resourceService.getAsset(snakebodyImage, Texture.class);
+        snakeBodyHorizontalTexture = resourceService.getAsset(snakeBodyHorizontalImage,
+                Texture.class);
+        snakeBodyVerticalTexture = resourceService.getAsset(snakeBodyVerticalImage, Texture.class);
+        snakeBodyBentTexture = resourceService.getAsset(snakeBodyBentImage, Texture.class);
+
         grassTexture = resourceService.getAsset(grassImage, Texture.class);
     }
 
@@ -360,8 +418,8 @@ public class SnakeScreen extends ScreenAdapter {
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
-                "images/minigames/grass.jpg", "images/minigames/snakebody.jpg"};
+        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
+                snakeBodyVerticalImage, snakeBodyBentImage};
         resourceService.unloadAssets(textures);
     }
 
@@ -373,16 +431,16 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Creating snake minigame ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent =
-            ServiceLocator.getInputService().getInputFactory().createForTerminal();
+                ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
-            .addComponent(new PerformanceDisplay())
-            .addComponent(new MainGameActions(this.game))
-            .addComponent(new MainGameExitDisplay())
-            .addComponent(new Terminal())
-            .addComponent(inputComponent)
-            .addComponent(new TerminalDisplay());
+                .addComponent(new PerformanceDisplay())
+                .addComponent(new MainGameActions(this.game))
+                .addComponent(new MainGameExitDisplay())
+                .addComponent(new Terminal())
+                .addComponent(inputComponent)
+                .addComponent(new TerminalDisplay());
 
         ServiceLocator.getEntityService().register(ui);
     }
