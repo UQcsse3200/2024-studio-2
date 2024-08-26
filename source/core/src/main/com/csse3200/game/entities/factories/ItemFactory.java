@@ -28,10 +28,10 @@ public class ItemFactory {
     }
 
     public static Entity createHealthPotion(Entity target) {
-        return createItem(target, new HealingPotion(5));
+        return createItem(target, new HealingPotion(1));
     }
 
     public static Entity createApple(Entity target) {
-        return createItem(target, new Foods.Apple(5));
+        return createItem(target, new Foods.Apple(1));
     }
 }
