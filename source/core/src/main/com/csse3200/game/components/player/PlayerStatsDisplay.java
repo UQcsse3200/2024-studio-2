@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -103,7 +104,6 @@ public class PlayerStatsDisplay extends UIComponent {
         CharSequence healthText = String.format("HP: %d", health);
         healthLabel = new Label(healthText, skin, "large");
 
-
         initBarAnimations();
 
         // Health Dimensions
@@ -115,23 +115,27 @@ public class PlayerStatsDisplay extends UIComponent {
         float barImageWidth = (float) (heartImage.getWidth() * 0.8);
         float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
-        // Experience text maybe
+        // Experience text
         CharSequence xpText = String.format("EXP: %d", 100);
         xpLabel = new Label(xpText, skin, "large");
 
-        // Hunger text maybe
+        // Hunger text
         CharSequence hungerText = String.format("HGR: %d", 100);
         hungerLabel = new Label(hungerText, skin, "large");
 
-        // Add all components to table
-        table.add(heartImage).size(barImageWidth, barImageHeight).pad(5);
-        table.add(healthLabel);
-        table.row();
-        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25));
-        table.add(xpLabel);
-        table.row();
-        table.add(hungerImage).size(barImageWidth, barImageHeight * 2);
-        table.add(hungerLabel);
+        // Aligning the bars one below the other
+        table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
+        table.add(healthLabel).align(Align.left);
+        table.row().padTop(10);
+
+        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25)).pad(2).padLeft(170);
+        table.add(xpLabel).align(Align.left);
+        table.row().padTop(10);
+
+        table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
+        table.add(hungerLabel).align(Align.left).padTop(-15);
+
+        // Add the table to the stage
         stage.addActor(table);
     }
 
