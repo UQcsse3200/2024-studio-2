@@ -1,6 +1,5 @@
 package com.csse3200.game.screens;
 
-// import com.badlogic.gdx.Application;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.slf4j.Logger;
@@ -10,8 +9,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-// import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-// import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
@@ -35,11 +32,7 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.Apple;
 import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-// import com.badlogic.gdx.graphics.Color;
 
 
 /**
@@ -82,7 +75,6 @@ public class SnakeScreen extends ScreenAdapter {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
-        //font.getData().setScale(2.0f);
 
         loadAssets();
         createUI();
@@ -244,9 +236,9 @@ public class SnakeScreen extends ScreenAdapter {
     private void renderGameScore() {
         spriteBatch.begin();
 
-        // Score location (center)
-//        int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
-//        int offsetScoreY = Gdx.graphics.getHeight() - 20;
+        // Offset for score location int he center of the screen 
+        // int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
+        // int offsetScoreY = Gdx.graphics.getHeight() - 20;
 
         // Medal location (to the side)
         int offsetMedalX = ((Gdx.graphics.getWidth() / 25) * 19);

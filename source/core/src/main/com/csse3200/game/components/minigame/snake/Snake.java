@@ -2,7 +2,6 @@ package com.csse3200.game.components.minigame.snake;
 
 import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.Grid;
-import com.csse3200.game.components.minigame.GridCell;
 import java.util.Deque;
 import java.util.ArrayDeque;
 import java.util.List;
@@ -71,6 +70,8 @@ public class Snake {
                 this.y -= 1;
                 break;
             }
+            default:
+                break;
         }
         if (snakeBody.size() >= length) {
             Segment removed = snakeBody.removeFirst();

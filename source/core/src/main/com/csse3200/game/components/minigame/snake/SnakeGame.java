@@ -1,11 +1,5 @@
 package com.csse3200.game.components.minigame.snake;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.snake.Snake;
-import com.csse3200.game.components.minigame.snake.Apple;
-
 import java.util.List;
 
 public class SnakeGame {
@@ -84,16 +78,10 @@ public class SnakeGame {
     public boolean boundaryDetection() {
         int snakeX = snake.getX();
         int snakeY = snake.getY();
-        int grid_height = this.grid.getHeight();
-        int grid_width = this.grid.getWidth();
-        if (snakeY < 0 || snakeY > (grid_height -1)) {
+        int gridHeight = this.grid.getHeight();
+        int gridWidth = this.grid.getWidth();
 
-            return true;
-        }
-        if (snakeX < 0 || snakeX > (grid_width -1)) {
-            return true;
-        }
-        return false;
+        return (snakeY < 0 || snakeY > (gridHeight -1) || (snakeX < 0 || snakeX > (gridWidth -1)));
     }
 
     /**
