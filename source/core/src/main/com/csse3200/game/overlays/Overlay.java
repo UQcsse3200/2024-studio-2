@@ -1,11 +1,8 @@
-package com.csse3200.game.Overlays;
+package com.csse3200.game.overlays;
 
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.services.ServiceLocator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Overlay {
     private final List<Entity> entities = new ArrayList<>();
@@ -43,8 +40,8 @@ public class Overlay {
         PAUSE_OVERLAY, QUEST_OVERLAY
     }
 
-    public static HashMap<OverlayType, Boolean> getNewActiveOverlayList(){
-        HashMap<OverlayType, Boolean> overlayList = new HashMap<OverlayType, Boolean>();
+    public static Map<OverlayType, Boolean> getNewActiveOverlayList(){
+        Map<OverlayType, Boolean> overlayList = new EnumMap<>(OverlayType.class);
         for (OverlayType overlayType : OverlayType.values()) {
             overlayList.put(overlayType, false);
         }

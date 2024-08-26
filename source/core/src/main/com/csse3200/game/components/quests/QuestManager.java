@@ -1,7 +1,6 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Null;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
@@ -79,7 +78,7 @@ public class QuestManager extends Component {
      */
     private void subscribeToQuestEvents(QuestBasic quest) {
         for (Task task : quest.getTasks()) {
-            eventService.globalEventHandler.addListener(task.getTaskName(),
+            eventService.getGlobalEventHandler().addListener(task.getTaskName(),
                     () -> progressQuest(quest.getQuestName(), task.getTaskName()));
         }
     }
@@ -182,8 +181,8 @@ public class QuestManager extends Component {
     private void handleQuestCompletion(QuestBasic quest) {
         if (!quest.isAchievement() && !quest.isSecret()) {
             questComplete.play();
-            eventService.globalEventHandler.trigger("questCompleted");
-            eventService.globalEventHandler.trigger(quest.getQuestName());
+            eventService.getGlobalEventHandler().trigger("questCompleted");
+            eventService.getGlobalEventHandler().trigger(quest.getQuestName());
             logger.info("{} completed!", quest.getQuestName());
         }
     }
@@ -192,7 +191,6 @@ public class QuestManager extends Component {
      * In sprint 2 will return a struct containing all dialogue for (String questName : npcRelevantQuests)
      * Need to have null checks for npcName being in npcRelevantQuests
      * */
-    @Null
     public String[] getDialogue(String npcName) {
         String[] npcRelevantQuests = relevantQuests.get(npcName);
         //retrieve NPC dialogue
@@ -203,6 +201,6 @@ public class QuestManager extends Component {
                 return quest.getDialogue(npcName);
             }
         }
-        return null;
+        return new String[]{};
     }
 }

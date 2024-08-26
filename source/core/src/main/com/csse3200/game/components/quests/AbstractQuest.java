@@ -1,6 +1,5 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.utils.Null;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
@@ -49,10 +48,10 @@ public abstract class AbstractQuest {
      */
     private boolean isActive;
 
-    private String[] taskCompletionTriggers;
+    private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement,
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement,
                          Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue, String[] taskCompletionTriggers) {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -102,7 +101,8 @@ public abstract class AbstractQuest {
     public String getCurrentTaskHint() {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
-        } if (currentTaskIndex == getNumQuestTasks()) {
+        }
+        if (currentTaskIndex == getNumQuestTasks()) {
             return "QUEST NOT COMPLETED";
         }
         return tasks.get(currentTaskIndex).getHint();
@@ -111,16 +111,14 @@ public abstract class AbstractQuest {
     public void progressQuest() {
         if (!isQuestCompleted() && !isFailed) {
             if(taskCompletionTriggers!=null){
-                ServiceLocator.getEventService().globalEventHandler.trigger(taskCompletionTriggers[currentTaskIndex]);
+                ServiceLocator.getEventService().getGlobalEventHandler().trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
             this.isActive = false;
-            if(taskCompletionTriggers!=null){
-                if(taskCompletionTriggers.length != 0 ){
-                    ServiceLocator.getEventService().globalEventHandler.trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
-                }
+            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+                    ServiceLocator.getEventService().getGlobalEventHandler().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
             }
         }
     }
@@ -169,11 +167,10 @@ public abstract class AbstractQuest {
     }
 
     /** Returns the current quest dialogue for the given npc */
-    @Null
     public String[] getDialogue(String npcName) {
         if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
             return questDialogue.get(new DialogueKey(npcName, getProgression()));
         }
-        return null;
+        return new String[]{};
     }
 }
