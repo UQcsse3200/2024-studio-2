@@ -2,6 +2,9 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.ui.minigame.SnakeScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -61,6 +64,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final String snakeBodyBentImage = "images/minigames/snakebodybent.png";
 
     private BitmapFont font;
+    private SnakeScoreBoard scoreBoard;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -87,6 +91,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+        createSnakeScoreBoard(0);
 
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
@@ -94,6 +99,9 @@ public class SnakeScreen extends ScreenAdapter {
         this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.snakeGame = new SnakeGame(snake, apple, grid);
 
+    }
+    private void createSnakeScoreBoard(int score) {
+        scoreBoard = new SnakeScoreBoard(score);
     }
 
     /**
@@ -142,7 +150,8 @@ public class SnakeScreen extends ScreenAdapter {
             renderApple();
             renderSnake();
             spriteBatch.end();
-            renderGameScore();
+            scoreBoard.updateScore(snakeGame.getScore());
+
         } else {
             // Go to end game screen
             game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
