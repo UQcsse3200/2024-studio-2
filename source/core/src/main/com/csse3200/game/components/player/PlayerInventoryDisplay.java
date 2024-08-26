@@ -108,11 +108,11 @@ public class PlayerInventoryDisplay extends UIComponent {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(100, 100);
-
-                    // Create the label to show quantity/limit
-                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
-                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
-                    slot.add(quantityLimitLabel).center();
+//
+//                    // Create the label to show quantity/limit
+//                    String quantityLimitText = String.format("%d/%d", item.getQuantity(), item.getLimit());
+//                    Label quantityLimitLabel = new Label(quantityLimitText, skin);
+//                    slot.add(quantityLimitLabel).center();
                 }
 
                 table.add(slot).size(120, 120).pad(5); // Add the slot to the table
