@@ -2,8 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
-import com.csse3200.game.ui.ChatOverlay;
 import com.csse3200.game.ui.minigame.SnakeScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -247,12 +245,12 @@ public class SnakeScreen extends ScreenAdapter {
 
         for (Snake.Segment segment : snake.getBodySegments()) {
 
-            Direction currentDirection = segment.getDirection();
+            Direction currentDirection = segment.direction();
             Texture bodyTexture;
             rotation = 0f;
 
-            segmentX = offsetX + segment.getX() * CELL_SIZE;
-            segmentY = offsetY + segment.getY() * CELL_SIZE;
+            segmentX = offsetX + segment.x() * CELL_SIZE;
+            segmentY = offsetY + segment.y() * CELL_SIZE;
 
             if ((prevDirection != currentDirection && !segment.equals(lastSegment))) {
                 bodyTexture = snakeBodyBentTexture;

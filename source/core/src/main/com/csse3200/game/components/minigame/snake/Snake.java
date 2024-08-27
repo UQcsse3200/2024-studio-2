@@ -13,7 +13,7 @@ public class Snake {
     private int y;
     private final Grid grid;
     private final Deque<Segment> snakeBody;
-    private int length = 1;
+    private int length;
     private Direction direction;
     private Direction nextDirection;
     private final float movePeriod;
@@ -37,6 +37,7 @@ public class Snake {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
+        this.nextDirection = direction;
     }
 
     /**
@@ -93,13 +94,13 @@ public class Snake {
         }
         if (snakeBody.size() >= length) {
             Segment removed = snakeBody.removeFirst();
-            grid.setOccupied(removed.getX(), removed.getY(), false);
+            grid.setOccupied(removed.x(), removed.y(), false);
         }
         grid.setOccupied(x, y, true);
     }
 
     /**
-     * Grows the snake (increase it's length by 1)
+     * Grows the snake (increase its length by 1)
      */
     void grow() {
         length += 1;
@@ -158,57 +159,46 @@ public class Snake {
 
 
     /**
-     * Class that represents a segment of the snake's body
+     * Record that represents a segment of the snake's body
      */
-    public class Segment {
-        private int x;
-        private int y;
-        private Direction direction;
-
-        public Segment(int x, int y, Direction direction) {
-            this.x = x;
-            this.y = y;
-            this.direction = direction;
-        }
+    public record Segment(int x, int y, Direction direction) {
 
         /**
-         * @return the x-coordinate of the snake body segment
-         */
-        public int getX() {
-            return x;
-        }
+             * @return the x-coordinate of the snake body segment
+             */
+            @Override
+            public int x() {
+                return x;
+            }
 
-        /**
-         * @return the y-coordinate of the snake body segment
-         */
-        public int getY() {
-            return y;
-        }
+            /**
+             * @return the y-coordinate of the snake body segment
+             */
+            @Override
+            public int y() {
+                return y;
+            }
 
-        /**
-         * @return the direction of the snake body segment
-         */
-        public Direction getDirection() {return this.direction;}
+            /**
+             * @return the direction of the snake body segment
+             */
+            @Override
+            public Direction direction() {
+                return this.direction;
+            }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true; // Check if the same object
-            if (o == null || getClass() != o.getClass()) return false; // Check for null and class type
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true; // Check if the same object
+                if (o == null || getClass() != o.getClass()) return false; // Check for null and class type
 
-            Segment segment = (Segment) o;
+                Segment segment = (Segment) o;
 
-            // Compare x, y, and direction fields
-            if (x != segment.x) return false;
-            if (y != segment.y) return false;
-            return direction == segment.direction;
-        }
+                // Compare x, y, and direction fields
+                if (x != segment.x) return false;
+                if (y != segment.y) return false;
+                return direction == segment.direction;
+            }
 
-        @Override
-        public int hashCode() {
-            int result = x;
-            result = 31 * result + y;
-            result = 31 * result + (direction != null ? direction.hashCode() : 0);
-            return result;
-        }
     }
 }
