@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.minigame.MiniGameConstants;
 
 public class SnakeScoreBoard {
 
@@ -37,15 +38,15 @@ public class SnakeScoreBoard {
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create labels for Bronze, Silver, Gold
-        bronzeLabel = new Label("Bronze: 5", skin, "default-white");
+        bronzeLabel = new Label("Bronze: " + MiniGameConstants.SNAKE_BRONZE_THRESHOLD, skin, "default-white");
         bronzeLabel.setFontScale(1.5f);
         bronzeLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        silverLabel = new Label("Silver: 15", skin, "default-white");
+        silverLabel = new Label("Silver: " + MiniGameConstants.SNAKE_SILVER_THRESHOLD, skin, "default-white");
         silverLabel.setFontScale(1.5f);
         silverLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        goldLabel = new Label("Gold: 30", skin, "default-white");
+        goldLabel = new Label("Gold: " + MiniGameConstants.SNAKE_GOLD_THRESHOLD, skin, "default-white");
         goldLabel.setFontScale(1.5f);
         goldLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 

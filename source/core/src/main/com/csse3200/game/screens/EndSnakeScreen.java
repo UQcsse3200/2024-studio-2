@@ -117,15 +117,15 @@ public class EndSnakeScreen extends ScreenAdapter {
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
     private void setBackgroundColor() {
-        if (score < MiniGameConstants.SNAKE_FAIL_THRESHOLD) {
+        if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
             // Failed
             // Background colour green rgb 50, 82, 29, 1
             Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
-        } else if (score <  MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
+        } else if (score <  MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
             // Bronze
             // Background colour green rgb 169, 113, 66, 1
             Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
-        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
+        } else if (score < MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
             // Silver
             // Background colour green rgb 115, 122, 140, 1
             Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
@@ -200,13 +200,13 @@ public class EndSnakeScreen extends ScreenAdapter {
      * @return the message
      */
     private String getMessage() {
-        if (score < MiniGameConstants.SNAKE_FAIL_THRESHOLD) {
+        if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
             // Fail
             return "Damn that was a small snake...";
-        } else if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
+        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
             // Bronze
             return "Nawww, look he's growing";
-        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
+        } else if (score < MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
             // Silver
             return "That's a really big snake alright";
         } else {
