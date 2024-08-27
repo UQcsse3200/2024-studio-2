@@ -58,7 +58,7 @@ class SpawnTaskTest {
   }
 
   @Test
-  void shouldBeInactiveBeforeAndAfterStart(){
+  void shouldBeInactiveOutsideStartCall(){
     Vector2 target = new Vector2(0f,0f);
     SpawnTask spawn = new SpawnTask(target,1f);
     assertEquals(Status.INACTIVE, spawn.getStatus());
