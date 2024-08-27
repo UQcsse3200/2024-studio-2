@@ -11,16 +11,9 @@ Test SnakeGame class functionality
  */
 public class SnakeGameTest {
 
-//    Snake snake;
-//    Apple apple;
-//    SnakeGrid grid;
     SnakeGame snakeGame;
     @Before
     public void setUp() {
-//        this.grid = new SnakeGrid();
-//        this.apple = new Apple(grid);
-//        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
-        // becuase of refacroting have new setUp
         this.snakeGame = new SnakeGame();
     }
 
@@ -29,8 +22,6 @@ public class SnakeGameTest {
      */
     @Test
     public void testInitialScoreSnakeLength() {
-
-
         Snake snake = snakeGame.getSnake();
         assertEquals(0, snakeGame.getScore());
         assertEquals(0, snake.getBodySegments().size());

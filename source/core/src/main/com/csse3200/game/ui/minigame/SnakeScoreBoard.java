@@ -16,6 +16,7 @@ public class SnakeScoreBoard {
     private final Label bronzeLabel;
     private final Label silverLabel;
     private final Label goldLabel;
+    private final Label medalLabel;
     private final Table table;
 
     public SnakeScoreBoard(int initialScore) {
@@ -29,7 +30,7 @@ public class SnakeScoreBoard {
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create Medal Title
-        Label medalLabel = new Label("Medals", skin, "default-white");
+        medalLabel = new Label("Medals", skin, "default-white");
         medalLabel.setFontScale(2.0f);
         medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
@@ -65,7 +66,7 @@ public class SnakeScoreBoard {
         table.row(); // Move to the next row
         table.add(goldLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
 
-        // Set the background image (optional)
+        // Set the background image
         table.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("images/minigames/scoreboard.png"))));
 
         // Add the table to the stage; position will be relative to the screen size
@@ -75,16 +76,7 @@ public class SnakeScoreBoard {
         updateTableSizeAndPosition();
     }
 
-    // Call this method whenever the screen is resized
-    private void updateTableSizeAndPosition() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
 
-        // Adjust size based on screen dimensions
-        table.setSize(screenWidth * 0.22f, screenHeight * 0.5f); // 20% width, 50% height
-        table.setPosition(screenWidth - table.getWidth() ,
-                screenHeight - table.getHeight() - 20); // Right side, with 20px margin
-    }
 
     // Update the score displayed on the scoreboard
     public void updateScore(int newScore) {
@@ -113,4 +105,45 @@ public class SnakeScoreBoard {
             goldLabel.remove();
         }
     }
+    // Call this method whenever the screen is resized
+    private void updateTableSizeAndPosition() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Define a base width and height for scaling
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+
+        // Calculate the scale factor based on screen size
+        float scaleFactorX = screenWidth / baseWidth;
+        float scaleFactorY = screenHeight / baseHeight;
+        float scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+
+        // Scale the table's size and position based on screen dimensions
+        table.setSize(screenWidth * 0.22f, screenHeight * 0.5f);
+        table.setPosition(screenWidth - table.getWidth() - 20 * scaleFactor,
+                screenHeight - table.getHeight() - 20 * scaleFactor);
+
+        // Scale the font sizes and paddings
+        scoreLabel.setFontScale(2.0f * scaleFactor);
+        medalLabel.setFontScale(2.0f * scaleFactor);
+        bronzeLabel.setFontScale(1.5f * scaleFactor);
+        silverLabel.setFontScale(1.5f * scaleFactor);
+        goldLabel.setFontScale(1.5f * scaleFactor);
+
+        // Adjust padding within the table
+        table.clear();
+        table.add(scoreLabel).center().padTop(120 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.row();
+        table.add(medalLabel).center().padTop(50 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.row();
+        table.add(bronzeLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.row();
+        table.add(silverLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.row();
+        table.add(goldLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+    }
+
+
+
 }

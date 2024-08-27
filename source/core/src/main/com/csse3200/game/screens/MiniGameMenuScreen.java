@@ -49,7 +49,7 @@ public class MiniGameMenuScreen implements Screen {
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         // Load Textures
-        backgroundTexture = new Texture(Gdx.files.internal("/Users/manandeepsingh/Desktop/Studio-2_2024/2024-studio-2/source/core/assets/images/BackgroundSplash.png")); // Path to your background image
+        backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplash.png")); // Path to your background image
         snakeTexture = new Texture(Gdx.files.internal("images/minigames/Snake.png"));
         skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
         waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
