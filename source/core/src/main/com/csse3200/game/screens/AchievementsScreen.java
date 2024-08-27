@@ -3,8 +3,6 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.mainmenu.MainMenuActions;
-import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.components.quests.AchievementDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -20,10 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AchievementsScreen extends ScreenAdapter {
-  private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
+  private static final Logger logger = LoggerFactory.getLogger(AchievementsScreen.class);
   private final GdxGame game;
   private final Renderer renderer;
-  private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
   public AchievementsScreen(GdxGame game) {
     this.game = game;

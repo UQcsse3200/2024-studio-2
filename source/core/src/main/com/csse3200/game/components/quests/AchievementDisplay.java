@@ -7,15 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AchievementDisplay extends UIComponent {
 
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenuDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementDisplay.class);
     private final GdxGame game;
     private Table rootTable;
 
@@ -52,9 +50,13 @@ public class AchievementDisplay extends UIComponent {
     private Table makeAchievementsTable() {
 
         Label achievementName = new Label("Test Achievement", skin);
+        Label achievementDescription = new Label("Lorem ipsum", skin);
 
         Table table = new Table();
-        table.add(achievementName).right().padRight(15f);
+
+        table.add(achievementName);
+        table.row();
+        table.add(achievementDescription);
 
         return table;
     }
@@ -86,10 +88,6 @@ public class AchievementDisplay extends UIComponent {
         // draw is handled by the stage
     }
 
-    @Override
-    public void update() {
-        stage.act(ServiceLocator.getTimeSource().getDeltaTime());
-    }
 
     @Override
     public void dispose() {
