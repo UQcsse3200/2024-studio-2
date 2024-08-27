@@ -11,6 +11,10 @@ import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Handles actions related to animal selection in the game.
+ * This class manages the interactions with animal selection images and buttons and etc.
+ */
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
     private final AnimalSelectionDisplay display;
@@ -19,6 +23,12 @@ public class AnimalSelectionActions {
     private final GdxGame game;
     private static String selectedAnimalImagePath;
 
+    /**
+     * Constructs an instance of the class.
+     * @param display the display containing animal images and buttons
+     * @param dialogHelper helper for displaying dialogs
+     * @param game the game instance to change screens
+     */
     public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
@@ -26,10 +36,17 @@ public class AnimalSelectionActions {
         addListeners();
     }
 
+    /**
+     * Gets the path of the currently selected animal image.
+     * @return the path of the selected animal image
+     */
     public static String getSelectedAnimalImagePath() {
         return selectedAnimalImagePath;
     }
 
+    /**
+     * Adds click listeners to animal images and buttons, as well as other interface buttons.
+     */
     private void addListeners() {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
@@ -84,6 +101,13 @@ public class AnimalSelectionActions {
         });
     }
 
+    /**
+     * Updates the currently selected animal and highlights the selected image.
+     * @param animalImage the image of the selected animal
+     * @param animalImagePath the path to the image of the selected animal
+     */
+
+
     private void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1);
@@ -96,6 +120,10 @@ public class AnimalSelectionActions {
         logger.debug("Animal selected: {}", animalImage.getName());
     }
 
+    /**
+     * Shows an alert dialog when no animal is selected and the select button is clicked.
+     */
+
     private void showSelectionAlert() {
         Dialog dialog = new Dialog("Alert", display.getSkin()) {
             @Override
@@ -107,6 +135,12 @@ public class AnimalSelectionActions {
         dialog.button("OK", true);
         dialog.show(display.getStage());
     }
+
+    /**
+     * Displays a dialog with information about the selected animal.
+     * @param animalIndex the index of the selected animal
+     * @param animalImagePath the path to the image of the selected animal
+     */
 
     private void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
