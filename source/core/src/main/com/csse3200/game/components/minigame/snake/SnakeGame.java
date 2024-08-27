@@ -2,19 +2,16 @@ package com.csse3200.game.components.minigame.snake;
 
 import java.util.List;
 
-/*
- * This holds the logic for the Snake mini game. 
+/**
+ * A controller class for the logic of the Snake mini-game.
  */
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
-    private SnakeGrid grid;
+    private final SnakeGrid grid;
     private int score;
     private Boolean isGameOver;
 
-    /*
-    * Initialise values
-    */
     public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
         this.snake = snake;
         this.apple = apple;
@@ -79,7 +76,6 @@ public class SnakeGame {
 
     /**
      * Detects if the snake it at the boundary of the grid
-     *
      * @return true if it is, false otherwise
      */
     public boolean boundaryDetection() {
@@ -101,7 +97,7 @@ public class SnakeGame {
         int snakeHeadY = snake.getY();
         List<Snake.Segment> snakeSegs = snake.getBodySegments();
         for (int i = 0; i <= snakeSegs.size() - 1; i += 1) {
-             if (snakeSegs.get(i).getX() == snakeHeadX && snakeSegs.get(i).getY() == snakeHeadY) {
+             if (snakeSegs.get(i).x() == snakeHeadX && snakeSegs.get(i).y() == snakeHeadY) {
                 return true;
              }
         }
