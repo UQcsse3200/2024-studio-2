@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.Overlays.Overlay;
 import com.csse3200.game.Overlays.PauseOverlay;
+import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -91,7 +92,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
 //                dispose();
-                game.addCombatScreen(enemy);
+                game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, enemy));
             }
         }
     }
