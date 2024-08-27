@@ -9,7 +9,7 @@ public class Foods {
      */
     public static class Apple extends AbstractFood {
         protected Texture appleTexture;
-        private final static String path = "images/foodtextures/apple.png";
+        private final static String path = "images/foodtextures/appleItem.png";
 
         /**
          * Constructs an Apple class  while assigning fields with set values.
