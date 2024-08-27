@@ -4,6 +4,7 @@ com.csse3200.game.ai.tasks
 com.csse3200.game.areas
 com.csse3200.game.areas.terrain
 com.csse3200.game.components
+com.csse3200.game.components.animal
 com.csse3200.game.components.gamearea
 com.csse3200.game.components.loading
 com.csse3200.game.components.maingame
@@ -31,7 +32,7 @@ com.csse3200.game.rendering
 com.csse3200.game.screens
 com.csse3200.game.services
 com.csse3200.game.ui
-com.csse3200.game.ui.DialogueBox
+com.csse3200.game.ui.PopUpDialogBox
 com.csse3200.game.ui.terminal
 com.csse3200.game.ui.terminal.commands
 com.csse3200.game.utils

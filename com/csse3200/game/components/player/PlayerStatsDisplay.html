@@ -101,7 +101,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PlayerStatsDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">A ui component for displaying player stats, e.g. health.</div>
+<div class="block">A UI component for displaying player stats, e.g. health.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -157,10 +157,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Draw the renderable.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initBarAnimations()" class="member-name-link">initBarAnimations</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initialises all required variables for health/xp/hunger bars</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerExperienceUI(int)" class="member-name-link">updatePlayerExperienceUI</a><wbr>(int&nbsp;experience)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerHealthUI(int)" class="member-name-link">updatePlayerHealthUI</a><wbr>(int&nbsp;health)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates the player's health on the ui.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerHungerUI(int)" class="member-name-link">updatePlayerHungerUI</a><wbr>(int&nbsp;hunger)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -219,6 +230,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="initBarAnimations()">
+<h3>initBarAnimations</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initBarAnimations</span>()</div>
+<div class="block">Initialises all required variables for health/xp/hunger bars</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><code>for animation details</code></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
@@ -241,6 +267,18 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>health</code> - player health</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updatePlayerHungerUI(int)">
+<h3>updatePlayerHungerUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerHungerUI</span><wbr><span class="parameters">(int&nbsp;hunger)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="updatePlayerExperienceUI(int)">
+<h3>updatePlayerExperienceUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerExperienceUI</span><wbr><span class="parameters">(int&nbsp;experience)</span></div>
 </section>
 </li>
 <li>
