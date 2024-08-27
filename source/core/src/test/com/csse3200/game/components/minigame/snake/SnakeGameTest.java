@@ -27,7 +27,7 @@ public class SnakeGameTest {
      */
     @Test
     public void testInitialScoreSnakeLength() {
-        this.snakeGame = new SnakeGame(snake, apple, grid);
+        this.snakeGame = new SnakeGame();
         assertTrue(snakeGame.getScore() == 0);
         assertTrue(snake.getBodySegments().size() == 0);
         assertTrue(snake.getLength() == 2);

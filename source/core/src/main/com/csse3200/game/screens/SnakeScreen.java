@@ -93,7 +93,6 @@ public class SnakeScreen extends ScreenAdapter {
 
     }
 
-
     /**
      * Renders the Snake game screen, including the grid and the apple.
      * This method is made for future use, so it will have a lot to change probably
