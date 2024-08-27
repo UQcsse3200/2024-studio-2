@@ -1,81 +1,84 @@
 //package com.csse3200.game.components.player;
 //
-//import com.badlogic.gdx.scenes.scene2d.Stage;
-//import com.csse3200.game.components.player.PlayerInventoryDisplay;
 //import com.csse3200.game.entities.Entity;
-//import com.csse3200.game.entities.EntityService;
+//import com.csse3200.game.events.EventHandler;
 //import com.csse3200.game.extensions.GameExtension;
+//import com.csse3200.game.input.InputComponent;
+//import com.csse3200.game.input.InputService;
 //import com.csse3200.game.inventory.items.AbstractItem;
-//import com.csse3200.game.rendering.RenderService;
-//import com.csse3200.game.services.ServiceLocator;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.Mock;
-//import org.mockito.Spy;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.BeforeEach;
 //import static org.mockito.Mockito.*;
+//import com.csse3200.game.rendering.RenderService;
+//import com.csse3200.game.services.ResourceService;
+//import com.csse3200.game.services.ServiceLocator;
+//import com.badlogic.gdx.scenes.scene2d.Stage;
+//import com.badlogic.gdx.Gdx;
+//import org.mockito.Mock;
 //
 //@ExtendWith(GameExtension.class)
-//@ExtendWith(MockitoExtension.class)
 //class PlayerInventoryDisplayTest {
-//    @Mock Stage stage;
-//    @Mock RenderService renderService;
+//    PlayerInventoryDisplay display;
+//    Entity entity;
 //    @Mock AbstractItem mockItem;
-//
-//    private PlayerInventoryDisplay display;
-//    private Entity entity;
+//    EventHandler handler;
 //
 //    @BeforeEach
-//    void setUp() {
-//        // Register services
-//        ServiceLocator.registerEntityService(new EntityService());
-//        renderService.setStage(stage);
-//        when(renderService.getStage()).thenReturn(stage);
-//        ServiceLocator.registerRenderService(renderService);
+//    void beforeEach() {
+//        ResourceService resourceService = new ResourceService();
+//        RenderService renderService = mock(RenderService.class);
+//        when(renderService.getStage()).thenReturn(mock(Stage.class));
+//        InputService inputService = new InputService();
 //
-//        // Create and configure PlayerInventoryDisplay
+//        // Register services with ServiceLocator
+//        ServiceLocator.registerResourceService(resourceService);
+//        ServiceLocator.registerRenderService(renderService);
+//        ServiceLocator.registerInputService(inputService);
+//        Stage stage = ServiceLocator.getRenderService().getStage();
+//
+//        // Mock the behavior of RenderService to return the Stage instance
+//        when(renderService.getStage()).thenReturn(stage);
+//
+//        // Load all resources
+//        resourceService.loadAll();
+//
+//        InputComponent inputComponent =
+//                ServiceLocator.getInputService().getInputFactory().createForPlayer();
 //        display = new PlayerInventoryDisplay(9, 3);
-//        display.setStage(stage);
 //        entity = new Entity();
 //        entity.addComponent(display);
+//        entity.addComponent(inputComponent);
+//        Gdx.input.setInputProcessor(stage);
 //
-//        // Trigger the create method
-//        display.create();
-//    }
 //
-//    @AfterEach
-//    void tearDown() {
-//        ServiceLocator.clear();
 //    }
 //
 //    @Test
 //    void shouldToggleInventory() {
 //        // Ensure the inventory is initially not added
-//        assertFalse(display.isToggled());
+//        Assertions.assertFalse(display.isToggled());
 //
 //        // Trigger the "toggleInventory" event
 //        entity.getEvents().trigger("toggleInventory");
-//        assertTrue(display.isToggled());
+//        Assertions.assertTrue(display.isToggled());
 //
 //        // Trigger the "toggleInventory" event again
 //        entity.getEvents().trigger("toggleInventory");
-//        assertFalse(display.isToggled());
+//        Assertions.assertFalse(display.isToggled());
 //    }
 //
 //    @Test
 //    void shouldAddItemToInventory() {
 //        // Ensure the inventory is initially empty
-//        assertEquals(0, display.getInventory().getSize());
+//        Assertions.assertEquals(0, display.getInventory().getSize());
 //
 //        // Trigger the "addItem" event
 //        entity.getEvents().trigger("addItem", mockItem);
-//        assertEquals(1, display.getInventory().getSize());
+//        Assertions.assertEquals(1, display.getInventory().getSize());
 //
 //        // Check if the item is added to the correct slot in the UI
-//        assertNotNull(display.getInventory().getAt(0));
+//        Assertions.assertNotNull(display.getInventory().getAt(0));
 //    }
 //}
