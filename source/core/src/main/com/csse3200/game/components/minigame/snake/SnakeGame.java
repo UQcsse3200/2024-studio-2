@@ -1,7 +1,9 @@
 package com.csse3200.game.components.minigame.snake;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
+import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 
 
 import java.util.List;
@@ -14,16 +16,25 @@ public class SnakeGame {
     private final Apple apple;
     private final SnakeGrid grid;
     private final SnakeController snakeController;
+    private final SnakeGameRenderer renderer;
     private int score;
     private Boolean isGameOver;
 
-    public SnakeGame() {
+    public SnakeGame(Texture grassTexture, Texture appleTexture, Texture snakeTexture,
+                     Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
+                     Texture snakeBodyBentTexture) {
         this.grid = new SnakeGrid();
         this.snakeController = new SnakeController();
         this.snake = new Snake(this.grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.apple = new Apple(this.grid);
         this.score = 0;
         this.isGameOver = false;
+        this.renderer = new SnakeGameRenderer(this, grassTexture,
+                appleTexture,
+                snakeTexture,
+                snakeBodyHorizontalTexture,
+                snakeBodyVerticalTexture,
+                snakeBodyBentTexture);
     }
 
     public Snake getSnake() {
@@ -115,5 +126,13 @@ public class SnakeGame {
 
     public int handleInput() {
         return snakeController.handleInput();
+    }
+
+    public void render(int score) {
+        renderer.render(score);
+    }
+
+    public void dispose() {
+        renderer.dispose();
     }
 }
