@@ -43,6 +43,7 @@ public class AbstractItemTest {
         public TestableItem2(String name, int itemCode, int limit, int quantity, String description) {
             super(name, itemCode, limit, quantity);
             this.setDescription(description);
+
         }
 
         @Override
@@ -85,7 +86,6 @@ public class AbstractItemTest {
         assertEquals(item2.getLimit() - item2.getQuantity(), item2.numAddable(), msg + "can add");
         assertEquals("description2", item2.getDescription(), msg + "description");
 
-
         assertThrows(IllegalArgumentException.class, () -> item2.add(20), msg + "adding too many");
         int originalQuantity = item2.getQuantity();
         item2.add(1);
@@ -111,7 +111,4 @@ public class AbstractItemTest {
         assertEquals(1, item2.numUsed, msg);
         assertEquals(originalQuantity - 1, item2.getQuantity(), msg);
     }
-
-
-    // TODO: ADD TEST FOR SETTING/GETTING TEXTURE!!!
 }

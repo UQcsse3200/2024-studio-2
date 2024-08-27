@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-
-// TODO: TEST NAME TO INDICES (JUST SLOT IT IN WITH OTHER TESTS)
-
 @ExtendWith(GameExtension.class)
 public class InventoryTest {
     private Inventory test1;

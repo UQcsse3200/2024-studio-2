@@ -9,18 +9,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
 
-// TODO List (for version 1 and future implementations):
-// TODO: Write Wiki page
-// TODO: Add support for adding multiple of an item, or adding until full
-// TODO: Add support for indexing, searching and sorting alphabetically by name
-// TODO: Error checking here and in abstract item needs to become significantly more rigorous
-// TODO: Naming and spell checking also needs to be run here and on abstract item.
-// TODO: Add inventory view class which adds support for rendering inventory
-// TODO: Possibly make abstract item a functional interface.
-// TODO: Change itemCode in AbstractItem to a static attribute!
-// TODO: Get rid of item name in AbstractItem and use getSimpleName() instead.
-// TODO: Replace data structures with libGDX optimised structures.
-
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
  * manipulation. This class supports adding and removing items, checking inventory status, and
@@ -36,7 +24,8 @@ public class Inventory implements InventoryInterface {
     // Maps item names to sets of inventory indices where they are stored.
     private TreeMap<String, TreeSet<Integer>> nameToIndices;
     // Array representing the inventory, holding items or null values.
-    private AbstractItem[] inventory; // Array of actual items & null values
+    private AbstractItem[] memoryView; // Array of actual items & null values
+
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -53,7 +42,7 @@ public class Inventory implements InventoryInterface {
         this.freeSlots = capacity;
         this.codeToIndices = new TreeMap<>();
         this.nameToIndices = new TreeMap<>();
-        this.inventory = new AbstractItem[capacity];
+        this.memoryView = new AbstractItem[capacity];
     }
 
     /**
@@ -71,6 +60,11 @@ public class Inventory implements InventoryInterface {
     public int numFreeSlots() {
         return freeSlots;
     }
+
+    /**
+     * @return the number of slots currently used in the inventory
+     */
+    public int getSize() {return this.getCapacity() - this.numFreeSlots();}
 
     /**
      * @return {@code true} if the inventory is full, {@code false} otherwise.
@@ -134,7 +128,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public AbstractItem getAt(int index) {
-        return inventory[index];
+        return memoryView[index];
     }
 
     /**
@@ -160,7 +154,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public void deleteItemAt(int index) {
-        if (inventory[index] != null) {
+        if (memoryView[index] != null) {
             this.removeAt(index);
         }
     }
@@ -175,7 +169,7 @@ public class Inventory implements InventoryInterface {
         nextIndex = 0;
         codeToIndices.clear();
         nameToIndices.clear();
-        fill(inventory, null);
+        fill(memoryView, null);
     }
 
     /**
@@ -201,7 +195,7 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public void useItemAt(int index, ItemUsageContext context) {
-        if (inventory[index] != null) {
+        if (memoryView[index] != null) {
             this.useAndPossiblyRemove(index, context);
         }
     }
@@ -223,7 +217,7 @@ public class Inventory implements InventoryInterface {
         if (codeToIndices.containsKey(item.getItemCode())) {
             // Iterate through map and if we can add any more items, add them
             for (Integer i : codeToIndices.get(item.getItemCode())) {
-                AbstractItem x = inventory[i];
+                AbstractItem x = memoryView[i];
                 if (x.numAddable() >= 1) {
                     x.add(1);
                     return true;
@@ -246,13 +240,13 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public void addAt(int index, AbstractItem item) {
-        if (inventory[index] == null) {
+        if (memoryView[index] == null) {
             freeSlots--;
         }
 
         this.deleteItemAt(index); // delete the old item
 
-        inventory[index] = item; // add the new item
+        memoryView[index] = item; // add the new item
         this.addToMappings(item, index);
     }
 
@@ -270,12 +264,12 @@ public class Inventory implements InventoryInterface {
         for (Map.Entry<Integer, TreeSet<Integer>> entry : codeToIndices.entrySet()) {
             TreeSet<Integer> newIndices = new TreeSet<>();
             TreeSet<Integer> oldIndices = entry.getValue();
-            newNameMap.put(inventory[oldIndices.first()].getName(), new TreeSet<>());
-            TreeSet<Integer> newNames = newNameMap.get(inventory[oldIndices.first()].getName());
+            newNameMap.put(memoryView[oldIndices.first()].getName(), new TreeSet<>());
+            TreeSet<Integer> newNames = newNameMap.get(memoryView[oldIndices.first()].getName());
 
             // For each item, reindex and add to new underlying memory representation:
             for (Integer index : oldIndices) {
-                newInventory[i] = inventory[index];
+                newInventory[i] = memoryView[index];
                 newIndices.add(i);
                 newNames.add(i);
                 i++;
@@ -287,7 +281,7 @@ public class Inventory implements InventoryInterface {
 
         // Update underlying memory
         nameToIndices = newNameMap;
-        inventory = newInventory;
+        memoryView = newInventory;
     }
 
     /**
@@ -304,12 +298,12 @@ public class Inventory implements InventoryInterface {
         for (Map.Entry<String, TreeSet<Integer>> entry : nameToIndices.entrySet()) {
             TreeSet<Integer> newIndices = new TreeSet<>();
             TreeSet<Integer> oldIndices = entry.getValue();
-            newCodeMap.put(inventory[oldIndices.first()].getItemCode(), new TreeSet<>());
-            TreeSet<Integer> newCodes = newCodeMap.get(inventory[oldIndices.first()].getItemCode());
+            newCodeMap.put(memoryView[oldIndices.first()].getItemCode(), new TreeSet<>());
+            TreeSet<Integer> newCodes = newCodeMap.get(memoryView[oldIndices.first()].getItemCode());
 
             // For each item, reindex and add to new underlying memory representation:
             for (Integer index : oldIndices) {
-                newInventory[i] = inventory[index];
+                newInventory[i] = memoryView[index];
                 newIndices.add(i);
                 newCodes.add(i);
                 i++;
@@ -321,7 +315,7 @@ public class Inventory implements InventoryInterface {
 
         // Update underlying memory
         codeToIndices = newCodeMap;
-        inventory = newInventory;
+        memoryView = newInventory;
     }
 
     // PRIVATE HELPER FUNCTIONS:
@@ -332,7 +326,7 @@ public class Inventory implements InventoryInterface {
      * @param item the item to add to a new slot.
      */
     private void addNewItem(AbstractItem item) {
-        inventory[nextIndex] = item;
+        memoryView[nextIndex] = item;
         this.addToMappings(item, nextIndex);
         freeSlots--;
 
@@ -342,7 +336,7 @@ public class Inventory implements InventoryInterface {
         }
 
         // Update the next available index - note we expect there to be a free slot at this point
-        while (inventory[nextIndex] != null) {nextIndex++;}
+        while (memoryView[nextIndex] != null) {nextIndex++;}
     }
 
     /**
@@ -392,8 +386,8 @@ public class Inventory implements InventoryInterface {
      * @param context the context in which the item is being used.
      */
     private void useAndPossiblyRemove(int index, ItemUsageContext context) {
-        inventory[index].useItem(context);
-        if (inventory[index].isEmpty()) {
+        memoryView[index].useItem(context);
+        if (memoryView[index].isEmpty()) {
             this.removeAt(index);
         }
     }
@@ -405,12 +399,12 @@ public class Inventory implements InventoryInterface {
      * @param index the index of the item to remove.
      */
     private void removeAt(int index) {
-        AbstractItem item = inventory[index];
+        AbstractItem item = memoryView[index];
         codeToIndices.get(item.getItemCode()).remove(index);
         nameToIndices.get(item.getName()).remove(index);
         freeSlots++;
 
-        inventory[index] = null;
+        memoryView[index] = null;
 
         if (codeToIndices.get(item.getItemCode()).isEmpty()) { // Remove item from mapping if no instances
             // remain.
