@@ -55,7 +55,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
 
     private void createItemOverlay() {
         if (this.itemOverlay == null) {
-            String[] itemText = {item.getDescription() + "- press P to pick it up."};
+            String[] itemText = {item.getDescription() + " - press P to pick it up."};
             itemOverlay = new ChatOverlay(itemText);
         }
     }
