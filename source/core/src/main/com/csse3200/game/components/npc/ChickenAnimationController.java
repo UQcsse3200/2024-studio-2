@@ -29,21 +29,21 @@ public class ChickenAnimationController extends Component {
 
   void animateChaseLeft() {
     animator.setFlipX(true);
-    animator.startAnimation("angry_float");
+    animator.startAnimation("walk");
   }
 
   void animateChaseRight() {
     animator.setFlipX(false);
-    animator.startAnimation("angry_float");
+    animator.startAnimation("walk");
   }
 
   void animateWanderLeft() {
     animator.setFlipX(true);
-    animator.startAnimation("float");
+    animator.startAnimation("walk");
   }
 
   void animateWanderRight() {
     animator.setFlipX(false);
-    animator.startAnimation("float");
+    animator.startAnimation("walk");
   }
 }

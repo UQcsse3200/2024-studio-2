@@ -41,7 +41,7 @@ public class ForestGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
@@ -161,8 +161,6 @@ public class ForestGameArea extends GameArea {
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity chicken = NPCFactory.createChicken(player);
 
-    float proximityRange = 1.5f; // Set a suitable proximity range
-    chicken.addComponent(new ProximityComponent(player, proximityRange));
     spawnEntityAt(chicken, randomPos, true, true);
   }
 

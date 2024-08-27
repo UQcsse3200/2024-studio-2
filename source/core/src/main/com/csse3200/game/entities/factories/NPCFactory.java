@@ -62,7 +62,7 @@ public class NPCFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new ProximityComponent(target, proximityRange))
+//            .addComponent(new ProximityComponent(target, proximityRange))
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new ChickenAnimationController());
 
