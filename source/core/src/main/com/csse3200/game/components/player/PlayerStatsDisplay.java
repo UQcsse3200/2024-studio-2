@@ -24,7 +24,7 @@ import org.w3c.dom.Text;
 
 public class PlayerStatsDisplay extends UIComponent {
     Table table;
-    private Image heartImage;
+    private Image healthImage;
     private Image xpImage;
     private Image hungerImage;
     private Label healthLabel;
@@ -115,16 +115,16 @@ public class PlayerStatsDisplay extends UIComponent {
         initBarAnimations();
 
         // Health Dimensions
-        heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
+        healthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
         xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
         hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
         // Get the original width and height of the image
-        float barImageWidth = (float) (heartImage.getWidth() * 0.8);
-        float barImageHeight = (float) (heartImage.getHeight() * 0.5);
+        float barImageWidth = (float) (healthImage.getWidth() * 0.8);
+        float barImageHeight = (float) (healthImage.getHeight() * 0.5);
 
         // Aligning the bars one below the other
-        table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
+        table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
         table.row().padTop(10);
 
@@ -177,7 +177,7 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        setNewFrame(frameIndex, healthBarAnimation, heartImage);
+        setNewFrame(frameIndex, healthBarAnimation, healthImage);
 //        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
 //        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
