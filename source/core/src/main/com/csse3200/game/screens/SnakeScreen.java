@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.ui.minigame.SnakeScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.minigame.snake.SnakeGrid;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -30,8 +30,6 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.snake.Apple;
-import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -43,12 +41,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class SnakeScreen extends ScreenAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
-    private static final int CELL_SIZE = 55;
     private final GdxGame game;
     private final SnakeGame snakeGame;
-    private final SnakeGrid grid;
-    private final Apple apple;
-    private final Snake snake;
+    private final SnakeGameRenderer snakeGameRenderer;
     private final Renderer renderer;
     private SpriteBatch spriteBatch;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
@@ -92,10 +87,17 @@ public class SnakeScreen extends ScreenAdapter {
         createSnakeScoreBoard(0);
 
         logger.debug("Initialising snake minigame entities");
-        this.grid = new SnakeGrid();
-        this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
-        this.snakeGame = new SnakeGame(snake, apple, grid);
+        this.snakeGame = new SnakeGame();
+        snakeGameRenderer = new SnakeGameRenderer(
+                this.snakeGame,
+                grassTexture,
+                appleTexture,
+                snakeTexture,
+                snakeBodyHorizontalTexture,
+                snakeBodyVerticalTexture,
+                snakeBodyBentTexture,
+                spriteBatch
+        );
 
     }
     private void createSnakeScoreBoard(int score) {
@@ -137,16 +139,14 @@ public class SnakeScreen extends ScreenAdapter {
                 logger.info("Snake has hit the boundary or itself!");
             } else {
                 // Only update direction and snake position if the game is not over
-                updateDirection();
-                snakeGame.attemptEatFruit();
-                snake.update(delta);
+//                updateDirection();
+                snakeGame.snakeMove(delta);
+
             }
 
             // Render the grid, apple, snake, and score
             spriteBatch.begin();
-            renderGrid();
-            renderApple();
-            renderSnake();
+            snakeGameRenderer.render();
             spriteBatch.end();
             scoreBoard.updateScore(snakeGame.getScore());
 
@@ -156,170 +156,6 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
-    /**
-     * Renders the game grid on the screen.
-     */
-    private void renderGrid() {
-        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
-
-        // Calculate the offset to center the grid
-        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
-
-        for (int x = 0; x < grid.getWidth(); x++) {
-            for (int y = 0; y < grid.getHeight(); y++) {
-                spriteBatch.draw(grassTexture,
-                        offsetX + x * CELL_SIZE,
-                        offsetY + y * CELL_SIZE,
-                        CELL_SIZE,
-                        CELL_SIZE);
-            }
-        }
-    }
-
-    /**
-     * Renders the apple on the grid using the apple texture.
-     */
-    private void renderApple() {
-        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
-
-        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
-
-        spriteBatch.draw(appleTexture,
-                offsetX + apple.getX() * CELL_SIZE,
-                offsetY + apple.getY() * CELL_SIZE,
-                CELL_SIZE,
-                CELL_SIZE);
-    }
-
-    /**
-     * Renders the snake on the grid using the snake texture.
-     */
-    private void renderSnake() {
-        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
-
-        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
-
-        // Get the current direction of the snake
-        Direction direction = snake.getDirection();
-        float rotation = 0f;
-
-        switch (direction) {
-            case UP -> rotation = 180f;
-            case DOWN -> rotation = 0f;
-            case LEFT -> rotation = 270f;
-            case RIGHT -> rotation = 90f;
-            default -> {
-            }
-        }
-
-        // Render snake head with rotation
-        spriteBatch.draw(
-                snakeTexture,
-                offsetX + snake.getX() * CELL_SIZE,  // x position
-                offsetY + snake.getY() * CELL_SIZE,  // y position
-                CELL_SIZE / 2f,                      // originX (center of the texture)
-                CELL_SIZE / 2f,                      // originY (center of the texture)
-                CELL_SIZE,                           // width
-                CELL_SIZE,                           // height
-                1f,                                  // scaleX
-                1f,                                  // scaleY
-                rotation,                            // rotation in degrees
-                0,                                   // srcX (region's x-coordinate)
-                0,                                   // srcY (region's y-coordinate)
-                snakeTexture.getWidth(),             // srcWidth (width of the texture)
-                snakeTexture.getHeight(),            // srcHeight (height of the texture)
-                false,                               // flipX
-                false                                // flipY
-        );
-
-        // Render snake body
-        Direction prevDirection = direction;
-        float segmentX, segmentY;
-        Snake.Segment lastSegment = snake.getLastSegment();
-
-        for (Snake.Segment segment : snake.getBodySegments()) {
-
-            Direction currentDirection = segment.direction();
-            Texture bodyTexture;
-            rotation = 0f;
-
-            segmentX = offsetX + segment.x() * CELL_SIZE;
-            segmentY = offsetY + segment.y() * CELL_SIZE;
-
-            if ((prevDirection != currentDirection && !segment.equals(lastSegment))) {
-                bodyTexture = snakeBodyBentTexture;
-
-                // Simplified rotation logic
-                if (prevDirection == Direction.UP) {
-                    rotation = (currentDirection == Direction.RIGHT) ? 0f : 270f;
-                } else if (prevDirection == Direction.RIGHT) {
-                    rotation = (currentDirection == Direction.DOWN) ? 270f : 180f;
-                } else if (prevDirection == Direction.DOWN) {
-                    rotation = (currentDirection == Direction.LEFT) ? 180f : 90f;
-                } else if (prevDirection == Direction.LEFT) {
-                    rotation = (currentDirection == Direction.UP) ? 90f : 0f;
-                }
-            } else {
-                // Handle straight segments
-                if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
-                    bodyTexture = snakeBodyHorizontalTexture;
-                } else {
-                    bodyTexture = snakeBodyVerticalTexture;
-                }
-            }
-
-            spriteBatch.draw(
-                    bodyTexture,
-                    segmentX,                      // x position
-                    segmentY,                      // y position
-                    CELL_SIZE / 2f,                // originX (center of the texture)
-                    CELL_SIZE / 2f,                // originY (center of the texture)
-                    CELL_SIZE,                     // width
-                    CELL_SIZE,                     // height
-                    1f,                            // scaleX
-                    1f,                            // scaleY
-                    rotation,                      // rotation in degrees
-                    0,                             // srcX (region's x-coordinate)
-                    0,                             // srcY (region's y-coordinate)
-                    bodyTexture.getWidth(),        // srcWidth (width of the texture)
-                    bodyTexture.getHeight(),       // srcHeight (height of the texture)
-                    false,                         // flipX
-                    false                          // flipY
-            );
-            prevDirection = currentDirection;
-        }
-    }
-
-    /**
-     * Renders the snake head on the grid.
-     * The snake head is displayed as a filled green square on the grid.
-     */
-    public Direction getInputDirection() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            return Direction.RIGHT;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            return Direction.LEFT;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            return Direction.UP;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            return Direction.DOWN;
-        }
-        return Direction.ZERO;
-    }
-
-    public void updateDirection() {
-        Direction direction = getInputDirection();
-        snake.updateDirectionOnInput(direction);
-    }
 
     @Override
     public void resize(int width, int height) {

@@ -1,5 +1,9 @@
 package com.csse3200.game.components.minigame.snake;
 
+import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigame.snake.controller.SnakeController;
+
+
 import java.util.List;
 
 /**
@@ -9,15 +13,29 @@ public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
     private final SnakeGrid grid;
+    private final SnakeController snakeController;
     private int score;
     private Boolean isGameOver;
 
-    public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
-        this.snake = snake;
-        this.apple = apple;
-        this.grid = snakeGrid;
+    public SnakeGame() {
+        this.grid = new SnakeGrid();
+        this.snakeController = new SnakeController();
+        this.snake = new Snake(this.grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
+        this.apple = new Apple(this.grid);
         this.score = 0;
         this.isGameOver = false;
+    }
+
+    public Snake getSnake() {
+        return this.snake;
+    }
+
+    public Apple getApple() {
+        return this.apple;
+    }
+
+    public SnakeGrid getGrid() {
+        return this.grid;
     }
 
     /**
@@ -49,12 +67,18 @@ public class SnakeGame {
      * If the snake can eat the apple then a new apple will spawn, the snake will grow
      * and the score will increase.
      */
-    public void attemptEatFruit() {
+    private void attemptEatFruit() {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
             score += calculateScore();
         }
+    }
+
+    public void snakeMove(float delta) {
+        snake.updateDirectionOnInput(snakeController.getInputDirection());
+        attemptEatFruit();
+        this.snake.update(delta);
     }
 
     /**
