@@ -45,12 +45,12 @@ public class PlayerFactory {
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions());
             if (imagePath.equals("images/dog.png")) {
-              player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
+              player.addComponent(new CombatStatsComponent(70, 60, 70, 50, 50, 10));
 
             } else if (imagePath.equals("images/croc.png")) {
-              player.addComponent(new CombatStatsComponent(90, 100, 90, 70, 30, 0));
+              player.addComponent(new CombatStatsComponent(90, 80, 90, 70, 30, 20));
             } else if (imagePath.equals("images/bird.png")) {
-              player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0));
+              player.addComponent(new CombatStatsComponent(60, 50, 40, 60, 100, 20));
             }
             player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
 
