@@ -50,7 +50,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final Apple apple;
     private final Snake snake;
     private final Renderer renderer;
-    private SpriteBatch spriteBatch;
+    private final SpriteBatch spriteBatch;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
@@ -61,7 +61,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final String snakeBodyVerticalImage = "images/minigames/snakebodyvertical.png";
     private final String snakeBodyBentImage = "images/minigames/snakebodybent.png";
 
-    private BitmapFont font;
+    private final BitmapFont font;
     private SnakeScoreBoard scoreBoard;
 
     /**
@@ -89,7 +89,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
-        createSnakeScoreBoard(0);
+        createSnakeScoreBoard();
 
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
@@ -98,8 +98,8 @@ public class SnakeScreen extends ScreenAdapter {
         this.snakeGame = new SnakeGame(snake, apple, grid);
 
     }
-    private void createSnakeScoreBoard(int score) {
-        scoreBoard = new SnakeScoreBoard(score);
+    private void createSnakeScoreBoard() {
+        scoreBoard = new SnakeScoreBoard(0);
     }
 
     /**
@@ -316,22 +316,36 @@ public class SnakeScreen extends ScreenAdapter {
         return Direction.ZERO;
     }
 
+    /**
+     * Updates the snakes direction
+     */
     public void updateDirection() {
         Direction direction = getInputDirection();
         snake.updateDirectionOnInput(direction);
     }
 
+    /**
+     * resize the renderer
+     * @param width the width to resize to
+     * @param height the height to resize to
+     */
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
+    /**
+     * Game pause
+     */
     @Override
     public void pause() {
         logger.info("Game paused");
     }
 
+    /**
+     * Game resume
+     */
     @Override
     public void resume() {
         logger.info("Game resumed");
@@ -361,7 +375,7 @@ public class SnakeScreen extends ScreenAdapter {
         font.dispose();
     }
 
-    /*
+    /**
      * Loads the assets for the game
      */
     private void loadAssets() {
@@ -383,7 +397,7 @@ public class SnakeScreen extends ScreenAdapter {
         grassTexture = resourceService.getAsset(grassImage, Texture.class);
     }
 
-    /*
+    /**
      * Unloads assests for the game
      */
     private void unloadAssets() {

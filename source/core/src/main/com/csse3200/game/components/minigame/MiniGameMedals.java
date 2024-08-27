@@ -15,7 +15,6 @@ public enum MiniGameMedals {
      */
     @Override
     public String toString() {
-        // Return the name of the enum as it is declared
         return this.name();
     }
 }
