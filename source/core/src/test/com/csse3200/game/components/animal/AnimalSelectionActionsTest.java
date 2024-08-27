@@ -1,10 +1,8 @@
 package com.csse3200.game.components.animal;
 
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
@@ -31,8 +29,9 @@ public class AnimalSelectionActionsTest {
     private Image mockImage3;
     private TextButton mockSelectButton;
     private TextButton mockBackButton;
-    private Skin mockSkin;
-    private Stage mockStage;
+    private TextButton mockAnimalButton1;
+    private TextButton mockAnimalButton2;
+    private TextButton mockAnimalButton3;
 
     @Before
     public void setUp() {
@@ -40,8 +39,6 @@ public class AnimalSelectionActionsTest {
         mockDisplay = mock(AnimalSelectionDisplay.class);
         mockDialogHelper = mock(PopUpHelper.class);
         mockGame = mock(GdxGame.class);
-        mockSkin = mock(Skin.class);
-        mockStage = mock(Stage.class);
 
         // Mock Images and Buttons
         mockImage1 = mock(Image.class);
@@ -49,14 +46,15 @@ public class AnimalSelectionActionsTest {
         mockImage3 = mock(Image.class);
         mockSelectButton = mock(TextButton.class);
         mockBackButton = mock(TextButton.class);
+        mockAnimalButton1 = mock(TextButton.class);
+        mockAnimalButton2 = mock(TextButton.class);
+        mockAnimalButton3 = mock(TextButton.class);
 
         // Set up mockDisplay to return mock objects
         when(mockDisplay.getAnimalImages()).thenReturn(new Image[]{mockImage1, mockImage2, mockImage3});
-        when(mockDisplay.getAnimalButtons()).thenReturn(new TextButton[]{mockSelectButton, mockSelectButton, mockSelectButton});
+        when(mockDisplay.getAnimalButtons()).thenReturn(new TextButton[]{mockAnimalButton1, mockAnimalButton2, mockAnimalButton3});
         when(mockDisplay.getSelectButton()).thenReturn(mockSelectButton);
         when(mockDisplay.getBackButton()).thenReturn(mockBackButton);
-        when(mockDisplay.getSkin()).thenReturn(mockSkin);
-        when(mockDisplay.getStage()).thenReturn(mockStage);
 
         // Create the instance of AnimalSelectionActions with mocked dependencies
         actions = new AnimalSelectionActions(mockDisplay, mockDialogHelper, mockGame);
@@ -73,7 +71,7 @@ public class AnimalSelectionActionsTest {
         // Verify that the selectedAnimalImagePath is updated correctly
         assertEquals("images/dog.png", AnimalSelectionActions.getSelectedAnimalImagePath());
     }
-    
+
     @Test
     public void testBackButtonClick() {
         // Simulate clicking the "Go Back" button

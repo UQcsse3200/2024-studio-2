@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
 
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
-    private final AnimalSelectionDisplay display;
+    final AnimalSelectionDisplay display;
     private final PopUpHelper dialogHelper;
-    private static Image selectedAnimalImage;
+    static Image selectedAnimalImage;
     private final GdxGame game;
-    private static String selectedAnimalImagePath;
+    static String selectedAnimalImagePath;
 
     public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
