@@ -1,18 +1,14 @@
 package com.csse3200.game.components.minigame.snake;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.List;
-
-import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
-import static com.csse3200.game.components.minigame.snake.AssetPaths.GRASS_IMAGE;
 
 /**
  * A controller class for the logic of the Snake mini-game.
@@ -37,12 +33,12 @@ public class SnakeGame {
         this.isGameOver = false;
 
         ResourceService resourceService = ServiceLocator.getResourceService();
-        Texture grassTexture = resourceService.getAsset(AssetPaths.GRASS_IMAGE, Texture.class);
-        Texture appleTexture = resourceService.getAsset(AssetPaths.APPLE_IMAGE, Texture.class);
-        Texture snakeTexture = resourceService.getAsset(AssetPaths.SNAKE_HEAD_IMAGE, Texture.class);
-        Texture snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
-        Texture snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
-        Texture snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
+        grassTexture = resourceService.getAsset(AssetPaths.GRASS_IMAGE, Texture.class);
+        appleTexture = resourceService.getAsset(AssetPaths.APPLE_IMAGE, Texture.class);
+        snakeTexture = resourceService.getAsset(AssetPaths.SNAKE_HEAD_IMAGE, Texture.class);
+        snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
+        snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
+        snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
 
         this.renderer = new SnakeGameRenderer(this, grassTexture,
                 appleTexture,
@@ -92,7 +88,7 @@ public class SnakeGame {
      * If the snake can eat the apple then a new apple will spawn, the snake will grow
      * and the score will increase.
      */
-    private void attemptEatFruit() {
+    public void attemptEatFruit() {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();

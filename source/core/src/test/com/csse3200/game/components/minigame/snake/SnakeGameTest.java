@@ -13,8 +13,6 @@ public class SnakeGameTest {
     Snake snake;
     Apple apple;
     SnakeGrid grid;
-    SnakeGame snakeGame;
-
     @Before
     public void setUp() {
         this.grid = new SnakeGrid();
@@ -25,39 +23,44 @@ public class SnakeGameTest {
     /*
     Test the Initial Snake and Score
      */
-//    @Test
-//    public void testInitialScoreSnakeLength() {
-//        this.snakeGame = new SnakeGame();
-//        assertTrue(snakeGame.getScore() == 0);
-//        assertTrue(snake.getBodySegments().size() == 0);
-//        assertTrue(snake.getLength() == 2);
-//        assertTrue(snake.getBodySegments().size() == snakeGame.getScore());
-//    }
+    @Test
+    public void testInitialScoreSnakeLength() {
+        SnakeGame snakeGame = new SnakeGame();
+        assertEquals(0, snakeGame.getScore());
+        assertEquals(0, snake.getBodySegments().size());
+        assertEquals(2, snake.getLength());
+        assertEquals(snake.getBodySegments().size(), snakeGame.getScore());
+    }
 
     /*
     Test the snake length increase and score
      */
-//    @Test
-//    public void testScoreSnakeLengthIncrease() {
-//        this.snakeGame = new SnakeGame();
-//
-//        // Move apple to snakes head
-//        apple.setAppleLocation(snake.getX(), snake.getY());
-//        snakeGame.attemptEatFruit();
-//        assertTrue(snakeGame.getScore() == 1); // score increases
-//        assertTrue(snake.getLength() == 3);
-//        snake.grow();
-//        assertTrue(snake.getLength() == 4);
-//        assertTrue(snakeGame.getScore() == 1); // score should not have changed
-//    }
+    @Test
+    public void testScoreSnakeLengthIncrease() {
+        SnakeGame snakeGame = new SnakeGame();
+
+        // Move apple to snakes head
+        apple.setAppleLocation(snake.getX(), snake.getY());
+        snakeGame.attemptEatFruit();
+        assertEquals(1, snakeGame.getScore()); // score increases
+        assertEquals(3, snake.getLength());
+        snake.grow();
+        assertEquals(4, snake.getLength());
+        assertEquals(1, snakeGame.getScore()); // score should not have changed
+    }
 
     /*
     Test the boundary collision detection
      */
     @Test
-    // TODO: implement test
     public void testSnakeBoundaryDetection() {
+        SnakeGame snakeGame = new SnakeGame();
+        Snake snake = snakeGame.getSnake();
 
+        // Move the snake off the grid
+        snake.setDirection(Direction.DOWN);
+        snake.update(1f);
+        assertTrue(snakeGame.boundaryDetection());
 
     }
 
@@ -65,20 +68,27 @@ public class SnakeGameTest {
     Test the snake collision detection
      */
     @Test
-    // TODO: implement test
     public void testSnakeCollisionDetection() {
+        SnakeGame snakeGame = new SnakeGame();
+        Snake snake = snakeGame.getSnake();
+        //grow the snake to be long enough
+        snake.grow();
+        snake.grow();
+        snake.grow();
+        snake.grow();
+        snake.grow();
 
+        // Move snake in circle to collide with itself
+        snake.setDirection(Direction.RIGHT);
+        snake.update(1f);
+        snake.setDirection(Direction.UP);
+        snake.update(1f);
+        snake.setDirection(Direction.LEFT);
+        snake.update(1f);
+        snake.setDirection(Direction.DOWN);
+        snake.update(1f);
 
-    }
-
-    /*
-    Test the is overGame detection
-     */
-    @Test
-    // TODO: implement test
-    public void TestIsGameOver() {
-        //set then get
-
+        assertTrue(snakeGame.snakeCollisionDetection());
     }
 }
 

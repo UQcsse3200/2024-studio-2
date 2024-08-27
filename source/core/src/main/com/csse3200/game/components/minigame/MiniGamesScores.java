@@ -11,7 +11,7 @@ public class MiniGamesScores {
     private MiniGameMedals flappyBirdMedal;
     private MiniGameMedals mazeMedal;
 
-    private MiniGamesScores() {
+    public MiniGamesScores() {
         snakeHighScore = 0;
         flappyBirdHighScore = 0;
         mazeHighScore = 0;
@@ -42,13 +42,13 @@ public class MiniGamesScores {
      */
     public void checkAndSetSnakeScoreMedal(int value) {
         if (value > this.snakeHighScore) {
-            if (value > MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
+            if (value >= MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
                 // Gold medal
                 this.snakeMedal = MiniGameMedals.GOLD;
-            } else if (value > MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
+            } else if (value >= MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
                 // Silver Medal
                 this.snakeMedal = MiniGameMedals.SILVER;
-            } else if (value > MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
+            } else if (value >= MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
                 // Bronze Medal
                 this.snakeMedal = MiniGameMedals.BRONZE;
             } else {
@@ -82,13 +82,13 @@ public class MiniGamesScores {
      */
     public void checkAndSetFlappyBirdScoreMedal(int value) {
         if (value > this.flappyBirdHighScore) {
-            if (value > MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD) {
+            if (value >= MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD) {
                 // Gold medal
                 this.flappyBirdMedal = MiniGameMedals.GOLD;
-            } else if (value > MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD) {
+            } else if (value >= MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD) {
                 // Silver Medal
                 this.flappyBirdMedal = MiniGameMedals.SILVER;
-            } else if (value > MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD) {
+            } else if (value >= MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD) {
                 // Bronze Medal
                 this.flappyBirdMedal = MiniGameMedals.BRONZE;
             } else {
@@ -121,13 +121,13 @@ public class MiniGamesScores {
      */
     public void checkAndSetMazeScoreMedal(int value) {
         if (value > this.mazeHighScore) {
-            if (value > MiniGameConstants.MAZE_GOLD_THRESHOLD) {
+            if (value >= MiniGameConstants.MAZE_GOLD_THRESHOLD) {
                 // Gold medal
                 this.mazeMedal = MiniGameMedals.GOLD;
-            } else if (value > MiniGameConstants.MAZE_SILVER_THRESHOLD) {
+            } else if (value >= MiniGameConstants.MAZE_SILVER_THRESHOLD) {
                 // Silver Medal
                 this.mazeMedal = MiniGameMedals.SILVER;
-            } else if (value > MiniGameConstants.MAZE_BRONZE_THRESHOLD) {
+            } else if (value >= MiniGameConstants.MAZE_BRONZE_THRESHOLD) {
                 // Bronze Medal
                 this.mazeMedal = MiniGameMedals.BRONZE;
             } else {
