@@ -15,17 +15,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.minigame.MiniGameConstants;
 
+
+/**
+ * Makes a new screen when the snake game is over.
+ * Dispalys the stats and add buttons to exit and restart.
+ */
 public class EndSnakeScreen extends ScreenAdapter {
     private final GdxGame game;
     private final int score;
-    private Stage stage;
-    private Skin skin;
+    private final Stage stage;
+    private final Skin skin;
 
     // fonts
-    private BitmapFont font18;
-    private BitmapFont font26;
-    private BitmapFont font32;
+    private final BitmapFont font18;
+    private final BitmapFont font26;
+    private final BitmapFont font32;
 
     public EndSnakeScreen(GdxGame game, int score) {
         this.game = game;
@@ -43,6 +49,10 @@ public class EndSnakeScreen extends ScreenAdapter {
         setupExitButton();
     }
 
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen
+     */
     private void setupExitButton() {
         // Create the exit button
         TextButton exitButton = new TextButton("Exit", skin);
@@ -67,6 +77,11 @@ public class EndSnakeScreen extends ScreenAdapter {
         stage.addActor(table);
     }
 
+    /**
+     * Renders the screen. Sets the background colour, draws the UI elements (buttons) and
+     * renders the message lables and handles keypresses
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // Set the background color based on the score
@@ -82,6 +97,9 @@ public class EndSnakeScreen extends ScreenAdapter {
         handleKeyPress();
     }
 
+    /**
+     * Changes the screen if escape or R is pressed (to minigames menu or back to game respectively)
+     */
     private void handleKeyPress() {
 
         // Key functionality for escape and restart
@@ -95,16 +113,19 @@ public class EndSnakeScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
+     */
     private void setBackgroundColor() {
-        if (score < 5) {
+        if (score < MiniGameConstants.SNAKE_FAIL_THRESHOLD) {
             // Failed
             // Background colour green rgb 50, 82, 29, 1
             Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
-        } else if (score < 15) {
+        } else if (score <  MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
             // Bronze
             // Background colour green rgb 169, 113, 66, 1
             Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
-        } else if (score < 30) {
+        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
             // Silver
             // Background colour green rgb 115, 122, 140, 1
             Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
@@ -117,6 +138,10 @@ public class EndSnakeScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Renders the labels with score, message and title.
+     * Renders the try again and menu buttons
+     */
     private void renderEndMessage() {
 
         Table table = new Table();
@@ -170,18 +195,29 @@ public class EndSnakeScreen extends ScreenAdapter {
         stage.addActor(table);
     }
 
+    /**
+     * Gets the personalised massage based on score
+     * @return the message
+     */
     private String getMessage() {
-        if (score < 5) {
+        if (score < MiniGameConstants.SNAKE_FAIL_THRESHOLD) {
+            // Fail
             return "Damn that was a small snake...";
-        } else if (score < 15) {
+        } else if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
+            // Bronze
             return "Nawww, look he's growing";
-        } else if (score < 30) {
+        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
+            // Silver
             return "That's a really big snake alright";
         } else {
+            // Gold
             return "Snake king!";
         }
     }
 
+    /**
+     * Dispose the fonts, skin and stage.
+     */
     @Override
     public void dispose() {
         font18.dispose();

@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/*
+Test SnakeGame class functionality
+ */
 public class SnakeGameTest {
 
     Snake snake;
@@ -19,6 +22,9 @@ public class SnakeGameTest {
         this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
     }
 
+    /*
+    Test the Initial Snake and Score
+     */
     @Test
     public void testInitialScoreSnakeLength() {
         this.snakeGame = new SnakeGame(snake, apple, grid);
@@ -28,6 +34,9 @@ public class SnakeGameTest {
         assertTrue(snake.getBodySegments().size() == snakeGame.getScore());
     }
 
+    /*
+    Test the snake length increase and score
+     */
     @Test
     public void testScoreSnakeLengthIncrease() {
         this.snakeGame = new SnakeGame(snake, apple, grid);
@@ -41,6 +50,35 @@ public class SnakeGameTest {
         assertTrue(snake.getLength() == 4);
         assertTrue(snakeGame.getScore() == 1); // score should not have changed
     }
-    
+
+    /*
+    Test the boundary collision detection
+     */
+    @Test
+    // TODO: implement test
+    public void testSnakeBoundaryDetection() {
+
+
+    }
+
+    /*
+    Test the snake collision detection
+     */
+    @Test
+    // TODO: implement test
+    public void testSnakeCollisionDetection() {
+
+
+    }
+
+    /*
+    Test the is overGame detection
+     */
+    @Test
+    // TODO: implement test
+    public void TestIsGameOver() {
+        //set then get
+
+    }
 }
 
