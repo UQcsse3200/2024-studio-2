@@ -73,39 +73,7 @@ public class AnimalSelectionActionsTest {
         // Verify that the selectedAnimalImagePath is updated correctly
         assertEquals("images/dog.png", AnimalSelectionActions.getSelectedAnimalImagePath());
     }
-
-//    @Test
-//    public void testSelectButtonClickedWithoutSelection() {
-//        // No animal selected
-//        AnimalSelectionActions.selectedAnimalImage = null;
-//
-//        // Create a mock InputEvent to simulate the button click
-//        InputEvent mockEvent = mock(InputEvent.class);
-//
-//        // Create an instance of AnimalSelectionActions with mocked dependencies
-//        AnimalSelectionActions actions = new AnimalSelectionActions(mockDisplay, mockDialogHelper, mockGame);
-//
-//        // Manually trigger the select button's click listener
-//        actions.getDisplay().getSelectButton().getClickListener().clicked(mockEvent, 0, 0);
-//
-//        // Verify that the alert dialog is shown when no animal is selected
-//        verify(mockDialogHelper).displayDialog(eq("Alert"), eq("Please select an animal first."), isNull(), anyFloat(), anyFloat());
-//    }
-
-//    @Test
-//    public void testSelectButtonClickedWithSelection() {
-//        // Simulate the state as if an animal was selected
-//        String animalImagePath = "images/dog.png";
-//        AnimalSelectionActions.selectedAnimalImage = mockImage1;
-//        AnimalSelectionActions.selectedAnimalImagePath = animalImagePath;
-//
-//        // Directly invoke the functionality that should be triggered when the "Select" button is clicked
-//        actions.getDisplay().getSelectButton().getClickListener().clicked(mock(InputEvent.class), 0, 0);
-//
-//        // Verify that the screen is changed to LoadingScreen if an animal is selected
-//        verify(mockGame).setScreen(any(LoadingScreen.class));
-//    }
-
+    
     @Test
     public void testBackButtonClick() {
         // Simulate clicking the "Go Back" button
