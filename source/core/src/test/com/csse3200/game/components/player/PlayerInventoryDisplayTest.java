@@ -28,15 +28,11 @@ class PlayerInventoryDisplayTest {
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
         ServiceLocator.registerInputService(inputService);
-        Stage stage = ServiceLocator.getRenderService().getStage();
-
-        // Mock the behavior of RenderService to return the Stage instance
-        when(renderService.getStage()).thenReturn(stage);
 
         // Load all resources
         resourceService.loadAll();
 
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(renderService.getStage());
     }
 
     @Test
