@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AbstractFoodTest {
     private TestableItem food;
     private TestableEffect effect1;
-    private static ItemUsageContext context;
 
     private static class TestableItem extends AbstractFood {
         public TestableItem(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
@@ -37,7 +36,6 @@ public class AbstractFoodTest {
     void setUp() { // Initialize TestableItem and ItemUsageContext
         effect1 = new TestableEffect(10);
         food = new TestableItem("test", 3, 10, 3, effect1);
-        context = new ItemUsageContext();
     }
 
     @Test
@@ -50,6 +48,8 @@ public class AbstractFoodTest {
 
         food.useItem(null);
         assertTrue(food.isEmpty(), "The food should be empty after 3 uses.");
+
+        assertEquals(effect1, food.getFeedingEffect());
     }
 
 

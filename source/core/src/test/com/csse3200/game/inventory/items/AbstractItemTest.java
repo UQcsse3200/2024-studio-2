@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class AbstractItemTest {
+class AbstractItemTest {
     private TestableItem1 item1;
     private TestableItem2 item2;
     private ItemUsageContext context;
@@ -22,7 +22,7 @@ public class AbstractItemTest {
     private static class TestableItem1 extends AbstractItem {
         public int numUsed = 0;
 
-        public TestableItem1(String name, int itemCode, String description) {
+        TestableItem1(String name, int itemCode, String description) {
             super(name, itemCode);
             this.setDescription(description);
         }
@@ -38,9 +38,9 @@ public class AbstractItemTest {
      * Concrete subclass of AbstractItem for testing purposes.
      */
     private static class TestableItem2 extends AbstractItem {
-        public int numUsed = 0;
+        int numUsed = 0;
 
-        public TestableItem2(String name, int itemCode, int limit, int quantity, String description) {
+        TestableItem2(String name, int itemCode, int limit, int quantity, String description) {
             super(name, itemCode, limit, quantity);
             this.setDescription(description);
 
@@ -74,6 +74,30 @@ public class AbstractItemTest {
         assertThrows(IllegalArgumentException.class, () -> item1.add(1), msg + "adding too many");
 
         assertFalse(item1.isEmpty(), msg + "is empty is false");
+    }
+
+    @Test
+    void testIllegalInitialisation() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Call the method that is expected to throw the exception
+            new TestableItem2("test", -1, -1, 0, "d");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Call the method that is expected to throw the exception
+            new TestableItem2("test", -1, 0, -1, "d");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Call the method that is expected to throw the exception
+            new TestableItem2("test", -1, 1, 2, "d");
+        });
+    }
+
+    @Test
+    void testIllegalAccess() {
+        item1.setDescription(null);
+        assertThrows(IllegalAccessError.class, () -> item1.getDescription());
+        item2.setTexturePath(null);
+        assertThrows(IllegalAccessError.class, () -> item2.getTexturePath());
     }
 
     @Test

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
@@ -37,6 +39,15 @@ class PlayerInventoryDisplayTest {
     void testInitialisation() {
         // Should throw error since 7 does not divide 9
         Assertions.assertThrows(IllegalArgumentException.class, () -> new PlayerInventoryDisplay(9, 7));
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Call the method that is expected to throw the exception
+            new PlayerInventoryDisplay(0, 1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            // Call the method that is expected to throw the exception
+            new PlayerInventoryDisplay(1, 0);
+        });
+
 
         // Shouldn't throw error since 3 divides 9
         new PlayerInventoryDisplay(9, 3);

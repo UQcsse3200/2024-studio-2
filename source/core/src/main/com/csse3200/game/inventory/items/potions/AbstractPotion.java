@@ -3,7 +3,6 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
-import com.csse3200.game.inventory.items.exceptions.ConsumedException;
 
 import java.util.List;
 
@@ -89,11 +88,7 @@ public abstract class AbstractPotion extends ConsumableItem {
     public void useItem(ItemUsageContext inputs) {
         if (this.quantity > 0) {
             applyEffect();
-            this.quantity--;
-        } else {
-            if (super.isEmpty()) {
-                throw new ConsumedException();
-            }
         }
+        super.useItem(inputs);
     }
 }

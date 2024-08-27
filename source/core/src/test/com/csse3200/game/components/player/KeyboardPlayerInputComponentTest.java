@@ -4,22 +4,22 @@ import com.badlogic.gdx.Input.Keys;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class KeyboardPlayerInputComponentTest {
+class KeyboardPlayerInputComponentTest {
 
     private KeyboardPlayerInputComponent inputComponent;
     private Entity mockEntity;
     private EventHandler mockEventHandler;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         // Create mock entity and event handler
         mockEntity = Mockito.mock(Entity.class);
         mockEventHandler = Mockito.mock(EventHandler.class);
@@ -31,7 +31,7 @@ public class KeyboardPlayerInputComponentTest {
     }
 
     @Test
-    public void testKeyUp_TriggerToggleInventoryEvent() {
+    void testKeyUpTriggerToggleInventoryEvent() {
         // Simulate pressing the 'E' key
         inputComponent.keyUp(Keys.E);
 
@@ -40,7 +40,7 @@ public class KeyboardPlayerInputComponentTest {
     }
 
     @Test
-    public void testKeyUp_TriggerPickUpItemEvent() {
+    void testKeyUpTriggerPickUpItemEvent() {
         // Simulate pressing the 'P' key
         inputComponent.keyUp(Keys.P);
 
@@ -49,7 +49,7 @@ public class KeyboardPlayerInputComponentTest {
     }
 
     @Test
-    public void testKeyDown_OtherKeys() {
+    void testKeyDownOtherKeys() {
         // Simulate pressing other keys (not 'E' or 'P')
         inputComponent.keyDown(Keys.W);
         inputComponent.keyDown(Keys.SPACE);

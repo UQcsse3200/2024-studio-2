@@ -4,7 +4,6 @@ import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
-import com.csse3200.game.inventory.items.exceptions.ConsumedException;
 
 /**
  * The AbstractFood class manages the amount of hunger points (provided from food items) is added to the hunger bar
@@ -51,10 +50,9 @@ public class AbstractFood extends ConsumableItem {
      */
     @Override
     public void useItem(ItemUsageContext inputs) {
-        if (super.isEmpty()) {
-            throw new ConsumedException();
+        if (!super.isEmpty()) {
+            applyFeedingEffect();
         }
-        applyFeedingEffect();
-        this.quantity--;
+        super.useItem(inputs);
     }
 }

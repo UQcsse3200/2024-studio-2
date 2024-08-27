@@ -14,8 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+
 @ExtendWith(GameExtension.class)
-public class InventoryTest {
+class InventoryTest {
     private Inventory test1;
     private Inventory test2;
     private Inventory[] tests;
@@ -27,7 +28,7 @@ public class InventoryTest {
      */
     private static class TestableItem extends ConsumableItem {
 
-        public TestableItem(String name, int itemCode) {
+        TestableItem(String name, int itemCode) {
             super(name, itemCode, 2, 2);
         }
 
@@ -85,17 +86,24 @@ public class InventoryTest {
         for (AbstractItem item : items) {
             assertFalse(test.hasItem(item.getItemCode()));
         }
+
+        test.addAt(0, items[0]);
+        assertTrue(test.hasItem(items[0].getItemCode()));
+        test.clearInventory();
+        assertFalse(test.hasItem(items[0].getItemCode()));
     }
 
     @Test
     void testBasicAddAndDelete() {
-        // Check add and delete works with a single item
+        // Check add and delete works with a single items
         assertTrue(test1.add(items[0]));
         assertTrue(test1.hasItem(items[0].getItemCode()));
         assertEquals(0, test1.getIndex(items[0].getItemCode()));
+        assertEquals(0, test1.getIndex(items[0].getName()));
+        assertEquals(-1, test1.getIndex("Not in Inventory!"));
         assertEquals(items[0].getItemCode(), test1.getAt(0).getItemCode());
         assertTrue(test1.isFull());
-        test1.deleteItem(items[0].getItemCode());
+        test1.deleteItemAt(0);
         assertFalse(test1.hasItem(items[0].getItemCode()));
     }
 
@@ -139,9 +147,16 @@ public class InventoryTest {
     void testBasicAddAndUse() {
         // Add to inventory with single index, use it twice - check it has gone.
         assertTrue(test1.add(items[0]));
-        test1.useItem(items[0].getItemCode(), context);
-        assertTrue(test1.hasItem(items[0].getItemCode()));
         test1.useItemAt(0, context);
+        assertTrue(test1.hasItem(items[0].getItemCode()));
+
+        // Add an extra test item and use once, and check it is added to the same slot
+        TestableItem item = new TestableItem("test_" + 0, 0);
+        item.useItem(context);
+        assertTrue(test1.add(item));
+        test1.useItemAt(0, context);
+
+        test1.useItem(items[0].getItemCode(), context);
         assertFalse(test1.hasItem(items[0].getItemCode()));
     }
 

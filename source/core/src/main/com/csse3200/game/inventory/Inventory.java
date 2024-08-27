@@ -62,11 +62,6 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
-     * @return the number of slots currently used in the inventory
-     */
-    public int getSize() {return this.getCapacity() - this.numFreeSlots();}
-
-    /**
      * @return {@code true} if the inventory is full, {@code false} otherwise.
      */
     @Override
@@ -209,10 +204,6 @@ public class Inventory implements InventoryInterface {
      */
     @Override
     public boolean add(AbstractItem item) {
-        if (this.isFull()) {
-            return false;
-        }
-
         // Check if item is already present:
         if (codeToIndices.containsKey(item.getItemCode())) {
             // Iterate through map and if we can add any more items, add them
@@ -223,6 +214,11 @@ public class Inventory implements InventoryInterface {
                     return true;
                 }
             }
+        }
+
+        // If there are no stacks this can be added to and no new slots.
+        if (this.isFull()) {
+            return false;
         }
 
         // Cannot add item to existing instances of item, so add to a new slot

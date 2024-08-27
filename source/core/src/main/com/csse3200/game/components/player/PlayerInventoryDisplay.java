@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.inventory.Inventory;
@@ -38,7 +37,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     public PlayerInventoryDisplay(int capacity, int numCols) {
-        if (numCols < 1) {
+        if (numCols < 1 || capacity < 1) {
             throw new IllegalArgumentException("Inventory dimensions must be positive!");
         }
         if (capacity % numCols != 0) {
