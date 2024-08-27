@@ -1,80 +1,87 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.Task;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.events.EventHandler;
-import com.csse3200.game.events.listeners.EventListener0;
+import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.inventory.items.food.AbstractFood;
-import com.csse3200.game.inventory.items.food.Foods;
-import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.physics.components.PhysicsComponent;
-import com.csse3200.game.physics.components.PhysicsMovementComponent;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.ChatOverlay;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
+import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.Gdx;
+
 
 @ExtendWith(GameExtension.class)
 public class ItemProximityTaskTest {
-    private Entity target;
-    private AbstractItem item;
-    private ItemProximityTask task;
-    private ChatOverlay itemOverlay;
-
     @BeforeEach
     void beforeEach() {
-        target = mock(Entity.class);
-        item = mock(AbstractItem.class);
-        itemOverlay = mock(ChatOverlay.class);
-        when(target.getPosition()).thenReturn(new Vector2(0f, 0f));
+        EntityService entityService = new EntityService();
+        GameTime gameTime = new GameTime();
+        ResourceService resourceService = new ResourceService();
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
 
-        task = new ItemProximityTask(target, 1, 2.0f, item);
+        // Register services with ServiceLocator
+        ServiceLocator.registerEntityService(entityService);
+        ServiceLocator.registerTimeSource(gameTime);
+        ServiceLocator.registerResourceService(resourceService);
+        ServiceLocator.registerRenderService(renderService);
+
+        Stage stage = ServiceLocator.getRenderService().getStage();
+
+        // Mock the behavior of RenderService to return the Stage instance
+        when(renderService.getStage()).thenReturn(stage);
+
+        // Load all resources
+        resourceService.loadAll();
+
+        Gdx.input.setInputProcessor(stage);
     }
 
-//    @Test
-//    void shouldCreateItemOverlayWhenNear() {
-//        task.create(() -> target);
-//        task.start();
-//
-//        // Mock the player near the item
-//        when(target.getPosition().dst(any(Vector2.class))).thenReturn(2.0f);
-//
-//        task.update();
-//
-//        // Check that the overlay was created
-//        assertNotNull(task.itemOverlay);
-//        verify(target.getEvents(), never()).trigger(anyString(), any());
-//    }
-//
-//    @Test
-//    void shouldDisposeItemOverlayWhenFar() {
-//        task.create(() -> target);
-//        task.start();
-//
-//        // Mock the player near the item initially
-//        when(target.getPosition().dst(any(Vector2.class))).thenReturn(2.0f);
-//        task.update();
-//
-//        assertTrue(task.itemOverlay != null);
-//
-//        // Now mock the player moving away
-//        when(target.getPosition().dst(any(Vector2.class))).thenReturn(2.0f);
-//        task.update();
-//
-//        // Check that the overlay was disposed
-//        assertTrue(task.itemOverlay == null);
-//        verify(itemOverlay).dispose();
-//    }
+
+    @Test
+    void shouldCreateItemOverlayWhenNear() {
+        Entity target = new Entity();
+        target.setPosition(2f, 2f);
+        HealingPotion item = new HealingPotion(1);
+
+        ItemProximityTask task = new ItemProximityTask(target, 1, 2.0f, item);
+        AITaskComponent component = new AITaskComponent().addTask(task);
+
+        Entity itemEntity = new Entity().addComponent(component);
+        itemEntity.setPosition(2f, 2f);
+
+        task.start();
+        task.update();
+
+        // Check that the overlay was created
+        Assertions.assertNotNull(task.itemOverlay);
+    }
+
+    @Test
+    void shouldNotCreateItemOverlayWhenFar() {
+        Entity target = new Entity();
+        target.setPosition(1f, 1f);
+        HealingPotion item = new HealingPotion(1);
+
+        ItemProximityTask task = new ItemProximityTask(target, 1, 0.01f, item);
+        AITaskComponent component = new AITaskComponent().addTask(task);
+
+        Entity itemEntity = new Entity().addComponent(component);
+        itemEntity.setPosition(5f, 5f); // Put item far away from target
+
+        task.start();
+        task.update();
+
+        // Check that the overlay was created
+        Assertions.assertNull(task.itemOverlay);
+    }
 }
