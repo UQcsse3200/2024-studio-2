@@ -224,6 +224,7 @@ public class CombatStatsComponent extends Component {
     if (experience >= 0) {
       this.experience = experience;
     } else {
+
       logger.error("Cannot set experience to a negative value");
     }
   }
