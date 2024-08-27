@@ -5,9 +5,14 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 
 
 import java.util.List;
+
+import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
+import static com.csse3200.game.components.minigame.snake.AssetPaths.GRASS_IMAGE;
 
 /**
  * A controller class for the logic of the Snake mini-game.
@@ -20,16 +25,25 @@ public class SnakeGame {
     private final SnakeGameRenderer renderer;
     private int score;
     private Boolean isGameOver;
+    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
+            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
-    public SnakeGame(Texture grassTexture, Texture appleTexture, Texture snakeTexture,
-                     Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
-                     Texture snakeBodyBentTexture) {
+    public SnakeGame() {
         this.grid = new SnakeGrid();
         this.snakeController = new SnakeController();
         this.snake = new Snake(this.grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.apple = new Apple(this.grid);
         this.score = 0;
         this.isGameOver = false;
+
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        Texture grassTexture = resourceService.getAsset(AssetPaths.GRASS_IMAGE, Texture.class);
+        Texture appleTexture = resourceService.getAsset(AssetPaths.APPLE_IMAGE, Texture.class);
+        Texture snakeTexture = resourceService.getAsset(AssetPaths.SNAKE_HEAD_IMAGE, Texture.class);
+        Texture snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
+        Texture snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
+        Texture snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
+
         this.renderer = new SnakeGameRenderer(this, grassTexture,
                 appleTexture,
                 snakeTexture,
@@ -135,5 +149,11 @@ public class SnakeGame {
 
     public void dispose() {
         renderer.dispose();
+        appleTexture.dispose();
+        snakeTexture.dispose();
+        snakeBodyHorizontalTexture.dispose();
+        snakeBodyVerticalTexture.dispose();
+        snakeBodyBentTexture.dispose();
+        grassTexture.dispose();
     }
 }

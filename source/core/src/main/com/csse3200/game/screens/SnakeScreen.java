@@ -1,6 +1,5 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import org.slf4j.Logger;
@@ -41,8 +40,6 @@ public class SnakeScreen extends ScreenAdapter {
     private final GdxGame game;
     private final SnakeGame snakeGame;
     private final Renderer renderer;
-    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
-            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
     private final BitmapFont font;
 
@@ -73,14 +70,7 @@ public class SnakeScreen extends ScreenAdapter {
         createUI();
 
         logger.debug("Initialising snake minigame entities");
-        this.snakeGame = new SnakeGame(grassTexture,
-                appleTexture,
-                snakeTexture,
-                snakeBodyHorizontalTexture,
-                snakeBodyVerticalTexture,
-                snakeBodyBentTexture
-
-        );
+        this.snakeGame = new SnakeGame();
     }
 
     /**
@@ -192,13 +182,6 @@ public class SnakeScreen extends ScreenAdapter {
         resourceService.loadTextures(AssetPaths.IMAGES);
         ServiceLocator.getResourceService().loadAll();
 
-        appleTexture = resourceService.getAsset(APPLE_IMAGE, Texture.class);
-        snakeTexture = resourceService.getAsset(SNAKE_HEAD_IMAGE, Texture.class);
-        snakeBodyHorizontalTexture = resourceService.getAsset(SNAKE_BODY_HORIZONTAL_IMAGE,
-                Texture.class);
-        snakeBodyVerticalTexture = resourceService.getAsset(SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
-        snakeBodyBentTexture = resourceService.getAsset(SNAKE_BODY_BENT_IMAGE, Texture.class);
-        grassTexture = resourceService.getAsset(GRASS_IMAGE, Texture.class);
     }
 
     /**
