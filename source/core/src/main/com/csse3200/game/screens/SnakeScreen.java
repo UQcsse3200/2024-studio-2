@@ -3,7 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
-import com.csse3200.game.ui.minigame.SnakeScoreBoard;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -53,7 +53,7 @@ public class SnakeScreen extends ScreenAdapter {
 
 
     private final BitmapFont font;
-    private SnakeScoreBoard scoreBoard;
+
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -72,7 +72,6 @@ public class SnakeScreen extends ScreenAdapter {
 
         renderer = RenderFactory.createRenderer();
 
-
         // Sets the score
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -80,7 +79,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
-        createSnakeScoreBoard();
+
 
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
@@ -95,9 +94,7 @@ public class SnakeScreen extends ScreenAdapter {
         );
 
     }
-    private void createSnakeScoreBoard() {
-        scoreBoard = new SnakeScoreBoard(0);
-    }
+
 
     /**
      * Renders the Snake game screen, including the grid and the apple.
@@ -141,9 +138,7 @@ public class SnakeScreen extends ScreenAdapter {
 
             // Render the grid, apple, snake, and score
 
-            snakeGameRenderer.render();
-
-            scoreBoard.updateScore(snakeGame.getScore());
+            snakeGameRenderer.render(snakeGame.getScore());
 
         } else {
             // Go to end game screen
