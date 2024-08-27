@@ -42,14 +42,25 @@ class CombatStatsComponentTest {
   }
 
   @Test
-  void shouldSetGetstrength() {
+  void shouldSetGetHunger() {
     CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0);
-    assertEquals(20, combat.getStrength());
+    assertEquals(100, combat.getHunger());
 
-    combat.setStrength(150);
-    assertEquals(150, combat.getStrength());
+    combat.setHunger(150);
+    assertEquals(150, combat.getHunger());
 
-    combat.setStrength(-50);
-    assertEquals(150, combat.getStrength());
+    combat.setHunger(-50);
+    assertEquals(0, combat.getHunger());
   }
+
+@Test
+void shouldSetGetExperience() {
+  CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 100);
+  assertEquals(100, combat.getExperience());
+
+  combat.setExperience(150);
+  assertEquals(150, combat.getExperience());
+
+
+}
 }
