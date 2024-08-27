@@ -51,7 +51,6 @@ public class SnakeScreen extends ScreenAdapter {
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
 
-
     private final BitmapFont font;
 
 
@@ -80,11 +79,10 @@ public class SnakeScreen extends ScreenAdapter {
         loadAssets();
         createUI();
 
-
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         snakeGameRenderer = new SnakeGameRenderer(
-                this.snakeGame,
+                snakeGame,
                 grassTexture,
                 appleTexture,
                 snakeTexture,
@@ -123,26 +121,11 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().update();
         renderer.render();
 
-        if (!snakeGame.getIsGameOver()) {
-
-            // Check if the snake has hit the boundary
-            if (snakeGame.boundaryDetection() || snakeGame.snakeCollisionDetection()) {
-                snakeGame.setIsGameOver(true);
-                logger.info("Snake has hit the boundary or itself!");
-            } else {
-                // Only update direction and snake position if the game is not over
-//                updateDirection();
-                snakeGame.snakeMove(delta);
-
-            }
-
-            // Render the grid, apple, snake, and score
-
-            snakeGameRenderer.render(snakeGame.getScore());
-
-        } else {
-            // Go to end game screen
+        snakeGame.snakeMove(delta);
+        if (snakeGame.getIsGameOver()) {
             game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
+        } else {
+            snakeGameRenderer.render(snakeGame.getScore());
         }
     }
 

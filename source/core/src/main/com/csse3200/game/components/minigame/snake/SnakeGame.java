@@ -48,10 +48,9 @@ public class SnakeGame {
 
     /**
      * Set the isGameOver function. Is true if over, else false
-     * @param state: the state to set the isGameOver to
      */
-    public void setIsGameOver(boolean state) {
-        this.isGameOver = state;
+    public void setIsGameOver() {
+        this.isGameOver = true;
     }
 
     /**
@@ -79,6 +78,9 @@ public class SnakeGame {
         snake.updateDirectionOnInput(snakeController.getInputDirection());
         attemptEatFruit();
         this.snake.update(delta);
+        if(boundaryDetection() || snakeCollisionDetection()) {
+            setIsGameOver();
+        }
     }
 
     /**
