@@ -26,6 +26,7 @@ public class Inventory implements InventoryInterface {
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
 
+
     /**
      * Constructs an Inventory with a specified capacity.
      *
