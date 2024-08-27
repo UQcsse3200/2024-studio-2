@@ -108,7 +108,7 @@ public class AnimalSelectionActions {
         dialog.show(display.getStage());
     }
 
-    private void showAnimalDialog(int animalIndex, String animalImagePath) {
+    void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
         String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
                 "This animal has unique characteristics.\n" +
