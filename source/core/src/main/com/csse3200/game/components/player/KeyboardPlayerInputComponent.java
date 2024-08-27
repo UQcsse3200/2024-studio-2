@@ -115,6 +115,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.sub(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
+      case Keys.E:
+        entity.getEvents().trigger("toggleInventory");
+        return true;
+      case Keys.P:
+        entity.getEvents().trigger("pickUpItem");
+        return true;
       default:
         return false;
     }
