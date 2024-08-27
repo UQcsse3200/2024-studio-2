@@ -152,19 +152,18 @@ public class BossCutsceneScreen extends ScreenAdapter {
         // Use default BitmapFont
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
-        labelStyle.fontColor = Color.WHITE;
+        labelStyle.fontColor = Color.BLACK;
 
         Label enemyNameLabel = new Label("Kanga", labelStyle);
         enemyNameLabel.setAlignment(Align.center);
 
         Image enemyImage = new Image(enemyImageTexture);
-        enemyImage.setSize(500, 500);
 
         // Table layout for positioning
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(enemyImage).padBottom(10);
+        table.add(enemyImage).width(500).height(500).padBottom(10);
         table.row();
         table.add(enemyNameLabel).padTop(10);
 
