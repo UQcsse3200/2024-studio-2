@@ -10,6 +10,7 @@ import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.SpawnTask;
 import com.csse3200.game.components.tasks.WanderTask;
@@ -70,27 +71,6 @@ public class NPCFactory {
     chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
 
     return chicken;
-  }
-
-  public static Entity createFrog(Entity target) {
-    Entity frog = createBaseNPC(target);
-    BaseEntityConfig config = configs.frog;
-
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class));
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-    frog
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(animator)
-            .addComponent(new FrogAnimationController());
-
-    frog.getComponent(AnimationRenderComponent.class).scaleEntity();
-    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
-
-    return frog;
   }
 
   /**

@@ -9,6 +9,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
@@ -45,7 +46,7 @@ public class ForestGameArea extends GameArea {
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-          "images/chicken.atlas", "images/frog.atlas", "images/spawnChicken.atlas"
+          "images/chicken.atlas", "images/frog.atlas", "images/spawnChicken.atlas", "images/monkey.atlas",
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -79,16 +80,16 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnGhosts();
-    spawnGhostKing();
+    //spawnGhosts();
+    //spawnGhostKing();
 
-    spawnChicken();
-    spawnChicken();
-    spawnChicken();
-    spawnChicken();
+    //spawnChicken();
+    //spawnChicken();
+    //spawnChicken();
+    //spawnChicken();
 
-    spawnFrog();
-
+    //spawnFrog();
+    spawnMonkey();
     playMusic();
   }
 
@@ -169,12 +170,26 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity frog = NPCFactory.createFrog(player);
+    Entity frog = EnemyFactory.createFrog(player);
 
     float proximityRange = 0.05f; // Set a suitable proximity range
     frog.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
 
     spawnEntityAt(frog, randomPos, true, true);
+
+  }
+
+  private void spawnMonkey() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    Entity monkey = EnemyFactory.createMonkey(player);
+
+    float proximityRange = 0.05f; // Set a suitable proximity range
+    //monkey.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+
+    spawnEntityAt(monkey, randomPos, true, true);
 
   }
 

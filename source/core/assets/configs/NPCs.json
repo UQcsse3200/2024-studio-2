@@ -25,6 +25,13 @@
     "baseAttack": 25,
     "spookyFactor": 7,
     "isEnemy": 1
+  },
+  "monkey": {
+    "health": 100,
+    "baseAttack": 25,
+    "baseDefense": 25,
+    "speed": 1.5,
+    "isEnemy": 1
   }
 }
 

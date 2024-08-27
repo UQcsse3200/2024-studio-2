@@ -8,4 +8,5 @@ public class NPCConfigs {
   public GhostKingConfig ghostKing = new GhostKingConfig();
   public ChickenConfig chicken = new ChickenConfig();
   public FrogConfig frog = new FrogConfig();
+  public MonkeyConfig monkey = new MonkeyConfig();
 }
