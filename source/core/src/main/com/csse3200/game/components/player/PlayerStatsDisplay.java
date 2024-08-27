@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Text;
 
 /**
  * A UI component for displaying player stats, e.g. health.
@@ -146,6 +147,19 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
+     * Replaces the current frame for the specified statBar based on the current frame provided
+     * @param frameIndex The index of the desired frame in the Texture Region
+     * @param statBarAnimation The animation for the specific stat bar
+     * @param statBar The image that is the placeholder on the stage for the stat bar
+     */
+    public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
+        // Grab the desired frame at a specified frame rate
+        TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        // Replace the frame shown on the stage
+        statBar.setDrawable(new TextureRegionDrawable(currentFrame));
+    }
+
+    /**
      * Updates the health animation and label in game to reflect current player health
      * @param health the current health stat value of the player
      */
@@ -163,8 +177,9 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, healthBarAnimation, heartImage);
+//        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
+//        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
 
     /**
@@ -184,8 +199,7 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = hungerBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        hungerImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, hungerBarAnimation, hungerImage);
     }
 
     /**
@@ -205,8 +219,7 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = xpBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        xpImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, xpBarAnimation, xpImage);
     }
 
 
