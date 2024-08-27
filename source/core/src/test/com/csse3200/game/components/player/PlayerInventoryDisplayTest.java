@@ -1,8 +1,6 @@
 package com.csse3200.game.components.player;
 
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,9 +36,7 @@ class PlayerInventoryDisplayTest {
     @Test
     void testInitialisation() {
         // Should throw error since 7 does not divide 9
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new PlayerInventoryDisplay(9, 7);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PlayerInventoryDisplay(9, 7));
 
         // Shouldn't throw error since 3 divides 9
         new PlayerInventoryDisplay(9, 3);
