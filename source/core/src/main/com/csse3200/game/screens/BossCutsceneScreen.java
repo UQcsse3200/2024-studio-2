@@ -38,7 +38,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class BossCutsceneScreen extends ScreenAdapter {
-    private static final float CUTSCENE_DURATION = 2.0f; // Cutscene lasts for 2 seconds
+    private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
     private float timeElapsed = 0;
     private boolean transition;
 
