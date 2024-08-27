@@ -84,7 +84,7 @@ public class AnimalSelectionActions {
         });
     }
 
-    void selectAnimal(Image animalImage, String animalImagePath) {
+    private void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1);
         }
