@@ -95,8 +95,6 @@ public class NPCFactory {
    *
    * @param target   entity to move towards when in range.
    * @param enemies  list of enemy entities.
-   * @param atlasPath path to the texture atlas for the NPC.
-   * @param animationSpeed speed of the animation.
    * @param config  the specific configuration object.
    * @return entity
    */
