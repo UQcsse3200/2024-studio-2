@@ -37,10 +37,7 @@ public class PauseDisplay extends UIComponent {
     private void addActors() {
         // Title label
         Label title = new Label("Attack On Animals", skin, "title");
-        Image titleBackGround =
-                new Image(
-                        ServiceLocator.getResourceService()
-                                .getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
+        Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
         // Create tables
         Table menuBtns = makeMenuBtns();
         // Root table that holds everything
