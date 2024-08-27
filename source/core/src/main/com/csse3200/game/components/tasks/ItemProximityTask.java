@@ -65,10 +65,10 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
             PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
             if (display != null) {
                 display.getEntity().getEvents().trigger("addItem", item);
-                logger.info("Item added to inventory.");
+                logger.debug("Item added to inventory.");
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
-                logger.info("I WAS DISPOSED OF!");
+                logger.debug("I WAS DISPOSED OF!");
                 itemOverlay.dispose();
                 itemOverlay = null;
 
