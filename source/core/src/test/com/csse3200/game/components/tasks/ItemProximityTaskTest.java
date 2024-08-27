@@ -46,6 +46,26 @@ public class ItemProximityTaskTest {
         Gdx.input.setInputProcessor(stage);
     }
 
+    @Test
+    void testInitialisation() {
+        Entity target = new Entity();
+        target.setPosition(2f, 2f);
+        HealingPotion item = new HealingPotion(1);
+
+        ItemProximityTask task = new ItemProximityTask(target, 1, 0.1f, item);
+        AITaskComponent component = new AITaskComponent().addTask(task);
+
+        Entity itemEntity = new Entity().addComponent(component);
+        itemEntity.setPosition(2f, 2f);
+
+        // Expect priority 1 when player is close
+        Assertions.assertEquals(1, task.getPriority());
+
+        // Expect priority to be 0 when far away
+        target.setPosition(20f, 20f);
+        Assertions.assertEquals(0, task.getPriority());
+
+    }
 
     @Test
     void shouldCreateItemOverlayWhenNear() {
