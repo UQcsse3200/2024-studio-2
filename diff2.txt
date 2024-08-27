@@ -1,3 +1,0 @@
-M	source/core/src/main/com/csse3200/game/areas/ForestGameArea.java
-M	source/core/src/main/com/csse3200/game/components/gamearea/GameAreaDisplay.java
-M	source/core/src/main/com/csse3200/game/components/player/PlayerStatsDisplay.java
