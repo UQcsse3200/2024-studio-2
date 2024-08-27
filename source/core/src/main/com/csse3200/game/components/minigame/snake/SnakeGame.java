@@ -70,7 +70,7 @@ public class SnakeGame {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
-            score += calculateScore();
+            score += 1;
         }
     }
 
@@ -81,23 +81,6 @@ public class SnakeGame {
         if(boundaryDetection() || snakeCollisionDetection()) {
             setIsGameOver();
         }
-    }
-
-    /**
-     * Adds constant to the score
-     * @return the constant to add to the score
-     * TODO: Might change scoreing system, hence the function
-     */
-    private int calculateScore() {
-        return 1;
-    }
-
-    /**
-     * Sets the score (used for testing only)
-     * @param value: the value for the score to be set to.
-     */
-    public void setScore(int value) {
-        this.score = value;
     }
 
     /**

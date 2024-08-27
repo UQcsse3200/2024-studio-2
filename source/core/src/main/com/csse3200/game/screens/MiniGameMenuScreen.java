@@ -21,7 +21,7 @@ public class MiniGameMenuScreen implements Screen {
 
     private Stage stage;
     private BitmapFont font;
-    private GdxGame game;
+    private final GdxGame game;
     private Skin skin;
 
     private Texture snakeTexture;
@@ -158,7 +158,6 @@ public class MiniGameMenuScreen implements Screen {
             game.setScreen(new MainMenuScreen(game));
         }
     }
-
 
     @Override
     public void resize(int width, int height) {

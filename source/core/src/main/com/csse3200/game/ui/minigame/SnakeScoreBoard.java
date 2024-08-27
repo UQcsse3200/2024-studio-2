@@ -12,18 +12,15 @@ import com.csse3200.game.components.minigame.MiniGameConstants;
 
 public class SnakeScoreBoard {
 
-    private Stage stage;
-    private Skin skin;
-    private Label scoreLabel;
-    private Label bronzeLabel;
-    private Label silverLabel;
-    private Label goldLabel;
-    private Label medalLabel;
-    private Table table;
+    private final Label scoreLabel;
+    private final Label bronzeLabel;
+    private final Label silverLabel;
+    private final Label goldLabel;
+    private final Table table;
 
     public SnakeScoreBoard(int initialScore) {
-        this.stage = ServiceLocator.getRenderService().getStage();
-        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         // Create and configure the score label
         scoreLabel = new Label("Score: " + initialScore, skin, "default-white");
@@ -32,7 +29,7 @@ public class SnakeScoreBoard {
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create Medal Title
-        medalLabel = new Label("Medals", skin, "default-white");
+        Label medalLabel = new Label("Medals", skin, "default-white");
         medalLabel.setFontScale(2.0f);
         medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);

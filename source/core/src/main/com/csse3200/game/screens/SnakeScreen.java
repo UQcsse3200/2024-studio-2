@@ -47,9 +47,9 @@ public class SnakeScreen extends ScreenAdapter {
     private final SnakeGame snakeGame;
     private final SnakeGameRenderer snakeGameRenderer;
     private final Renderer renderer;
+
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
-
 
     private final BitmapFont font;
 
@@ -78,6 +78,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+
 
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
@@ -129,17 +130,28 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
 
+    /**
+     * resize the renderer
+     * @param width the width to resize to
+     * @param height the height to resize to
+     */
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
+    /**
+     * Game pause
+     */
     @Override
     public void pause() {
         logger.info("Game paused");
     }
 
+    /**
+     * Game resume
+     */
     @Override
     public void resume() {
         logger.info("Game resumed");
@@ -169,7 +181,7 @@ public class SnakeScreen extends ScreenAdapter {
         font.dispose();
     }
 
-    /*
+    /**
      * Loads the assets for the game
      */
     private void loadAssets() {
@@ -189,7 +201,7 @@ public class SnakeScreen extends ScreenAdapter {
         grassTexture = resourceService.getAsset(GRASS_IMAGE, Texture.class);
     }
 
-    /*
+    /**
      * Unloads assests for the game
      */
     private void unloadAssets() {

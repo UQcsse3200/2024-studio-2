@@ -22,18 +22,34 @@ public class GridCell {
         this.occupied = false;
     }
 
+    /**
+     * get the cells x coordinate
+     * @return x coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * get the cells y coordinate
+     * @return y coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Returns a booleean if the cell is occupied
+     * @return true if occupied, otherwise false
+     */
     public boolean isOccupied() {
         return occupied;
     }
 
+    /**
+     * Sets a cells occupied status
+     * @param occupied: the status to set occupied to
+     */
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
