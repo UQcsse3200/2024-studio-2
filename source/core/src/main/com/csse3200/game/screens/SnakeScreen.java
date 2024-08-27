@@ -2,6 +2,9 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.ui.ChatOverlay;
+import com.csse3200.game.ui.minigame.SnakeScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -40,10 +43,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * Handles the rendering of the game components.
  */
 public class SnakeScreen extends ScreenAdapter {
-    private static final String appleImage = "images/minigames/apple.png";
-    private static final String snakeheadImage = "images/minigames/snakehead.png";
-    private static final String grassImage = "images/minigames/grass.jpg";
-    private static final String snakebodyImage = "images/minigames/snakebody.png";
+
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
     private static final int CELL_SIZE = 55;
     private final GdxGame game;
@@ -53,9 +53,18 @@ public class SnakeScreen extends ScreenAdapter {
     private final Snake snake;
     private final Renderer renderer;
     private SpriteBatch spriteBatch;
-    private Texture appleTexture, snakeTexture, snakeBody, grassTexture;
+    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
+            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
+
+    private final String appleImage = "images/minigames/apple.png";
+    private final String snakeheadImage = "images/minigames/snakehead.png";
+    private final String grassImage = "images/minigames/grass.jpg";
+    private final String snakeBodyHorizontalImage = "images/minigames/snakebodyhorizontal.png";
+    private final String snakeBodyVerticalImage = "images/minigames/snakebodyvertical.png";
+    private final String snakeBodyBentImage = "images/minigames/snakebodybent.png";
 
     private BitmapFont font;
+    private SnakeScoreBoard scoreBoard;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -82,13 +91,17 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+        createSnakeScoreBoard(0);
 
         logger.debug("Initialising snake minigame entities");
         this.grid = new SnakeGrid();
         this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
+        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.snakeGame = new SnakeGame(snake, apple, grid);
 
+    }
+    private void createSnakeScoreBoard(int score) {
+        scoreBoard = new SnakeScoreBoard(score);
     }
 
     /**
@@ -100,8 +113,19 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         // background colour rgb 50, 82, 29, 1
-        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
+        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Key functionality for escape and restart
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
+            // Restart the game
+            game.setScreen(new SnakeScreen(game));
+        }
+        
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setScreen(new MiniGameMenuScreen(game));
+        }
 
         // Keeps the exit button
         ServiceLocator.getEntityService().update();
@@ -126,25 +150,12 @@ public class SnakeScreen extends ScreenAdapter {
             renderApple();
             renderSnake();
             spriteBatch.end();
-            renderGameScore();
+            scoreBoard.updateScore(snakeGame.getScore());
+
         } else {
-            // Optionally, you can render a game-over screen or message here
-            renderGameOver();
+            // Go to end game screen
+            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
         }
-    }
-
-    /*
-     * Renders the screen when the game ends.
-     */
-    private void renderGameOver() {
-        // clean background and set to green
-        Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Keeps the exit button
-        ServiceLocator.getEntityService().update();
-        renderer.render();
-        renderEndMessage();
     }
 
     /**
@@ -230,104 +241,98 @@ public class SnakeScreen extends ScreenAdapter {
         );
 
         // Render snake body
+        Direction prevDirection = direction;
+        float segmentX, segmentY;
+        Snake.Segment lastSegment = snake.getLastSegment();
+
         for (Snake.Segment segment : snake.getBodySegments()) {
-            spriteBatch.draw(snakeBody, offsetX + segment.getX() * CELL_SIZE,
-                    offsetY + segment.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+            Direction currentDirection = segment.getDirection();
+            Texture bodyTexture;
+            rotation = 0f;
+
+            segmentX = offsetX + segment.getX() * CELL_SIZE;
+            segmentY = offsetY + segment.getY() * CELL_SIZE;
+
+            if ((prevDirection != currentDirection && !segment.equals(lastSegment))) {
+                bodyTexture = snakeBodyBentTexture;
+
+                // Simplified rotation logic
+                if (prevDirection == Direction.UP) {
+                    rotation = (currentDirection == Direction.RIGHT) ? 0f : 270f;
+                } else if (prevDirection == Direction.RIGHT) {
+                    rotation = (currentDirection == Direction.DOWN) ? 270f : 180f;
+                } else if (prevDirection == Direction.DOWN) {
+                    rotation = (currentDirection == Direction.LEFT) ? 180f : 90f;
+                } else if (prevDirection == Direction.LEFT) {
+                    rotation = (currentDirection == Direction.UP) ? 90f : 0f;
+                }
+            } else {
+                // Handle straight segments
+                if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
+                    bodyTexture = snakeBodyHorizontalTexture;
+                } else {
+                    bodyTexture = snakeBodyVerticalTexture;
+                }
+            }
+
+            spriteBatch.draw(
+                    bodyTexture,
+                    segmentX,                      // x position
+                    segmentY,                      // y position
+                    CELL_SIZE / 2f,                // originX (center of the texture)
+                    CELL_SIZE / 2f,                // originY (center of the texture)
+                    CELL_SIZE,                     // width
+                    CELL_SIZE,                     // height
+                    1f,                            // scaleX
+                    1f,                            // scaleY
+                    rotation,                      // rotation in degrees
+                    0,                             // srcX (region's x-coordinate)
+                    0,                             // srcY (region's y-coordinate)
+                    bodyTexture.getWidth(),        // srcWidth (width of the texture)
+                    bodyTexture.getHeight(),       // srcHeight (height of the texture)
+                    false,                         // flipX
+                    false                          // flipY
+            );
+            prevDirection = currentDirection;
         }
     }
 
-    /*
-     * Puts the game score lable to the right side of the game
-     */
-    private void renderGameScore() {
-        spriteBatch.begin();
+    // /*
+    //  * Puts the game score lable to the right side of the game
+    //  */
+    // private void renderGameScore() {
+    //     spriteBatch.begin();
 
-        // Offset for score location int he center of the screen 
-        // int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
-        // int offsetScoreY = Gdx.graphics.getHeight() - 20;
+    //     // Offset for score location in the center of the screen 
+    //     // int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
+    //     // int offsetScoreY = Gdx.graphics.getHeight() - 20;
 
-        // Medal location (to the side)
-        int offsetMedalX = ((Gdx.graphics.getWidth() / 25) * 19);
-        int offsetMedalY = Gdx.graphics.getHeight() / 2;
+    //     // Medal location (to the side)
+    //     int offsetMedalX = ((Gdx.graphics.getWidth() / 25) * 19);
+    //     int offsetMedalY = Gdx.graphics.getHeight() / 2;
 
-        // Score at the top of the screen
-        font.getData().setScale(4.0f);
-        String scoreText = "Score: " + snakeGame.getScore();
-        font.draw(spriteBatch, scoreText, offsetMedalX, offsetMedalY + 300);
+    //     // Score at the top of the screen
+    //     font.getData().setScale(4.0f);
+    //     String scoreText = "Score: " + snakeGame.getScore();
+    //     font.draw(spriteBatch, scoreText, offsetMedalX, offsetMedalY + 300);
 
-        // Score Medal definitions
-        font.getData().setScale(3.0f);
-        String medals = "Medals";
-        font.draw(spriteBatch, medals, offsetMedalX, offsetMedalY + 70);
-        font.getData().setScale(2.0f);
-        String goldScore = "Gold:  Score >= 30";
-        font.draw(spriteBatch, goldScore, offsetMedalX, offsetMedalY);
-        String silverScore = "Silver:  Score < 30";
-        font.draw(spriteBatch, silverScore, offsetMedalX, offsetMedalY - 50);
-        String bronzeScore = "Bronze:  Score < 15";
-        font.draw(spriteBatch, bronzeScore, offsetMedalX, offsetMedalY - 100);
-        String failScore = "Fail:  Score < 5";
-        font.draw(spriteBatch, failScore, offsetMedalX, offsetMedalY - 150);
+    //     // Score Medal definitions
+    //     font.getData().setScale(3.0f);
+    //     String medals = "Medals";
+    //     font.draw(spriteBatch, medals, offsetMedalX, offsetMedalY + 70);
+    //     font.getData().setScale(2.0f);
+    //     String goldScore = "Gold:  Score >= 30";
+    //     font.draw(spriteBatch, goldScore, offsetMedalX, offsetMedalY);
+    //     String silverScore = "Silver:  Score < 30";
+    //     font.draw(spriteBatch, silverScore, offsetMedalX, offsetMedalY - 50);
+    //     String bronzeScore = "Bronze:  Score < 15";
+    //     font.draw(spriteBatch, bronzeScore, offsetMedalX, offsetMedalY - 100);
+    //     String failScore = "Fail:  Score < 5";
+    //     font.draw(spriteBatch, failScore, offsetMedalX, offsetMedalY - 150);
 
-        spriteBatch.end();
-    }
-
-    /*
-     * Renders the messages on the end game screen
-     */
-    private void renderEndMessage() {
-        spriteBatch.begin();
-
-        int centerX = Gdx.graphics.getWidth() / 2;
-        int centerY = Gdx.graphics.getHeight() / 2;
-
-        String scoreFunnyText = "Damn that was a small snake...";
-
-        if (snakeGame.getScore() < 5) {
-            //Failed
-            // same old green
-            Gdx.gl.glClearColor(50f/255f, 82f/255f, 29f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }
-        else if (snakeGame.getScore() < 15) {
-            // Bronze
-            // rgba(169,113,66,255)
-            Gdx.gl.glClearColor(169f/255f, 113f/255f, 66f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "Damn that was a small snake...";
-
-        }
-        else if (snakeGame.getScore() < 30) {
-            // Silver
-            // rgb 115, 122, 140, 1
-            Gdx.gl.glClearColor(115f/255f, 122f/255f, 140f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "Nawww, look he's almost fully grown";
-        }
-        else {
-            // Gold
-            // rgb 173, 162, 114, 1
-            Gdx.gl.glClearColor(173f/255f, 162f/255f, 114f/255f, 1f/255f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            scoreFunnyText = "That's a really big snake alright";
-        }
-        // Keeps the exit button
-        ServiceLocator.getEntityService().update();
-        renderer.render();
-
-        font.getData().setScale(6.0f);
-        String endGameText = "End of Mini-Game";
-        font.draw(spriteBatch, endGameText, centerX - 300, centerY + 300);
-
-        font.getData().setScale(5.0f);
-        String scoreText = "Score: " + snakeGame.getScore();
-        font.draw(spriteBatch, scoreText, centerX  - 140, centerY + 5);
-
-        font.getData().setScale(3.0f);
-        font.draw(spriteBatch, scoreFunnyText, centerX -300, centerY -  300);
-
-        spriteBatch.end();
-    }
+    //     spriteBatch.end();
+    // }
 
     /**
      * Renders the snake head on the grid.
@@ -401,13 +406,18 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Loading snake minigame assets");
 
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {appleImage, snakeheadImage, grassImage, snakebodyImage};
+        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
+                snakeBodyVerticalImage, snakeBodyBentImage};
         resourceService.loadTextures(textures);
         ServiceLocator.getResourceService().loadAll();
 
         appleTexture = resourceService.getAsset(appleImage, Texture.class);
         snakeTexture = resourceService.getAsset(snakeheadImage, Texture.class);
-        snakeBody = resourceService.getAsset(snakebodyImage, Texture.class);
+        snakeBodyHorizontalTexture = resourceService.getAsset(snakeBodyHorizontalImage,
+                Texture.class);
+        snakeBodyVerticalTexture = resourceService.getAsset(snakeBodyVerticalImage, Texture.class);
+        snakeBodyBentTexture = resourceService.getAsset(snakeBodyBentImage, Texture.class);
+
         grassTexture = resourceService.getAsset(grassImage, Texture.class);
     }
 
@@ -417,8 +427,8 @@ public class SnakeScreen extends ScreenAdapter {
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
-                "images/minigames/grass.jpg", "images/minigames/snakebody.jpg"};
+        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
+                snakeBodyVerticalImage, snakeBodyBentImage};
         resourceService.unloadAssets(textures);
     }
 
@@ -430,18 +440,17 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Creating snake minigame ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent =
-            ServiceLocator.getInputService().getInputFactory().createForTerminal();
+                ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
-            .addComponent(new PerformanceDisplay())
-            .addComponent(new MainGameActions(this.game))
-            .addComponent(new MainGameExitDisplay())
-            .addComponent(new Terminal())
-            .addComponent(inputComponent)
-            .addComponent(new TerminalDisplay());
+                .addComponent(new PerformanceDisplay())
+                .addComponent(new MainGameActions(this.game))
+                .addComponent(new MainGameExitDisplay())
+                .addComponent(new Terminal())
+                .addComponent(inputComponent)
+                .addComponent(new TerminalDisplay());
 
         ServiceLocator.getEntityService().register(ui);
     }
 }
-
