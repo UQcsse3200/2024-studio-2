@@ -17,7 +17,7 @@ public class GameAreaDisplay extends UIComponent {
     private Label title;
     private Texture playerIconTexture;
     private Image playerIcon;
-    private static Integer iconScale = 3;
+
 
     public GameAreaDisplay(String gameAreaName) {
         this.gameAreaName = gameAreaName;
@@ -41,7 +41,8 @@ public class GameAreaDisplay extends UIComponent {
         playerIcon = new Image(playerIconTexture);
         // Set the size of the icon to match the label's height
         float titleHeight = title.getPrefHeight();
-        playerIcon.setSize(titleHeight, titleHeight);
+        float scaleFactor = 5f;
+        playerIcon.setSize(titleHeight * scaleFactor, titleHeight * scaleFactor);
 
         // Create a table for the top UI
         Table topTable = new Table();
@@ -50,13 +51,13 @@ public class GameAreaDisplay extends UIComponent {
         topTable.top().left();
 
         // Add the player icon to the right side of the table
-        topTable.add(playerIcon).size(titleHeight, titleHeight).align(Align.left | Align.top).pad(10); // Padding from the edges
+        topTable.add(playerIcon).size(titleHeight * scaleFactor, titleHeight * scaleFactor).align(Align.left | Align.top).pad(10); // Padding from the edges
 
         // Add space to push the icon to the right
         topTable.add().expandX();
         // This expands the space between the title and the icon
 
-        topTable.add(title).align(Align.right | Align.top).pad(10); // Padding from the edges
+        topTable.add(title).align(Align.center | Align.top).pad(10); // Padding from the edges
 
         // Add the table to the stage
         stage.addActor(topTable);

@@ -6,20 +6,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.ui.DialogueBox.DialogHelper;
+import com.csse3200.game.screens.LoadingScreen;
+import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
     private final AnimalSelectionDisplay display;
-    private final DialogHelper dialogHelper;
-    private Image selectedAnimalImage;
+    private final PopUpHelper dialogHelper;
+    private static Image selectedAnimalImage;
     private final GdxGame game;
     private static String selectedAnimalImagePath;
 
-    public AnimalSelectionActions(AnimalSelectionDisplay display, DialogHelper dialogHelper, GdxGame game) {
+    public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;
@@ -48,7 +48,7 @@ public class AnimalSelectionActions {
                 public void clicked(InputEvent event, float x, float y) {
                     logger.debug("Animal {} image clicked", animalIndex + 1);
                     selectAnimal(animalImages[animalIndex], animalImagePath);
-                    showAnimalDialog(animalIndex);
+                    showAnimalDialog(animalIndex, animalImagePath);
                 }
             });
 
@@ -57,7 +57,7 @@ public class AnimalSelectionActions {
                 public void clicked(InputEvent event, float x, float y) {
                     logger.debug("Animal {} button clicked", animalIndex + 1);
                     selectAnimal(animalImages[animalIndex], animalImagePath);
-                    showAnimalDialog(animalIndex);
+                    showAnimalDialog(animalIndex, animalImagePath);
                 }
             });
         }
@@ -67,7 +67,7 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(new MainGameScreen(game)); // Transition to the game screen
+                    game.setScreen(new LoadingScreen(game));
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert();
@@ -79,7 +79,7 @@ public class AnimalSelectionActions {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.debug("Go back button clicked");
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU); // Transition back to the main menu
+                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
             }
         });
     }
@@ -88,9 +88,11 @@ public class AnimalSelectionActions {
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1);
         }
+
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1);
+
         logger.debug("Animal selected: {}", animalImage.getName());
     }
 
@@ -106,18 +108,12 @@ public class AnimalSelectionActions {
         dialog.show(display.getStage());
     }
 
-    private void showAnimalDialog(int animalIndex) {
+    private void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
         String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
                 "This animal has unique characteristics.\n" +
                 "It possesses special abilities.";
 
-        // Set dialog width, height, and image position
-        float imageWidth = 100;  // Adjust as needed
-        float imageHeight = 100; // Adjust as needed
-        float imageX = 50;       // Adjust as needed
-        float imageY = 150;      // Adjust as needed
-
-        dialogHelper.displayDialog(title, content, imageWidth, imageHeight, imageX, imageY);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 400f);
     }
 }
