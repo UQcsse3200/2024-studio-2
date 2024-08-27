@@ -56,8 +56,6 @@ public class AbstractItemTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        item1 = new TestableItem1("Test1", 0);
-        item2 = new TestableItem2("Test2", 1, 10, 5);
         item1 = new TestableItem1("Test1", 0, "description1");
         item2 = new TestableItem2("Test2", 1, 10, 5, "description2");
         context = new ItemUsageContext();
