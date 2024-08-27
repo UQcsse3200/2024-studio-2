@@ -119,7 +119,7 @@ public class GdxGame extends Game {
         return new MainGameScreenDup(this, screen, container);
       case SETTINGS:
         return new SettingsScreen(this);
-      case MiniGameMenuScreen:
+      case MINI_GAME_MENU_SCREEN:
           return new MiniGameMenuScreen(this);
       case LOADING_SCREEN:
           return new LoadingScreen(this);
@@ -129,7 +129,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, MiniGameMenuScreen, LOADING_SCREEN
+      MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN
   }
 
   /**

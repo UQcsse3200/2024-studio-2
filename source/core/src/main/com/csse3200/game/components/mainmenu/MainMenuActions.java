@@ -1,7 +1,5 @@
 package com.csse3200.game.components.mainmenu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import org.slf4j.Logger;
@@ -62,7 +60,7 @@ public class MainMenuActions extends Component {
 
   private void onSnakeMiniGame() {
     logger.info("Launching settings screen");
-    game.setScreen(GdxGame.ScreenType.MiniGameMenuScreen);
+    game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
   }
 
 
