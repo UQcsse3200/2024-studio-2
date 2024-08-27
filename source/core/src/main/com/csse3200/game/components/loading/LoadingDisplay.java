@@ -54,7 +54,7 @@ public class LoadingDisplay extends UIComponent {
     @Override
     public void update() {
         super.update();
-        progress += 0.05f;
+        progress += 0.01f;
         System.out.println(progress);
         progressBar.setValue(progress);
         
