@@ -54,6 +54,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       swapTask(waitTask);
     } else {
       startWandering();
+      this.owner.getEntity().getEvents().trigger("wanderStart");
     }
   }
 
