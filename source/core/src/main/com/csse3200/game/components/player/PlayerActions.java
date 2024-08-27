@@ -24,8 +24,8 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
+  private GdxGame game;
 
-  private final GdxGame game;
 
   public PlayerActions(GdxGame game) {
     this.game = game;

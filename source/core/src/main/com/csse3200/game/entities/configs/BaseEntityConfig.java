@@ -11,6 +11,11 @@ public class BaseEntityConfig {
     protected String spritePath = "images/ghost.atlas";
     protected float animationSpeed = 0.1f;
     protected String[] soundPath = null;
+    public int hunger = 100;
+    public int strength = 0;
+    public int defense = 0;
+    public int speed = 1;
+    public int experience = 0;
 
     protected BaseEntityConfig() {}
 

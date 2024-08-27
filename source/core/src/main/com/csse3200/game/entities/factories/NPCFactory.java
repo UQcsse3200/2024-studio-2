@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.audio.Sound;
@@ -57,7 +58,9 @@ public class NPCFactory {
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
     ghost
-        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+
+        .addComponent(new CombatStatsComponent(config.health, config.hunger, config.strength, config.defense, config.speed, config.experience))
+
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
 
@@ -76,12 +79,16 @@ public class NPCFactory {
     Entity ghostKing = createBaseNPC(target);
     GhostKingConfig config = configs.ghostKing;
 
-    AnimationRenderComponent animator = init_animator(config);
-    animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
+    AnimationRenderComponent animator =
+        new AnimationRenderComponent(
+            ServiceLocator.getResourceService()
+                .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
 
     ghostKing
-        .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+
+        .addComponent(new CombatStatsComponent(config.health, config.hunger, config.strength, config.defense, config.speed, config.experience))
         .addComponent(animator)
         .addComponent(new GhostAnimationController());
 
@@ -104,7 +111,7 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack()))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), 100, 0, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
@@ -119,7 +126,7 @@ public class NPCFactory {
       npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
-    
+
     return npc;
   }
 

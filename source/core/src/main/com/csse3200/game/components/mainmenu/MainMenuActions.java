@@ -31,7 +31,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**
