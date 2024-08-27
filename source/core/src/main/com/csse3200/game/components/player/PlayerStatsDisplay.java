@@ -23,28 +23,30 @@ import org.w3c.dom.Text;
  */
 
 public class PlayerStatsDisplay extends UIComponent {
+    public Label xpLabel;
     Table table;
-    private Image healthImage;
-    private Image xpImage;
-    private Image hungerImage;
-    private Label healthLabel;
-    private Label experienceLabel;
-    private Label hungerLabel;
-    private Animation<TextureRegion> healthBarAnimation;
-    private Animation<TextureRegion> hungerBarAnimation;
-    private Animation<TextureRegion> xpBarAnimation;
+    public Image healthImage;
+    public Image xpImage;
+    public Image hungerImage;
+    public Label healthLabel;
+    Label experienceLabel;
+    public Label hungerLabel;
+    Animation<TextureRegion> healthBarAnimation;
+    Animation<TextureRegion> hungerBarAnimation;
+    Animation<TextureRegion> xpBarAnimation;
     private TextureAtlas[] textureAtlas;
-    private static int totalFrames = 11;
+    public static int totalFrames = 11;
     private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
-
 
     /**
      * Creates reusable ui styles and adds actors to the stage.
      */
+
     @Override
     public void create() {
         super.create();
         addActors();
+        stage = ServiceLocator.getRenderService().getStage();
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
