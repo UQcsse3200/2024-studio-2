@@ -112,4 +112,8 @@ public class SnakeGame {
         }
         return false;
     }
+
+    public int handleInput() {
+        return snakeController.handleInput();
+    }
 }

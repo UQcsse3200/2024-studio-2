@@ -7,7 +7,6 @@ import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,9 +31,6 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-
-
-
 
 /**
  * Represents the screen for the Snake game.
@@ -102,33 +98,45 @@ public class SnakeScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        // background colour rgb 50, 82, 29, 1
-        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        clearBackground();
 
-        // Key functionality for escape and restart
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            // Restart the game
-            game.setScreen(new SnakeScreen(game));
-        }
-        
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
-            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-            game.setScreen(new MiniGameMenuScreen(game));
+        if (handleInput()) {
+            return;  // If screen change was triggered, exit the render method.
         }
 
-        // Keeps the exit button
         ServiceLocator.getEntityService().update();
         renderer.render();
 
-        snakeGame.snakeMove(delta);
-        if (snakeGame.getIsGameOver()) {
-            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
-        } else {
+        updateGame(delta);
+
+        if (!snakeGame.getIsGameOver()) {
             snakeGameRenderer.render(snakeGame.getScore());
         }
     }
 
+    private boolean handleInput() {
+        if (snakeGame.handleInput() == 1) {  // Restart game
+            game.setScreen(new SnakeScreen(game));
+            return true;
+        }
+        if (snakeGame.handleInput() == 2) {  // Go to minigames menu
+            game.setScreen(new MiniGameMenuScreen(game));
+            return true;
+        }
+        return false;
+    }
+
+    private void clearBackground() {
+        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    private void updateGame(float delta) {
+        snakeGame.snakeMove(delta);
+        if (snakeGame.getIsGameOver()) {
+            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
+        }
+    }
 
     /**
      * resize the renderer
