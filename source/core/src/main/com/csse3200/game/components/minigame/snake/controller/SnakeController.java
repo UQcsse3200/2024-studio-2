@@ -5,9 +5,18 @@ import com.badlogic.gdx.Input;
 import com.csse3200.game.components.minigame.Direction;
 
 
+/**
+ * Handles player input for controlling the snake and managing game events.
+ */
 public class SnakeController {
 
     public SnakeController() {}
+
+    /**
+     * Gets the direction based on player input.
+     *
+     * @return The direction the snake should move based on the current input.
+     */
     public Direction getInputDirection() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             return Direction.RIGHT;
@@ -24,6 +33,11 @@ public class SnakeController {
         return Direction.ZERO;
     }
 
+    /**
+     * Handles specific game event inputs such as restarting or exiting.
+     *
+     * @return The event triggered by the player's input, or NONE if no event is triggered.
+     */
     public Events handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             return Events.RESTART;

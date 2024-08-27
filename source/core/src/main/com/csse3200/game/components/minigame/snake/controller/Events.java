@@ -1,5 +1,9 @@
 package com.csse3200.game.components.minigame.snake.controller;
 
+/**
+ * Enum representing possible events in the Snake mini-game, such as restarting the game or
+ * exiting to the menu.
+ */
 public enum Events {
     NONE,
     RESTART,
