@@ -7,9 +7,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ArrayList;
 
-/*
- * Class for the snake in the snake game
- */
+/** Class for the snake in the snake game. */
 public class Snake {
     private int x;
     private int y;
@@ -33,22 +31,24 @@ public class Snake {
         snakeBody = new ArrayDeque<>();
     }
 
-    /*
+    /**
      * Sets the direction the snake is moving
-     * @param direction: the direction to set to 
+     * @param direction the direction to set to
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
-    /*
-     * Get the current direction of the snake
+    /**
+     * @return the direction of the snake head
      */
     public Direction getDirection() {return this.direction;}
 
-    /*
-     * Update snake direction with checks
-     * @param direction: the direction to update to
+    /**
+     * Update snake direction based on an input direction.
+     * If the input direction is reversed 180 degrees from the current
+     * direction of the snake, it will not change.
+     * @param direction the direction to update to
      */
     public void updateDirectionOnInput(Direction direction) {
         if (direction == Direction.UP && this.direction != Direction.DOWN) {
@@ -65,8 +65,9 @@ public class Snake {
         }
     }
 
-    /*
-     * moves the snake in a direction
+    /**
+     * Moves the snake in a direction
+     * @param direction the direction to move in
      */
     public void move(Direction direction) {
         snakeBody.add(new Segment(x, y, this.direction));
@@ -97,20 +98,24 @@ public class Snake {
         grid.setOccupied(x, y, true);
     }
 
-    /*
-     * grows the snake (increase it's length)
+    /**
+     * Grows the snake (increase it's length by 1)
      */
     void grow() {
         length += 1;
     }
 
-    /*
+    /**
      * Returns current snake length. Used only for testing.
      */
     public int getLength() {
         return length;
     }
-    
+
+    /**
+     * Update the position of the snake after a given amount of time.
+     * @param dt time since the last update
+     */
     public void update(float dt) {
         moveTimer -= dt;
         if (moveTimer <= 0) {
@@ -121,7 +126,6 @@ public class Snake {
     }
 
     /**
-     *
      * @return the x co-ordinate of the head
      */
     public int getX() {
@@ -129,20 +133,22 @@ public class Snake {
     }
 
     /**
-     *
      * @return the y coordinate of the head
      */
     public int getY() {
         return y;
     }
 
-    /*
-     * Returns the full snake in segments
+    /**
+     * @return a list of the snake's body segments
      */
     public List<Segment> getBodySegments() {
         return new ArrayList<>(snakeBody);
     }
 
+    /**
+     * @return the last snake body segment or null if none exist
+     */
     public Segment getLastSegment() {
         if (snakeBody.isEmpty()) {
             return null; // Return null if no segments exist
@@ -151,8 +157,8 @@ public class Snake {
     }
 
 
-    /*
-     * Stores each segment of the snake
+    /**
+     * Class that represents a segment of the snake's body
      */
     public class Segment {
         private int x;
@@ -165,20 +171,23 @@ public class Snake {
             this.direction = direction;
         }
 
-        /*
-         * get Y co-ordinate of the snake segment
+        /**
+         * @return the x-coordinate of the snake body segment
          */
         public int getX() {
             return x;
         }
-    
-        /*
-         * get X xo-ordinate of the snake segment
+
+        /**
+         * @return the y-coordinate of the snake body segment
          */
         public int getY() {
             return y;
         }
 
+        /**
+         * @return the direction of the snake body segment
+         */
         public Direction getDirection() {return this.direction;}
 
         @Override
@@ -201,6 +210,5 @@ public class Snake {
             result = 31 * result + (direction != null ? direction.hashCode() : 0);
             return result;
         }
-
     }
 }
