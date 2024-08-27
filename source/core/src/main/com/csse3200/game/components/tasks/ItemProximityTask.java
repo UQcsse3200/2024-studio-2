@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+/**
+ * A task that monitors when the proximity of a player to an item and handles item pick-up interactions.
+ * When the player is within a specified distance of the item, an overlay is displayed, allowing
+ * the player to pick up the item and add it to their inventory.
+ */
 public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private final Entity target;
     private final int priority;
@@ -22,6 +27,14 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
     private boolean hasApproached;
     ChatOverlay itemOverlay;
 
+    /**
+     * Constructs a new ItemProximityTask
+     *
+     * @param target The entity that the task will monitor for Proximity (e.g., The Player)
+     * @param priority The priority levels of this task, used in the AI task system.
+     * @param proximityThreshold The distance within which the item will be considered "near" the player.
+     * @param item The item that will be picked up by the player
+     */
     public ItemProximityTask(Entity target, int priority, float proximityThreshold, AbstractItem item) {
         this.target = target;
         this.priority = priority;
@@ -30,12 +43,20 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         this.hasApproached = false;
     }
 
+    /**
+     * Starts the task by adding an event listener for the "pickupItem" event.
+     * The event is triggered when the Player presses P.
+     */
     @Override
     public void start() {
         super.start();
         this.target.getEvents().addListener("pickUpItem", this::addToInventory);
     }
 
+    /**
+     * Updates the task each frame. It checks the players proximity to the item and displays
+     * an overlay if the player is near. If the play moves away, the overlay is removed.
+     */
     @Override
     public void update() {
         super.update();
@@ -53,6 +74,10 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Creates an overlay that displays item information and prompts the player to pick up the item.
+     * This method is called when the player is near the item.
+     */
     private void createItemOverlay() {
         if (this.itemOverlay == null) {
             String[] itemText = {item.getDescription() + " - press P to pick it up."};
@@ -60,6 +85,10 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     *Adds the item to the players' inventory if they are near the item and haven't picked it up
+     * Disposes of the item entity once it has been picked up and logs the event
+     */
     public void addToInventory() {
         if (!itemPickedUp && isPlayerNearItem()) { // Check if the item hasn't been picked up and player is near
             PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
@@ -80,6 +109,11 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Returns the priority of this task, which is based on whether the player is near the item or has just
+     * picked it up
+     * @return The priority level of this task
+     */
     @Override
     public int getPriority() {
         if (isPlayerNearItem()) {
@@ -91,6 +125,10 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
         return 0;
     }
 
+    /**
+     * Checks if the player is near the item using the distance between the item and the player
+     * @return true if the player is within the proximity threshold, false otherwise.
+     */
     private boolean isPlayerNearItem() {
         return target.getPosition().dst(owner.getEntity().getPosition()) <= proximityThreshold;
     }
