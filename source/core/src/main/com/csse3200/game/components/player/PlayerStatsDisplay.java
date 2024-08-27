@@ -39,15 +39,15 @@ public class PlayerStatsDisplay extends UIComponent {
     table.padTop(45f).padLeft(5f);
 
     // Heart image
-    float heartSideLength = 30f;
-    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
+//    float heartSideLength = 30f;
+//    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
 
     // Health text
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("Health: %d", health);
     healthLabel = new Label(healthText, skin, "large");
 
-    table.add(heartImage).size(heartSideLength).pad(5);
+//    table.add(heartImage).size(heartSideLength).pad(5);
     table.add(healthLabel);
     stage.addActor(table);
   }

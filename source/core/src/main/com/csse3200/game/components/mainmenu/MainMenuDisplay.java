@@ -107,6 +107,27 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+
+    exitBtn.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+
+            logger.debug("Exit button clicked");
+            entity.getEvents().trigger("exit");
+          }
+        });
+
+      minigamesBtn.addListener(
+              new ChangeListener() {
+                  @Override
+                  public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                      logger.debug("SnakeGame button clicked");
+                      entity.getEvents().trigger("SnakeGame");
+                  }
+              });
+
         helpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -114,6 +135,7 @@ public class MainMenuDisplay extends UIComponent {
                 entity.getEvents().trigger("help");
                 showHelpDialog();
             }
+
         });
 
         addExitConfirmation(exitBtn);
