@@ -298,42 +298,6 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
-    // /*
-    //  * Puts the game score lable to the right side of the game
-    //  */
-    // private void renderGameScore() {
-    //     spriteBatch.begin();
-
-    //     // Offset for score location in the center of the screen 
-    //     // int offsetScoreX = (Gdx.graphics.getWidth() / 2) - 130;
-    //     // int offsetScoreY = Gdx.graphics.getHeight() - 20;
-
-    //     // Medal location (to the side)
-    //     int offsetMedalX = ((Gdx.graphics.getWidth() / 25) * 19);
-    //     int offsetMedalY = Gdx.graphics.getHeight() / 2;
-
-    //     // Score at the top of the screen
-    //     font.getData().setScale(4.0f);
-    //     String scoreText = "Score: " + snakeGame.getScore();
-    //     font.draw(spriteBatch, scoreText, offsetMedalX, offsetMedalY + 300);
-
-    //     // Score Medal definitions
-    //     font.getData().setScale(3.0f);
-    //     String medals = "Medals";
-    //     font.draw(spriteBatch, medals, offsetMedalX, offsetMedalY + 70);
-    //     font.getData().setScale(2.0f);
-    //     String goldScore = "Gold:  Score >= 30";
-    //     font.draw(spriteBatch, goldScore, offsetMedalX, offsetMedalY);
-    //     String silverScore = "Silver:  Score < 30";
-    //     font.draw(spriteBatch, silverScore, offsetMedalX, offsetMedalY - 50);
-    //     String bronzeScore = "Bronze:  Score < 15";
-    //     font.draw(spriteBatch, bronzeScore, offsetMedalX, offsetMedalY - 100);
-    //     String failScore = "Fail:  Score < 5";
-    //     font.draw(spriteBatch, failScore, offsetMedalX, offsetMedalY - 150);
-
-    //     spriteBatch.end();
-    // }
-
     /**
      * Renders the snake head on the grid.
      * The snake head is displayed as a filled green square on the grid.
