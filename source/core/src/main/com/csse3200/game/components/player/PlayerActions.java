@@ -112,6 +112,7 @@ public class PlayerActions extends Component {
 
     if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
             (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
+      ((ChaseTask) currentTask).stop();
       game.addBossCutsceneScreen(enemy);
     } else {
       game.addCombatScreen(enemy);
