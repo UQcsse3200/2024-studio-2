@@ -47,6 +47,10 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     this.isBoss = isBoss;
   }
 
+  public boolean isBoss() {
+    return isBoss;
+  }
+
   @Override
   public void start() {
     super.start();

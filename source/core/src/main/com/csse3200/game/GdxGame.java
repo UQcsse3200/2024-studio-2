@@ -5,11 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.UserSettings;
-import com.csse3200.game.screens.CombatScreen;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.screens.MainGameScreenDup;
-import com.csse3200.game.screens.MainMenuScreen;
-import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -90,6 +86,10 @@ public class GdxGame extends Game {
     addScreen(ScreenType.COMBAT, getScreen(), enemy);
   }
 
+  public void addBossCutsceneScreen(Entity enemy) {
+    addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), enemy);
+  }
+
   /**
    * Changes to a new screen, does NOT dispose of old screen
    *
@@ -154,15 +154,17 @@ public class GdxGame extends Game {
         return new MainGameScreenDup(this, screen, container);
       case COMBAT:
         return new CombatScreen(this, screen, container, enemy);
+      case BOSS_CUTSCENE:
+        return new BossCutsceneScreen(this, screen, container, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
-      default:
+        default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, COMBAT, SETTINGS
+    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, COMBAT, SETTINGS, BOSS_CUTSCENE
   }
 
   /**

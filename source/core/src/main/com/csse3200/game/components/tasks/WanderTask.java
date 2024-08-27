@@ -34,6 +34,10 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     this.isBoss = isBoss;
   }
 
+  public boolean isBoss() {
+    return isBoss;
+  }
+
   @Override
   public int getPriority() {
     return 1; // Low priority task
