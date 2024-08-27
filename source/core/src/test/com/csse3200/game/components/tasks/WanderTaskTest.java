@@ -37,11 +37,20 @@ class WanderTaskTest {
     entity.create();
 
     // Register callbacks
+    // Right
     EventListener0 callback = mock(EventListener0.class);
-      entity.getEvents().addListener("spawnChicken", callback);
+    entity.getEvents().addListener("wanderRight", callback);
 
-      entity.getEvents().trigger("wanderLeft");
-      entity.getEvents().trigger("wanderRight");
+    entity.getEvents().trigger("wanderRight");
+
+    verify(callback).handle();
+
+    //left
+    callback = mock(EventListener0.class);
+
+    entity.getEvents().addListener("wanderLeft", callback);
+
+    entity.getEvents().trigger("wanderLeft");
 
     verify(callback).handle();
   }

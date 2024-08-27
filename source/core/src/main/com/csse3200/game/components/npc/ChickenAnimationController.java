@@ -18,7 +18,8 @@ public class ChickenAnimationController extends Component {
     entity.getEvents().addListener("wanderLeft", this::animateWanderLeft);
     entity.getEvents().addListener("wanderRight", this::animateWanderRight);
     entity.getEvents().addListener("spawnStart", this::animateSpawn);
-    entity.getEvents().addListener("chaseStart", this::animateChase);
+    entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
+    entity.getEvents().addListener("chaseRight", this::animateChaseRight);
   }
 
   private void animateSpawn() {
@@ -26,8 +27,14 @@ public class ChickenAnimationController extends Component {
   }
 
 
-  private void animateChase() {
-    animator.startAnimation("walk");
+  void animateChaseLeft() {
+    animator.setFlipX(true);
+    animator.startAnimation("angry_float");
+  }
+
+  void animateChaseRight() {
+    animator.setFlipX(false);
+    animator.startAnimation("angry_float");
   }
 
   void animateWanderLeft() {

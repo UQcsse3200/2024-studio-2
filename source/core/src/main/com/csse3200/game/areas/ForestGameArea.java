@@ -161,12 +161,8 @@ public class ForestGameArea extends GameArea {
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity chicken = NPCFactory.createChicken(player);
 
-    // Create an invisible entity at the chicken's spawn location
-    Entity proximityTrigger = new Entity();
-    proximityTrigger.setPosition(randomPos.x, randomPos.y);
-
     float proximityRange = 1.5f; // Set a suitable proximity range
-//    chicken.addComponent(new ProximityComponent(player, proximityRange));
+    chicken.addComponent(new ProximityComponent(player, proximityRange));
     spawnEntityAt(chicken, randomPos, true, true);
   }
 
