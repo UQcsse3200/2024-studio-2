@@ -1,17 +1,16 @@
 M	source/core/assets/configs/NPCs.json
-M	source/core/assets/configs/player.json
-M	source/core/src/main/com/csse3200/game/areas/ForestGameArea.java
+M	source/core/assets/configs/player.json XXXX
+M	source/core/src/main/com/csse3200/game/areas/ForestGameArea.java XXXX
 M	source/core/src/main/com/csse3200/game/components/CombatStatsComponent.java
 M	source/core/src/main/com/csse3200/game/components/gamearea/GameAreaDisplay.java
-M	source/core/src/main/com/csse3200/game/components/mainmenu/MainMenuActions.java
-M	source/core/src/main/com/csse3200/game/components/player/KeyboardPlayerInputComponent.java
+M	source/core/src/main/com/csse3200/game/components/player/KeyboardPlayerInputComponent.java XXXX
 M	source/core/src/main/com/csse3200/game/components/player/PlayerStatsDisplay.java
 M	source/core/src/main/com/csse3200/game/entities/configs/BaseEntityConfig.java
-M	source/core/src/main/com/csse3200/game/entities/configs/PlayerConfig.java
+M	source/core/src/main/com/csse3200/game/entities/configs/PlayerConfig.java XXXXX
 M	source/core/src/main/com/csse3200/game/entities/factories/NPCFactory.java
 M	source/core/src/main/com/csse3200/game/entities/factories/PlayerFactory.java
 M	source/core/src/main/com/csse3200/game/events/EventHandler.java
-M	source/core/src/main/com/csse3200/game/ui/ChatOverlay.java
+M	source/core/src/main/com/csse3200/game/ui/ChatOverlay.java XXXX
 M	source/core/src/main/com/csse3200/game/ui/UIComponent.java
 M	source/core/src/test/com/csse3200/game/components/CombatStatsComponentTest.java
 M	source/core/src/test/com/csse3200/game/components/TouchAttackComponentTest.java
