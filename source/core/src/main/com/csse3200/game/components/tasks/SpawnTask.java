@@ -25,12 +25,11 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
         super.start();
         elapsedTime = 0;
         // Position the NPC at the spawn location
-        owner.getEntity().setPosition(spawnPosition);
+        this.owner.getEntity().getEvents().trigger("spawnChicken");
     }
 
     private void completeTask() {
         this.stop();
-        owner.getEntity().getEvents().trigger("spawnComplete");
     }
 
     @Override

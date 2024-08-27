@@ -45,7 +45,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
 
     if (!isSpawned) {
       logger.debug("Triggering spawnChicken event");
-//      this.owner.getEntity().getEvents().trigger("spawnChicken");
+      this.owner.getEntity().getEvents().trigger("spawnStart");
       isSpawned = true;
 
       // Wait for the spawn event to complete or for a specified duration before starting to wander

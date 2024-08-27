@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 //import com.csse3200.game.components.npc.AnimationTransitionComponent;
+import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
@@ -57,10 +58,14 @@ public class NPCFactory {
     animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
     animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
 
+    float proximityRange = 1.5f; // Set a suitable proximity range
+
     chicken
             .addComponent(animator)
+            .addComponent(new ProximityComponent(target, proximityRange))
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new ChickenAnimationController());
+
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
 
