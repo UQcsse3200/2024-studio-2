@@ -1,6 +1,7 @@
 package com.csse3200.game.components.minigame.snake;
 
 import com.csse3200.game.components.minigame.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,14 +11,17 @@ Test SnakeGame class functionality
  */
 public class SnakeGameTest {
 
-    Snake snake;
-    Apple apple;
-    SnakeGrid grid;
+//    Snake snake;
+//    Apple apple;
+//    SnakeGrid grid;
+    SnakeGame snakeGame;
     @Before
     public void setUp() {
-        this.grid = new SnakeGrid();
-        this.apple = new Apple(grid);
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
+//        this.grid = new SnakeGrid();
+//        this.apple = new Apple(grid);
+//        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1f / 10);
+        // becuase of refacroting have new setUp
+        this.snakeGame = new SnakeGame();
     }
 
     /*
@@ -25,7 +29,9 @@ public class SnakeGameTest {
      */
     @Test
     public void testInitialScoreSnakeLength() {
-        SnakeGame snakeGame = new SnakeGame();
+
+
+        Snake snake = snakeGame.getSnake();
         assertEquals(0, snakeGame.getScore());
         assertEquals(0, snake.getBodySegments().size());
         assertEquals(2, snake.getLength());
@@ -37,7 +43,9 @@ public class SnakeGameTest {
      */
     @Test
     public void testScoreSnakeLengthIncrease() {
-        SnakeGame snakeGame = new SnakeGame();
+
+        Snake snake = snakeGame.getSnake();
+        Apple apple = snakeGame.getApple();
 
         // Move apple to snakes head
         apple.setAppleLocation(snake.getX(), snake.getY());
@@ -54,7 +62,7 @@ public class SnakeGameTest {
      */
     @Test
     public void testSnakeBoundaryDetection() {
-        SnakeGame snakeGame = new SnakeGame();
+
         Snake snake = snakeGame.getSnake();
 
         // Move the snake off the grid

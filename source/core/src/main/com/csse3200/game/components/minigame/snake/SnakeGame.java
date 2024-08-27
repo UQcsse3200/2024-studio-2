@@ -3,10 +3,7 @@ package com.csse3200.game.components.minigame.snake;
 import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
-import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
-import com.badlogic.gdx.graphics.Texture;
+
 
 import java.util.List;
 
@@ -18,11 +15,10 @@ public class SnakeGame {
     private final Apple apple;
     private final SnakeGrid grid;
     private final SnakeController snakeController;
-    private final SnakeGameRenderer renderer;
+
     private int score;
     private Boolean isGameOver;
-    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
-            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
+
 
     public SnakeGame() {
         this.grid = new SnakeGrid();
@@ -31,21 +27,6 @@ public class SnakeGame {
         this.apple = new Apple(this.grid);
         this.score = 0;
         this.isGameOver = false;
-
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        grassTexture = resourceService.getAsset(AssetPaths.GRASS_IMAGE, Texture.class);
-        appleTexture = resourceService.getAsset(AssetPaths.APPLE_IMAGE, Texture.class);
-        snakeTexture = resourceService.getAsset(AssetPaths.SNAKE_HEAD_IMAGE, Texture.class);
-        snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
-        snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
-        snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
-
-        this.renderer = new SnakeGameRenderer(this, grassTexture,
-                appleTexture,
-                snakeTexture,
-                snakeBodyHorizontalTexture,
-                snakeBodyVerticalTexture,
-                snakeBodyBentTexture);
     }
 
     public Snake getSnake() {
@@ -139,17 +120,7 @@ public class SnakeGame {
         return snakeController.handleInput();
     }
 
-    public void render(int score) {
-        renderer.render(score);
-    }
 
-    public void dispose() {
-        renderer.dispose();
-        appleTexture.dispose();
-        snakeTexture.dispose();
-        snakeBodyHorizontalTexture.dispose();
-        snakeBodyVerticalTexture.dispose();
-        snakeBodyBentTexture.dispose();
-        grassTexture.dispose();
-    }
+
+
 }

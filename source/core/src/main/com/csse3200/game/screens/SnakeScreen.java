@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.controller.Events;
+import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -39,6 +40,7 @@ public class SnakeScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
     private final GdxGame game;
     private final SnakeGame snakeGame;
+    private final SnakeGameRenderer snakeRenderer;
     private final Renderer renderer;
 
     private final BitmapFont font;
@@ -54,7 +56,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         logger.debug("Initialising snake minigame screen services");
         ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
@@ -66,11 +68,12 @@ public class SnakeScreen extends ScreenAdapter {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-        loadAssets();
+//        loadAssets();
         createUI();
 
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
+        this.snakeRenderer = new SnakeGameRenderer(snakeGame);
     }
 
     /**
@@ -93,7 +96,7 @@ public class SnakeScreen extends ScreenAdapter {
         updateGame(delta);
 
         if (!snakeGame.getIsGameOver()) {
-            snakeGame.render(snakeGame.getScore());
+            snakeRenderer.render(snakeGame.getScore());
         }
     }
 
@@ -160,12 +163,12 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Disposing snake minigame screen");
 
         renderer.dispose();
-        snakeGame.dispose();
-        unloadAssets();
+        snakeRenderer.dispose();
+//        unloadAssets();
 
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getResourceService().dispose();
+//        ServiceLocator.getResourceService().dispose();
 
         ServiceLocator.clear();
 
