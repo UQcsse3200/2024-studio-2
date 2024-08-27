@@ -18,7 +18,6 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.MiniGameConstants;
 import com.csse3200.game.components.minigame.MiniGameMedals;
 
-
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.

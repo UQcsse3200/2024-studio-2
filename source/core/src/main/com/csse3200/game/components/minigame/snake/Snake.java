@@ -73,24 +73,11 @@ public class Snake {
     public void move(Direction direction) {
         snakeBody.add(new Segment(x, y, this.direction));
         switch (direction) {
-            case RIGHT: {
-                this.x += 1;
-                break;
-            }
-            case LEFT: {
-                this.x -= 1;
-                break;
-            }
-            case UP: {
-                this.y += 1;
-                break;
-            }
-            case DOWN: {
-                this.y -= 1;
-                break;
-            }
-            default:
-                break;
+            case RIGHT -> this.x += 1;
+            case LEFT -> this.x -= 1;
+            case UP -> this.y += 1;
+            case DOWN -> this.y -= 1;
+            default -> {}
         }
         if (snakeBody.size() >= length) {
             Segment removed = snakeBody.removeFirst();
@@ -156,7 +143,6 @@ public class Snake {
         }
         return snakeBody.getFirst();
     }
-
 
     /**
      * Record that represents a segment of the snake's body

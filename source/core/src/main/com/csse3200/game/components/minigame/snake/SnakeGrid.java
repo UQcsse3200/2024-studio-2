@@ -35,6 +35,4 @@ public class SnakeGrid extends Grid {
 
         return new Vector2(worldX, worldY);
     }
-
-
 }
