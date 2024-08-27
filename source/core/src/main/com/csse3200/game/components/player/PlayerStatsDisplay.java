@@ -178,8 +178,6 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, healthBarAnimation, healthImage);
-//        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
-//        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
 
     /**
