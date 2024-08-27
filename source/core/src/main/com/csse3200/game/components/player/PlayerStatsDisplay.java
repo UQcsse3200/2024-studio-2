@@ -16,9 +16,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.security.Provider;
-
-
 /**
  * A ui component for displaying player stats, e.g. health.
  */
@@ -27,6 +24,7 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image heartImage;
   private Image xpImage;
   private Image hungerImage;
+  private Image vignetteImage;
   private Label healthLabel;
   private Label xpLabel;
   private Label hungerLabel;
@@ -77,7 +75,11 @@ public class PlayerStatsDisplay extends UIComponent {
     xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
     hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
-    // Get the original width and height of the image
+    // Vignette image setup
+    vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
+    vignetteImage.setFillParent(true); // Cover the entire screen
+    vignetteImage.setVisible(false); // Initially invisible
+
     float barImageWidth = (float) (heartImage.getWidth() * 0.8);
     float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
@@ -104,6 +106,10 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(hungerImage).size(barImageWidth, barImageHeight * 2);
     table.add(hungerLabel);
+
+    // Add vignette effect to add tension, for boss chase
+    stage.addActor(vignetteImage);
+
     stage.addActor(table);
   }
 
@@ -137,18 +143,29 @@ public class PlayerStatsDisplay extends UIComponent {
   public void startHealthBarBeating() {
     // Stop any existing beating actions
     heartImage.clearActions();
+    vignetteImage.clearActions();
 
-    // Add a beating effect using Actions
+    vignetteImage.setVisible(true);
+
     heartImage.addAction(Actions.forever(
             Actions.sequence(
                     Actions.scaleTo(1.0f, 1.05f, 0.3f), // Slightly enlarge
                     Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
             )
     ));
+
+    vignetteImage.addAction(Actions.forever(
+            Actions.sequence(
+                    Actions.fadeIn(0.3f), // Fade in for vignette effect
+                    Actions.fadeOut(0.3f)  // Fade out for vignette effect
+            )
+    ));
   }
 
   public void stopHealthBarBeating() {
     heartImage.clearActions();
+    vignetteImage.clearActions();
+    vignetteImage.setVisible(false); // Hide vignette when not beating
     heartImage.setScale(1.0f); // Reset to normal scale
   }
 
@@ -161,6 +178,7 @@ public class PlayerStatsDisplay extends UIComponent {
     xpLabel.remove();
     hungerImage.remove();
     hungerLabel.remove();
+    vignetteImage.remove();
     textureAtlas.dispose();
   }
 }
