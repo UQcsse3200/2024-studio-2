@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -150,6 +151,12 @@ public class MiniGameMenuScreen implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        // enable escape key functionality back to Main Menu
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
 

@@ -57,7 +57,7 @@ public class SnakeScoreBoard {
         table.add(scoreLabel).center().padTop(120).padBottom(40).expandX().fillX().padLeft(120);
         table.row(); // Move to the next row
 
-        table.add(medalLabel).center().padTop(100).padBottom(20).expandX().fillX().padLeft(120);
+        table.add(medalLabel).center().padTop(80).padBottom(20).expandX().fillX().padLeft(120);
         table.row(); // Move to the next row
 
         // Add the Bronze, Silver, Gold labels to the table with increased padding

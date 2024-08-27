@@ -23,7 +23,6 @@ public class EndSnakeScreen extends ScreenAdapter {
     private Skin skin;
 
     // fonts
-    private BitmapFont font16;
     private BitmapFont font18;
     private BitmapFont font26;
     private BitmapFont font32;
@@ -35,17 +34,16 @@ public class EndSnakeScreen extends ScreenAdapter {
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        this.font16 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_16.fnt"));
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
         
         Gdx.input.setInputProcessor(stage);
 
-        setupUI();
+        setupExitButton();
     }
 
-    private void setupUI() {
+    private void setupExitButton() {
         // Create the exit button
         TextButton exitButton = new TextButton("Exit", skin);
 
@@ -81,11 +79,16 @@ public class EndSnakeScreen extends ScreenAdapter {
         // Render the game over messages
         renderEndMessage();
 
+        handleKeyPress();
+    }
+
+    private void handleKeyPress() {
+
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             game.setScreen(new SnakeScreen(game));
         }
-        
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
             game.setScreen(new MiniGameMenuScreen(game));
@@ -180,8 +183,7 @@ public class EndSnakeScreen extends ScreenAdapter {
     }
 
     @Override
-    public void dispose() {    
-        font16.dispose();
+    public void dispose() {
         font18.dispose();
         font26.dispose();
         font32.dispose();
