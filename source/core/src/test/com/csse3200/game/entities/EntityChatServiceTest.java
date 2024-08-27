@@ -48,7 +48,7 @@ class EntityChatServiceTest {
 
     @Test
     void shouldCreateEntityChat() {
-        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
         entityChatService.updateText(new String[] {"1", "2"});
         Assertions.assertArrayEquals(new String[] {"1", "2"}, entityChatService.getHints());
     }
@@ -56,23 +56,23 @@ class EntityChatServiceTest {
     @Test
     void shouldRemoveEntityChat() {
         entityChatService.updateText(new String[] {"1", "2"});
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        entityChatService.disposeCurrentOverlay();
-        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
+        entityChatService.disposeDialogueBox();
+        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
     }
 
     @Test
     void illegalDispose() {
-        entityChatService.disposeCurrentOverlay();
-        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        entityChatService.disposeDialogueBox();
+        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
     }
 
     @Test
     void shouldUpdateEntityChat() {
         entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
 
-        DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
+        DialogueBox chatOverlay = entityChatService.getCurrentDialogueBox();
 
         String page1 = chatOverlay.getLabel().getText().toString();
         String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHint()];
@@ -83,8 +83,8 @@ class EntityChatServiceTest {
     @Test
     void buttonsExist() {
         entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
+        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox().getForwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox().getBackwardButton());
     }
 }

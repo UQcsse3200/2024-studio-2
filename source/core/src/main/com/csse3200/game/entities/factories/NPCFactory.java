@@ -186,13 +186,13 @@ public class NPCFactory {
       }
     }
 
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
+    EntityChatService dialogueBoxService = ServiceLocator.getEntityChatService();
+    dialogueBoxService.updateText(hintText);
   }
 
   private static void endDialogue() {
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.disposeCurrentOverlay();
+    EntityChatService dialogueBoxService = ServiceLocator.getEntityChatService();
+    dialogueBoxService.disposeDialogueBox();
   }
 
   /**
