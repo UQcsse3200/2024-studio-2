@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.mainmenu.MainMenuActions;
 import com.csse3200.game.components.mainmenu.MainMenuDisplay;
+import com.csse3200.game.components.quests.AchievementDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -79,7 +80,7 @@ public class AchievementsScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new MainMenuDisplay()).addComponent(new InputDecorator(stage, 10));
+    ui.addComponent(new AchievementDisplay(game)).addComponent(new InputDecorator(stage, 10));
 
     ServiceLocator.getEntityService().register(ui);
   }
