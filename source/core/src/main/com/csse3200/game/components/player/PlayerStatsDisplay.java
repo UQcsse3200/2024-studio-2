@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Text;
 
 
 /**
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class PlayerStatsDisplay extends UIComponent {
     Table table;
-    private Image heartImage;
+    private Image healthImage;
     private Image xpImage;
     private Image hungerImage;
     private Label healthLabel;
@@ -50,8 +51,7 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Initialises all required variables for health/xp/hunger bars
-     *
+     * Initialises all required variables for health/xp/hunger bar animations
      * @see Animation for animation details
      */
     public void initBarAnimations() {
@@ -89,7 +89,7 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Creates actors and positions them on the stage using a table.
+     * Creates animations and labels, and adds them on the stage using a table.
      *
      * @see Table for positioning options
      */
@@ -98,7 +98,6 @@ public class PlayerStatsDisplay extends UIComponent {
         table.top().left();
         table.setFillParent(true);
         table.padTop(45f).padLeft(5f);
-
 
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
@@ -115,18 +114,17 @@ public class PlayerStatsDisplay extends UIComponent {
 
         initBarAnimations();
 
-
         // Health Dimensions
-        heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
+        healthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
         xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
         hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
         // Get the original width and height of the image
-        float barImageWidth = (float) (heartImage.getWidth() * 0.8);
-        float barImageHeight = (float) (heartImage.getHeight() * 0.5);
+        float barImageWidth = (float) (healthImage.getWidth() * 0.8);
+        float barImageHeight = (float) (healthImage.getHeight() * 0.5);
 
         // Aligning the bars one below the other
-        table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
+        table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
         table.row().padTop(10);
 
@@ -150,9 +148,21 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Updates the player's health on the ui.
-     *
-     * @param health player health
+     * Replaces the current frame for the specified statBar based on the current frame provided
+     * @param frameIndex The index of the desired frame in the Texture Region
+     * @param statBarAnimation The animation for the specific stat bar
+     * @param statBar The image that is the placeholder on the stage for the stat bar
+     */
+    public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
+        // Grab the desired frame at a specified frame rate
+        TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        // Replace the frame shown on the stage
+        statBar.setDrawable(new TextureRegionDrawable(currentFrame));
+    }
+
+    /**
+     * Updates the health animation and label in game to reflect current player health
+     * @param health the current health stat value of the player
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
@@ -167,10 +177,13 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, healthBarAnimation, healthImage);
     }
 
+    /**
+     * Updates the hunger animation and label in game to reflect current player hunger
+     * @param hunger The current hunger stat value of the player
+     */
     public void updatePlayerHungerUI(int hunger) {
         CharSequence text = String.format("HGR: %d", hunger);
         logger.info("Made it to this updateHunger function");
@@ -184,10 +197,13 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = hungerBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        hungerImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, hungerBarAnimation, hungerImage);
     }
 
+    /**
+     * Updates the experience animation and label in game to reflect current player experience
+     * @param experience The current experience stat value of the player
+     */
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         experienceLabel.setText(text);
@@ -201,15 +217,14 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
-        TextureRegion currentFrame = xpBarAnimation.getKeyFrame(frameIndex * 0.066f);
-        xpImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+        setNewFrame(frameIndex, xpBarAnimation, xpImage);
     }
 
 
     @Override
     public void dispose() {
         super.dispose();
-        heartImage.remove();
+        healthImage.remove();
         healthLabel.remove();
         xpImage.remove();
         experienceLabel.remove();
