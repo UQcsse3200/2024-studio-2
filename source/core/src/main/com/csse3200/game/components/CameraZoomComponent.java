@@ -6,14 +6,32 @@ import com.badlogic.gdx.graphics.Camera;
 
 public class CameraZoomComponent extends Component {
     private static final float ZOOM_AMOUNT = 1f;
-    private static final float ZOOM_MAX = 30f;
-    private static final float ZOOM_MIN = 5f;
+    private float maxZoom = 30f;
+    private float minZoom = 5f;
     private CameraComponent cameraComponent;
 
     @Override
     public void create() {
         cameraComponent = entity.getComponent(CameraComponent.class);
         entity.getEvents().addListener("cameraZoom", this::zoom);
+    }
+
+    /**
+     * Set the maximum amount that the camera can zoom out
+     *
+     * @param maxZoom the maximum camera zoom amount
+     */
+    public void setMaxZoom(float maxZoom) {
+        this.maxZoom = maxZoom;
+    }
+
+    /**
+     * Set the minimum amount that the camera can zoom in
+     *
+     * @param minZoom the minimum camera zoom amount
+     */
+    public void setMinZoom(float minZoom) {
+        this.minZoom = minZoom;
     }
 
     /**
@@ -30,7 +48,7 @@ public class CameraZoomComponent extends Component {
         float gameWidth = camera.viewportWidth;
         gameWidth = gameWidth + ZOOM_AMOUNT * amountY;
         // Ensure that camera doesn't exceed zoom amount
-        gameWidth = Math.clamp(gameWidth, ZOOM_MIN, ZOOM_MAX);
+        gameWidth = Math.clamp(gameWidth, minZoom, maxZoom);
         cameraComponent.resize(screenWidth, screenHeight, gameWidth);
     }
 }
