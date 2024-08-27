@@ -1,0 +1,23 @@
+diff --git a/source/core/src/main/com/csse3200/game/components/mainmenu/MainMenuActions.java b/source/core/src/main/com/csse3200/game/components/mainmenu/MainMenuActions.java
+index 9758c44..fa1dcab 100644
+--- a/source/core/src/main/com/csse3200/game/components/mainmenu/MainMenuActions.java
++++ b/source/core/src/main/com/csse3200/game/components/mainmenu/MainMenuActions.java
+@@ -23,7 +23,6 @@ public class MainMenuActions extends Component {
+     entity.getEvents().addListener("load", this::onLoad);
+     entity.getEvents().addListener("exit", this::onExit);
+     entity.getEvents().addListener("settings", this::onSettings);
+-    entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
+   }
+ 
+   /**
+@@ -58,10 +57,4 @@ public class MainMenuActions extends Component {
+     game.setScreen(GdxGame.ScreenType.SETTINGS);
+   }
+ 
+-  private void onSnakeMiniGame() {
+-    logger.info("Launching settings screen");
+-    game.setScreen(GdxGame.ScreenType.MiniGameMenuScreen);
+-  }
+-
+-
+ }
