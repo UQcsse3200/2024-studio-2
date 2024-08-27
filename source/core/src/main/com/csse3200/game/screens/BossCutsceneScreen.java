@@ -6,8 +6,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -79,8 +81,8 @@ public class BossCutsceneScreen extends ScreenAdapter {
         this.transition = false;
         createUI();
 
-        ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
-        ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
+        ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay", this::addOverlay);
+        ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay", this::removeOverlay);
         logger.debug("Initialising main game dup screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         //this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -89,7 +91,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (!isPaused){
+        if (!isPaused) {
             physicsEngine.update();
             ServiceLocator.getEntityService().update();
             renderer.render();
@@ -98,7 +100,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
             if (timeElapsed >= CUTSCENE_DURATION && !transition) {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
-//                dispose();
+                // dispose();
                 game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, enemy));
             }
         }
@@ -138,7 +140,8 @@ public class BossCutsceneScreen extends ScreenAdapter {
         ServiceLocator.clear();
     }
 
-    /*
+    /**
+     * Creates and sets up the cutscene UI elements, including motion effects for the text and image.
      * Debugged and Developed with ChatGPT
      */
     private void createUI() {
@@ -159,9 +162,12 @@ public class BossCutsceneScreen extends ScreenAdapter {
         topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
         bottomBar.setPosition(0, 0);
 
-        // Use default BitmapFont
+        BitmapFont defaultFont = new BitmapFont();
+        defaultFont.getData().setScale(2.0f);
+
+        // Create label style with the font
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
+        labelStyle.font = defaultFont;
         labelStyle.fontColor = Color.BLACK;
 
         Label enemyNameLabel = new Label("Kanga", labelStyle);
@@ -169,13 +175,49 @@ public class BossCutsceneScreen extends ScreenAdapter {
 
         Image enemyImage = new Image(enemyImageTexture);
 
+        // Animate enemy name label (flash effect)
+        enemyNameLabel.addAction(
+                Actions.sequence(
+                        Actions.alpha(0f),
+                        Actions.repeat(5,
+                                Actions.sequence(
+                                        Actions.fadeIn(0.2f),
+                                        Actions.fadeOut(0.2f)
+                                )
+                        ),
+                        Actions.fadeIn(0.2f) // Finally, keep it visible
+                )
+        );
+
+        // Centered positions
+        float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
+        float centerY = (Gdx.graphics.getHeight() - 500) / 2f;
+
+        // Initial positions for sliding animations
+        enemyImage.setPosition(0, centerY); // Start from off-screen left
+        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
+
+        // Animate enemy image (slide-in effect)
+        enemyImage.addAction(
+                Actions.sequence(
+                        Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
+                )
+        );
+
+        // Animate enemy name label (slide-in effect)
+        enemyNameLabel.addAction(
+                Actions.sequence(
+                        Actions.moveTo(centerX + 250, centerY - 80, 2f, Interpolation.pow5Out)
+                )
+        );
+
         // Table layout for positioning
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(enemyImage).width(500).height(500).padBottom(10);
+        table.add(enemyImage).width(500).height(500);
         table.row();
-        table.add(enemyNameLabel).padTop(10);
+        table.add(enemyNameLabel);
 
         // Add actors to stage
         stage.addActor(topBar);
@@ -183,12 +225,11 @@ public class BossCutsceneScreen extends ScreenAdapter {
         stage.addActor(table);
     }
 
-    public void addOverlay(Overlay.OverlayType overlayType){
+    public void addOverlay(Overlay.OverlayType overlayType) {
         logger.info("Adding Overlay {}", overlayType);
         if (enabledOverlays.isEmpty()) {
             this.rest();
-        }
-        else {
+        } else {
             enabledOverlays.getFirst().rest();
         }
         switch (overlayType) {
@@ -201,21 +242,19 @@ public class BossCutsceneScreen extends ScreenAdapter {
         }
     }
 
-    public void removeOverlay(){
+    public void removeOverlay() {
         logger.debug("Removing top Overlay");
 
-        if (enabledOverlays.isEmpty()){
+        if (enabledOverlays.isEmpty()) {
             this.wake();
             return;
         }
 
         enabledOverlays.getFirst().remove();
-
         enabledOverlays.removeFirst();
 
-        if (enabledOverlays.isEmpty()){
+        if (enabledOverlays.isEmpty()) {
             this.wake();
-
         } else {
             enabledOverlays.getFirst().wake();
         }
