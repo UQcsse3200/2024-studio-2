@@ -36,9 +36,9 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class BossCutsceneScreen extends ScreenAdapter {
-    private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 5 seconds
+    private static final float CUTSCENE_DURATION = 2.0f; // Cutscene lasts for 2 seconds
     private float timeElapsed = 0;
-    private boolean transition = false;
+    private boolean transition;
 
     private static final Logger logger = LoggerFactory.getLogger(BossCutsceneScreen.class);
     private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
@@ -78,6 +78,13 @@ public class BossCutsceneScreen extends ScreenAdapter {
 
         this.transition = false;
         createUI();
+
+        ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
+        ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
+        logger.debug("Initialising main game dup screen entities");
+        TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
+        //this.gameArea = new ForestGameArea(terrainFactory, game);
+        //this.gameArea.create();
     }
 
     @Override
@@ -131,6 +138,9 @@ public class BossCutsceneScreen extends ScreenAdapter {
         ServiceLocator.clear();
     }
 
+    /*
+     * Debugged and Developed with ChatGPT
+     */
     private void createUI() {
         logger.debug("Creating cutscene UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
