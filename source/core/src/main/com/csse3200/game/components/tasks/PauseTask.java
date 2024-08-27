@@ -54,7 +54,7 @@ public class PauseTask extends ChaseTask {
 
         if (this.config != null) {
             String[] hintText = this.questManager.getDialogue(this.config.getAnimalName());
-            if (hintText.length == 0) {
+            if (hintText == null || hintText.length == 0)  {
                 hintText = this.config.getBaseHint();
             }
 
