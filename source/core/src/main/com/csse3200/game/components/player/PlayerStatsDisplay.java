@@ -226,7 +226,7 @@ public class PlayerStatsDisplay extends UIComponent {
     @Override
     public void dispose() {
         super.dispose();
-        heartImage.remove();
+        healthImage.remove();
         healthLabel.remove();
         xpImage.remove();
         experienceLabel.remove();
