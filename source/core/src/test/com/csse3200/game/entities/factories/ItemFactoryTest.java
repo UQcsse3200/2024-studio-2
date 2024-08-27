@@ -30,7 +30,7 @@ public class ItemFactoryTest {
     private Entity healthPotion;
 
     String[] itemTextures = {
-            "images/foodtextures/appleItem.png",
+            "images/foodtextures/apple.png",
             "images/Healthpotion.png"
     };
 
