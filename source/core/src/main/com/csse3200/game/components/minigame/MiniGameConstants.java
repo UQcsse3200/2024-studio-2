@@ -1,13 +1,23 @@
 package com.csse3200.game.components.minigame;
 
+/**
+ * Class to hold all medal constants for all Minigames. Used for scoring and rewards.
+ */
 public final class MiniGameConstants {
 
     private MiniGameConstants() {
-        throw new AssertionError("Cannot instantiate MiniGameConstants class");
+        throw new AssertionError("Do not initiate MiniGameConstants Class");
 
     }
-    public static final int SNAKE_FAIL_THRESHOLD = 0;
     public static final int SNAKE_BRONZE_THRESHOLD = 5;
     public static final int SNAKE_SILVER_THRESHOLD = 15;
     public static final int SNAKE_GOLD_THRESHOLD = 30;
+
+    // Flappy bird and Maze yet to be implemented
+    public static final int FLAPPY_BIRD_GOLD_THRESHOLD = 3;
+    public static final int FLAPPY_BIRD_SILVER_THRESHOLD = 2;
+    public static final int FLAPPY_BIRD_BRONZE_THRESHOLD = 1;
+    public static final int MAZE_GOLD_THRESHOLD = 3;
+    public static final int MAZE_SILVER_THRESHOLD = 2;
+    public static final int MAZE_BRONZE_THRESHOLD = 1;
 }
