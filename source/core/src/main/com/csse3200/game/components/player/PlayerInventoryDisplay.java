@@ -64,24 +64,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
-     * @return whether the inventory is displayed for testing purposes.
-     */
-    public boolean isToggled() {
-        return toggle;
-    }
-
-    /**
-     * @return the inventory for testing purposes
-     */
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    /**
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
