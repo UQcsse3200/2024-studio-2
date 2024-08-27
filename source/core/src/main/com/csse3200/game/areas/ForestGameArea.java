@@ -1,6 +1,7 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
@@ -82,7 +83,6 @@ public class ForestGameArea extends GameArea {
     this.terrainFactory = terrainFactory;
     this.enemies = new ArrayList<>();
     this.game = game;
-
   }
 
   /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -95,9 +95,9 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnCow();
     //spawnGhosts();
     //spawnGhostKing();
+    spawnCow();
     spawnLion();
     spawnTurtle();
     spawnEagle();
@@ -105,7 +105,15 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
-  public void displayUI() {
+    /**
+     * gets the player
+     * @return player entity
+     */
+    public Entity getPlayer () {
+        return player;
+    }
+
+  private void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     ui.addComponent(new QuestPopup());
@@ -206,10 +214,10 @@ public class ForestGameArea extends GameArea {
     spawnEntityOnMap(eagle);
   }
 
-  private void spawnSnake() {
-    Entity snake = NPCFactory.createSnake(player, this.enemies);
-    spawnEntityOnMap(snake);
-  }
+    private void spawnSnake() {
+        Entity snake = NPCFactory.createSnake(player, this.enemies);
+        spawnEntityOnMap(snake);
+    }
 
   public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);

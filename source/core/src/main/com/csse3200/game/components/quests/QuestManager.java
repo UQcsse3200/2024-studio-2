@@ -1,7 +1,6 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Null;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
@@ -28,7 +27,7 @@ public class QuestManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
-    /** Map of relevant quests. */
+    /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
 
     /**Constructs questManager instance */
@@ -42,13 +41,18 @@ public class QuestManager extends Component {
 
     /**Sets up the tasks for the quests and dialogues.  */
     private void testQuests() {
+
+        //creates test tasks
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1);
+        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1);
 
+        //creates single task quest
         List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null,null);
         addQuest(firstStepsQuest);
 
+        //creates 2 task quest
         String[] test2StepTextProg1 = new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest...","Press Spacebar!"};
         String[] test2StepTextProg2 = new String[]{"Yippeee!", "You completed your Quest!"};
 
@@ -56,9 +60,16 @@ public class QuestManager extends Component {
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
+
+        String[] test2StepCompletionTriggers = new String[]{"","spawnKangaBoss"};
         List<Task> tasks1 = List.of(stepsTask, attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, false, test2TaskQuestDialogue);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, false, test2TaskQuestDialogue,test2StepCompletionTriggers);
         addQuest(twoTaskQuest);
+
+        // Creates test quest that requires completion of 2 task quest
+        List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
+        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,false,null,null);
+        addQuest(finalQuest);
     }
 
     /**
@@ -67,7 +78,7 @@ public class QuestManager extends Component {
      */
     private void subscribeToQuestEvents(QuestBasic quest) {
         for (Task task : quest.getTasks()) {
-            eventService.globalEventHandler.addListener(task.getTaskName(),
+            eventService.getGlobalEventHandler().addListener(task.getTaskName(),
                     () -> progressQuest(quest.getQuestName(), task.getTaskName()));
         }
     }
@@ -126,7 +137,7 @@ public class QuestManager extends Component {
 
         Task currentTask = quest.getTasks().get(quest.getProgression());
         currentTask.handleEvent();
-
+        //check if quest is failed or completed
         if (currentTask.isFailed()) {
             quest.failQuest();
             logger.info("{} failed!", quest.getQuestName());
@@ -154,7 +165,7 @@ public class QuestManager extends Component {
      */
 
     private void completeTask(QuestBasic quest) {
-        quest.progressQuest();
+        quest.progressQuest(); //advance quest progression
         if (quest.isQuestCompleted()) {
             handleQuestCompletion(quest);
         } else {
@@ -170,8 +181,8 @@ public class QuestManager extends Component {
     private void handleQuestCompletion(QuestBasic quest) {
         if (!quest.isAchievement() && !quest.isSecret()) {
             questComplete.play();
-            eventService.globalEventHandler.trigger("questCompleted");
-            eventService.globalEventHandler.trigger(quest.getQuestName());
+            eventService.getGlobalEventHandler().trigger("questCompleted");
+            eventService.getGlobalEventHandler().trigger(quest.getQuestName());
             logger.info("{} completed!", quest.getQuestName());
         }
     }
@@ -180,9 +191,9 @@ public class QuestManager extends Component {
      * In sprint 2 will return a struct containing all dialogue for (String questName : npcRelevantQuests)
      * Need to have null checks for npcName being in npcRelevantQuests
      * */
-    @Null
     public String[] getDialogue(String npcName) {
         String[] npcRelevantQuests = relevantQuests.get(npcName);
+        //retrieve NPC dialogue
         if (npcRelevantQuests != null) {
             String singleRelevantQuest = npcRelevantQuests[0];
             QuestBasic quest = quests.get(singleRelevantQuest);
@@ -190,6 +201,6 @@ public class QuestManager extends Component {
                 return quest.getDialogue(npcName);
             }
         }
-        return null;
+        return new String[]{};
     }
 }

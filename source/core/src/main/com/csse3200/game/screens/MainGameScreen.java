@@ -32,8 +32,8 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -42,7 +42,7 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quests_Scroll.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
@@ -51,7 +51,7 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final ForestGameArea gameArea;
-  private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
+  private final Map<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
     public MainGameScreen(GdxGame game) {
     this.game = game;
@@ -80,8 +80,8 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
-    ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -113,6 +113,7 @@ public class MainGameScreen extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
+    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
     if (!resting) {
       gameArea.playMusic();
     }
@@ -224,6 +225,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void wake() {
     logger.info("Screen is Awake");
     resting = false;
+    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

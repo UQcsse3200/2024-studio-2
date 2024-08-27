@@ -22,6 +22,7 @@ public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     EventService eventService = ServiceLocator.getEventService();
     private Table rootTable;
+    private final String buttonTexture = "images/PauseOverlay/Button.png";
 
     public PauseDisplay() {
         super();
@@ -64,13 +65,13 @@ public class PauseDisplay extends UIComponent {
         TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
         Image button = new Image(
                 ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
+                        .getAsset(buttonTexture, Texture.class));
         Image button2 = new Image(
                 ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
+                        .getAsset(buttonTexture, Texture.class));
         Image button3 = new Image(
                 ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
+                        .getAsset(buttonTexture, Texture.class));
 
         // Add listeners for buttons
         resumeBtn.addListener(new ChangeListener() {
@@ -95,10 +96,11 @@ public class PauseDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
-                        eventService.globalEventHandler.trigger("exit");
+                        eventService.getGlobalEventHandler().trigger("exit");
                     }
                 });
 
+        // Layout buttons in a table
         Table table = new Table();
         table.add(button).size(button.getWidth() * 0.75f, button.getHeight() * 0.75f).center();
         table.row();
@@ -116,11 +118,11 @@ public class PauseDisplay extends UIComponent {
     }
 
     private void exitOverlay() {
-        eventService.globalEventHandler.trigger("removeOverlay");
+        eventService.getGlobalEventHandler().trigger("removeOverlay");
     }
 
     private void openQuests() {
-        eventService.globalEventHandler.trigger("addOverlay",Overlay.OverlayType.QUEST_OVERLAY);
+        eventService.getGlobalEventHandler().trigger("addOverlay",Overlay.OverlayType.QUEST_OVERLAY);
     }
 
 

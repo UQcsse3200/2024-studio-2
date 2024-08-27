@@ -7,8 +7,8 @@ import java.util.Map;
  * subtasks completed), descriptions and hints. **/
 public class QuestBasic extends AbstractQuest {
 
-    public QuestBasic(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue) {
-        super(questName, questDescription, tasks, isAchievement, isSecretQuest, dialogue);
+    public QuestBasic(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers) {
+        super(questName, questDescription, tasks, isAchievement, isSecretQuest, dialogue,taskCompletionTriggers);
     }
 
 }

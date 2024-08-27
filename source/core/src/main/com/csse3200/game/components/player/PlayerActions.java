@@ -66,7 +66,7 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventService.globalEventHandler.trigger("steps");
+    eventService.getGlobalEventHandler().trigger("steps");
   }
 
   /**
@@ -84,17 +84,17 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
-    eventService.globalEventHandler.trigger("attack");
+    eventService.getGlobalEventHandler().trigger("attack");
   }
 
   void restMenu() {
       logger.info("Sending Pause");
-      eventService.globalEventHandler.trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
+      eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
   }
 
   void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.globalEventHandler.trigger("addOverlay", OverlayType.QUEST_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
   }
 
   public void addMainGameScreen(){

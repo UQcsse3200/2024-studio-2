@@ -1,6 +1,6 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.utils.Null;
+import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
 import java.util.Map;
@@ -47,9 +47,12 @@ public abstract class AbstractQuest {
      * True if quest is active (not completed or failed).
      */
     private boolean isActive;
+    /** Triggers for task completion. */
+    private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement,
+                         Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue, String[] taskCompletionTriggers) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
@@ -57,6 +60,7 @@ public abstract class AbstractQuest {
         this.isSecretQuest = isSecretQuest;
         this.isActive = true;
         this.questDialogue = dialogue;
+        this.taskCompletionTriggers = taskCompletionTriggers;
     }
 
     /** Returns quest name. */
@@ -84,6 +88,9 @@ public abstract class AbstractQuest {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
         }
+        if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
+        }
         return tasks.get(currentTaskIndex).getDescription();
     }
 
@@ -95,15 +102,24 @@ public abstract class AbstractQuest {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
         }
+        if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
+        }
         return tasks.get(currentTaskIndex).getHint();
     }
     /** Progress (increments) number of quest subtasks completed. */
     public void progressQuest() {
         if (!isQuestCompleted() && !isFailed) {
+            if(taskCompletionTriggers!=null){
+                ServiceLocator.getEventService().getGlobalEventHandler().trigger(taskCompletionTriggers[currentTaskIndex]);
+            }
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
             this.isActive = false;
+            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+                    ServiceLocator.getEventService().getGlobalEventHandler().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
+            }
         }
     }
     /** Returns true if quest is failed. */
@@ -126,8 +142,8 @@ public abstract class AbstractQuest {
     /**
      * Returns the number of tasks to be completed for an individual test.
      */
-    public int getNumTasksCompleted() {
-        return (tasks.size() - 1) - currentTaskIndex;
+    public int getNumTasksToComplete() {
+        return tasks.size() - currentTaskIndex;
     }
 
     /**
@@ -151,11 +167,10 @@ public abstract class AbstractQuest {
     }
 
     /** Returns the current quest dialogue for the given npc */
-    @Null
     public String[] getDialogue(String npcName) {
         if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
             return questDialogue.get(new DialogueKey(npcName, getProgression()));
         }
-            return null;
+        return new String[]{};
     }
 }

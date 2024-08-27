@@ -21,13 +21,13 @@ public class QuestPopup extends UIComponent {
     /** Event service for UI. */
     private final EventService eventService = ServiceLocator.getEventService();
     /** Scale of font size. */
-    private static final float  fontScale = 2f;
+    private static final float FONTSCALE = 2f;
 
     /**
      * Adds the listener for the label to trigger the popup.
      */
     private void addActors() {
-        eventService.globalEventHandler.addListener("questCompleted", this::showQuestCompletedPopup);
+        eventService.getGlobalEventHandler().addListener("questCompleted", this::showQuestCompletedPopup);
     }
 
     /**
@@ -55,18 +55,20 @@ public class QuestPopup extends UIComponent {
     @Override
     public void draw(SpriteBatch batch) {
         if(showing) {
+            //create the label
             questCompleted = new Label("Quest Completed!", skin,"title",Color.GOLD);
-            questCompleted.setFontScale(fontScale);
+            questCompleted.setFontScale(FONTSCALE);
             stage.addActor(questCompleted);
             questCompleted.getWidth();
 
-            // Position label
+            // Position label and calculates position
             float screenHeight = Gdx.graphics.getHeight();
             float screenWidth = Gdx.graphics.getWidth();
-            float displayX = (screenWidth / 2) - (questCompleted.getWidth() * fontScale / 2);
-            float displayY = (screenHeight / 2) - (questCompleted.getHeight() * fontScale / 2);
+            float displayX = (screenWidth / 2) - (questCompleted.getWidth() * FONTSCALE / 2);
+            float displayY = (screenHeight / 2) - (questCompleted.getHeight() * FONTSCALE / 2);
             questCompleted.setPosition( displayX, displayY);
 
+            //defines actions for label created
             questCompleted.addAction(Actions.sequence(
                     Actions.fadeOut(1f),
                     Actions.run(this::dispose)

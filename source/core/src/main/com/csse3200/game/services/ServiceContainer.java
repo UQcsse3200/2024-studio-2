@@ -5,15 +5,12 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.eventservice.EventService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A container class that stores all of the services for a screen. This can be used to switch between screens without
  * loosing any of the services that are loaded.
  */
 public class ServiceContainer {
-    private static final Logger logger = LoggerFactory.getLogger(ServiceContainer.class);
     private EntityService entityService;
     private RenderService renderService;
     private PhysicsService physicsService;
