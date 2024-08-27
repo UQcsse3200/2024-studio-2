@@ -80,15 +80,15 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    //spawnGhosts();
-    //spawnGhostKing();
+    spawnGhosts();
+    spawnGhostKing();
 
-    //spawnChicken();
-    //spawnChicken();
-    //spawnChicken();
-    //spawnChicken();
+    spawnChicken();
+    spawnChicken();
+    spawnChicken();
+    spawnChicken();
 
-    //spawnFrog();
+    spawnFrog();
     spawnMonkey();
     playMusic();
   }
