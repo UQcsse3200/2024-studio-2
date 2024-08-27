@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.snake.AssetPaths;
+import com.csse3200.game.components.minigame.snake.controller.Events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -107,11 +108,11 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     private boolean handleInput() {
-        if (snakeGame.handleInput() == 1) {  // Restart game
+        if (snakeGame.handleInput() == Events.RESTART) {  // Restart game
             game.setScreen(new SnakeScreen(game));
             return true;
         }
-        if (snakeGame.handleInput() == 2) {  // Go to minigames menu
+        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to minigames menu
             game.setScreen(new MiniGameMenuScreen(game));
             return true;
         }

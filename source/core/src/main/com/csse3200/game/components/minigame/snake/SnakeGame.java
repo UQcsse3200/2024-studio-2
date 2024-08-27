@@ -2,6 +2,7 @@ package com.csse3200.game.components.minigame.snake;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 
@@ -124,7 +125,7 @@ public class SnakeGame {
         return false;
     }
 
-    public int handleInput() {
+    public Events handleInput() {
         return snakeController.handleInput();
     }
 

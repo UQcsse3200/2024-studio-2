@@ -3,7 +3,7 @@ package com.csse3200.game.components.minigame.snake.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.screens.MiniGameMenuScreen;
+
 
 public class SnakeController {
 
@@ -24,15 +24,15 @@ public class SnakeController {
         return Direction.ZERO;
     }
 
-    public int handleInput() {
+    public Events handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            return 1;
+            return Events.RESTART;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to minigames menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-            return 2;
+            return Events.EXIT_TO_MENU;
         }
-        return 0;
+        return Events.NONE;
     }
 }
