@@ -1,5 +1,5 @@
-M	source/core/assets/configs/NPCs.json
-M	source/core/assets/configs/player.json
+M	source/core/assets/configs/NPCs.json X
+M	source/core/assets/configs/player.json XX
 M	source/core/src/main/com/csse3200/game/areas/ForestGameArea.java
 M	source/core/src/main/com/csse3200/game/components/CombatStatsComponent.java X
 M	source/core/src/main/com/csse3200/game/components/gamearea/GameAreaDisplay.java
