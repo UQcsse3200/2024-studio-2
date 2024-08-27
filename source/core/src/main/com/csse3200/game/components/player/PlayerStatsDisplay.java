@@ -27,7 +27,7 @@ public class PlayerStatsDisplay extends UIComponent {
     private Image xpImage;
     private Image hungerImage;
     private Label healthLabel;
-    private Label xpLabel;
+    private Label experienceLabel;
     private Label hungerLabel;
     private Animation<TextureRegion> healthBarAnimation;
     private Animation<TextureRegion> hungerBarAnimation;
@@ -62,8 +62,8 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] healthBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < healthBarFrames.length; i++) {
-            String frameName = (100 - i * 10) + "%_health";
-            healthBarFrames[i] = textureAtlas[0].findRegion(frameName);
+            String frameName1 = (100 - i * 10) + "%_health";
+            healthBarFrames[i] = textureAtlas[0].findRegion(frameName1);
         }
         healthBarAnimation = new Animation<>(0.066f, healthBarFrames);
 
@@ -72,8 +72,8 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] hungerBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < hungerBarFrames.length; i++) {
-            String frameName = (100 - i * 10) + "%_hunger";
-            hungerBarFrames[i] = textureAtlas[1].findRegion(frameName);
+            String frameName2 = (100 - i * 10) + "%_hunger";
+            hungerBarFrames[i] = textureAtlas[1].findRegion(frameName2);
         }
         hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
 
@@ -82,8 +82,8 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] xpBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < xpBarFrames.length; i++) {
-            String frameName = (i * 10) + "%_xp";
-            xpBarFrames[i] = textureAtlas[2].findRegion(frameName);
+            String frameName3 = (i * 10) + "%_xp";
+            xpBarFrames[i] = textureAtlas[2].findRegion(frameName3);
         }
         xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
     }
@@ -99,12 +99,22 @@ public class PlayerStatsDisplay extends UIComponent {
         table.setFillParent(true);
         table.padTop(45f).padLeft(5f);
 
+
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
         CharSequence healthText = String.format("HP: %d", health);
         healthLabel = new Label(healthText, skin, "large");
+        // Hunger text
+        int hunger = entity.getComponent(CombatStatsComponent.class).getHunger();
+        CharSequence hungerText = String.format("HGR: %d", hunger);
+        hungerLabel = new Label(hungerText, skin, "large");
+        // Experience text
+        int experience = entity.getComponent(CombatStatsComponent.class).getExperience();
+        CharSequence experienceText = String.format("EXP: %d", experience);
+        experienceLabel = new Label(experienceText, skin, "large");
 
         initBarAnimations();
+
 
         // Health Dimensions
         heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
@@ -115,21 +125,13 @@ public class PlayerStatsDisplay extends UIComponent {
         float barImageWidth = (float) (heartImage.getWidth() * 0.8);
         float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
-        // Experience text
-        CharSequence xpText = String.format("EXP: %d", 100);
-        xpLabel = new Label(xpText, skin, "large");
-
-        // Hunger text
-        CharSequence hungerText = String.format("HGR: %d", 100);
-        hungerLabel = new Label(hungerText, skin, "large");
-
         // Aligning the bars one below the other
         table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
         table.row().padTop(10);
 
         table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25)).pad(2).padLeft(170);
-        table.add(xpLabel).align(Align.left);
+        table.add(experienceLabel).align(Align.left);
         table.row().padTop(10);
 
         table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
@@ -137,6 +139,8 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Add the table to the stage
         stage.addActor(table);
+        //initialising the character stats
+        updatePlayerHealthUI(health);
     }
 
 
@@ -168,9 +172,8 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     public void updatePlayerHungerUI(int hunger) {
-
         CharSequence text = String.format("HGR: %d", hunger);
-        logger.info("Made it to this updateHealth function");
+        logger.info("Made it to this updateHunger function");
         logger.info("{}", hunger);
         hungerLabel.setText(text);
 
@@ -187,13 +190,14 @@ public class PlayerStatsDisplay extends UIComponent {
 
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
-        xpLabel.setText(text);
-
+        experienceLabel.setText(text);
+        logger.info("Made it to this updatePlayerExperienceUI function");
+        logger.info("{}", experience);
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health as no xp implementation yet
-        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
-        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
-        int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+
+        int maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
+        int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         // Set the current frame of the health bar animation
@@ -208,7 +212,7 @@ public class PlayerStatsDisplay extends UIComponent {
         heartImage.remove();
         healthLabel.remove();
         xpImage.remove();
-        xpLabel.remove();
+        experienceLabel.remove();
         hungerImage.remove();
         hungerLabel.remove();
         for (int i = 0; i < textureAtlas.length; i++) {
