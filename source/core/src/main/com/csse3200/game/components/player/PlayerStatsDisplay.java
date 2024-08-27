@@ -49,8 +49,7 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Initialises all required variables for health/xp/hunger bars
-     *
+     * Initialises all required variables for health/xp/hunger bar animations
      * @see Animation for animation details
      */
     public void initBarAnimations() {
@@ -88,7 +87,7 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Creates actors and positions them on the stage using a table.
+     * Creates animations and labels, and adds them on the stage using a table.
      *
      * @see Table for positioning options
      */
@@ -97,7 +96,6 @@ public class PlayerStatsDisplay extends UIComponent {
         table.top().left();
         table.setFillParent(true);
         table.padTop(45f).padLeft(5f);
-
 
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
@@ -113,7 +111,6 @@ public class PlayerStatsDisplay extends UIComponent {
         experienceLabel = new Label(experienceText, skin, "large");
 
         initBarAnimations();
-
 
         // Health Dimensions
         heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
@@ -149,9 +146,8 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Updates the player's health on the ui.
-     *
-     * @param health player health
+     * Updates the health animation and label in game to reflect current player health
+     * @param health the current health stat value of the player
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
@@ -171,6 +167,10 @@ public class PlayerStatsDisplay extends UIComponent {
         heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
 
+    /**
+     * Updates the hunger animation and label in game to reflect current player hunger
+     * @param hunger The current hunger stat value of the player
+     */
     public void updatePlayerHungerUI(int hunger) {
         CharSequence text = String.format("HGR: %d", hunger);
         logger.info("Made it to this updateHunger function");
@@ -188,6 +188,10 @@ public class PlayerStatsDisplay extends UIComponent {
         hungerImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
     }
 
+    /**
+     * Updates the experience animation and label in game to reflect current player experience
+     * @param experience The current experience stat value of the player
+     */
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         experienceLabel.setText(text);
