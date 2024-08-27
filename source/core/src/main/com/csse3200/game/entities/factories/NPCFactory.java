@@ -1,6 +1,6 @@
 package com.csse3200.game.entities.factories;
 
-import com.csse3200.game.areas.terrain.TerrainComponent;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.audio.Sound;

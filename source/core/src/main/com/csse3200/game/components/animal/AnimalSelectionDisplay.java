@@ -4,6 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
+
+/**
+ * Represents the display for selecting animals in the game.
+ * The class manages the UI components related to
+ * animal selection, including images, buttons, and their layout on the stage.
+ */
 public class AnimalSelectionDisplay {
     private final Stage stage;
     private final Skin skin;
@@ -13,8 +19,9 @@ public class AnimalSelectionDisplay {
     private final TextButton backButton;
 
     /**
-     * Constructor for AnimalSelectionDisplay.
-     *
+     * Constructs a diplay for displaying and managing animal selection UI.
+     * Initializes the arrays for animal images and buttons, as well as the select and back buttons.
+     * This constructor sets up the stage and skin used for styling UI elements.
      * @param stage The stage where UI elements are added.
      * @param skin  The skin for styling UI elements.
      */
