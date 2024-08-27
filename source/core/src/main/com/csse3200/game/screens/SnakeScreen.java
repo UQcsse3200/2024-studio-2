@@ -1,7 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.ui.minigame.SnakeScoreBoard;
 import org.slf4j.Logger;
@@ -29,9 +29,11 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
-import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
+import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
+
 
 
 /**
@@ -45,18 +47,12 @@ public class SnakeScreen extends ScreenAdapter {
     private final SnakeGame snakeGame;
     private final SnakeGameRenderer snakeGameRenderer;
     private final Renderer renderer;
-    private SpriteBatch spriteBatch;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
-    private final String appleImage = "images/minigames/apple.png";
-    private final String snakeheadImage = "images/minigames/snakehead.png";
-    private final String grassImage = "images/minigames/grass.jpg";
-    private final String snakeBodyHorizontalImage = "images/minigames/snakebodyhorizontal.png";
-    private final String snakeBodyVerticalImage = "images/minigames/snakebodyvertical.png";
-    private final String snakeBodyBentImage = "images/minigames/snakebodybent.png";
 
-    private BitmapFont font;
+
+    private final BitmapFont font;
     private SnakeScoreBoard scoreBoard;
 
     /**
@@ -75,7 +71,7 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerTimeSource(new GameTime());
 
         renderer = RenderFactory.createRenderer();
-        spriteBatch = new SpriteBatch();
+
 
         // Sets the score
         font = new BitmapFont();
@@ -84,7 +80,7 @@ public class SnakeScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
-        createSnakeScoreBoard(0);
+        createSnakeScoreBoard();
 
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
@@ -95,13 +91,12 @@ public class SnakeScreen extends ScreenAdapter {
                 snakeTexture,
                 snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture,
-                snakeBodyBentTexture,
-                spriteBatch
+                snakeBodyBentTexture
         );
 
     }
-    private void createSnakeScoreBoard(int score) {
-        scoreBoard = new SnakeScoreBoard(score);
+    private void createSnakeScoreBoard() {
+        scoreBoard = new SnakeScoreBoard(0);
     }
 
     /**
@@ -145,9 +140,9 @@ public class SnakeScreen extends ScreenAdapter {
             }
 
             // Render the grid, apple, snake, and score
-            spriteBatch.begin();
+
             snakeGameRenderer.render();
-            spriteBatch.end();
+
             scoreBoard.updateScore(snakeGame.getScore());
 
         } else {
@@ -185,7 +180,7 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Disposing snake minigame screen");
 
         renderer.dispose();
-        spriteBatch.dispose();
+        snakeGameRenderer.dispose();
         unloadAssets();
 
         ServiceLocator.getEntityService().dispose();
@@ -204,19 +199,17 @@ public class SnakeScreen extends ScreenAdapter {
         logger.debug("Loading snake minigame assets");
 
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
-                snakeBodyVerticalImage, snakeBodyBentImage};
-        resourceService.loadTextures(textures);
+        resourceService.loadTextures(AssetPaths.IMAGES);
         ServiceLocator.getResourceService().loadAll();
 
-        appleTexture = resourceService.getAsset(appleImage, Texture.class);
-        snakeTexture = resourceService.getAsset(snakeheadImage, Texture.class);
-        snakeBodyHorizontalTexture = resourceService.getAsset(snakeBodyHorizontalImage,
+        appleTexture = resourceService.getAsset(APPLE_IMAGE, Texture.class);
+        snakeTexture = resourceService.getAsset(SNAKE_HEAD_IMAGE, Texture.class);
+        snakeBodyHorizontalTexture = resourceService.getAsset(SNAKE_BODY_HORIZONTAL_IMAGE,
                 Texture.class);
-        snakeBodyVerticalTexture = resourceService.getAsset(snakeBodyVerticalImage, Texture.class);
-        snakeBodyBentTexture = resourceService.getAsset(snakeBodyBentImage, Texture.class);
+        snakeBodyVerticalTexture = resourceService.getAsset(SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
+        snakeBodyBentTexture = resourceService.getAsset(SNAKE_BODY_BENT_IMAGE, Texture.class);
 
-        grassTexture = resourceService.getAsset(grassImage, Texture.class);
+        grassTexture = resourceService.getAsset(GRASS_IMAGE, Texture.class);
     }
 
     /*
@@ -225,9 +218,7 @@ public class SnakeScreen extends ScreenAdapter {
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {appleImage, snakeheadImage, grassImage, snakeBodyHorizontalImage,
-                snakeBodyVerticalImage, snakeBodyBentImage};
-        resourceService.unloadAssets(textures);
+        resourceService.unloadAssets(IMAGES);
     }
 
     /**
