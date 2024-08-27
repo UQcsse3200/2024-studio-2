@@ -17,7 +17,7 @@ public class Foods {
         public Apple(int quantity) {
             super("Apple", 11, 1, quantity, new FeedEffect(2));
             this.setTexturePath(path);
-            this.setDescription("This is an apple, press P to pick up");
+            this.setDescription("This is an apple");
         }
     }
 
@@ -34,7 +34,7 @@ public class Foods {
         public ChickenLeg(String name, int itemCode, int limit, int quantity) {
             super(name, itemCode, limit, quantity, new FeedEffect(7));
             this.setTexturePath(path);
-            this.setDescription("This is an chicken leg");
+            this.setDescription("This is a chicken leg");
         }
     }
 
