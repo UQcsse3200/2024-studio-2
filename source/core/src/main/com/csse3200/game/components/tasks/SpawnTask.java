@@ -26,15 +26,6 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
         elapsedTime = 0;
         // Position the NPC at the spawn location
         owner.getEntity().setPosition(spawnPosition);
-        // Trigger the spawn animation or other spawn logic
-    }
-
-    @Override
-    public void update() {
-//        elapsedTime += getDeltaTime();
-//        if (elapsedTime >= spawnDuration) {
-//            completeTask();
-//        }
     }
 
     private void completeTask() {
