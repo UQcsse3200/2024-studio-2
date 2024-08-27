@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
@@ -42,7 +44,8 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_3.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/chicken.atlas", "images/frog.atlas"
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
+          "images/chicken.atlas", "images/frog.atlas", "images/spawnChicken.atlas"
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -78,7 +81,12 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
     spawnGhosts();
     spawnGhostKing();
+
     spawnChicken();
+    spawnChicken();
+    spawnChicken();
+    spawnChicken();
+
     spawnFrog();
 
     playMusic();
@@ -152,8 +160,14 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity chicken = NPCFactory.createChicken(player);
-    spawnEntityAt(chicken, randomPos, true, true);
 
+    // Create an invisible entity at the chicken's spawn location
+    Entity proximityTrigger = new Entity();
+    proximityTrigger.setPosition(randomPos.x, randomPos.y);
+
+    float proximityRange = 1.5f; // Set a suitable proximity range
+//    chicken.addComponent(new ProximityComponent(player, proximityRange));
+    spawnEntityAt(chicken, randomPos, true, true);
   }
 
   private void spawnFrog() {
@@ -161,8 +175,12 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity chicken = NPCFactory.createFrog(player);
-    spawnEntityAt(chicken, randomPos, true, true);
+    Entity frog = NPCFactory.createFrog(player);
+
+    float proximityRange = 0.05f; // Set a suitable proximity range
+    frog.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+
+    spawnEntityAt(frog, randomPos, true, true);
 
   }
 

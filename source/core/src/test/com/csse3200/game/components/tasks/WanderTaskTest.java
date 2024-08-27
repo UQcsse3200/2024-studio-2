@@ -36,7 +36,13 @@ class WanderTaskTest {
     Entity entity = new Entity().addComponent(aiTaskComponent).addComponent(new PhysicsMovementComponent());
     entity.create();
 
-    entity.getEvents().trigger("wanderLeft");
-    entity.getEvents().trigger("wanderRight");
-    }
+    // Register callbacks
+    EventListener0 callback = mock(EventListener0.class);
+      entity.getEvents().addListener("spawnChicken", callback);
+
+      entity.getEvents().trigger("wanderLeft");
+      entity.getEvents().trigger("wanderRight");
+
+    verify(callback).handle();
+  }
 }

@@ -1,5 +1,5 @@
 chicken.png
-size: 64, 16
+size: 64, 32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -27,6 +27,34 @@ walk
 walk
   rotate: false
   xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+spawn
+  rotate: false
+  xy: 0, 16
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+spawn
+  rotate: false
+  xy: 16, 16
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+spawn
+  rotate: false
+  xy: 32, 16
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+spawn
+  rotate: false
+  xy: 48, 16
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

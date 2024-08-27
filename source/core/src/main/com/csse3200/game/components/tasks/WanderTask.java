@@ -21,6 +21,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   private MovementTask movementTask;
   private WaitTask waitTask;
   private Task currentTask;
+  private boolean isSpawned = false;
 
   /**
    * @param wanderRange Distance in X and Y the entity can move from its position when start() is
@@ -43,15 +44,16 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     startPos = owner.getEntity().getPosition();
     Vector2 newPos = getRandomPosInRange();
 
-    waitTask = new WaitTask(waitTime);
-    waitTask.create(owner);
-    movementTask = new MovementTask(newPos);
-    movementTask.create(owner);
+      if (!isSpawned) {
+          logger.debug("Triggering spawnChicken event");
+          this.owner.getEntity().getEvents().trigger("spawnStart");
+          isSpawned = true;
 
-    movementTask.start();
-    currentTask = movementTask;
-
-    if (newPos.x - startPos.x < 0) {
+          // Wait for the spawn event to complete or for a specified duration before starting to wander
+          waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+          waitTask.create(owner);
+          swapTask(waitTask);
+      } else if (newPos.x - startPos.x < 0) {
       logger.debug("wandering right");
       System.out.println("wandering left");
       this.owner.getEntity().getEvents().trigger("wanderLeft");
@@ -60,13 +62,14 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       logger.debug("wandering left");
       this.owner.getEntity().getEvents().trigger("wanderRight");
     }
-    // this.owner.getEntity().getEvents().trigger("wanderStart");
   }
 
   @Override
   public void update() {
     if (currentTask.getStatus() != Status.ACTIVE) {
-      if (currentTask == movementTask) {
+      if (currentTask == waitTask && isSpawned) {
+        startWandering();
+      } else if (currentTask == movementTask) {
         startWaiting();
       } else {
         startMoving();
@@ -75,8 +78,18 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     currentTask.update();
   }
 
+  private void startWandering() {
+    logger.debug("Starting wandering");
+    movementTask = new MovementTask(getRandomPosInRange());
+    movementTask.create(owner);
+    movementTask.start();
+    currentTask = movementTask;
+  }
+
   private void startWaiting() {
     logger.debug("Starting waiting");
+    waitTask = new WaitTask(waitTime);
+    waitTask.create(owner);
     swapTask(waitTask);
   }
 
