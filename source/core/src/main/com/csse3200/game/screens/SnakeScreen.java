@@ -40,7 +40,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * Handles the rendering of the game components.
  */
 public class SnakeScreen extends ScreenAdapter {
-    private static final String appleImage = "images/minigames/apple.png";
+    private static final String appleImage = "images/foodtextures/apple.png";
     private static final String snakeheadImage = "images/minigames/snakehead.png";
     private static final String grassImage = "images/minigames/grass.jpg";
     private static final String snakebodyImage = "images/minigames/snakebody.png";
@@ -417,7 +417,7 @@ public class SnakeScreen extends ScreenAdapter {
     private void unloadAssets() {
         logger.debug("Unloading snake minigame assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        String[] textures = {"images/minigames/apple.png", "images/minigames/snakehead.png",
+        String[] textures = {"images/foodtextures/apple.png", "images/minigames/snakehead.png",
                 "images/minigames/grass.jpg", "images/minigames/snakebody.jpg"};
         resourceService.unloadAssets(textures);
     }

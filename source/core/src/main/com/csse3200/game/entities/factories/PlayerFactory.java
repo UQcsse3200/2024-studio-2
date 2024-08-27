@@ -1,8 +1,8 @@
 package com.csse3200.game.entities.factories;
 
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.PlayerConfig;
@@ -54,7 +54,7 @@ public class PlayerFactory {
             }
             player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
 
-            player.addComponent(new InventoryComponent(stats.gold));
+            player.addComponent(new PlayerInventoryDisplay(36, 9));
             player.addComponent(inputComponent);
             player.addComponent(new PlayerStatsDisplay());
 
