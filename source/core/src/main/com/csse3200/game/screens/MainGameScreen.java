@@ -4,10 +4,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.Overlays.Overlay;
-import com.csse3200.game.Overlays.Overlay.OverlayType;
-import com.csse3200.game.Overlays.PauseOverlay;
-import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
@@ -22,18 +18,16 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
+import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * The game screen containing the main game.
@@ -46,13 +40,10 @@ public class MainGameScreen extends ScreenAdapter {
           AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png",
           "images/xp_bar.png", "images/hunger_bar.png", "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png", "images/vignette.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
-  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-  private boolean isPaused = false;
-  private boolean resting = false;
+
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
-  private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
   public MainGameScreen(GdxGame game) {
     this.game = game;
@@ -70,7 +61,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
 
-    ServiceLocator.registerEventService(new EventService());
+    ServiceLocator.registerEntityChatService(new EntityChatService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -79,8 +70,6 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
-    ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
     ForestGameArea forestGameArea = new ForestGameArea(terrainFactory, game);
@@ -89,11 +78,9 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void render(float delta) {
-    if (!isPaused){
-      physicsEngine.update();
-      ServiceLocator.getEntityService().update();
-      renderer.render();
-    }
+    physicsEngine.update();
+    ServiceLocator.getEntityService().update();
+    renderer.render();
   }
 
   @Override
@@ -104,18 +91,11 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void pause() {
-    isPaused = true;
-    ForestGameArea.pauseMusic();
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
-    isPaused = false;
-    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
-    if (!resting) {
-      ForestGameArea.playMusic();
-    }
     logger.info("Game resumed");
   }
 
@@ -129,7 +109,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    ServiceLocator.getEventService().dispose();
 
     ServiceLocator.clear();
   }
@@ -161,71 +140,11 @@ public class MainGameScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
+        .addComponent(new MainGameExitDisplay())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
 
     ServiceLocator.getEntityService().register(ui);
-  }
-
-  public void addOverlay(OverlayType overlayType){
-    logger.debug("Attempting to Add {} Overlay", overlayType);
-    if (activeOverlayTypes.get(overlayType)){
-      return;
-    }
-      if (enabledOverlays.isEmpty()) {
-          this.rest();
-      }
-      else {
-        enabledOverlays.getFirst().rest();
-      }
-    switch (overlayType) {
-      case QUEST_OVERLAY:
-        enabledOverlays.addFirst(new QuestOverlay());
-        break;
-      case PAUSE_OVERLAY:
-        enabledOverlays.addFirst(new PauseOverlay());
-        break;
-      default:
-        logger.warn("Unknown Overlay type: {}", overlayType);
-        break;
-    }
-    logger.info("Added {} Overlay", overlayType);
-    activeOverlayTypes.put(overlayType,true);
-  }
-
-  public void removeOverlay(){
-    logger.info("Removing top Overlay");
-
-    if (enabledOverlays.isEmpty()){
-        this.wake();
-        return;
-    }
-    Overlay currentFirst = enabledOverlays.getFirst();
-    activeOverlayTypes.put(currentFirst.overlayType,false);
-    currentFirst.remove();
-    enabledOverlays.removeFirst();
-
-    if (enabledOverlays.isEmpty()){
-        this.wake();
-
-    } else {
-      enabledOverlays.getFirst().wake();
-    }
-  }
-
-  public void rest() {
-    logger.info("Screen is resting");
-    resting = true;
-    ForestGameArea.pauseMusic();
-    ServiceLocator.getEntityService().restWholeScreen();
-  }
-
-  public void wake() {
-    logger.info("Screen is Awake");
-    resting = false;
-    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
-    ForestGameArea.playMusic();
-    ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

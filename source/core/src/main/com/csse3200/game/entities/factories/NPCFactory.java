@@ -1,6 +1,6 @@
 package com.csse3200.game.entities.factories;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,6 +17,7 @@ import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -100,33 +101,35 @@ public class NPCFactory {
     return ghostKing;
   }
 
-
   /**
    * Base method to create a friendly NPC.
    *
    * @param target   entity to move towards when in range.
    * @param enemies  list of enemy entities.
-   * @param health   the health of the NPC.
-   * @param baseAttack the base attack of the NPC.
-   * @param atlasPath path to the texture atlas for the NPC.
-   * @param animationSpeed speed of the animation.
    * @param config  the specific configuration object.
    * @return entity
    */
-  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, int health, int baseAttack, String atlasPath, float animationSpeed, Object config) {
+  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset(atlasPath, TextureAtlas.class));
-    animator.addAnimation("float", animationSpeed, Animation.PlayMode.LOOP);
+    AnimationRenderComponent animator = init_animator(config);
+    animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(health, 100, 0, 0, 0, 0))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0,0))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(new ConfigComponent(config));  // Adding the config as a component
+            .addComponent(new ConfigComponent<>(config));
 
     npc.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    // Add Sounds Effect to FNPCs
+    String[] animalSoundPaths = config.getSoundPath();
+    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+      String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
+      String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
+      npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
+    }
 
     return npc;
   }
@@ -136,7 +139,7 @@ public class NPCFactory {
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
     CowConfig config = configs.cow;
-    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/Cow.atlas", 0.2f, config);
+    return createFriendlyNPC(target, enemies, config);
   }
 
   /**
@@ -144,7 +147,7 @@ public class NPCFactory {
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
     LionConfig config = configs.lion;
-    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/lion.atlas", 0.2f, config);
+    return createFriendlyNPC(target, enemies, config);
   }
 
   /**
@@ -152,7 +155,7 @@ public class NPCFactory {
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
     TurtleConfig config = configs.turtle;
-    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/turtle.atlas", 0.5f, config);
+    return createFriendlyNPC(target, enemies, config);
   }
 
   /**
@@ -160,7 +163,7 @@ public class NPCFactory {
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
     EagleConfig config = configs.eagle;
-    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/eagle.atlas", 0.1f, config);
+    return createFriendlyNPC(target, enemies, config);
   }
 
   /**
@@ -168,7 +171,32 @@ public class NPCFactory {
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
     SnakeConfig config = configs.snake;
-    return createFriendlyNPC(target, enemies, config.health, config.baseAttack, "images/snake.atlas", 0.1f, config);
+    return createFriendlyNPC(target, enemies, config);
+  }
+
+  private static AnimationRenderComponent init_animator(BaseEntityConfig entity_config) {
+    return new AnimationRenderComponent(
+            ServiceLocator.getResourceService()
+                    .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
+  }
+
+  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+      for (String animalSoundPath : animalSoundPaths) {
+        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        long soundId = animalSound.play();
+        animalSound.setVolume(soundId, 0.3f);
+        animalSound.setLooping(soundId, false);
+      }
+    }
+
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.updateText(hintText);
+  }
+
+  private static void endDialogue() {
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.disposeCurrentOverlay();
   }
 
   /**
@@ -180,11 +208,11 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                    .addTask(new PauseTask(target, 10, 2f, 1f));
+                    .addTask(new PauseTask(target, 10, 2f, 1f, false));
 
     // Avoid all the enemies on the game
     for (Entity enemy : enemies) {
-      aiComponent.addTask(new AvoidTask(enemy, 10, 3f, 3f));
+      aiComponent.addTask(new AvoidTask(enemy, 10, 3f, 3f, false));
     }
 
     Entity npc =
@@ -250,7 +278,7 @@ public class NPCFactory {
    *
    * @return entity
    */
-  public static Entity createBaseNPC(Entity target) {
+  private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
