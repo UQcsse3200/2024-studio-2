@@ -1,16 +1,21 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
+import com.csse3200.game.components.npc.ChickenAnimationController;
+import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
@@ -28,37 +33,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
-class NPCFactoryTest {
+class EnemyFactoryTest {
 
-    private Entity lion;
-    private Entity cow;
-    private Entity eagle;
-    private Entity turtle;
-    private Entity snake;
+    private Entity chicken;
+    private Entity frog;
+    private Entity monkey;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
-            "images/ghost.png",
-            "images/ghostKing.png",
-            "images/Cow.png",
-            "images/Lion-Spritesheet.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/turtle.png"
+            "images/chicken.png",
+            "images/monkey.png",
+            "images/frog.png",
     };
 
     private String[] atlas = {
-            "images/ghost.atlas",
-            "images/ghostKing.atlas",
-            "images/Cow.atlas",
-            "images/lion.atlas",
-            "images/snake.atlas",
-            "images/eagle.atlas",
-            "images/turtle.atlas"
+            "images/chicken.atlas",
+            "images/monkey.atlas",
+            "images/frog.atlas"
     };
 
 
@@ -79,635 +75,208 @@ class NPCFactoryTest {
         resourceService.loadAll();
 
         Entity player = new Entity();
-        List<Entity> enemies = new ArrayList<>();
-        cow = NPCFactory.createCow(player, enemies);
-        lion = NPCFactory.createLion(player, enemies);
-        eagle = NPCFactory.createEagle(player, enemies);
-        turtle = NPCFactory.createTurtle(player, enemies);
-        snake = NPCFactory.createSnake(player, enemies);
+        chicken = EnemyFactory.createChicken(player);
+        frog = EnemyFactory.createFrog(player);
+        monkey = EnemyFactory.createMonkey(player);
     }
 
     /**
-     * Tests Creation of a cow.
+     * Tests Creation of a monkey.
      */
     @Test
-    void TestCowCreation() {
-        assertNotNull(cow, "Cow should not be null.");
+    void TestMonkeyCreation() {
+        assertNotNull(monkey, "monkey should not be null.");
     }
 
     /**
-     * Tests that the Cow has the correct name.
+     * Tests that the monkey is an Entity.
      */
     @Test
-    void TestCowName() {
-        String name = configs.cow.getAnimalName();
-        assertEquals("Cow", name);
+    void TestMonkeyIsEntity() {
+        assertEquals(monkey.getClass(), Entity.class);
     }
 
     /**
-     * Tests that the cow is an Entity.
+     * Tests that the monkey has the correct components physics component.
      */
     @Test
-    void TestCowIsEntity() {
-        assertEquals(cow.getClass(), Entity.class);
+    void TestMonkeyHasComponents() {
+        assertNotNull(monkey.getComponent(PhysicsComponent.class));
+        assertNotNull(monkey.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(monkey.getComponent(MonkeyAnimationController.class));
+        assertNotNull(monkey.getComponent(CombatStatsComponent.class));
+        assertNotNull(monkey.getComponent(HitboxComponent.class));
+        assertNotNull(monkey.getComponent(ColliderComponent.class));
     }
 
     /**
-     * Tests that the cow has a physics component.
+     * Tests that the monkey has the correct stats.
      */
     @Test
-    void TestCowHasPhysicsComponent() {
-        assertNotNull(cow.getComponent(PhysicsComponent.class));
+    void TestMonkeyStats() {
+        assertEquals(1, monkey.getComponent(CombatStatsComponent.class).getHealth(),
+                "Cow should have 1 HP.");
+        assertEquals(0,
+                monkey.getComponent(CombatStatsComponent.class).getSpeed(),
+                "monkey should have 0 Base Attack.");
     }
 
     /**
-     * Tests that the cow has a physics movement component.
+     * Tests that the monkey has correct animations.
      */
     @Test
-    void TestCowHasPhysicsMovementComponent() {
-        assertNotNull(cow.getComponent(PhysicsMovementComponent.class));
-    }
-
-    /**
-     * Tests the cow has a collider component.
-     */
-    @Test
-    void TestCowHasColliderComponent() {
-        assertNotNull(cow.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the cow has stat config component.
-     */
-    @Test
-    void TestCowHasConfigComponent() {
-        assertNotNull(cow.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the cow has the correct HP stat.
-     */
-    @Test
-    void TestCowHasCorrectHP() {
-        assertEquals(30, cow.getComponent(CombatStatsComponent.class).getHealth(),
-                "Cow should have 30 HP.");
-    }
-
-    /**
-     * Tests that the cow has the correct base attack stat.
-     */
-    @Test
-    void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Cow should have 0 Base Attack.");
-    }
-
-    /**
-     * Tests that the cow has the correct sound path.
-     */
-    @Test
-    void TestCowHasCorrectSoundPath() {
-        String[] sound = configs.cow.getSoundPath();
-        assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.mp3"}));
-    }
-
-    /**
-     * Tests that the cow has the correct base hint.
-     */
-    @Test
-    void TestCowHasCorrectBaseHint() {
-        String[] baseHint = configs.cow.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."}));
-    }
-
-    /**
-     * Tests that the cow has an idle animation.
-     */
-    @Test
-    void TestCowHasAnimation() {
-        assertTrue(cow.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+    void TestMonkeyAnimation() {
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
+                "Monkey should have run down animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_up") ,
+                "Monkey should have run up animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right") ,
+                "Monkey should have run right animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
                 "Cow should have idle animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_down") ,
+                "Monkey should have run right down animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_down") ,
+                "Monkey should have run left down animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_up") ,
+                "Monkey should have run right up animation.");
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_up") ,
+                "Monkey should have run left up animation.");
     }
 
     /**
-     * Tests that the cow is a friendly NPC meaning it won't attack players.
+     * Tests that the monkey is in the correct spot when placed.
      */
     @Test
-    void TestCowIsFriendly() {
-        assertNotNull(cow.getComponent(FriendlyNPCAnimationController.class),
-                "Cow should have a friendly AI controller.");
-    }
-
-    /**
-     * Tests that the cow is in the correct spot when placed.
-     */
-    @Test
-    void TestCowSetPosition() {
+    void TestMonkeySetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
-        cow.setPosition(pos);
+        monkey.setPosition(pos);
 
-        assertEquals(pos, cow.getPosition());
+        assertEquals(pos, monkey.getPosition());
     }
 
     /**
-     * Tests Creation of a lion.
+     * Tests Creation of a chicken.
      */
     @Test
-    void TestLionCreation() {
-        assertNotNull(lion, "Lion should not be null.");
+    void TestChickenCreation() {
+        assertNotNull(chicken, "Chicken should not be null.");
     }
 
     /**
-     * Tests that the lion has the correct name.
+     * Tests that the chicken is an Entity.
      */
     @Test
-    void TestLionName() {
-        String name = configs.lion.getAnimalName();
-        assertEquals("Lion", name);
+    void TestChickenIsEntity() {
+        assertEquals(chicken.getClass(), Entity.class);
     }
 
     /**
-     * Tests that the lion is an Entity.
+     * Tests that the chicken has the correct components.
      */
     @Test
-    void TestLionIsEntity() {
-        assertEquals(lion.getClass(), Entity.class);
+    void TestChickenHasComponents() {
+        assertNotNull(chicken.getComponent(PhysicsComponent.class));
+        assertNotNull(chicken.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
+        assertNotNull(chicken.getComponent(CombatStatsComponent.class));
+        assertNotNull(chicken.getComponent(HitboxComponent.class));
+        assertNotNull(chicken.getComponent(ColliderComponent.class));
     }
 
     /**
-     * Tests that the lion has a physics component.
+     * Tests that the chicken has the correct stats.
      */
     @Test
-    void TestLionHasPhysicsComponent() {
-        assertNotNull(lion.getComponent(PhysicsComponent.class));
+    void TestChickenStats() {
+        assertEquals(1, chicken.getComponent(CombatStatsComponent.class).getHealth(),
+                "chicken should have 1 HP.");
+        assertEquals(0,
+                chicken.getComponent(CombatStatsComponent.class).getSpeed(),
+                "chicken should have 0 speed.");
     }
 
     /**
-     * Tests that the lion has a physics movement component.
+     * Tests that the chicken has correct animations.
      */
     @Test
-    void TestLionHasPhysicsMovementComponent() {
-        assertNotNull(lion.getComponent(PhysicsMovementComponent.class));
+    void TestChickenAnimation() {
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("walk") ,
+                "Chicken should have walk animation.");
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
+                "Chicken should have spawn animation.");
     }
 
     /**
-     * Tests the lion has a collider component.
+     * Tests that the chicken is in the correct spot when placed.
      */
     @Test
-    void TestLionHasColliderComponent() {
-        assertNotNull(lion.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the lion has stat config component.
-     */
-
-    @Test
-    void TestLionHasConfigComponent() {
-        assertNotNull(lion.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the lion has the correct HP stat.
-     */
-    @Test
-    void TestLionHasCorrectHP() {
-        assertEquals(40, lion.getComponent(CombatStatsComponent.class).getHealth(),
-                "Lion should have 40 HP.");
-    }
-
-    /**
-     * Tests that the lion has the correct base attack stat.
-     */
-    @Test
-    void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Lion should have 0 Base Attack.");
-    }
-
-    /**
-     * Tests that the lion has the correct sound path.
-     */
-    @Test
-    void TestLionHasCorrectSoundPath() {
-        String[] sound = configs.lion.getSoundPath();
-        assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.mp3"}));
-    }
-
-    /**
-     * Tests that the lion has the correct base hint.
-     */
-    @Test
-    void TestLionHasCorrectBaseHint() {
-        String[] baseHint = configs.lion.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}));
-    }
-
-    /**
-     * Tests that the lion has an idle animation.
-     */
-    @Test
-    void TestLionHasIdleAnimation() {
-        assertTrue(lion.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
-                "Lion should have idle animation.");
-    }
-
-    /**
-     * Tests that the lion is a friendly NPC meaning it won't attack players.
-     */
-    @Test
-    void TestLionIsFriendly() {
-        assertNotNull(lion.getComponent(FriendlyNPCAnimationController.class),
-                "Lion should have a friendly AI controller.");
-    }
-
-    /**
-     * Tests that the lion is in the correct spot when placed.
-     */
-    @Test
-    void TestLionSetPosition() {
+    void TestChickenSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
-        lion.setPosition(pos);
-
-        assertEquals(pos, lion.getPosition());
+        chicken.setPosition(pos);
+        assertEquals(pos, chicken.getPosition());
     }
 
     /**
-     * Tests Creation of an eagle.
+     * Tests Creation of a frog.
      */
     @Test
-    void TestEagleCreation() {
-        assertNotNull(eagle, "Eagle should not be null.");
+    void TestFrogCreation() {
+        assertNotNull(frog, "Frog should not be null.");
     }
 
     /**
-     * Tests that the eagle's name is correct.
+     * Tests that the frog is an Entity.
      */
     @Test
-    void TestEagleName() {
-        String name = configs.eagle.getAnimalName();
-        assertEquals("Eagle", name);
+    void TestFrogIsEntity() {
+        assertEquals(frog.getClass(), Entity.class);
     }
 
     /**
-     * Tests that the eagle is an Entity.
+     * Tests that the frog has the correct components.
      */
     @Test
-    void TestEagleIsEntity() {
-        assertEquals(eagle.getClass(), Entity.class);
+    void TestFrogHasComponents() {
+        assertNotNull(frog.getComponent(PhysicsComponent.class));
+        assertNotNull(frog.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(frog.getComponent(FrogAnimationController.class));
+        assertNotNull(frog.getComponent(CombatStatsComponent.class));
+        assertNotNull(frog.getComponent(HitboxComponent.class));
+        assertNotNull(frog.getComponent(ColliderComponent.class));
     }
 
     /**
-     * Tests that the eagle has a physics component.
+     * Tests that the frog has the correct stats.
      */
     @Test
-    void TestEagleHasPhysicsComponent() {
-        assertNotNull(eagle.getComponent(PhysicsComponent.class));
+    void TestFrogStats() {
+        assertEquals(1, frog.getComponent(CombatStatsComponent.class).getHealth(),
+                "frog should have 1 HP.");
+        assertEquals(0 ,
+                (frog.getComponent(CombatStatsComponent.class).getSpeed()),
+                "frog should have 0 speed.");
     }
 
     /**
-     * Tests that the eagle has a physics movement component.
+     * Tests that the Frog has correct animations.
      */
     @Test
-    void TestEagleHasPhysicsMovementComponent() {
-        assertNotNull(eagle.getComponent(PhysicsMovementComponent.class));
+    void TestFrogAnimation() {
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "Frog should have wander float animation.");
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("angry_float") ,
+                "Frog should have wander angry_float animation.");
     }
 
     /**
-     * Tests the eagle has a collider component.
+     * Tests that the frog is in the correct spot when placed.
      */
     @Test
-    void TestEagleHasColliderComponent() {
-        assertNotNull(eagle.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the eagle has stat config component.
-     */
-
-    @Test
-    void TestEagleHasConfigComponent() {
-        assertNotNull(eagle.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the eagle has the correct HP stat.
-     */
-    @Test
-    void TestEagleHasCorrectHP() {
-        assertEquals(25, eagle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Eagle should have 25 HP.");
-    }
-
-    /**
-     * Tests that the eagle has the correct base attack stat.
-     */
-    @Test
-    void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Eagle should have 0 Base Attack.");
-    }
-
-    /**
-     * Tests that the eagle has the correct sound path.
-     */
-    @Test
-    void TestEagleHasCorrectSoundPath() {
-        String[] sound = configs.eagle.getSoundPath();
-        assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.mp3"}));
-    }
-
-    /**
-     * Tests that the eagle has the correct base hint.
-     */
-    @Test
-    void TestEagleHasCorrectBaseHint() {
-        String[] baseHint = configs.eagle.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}));
-    }
-
-    /**
-     * Tests that the eagle has an idle animation.
-     */
-    @Test
-    void TestEagleHasIdleAnimation() {
-        assertTrue(eagle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
-                "Eagle should have idle animation.");
-    }
-
-    /**
-     * Tests that the eagle is a friendly NPC meaning it won't attack players.
-     */
-    @Test
-    void TestEagleIsFriendly() {
-        assertNotNull(eagle.getComponent(FriendlyNPCAnimationController.class),
-                "Eagle should have a friendly AI controller.");
-    }
-
-    /**
-     * Tests that the eagle is in the correct spot when placed.
-     */
-    @Test
-    void TestEagleSetPosition() {
+    void TestFrogSetPosition() {
         Vector2 pos = new Vector2(0f, 0f);
-        eagle.setPosition(pos);
-
-        assertEquals(pos, eagle.getPosition());
-    }
-
-    /**
-     * Tests Creation of a turtle.
-     */
-    @Test
-    void TestTurtleCreation() {
-        assertNotNull(turtle, "Turtle should not be null.");
-    }
-
-    /**
-     * Tests that the turtle has the correct name.
-     */
-    @Test
-    void TestTurtleName() {
-        String name = configs.turtle.getAnimalName();
-        assertEquals("Turtle", name);
-    }
-
-    /**
-     * Tests that the turtle is an Entity.
-     */
-    @Test
-    void TestTurtleIsEntity() {
-        assertEquals(turtle.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the turtle has a physics component.
-     */
-    @Test
-    void TestTurtleHasPhysicsComponent() {
-        assertNotNull(turtle.getComponent(PhysicsComponent.class));
-    }
-
-    /**
-     * Tests that the turtle has a physics movement component.
-     */
-    @Test
-    void TestTurtleHasPhysicsMovementComponent() {
-        assertNotNull(turtle.getComponent(PhysicsMovementComponent.class));
-    }
-
-    /**
-     * Tests the turtle has a collider component.
-     */
-    @Test
-    void TestTurtleHasColliderComponent() {
-        assertNotNull(turtle.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the turtle has stat config component.
-     */
-    @Test
-    void TestTurtleHasConfigComponent() {
-        assertNotNull(turtle.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the turtle has the correct HP stat.
-     */
-    @Test
-    void TestTurtleHasCorrectHP() {
-        assertEquals(20, turtle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Turtle should have 20 HP.");
-    }
-
-    /**
-     * Tests that the turtle has the correct base attack stat.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Turtle should have 0 Base Attack.");
-    }
-
-    /**
-     * Tests that the turtle has the correct sound path.
-     */
-    @Test
-    void TestTurtleHasCorrectSoundPath() {
-        String[] sound = configs.turtle.getSoundPath();
-        assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
-    }
-
-    /**
-     * Tests that the turtle has the correct base hint.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseHint() {
-        String[] baseHint = configs.turtle.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
-    }
-
-    /**
-     * Tests that the turtle has an idle animation.
-     */
-    @Test
-    void TestTurtleHasIdleAnimation() {
-        assertTrue(turtle.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
-                "Turtle should have idle animation.");
-    }
-
-    /**
-     * Tests that the turtle is a friendly NPC meaning it won't attack players.
-     */
-    @Test
-    void TestTurtleIsFriendly() {
-        assertNotNull(turtle.getComponent(FriendlyNPCAnimationController.class),
-                "Turtle should have a friendly AI controller.");
-    }
-
-    /**
-     * Tests that the turtle is in the correct spot when placed.
-     */
-    @Test
-    void TestTurtleSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        turtle.setPosition(pos);
-
-        assertEquals(pos, turtle.getPosition());
-    }
-
-
-    /**
-     * Tests Creation of a snake.
-     */
-    @Test
-    void TestSnakeCreation() {
-        assertNotNull(snake, "Snake should not be null.");
-    }
-
-    /**
-     * Tests that the snake has the correct name.
-     */
-    @Test
-    void TestSnakeName() {
-        String name = configs.snake.getAnimalName();
-        assertEquals("Snake", name);
-    }
-
-    /**
-     * Tests that the snake is an Entity.
-     */
-    @Test
-    void TestSnakeIsEntity() {
-        assertEquals(snake.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the snake has a physics component.
-     */
-    @Test
-    void TestSnakeHasPhysicsComponent() {
-        assertNotNull(snake.getComponent(PhysicsComponent.class));
-    }
-
-    /**
-     * Tests that the snake has a physics movement component.
-     */
-    @Test
-    void TestSnakeHasPhysicsMovementComponent() {
-        assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
-    }
-
-    /**
-     * Tests the snake has a collider component.
-     */
-    @Test
-    void TestSnakeHasColliderComponent() {
-        assertNotNull(snake.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the snake has stat config component.
-     */
-    @Test
-    void TestSnakeHasConfigComponent() {
-        assertNotNull(snake.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the snake has the correct HP stat.
-     */
-    @Test
-    void TestSnakeHasCorrectHP() {
-        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
-                "Snake should have 30 HP.");
-    }
-
-    /**
-     * Tests that the snake has the correct base attack stat.
-     */
-    @Test
-    void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Snake should have 0 Base Attack.");
-    }
-
-    /**
-     * Tests that the snake has the correct sound path.
-     */
-    @Test
-    void TestSnakeHasCorrectSoundPath() {
-        String[] sound = configs.snake.getSoundPath();
-        assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.mp3"}));
-    }
-
-    /**
-     * Tests that the snake has the correct base hint.
-     */
-    @Test
-    void TestSnakeHasCorrectBaseHint() {
-        String[] baseHint = configs.snake.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."}));
-    }
-
-    /**
-     * Tests that the snake has an idle animation.
-     */
-    @Test
-    void TestSnakeHasIdleAnimation() {
-        assertTrue(snake.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
-                "Snake should have idle animation.");
-    }
-
-    /**
-     * Tests that the snake is a friendly NPC meaning it won't attack players.
-     */
-    @Test
-    void TestSnakeIsFriendly() {
-        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
-                "Snake should have a friendly AI controller.");
-    }
-
-    /**
-     * Tests that the snake is in the correct spot when placed.
-     */
-    @Test
-    void TestSnakeSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        snake.setPosition(pos);
-
-        assertEquals(pos, snake.getPosition());
+        frog.setPosition(pos);
+        assertEquals(pos, frog.getPosition());
     }
 
     static class TestComponent1 extends Component {}
