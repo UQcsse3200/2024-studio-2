@@ -43,9 +43,11 @@ public class MainMenuDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+        logger.info("Creating MainMenuDisplay");
         addActors();
         applyUserSettings();
         backgroundTexture = new Texture("images/BackgroundSplash.png");
+        logger.info("Background texture loaded");
     }
 
     private void applyUserSettings() {
@@ -77,7 +79,7 @@ public class MainMenuDisplay extends UIComponent {
         startBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Start button clicked");
+                logger.info("Start button clicked");
                 entity.getEvents().trigger("start");
             }
         });
@@ -85,7 +87,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Load button clicked");
+                logger.info("Load button clicked");
                 entity.getEvents().trigger("load");
             }
         });
@@ -93,7 +95,7 @@ public class MainMenuDisplay extends UIComponent {
         minigamesBtn.addListener(new ChangeListener() { // Listener for Minigames button
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Minigames button clicked");
+                logger.info("Minigames button clicked");
                 entity.getEvents().trigger("minigames"); // Trigger minigames event
             }
         });
@@ -101,7 +103,7 @@ public class MainMenuDisplay extends UIComponent {
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Settings button clicked");
+                logger.info("Settings button clicked");
                 settingMenu.setVisible(true);
                 table.setTouchable(Touchable.disabled);
             }
@@ -112,7 +114,7 @@ public class MainMenuDisplay extends UIComponent {
                   @Override
                   public void changed(ChangeEvent changeEvent, Actor actor) {
 
-                      logger.debug("SnakeGame button clicked");
+                      logger.info("SnakeGame button clicked");
                       entity.getEvents().trigger("SnakeGame");
                   }
               });
@@ -120,7 +122,7 @@ public class MainMenuDisplay extends UIComponent {
         helpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Help button clicked");
+                logger.info("Help button clicked");
                 entity.getEvents().trigger("help");
                 showHelpWindow();
             }
@@ -190,6 +192,8 @@ public class MainMenuDisplay extends UIComponent {
         // Add the first slide to the slideTable
         slideTable.add(slideInstances[0]).expand().fill().row();
 
+        logger.info("Help window opened, displaying Movement slide");
+
         // Create a table for navigation buttons
         Table navigationTable = new Table();
         TextButton previousButton = new TextButton("Previous", skin);
@@ -224,6 +228,7 @@ public class MainMenuDisplay extends UIComponent {
                     slideInstances[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
                     slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
         });
@@ -237,6 +242,7 @@ public class MainMenuDisplay extends UIComponent {
                     slideInstances[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
                     slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
         });
@@ -245,6 +251,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 helpWindow.remove(); // Close the help window
+                logger.info("Help window closed");
             }
         });
 
@@ -276,6 +283,7 @@ public class MainMenuDisplay extends UIComponent {
                             slideInstances[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
                             slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
                         }
                         return true;
                     case Input.Keys.RIGHT:
@@ -285,6 +293,7 @@ public class MainMenuDisplay extends UIComponent {
                             slideInstances[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
                             slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
                         }
                         return true;
                     default:
@@ -321,7 +330,7 @@ public class MainMenuDisplay extends UIComponent {
                 }
                 updateSettingMenu();
                 updateToggleWindowButtonText(); // Update text after toggling
-                logger.debug("Fullscreen toggled: " + !isFullscreen);
+                logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
             }
         });
@@ -411,7 +420,7 @@ public class MainMenuDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Apply button clicked");
+                        logger.info("Apply button clicked");
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
                         table.setTouchable(Touchable.enabled);
@@ -439,6 +448,7 @@ public class MainMenuDisplay extends UIComponent {
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
                 ));
+                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
             }
 
             @Override
@@ -484,6 +494,7 @@ public class MainMenuDisplay extends UIComponent {
                 yesBtn.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        logger.info("Exit confirmed, closing game");
                         Gdx.app.exit();
                     }
                 });
@@ -491,6 +502,7 @@ public class MainMenuDisplay extends UIComponent {
                 noBtn.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        logger.info("Exit canceled");
                         dialog.hide();
                     }
                 });

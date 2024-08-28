@@ -178,7 +178,7 @@ public class SettingsMenuDisplay extends UIComponent {
             new ChangeListener() {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Exit button clicked");
+                logger.info("Exit button clicked");
               }
             });
 
@@ -186,7 +186,7 @@ public class SettingsMenuDisplay extends UIComponent {
             new ChangeListener() {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Apply button clicked");
+                logger.info("Apply button clicked");
                 applyChanges();
               }
             });
@@ -209,7 +209,6 @@ public class SettingsMenuDisplay extends UIComponent {
     settings.audioScale = audioScaleSlider.getValue();
     settings.soundScale = soundScaleSlider.getValue();
     settings.displayMode = new UserSettings.DisplaySettings(displayModeSelect.getSelected().object);
-
     UserSettings.set(settings, true);
   }
 
