@@ -3,7 +3,6 @@ import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -29,55 +28,58 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-  private static final PlayerConfig stats =
-      FileLoader.readClass(PlayerConfig.class, "configs/player.json");
+    private static final PlayerConfig stats =
+            FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
-  /**
-   * Create a player entity.
-   * @return entity
-   */
-  public static Entity createPlayer() {
-    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForPlayer();
+    /**
+     * Create a player entity.
+     * @return entity
+     */
+    public static Entity createPlayer() {
+        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
 
-    Entity player =
-        new Entity()
-            .addComponent(new TerrainLoaderComponent())
-            .addComponent(new TextureRenderComponent(imagePath))
-            .addComponent(new CameraZoomComponent())
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+        Entity player =
+                new Entity()
+                        .addComponent(new TerrainLoaderComponent())
+                        .addComponent(new TextureRenderComponent(imagePath))
+                        .addComponent(new CameraZoomComponent())
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(player));
         if (imagePath.equals("images/dog.png")) {
-          player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
+            player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
 
         } else if (imagePath.equals("images/croc.png")) {
-          player.addComponent(new CombatStatsComponent(90, 100, 90, 70, 30, 0));
+            player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100));
         } else if (imagePath.equals("images/bird.png")) {
-          player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0));
+            player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
         }
         else {
-          player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+            player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
         }
 
         player.addComponent(new PlayerInventoryDisplay(36, 9))
-              .addComponent(inputComponent)
-              .addComponent(new PlayerStatsDisplay())
-              .addComponent(new QuestManager(player))
-              .addComponent(new QuestPopup());
+                .addComponent(inputComponent)
+                .addComponent(new PlayerStatsDisplay())
+                .addComponent(new QuestManager(player))
+                .addComponent(new QuestPopup());
 
 
 
-    PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
-    player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(TextureRenderComponent.class).scaleEntity();
-    return player;
-  }
+        PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+        player.getComponent(ColliderComponent.class).setDensity(1.5f);
+        player.getComponent(TextureRenderComponent.class).scaleEntity();
+        return player;
+    }
 
-  private PlayerFactory() {
-    throw new IllegalStateException("Instantiating static util class");
-  }
+    private PlayerFactory() {
+        throw new IllegalStateException("Instantiating static util class");
+    }
+
+    public static String getSelectedAnimalImagePath() {return AnimalSelectionActions.getSelectedAnimalImagePath();
+    }
 }
