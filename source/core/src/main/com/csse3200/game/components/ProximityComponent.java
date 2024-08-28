@@ -23,13 +23,13 @@ public class ProximityComponent extends Component {
     }
 
     @Override
-    public void update() {
-        if (Vector2.dst(entity.getPosition().x, entity.getPosition().y,
-                target.getPosition().x, target.getPosition().y) < proximityRange) {
-            entity.getEvents().trigger("proximityTriggered");
-            entity.setEnabled(true); // Enable the entity when in proximity
+        public void update() {
+            if (Vector2.dst(entity.getPosition().x, entity.getPosition().y,
+                    target.getPosition().x, target.getPosition().y) < proximityRange) {
+                this.entity.getEvents().trigger("proximityTriggered");
+                this.entity.setEnabled(true); // Enable the entity when in proximity
+            }
         }
-    }
 
     private void setupSpawnAnimation(Entity entity) {
         entity.setEnabled(false); // Disable the entity until proximity is triggered
