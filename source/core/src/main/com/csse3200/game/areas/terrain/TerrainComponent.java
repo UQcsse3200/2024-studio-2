@@ -76,9 +76,12 @@ public class TerrainComponent extends RenderComponent {
     }
   }
 
-  public void getChunks() {
-  }
 
+  /**
+   * Fill a chunk with tiles if it is not already loaded.
+   *
+   * @param chunkPos The position of the chunk to fill
+   */
   public void fillChunk(GridPoint2 chunkPos) {
 
     if (loadedChunks.containsKey(chunkPos))
@@ -95,9 +98,13 @@ public class TerrainComponent extends RenderComponent {
     loadedChunks.put(chunkPos, chunk);
   }
 
+  /**
+   * Load all chunks around the given chunk position.
+   *
+   * @param chunkPos The position of the chunk to load around
+   */
   public void loadChunks(GridPoint2 chunkPos) {
 
-    System.out.println("got some chunks--------------------");
     // top left
     GridPoint2 tl = new GridPoint2(chunkPos.x - 1, chunkPos.y + 1);
     fillChunk(tl);
@@ -115,7 +122,6 @@ public class TerrainComponent extends RenderComponent {
     fillChunk(l);
 
     // player position
-    System.out.println("Player position: " + chunkPos);
     fillChunk(chunkPos);
 
     // right
@@ -135,15 +141,29 @@ public class TerrainComponent extends RenderComponent {
     fillChunk(br);
   }
 
+  /**
+   * Get the size of all tiles in the terrain.
+   *
+   * @return The size of all tiles in the terrain
+   */
   public float getTileSize() {
     return tileSize;
   }
 
+  /**
+   * Get the bounds of the terrain map.
+   * @param layer the bounds of the layer
+   * @return The bounds of the terrain map
+   */
   public GridPoint2 getMapBounds(int layer) {
     TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     return new GridPoint2(terrainLayer.getWidth(), terrainLayer.getHeight());
   }
 
+  /**
+   * Get current map
+   * @return The current map
+   */
   public TiledMap getMap() {
     return tiledMap;
   }
@@ -176,25 +196,21 @@ public class TerrainComponent extends RenderComponent {
     HEXAGONAL
   }
 
+  /**
+   * TerrainResource class to store all possible tiles and their edge tiles.
+   */
   public class TerrainResource {
-    // private TextureRegion grassTL, grassTM, grassTR, grassML, grassMM, grassMR,
-    // grassBL, grassBM, grassBR;
-    //private TextureRegion fullSand;
-
     private Tile grassTL, grassTM, grassTR, grassML, grassMM, grassMR, grassBL, grassBM, grassBR;
     private Tile fullSand;
-
     private ArrayList<Tile> tiles;
     
-    // varied
+    // total number of tiles
     public static final int TILE_SIZE = 9;
 
     public TerrainResource() {
       tiles = new ArrayList<Tile>();
       ResourceService resourceService = ServiceLocator.getResourceService();
 
-
-      System.out.println("Loading assets----------------------------------");
 
       // edge: TOP, RIGHT, BOTTOM, LEFT
       // A: sand, B: grass, C: water
@@ -226,8 +242,6 @@ public class TerrainComponent extends RenderComponent {
       this.grassBR = new Tile("grassBR", new TextureRegion(resourceService.getAsset("images/lower_right_grass.png", Texture.class)),
           new ArrayList<String>(Arrays.asList("BBA", "AAA", "AAA", "BBA")));
 
-
-
       tiles.add(this.grassTL);
       tiles.add(this.grassTM);
       tiles.add(this.grassTR);
@@ -238,43 +252,12 @@ public class TerrainComponent extends RenderComponent {
       tiles.add(this.grassBM);
       tiles.add(this.grassBR);
 
-
       this.setPossibleTiles();
-      
-
-
-      // this.grassTL = new
-      // TextureRegion(resourceService.getAsset("images/top_left_grass.png",
-      // Texture.class));
-      // this.grassTM = new
-      // TextureRegion(resourceService.getAsset("images/top_middle_grass.png",
-      // Texture.class));
-      // this.grassTR = new
-      // TextureRegion(resourceService.getAsset("images/top_right_grass.png",
-      // Texture.class));
-      // this.grassML = new
-      // TextureRegion(resourceService.getAsset("images/middle_left_grass.png",
-      // Texture.class));
-      // this.grassMM = new
-      // TextureRegion(resourceService.getAsset("images/middle_grass.png",
-      // Texture.class));
-      // this.grassMR = new
-      // TextureRegion(resourceService.getAsset("images/middle_right_grass.png",
-      // Texture.class));
-      // this.grassBL = new
-      // TextureRegion(resourceService.getAsset("images/lower_left_grass.png",
-      // Texture.class));
-      // this.grassBM = new
-      // TextureRegion(resourceService.getAsset("images/lower_middle_grass.png",
-      // Texture.class));
-      // this.grassBR = new
-      // TextureRegion(resourceService.getAsset("images/lower_right_grass.png",
-      // Texture.class));
-      // this.fullSand = new
-      // TextureRegion(resourceService.getAsset("images/full_sand_tile.png",
-      // Texture.class));
     }
 
+    /**
+     * Set all possible tiles for each tile for all directions.
+     */
     public void setPossibleTiles() {
       for (int i = 0; i < this.tiles.size(); i++) {
         setPossibleUp(this.tiles.get(i));
@@ -284,6 +267,10 @@ public class TerrainComponent extends RenderComponent {
       }
     }
 
+    /**
+     * Set possible tiles for up direction.
+     * @param tile The tile to set possible tiles
+     */
     public void setPossibleUp(Tile tile) {
       BitSet up = new BitSet(TILE_SIZE);
       for (int i = 0; i < this.tiles.size(); i++) {
@@ -294,6 +281,10 @@ public class TerrainComponent extends RenderComponent {
       tile.up = up;
     }
 
+    /**
+     * Set possible tiles for right direction.
+     * @param tile The tile to set possible tiles 
+     */
     public void setPossibleRight(Tile tile) {
       BitSet right = new BitSet(TILE_SIZE);
       for (int i = 0; i < this.tiles.size(); i++) {
@@ -304,6 +295,10 @@ public class TerrainComponent extends RenderComponent {
       tile.right = right;
     }
 
+    /**
+     * Set possible tiles for down direction.
+     * @param tile The tile to set possible tiles
+     */
     public void setPossibleDown(Tile tile) {
       BitSet down = new BitSet(TILE_SIZE);
       for (int i = 0; i < this.tiles.size(); i++) {
@@ -314,6 +309,10 @@ public class TerrainComponent extends RenderComponent {
       tile.down = down;
     }
 
+    /**
+     * Set possible tiles for left direction.
+     * @param tile The tile to set possible tiles 
+     */
     public void setPossibleLeft(Tile tile) {
       BitSet left = new BitSet(TILE_SIZE);
       for (int i = 0; i < this.tiles.size(); i++) {
@@ -324,6 +323,11 @@ public class TerrainComponent extends RenderComponent {
       tile.left = left;
     }
 
+    /**
+     * Get a tile by name.
+     * @param name The name of the tile
+     * @return The tile with the given name
+     */
     public Tile getTilebyName(String name) {
       for (int i = 0; i < this.tiles.size(); i++) {
         if (this.tiles.get(i).name == name) {
@@ -333,59 +337,116 @@ public class TerrainComponent extends RenderComponent {
       return null;
     }
 
+    /**
+     * Get a tile by index.
+     * @param index The index of the tile
+     * @return The tile with the given index
+     */
     public Tile getTilebyIndex(int index) {
       return this.tiles.get(index);
     }
 
+    /**
+     * Get all tiles.
+     * @return All loaded tiles
+     */
     public ArrayList<Tile> getAllTiles() {
       return this.tiles;
     }
 
+    /**
+     * Get top left grass tile.
+     * @return The top left grass tile
+     */
     public Tile getGrassTL() {
       return this.grassTL;
     }
 
+    /**
+     * Get top middle grass tile.
+     * @return The top middle grass tile
+     */
     public Tile getGrassTM() {
       return this.grassTM;
     }
 
+    /**
+     * Get top right grass tile.
+     * @return The top right grass tile
+     */
     public Tile getGrassTR() {
       return this.grassTR;
     }
 
+    /**
+     * Get middle left grass tile.
+     * @return The middle left grass tile
+     */
     public Tile getGrassML() {
       return this.grassML;
     }
 
+    /**
+     * Get middle middle grass tile.
+     * @return The middle middle grass tile
+     */
     public Tile getGrassMM() {
       return this.grassMM;
     }
 
+    /**
+     * Get middle right grass tile.
+     * @return The middle right grass tile
+     */
     public Tile getGrassMR() {
       return this.grassMR;
     }
 
+    /**
+     * Get bottom left grass tile.
+     * @return The bottom left grass tile
+     */
     public Tile getGrassBL() {
       return this.grassBL;
     }
 
+    /**
+     * Get bottom middle grass tile.
+     * @return The bottom middle grass tile
+     */
     public Tile getGrassBM() {
       return this.grassBM;
     }
 
+    /**
+     * Get bottom right grass tile.
+     * @return The bottom right grass tile
+     */
     public Tile getGrassBR() {
       return this.grassBR;
     }
 
+    /**
+     * Get full sand tile.
+     * @return The full sand tile
+     */
     public Tile getFullSand() {
       return this.fullSand;
     }
 
+    /**
+     * Randomly pick a tile from the list of tiles.
+     * @return A random tile
+     */
     public Tile random_pick() {
       return this.tiles.get((int) (Math.random() * this.tiles.size()));
     }
   }
 
+  /**
+   * Tile class to store tile data.
+   * A tile has a name, texture, and edge tiles.
+   */
   public class Tile {
     // data for wave function collapse
     private TextureRegion texture;
@@ -406,30 +467,58 @@ public class TerrainComponent extends RenderComponent {
       this.edgeTiles = edgeTiles;
     }
 
+    /**
+     * Get the name of the tile.
+     * @return The name of the tile
+     */
     public String getName() {
       return name;
     }
 
+    /**
+     * Get the texture of the tile.
+     * @return The texture of the tile
+     */
     public TextureRegion getTexture() {
       return texture;
     }
 
+    /**
+     * Get the edge tiles of the tile.
+     * @return The edge tiles of the tile
+     */
     public ArrayList<String> getEdgeTiles() {
       return edgeTiles;
     }
 
+    /**
+     * Get the up edge tiles of the tile.
+     * @return The up edge tiles of the tile
+     */
     public BitSet getUp() {
       return up;
     }
 
+    /**
+     * Get the right edge tiles of the tile.
+     * @return The right edge tiles of the tile
+     */
     public BitSet getRight() {
       return right;
     }
 
+    /**
+     * Get the down edge tiles of the tile.
+     * @return The down edge tiles of the tile
+     */
     public BitSet getDown() {
       return down;
     }
 
+    /**
+     * Get the left edge tiles of the tile.
+     * @return The left edge tiles of the tile
+     */
     public BitSet getLeft() {
       return left;
     }
