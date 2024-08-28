@@ -12,10 +12,9 @@ import com.csse3200.game.ui.UIComponent;
  * Displays the name of the current game area.
  */
 public class GameAreaDisplay extends UIComponent {
-    private String gameAreaName = "";
+    private final String gameAreaName;
     private Label title;
-    private Texture playerIconTexture;
-    private Image playerIcon;
+    Texture playerIconTexture;
 
 
     public GameAreaDisplay(String gameAreaName) {
@@ -37,7 +36,7 @@ public class GameAreaDisplay extends UIComponent {
         } else {
             playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
         }
-        playerIcon = new Image(playerIconTexture);
+        Image playerIcon = new Image(playerIconTexture);
         // Set the size of the icon to match the label's height
         float titleHeight = title.getPrefHeight();
         float scaleFactor = 5f;
