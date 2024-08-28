@@ -6,13 +6,10 @@ import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class Quests implements Json.Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
     public ArrayList<QuestBasic> quests = new ArrayList<>();
 
     @Override
@@ -43,7 +40,6 @@ public class Quests implements Json.Serializable {
                 taskCompletionList = null;
             } else {
                 taskCompletionList = quest.get("taskCompletionTriggers").iterator();
-                logger.info(quest.get("taskCompletionTriggers").toString());
             }
 
 
@@ -92,13 +88,8 @@ public class Quests implements Json.Serializable {
             if(taskCompletionList != null) {
                 while (taskCompletionList.hasNext()) {
                     newTriggers.add(taskCompletionList.next().toString());
-                    logger.info(newTriggers.toString());
                 }
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
-            }
-
-            if(newTriggers != null) {
-                logger.info(Arrays.toString(finalTriggers));
             }
 
             QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),

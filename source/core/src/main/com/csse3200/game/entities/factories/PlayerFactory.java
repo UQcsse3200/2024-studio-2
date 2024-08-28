@@ -1,5 +1,4 @@
 package com.csse3200.game.entities.factories;
-import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -11,8 +10,6 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;

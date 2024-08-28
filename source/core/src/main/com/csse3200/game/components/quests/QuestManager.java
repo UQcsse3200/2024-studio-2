@@ -1,6 +1,5 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
@@ -124,6 +123,10 @@ public class QuestManager extends Component {
         subscribeToAchievementEvents(achievement);
     }
 
+    /**
+     * Automatically loads and registers all of the quests stored in GameState.
+     * @see GameState
+     */
     public void loadQuests() {
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);

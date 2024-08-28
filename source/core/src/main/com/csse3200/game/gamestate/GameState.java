@@ -10,5 +10,5 @@ import com.csse3200.game.gamestate.data.Quests;
 public class GameState {
     private GameState() {}
 
-    public static Quests quests = new Quests();
+    public static final Quests quests = new Quests();
 }

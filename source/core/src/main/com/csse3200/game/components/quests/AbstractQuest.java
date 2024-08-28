@@ -45,7 +45,7 @@ public abstract class AbstractQuest {
     private boolean isActive;
     /** Triggers for task completion. */
     private final String[] taskCompletionTriggers;
-    /** The player entity whose owns the quest */
+
     /** Constructor design for implementing subclasses. */
     protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
