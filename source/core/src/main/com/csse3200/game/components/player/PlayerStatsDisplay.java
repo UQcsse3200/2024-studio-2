@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -52,9 +53,11 @@ public class PlayerStatsDisplay extends UIComponent {
         super.create();
        addActorsTester= addActors();
         stage = ServiceLocator.getRenderService().getStage();
+
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
+
         testCreate(addActorsTester,entity);
         maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
         maxHealth= entity.getComponent(CombatStatsComponent.class).getMaxHealth();
@@ -155,9 +158,56 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-
+        testFinalImplementation();
         // Add the table to the stage
         return true;
+    }
+
+    public void testFinalImplementation() {
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                // Schedule frame updates with incrementally increasing delays
+                for (int i = maxHealth; i >= 0; i -= 10) {
+                    int finalI = i;
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            // Update the animation frames
+                            updatePlayerHealthUI(finalI);
+
+                        }
+                    }, (100 - finalI) * 0.1f);
+
+                    for (int j = maxExperience; j >= 0; j -= 10) {
+                        int finalJ = j;
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                // Update the animation frames
+
+                                updatePlayerExperienceUI(finalJ);
+
+                            }
+                        }, (100 - finalJ) * 0.1f);}
+
+                        for (int k = maxHunger; k >= 0; k -= 10) {
+                            int finalK = k;
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    // Update the animation frames
+
+                                    updatePlayerHungerUI(finalK);
+                                }
+                            }, (100 - finalK) * 0.1f);}
+                            // Incremental delay in seconds
+                }
+                delayedActionDone = true;
+            }
+        }, 1); // Initial delay of 1 second
     }
 
 
@@ -192,7 +242,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
-        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+
         int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
         String statName="health";
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
@@ -213,13 +263,14 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
-        int maxHunger = entity.getComponent(CombatStatsComponent.class).getMaxHunger();
+
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
         String statName="hunger";
         testUpdatePlayerStatsUI( maxHunger, hunger,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, hungerBarAnimation, hungerImage);
+
     }
 
     /**
@@ -234,13 +285,14 @@ public class PlayerStatsDisplay extends UIComponent {
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health as no xp implementation yet
 
-        int maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
+
         int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
         String statName="experience";
         testUpdatePlayerStatsUI( maxExperience, experience,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, xpBarAnimation, xpImage);
+
     }
 
 
