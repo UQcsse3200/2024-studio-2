@@ -11,6 +11,7 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.csse3200.game.services.ServiceLocator;
 import static com.badlogic.gdx.Gdx.app;
 
 /**
@@ -27,7 +28,7 @@ public class GdxGame extends Game {
     loadSettings();
 
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -58,7 +59,7 @@ public class GdxGame extends Game {
    * Changes to a screen that already exists, disposing of the current screen
    * @param screen to be switched to
    */
-   public void setOldScreen(Screen screen, ServiceContainer container) {
+  public void setOldScreen(Screen screen, ServiceContainer container) {
     logger.info("Setting old screen: {}", screen);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -77,11 +78,8 @@ public class GdxGame extends Game {
 
   public void addMainGameDup() {
     addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
-   }
+  }
 
-  //public void addCombatScreen() {
-  //  addScreen(ScreenType.COMBAT, getScreen());
-  //}
   public void addCombatScreen(Entity enemy) {
     addScreen(ScreenType.COMBAT, getScreen(), enemy);
   }
@@ -123,7 +121,6 @@ public class GdxGame extends Game {
             ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    // setScreen(newScreen(screenType, screen, container));
     setScreen(newScreen(screenType, screen, container, enemy));
   }
 
@@ -158,13 +155,21 @@ public class GdxGame extends Game {
         return new BossCutsceneScreen(this, screen, container, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
-        default:
+      case MiniGameMenuScreen:
+        return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+      default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, COMBAT, SETTINGS, BOSS_CUTSCENE
+
+    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen, LOADING_SCREEN, ANIMAL_SELECTION, MAIN_GAME_DUP, COMBAT, BOSS_CUTSCENE
+
   }
 
   /**

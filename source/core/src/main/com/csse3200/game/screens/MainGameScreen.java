@@ -10,6 +10,7 @@ import com.csse3200.game.Overlays.PauseOverlay;
 import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -41,8 +42,9 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/health_bar_x1.png", "images/player_icon_forest.png",
-                                                    "images/xp_bar.png", "images/hunger_bar.png", "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png", "images/vignette.png"};
+  private static final String[] mainGameTextures = {"images/health_bar_x1.png",
+          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png",
+          "images/xp_bar.png", "images/hunger_bar.png", "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/Quest_SBG.png", "images/vignette.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
@@ -50,7 +52,6 @@ public class MainGameScreen extends ScreenAdapter {
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
-  private final ForestGameArea gameArea;
   private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
   public MainGameScreen(GdxGame game) {
@@ -82,8 +83,8 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        this.gameArea = new ForestGameArea(terrainFactory, game);
-    gameArea.create();
+    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory, game);
+    forestGameArea.create();
   }
 
   @Override
@@ -104,7 +105,7 @@ public class MainGameScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    gameArea.pauseMusic();
+    ForestGameArea.pauseMusic();
     logger.info("Game paused");
   }
 
@@ -113,7 +114,7 @@ public class MainGameScreen extends ScreenAdapter {
     isPaused = false;
     ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
     if (!resting) {
-      gameArea.playMusic();
+      ForestGameArea.playMusic();
     }
     logger.info("Game resumed");
   }
@@ -216,7 +217,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void rest() {
     logger.info("Screen is resting");
     resting = true;
-    gameArea.pauseMusic();
+    ForestGameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
@@ -224,7 +225,7 @@ public class MainGameScreen extends ScreenAdapter {
     logger.info("Screen is Awake");
     resting = false;
     ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
-    gameArea.playMusic();
+    ForestGameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

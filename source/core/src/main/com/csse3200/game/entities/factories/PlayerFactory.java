@@ -1,9 +1,10 @@
 package com.csse3200.game.entities.factories;
 
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
@@ -17,6 +18,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.animal.AnimalSelectionActions;
 
 /**
  * Factory to create a player entity.
@@ -33,21 +35,33 @@ public class PlayerFactory {
    * @return entity
    */
   public static Entity createPlayer(GdxGame game) {
+    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
     Entity player =
         new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+            .addComponent(new TextureRenderComponent(imagePath))
+            .addComponent(new CameraZoomComponent())
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions(game))
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-            .addComponent(new InventoryComponent(stats.gold))
-            .addComponent(inputComponent)
-            .addComponent(new QuestManager())
-            .addComponent(new PlayerStatsDisplay());
+            .addComponent(new PlayerActions(game));
+            if (imagePath.equals("images/dog.png")) {
+              player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
+
+            } else if (imagePath.equals("images/croc.png")) {
+              player.addComponent(new CombatStatsComponent(90, 100, 90, 70, 30, 0));
+            } else if (imagePath.equals("images/bird.png")) {
+              player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0));
+            }
+            player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+
+            player.addComponent(new PlayerInventoryDisplay(36, 9));
+            player.addComponent(inputComponent);
+            player.addComponent(new QuestManager());
+            player.addComponent(new PlayerStatsDisplay());
+
 
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);

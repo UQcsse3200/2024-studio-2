@@ -1,5 +1,6 @@
 package com.csse3200.game.components.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -112,7 +113,7 @@ public class PlayerActions extends Component {
 
     if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
             (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
-      ((ChaseTask) currentTask).stop();
+      currentTask.stop();
       game.addBossCutsceneScreen(enemy);
     } else {
       game.addCombatScreen(enemy);

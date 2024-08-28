@@ -1,6 +1,5 @@
 package com.csse3200.game.components.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -8,28 +7,36 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
- * A ui component for displaying player stats, e.g. health.
+ * A UI component for displaying player stats, e.g. health.
  */
 public class PlayerStatsDisplay extends UIComponent {
-  Table table;
-  private Image heartImage;
-  private Image xpImage;
-  private Image hungerImage;
-  private Image vignetteImage;
-  private Label healthLabel;
-  private Label xpLabel;
-  private Label hungerLabel;
-  private Animation<TextureRegion> healthBarAnimation;
-  private TextureAtlas textureAtlas;
+    Table table;
+    private Image heartImage;
+    private Image xpImage;
+    private Image hungerImage;
+    private Image vignetteImage;
+    private Label healthLabel;
+    private Label xpLabel;
+    private Label hungerLabel;
+    private Animation<TextureRegion> healthBarAnimation;
+    private Animation<TextureRegion> hungerBarAnimation;
+    private Animation<TextureRegion> xpBarAnimation;
+    private TextureAtlas[] textureAtlas;
+    private static int totalFrames = 11;
+    private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
+
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -38,147 +45,216 @@ public class PlayerStatsDisplay extends UIComponent {
   public void create() {
     super.create();
     addActors();
-
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
-
-    // Add listener for kanga chase start/stop to trigger beating effect
+    entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
+    entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
     entity.getEvents().addListener("startHealthBarBeating", this::startHealthBarBeating);
     entity.getEvents().addListener("stopHealthBarBeating", this::stopHealthBarBeating);
   }
 
-  /**
-   * Creates actors and positions them on the stage using a table.
-   * @see Table for positioning options
-   */
-  private void addActors() {
-    table = new Table();
-    table.top().left();
-    table.setFillParent(true);
-    table.padTop(45f).padLeft(5f);
+    /**
+     * Initialises all required variables for health/xp/hunger bars
+     *
+     * @see Animation for animation details
+     */
+    public void initBarAnimations() {
+        // Initialise textureAtlas for 3 bars
+        textureAtlas = new TextureAtlas[3];
+        // HealthBar initialisation
+        textureAtlas[0] = new TextureAtlas("spriteSheets/healthBars.txt");
+        TextureRegion[] healthBarFrames = new TextureRegion[11];
+        // Names each frame and locates associated frame in txt file
+        for (int i = 0; i < healthBarFrames.length; i++) {
+            String frameName = (100 - i * 10) + "%_health";
+            healthBarFrames[i] = textureAtlas[0].findRegion(frameName);
+        }
+        healthBarAnimation = new Animation<>(0.066f, healthBarFrames);
 
-    // Animation Setup
-    // Load health bar frames into a TextureAtlas
-    textureAtlas = new TextureAtlas("spriteSheets/healthBars.txt"); // Load the atlas with health bar frames
-    TextureRegion[] healthBarFrames = new TextureRegion[11]; // Array to hold the frames
+        // HungerBar initialisation
+        textureAtlas[1] = new TextureAtlas("images/hungerbar.atlas");
+        TextureRegion[] hungerBarFrames = new TextureRegion[11];
+        // Names each frame and locates associated frame in txt file
+        for (int i = 0; i < hungerBarFrames.length; i++) {
+            String frameName = (100 - i * 10) + "%_hunger";
+            hungerBarFrames[i] = textureAtlas[1].findRegion(frameName);
+        }
+        hungerBarAnimation = new Animation<>(0.066f, hungerBarFrames);
 
-    // Populate the array with frames based on your naming convention
-    for (int i = 0; i < healthBarFrames.length; i++) {
-      String frameName = (100 - i * 10) + "%_health"; // Create frame names like "100%_health"
-      healthBarFrames[i] = textureAtlas.findRegion(frameName); // Retrieve the frame
+        // xpBar initialisation
+        textureAtlas[2] = new TextureAtlas("spriteSheets/xpBars.atlas");
+        TextureRegion[] xpBarFrames = new TextureRegion[11];
+        // Names each frame and locates associated frame in txt file
+        for (int i = 0; i < xpBarFrames.length; i++) {
+            String frameName = (i * 10) + "%_xp";
+            xpBarFrames[i] = textureAtlas[2].findRegion(frameName);
+        }
+        xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
     }
 
-    healthBarAnimation = new Animation<>(0.066f, healthBarFrames); // Create the animation with frame duration
 
-    // Health Dimensions
-    float heartSideLength = 150f;
-    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
-    xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
-    hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
+    /**
+     * Creates actors and positions them on the stage using a table.
+     *
+     * @see Table for positioning options
+     */
+    private void addActors() {
+        table = new Table();
+        table.top().left();
+        table.setFillParent(true);
+        table.padTop(45f).padLeft(5f);
 
-    // Vignette image setup
-    vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
-    vignetteImage.setFillParent(true); // Cover the entire screen
-    vignetteImage.setVisible(false); // Initially invisible
+        // Health text
+        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+        CharSequence healthText = String.format("HP: %d", health);
+        healthLabel = new Label(healthText, skin, "large");
 
-    float barImageWidth = (float) (heartImage.getWidth() * 0.8);
-    float barImageHeight = (float) (heartImage.getHeight() * 0.5);
+        initBarAnimations();
 
-    // Health text
-    int health = entity.getComponent(CombatStatsComponent.class).getHealth();
-    int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
-    CharSequence healthText = String.format("HP: %d", health);
-    healthLabel = new Label(healthText, skin, "large");
+        // Health Dimensions
+        heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
+        xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
+        hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
-    // Experience text maybe
-    CharSequence xpText = String.format("EXP: %d", 100);
-    xpLabel = new Label(xpText, skin, "large");
+        // Get the original width and height of the image
+        float barImageWidth = (float) (heartImage.getWidth() * 0.8);
+        float barImageHeight = (float) (heartImage.getHeight() * 0.5);
 
-    // Hunger text maybe
-    CharSequence hungerText = String.format("HGR: %d", 100);
-    hungerLabel = new Label(hungerText, skin, "large");
+        // Vignette image setup
+        vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
+        vignetteImage.setFillParent(true); // Cover the entire screen
+        vignetteImage.setVisible(false); // Initially invisible
 
-    // Add all components to table
-    table.add(heartImage).size(barImageWidth, barImageHeight).pad(5);
-    table.add(healthLabel);
-    table.row();
-    table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 0.95));
-    table.add(xpLabel);
-    table.row();
-    table.add(hungerImage).size(barImageWidth, barImageHeight * 2);
-    table.add(hungerLabel);
+        // Experience text
+        CharSequence xpText = String.format("EXP: %d", 100);
+        xpLabel = new Label(xpText, skin, "large");
 
-    // Add vignette effect to add tension, for boss chase
-    stage.addActor(vignetteImage);
+        // Hunger text
+        CharSequence hungerText = String.format("HGR: %d", 100);
+        hungerLabel = new Label(hungerText, skin, "large");
 
-    stage.addActor(table);
-  }
+        // Aligning the bars one below the other
+        table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
+        table.add(healthLabel).align(Align.left);
+        table.row().padTop(10);
 
-  @Override
-  public void draw(SpriteBatch batch)  {
-    // handled by stage
-  }
+        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25)).pad(2).padLeft(170);
+        table.add(xpLabel).align(Align.left);
+        table.row().padTop(10);
 
-  /**
-   * Updates the player's health on the ui.
-   * @param health player health
-   */
-  public void updatePlayerHealthUI(int health) {
-    CharSequence text = String.format("HP: %d", health);
-    healthLabel.setText(text);
-    int totalFrames = 11;
-    // Debugged and Developed with ChatGPT
-    // Calculate the frame index based on the current health
-    int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
-    int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
-    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+        table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
+        table.add(hungerLabel).align(Align.left).padTop(-15);
 
-    // Set the current frame of the health bar animation
-    TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
-    heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
-  }
+        stage.addActor(vignetteImage);
 
-  /**
-   * Starts the beating animation for the health bar during boss chase.
-   */
-  public void startHealthBarBeating() {
-    // Stop any existing beating actions
-    heartImage.clearActions();
-    vignetteImage.clearActions();
+        // Add the table to the stage
+        stage.addActor(table);
+    }
 
-    vignetteImage.setVisible(true);
+    @Override
+    public void draw(SpriteBatch batch) {
+        // handled by stage
+    }
 
-    heartImage.addAction(Actions.forever(
-            Actions.sequence(
-                    Actions.scaleTo(1.0f, 1.05f, 0.3f), // Slightly enlarge
-                    Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
-            )
-    ));
+    /**
+     * Updates the player's health on the ui.
+     *
+     * @param health player health
+     */
+    public void updatePlayerHealthUI(int health) {
+        CharSequence text = String.format("HP: %d", health);
+        logger.info("Made it to this updateHealth function");
+        logger.info("{}", health);
+        healthLabel.setText(text);
 
-    vignetteImage.addAction(Actions.forever(
-            Actions.sequence(
-                    Actions.fadeIn(0.3f), // Fade in for vignette effect
-                    Actions.fadeOut(0.3f)  // Fade out for vignette effect
-            )
-    ));
-  }
+        // Debugged and Developed with ChatGPT
+        // Calculate the frame index based on the current health
+        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+        int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
-  public void stopHealthBarBeating() {
-    heartImage.clearActions();
-    vignetteImage.clearActions();
-    vignetteImage.setVisible(false); // Hide vignette when not beating
-    heartImage.setScale(1.0f); // Reset to normal scale
-  }
+        // Set the current frame of the health bar animation
+        TextureRegion currentFrame = healthBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        heartImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
 
-  @Override
-  public void dispose() {
-    super.dispose();
-    heartImage.remove();
-    healthLabel.remove();
-    xpImage.remove();
-    xpLabel.remove();
-    hungerImage.remove();
-    hungerLabel.remove();
-    vignetteImage.remove();
-    textureAtlas.dispose();
-  }
+    public void updatePlayerHungerUI(int hunger) {
+
+        CharSequence text = String.format("HGR: %d", hunger);
+        logger.info("Made it to this updateHealth function");
+        logger.info("{}", hunger);
+        hungerLabel.setText(text);
+
+        // Debugged and Developed with ChatGPT
+        // Calculate the frame index based on the current health
+        int maxHunger = entity.getComponent(CombatStatsComponent.class).getMaxHunger();
+        int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
+        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+        // Set the current frame of the health bar animation
+        TextureRegion currentFrame = hungerBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        hungerImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
+
+    public void updatePlayerExperienceUI(int experience) {
+        CharSequence text = String.format("EXP: %d", experience);
+        xpLabel.setText(text);
+
+        // Debugged and Developed with ChatGPT
+        // Calculate the frame index based on the current health as no xp implementation yet
+        int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+        int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+        // Set the current frame of the health bar animation
+        TextureRegion currentFrame = xpBarAnimation.getKeyFrame(frameIndex * 0.066f);
+        xpImage.setDrawable(new TextureRegionDrawable(currentFrame));  // Update the heartImage with the new frame
+    }
+
+    /**
+     * Starts the beating animation for the health bar during boss chase.
+     */
+    public void startHealthBarBeating() {
+        // Stop any existing beating actions
+        heartImage.clearActions();
+        vignetteImage.clearActions();
+
+        vignetteImage.setVisible(true);
+
+        heartImage.addAction(Actions.forever(
+                Actions.sequence(
+                        Actions.scaleTo(1.0f, 1.05f, 0.3f), // Slightly enlarge
+                        Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
+                )
+        ));
+
+        vignetteImage.addAction(Actions.forever(
+                Actions.sequence(
+                        Actions.fadeIn(0.3f), // Fade in for vignette effect
+                        Actions.fadeOut(0.3f)  // Fade out for vignette effect
+                )
+        ));
+    }
+
+    public void stopHealthBarBeating() {
+        heartImage.clearActions();
+        vignetteImage.clearActions();
+        vignetteImage.setVisible(false); // Hide vignette when not beating
+        heartImage.setScale(1.0f); // Reset to normal scale
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        heartImage.remove();
+        healthLabel.remove();
+        xpImage.remove();
+        xpLabel.remove();
+        hungerImage.remove();
+        hungerLabel.remove();
+        vignetteImage.remove();
+        for (int i = 0; i < textureAtlas.length; i++) {
+            textureAtlas[i].dispose();
+        }
+    }
 }
