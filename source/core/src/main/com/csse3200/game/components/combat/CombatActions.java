@@ -52,6 +52,9 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Kill enemy.
     this.enemy.dispose();
+    //this.enemy.update();
+    //container.getEntityService().unregister(enemy);
+    //container.getEntityService().update();
     // Set current screen to original MainGameScreen
     game.setOldScreen(screen, container);
   }
