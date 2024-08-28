@@ -11,6 +11,8 @@ com.csse3200.game.components.maingame
 com.csse3200.game.components.mainmenu
 com.csse3200.game.components.minigame
 com.csse3200.game.components.minigame.snake
+com.csse3200.game.components.minigame.snake.controller
+com.csse3200.game.components.minigame.snake.rendering
 com.csse3200.game.components.npc
 com.csse3200.game.components.player
 com.csse3200.game.components.settingsmenu
@@ -41,6 +43,7 @@ com.csse3200.game.rendering
 com.csse3200.game.screens
 com.csse3200.game.services
 com.csse3200.game.ui
+com.csse3200.game.ui.minigame
 com.csse3200.game.ui.PopUpDialogBox
 com.csse3200.game.ui.terminal
 com.csse3200.game.ui.terminal.commands

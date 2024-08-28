@@ -91,6 +91,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SnakeGame</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Manages the logic and state of the Snake mini-game, including snake movement, scoring,  and
+ game-over conditions.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -102,10 +104,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.minigame.snake.Snake,com.csse3200.game.components.minigame.snake.Apple,com.csse3200.game.components.minigame.snake.SnakeGrid)" class="member-name-link">SnakeGame</a><wbr>(<a href="Snake.html" title="class in com.csse3200.game.components.minigame.snake">Snake</a>&nbsp;snake,
- <a href="Apple.html" title="class in com.csse3200.game.components.minigame.snake">Apple</a>&nbsp;apple,
- <a href="SnakeGrid.html" title="class in com.csse3200.game.components.minigame.snake">SnakeGrid</a>&nbsp;snakeGrid)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">SnakeGame</a>()</code></div>
+<div class="col-last even-row-color">
+<div class="block">Initialises a new SnakeGame with a grid, snake, apple, and controller.</div>
+</div>
 </div>
 </section>
 </li>
@@ -130,30 +132,44 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Detects if the snake it at the boundary of the grid</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Apple.html" title="class in com.csse3200.game.components.minigame.snake">Apple</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getApple()" class="member-name-link">getApple</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Method to return apple object</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SnakeGrid.html" title="class in com.csse3200.game.components.minigame.snake">SnakeGrid</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGrid()" class="member-name-link">getGrid</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Methods to return grid object</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIsGameOver()" class="member-name-link">getIsGameOver</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Getter for the isGameOver variable</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getScore()" class="member-name-link">getScore</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Snake.html" title="class in com.csse3200.game.components.minigame.snake">Snake</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSnake()" class="member-name-link">getSnake</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">methods to return snake object</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="controller/Events.html" title="enum class in com.csse3200.game.components.minigame.snake.controller">Events</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handleInput()" class="member-name-link">handleInput</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the current score of the game.</div>
+<div class="block">Handles player input and returns the corresponding game event.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsGameOver(boolean)" class="member-name-link">setIsGameOver</a><wbr>(boolean&nbsp;state)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set the isGameOver function.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setScore(int)" class="member-name-link">setScore</a><wbr>(int&nbsp;value)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsGameOver()" class="member-name-link">setIsGameOver</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#snakeCollisionDetection()" class="member-name-link">snakeCollisionDetection</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the score (used for testing only)</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#snakeCollisionDetection()" class="member-name-link">snakeCollisionDetection</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determines if the snake has run into itself</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#snakeMove(float)" class="member-name-link">snakeMove</a><wbr>(float&nbsp;delta)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Moves the snake and checks for game-over conditions.</div>
 </div>
 </div>
 </div>
@@ -173,11 +189,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.csse3200.game.components.minigame.snake.Snake,com.csse3200.game.components.minigame.snake.Apple,com.csse3200.game.components.minigame.snake.SnakeGrid)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>SnakeGame</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SnakeGame</span><wbr><span class="parameters">(<a href="Snake.html" title="class in com.csse3200.game.components.minigame.snake">Snake</a>&nbsp;snake,
- <a href="Apple.html" title="class in com.csse3200.game.components.minigame.snake">Apple</a>&nbsp;apple,
- <a href="SnakeGrid.html" title="class in com.csse3200.game.components.minigame.snake">SnakeGrid</a>&nbsp;snakeGrid)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SnakeGame</span>()</div>
+<div class="block">Initialises a new SnakeGame with a grid, snake, apple, and controller.</div>
 </section>
 </li>
 </ul>
@@ -189,36 +204,54 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getIsGameOver()">
-<h3>getIsGameOver</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getIsGameOver</span>()</div>
-<div class="block">Getter for the isGameOver variable</div>
+<section class="detail" id="getSnake()">
+<h3>getSnake</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Snake.html" title="class in com.csse3200.game.components.minigame.snake">Snake</a></span>&nbsp;<span class="element-name">getSnake</span>()</div>
+<div class="block">methods to return snake object</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>isGameOver, is true if over, else false</dd>
+<dd>the snake</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setIsGameOver(boolean)">
-<h3>setIsGameOver</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIsGameOver</span><wbr><span class="parameters">(boolean&nbsp;state)</span></div>
-<div class="block">Set the isGameOver function. Is true if over, else false</div>
+<section class="detail" id="getApple()">
+<h3>getApple</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Apple.html" title="class in com.csse3200.game.components.minigame.snake">Apple</a></span>&nbsp;<span class="element-name">getApple</span>()</div>
+<div class="block">Method to return apple object</div>
 <dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>state</code> - : the state to set the isGameOver to</dd>
+<dt>Returns:</dt>
+<dd>the apple</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getGrid()">
+<h3>getGrid</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SnakeGrid.html" title="class in com.csse3200.game.components.minigame.snake">SnakeGrid</a></span>&nbsp;<span class="element-name">getGrid</span>()</div>
+<div class="block">Methods to return grid object</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the grid</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getIsGameOver()">
+<h3>getIsGameOver</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getIsGameOver</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setIsGameOver()">
+<h3>setIsGameOver</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIsGameOver</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getScore()">
 <h3>getScore</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getScore</span>()</div>
-<div class="block">Returns the current score of the game.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the current score of the game.</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -231,13 +264,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setScore(int)">
-<h3>setScore</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setScore</span><wbr><span class="parameters">(int&nbsp;value)</span></div>
-<div class="block">Sets the score (used for testing only)</div>
+<section class="detail" id="snakeMove(float)">
+<h3>snakeMove</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">snakeMove</span><wbr><span class="parameters">(float&nbsp;delta)</span></div>
+<div class="block">Moves the snake and checks for game-over conditions.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>value</code> - : the value for the score to be set to.</dd>
+<dd><code>delta</code> - The time elapsed since the last update.</dd>
 </dl>
 </section>
 </li>
@@ -260,6 +293,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if the head of the snake has run into the body, otherwise false</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="handleInput()">
+<h3>handleInput</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="controller/Events.html" title="enum class in com.csse3200.game.components.minigame.snake.controller">Events</a></span>&nbsp;<span class="element-name">handleInput</span>()</div>
+<div class="block">Handles player input and returns the corresponding game event.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The event triggered by the player's input, or NONE if no event is triggered.</dd>
 </dl>
 </section>
 </li>

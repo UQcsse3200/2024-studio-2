@@ -133,29 +133,27 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Disposes of resources used by the SnakeScreen.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../components/minigame/Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInputDirection()" class="member-name-link">getInputDirection</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Renders the snake head on the grid.</div>
+<div class="block">Game pause</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(float)" class="member-name-link">render</a><wbr>(float&nbsp;delta)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(float)" class="member-name-link">render</a><wbr>(float&nbsp;delta)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Renders the Snake game screen, including the grid and the apple.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
- int&nbsp;height)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resume()" class="member-name-link">resume</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
+ int&nbsp;height)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resizes the renderer</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateDirection()" class="member-name-link">updateDirection</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resume()" class="member-name-link">resume</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Game resume</div>
+</div>
 </div>
 </div>
 </div>
@@ -212,29 +210,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getInputDirection()">
-<h3>getInputDirection</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../components/minigame/Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a></span>&nbsp;<span class="element-name">getInputDirection</span>()</div>
-<div class="block">Renders the snake head on the grid.
- The snake head is displayed as a filled green square on the grid.</div>
-</section>
-</li>
-<li>
-<section class="detail" id="updateDirection()">
-<h3>updateDirection</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateDirection</span>()</div>
-</section>
-</li>
-<li>
 <section class="detail" id="resize(int,int)">
 <h3>resize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resize</span><wbr><span class="parameters">(int&nbsp;width,
  int&nbsp;height)</span></div>
+<div class="block">Resizes the renderer</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>resize</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
 <dt>Overrides:</dt>
 <dd><code>resize</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
+<dt>Parameters:</dt>
+<dd><code>width</code> - the width to resize to</dd>
+<dd><code>height</code> - the height to resize to</dd>
 </dl>
 </section>
 </li>
@@ -242,6 +230,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="pause()">
 <h3>pause</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pause</span>()</div>
+<div class="block">Game pause</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>pause</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
@@ -254,6 +243,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="resume()">
 <h3>resume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resume</span>()</div>
+<div class="block">Game resume</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>resume</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>

@@ -91,6 +91,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Snake</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Represents the snake in the Snake mini-game, managing its position, movement, and growth.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -103,9 +104,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>class&nbsp;</code></div>
+<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="Snake.Segment.html" class="type-name-link" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Record that represents a segment of the snake's body</div>
+</div>
 </div>
 </section>
 </li>
@@ -123,7 +126,9 @@ loadScripts(document, 'script');</script>
  <a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;startDirection,
  int&nbsp;startLength,
  float&nbsp;movePeriod)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Initialises a new Snake with specified parameters.</div>
+</div>
 </div>
 </section>
 </li>
@@ -143,28 +148,43 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDirection()" class="member-name-link">getDirection</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLength()" class="member-name-link">getLength</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the current direction of the snake's head.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Snake.Segment.html" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastSegment()" class="member-name-link">getLastSegment</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getX()" class="member-name-link">getX</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLength()" class="member-name-link">getLength</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns current snake length.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getY()" class="member-name-link">getY</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getX()" class="member-name-link">getX</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(com.csse3200.game.components.minigame.Direction)" class="member-name-link">move</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getY()" class="member-name-link">getY</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirection(com.csse3200.game.components.minigame.Direction)" class="member-name-link">setDirection</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(com.csse3200.game.components.minigame.Direction)" class="member-name-link">move</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Moves the snake in a direction</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;dt)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirection(com.csse3200.game.components.minigame.Direction)" class="member-name-link">setDirection</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the direction the snake is moving</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateDirectionOnInput(com.csse3200.game.components.minigame.Direction)" class="member-name-link">updateDirectionOnInput</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;dt)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update the position of the snake after a given amount of time.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateDirectionOnInput(com.csse3200.game.components.minigame.Direction)" class="member-name-link">updateDirectionOnInput</a><wbr>(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update snake direction based on an input direction.</div>
+</div>
 </div>
 </div>
 </div>
@@ -191,6 +211,16 @@ loadScripts(document, 'script');</script>
  <a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;startDirection,
  int&nbsp;startLength,
  float&nbsp;movePeriod)</span></div>
+<div class="block">Initialises a new Snake with specified parameters.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>grid</code> - The grid on which the snake moves.</dd>
+<dd><code>startX</code> - The starting x-coordinate of the snake's head.</dd>
+<dd><code>startY</code> - The starting y-coordinate of the snake's head.</dd>
+<dd><code>startDirection</code> - The initial direction the snake is facing.</dd>
+<dd><code>startLength</code> - The initial length of the snake.</dd>
+<dd><code>movePeriod</code> - The time interval between moves.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -205,36 +235,64 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setDirection(com.csse3200.game.components.minigame.Direction)">
 <h3>setDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDirection</span><wbr><span class="parameters">(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</span></div>
+<div class="block">Sets the direction the snake is moving</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>direction</code> - the direction to set to</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDirection()">
 <h3>getDirection</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a></span>&nbsp;<span class="element-name">getDirection</span>()</div>
+<div class="block">Returns the current direction of the snake's head.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The direction of the snake's head.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="updateDirectionOnInput(com.csse3200.game.components.minigame.Direction)">
 <h3>updateDirectionOnInput</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateDirectionOnInput</span><wbr><span class="parameters">(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</span></div>
+<div class="block">Update snake direction based on an input direction.
+ If the input direction is reversed 180 degrees from the current
+ direction of the snake, it will not change.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>direction</code> - the direction to update to</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="move(com.csse3200.game.components.minigame.Direction)">
 <h3>move</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">move</span><wbr><span class="parameters">(<a href="../Direction.html" title="enum class in com.csse3200.game.components.minigame">Direction</a>&nbsp;direction)</span></div>
+<div class="block">Moves the snake in a direction</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>direction</code> - the direction to move in</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getLength()">
 <h3>getLength</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getLength</span>()</div>
+<div class="block">Returns current snake length. Used only for testing.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="update(float)">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(float&nbsp;dt)</span></div>
+<div class="block">Update the position of the snake after a given amount of time.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>dt</code> - time since the last update</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -261,6 +319,20 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getBodySegments()">
 <h3>getBodySegments</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Snake.Segment.html" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a>&gt;</span>&nbsp;<span class="element-name">getBodySegments</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a list of the snake's body segments</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getLastSegment()">
+<h3>getLastSegment</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Snake.Segment.html" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></span>&nbsp;<span class="element-name">getLastSegment</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the last snake body segment or null if none exist</dd>
+</dl>
 </section>
 </li>
 </ul>
