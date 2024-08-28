@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   public KeyboardPlayerInputComponent() {
     super(5);
+    ServiceLocator.registerEventService(new EventService());
     ServiceLocator.getEventService().globalEventHandler.addListener("resetVelocity",this::resetVelocity);
     buttonPressed.put(Keys.W, false);
     buttonPressed.put(Keys.A, false);
