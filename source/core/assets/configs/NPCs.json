@@ -13,19 +13,6 @@
     "speed": 0.5,
     "isEnemy": 1
   },
-  "ghost": {
-    "health": 40,
-    "baseAttack": 10,
-    "baseDefense": 10,
-    "speed": 1,
-    "isEnemy": 1
-  },
-  "ghostKing": {
-    "health": 100,
-    "baseAttack": 25,
-    "spookyFactor": 7,
-    "isEnemy": 1
-  },
   "monkey": {
     "health": 100,
     "baseAttack": 25,
