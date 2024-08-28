@@ -9,12 +9,10 @@ import com.csse3200.game.Overlays.Overlay;
 import com.csse3200.game.Overlays.PauseOverlay;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.combat.CombatStatsDisplay;
 import com.csse3200.game.components.combat.CombatActions;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -45,7 +43,7 @@ import java.util.LinkedList;
  */
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
+  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private final GdxGame game;
@@ -172,6 +170,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatActions(this.game, this.enemy))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
