@@ -40,7 +40,7 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
         this.owner.getEntity().getEvents().trigger("spawnChicken");
     }
 
-    private void completeTask() {
+    public void completeTask() {
         this.stop();
     }
 

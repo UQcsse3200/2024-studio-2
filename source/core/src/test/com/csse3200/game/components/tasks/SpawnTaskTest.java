@@ -12,6 +12,7 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
+import jdk.jfr.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -112,12 +113,25 @@ class SpawnTaskTest {
     spawn.update();
     assertEquals(0, spawn.getElapsedTime());
   }
-  @Test
-  void stopMethodCallsSuperStop() {
-    SpawnTask spawn = spy(new SpawnTask(new Vector2(0f, 0f), 1f));
-    spawn.stop();
 
-    verify((DefaultTask) spawn).stop();
+  @Test
+  void completeTaskStopped() {
+    TaskRunner taskRunner = mock(TaskRunner.class);
+    EventHandler events = mock(EventHandler.class);
+    Entity entity = mock(Entity.class);
+
+    when(taskRunner.getEntity()).thenReturn(entity);
+    when(entity.getEvents()).thenReturn(events);
+
+    SpawnTask spawn = new SpawnTask(new Vector2(0f, 0f), 1f);
+    spawn.setOwner(taskRunner);
+    spawn.start();
+
+    spawn.completeTask();
+
+    assertNotNull(spawn.getStatus());
+    assertEquals(Status.INACTIVE, spawn.getStatus());
   }
+
   }
 
