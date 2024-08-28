@@ -25,7 +25,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   public KeyboardPlayerInputComponent() {
     super(5);
-    ServiceLocator.registerEventService(new EventService());
     ServiceLocator.getEventService().globalEventHandler.addListener("resetVelocity",this::resetVelocity);
     buttonPressed.put(Keys.W, false);
     buttonPressed.put(Keys.A, false);

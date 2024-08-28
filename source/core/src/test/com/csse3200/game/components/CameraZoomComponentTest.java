@@ -9,6 +9,7 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,7 @@ class CameraZoomComponentTest {
 
     @BeforeEach
     void beforeEach() {
+        ServiceLocator.registerEventService(new EventService());
         Gdx.graphics = graphics;
         ServiceLocator.registerInputService(new InputService());
         cameraComponent = new CameraComponent();
