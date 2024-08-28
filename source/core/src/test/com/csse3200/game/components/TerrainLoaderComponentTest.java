@@ -70,26 +70,7 @@ public class TerrainLoaderComponentTest {
     }
 
     /*
-    // This test is currently commented out due to an issue with the expected behaviour
-    @Test
-    public void testChunkLoadingWhenMovingBackAndForth() {
-        // Simulate starting at position (0, 0)
-        when(player.getPosition()).thenReturn(new Vector2(0, 0));
-        terrainLoader.create();
-
-        // Move to a new position (64, 64)
-        when(player.getPosition()).thenReturn(new Vector2(64, 64));
-        terrainLoader.update();
-
-        // Move back to the original position (0, 0)
-        when(player.getPosition()).thenReturn(new Vector2(0, 0));
-        terrainLoader.update();
-
-        // Verify that the initial chunk (0, 0) is only loaded once
-        verify(mockTerrainFactory, times(1)).createTerrain(any(), eq(new GridPoint2(0, 0)));
-    }
-
-    // This test is currently commented out due to an issue with the expected behaviour
+    // This test is currently commented out due to it not being implemented yet
     @Test
     public void testNoDuplicateChunkLoading() {
         // Assume the player starts at position (0, 0)
