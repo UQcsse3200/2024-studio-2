@@ -20,9 +20,9 @@ public class CameraComponent extends Component {
 
   @Override
   public void update() {
-    Vector2 position = entity.getPosition();
-    if (!lastPosition.epsilonEquals(entity.getPosition())) {
-      camera.position.set(position.x, position.y, 0f);
+    Vector2 position = entity.getCenterPosition();
+    if (!lastPosition.epsilonEquals(entity.getCenterPosition())) {
+      camera.position.set(position, 0f);
       lastPosition = position;
       camera.update();
     }

@@ -15,7 +15,6 @@ public class SnakeGame {
     private final Apple apple;
     private final SnakeGrid grid;
     private final SnakeController snakeController;
-
     private int score;
     private Boolean isGameOver;
 

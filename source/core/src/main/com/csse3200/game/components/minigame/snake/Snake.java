@@ -193,17 +193,17 @@ public class Snake {
          * @param o   the reference object with which to compare.
          * @return true if equal, otherwise false.
          */
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true; // Check if the same object
-                if (o == null || getClass() != o.getClass()) return false; // Check for null and class type
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true; // Check if the same object
+            if (o == null || getClass() != o.getClass()) return false; // Check for null and class type
 
-                Segment segment = (Segment) o;
+            Segment segment = (Segment) o;
 
-                // Compare x, y, and direction fields
-                if (x != segment.x) return false;
-                if (y != segment.y) return false;
-                return direction == segment.direction;
-            }
+            // Compare x, y, and direction fields
+            if (x != segment.x) return false;
+            if (y != segment.y) return false;
+            return direction == segment.direction;
+        }
     }
 }

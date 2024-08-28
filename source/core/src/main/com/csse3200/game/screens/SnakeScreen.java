@@ -39,7 +39,6 @@ public class SnakeScreen extends ScreenAdapter {
     private final SnakeGame snakeGame;
     private final SnakeGameRenderer snakeRenderer;
     private final Renderer renderer;
-
     private final BitmapFont font;
 
     /**
@@ -199,3 +198,4 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().register(ui);
     }
 }
+

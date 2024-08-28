@@ -9,7 +9,7 @@ package com.csse3200.game.components.minigame.snake;
 >>>>>>> 8f52a5cd5f4843850e470de41eddab6acbda28fd
  */
 public class AssetPaths {
-    public static final String APPLE_IMAGE = "images/minigames/apple.png";
+    public static final String APPLE_IMAGE = "images/foodtextures/apple.png";
     public static final String SNAKE_HEAD_IMAGE = "images/minigames/snakehead.png";
     public static final String GRASS_IMAGE = "images/minigames/grass.jpg";
     public static final String SNAKE_BODY_HORIZONTAL_IMAGE = "images/minigames/snakebodyhorizontal.png";

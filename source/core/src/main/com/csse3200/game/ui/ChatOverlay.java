@@ -51,7 +51,9 @@ public class ChatOverlay {
         label.setPosition(labelX, labelY);
         stage.addActor(label);
 
-        createButtons(labelX, labelY, backgroundImage.getWidth());
+        if (labelText.length > 1) {
+            createButtons(labelX, labelY, backgroundImage.getWidth());
+        }
     }
 
     private void createBackgroundImage(String backgroundPath, float desiredHeight) {
