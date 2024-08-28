@@ -47,6 +47,7 @@ public class CombatActions extends Component {
 
   /**
    * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
+   * 'Kills' enemy entity on return to combat screen.
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");

@@ -43,7 +43,9 @@ import java.util.LinkedList;
  */
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"};
+  private static final String[] mainGameTextures = {
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+  };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private final GdxGame game;
@@ -69,30 +71,25 @@ public class CombatScreen extends ScreenAdapter {
 
     logger.debug("Initialising combat screen services");
     ServiceLocator.registerTimeSource(new GameTime());
-
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
     physicsEngine = physicsService.getPhysics();
-
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
-
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-
     ServiceLocator.registerEventService(new EventService());
-
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
+
     createUI();
 
     ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
-    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
   }
 
   @Override
@@ -113,14 +110,14 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    //gameArea.pauseMusic();
+    //gameArea.pauseMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
     isPaused = false;
-    //gameArea.playMusic();
+    //gameArea.playMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game resumed");
   }
 
@@ -135,7 +132,6 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
     ServiceLocator.getEventService().dispose();
-
 
     ServiceLocator.clear();
   }
@@ -165,8 +161,6 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        //.addComponent(new PerformanceDisplay())
-        //.addComponent(new MainGameActions(this.game))
         .addComponent(new CombatActions(this.game, this.enemy))
         .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))

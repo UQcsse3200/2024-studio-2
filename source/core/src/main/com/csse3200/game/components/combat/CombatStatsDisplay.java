@@ -9,6 +9,7 @@ import com.csse3200.game.ui.UIComponent;
 
 /**
  * Displays the name of the current game area.
+ * Current implementation is temporary, to demonstrate that the stats of the specific entities are being passed in.
  */
 public class CombatStatsDisplay extends UIComponent {
   private CombatStatsComponent playerStats;

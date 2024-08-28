@@ -27,22 +27,22 @@ public class CombatEnvironmentDisplay extends UIComponent {
     addActors();
   }
 
+  /**
+   * Adds a background image which takes up the entirety of the stage.
+   */
   private void addActors() {
     table = new Table();
     table.setFillParent(true);
 
+    // Import image.
     Texture texture = ServiceLocator.getResourceService().getAsset("images/grass_3.png", Texture.class);
-
     Image bg = new Image(texture);
 
     Stage stage = ServiceLocator.getRenderService().getStage();
-    float width = stage.getWidth();
-    float height = stage.getHeight();
-
-    bg.setSize(width, height);
+    // Full stage.
+    bg.setSize(stage.getWidth(), stage.getHeight());
 
     table.add(bg).expand().fill();
-
     stage.addActor(table);
   }
 

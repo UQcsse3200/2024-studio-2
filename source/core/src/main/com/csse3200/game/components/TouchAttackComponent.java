@@ -60,26 +60,5 @@ public class TouchAttackComponent extends Component {
       // Doesn't match our target layer, ignore
       return;
     }
-
-    // Try to attack target.
-    Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
-    if (targetStats != null) {
-      // Trigger event to start combat screen
-      target.getEvents().trigger("startCombat", this.entity);
-    }
-
-
-/*
-    // Apply knockback
-    PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
-    if (physicsComponent != null && knockbackForce > 0f) {
-      Body targetBody = physicsComponent.getBody();
-      Vector2 direction = target.getCenterPosition().sub(entity.getCenterPosition());
-      Vector2 impulse = direction.setLength(knockbackForce);
-      targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
-    }
-
-     */
   }
 }
