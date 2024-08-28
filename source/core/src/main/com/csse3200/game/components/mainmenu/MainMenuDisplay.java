@@ -38,7 +38,6 @@ public class MainMenuDisplay extends UIComponent {
     private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
-    private Dialog helpDialog;
     private Texture backgroundTexture;
 
     @Override
@@ -123,7 +122,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Help button clicked");
                 entity.getEvents().trigger("help");
-                showHelpDialog();
+                showHelpWindow();
             }
 
         });
@@ -165,14 +164,14 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
-    private void showHelpDialog() {
+    private void showHelpWindow() {
         final int NUM_SLIDES = 5;
-        final float DIALOG_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
+        final float WINDOW_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
+        final float WINDOW_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
 
         // Create a Window for the help screen
         final Window helpWindow = new Window("Help", skin);
-        helpWindow.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+        helpWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         helpWindow.setResizable(true);
         helpWindow.setMovable(true);
 
