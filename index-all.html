@@ -359,6 +359,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/CameraComponent.html#%3Cinit%3E(com.badlogic.gdx.graphics.Camera)" class="member-name-link">CameraComponent(Camera)</a> - Constructor for class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html" class="type-name-link" title="class in com.csse3200.game.components">CameraZoomComponent</a> - Class in <a href="com/csse3200/game/components/package-summary.html">com.csse3200.game.components</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html#%3Cinit%3E()" class="member-name-link">CameraZoomComponent()</a> - Constructor for class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraZoomComponent.html" title="class in com.csse3200.game.components">CameraZoomComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/food/Foods.Candy.html#%3Cinit%3E(java.lang.String,int,int,int)" class="member-name-link">Candy(String, int, int, int)</a> - Constructor for class com.csse3200.game.inventory.items.food.<a href="com/csse3200/game/inventory/items/food/Foods.Candy.html" title="class in com.csse3200.game.inventory.items.food">Foods.Candy</a></dt>
 <dd>
 <div class="block">Constructs a Candy class  while assigning fields with set values.</div>
@@ -581,6 +585,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create the game area in the world.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraZoomComponent.html" title="class in com.csse3200.game.components">CameraZoomComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/Component.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
 <div class="block">Called when the entity is created and registered.</div>
@@ -1247,6 +1253,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/Renderer.html#getCamera()" class="member-name-link">getCamera()</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/terrain/TerrainFactory.html#getCameraComponent()" class="member-name-link">getCameraComponent()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainFactory.html" title="class in com.csse3200.game.areas.terrain">TerrainFactory</a></dt>
+<dd>
+<div class="block">Retrieve the component to which the camera is attached</div>
+</dd>
 <dt><a href="com/csse3200/game/inventory/Inventory.html#getCapacity()" class="member-name-link">getCapacity()</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/InventoryInterface.html#getCapacity()" class="member-name-link">getCapacity()</a> - Method in interface com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></dt>
@@ -2617,6 +2627,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the entity's width and scale the height to maintain aspect ratio.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html" title="class in com.csse3200.game.components.player">KeyboardPlayerInputComponent</a></dt>
+<dd>
+<div class="block">Triggers camera zoom for player, calling the associated
+ event listener</div>
+</dd>
 <dt><a href="com/csse3200/game/input/InputComponent.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputComponent.html" title="class in com.csse3200.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/InputDecorator.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputDecorator.html" title="class in com.csse3200.game.input">InputDecorator</a></dt>
@@ -2730,6 +2745,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#setLayer(short)" class="member-name-link">setLayer(short)</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
 <dd>
 <div class="block">Set the collider layer, used in collision logic</div>
+</dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html#setMaxZoom(float)" class="member-name-link">setMaxZoom(float)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraZoomComponent.html" title="class in com.csse3200.game.components">CameraZoomComponent</a></dt>
+<dd>
+<div class="block">Set the maximum amount that the camera can zoom out</div>
+</dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html#setMinZoom(float)" class="member-name-link">setMinZoom(float)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraZoomComponent.html" title="class in com.csse3200.game.components">CameraZoomComponent</a></dt>
+<dd>
+<div class="block">Set the minimum amount that the camera can zoom in</div>
 </dd>
 <dt><a href="com/csse3200/game/ai/movement/MovementController.html#setMoving(boolean)" class="member-name-link">setMoving(boolean)</a> - Method in interface com.csse3200.game.ai.movement.<a href="com/csse3200/game/ai/movement/MovementController.html" title="interface in com.csse3200.game.ai.movement">MovementController</a></dt>
 <dd>&nbsp;</dd>
@@ -3504,6 +3527,10 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/utils/math/GridPoint2Utils.html#ZERO" class="member-name-link">ZERO</a> - Static variable in class com.csse3200.game.utils.math.<a href="com/csse3200/game/utils/math/GridPoint2Utils.html" title="class in com.csse3200.game.utils.math">GridPoint2Utils</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/CameraZoomComponent.html#zoom(float,float)" class="member-name-link">zoom(float, float)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraZoomComponent.html" title="class in com.csse3200.game.components">CameraZoomComponent</a></dt>
+<dd>
+<div class="block">Zooms the camera in or out depending on the value of amountY</div>
+</dd>
 <dt><a href="com/csse3200/game/input/InputComponent.html#zoom(float,float)" class="member-name-link">zoom(float, float)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputComponent.html" title="class in com.csse3200.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/InputService.html#zoom(float,float)" class="member-name-link">zoom(float, float)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputService.html" title="class in com.csse3200.game.input">InputService</a></dt>
