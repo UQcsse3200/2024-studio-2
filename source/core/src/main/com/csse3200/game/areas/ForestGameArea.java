@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
-  private static final int NUM_TREES = 7000;
+  private static final int NUM_TREES = 1;
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(0, 1);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -40,7 +40,19 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
+
     "images/gt.png",
+    "images/top_left_grass.png",
+    "images/top_middle_grass.png",
+    "images/top_right_grass.png",
+    "images/middle_left_grass.png",
+    "images/middle_grass.png",
+    "images/middle_right_grass.png",
+    "images/lower_left_grass.png",
+    "images/lower_middle_grass.png",
+    "images/lower_right_grass.png",
+
+    "images/full_sand_tile.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -77,7 +89,7 @@ public class ForestGameArea extends GameArea {
     spawnGhosts();
     spawnGhostKing();
 
-    playMusic();
+    //playMusic();
   }
 
   private void displayUI() {

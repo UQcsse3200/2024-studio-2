@@ -17,6 +17,11 @@ import com.csse3200.game.areas.terrain.TerrainChunk;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+//import com.badlogic.gdx.utils.Array;
+
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -34,7 +39,6 @@ public class TerrainComponent extends RenderComponent {
   private TerrainOrientation orientation;
   private float tileSize;
 
-  // private TextureRegion grass, grassTuft, rocks;
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
 
@@ -82,31 +86,13 @@ public class TerrainComponent extends RenderComponent {
 
     TerrainChunk chunk = new TerrainChunk(chunkPos, tiledMap);
 
-    System.out.println("got a chunks");
     if ((chunkPos.x < 0 || chunkPos.y < 0) ||
         (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
             chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
       return;
 
-    if (!loadedChunks.containsKey(chunkPos)) {
-      TerrainTile grassTile = new TerrainTile(this.terrainResource.getGrass());
-      // TerrainTile grassTuftTile = new TerrainTile(grassTuft);
-      // TerrainTile rockTile = new TerrainTile(rocks);
-
-      for (int x = chunkPos.x * CHUNK_SIZE; x < (chunkPos.x + 1) * CHUNK_SIZE; x++) {
-        for (int y = chunkPos.y * CHUNK_SIZE; y < (chunkPos.y + 1) * CHUNK_SIZE; y++) {
-          Cell cell = new Cell();
-          cell.setTile(grassTile);
-          ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
-        }
-      }
-
-      loadedChunks.put(chunkPos, chunk);
-      System.out.println("Loading new chunk at " + chunkPos);
-    } else {
-      System.out.println("Already loaded chunk at " + chunkPos);
-    }
-
+    chunk.generateTiles(chunkPos, loadedChunks, this.terrainResource);
+    loadedChunks.put(chunkPos, chunk);
   }
 
   public void loadChunks(GridPoint2 chunkPos) {
@@ -191,30 +177,263 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public class TerrainResource {
-    public TextureRegion grass;
-    public TextureRegion grassTuft;
-    public TextureRegion rocks;
+    // private TextureRegion grassTL, grassTM, grassTR, grassML, grassMM, grassMR,
+    // grassBL, grassBM, grassBR;
+    //private TextureRegion fullSand;
+
+    private Tile grassTL, grassTM, grassTR, grassML, grassMM, grassMR, grassBL, grassBM, grassBR;
+    private Tile fullSand;
+
+    private ArrayList<Tile> tiles;
+    
+    // varied
+    public static final int TILE_SIZE = 9;
 
     public TerrainResource() {
+      tiles = new ArrayList<Tile>();
       ResourceService resourceService = ServiceLocator.getResourceService();
 
-      // get asset
-      this.grass = new TextureRegion(resourceService.getAsset("images/gt.png", Texture.class));
-      this.grassTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
-      this.rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+
+      System.out.println("Loading assets----------------------------------");
+
+      // edge: TOP, RIGHT, BOTTOM, LEFT
+      // A: sand, B: grass, C: water
+      // =======================
+      this.grassTL = new Tile("grassTL", new TextureRegion(resourceService.getAsset("images/top_left_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("AAA", "ABB", "ABB", "AAA")));
+
+      this.grassTM = new Tile("grassTM", new TextureRegion(resourceService.getAsset("images/top_middle_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("AAA", "ABB", "BBB", "ABB")));
+
+      this.grassTR = new Tile("grassTR", new TextureRegion(resourceService.getAsset("images/top_right_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("AAA", "AAA", "BBA", "ABB")));
+
+      this.grassML = new Tile("grassML", new TextureRegion(resourceService.getAsset("images/middle_left_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("ABB", "BBB", "ABB", "AAA")));
+
+      this.grassMM = new Tile("grassMM", new TextureRegion(resourceService.getAsset("images/middle_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("BBB", "BBB", "BBB", "BBB")));
+
+      this.grassMR = new Tile("grassMR", new TextureRegion(resourceService.getAsset("images/middle_right_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("BBA", "AAA", "BBA", "BBB")));
+
+      this.grassBL = new Tile("grassBL", new TextureRegion(resourceService.getAsset("images/lower_left_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("ABB", "BBA", "AAA", "AAA")));
+
+      this.grassBM = new Tile("grassBM", new TextureRegion(resourceService.getAsset("images/lower_middle_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("BBB", "BBA", "AAA", "BBA")));
+
+      this.grassBR = new Tile("grassBR", new TextureRegion(resourceService.getAsset("images/lower_right_grass.png", Texture.class)),
+          new ArrayList<String>(Arrays.asList("BBA", "AAA", "AAA", "BBA")));
+
+
+
+      tiles.add(this.grassTL);
+      tiles.add(this.grassTM);
+      tiles.add(this.grassTR);
+      tiles.add(this.grassML);
+      tiles.add(this.grassMM);
+      tiles.add(this.grassMR);
+      tiles.add(this.grassBL);
+      tiles.add(this.grassBM);
+      tiles.add(this.grassBR);
+
+
+      this.setPossibleTiles();
+      
+
+
+      // this.grassTL = new
+      // TextureRegion(resourceService.getAsset("images/top_left_grass.png",
+      // Texture.class));
+      // this.grassTM = new
+      // TextureRegion(resourceService.getAsset("images/top_middle_grass.png",
+      // Texture.class));
+      // this.grassTR = new
+      // TextureRegion(resourceService.getAsset("images/top_right_grass.png",
+      // Texture.class));
+      // this.grassML = new
+      // TextureRegion(resourceService.getAsset("images/middle_left_grass.png",
+      // Texture.class));
+      // this.grassMM = new
+      // TextureRegion(resourceService.getAsset("images/middle_grass.png",
+      // Texture.class));
+      // this.grassMR = new
+      // TextureRegion(resourceService.getAsset("images/middle_right_grass.png",
+      // Texture.class));
+      // this.grassBL = new
+      // TextureRegion(resourceService.getAsset("images/lower_left_grass.png",
+      // Texture.class));
+      // this.grassBM = new
+      // TextureRegion(resourceService.getAsset("images/lower_middle_grass.png",
+      // Texture.class));
+      // this.grassBR = new
+      // TextureRegion(resourceService.getAsset("images/lower_right_grass.png",
+      // Texture.class));
+      // this.fullSand = new
+      // TextureRegion(resourceService.getAsset("images/full_sand_tile.png",
+      // Texture.class));
     }
 
-    private TextureRegion getGrass() {
-      return this.grass;
+    public void setPossibleTiles() {
+      for (int i = 0; i < this.tiles.size(); i++) {
+        setPossibleUp(this.tiles.get(i));
+        setPossibleRight(this.tiles.get(i));
+        setPossibleDown(this.tiles.get(i));
+        setPossibleLeft(this.tiles.get(i));
+      }
     }
 
-    private TextureRegion getGrassTuft() {
-      return this.grassTuft;
+    public void setPossibleUp(Tile tile) {
+      BitSet up = new BitSet(TILE_SIZE);
+      for (int i = 0; i < this.tiles.size(); i++) {
+        if (this.tiles.get(i).getEdgeTiles().get(2) == tile.getEdgeTiles().get(0)) {
+          up.set(i, true);
+        }
+      }
+      tile.up = up;
     }
 
-    private TextureRegion getRocks() {
-      return this.rocks;
+    public void setPossibleRight(Tile tile) {
+      BitSet right = new BitSet(TILE_SIZE);
+      for (int i = 0; i < this.tiles.size(); i++) {
+        if (this.tiles.get(i).getEdgeTiles().get(3) == tile.getEdgeTiles().get(1)) {
+          right.set(i, true);
+        }
+      }
+      tile.right = right;
+    }
+
+    public void setPossibleDown(Tile tile) {
+      BitSet down = new BitSet(TILE_SIZE);
+      for (int i = 0; i < this.tiles.size(); i++) {
+        if (this.tiles.get(i).getEdgeTiles().get(0) == tile.getEdgeTiles().get(2)) {
+          down.set(i, true);
+        }
+      }
+      tile.down = down;
+    }
+
+    public void setPossibleLeft(Tile tile) {
+      BitSet left = new BitSet(TILE_SIZE);
+      for (int i = 0; i < this.tiles.size(); i++) {
+        if (this.tiles.get(i).getEdgeTiles().get(1) == tile.getEdgeTiles().get(3)) {
+          left.set(i, true);
+        }
+      }
+      tile.left = left;
+    }
+
+    public Tile getTilebyName(String name) {
+      for (int i = 0; i < this.tiles.size(); i++) {
+        if (this.tiles.get(i).name == name) {
+          return this.tiles.get(i);
+        }
+      }
+      return null;
+    }
+
+    public Tile getTilebyIndex(int index) {
+      return this.tiles.get(index);
+    }
+
+    public ArrayList<Tile> getAllTiles() {
+      return this.tiles;
+    }
+
+    public Tile getGrassTL() {
+      return this.grassTL;
+    }
+
+    public Tile getGrassTM() {
+      return this.grassTM;
+    }
+
+    public Tile getGrassTR() {
+      return this.grassTR;
+    }
+
+    public Tile getGrassML() {
+      return this.grassML;
+    }
+
+    public Tile getGrassMM() {
+      return this.grassMM;
+    }
+
+    public Tile getGrassMR() {
+      return this.grassMR;
+    }
+
+    public Tile getGrassBL() {
+      return this.grassBL;
+    }
+
+    public Tile getGrassBM() {
+      return this.grassBM;
+    }
+
+    public Tile getGrassBR() {
+      return this.grassBR;
+    }
+
+    public Tile getFullSand() {
+      return this.fullSand;
+    }
+
+    public Tile random_pick() {
+      return this.tiles.get((int) (Math.random() * this.tiles.size()));
+    }
+  }
+
+  public class Tile {
+    // data for wave function collapse
+    private TextureRegion texture;
+    private ArrayList<String> edgeTiles;
+    private String name;
+
+    // all possible tiles
+    private BitSet up = new BitSet(TerrainResource.TILE_SIZE);
+    private BitSet right = new BitSet(TerrainResource.TILE_SIZE);
+    private BitSet down = new BitSet(TerrainResource.TILE_SIZE);
+    private BitSet left = new BitSet(TerrainResource.TILE_SIZE);
+    
+    public boolean collapsed = false;
+
+    public Tile(String name, TextureRegion texture, ArrayList<String> edgeTiles) {
+      this.name = name;
+      this.texture = texture;
+      this.edgeTiles = edgeTiles;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public TextureRegion getTexture() {
+      return texture;
+    }
+
+    public ArrayList<String> getEdgeTiles() {
+      return edgeTiles;
+    }
+
+    public BitSet getUp() {
+      return up;
+    }
+
+    public BitSet getRight() {
+      return right;
+    }
+
+    public BitSet getDown() {
+      return down;
+    }
+
+    public BitSet getLeft() {
+      return left;
     }
 
   }
+
 }

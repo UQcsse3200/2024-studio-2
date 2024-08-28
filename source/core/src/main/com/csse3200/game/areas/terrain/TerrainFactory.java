@@ -64,9 +64,6 @@ public class TerrainFactory {
     this.mapSize = mapSize;
     float tileWorldSize = 1.f;
 
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    TextureRegion grass, grassTuft, rocks;
-
     TiledMap tiledMap = new TiledMap();
     TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 500, 500);
     tiledMap.getLayers().add(layer);
