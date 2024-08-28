@@ -115,7 +115,7 @@ public class PlayerStatsDisplay extends UIComponent {
         table = new Table();
         table.top().left();
         table.setFillParent(true);
-        table.padTop(45f).padLeft(5f);
+        table.padTop(10f).padLeft(5f);
 
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
@@ -138,20 +138,20 @@ public class PlayerStatsDisplay extends UIComponent {
         hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
         // Get the original width and height of the image
-        float barImageWidth = (float) (healthImage.getWidth() * 0.6);
-        float barImageHeight = (float) (healthImage.getHeight() * 0.3);
+        float barImageWidth = (float) (healthImage.getWidth() * 0.7);
+        float barImageHeight = (float) (healthImage.getHeight() * 0.4);
 
         // Aligning the bars one below the other
         table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
-        table.row().padTop(10);
+        table.row().padTop(0);
 
-        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25)).pad(2).padLeft(170);
-        table.add(experienceLabel).align(Align.left).padTop(-5);
+        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.15)).pad(2).padLeft(170);
+        table.add(experienceLabel).align(Align.left);
         table.row().padTop(30);
 
-        table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
-        table.add(hungerLabel).align(Align.left).padTop(-20);
+        table.add(hungerImage).size(barImageWidth, barImageHeight*2).pad(2).padLeft(170).padTop(-15);
+        table.add(hungerLabel).align(Align.left).padTop(-15);
 
 
         stage.addActor(table);
