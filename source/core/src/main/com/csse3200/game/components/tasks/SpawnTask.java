@@ -15,6 +15,18 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
         this.spawnDuration = spawnDuration;
     }
 
+    public Vector2 getSpawnPosition() {
+        return spawnPosition;
+    }
+
+    public float getSpawnDuration(){
+        return spawnDuration;
+    }
+
+    public float getElapsedTime(){
+        return elapsedTime;
+    }
+
     @Override
     public int getPriority() {
         return 0; // Highest priority for spawn task
