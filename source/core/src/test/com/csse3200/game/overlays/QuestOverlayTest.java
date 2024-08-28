@@ -1,4 +1,4 @@
-package com.csse3200.game.Overlays;
+package com.csse3200.game.overlays;
 
 public class QuestOverlayTest {
 

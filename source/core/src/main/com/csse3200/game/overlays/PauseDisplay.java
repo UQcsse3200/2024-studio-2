@@ -1,4 +1,4 @@
-package com.csse3200.game.Overlays;
+package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
