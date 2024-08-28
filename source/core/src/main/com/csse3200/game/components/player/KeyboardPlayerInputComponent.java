@@ -123,6 +123,20 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     }
   }
 
+  /**
+   * Triggers camera zoom for player, calling the associated
+   * event listener
+   *
+   * @param amountX the horizontal zoom amount
+   * @param amountY the vertical zoom amount
+   * @return whether the input was processed
+   */
+  @Override
+  public boolean scrolled(float amountX, float amountY) {
+    entity.getEvents().trigger("cameraZoom", amountX, amountY);
+    return true;
+  }
+
   private void triggerWalkEvent() {
     if (walkDirection.epsilonEquals(Vector2.Zero)) {
       entity.getEvents().trigger("walkStop");

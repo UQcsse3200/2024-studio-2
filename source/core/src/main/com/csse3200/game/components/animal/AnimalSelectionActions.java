@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
  */
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
-    private final AnimalSelectionDisplay display;
+    final AnimalSelectionDisplay display;
     private final PopUpHelper dialogHelper;
-    private static Image selectedAnimalImage;
+    static Image selectedAnimalImage;
     private final GdxGame game;
-    private static String selectedAnimalImagePath;
+    static String selectedAnimalImagePath;
 
     /**
      * Constructs an instance of the class.
@@ -33,7 +33,7 @@ public class AnimalSelectionActions {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;
-        addListeners();
+        addListeners(); // Add listeners to handle user interactions
     }
 
     /**
@@ -56,6 +56,7 @@ public class AnimalSelectionActions {
                 "images/bird.png"
         };
 
+        // Add listeners to animal images and buttons
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
             final String animalImagePath = animalImagePaths[i];
@@ -79,6 +80,7 @@ public class AnimalSelectionActions {
             });
         }
 
+        // Add listener to the "Select" button to proceed with the selected animal
         display.getSelectButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,11 +89,12 @@ public class AnimalSelectionActions {
                     game.setScreen(new LoadingScreen(game));
                 } else {
                     logger.debug("No animal selected");
-                    showSelectionAlert();
+                    showSelectionAlert(); // Show an alert if no animal is selected
                 }
             }
         });
 
+        // Add listener to the "Back" button to return to the main menu
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -110,12 +113,12 @@ public class AnimalSelectionActions {
 
     private void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
-            selectedAnimalImage.setColor(1, 1, 1, 1);
+            selectedAnimalImage.setColor(1, 1, 1, 1); // Reset color of the previously selected image
         }
 
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
-        selectedAnimalImage.setColor(1, 0, 0, 1);
+        selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight the selected image
 
         logger.debug("Animal selected: {}", animalImage.getName());
     }
@@ -128,6 +131,7 @@ public class AnimalSelectionActions {
         Dialog dialog = new Dialog("Alert", display.getSkin()) {
             @Override
             protected void result(Object object) {
+                // No specific action required after dismissing the alert
             }
         };
 

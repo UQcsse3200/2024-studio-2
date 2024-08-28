@@ -158,7 +158,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, cow.getComponent(CombatStatsComponent.class).getStrength(),
+        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Cow should have 0 Base Attack.");
     }
 
@@ -283,7 +283,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, lion.getComponent(CombatStatsComponent.class).getStrength(),
+        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Lion should have 0 Base Attack.");
     }
 
@@ -408,7 +408,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, eagle.getComponent(CombatStatsComponent.class).getStrength(),
+        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Eagle should have 0 Base Attack.");
     }
 
@@ -532,7 +532,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, turtle.getComponent(CombatStatsComponent.class).getStrength(),
+        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Turtle should have 0 Base Attack.");
     }
 
@@ -657,7 +657,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getStrength(),
+        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Snake should have 0 Base Attack.");
     }
 

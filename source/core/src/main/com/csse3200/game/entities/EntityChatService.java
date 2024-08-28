@@ -33,14 +33,14 @@ public class EntityChatService {
     /**
      * Returns the currentOverlay which can be null or not null
      * */
-    public DialogueBox getCurrentDialogueBox() {
+    public DialogueBox getCurrentOverlay() {
         return this.currentOverlay;
     }
 
     /**
      * Dispose of the current chat overlay if it exists.
      */
-    public void disposeDialogueBox() {
+    public void disposeCurrentOverlay() {
         if (currentOverlay != null) {
             currentOverlay.dispose();
             currentOverlay = null;
