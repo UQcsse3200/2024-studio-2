@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 import java.util.HashMap;
@@ -76,9 +77,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      case Keys.O:
-        entity.getEvents().trigger("addMainGameScreen");
-        return true;
       default:
         return false;
     }
@@ -115,9 +113,29 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.sub(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
+      case Keys.E:
+        entity.getEvents().trigger("toggleInventory");
+        return true;
+      case Keys.P:
+        entity.getEvents().trigger("pickUpItem");
+        return true;
       default:
         return false;
     }
+  }
+
+  /**
+   * Triggers camera zoom for player, calling the associated
+   * event listener
+   *
+   * @param amountX the horizontal zoom amount
+   * @param amountY the vertical zoom amount
+   * @return whether the input was processed
+   */
+  @Override
+  public boolean scrolled(float amountX, float amountY) {
+    entity.getEvents().trigger("cameraZoom", amountX, amountY);
+    return true;
   }
 
   private void triggerWalkEvent() {

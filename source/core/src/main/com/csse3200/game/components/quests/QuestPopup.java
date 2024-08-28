@@ -30,7 +30,7 @@ public class QuestPopup extends UIComponent {
      * Adds the listener for the label to trigger the popup.
      */
     private void addActors() {
-        eventService.getGlobalEventHandler().addListener("questCompleted", this::showQuestCompletedPopup);
+        this.entity.getEvents().addListener("questCompleted", this::showQuestCompletedPopup);
     }
 
     /**
@@ -39,6 +39,7 @@ public class QuestPopup extends UIComponent {
     @Override
     public void create() {
         super.create();
+        eventService.getGlobalEventHandler().addListener("questCompleted", this::showQuestCompletedPopup);
         addActors();
     }
 
@@ -64,7 +65,6 @@ public class QuestPopup extends UIComponent {
             questCompleted = new Label("Quest Completed!", skin,"title",Color.GOLD);
             questCompleted.setFontScale(FONTSCALE);
             stage.addActor(questCompleted);
-            questCompleted.getWidth();
 
             // Position label and calculates position
             float screenHeight = Gdx.graphics.getHeight();

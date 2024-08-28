@@ -46,10 +46,7 @@ public class DialogueKey {
         /**Returns a string representation of this DialogueKey.*/
         @Override
         public String toString() {
-            return "TupleKey{" +
-                    "str='" + npcName + '\'' +
-                    ", num=" + progressionLevel +
-                    '}';
+            return String.format("TupleKey{str='%s', num=%d}", npcName, progressionLevel);
         }
 }
 

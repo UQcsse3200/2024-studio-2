@@ -81,7 +81,7 @@ public class QuestDisplay extends UIComponent {
             questList.sort(questComparator);
 
             for (AbstractQuest quest : questList) {
-                if (!quest.isAchievement() && !quest.isSecret()) {
+                if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
             }

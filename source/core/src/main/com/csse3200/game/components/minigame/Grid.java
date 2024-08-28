@@ -74,10 +74,18 @@ public class Grid {
         }
     }
 
+    /**
+     * Get the grids width
+     * @return the grids width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get the grids height
+     * @return the grids height
+     */
     public int getHeight() {
         return height;
     }
