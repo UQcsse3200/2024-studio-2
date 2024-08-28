@@ -1,6 +1,5 @@
 package com.csse3200.game.screens;
 
-import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
@@ -28,7 +26,6 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
-import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
@@ -44,7 +41,6 @@ public class SnakeScreen extends ScreenAdapter {
     private final Renderer renderer;
 
     private final BitmapFont font;
-
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -104,11 +100,11 @@ public class SnakeScreen extends ScreenAdapter {
      * @return true if a screen change was triggered, false otherwise.
      */
     private boolean handleInput() {
-        if (snakeGame.handleInput() == Events.RESTART) {  // Restart game
+        if (snakeGame.handleInput() == Events.RESTART) {  // Restart the game
             game.setScreen(new SnakeScreen(game));
             return true;
         }
-        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to minigames menu
+        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to mini-games menu
             game.setScreen(new MiniGameMenuScreen(game));
             return true;
         }
@@ -171,7 +167,7 @@ public class SnakeScreen extends ScreenAdapter {
         // colour is rgb(248,249,178,255)
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
 
-        logger.debug("Disposing snake minigame screen");
+        logger.debug("Disposing snake mini-game screen");
 
         renderer.dispose();
         snakeRenderer.dispose();

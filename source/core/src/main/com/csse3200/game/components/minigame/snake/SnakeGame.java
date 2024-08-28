@@ -4,7 +4,6 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 
-
 import java.util.List;
 
 /**
@@ -20,7 +19,6 @@ public class SnakeGame {
     private int score;
     private Boolean isGameOver;
 
-
     /**
      * Initialises a new SnakeGame with a grid, snake, apple, and controller.
      */
@@ -33,14 +31,26 @@ public class SnakeGame {
         this.isGameOver = false;
     }
 
+    /**
+     * methods to return snake object
+     * @return the snake
+     */
     public Snake getSnake() {
         return this.snake;
     }
 
+    /**
+     * Method to return apple object
+     * @return the apple
+     */
     public Apple getApple() {
         return this.apple;
     }
 
+    /**
+     * Methods to return grid object
+     * @return the grid
+     */
     public SnakeGrid getGrid() {
         return this.grid;
     }

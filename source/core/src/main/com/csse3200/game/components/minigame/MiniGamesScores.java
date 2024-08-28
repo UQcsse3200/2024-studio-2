@@ -4,9 +4,17 @@ package com.csse3200.game.components.minigame;
  * Class to store games high scores
  */
 public class MiniGamesScores {
+
+    /**
+     * Each mini-game highest score
+     */
     private int snakeHighScore;
     private int flappyBirdHighScore;
     private int mazeHighScore;
+
+    /**
+     * Each mini-game highest medal
+     */
     private MiniGameMedals snakeMedal;
     private MiniGameMedals flappyBirdMedal;
     private MiniGameMedals mazeMedal;
@@ -73,7 +81,6 @@ public class MiniGamesScores {
      */
     public MiniGameMedals getFlappyBirdMedal() {
         return flappyBirdMedal;
-
     }
 
     /**

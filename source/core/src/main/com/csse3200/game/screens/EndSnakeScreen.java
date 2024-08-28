@@ -79,7 +79,7 @@ public class EndSnakeScreen extends ScreenAdapter {
 
     /**
      * Renders the screen. Sets the background colour, draws the UI elements (buttons) and
-     * renders the message lables and handles keypresses
+     * renders the message labels and handles key presses
      * @param delta The time in seconds since the last render.
      */
     @Override

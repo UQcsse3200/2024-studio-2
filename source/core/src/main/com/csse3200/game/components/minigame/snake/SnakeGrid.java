@@ -1,7 +1,5 @@
 package com.csse3200.game.components.minigame.snake;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.minigame.Grid;
 
 /**
@@ -20,5 +18,4 @@ public class SnakeGrid extends Grid {
     public SnakeGrid() {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
-
 }
