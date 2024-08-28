@@ -37,7 +37,7 @@ public class RunTask extends DefaultTask implements PriorityTask {
   public void start() {
     super.start();
 
-    movementTask = new MovementTask(newPosition());
+    movementTask = new MovementTask(newPosition(true));
     movementTask.create(owner);
     movementTask.start();
 
@@ -48,7 +48,7 @@ public class RunTask extends DefaultTask implements PriorityTask {
   @Override
   public void update() {
 
-    movementTask.setTarget(newPosition());
+    movementTask.setTarget(newPosition(false));
     movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
@@ -88,15 +88,16 @@ public class RunTask extends DefaultTask implements PriorityTask {
     return true;
   }
 
-  private Vector2 newPosition() {
+  private Vector2 newPosition(boolean trigger) {
     Vector2 currentPos = owner.getEntity().getPosition();
     Vector2 targetPos = target.getPosition();
 
     float deltaX = currentPos.x - targetPos.x;
     float deltaY = currentPos.y - targetPos.y;
     Vector2 newPos = new Vector2(currentPos.x + deltaX, currentPos.y + deltaY);
-
-    triggerDirection(newPos, owner.getEntity().getPosition());
+    if (trigger) {
+      triggerDirection(newPos, owner.getEntity().getPosition());
+    }
 
     return newPos;
   }
