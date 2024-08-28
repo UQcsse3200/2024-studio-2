@@ -3,6 +3,7 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -13,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A ui component for displaying the Main menu.
+ * Displays combat area images.
  */
 public class CombatEnvironmentDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(CombatEnvironmentDisplay.class);
@@ -29,13 +30,18 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private void addActors() {
     table = new Table();
     table.setFillParent(true);
-    Image title =
-        new Image(
-            ServiceLocator.getResourceService()
-                .getAsset("images/grass_3.png", Texture.class));
 
-    table.add(title);
-    table.row();
+    Texture texture = ServiceLocator.getResourceService().getAsset("images/grass_3.png", Texture.class);
+
+    Image bg = new Image(texture);
+
+    Stage stage = ServiceLocator.getRenderService().getStage();
+    float width = stage.getWidth();
+    float height = stage.getHeight();
+
+    bg.setSize(width, height);
+
+    table.add(bg).expand().fill();
 
     stage.addActor(table);
   }

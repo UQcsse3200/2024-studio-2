@@ -168,9 +168,9 @@ public class CombatScreen extends ScreenAdapter {
         //.addComponent(new PerformanceDisplay())
         //.addComponent(new MainGameActions(this.game))
         .addComponent(new CombatActions(this.game, this.enemy))
+        .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
-        .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
