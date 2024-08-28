@@ -43,7 +43,10 @@ public class QuestManager extends Component {
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
-        testQuests();
+        if(GameState.quests.quests.isEmpty()) {
+            testQuests();
+        }
+        loadQuests();
     }
 
     /**

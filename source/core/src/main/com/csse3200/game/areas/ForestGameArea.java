@@ -123,9 +123,6 @@ public class ForestGameArea extends GameArea {
     spawnEagle();
     spawnSnake();
     playMusic();
-    //BELOW IS HOW YOU LOAD SAVES: COMMENT OUT testQuests() in QuestManager constructor as well to use
-//    SaveHandler.load(GameState.class, "saves");
-    player.getComponent(QuestManager.class).loadQuests();
   }
 
     /**

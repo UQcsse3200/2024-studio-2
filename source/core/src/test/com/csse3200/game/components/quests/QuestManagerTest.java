@@ -114,4 +114,17 @@ class QuestManagerTest {
         questManager.completeAchievement("Test Achievement");
         verify(eventHandler).trigger("achievementCompleted");
     }
+
+    @Test
+    void shouldSaveLoadQuestProgression() {
+        //unit test quest progress
+
+        //create default quests
+
+        //save default quests
+
+        //reset and load default quests
+
+        //ensure they match saved quests
+    }
 }

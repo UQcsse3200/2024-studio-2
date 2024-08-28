@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SaveHandlerTest {
     private final String testDirectory = "test/saves";
     @Test
-    void shouldSaveLoadValues() {
+    void shouldSaveLoadDeleteValues() {
         GameStateTest.env1.test = 3;
         GameStateTest.env2.test2 = "test";
         SaveHandler.save(GameStateTest.class, testDirectory);
