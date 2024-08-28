@@ -149,7 +149,7 @@ public class Snake {
      */
     public record Segment(int x, int y, Direction direction) {
 
-        /**
+            /**
              * @return the x-coordinate of the snake body segment
              */
             @Override
@@ -173,6 +173,11 @@ public class Snake {
                 return this.direction;
             }
 
+        /**
+         * A function to check if segments are equal
+         * @param o   the reference object with which to compare.
+         * @return true if equal, otherwise false.
+         */
             @Override
             public boolean equals(Object o) {
                 if (this == o) return true; // Check if the same object
@@ -185,6 +190,5 @@ public class Snake {
                 if (y != segment.y) return false;
                 return direction == segment.direction;
             }
-
     }
 }

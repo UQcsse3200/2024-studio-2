@@ -67,7 +67,7 @@ public class SnakeScreen extends ScreenAdapter {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-//        loadAssets();
+        // loadAssets();
         createUI();
 
         logger.debug("Initialising snake minigame entities");
@@ -100,11 +100,11 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     private boolean handleInput() {
-        if (snakeGame.handleInput() == Events.RESTART) {  // Restart game
+        if (snakeGame.handleInput() == Events.RESTART) {  // Restart the game
             game.setScreen(new SnakeScreen(game));
             return true;
         }
-        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to minigames menu
+        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to mini-games menu
             game.setScreen(new MiniGameMenuScreen(game));
             return true;
         }
@@ -159,7 +159,7 @@ public class SnakeScreen extends ScreenAdapter {
         // colour is rgb(248,249,178,255)
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
 
-        logger.debug("Disposing snake minigame screen");
+        logger.debug("Disposing snake mini-game screen");
 
         renderer.dispose();
         snakeRenderer.dispose();
@@ -178,12 +178,12 @@ public class SnakeScreen extends ScreenAdapter {
      * Loads the assets for the game
      */
     private void loadAssets() {
+
         logger.debug("Loading snake minigame assets");
 
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadTextures(AssetPaths.IMAGES);
         ServiceLocator.getResourceService().loadAll();
-
     }
 
     /**
@@ -196,7 +196,7 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates the snake minigame's ui including components for rendering ui elements to the screen and
+     * Creates the snake mini-game's ui including components for rendering ui elements to the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

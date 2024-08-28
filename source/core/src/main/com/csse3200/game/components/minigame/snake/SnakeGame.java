@@ -4,7 +4,6 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 
-
 import java.util.List;
 
 /**
@@ -19,7 +18,6 @@ public class SnakeGame {
     private int score;
     private Boolean isGameOver;
 
-
     public SnakeGame() {
         this.grid = new SnakeGrid();
         this.snakeController = new SnakeController();
@@ -29,14 +27,26 @@ public class SnakeGame {
         this.isGameOver = false;
     }
 
+    /**
+     * methods to return snake object
+     * @return the snake
+     */
     public Snake getSnake() {
         return this.snake;
     }
 
+    /**
+     * Method to return apple object
+     * @return the apple
+     */
     public Apple getApple() {
         return this.apple;
     }
 
+    /**
+     * Methods to return grid object
+     * @return the grid
+     */
     public SnakeGrid getGrid() {
         return this.grid;
     }
@@ -77,6 +87,10 @@ public class SnakeGame {
         }
     }
 
+    /**
+     * Moves the snake, checks if the snake can eat the apple, check if the game should be over
+     * @param delta Time in seconds since the last frame.
+     */
     public void snakeMove(float delta) {
         snake.updateDirectionOnInput(snakeController.getInputDirection());
         attemptEatFruit();
@@ -116,6 +130,10 @@ public class SnakeGame {
         return false;
     }
 
+    /**
+     * Handel's input
+     * @return the snake controller input
+     */
     public Events handleInput() {
         return snakeController.handleInput();
     }

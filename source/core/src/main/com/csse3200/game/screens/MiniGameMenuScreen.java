@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 
+/**
+ * Class for the Mini-game menu screen
+ */
 public class MiniGameMenuScreen implements Screen {
 
     private Stage stage;
@@ -37,6 +40,10 @@ public class MiniGameMenuScreen implements Screen {
         this.game = game;
     }
 
+    /**
+     * Initializes and sets up the mini-game menu screen.
+     * It creates the stage, loads resources, and sets up buttons and images.
+     */
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -68,31 +75,28 @@ public class MiniGameMenuScreen implements Screen {
         table.setFillParent(true);
         table.center();
 
-// Create a cell for the snake image and button
+        // Create a cell for the snake image and button
         Table snakeTable = new Table();
         snakeTable.add(snakeImage).padBottom(10).row();
         snakeTable.add(snakeButton).padBottom(10);
 
-// Create a cell for the sky image and button
+        // Create a cell for the sky image and button
         Table skyTable = new Table();
         skyTable.add(skyImage).padBottom(10).row();
         skyTable.add(skyButton).padBottom(10);
 
-// Create a cell for the water image and button
+        // Create a cell for the water image and button
         Table waterTable = new Table();
         waterTable.add(waterImage).padBottom(10).row();
         waterTable.add(waterButton).padBottom(10);
 
-// Add all the image/button pairs to the main table in a single row
+        // Add all the image/button pairs to the main table in a single row
         table.add(snakeTable).pad(20);
         table.add(skyTable).pad(20);
         table.add(waterTable).pad(20);
 
-// Add the table to the stage
+        // Add the table to the stage
         stage.addActor(table);
-
-
-
 
         Table exitButtonTable = new Table();
         exitButtonTable.setFillParent(true);
@@ -153,6 +157,12 @@ public class MiniGameMenuScreen implements Screen {
         });
     }
 
+    /**
+     * Called when the screen should render itself.
+     * Clears the screen, draws the background, and renders the stage.
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // Set background color
@@ -172,24 +182,42 @@ public class MiniGameMenuScreen implements Screen {
         }
     }
 
+    /**
+     * Updates the viewport dimensions of the stage when the screen changes size.
+     *
+     * @param width  The new width of the screen.
+     * @param height The new height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Called when the game is paused.
+     */
     @Override
     public void pause() {
     }
 
+    /**
+     * Called when the game is resumed from a paused state.
+     */
     @Override
     public void resume() {
     }
 
+    /**
+     * Called when this screen is no longer the current screen.
+     */
     @Override
     public void hide() {
         dispose();
     }
 
+    /**
+     * Called when the screen is destroyed.
+     */
     @Override
     public void dispose() {
         stage.dispose();

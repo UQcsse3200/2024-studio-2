@@ -21,6 +21,12 @@ public class SnakeGrid extends Grid {
         super(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
+    /**
+     *
+     * @param gridPosition
+     * @param cellSize
+     * @return
+     */
     public Vector2 tileToWorldPosition(Vector2 gridPosition, int cellSize) {
         int gridWidthInPixels = getWidth() * cellSize;
         int gridHeightInPixels = getHeight() * cellSize;

@@ -1,7 +1,7 @@
 package com.csse3200.game.components.minigame;
 
 /**
- * Class to hold all medal constants for all Minigames. Used for scoring and rewards.
+ * Class to hold all medal constants for all Mini-games. Used for scoring and rewards.
  */
 public final class MiniGameConstants {
 

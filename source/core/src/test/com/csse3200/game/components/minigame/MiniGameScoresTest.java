@@ -11,6 +11,9 @@ public class MiniGameScoresTest {
         miniGamesScores = new MiniGamesScores();
     }
 
+    /**
+     * Test initial medal and score set up
+     */
     @Test
     public void testInitialScoresAndMedals() {
         assertEquals(0, miniGamesScores.getSnakeHighScore());
@@ -23,6 +26,9 @@ public class MiniGameScoresTest {
         assertEquals(MiniGameMedals.FAIL, miniGamesScores.getMazeMedal());
     }
 
+    /**
+     * Test functionality as the score increases
+     */
     @Test
     public void testSnakeHighScoreAndMedal() {
         miniGamesScores.checkAndSetSnakeScoreMedal(MiniGameConstants.SNAKE_BRONZE_THRESHOLD - 1);
@@ -50,14 +56,21 @@ public class MiniGameScoresTest {
         assertEquals(MiniGameMedals.GOLD, miniGamesScores.getSnakeMedal());
     }
 
+    /**
+     * to be properly implemented
+     * Test functionality as the score increases
+     */
     @Test
     public void testFlappyBirdHighScoreAndMedal() {
         // add when flappy bord is implemented in sprint 2
     }
 
+    /**
+     * to be properly implemented
+     * Test functionality as the score increases
+     */
     @Test
     public void testMazeHighScoreAndMedal() {
         // Add when maze is implemented in sprint 3
     }
-
 }
