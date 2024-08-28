@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
@@ -186,9 +185,6 @@ public class MainGameScreenDup extends ScreenAdapter {
       enabledOverlays.getFirst().rest();
     }
     switch (overlayType) {
-      case QUEST_OVERLAY:
-        enabledOverlays.addFirst(new QuestOverlay());
-        break;
       case PAUSE_OVERLAY:
         enabledOverlays.addFirst(new PauseOverlay());
         break;

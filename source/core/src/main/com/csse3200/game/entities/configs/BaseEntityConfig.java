@@ -14,32 +14,66 @@ public class BaseEntityConfig {
 
     protected BaseEntityConfig() {}
 
+    /**
+     * Returns the path to the sprite image for this entity.
+     *
+     * @return the sprite path as a String.
+     */
     public String getSpritePath() {
         return this.spritePath;
     }
 
+    /**
+     * Returns the animation speed for this entity.
+     *
+     * @return the animation speed as a float.
+     */
     public float getAnimationSpeed() {
         return this.animationSpeed;
     }
 
+    /**
+     * Returns the paths to the sound files associated with this entity.
+     *
+     * @return an array of String representing the sound paths.
+     */
     public String[] getSoundPath() {
         return this.soundPath;
     }
 
+    /**
+     * Returns the health value of this entity.
+     *
+     * @return the health value as an int.
+     */
     public int getHealth() {
         return this.health;
     }
 
+    /**
+     * Returns the name of the animal for this entity.
+     *
+     * @return the animal name as a String.
+     */
     public String getAnimalName() {
         return animalName;
     }
 
+    /**
+     * Returns the base attack value of this entity.
+     *
+     * @return the base attack value as an int.
+     */
     public int getBaseAttack () {
         return this.baseAttack;
     }
 
+    /**
+     * Returns the base hint messages for this entity.
+     *
+     * @return an array of String containing the base hints.
+     */
     public String[] getBaseHint() {
         return baseHint;
     }
-
 }
