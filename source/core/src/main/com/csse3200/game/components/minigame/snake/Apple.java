@@ -1,7 +1,6 @@
 package com.csse3200.game.components.minigame.snake;
 
 import com.csse3200.game.components.minigame.Grid;
-
 import java.util.Random;
 
 /**
@@ -37,19 +36,32 @@ public class Apple {
         } while (grid.isOccupied(x, y)); // Ensure the apple doesn't spawn on top of the snake
     }
 
+    /**
+     * Checks to see if the apple is touching the snakes head
+     * @param snake: the game snake
+     * @return True if head is touching else false
+     */
     public boolean isTouchingSnakeHead(Snake snake) {
         return snake.getX() == x && snake.getY() == y;
     }
 
+    /**
+     * Get the apples x position
+     * @return x position
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Get the apples y position
+     * @return y position
+     */
     public int getY() {
         return y;
     }
 
-    /*
+    /**
      * Set apple location. Used for testing and debugging only.
      */
     public void setAppleLocation(int newX, int newY) {
