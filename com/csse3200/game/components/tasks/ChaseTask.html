@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -94,6 +94,10 @@ loadScripts(document, 'script');</script>
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="../../ai/tasks/PriorityTask.html" title="interface in com.csse3200.game.ai.tasks">PriorityTask</a></code>, <code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
 </dl>
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="AvoidTask.html" title="class in com.csse3200.game.components.tasks">AvoidTask</a></code>, <code><a href="PauseTask.html" title="class in com.csse3200.game.components.tasks">PauseTask</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ChaseTask</span>
 <span class="extends-implements">extends <a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a>
@@ -115,6 +119,36 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected final <a href="../../rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></code></div>
+<div class="col-second even-row-color"><code><a href="#debugRenderer" class="member-name-link">debugRenderer</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final <a href="../../physics/raycast/RaycastHit.html" title="class in com.csse3200.game.physics.raycast">RaycastHit</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#hit" class="member-name-link">hit</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final float</code></div>
+<div class="col-second even-row-color"><code><a href="#maxChaseDistance" class="member-name-link">maxChaseDistance</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#movementTask" class="member-name-link">movementTask</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final <a href="../../physics/PhysicsEngine.html" title="class in com.csse3200.game.physics">PhysicsEngine</a></code></div>
+<div class="col-second even-row-color"><code><a href="#physics" class="member-name-link">physics</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#priority" class="member-name-link">priority</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final <a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color"><code><a href="#target" class="member-name-link">target</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final float</code></div>
+<div class="col-second odd-row-color"><code><a href="#viewDistance" class="member-name-link">viewDistance</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.ai.tasks.DefaultTask">Fields inherited from class&nbsp;com.csse3200.game.ai.tasks.<a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></h3>
 <code><a href="../../ai/tasks/DefaultTask.html#owner">owner</a>, <a href="../../ai/tasks/DefaultTask.html#status">status</a></code></div>
@@ -147,22 +181,37 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPriority()" class="member-name-link">getPriority</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivePriority()" class="member-name-link">getActivePriority</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDistanceToTarget()" class="member-name-link">getDistanceToTarget</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInactivePriority()" class="member-name-link">getInactivePriority</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPriority()" class="member-name-link">getPriority</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getViewDistance()" class="member-name-link">getViewDistance</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isTargetVisible()" class="member-name-link">isTargetVisible</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Start running this task.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stop the task immediately.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Run one frame of the task.</div>
 </div>
 </div>
@@ -183,6 +232,62 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="target">
+<h3>target</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">target</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="priority">
+<h3>priority</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">priority</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="viewDistance">
+<h3>viewDistance</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">viewDistance</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="maxChaseDistance">
+<h3>maxChaseDistance</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">maxChaseDistance</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="physics">
+<h3>physics</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../physics/PhysicsEngine.html" title="class in com.csse3200.game.physics">PhysicsEngine</a></span>&nbsp;<span class="element-name">physics</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="debugRenderer">
+<h3>debugRenderer</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></span>&nbsp;<span class="element-name">debugRenderer</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="hit">
+<h3>hit</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../physics/raycast/RaycastHit.html" title="class in com.csse3200.game.physics.raycast">RaycastHit</a></span>&nbsp;<span class="element-name">hit</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="movementTask">
+<h3>movementTask</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></span>&nbsp;<span class="element-name">movementTask</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -241,6 +346,12 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 </section>
 </li>
 <li>
+<section class="detail" id="getViewDistance()">
+<h3>getViewDistance</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getViewDistance</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="stop()">
 <h3>stop</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
@@ -262,6 +373,30 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/PriorityTask.html#getPriority()">getPriority</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/PriorityTask.html" title="interface in com.csse3200.game.ai.tasks">PriorityTask</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getDistanceToTarget()">
+<h3>getDistanceToTarget</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getDistanceToTarget</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getActivePriority()">
+<h3>getActivePriority</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getActivePriority</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getInactivePriority()">
+<h3>getInactivePriority</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getInactivePriority</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isTargetVisible()">
+<h3>isTargetVisible</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTargetVisible</span>()</div>
 </section>
 </li>
 </ul>

@@ -86,7 +86,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">com.csse3200.game.ai.tasks.DefaultTask</a>
+<div class="inheritance"><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">com.csse3200.game.components.tasks.ChaseTask</a>
 <div class="inheritance">com.csse3200.game.components.tasks.PauseTask</div>
+</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
@@ -96,9 +98,9 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PauseTask</span>
-<span class="extends-implements">extends <a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a>
-implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.csse3200.game.ai.tasks">PriorityTask</a></span></div>
-<div class="block">Pauses near a target entity until they move too far away or out of sight</div>
+<span class="extends-implements">extends <a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></span></div>
+<div class="block">Pauses near a target entity until they move too far away or out of sight.
+ Extends the ChaseTask to include pausing behavior when in proximity to a target.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -116,6 +118,9 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
+<h3 id="fields-inherited-from-class-com.csse3200.game.components.tasks.ChaseTask">Fields inherited from class&nbsp;com.csse3200.game.components.tasks.<a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></h3>
+<code><a href="ChaseTask.html#debugRenderer">debugRenderer</a>, <a href="ChaseTask.html#hit">hit</a>, <a href="ChaseTask.html#maxChaseDistance">maxChaseDistance</a>, <a href="ChaseTask.html#movementTask">movementTask</a>, <a href="ChaseTask.html#physics">physics</a>, <a href="ChaseTask.html#priority">priority</a>, <a href="ChaseTask.html#target">target</a>, <a href="ChaseTask.html#viewDistance">viewDistance</a></code></div>
+<div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.ai.tasks.DefaultTask">Fields inherited from class&nbsp;com.csse3200.game.ai.tasks.<a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></h3>
 <code><a href="../../ai/tasks/DefaultTask.html#owner">owner</a>, <a href="../../ai/tasks/DefaultTask.html#status">status</a></code></div>
 </section>
@@ -132,7 +137,9 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
  int&nbsp;priority,
  float&nbsp;viewDistance,
  float&nbsp;maxPauseDistance)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructs a new PauseTask that will pause near a target entity.</div>
+</div>
 </div>
 </section>
 </li>
@@ -147,27 +154,44 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivePriority()" class="member-name-link">getActivePriority</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the priority level when the pause behavior is active.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInactivePriority()" class="member-name-link">getInactivePriority</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the priority level when the pause behavior is inactive.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPriority()" class="member-name-link">getPriority</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the priority level of the pause behavior.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Start running this task.</div>
+<div class="block">Starts the pause behavior by triggering the pause event
+ and initializing any necessary components.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triggerPauseEvent()" class="member-name-link">triggerPauseEvent</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Stop the task immediately.</div>
+<div class="block">Triggers an event to start the pause behavior.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Run one frame of the task.</div>
+<div class="block">Updates the pause behavior by checking the distance to the target entity
+ and determining whether to approach, pause, or end the pause state.</div>
 </div>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.csse3200.game.components.tasks.ChaseTask">Methods inherited from class&nbsp;com.csse3200.game.components.tasks.<a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></h3>
+<code><a href="ChaseTask.html#getDistanceToTarget()">getDistanceToTarget</a>, <a href="ChaseTask.html#getViewDistance()">getViewDistance</a>, <a href="ChaseTask.html#isTargetVisible()">isTargetVisible</a>, <a href="ChaseTask.html#stop()">stop</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.ai.tasks.DefaultTask">Methods inherited from class&nbsp;com.csse3200.game.ai.tasks.<a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></h3>
 <code><a href="../../ai/tasks/DefaultTask.html#create(com.csse3200.game.ai.tasks.TaskRunner)">create</a>, <a href="../../ai/tasks/DefaultTask.html#getStatus()">getStatus</a></code></div>
@@ -195,6 +219,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
  int&nbsp;priority,
  float&nbsp;viewDistance,
  float&nbsp;maxPauseDistance)</span></div>
+<div class="block">Constructs a new PauseTask that will pause near a target entity.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>target</code> - The entity to pause when seen.</dd>
@@ -216,41 +241,36 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../ai/tasks/Task.html#start()">Task</a></code></span></div>
-<div class="block">Start running this task. This will usually be called by an AI controller.</div>
+<div class="block">Starts the pause behavior by triggering the pause event
+ and initializing any necessary components.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="../../ai/tasks/DefaultTask.html#start()">start</a></code>&nbsp;in class&nbsp;<code><a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></code></dd>
+<dd><code><a href="ChaseTask.html#start()">start</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="triggerPauseEvent()">
+<h3>triggerPauseEvent</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerPauseEvent</span>()</div>
+<div class="block">Triggers an event to start the pause behavior.
+ If the entity has a config component, it fetches the dialogue or hint text
+ associated with the entity to provide context for the pause event.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../ai/tasks/Task.html#update()">Task</a></code></span></div>
-<div class="block">Run one frame of the task. Similar to the update() in Components.</div>
+<div class="block">Updates the pause behavior by checking the distance to the target entity
+ and determining whether to approach, pause, or end the pause state.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#update()">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="../../ai/tasks/DefaultTask.html#update()">update</a></code>&nbsp;in class&nbsp;<code><a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="stop()">
-<h3>stop</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../ai/tasks/Task.html#stop()">Task</a></code></span></div>
-<div class="block">Stop the task immediately. This can be called at any time by the AI controller.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../ai/tasks/Task.html#stop()">stop</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="../../ai/tasks/DefaultTask.html#stop()">stop</a></code>&nbsp;in class&nbsp;<code><a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></code></dd>
+<dd><code><a href="ChaseTask.html#update()">update</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
 </dl>
 </section>
 </li>
@@ -258,9 +278,45 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="detail" id="getPriority()">
 <h3>getPriority</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getPriority</span>()</div>
+<div class="block">Returns the priority level of the pause behavior.
+ Determines the priority based on whether the task is currently active or inactive.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/PriorityTask.html#getPriority()">getPriority</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/PriorityTask.html" title="interface in com.csse3200.game.ai.tasks">PriorityTask</a></code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="ChaseTask.html#getPriority()">getPriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
+<dt>Returns:</dt>
+<dd>the priority level of the pause behavior.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getActivePriority()">
+<h3>getActivePriority</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getActivePriority</span>()</div>
+<div class="block">Returns the priority level when the pause behavior is active.
+ If the distance to the target is greater than the view distance or the target is not visible,
+ the pause behavior should stop and the method returns -1.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="ChaseTask.html#getActivePriority()">getActivePriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
+<dt>Returns:</dt>
+<dd>the active priority level or -1 if the behavior should stop.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getInactivePriority()">
+<h3>getInactivePriority</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getInactivePriority</span>()</div>
+<div class="block">Returns the priority level when the pause behavior is inactive.
+ If the distance to the target is less than the view distance and the target is visible,
+ the method returns the set priority; otherwise, it returns -1.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="ChaseTask.html#getInactivePriority()">getInactivePriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
+<dt>Returns:</dt>
+<dd>the inactive priority level or -1 if the behavior should not activate.</dd>
 </dl>
 </section>
 </li>

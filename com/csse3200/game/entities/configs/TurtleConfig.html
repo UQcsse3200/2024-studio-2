@@ -46,9 +46,9 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li><a href="#field-detail">Field</a></li>
+<li>Field</li>
 <li><a href="#constructor-detail">Constr</a></li>
-<li><a href="#method-detail">Method</a></li>
+<li>Method</li>
 </ul>
 </li>
 </ul>
@@ -64,9 +64,9 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method-detail">Method</a></li>
+<li>Method</li>
 </ul>
 </div>
 <div class="nav-list-search"><a href="../../../../../search.html">SEARCH</a>
@@ -100,39 +100,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
-<div class="caption"><span>Fields</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Field</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#animalName" class="member-name-link">animalName</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#baseAttack" class="member-name-link">baseAttack</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static int</code></div>
-<div class="col-second even-row-color"><code><a href="#currentHint" class="member-name-link">currentHint</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#favouriteFood" class="member-name-link">favouriteFood</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#health" class="member-name-link">health</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static int</code></div>
-<div class="col-second odd-row-color"><code><a href="#hintLevel" class="member-name-link">hintLevel</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#hints" class="member-name-link">hints</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#soundPath" class="member-name-link">soundPath</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.entities.configs.BaseEntityConfig">Fields inherited from class&nbsp;com.csse3200.game.entities.configs.<a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></h3>
-<code><a href="BaseEntityConfig.html#defense">defense</a>, <a href="BaseEntityConfig.html#experience">experience</a>, <a href="BaseEntityConfig.html#hunger">hunger</a>, <a href="BaseEntityConfig.html#speed">speed</a>, <a href="BaseEntityConfig.html#strength">strength</a></code></div>
+<code><a href="BaseEntityConfig.html#animalName">animalName</a>, <a href="BaseEntityConfig.html#animationSpeed">animationSpeed</a>, <a href="BaseEntityConfig.html#baseAttack">baseAttack</a>, <a href="BaseEntityConfig.html#baseHint">baseHint</a>, <a href="BaseEntityConfig.html#defense">defense</a>, <a href="BaseEntityConfig.html#experience">experience</a>, <a href="BaseEntityConfig.html#health">health</a>, <a href="BaseEntityConfig.html#hunger">hunger</a>, <a href="BaseEntityConfig.html#soundPath">soundPath</a>, <a href="BaseEntityConfig.html#speed">speed</a>, <a href="BaseEntityConfig.html#spritePath">spritePath</a>, <a href="BaseEntityConfig.html#strength">strength</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -140,9 +110,11 @@ loadScripts(document, 'script');</script>
 <section class="constructor-summary" id="constructor-summary">
 <h2>Constructor Summary</h2>
 <div class="caption"><span>Constructors</span></div>
-<div class="summary-table two-column-summary">
-<div class="table-header col-first">Constructor</div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier</div>
+<div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected </code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">TurtleConfig</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -152,40 +124,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
-<div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Method</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#decrementCurrentHint()" class="member-name-link">decrementCurrentHint</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalName()" class="member-name-link">getAnimalName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentHint()" class="member-name-link">getCurrentHint</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHintLevel()" class="member-name-link">getHintLevel</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStringHintLevel()" class="member-name-link">getStringHintLevel</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementCurrentHint()" class="member-name-link">incrementCurrentHint</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementHintLevel()" class="member-name-link">incrementHintLevel</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#restartCurrentHint()" class="member-name-link">restartCurrentHint</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-</div>
-</div>
-</div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.csse3200.game.entities.configs.BaseEntityConfig">Methods inherited from class&nbsp;com.csse3200.game.entities.configs.<a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></h3>
+<code><a href="BaseEntityConfig.html#getAnimalName()">getAnimalName</a>, <a href="BaseEntityConfig.html#getAnimationSpeed()">getAnimationSpeed</a>, <a href="BaseEntityConfig.html#getBaseAttack()">getBaseAttack</a>, <a href="BaseEntityConfig.html#getBaseHint()">getBaseHint</a>, <a href="BaseEntityConfig.html#getHealth()">getHealth</a>, <a href="BaseEntityConfig.html#getSoundPath()">getSoundPath</a>, <a href="BaseEntityConfig.html#getSpritePath()">getSpritePath</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -195,62 +136,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ============ FIELD DETAIL =========== -->
-<li>
-<section class="field-details" id="field-detail">
-<h2>Field Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="favouriteFood">
-<h3>favouriteFood</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">favouriteFood</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="soundPath">
-<h3>soundPath</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">soundPath</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="animalName">
-<h3>animalName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">animalName</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="health">
-<h3>health</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">health</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="baseAttack">
-<h3>baseAttack</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">baseAttack</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="hints">
-<h3>hints</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&gt;</span>&nbsp;<span class="element-name">hints</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="hintLevel">
-<h3>hintLevel</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hintLevel</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="currentHint">
-<h3>currentHint</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">currentHint</span></div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -259,95 +144,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>TurtleConfig</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TurtleConfig</span>()</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
-<!-- ============ METHOD DETAIL ========== -->
-<li>
-<section class="method-details" id="method-detail">
-<h2>Method Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="getStringHintLevel()">
-<h3>getStringHintLevel</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getStringHintLevel</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#getStringHintLevel()">getStringHintLevel</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="incrementHintLevel()">
-<h3>incrementHintLevel</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">incrementHintLevel</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#incrementHintLevel()">incrementHintLevel</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getHintLevel()">
-<h3>getHintLevel</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHintLevel</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#getHintLevel()">getHintLevel</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="restartCurrentHint()">
-<h3>restartCurrentHint</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">restartCurrentHint</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#restartCurrentHint()">restartCurrentHint</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getCurrentHint()">
-<h3>getCurrentHint</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getCurrentHint</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#getCurrentHint()">getCurrentHint</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="incrementCurrentHint()">
-<h3>incrementCurrentHint</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">incrementCurrentHint</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#incrementCurrentHint()">incrementCurrentHint</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="decrementCurrentHint()">
-<h3>decrementCurrentHint</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">decrementCurrentHint</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#decrementCurrentHint()">decrementCurrentHint</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getAnimalName()">
-<h3>getAnimalName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAnimalName</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="BaseEntityConfig.html#getAnimalName()">getAnimalName</a></code>&nbsp;in class&nbsp;<code><a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></code></dd>
-</dl>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">TurtleConfig</span>()</div>
 </section>
 </li>
 </ul>
