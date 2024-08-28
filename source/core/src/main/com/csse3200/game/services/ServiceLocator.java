@@ -1,10 +1,12 @@
 package com.csse3200.game.services;
 
-import com.csse3200.game.entities.EntityChatService;
+import com.badlogic.gdx.Gdx;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +21,17 @@ import org.slf4j.LoggerFactory;
 public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
   private static EntityService entityService;
+  private static EntityChatService entityChatService;
   private static RenderService renderService;
   private static PhysicsService physicsService;
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-  private static EntityChatService entityChatService;
+  private static EventService eventService;
+
+  public static EntityChatService getEntityChatService() {
+    return entityChatService;
+  }
 
   public static EntityService getEntityService() {
     return entityService;
@@ -50,13 +57,16 @@ public class ServiceLocator {
     return resourceService;
   }
 
-  public static EntityChatService getEntityChatService() {
-    return entityChatService;
-  }
+  public static EventService getEventService() {return eventService;}
 
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
+  }
+
+  public static void registerEntityChatService(EntityChatService service) {
+    logger.debug("Registering entity chat service {}", service);
+    entityChatService = service;
   }
 
   public static void registerRenderService(RenderService service) {
@@ -69,11 +79,6 @@ public class ServiceLocator {
     physicsService = service;
   }
 
-  public static void registerEntityChatService(EntityChatService service) {
-    logger.debug("Registering entity chat service {}", service);
-    entityChatService = service;
-  }
-
   public static void registerTimeSource(GameTime source) {
     logger.debug("Registering time source {}", source);
     timeSource = source;
@@ -82,11 +87,17 @@ public class ServiceLocator {
   public static void registerInputService(InputService source) {
     logger.debug("Registering input service {}", source);
     inputService = source;
+    Gdx.input.setInputProcessor(inputService);
   }
 
   public static void registerResourceService(ResourceService source) {
     logger.debug("Registering resource service {}", source);
     resourceService = source;
+  }
+
+  public static void registerEventService(EventService source) {
+    logger.debug("Registering event service {}", source);
+    eventService = source;
   }
 
   public static void clear() {
@@ -96,6 +107,8 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
+    eventService = null;
+    entityChatService = null;
   }
 
   private ServiceLocator() {

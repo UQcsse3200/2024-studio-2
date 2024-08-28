@@ -12,7 +12,6 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class TouchPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-
   public TouchPlayerInputComponent() {
     super(5);
   }
@@ -25,6 +24,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Input.Keys.UP:
         walkDirection.add(Vector2Utils.UP);
@@ -42,6 +44,12 @@ public class TouchPlayerInputComponent extends InputComponent {
         walkDirection.add(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
+      case Input.Keys.ESCAPE:
+        entity.getEvents().trigger("restMenu");
+        return true;
+      case Input.Keys.Q:
+        entity.getEvents().trigger("quest");
+        return true;
       default:
         return false;
     }
@@ -55,6 +63,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     switch (keycode) {
       case Input.Keys.UP:
         walkDirection.sub(Vector2Utils.UP);
@@ -84,6 +95,9 @@ public class TouchPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    if(!this.enabled){
+      return false;
+    }
     entity.getEvents().trigger("attack");
     return true;
   }
@@ -95,4 +109,6 @@ public class TouchPlayerInputComponent extends InputComponent {
       entity.getEvents().trigger("walk", walkDirection);
     }
   }
+
+
 }

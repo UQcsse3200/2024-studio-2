@@ -32,6 +32,10 @@ public class EventHandler {
     lastTriggeredEvent = null;
   }
 
+  public Map<String, Array<EventListener>> getListeners() {
+    return listeners;
+  }
+
   /**
    * Add a listener to an event with zero arguments
    *
@@ -171,5 +175,10 @@ public class EventHandler {
 
   private static void logTrigger(String eventName) {
     logger.debug("Triggering event {}", eventName);
+  }
+
+
+  public void dispose() {
+    listeners.clear();
   }
 }

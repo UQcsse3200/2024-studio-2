@@ -1,6 +1,5 @@
 package com.csse3200.game.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
@@ -34,7 +33,6 @@ public class InputService implements InputProcessor, GestureDetector.GestureList
 
   public InputService(InputFactory inputFactory) {
     this.inputFactory = inputFactory;
-    Gdx.input.setInputProcessor(this);
   }
 
   /**

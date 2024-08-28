@@ -9,18 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.utils.StringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.csse3200.game.components.mainmenu.*;
-import com.csse3200.game.components.settingsmenu.*;
-
-import javax.swing.text.html.Option;
-import java.util.Optional;
 
 /**
  * Settings menu display and logic. If you bork the settings, they can be changed manually in
