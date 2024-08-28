@@ -53,6 +53,7 @@ public class MainMenuDisplay extends UIComponent {
     private void applyUserSettings() {
         UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
         UserSettings.applySettings(settings); // Apply settings to the game
+
     }
 
     private void addActors() {

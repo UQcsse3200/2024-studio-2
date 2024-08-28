@@ -18,12 +18,14 @@ public class LoadingDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(LoadingDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-    private ProgressBar progressBar;
+    public ProgressBar progressBar;
     private Label loadingLabel;
 
     private float progress;
     public LoadingDisplay() {
         progress = 0;
+        progressBar = new ProgressBar(0, 1, 0.01f, false, skin);
+        progressBar.setValue(0);
     }
 
     @Override
@@ -37,8 +39,6 @@ public class LoadingDisplay extends UIComponent {
         table.setFillParent(true);
 
         loadingLabel = new Label("Loading...", skin);
-        progressBar = new ProgressBar(0, 1, 0.01f, false, skin);
-        progressBar.setValue(0);
 
         table.add(loadingLabel).expandX().padTop(50);
         table.row();
