@@ -8,10 +8,11 @@ import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.minigame.SnakeScoreBoard;
-
 import static com.csse3200.game.components.minigame.snake.AssetPaths.IMAGES;
 
-
+/**
+ * Renders all elements of the Snake mini-game, including the grid, apple, snake, and scoreboard.
+ */
 public class SnakeGameRenderer {
 
     private final GridRenderer gridRenderer;
@@ -23,6 +24,11 @@ public class SnakeGameRenderer {
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
 
+    /**
+     * Initialises the SnakeGameRenderer and its sub-renderers.
+     *
+     * @param game The SnakeGame instance containing game state and logic.
+     */
     public SnakeGameRenderer(SnakeGame game) {
         // Initialise the individual renderers
         this.spriteBatch = new SpriteBatch();
@@ -38,7 +44,9 @@ public class SnakeGameRenderer {
     }
 
     /**
-     * Renders the entire snake game including grid, apple, and snake.
+     * Renders the entire snake game including grid, apple, snake, and scoreboard.
+     *
+     * @param score The current score to be displayed on the scoreboard.
      */
     public void render(int score) {
         spriteBatch.begin();
@@ -49,6 +57,9 @@ public class SnakeGameRenderer {
         scoreBoard.updateScore(score);
     }
 
+    /**
+     * Loads the textures and other assets required for rendering.
+     */
     private void loadAssets() {
 
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -64,7 +75,7 @@ public class SnakeGameRenderer {
     }
 
     /**
-     * Unloads assests for the game
+     * Unloads the assets used in the game to free resources.
      */
     private void unloadAssets() {
 
@@ -72,6 +83,9 @@ public class SnakeGameRenderer {
         resourceService.unloadAssets(IMAGES);
     }
 
+    /**
+     * Disposes of resources used by the renderer, including textures and the SpriteBatch.
+     */
     public void dispose() {
         spriteBatch.dispose();
         appleTexture.dispose();

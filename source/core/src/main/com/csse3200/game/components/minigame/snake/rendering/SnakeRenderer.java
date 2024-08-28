@@ -7,6 +7,9 @@ import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 
+/**
+ * Renders the snake and its segments on the grid in the Snake mini-game.
+ */
 public class SnakeRenderer {
 
     private static final int CELL_SIZE = 55;
@@ -18,6 +21,17 @@ public class SnakeRenderer {
     private final Texture snakeBodyBentTexture;
     private final SpriteBatch spriteBatch;
 
+    /**
+     * Creates a new SnakeRenderer.
+     *
+     * @param snake The snake to render.
+     * @param grid The grid the snake is on.
+     * @param snakeTexture The texture for the snake's head.
+     * @param snakeBodyHorizontalTexture The texture for the snake's horizontal body segments.
+     * @param snakeBodyVerticalTexture The texture for the snake's vertical body segments.
+     * @param snakeBodyBentTexture The texture for the snake's bent body segments.
+     * @param spriteBatch The SpriteBatch used for drawing.
+     */
     public SnakeRenderer(Snake snake, SnakeGrid grid, Texture snakeTexture,
                          Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
                          Texture snakeBodyBentTexture, SpriteBatch spriteBatch) {
@@ -30,6 +44,9 @@ public class SnakeRenderer {
         this.spriteBatch = spriteBatch;
     }
 
+    /**
+     * Renders the snake, including its head and body segments, with appropriate rotation.
+     */
     public void renderSnake() {
         int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
         int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
@@ -37,18 +54,20 @@ public class SnakeRenderer {
         float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
         float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
 
-        // Get the current direction of the snake
+        // Render the snake's head
+        renderSnakeHead(offsetX, offsetY);
+
+        // Render the snake's body
+        renderSnakeBody(offsetX, offsetY);
+    }
+
+    /**
+     * Renders the snake's head with the appropriate rotation.
+     */
+    private void renderSnakeHead(float offsetX, float offsetY) {
         Direction direction = snake.getDirection();
-        float rotation = 0f;
+        float rotation = getRotationForDirection(direction);
 
-        switch (direction) {
-            case UP -> rotation = 180f;
-            case DOWN -> rotation = 0f;
-            case LEFT -> rotation = 270f;
-            case RIGHT -> rotation = 90f;
-        }
-
-        // Render snake head with rotation
         spriteBatch.draw(
                 snakeTexture,
                 offsetX + snake.getX() * CELL_SIZE,
@@ -67,41 +86,31 @@ public class SnakeRenderer {
                 false,
                 false
         );
+    }
 
-        // Render snake body
-        Direction prevDirection = direction;
+    /**
+     * Renders the snake's body segments with the appropriate textures and rotations.
+     */
+    private void renderSnakeBody(float offsetX, float offsetY) {
+        Direction prevDirection = snake.getDirection();
         float segmentX, segmentY;
         Snake.Segment lastSegment = snake.getLastSegment();
 
         for (Snake.Segment segment : snake.getBodySegments()) {
-
             Direction currentDirection = segment.direction();
             Texture bodyTexture;
-            rotation = 0f;
+            float rotation = 0f;
 
             segmentX = offsetX + segment.x() * CELL_SIZE;
             segmentY = offsetY + segment.y() * CELL_SIZE;
 
-            if ((prevDirection != currentDirection && !segment.equals(lastSegment))) {
+            if (prevDirection != currentDirection && !segment.equals(lastSegment)) {
                 bodyTexture = snakeBodyBentTexture;
-
-                // Simplified rotation logic
-                if (prevDirection == Direction.UP) {
-                    rotation = (currentDirection == Direction.RIGHT) ? 0f : 270f;
-                } else if (prevDirection == Direction.RIGHT) {
-                    rotation = (currentDirection == Direction.DOWN) ? 270f : 180f;
-                } else if (prevDirection == Direction.DOWN) {
-                    rotation = (currentDirection == Direction.LEFT) ? 180f : 90f;
-                } else if (prevDirection == Direction.LEFT) {
-                    rotation = (currentDirection == Direction.UP) ? 90f : 0f;
-                }
+                rotation = getBentRotation(prevDirection, currentDirection);
             } else {
-                // Handle straight segments
-                if (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT) {
-                    bodyTexture = snakeBodyHorizontalTexture;
-                } else {
-                    bodyTexture = snakeBodyVerticalTexture;
-                }
+                bodyTexture = (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT)
+                        ? snakeBodyHorizontalTexture
+                        : snakeBodyVerticalTexture;
             }
 
             spriteBatch.draw(
@@ -123,6 +132,41 @@ public class SnakeRenderer {
                     false
             );
             prevDirection = currentDirection;
+        }
+    }
+
+    /**
+     * Returns the rotation angle for the snake's head based on its direction.
+     *
+     * @param direction The direction the snake is facing.
+     * @return The rotation angle in degrees.
+     */
+    private float getRotationForDirection(Direction direction) {
+        return switch (direction) {
+            case UP -> 180f;
+            case DOWN -> 0f;
+            case LEFT -> 270f;
+            case RIGHT -> 90f;
+            default -> 0f;
+        };
+    }
+
+    /**
+     * Returns the rotation angle for bent segments based on the previous and current directions.
+     *
+     * @param prevDirection The previous direction of the snake.
+     * @param currentDirection The current direction of the snake.
+     * @return The rotation angle in degrees.
+     */
+    private float getBentRotation(Direction prevDirection, Direction currentDirection) {
+        if (prevDirection == Direction.UP) {
+            return (currentDirection == Direction.RIGHT) ? 0f : 270f;
+        } else if (prevDirection == Direction.RIGHT) {
+            return (currentDirection == Direction.DOWN) ? 270f : 180f;
+        } else if (prevDirection == Direction.DOWN) {
+            return (currentDirection == Direction.LEFT) ? 180f : 90f;
+        } else {
+            return (currentDirection == Direction.UP) ? 90f : 0f;
         }
     }
 }

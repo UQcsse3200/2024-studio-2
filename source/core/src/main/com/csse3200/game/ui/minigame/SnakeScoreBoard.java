@@ -10,6 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.minigame.MiniGameConstants;
 
+/**
+ * UI component for displaying the scoreboard in the Snake mini-game.
+ * Manages score and medal display with dynamic scaling based on screen size.
+ */
 public class SnakeScoreBoard {
 
     private final Label scoreLabel;
@@ -19,6 +23,11 @@ public class SnakeScoreBoard {
     private final Label medalLabel;
     private final Table table;
 
+    /**
+     * Creates a new SnakeScoreBoard with the initial score.
+     *
+     * @param initialScore The starting score to display.
+     */
     public SnakeScoreBoard(int initialScore) {
         Stage stage = ServiceLocator.getRenderService().getStage();
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -52,18 +61,17 @@ public class SnakeScoreBoard {
         table = new Table();
         table.top().right(); // Align the table to the top-right corner
 
-        // Add the score label to the table with increased padding
         table.add(scoreLabel).center().padTop(120).padBottom(40).expandX().fillX().padLeft(120);
-        table.row(); // Move to the next row
+        table.row();
 
         table.add(medalLabel).center().padTop(80).padBottom(20).expandX().fillX().padLeft(120);
-        table.row(); // Move to the next row
+        table.row();
 
         // Add the Bronze, Silver, Gold labels to the table with increased padding
         table.add(bronzeLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
-        table.row(); // Move to the next row
+        table.row();
         table.add(silverLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
-        table.row(); // Move to the next row
+        table.row();
         table.add(goldLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
 
         // Set the background image
@@ -77,17 +85,25 @@ public class SnakeScoreBoard {
     }
 
 
-
-    // Update the score displayed on the scoreboard
+    /**
+     * Updates the score displayed on the scoreboard.
+     *
+     * @param newScore The new score to display.
+     */
     public void updateScore(int newScore) {
         scoreLabel.setText("Score: " + newScore);
     }
 
-    // Call this method inside the render loop to handle screen resizing
+    /**
+     * Adjusts the scoreboard's size and position based on screen size.
+     */
     public void resize(int width, int height) {
         updateTableSizeAndPosition();
     }
 
+    /**
+     * Disposes of the scoreboard resources.
+     */
     public void dispose() {
         if (table != null) {
             table.remove();
@@ -105,7 +121,10 @@ public class SnakeScoreBoard {
             goldLabel.remove();
         }
     }
-    // Call this method whenever the screen is resized
+
+    /**
+     * Configures the size, position, and scaling of the table and labels.
+     */
     private void updateTableSizeAndPosition() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
@@ -143,7 +162,4 @@ public class SnakeScoreBoard {
         table.row();
         table.add(goldLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
     }
-
-
-
 }

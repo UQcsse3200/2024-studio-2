@@ -1,7 +1,12 @@
 package com.csse3200.game.components.minigame.snake;
 
 /**
+<<<<<<< HEAD
  * Class to store the assets used for the mini-games
+=======
+ * Contains file paths for the assets used in the Snake mini-game,
+ * including images for the apple, snake, and grid.
+>>>>>>> 8f52a5cd5f4843850e470de41eddab6acbda28fd
  */
 public class AssetPaths {
     public static final String APPLE_IMAGE = "images/minigames/apple.png";

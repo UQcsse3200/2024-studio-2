@@ -1,6 +1,5 @@
 package com.csse3200.game.screens;
 
-import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
@@ -28,7 +26,6 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
-import static com.csse3200.game.components.minigame.snake.AssetPaths.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
@@ -44,7 +41,6 @@ public class SnakeScreen extends ScreenAdapter {
     private final Renderer renderer;
 
     private final BitmapFont font;
-
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -67,7 +63,6 @@ public class SnakeScreen extends ScreenAdapter {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-        // loadAssets();
         createUI();
 
         logger.debug("Initialising snake minigame entities");
@@ -99,6 +94,11 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Handles player input for restarting or exiting the game.
+     *
+     * @return true if a screen change was triggered, false otherwise.
+     */
     private boolean handleInput() {
         if (snakeGame.handleInput() == Events.RESTART) {  // Restart the game
             game.setScreen(new SnakeScreen(game));
@@ -111,11 +111,19 @@ public class SnakeScreen extends ScreenAdapter {
         return false;
     }
 
+    /**
+     * Clears the screen with a specific background color.
+     */
     private void clearBackground() {
         Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates the game state, including moving the snake and checking for game-over conditions.
+     *
+     * @param delta Time in seconds since the last frame.
+     */
     private void updateGame(float delta) {
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
@@ -124,7 +132,7 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     /**
-     * resize the renderer
+     * Resizes the renderer
      * @param width the width to resize to
      * @param height the height to resize to
      */
@@ -163,40 +171,14 @@ public class SnakeScreen extends ScreenAdapter {
 
         renderer.dispose();
         snakeRenderer.dispose();
-//        unloadAssets();
-
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
-//        ServiceLocator.getResourceService().dispose();
-
         ServiceLocator.clear();
-
         font.dispose();
     }
 
     /**
-     * Loads the assets for the game
-     */
-    private void loadAssets() {
-
-        logger.debug("Loading snake minigame assets");
-
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(AssetPaths.IMAGES);
-        ServiceLocator.getResourceService().loadAll();
-    }
-
-    /**
-     * Unloads assests for the game
-     */
-    private void unloadAssets() {
-        logger.debug("Unloading snake minigame assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(IMAGES);
-    }
-
-    /**
-     * Creates the snake mini-game's ui including components for rendering ui elements to the screen and
+     * Creates the snake minigame's ui including components for rendering ui elements to the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

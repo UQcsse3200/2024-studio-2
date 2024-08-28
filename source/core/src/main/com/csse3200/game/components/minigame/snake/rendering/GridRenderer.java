@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 
+/**
+ * Renders the grid for the Snake mini-game.
+ */
 public class GridRenderer {
 
     private static final int CELL_SIZE = 55;
@@ -13,12 +16,22 @@ public class GridRenderer {
     private final Texture grassTexture;
     private final SpriteBatch spriteBatch;
 
+    /**
+     * Creates a new GridRenderer.
+     *
+     * @param grid The grid to render.
+     * @param grassTexture The texture to use for rendering the grid cells.
+     * @param spriteBatch The SpriteBatch used for drawing.
+     */
     public GridRenderer(SnakeGrid grid, Texture grassTexture, SpriteBatch spriteBatch) {
         this.grid = grid;
         this.grassTexture = grassTexture;
         this.spriteBatch = spriteBatch;
     }
 
+    /**
+     * Renders the grid background.
+     */
     public void renderGrid() {
         int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
         int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
