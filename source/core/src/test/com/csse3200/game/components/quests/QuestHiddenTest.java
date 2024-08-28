@@ -17,13 +17,16 @@ class QuestHiddenTest {
     }
 
     @Test
-    void checks() {
+    void checkGetters() {
+        assertEquals("Test Achievement", achievement.getQuestName());
+        assertEquals("Lorem ipsum dolor", achievement.getQuestDescription());
+    }
 
+    @Test
+    void checkCompleted() {
         assertFalse(achievement.isCompleted());
         achievement.complete();
         assertTrue(achievement.isCompleted());
-        assertEquals("Test Achievement", achievement.getQuestName());
-        assertEquals("Lorem ipsum dolor", achievement.getQuestDescription());
     }
 
 
