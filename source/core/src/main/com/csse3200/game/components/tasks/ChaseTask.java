@@ -78,14 +78,14 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       heartbeatSound.setVolume(1.0f);
     }
     if (heartbeatSound != null) {
-//      ForestGameArea.pauseMusic();
+      ForestGameArea.pauseMusic();
       heartbeatSound.play();
     }
   }
 
   void stopTensionSound() {
     if (heartbeatSound != null) {
-//      ForestGameArea.playMusic();
+      ForestGameArea.playMusic();
       heartbeatSound.stop();
     }
   }

@@ -209,11 +209,8 @@ public class ForestGameArea extends GameArea {
 
   private void spawnKangarooBoss() {
     if (!kangarooBossSpawned) {
-      // Create entity
       Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
-      // Create in the world
       spawnEntityOnMap(kangarooBoss);
-      // Set flag to true after Kanga Boss is spawned
       kangarooBossSpawned = true;
     }
   }
@@ -273,13 +270,13 @@ public class ForestGameArea extends GameArea {
         spawnEntityOnMap(snake);
     }
 
-  public void playMusic() {
+  public static void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.5f);
     music.play();
   }
-  public void pauseMusic() {
+  public static void pauseMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.pause();
   }
