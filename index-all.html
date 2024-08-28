@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="block">An abstract Quest class that contains the design for Quest classes that store quest
   and subtask progression (# of subtasks completed), descriptions and hints.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#%3Cinit%3E(com.csse3200.game.entities.Entity,java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D)" class="member-name-link">AbstractQuest(Entity, String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[])</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D,boolean,boolean,int)" class="member-name-link">AbstractQuest(String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[], boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
 <dd>
 <div class="block">Constructor design for implementing subclasses.</div>
 </dd>
@@ -1195,8 +1195,6 @@ loadScripts(document, 'script');</script>
 <div class="block">Provides a global access point for entities to register themselves.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/EntityService.html#%3Cinit%3E()" class="member-name-link">EntityService()</a> - Constructor for class com.csse3200.game.entities.<a href="com/csse3200/game/entities/EntityService.html" title="class in com.csse3200.game.entities">EntityService</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/gamestate/GameState.html#env" class="member-name-link">env</a> - Static variable in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/minigame/snake/Snake.Segment.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/Snake.Segment.html" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></dt>
 <dd>
@@ -2606,6 +2604,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Loads a list of music assets into the asset manager.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/quests/QuestManager.html#loadQuests()" class="member-name-link">loadQuests()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestManager.html" title="class in com.csse3200.game.components.quests">QuestManager</a></dt>
+<dd>
+<div class="block">Automatically loads and registers all of the quests stored in GameState.</div>
+</dd>
 <dt><a href="com/csse3200/game/services/ResourceService.html#loadSounds(java.lang.String%5B%5D)" class="member-name-link">loadSounds(String[])</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ResourceService.html" title="class in com.csse3200.game.services">ResourceService</a></dt>
 <dd>
 <div class="block">Loads a list of sounds into the asset manager.</div>
@@ -3036,7 +3038,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Processes the completed message entered by the user.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#progressQuest()" class="member-name-link">progressQuest()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#progressQuest(com.csse3200.game.entities.Entity)" class="member-name-link">progressQuest(Entity)</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
 <dd>
 <div class="block">Progress (increments) number of quest subtasks completed.</div>
 </dd>
@@ -3060,12 +3062,7 @@ loadScripts(document, 'script');</script>
 <div class="block">A basic Quest class that stores quest and subtask progression (# of
  subtasks completed), descriptions and hints.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/QuestBasic.html#%3Cinit%3E(com.csse3200.game.entities.Entity,java.lang.String,java.lang.String,java.util.List)" class="member-name-link">QuestBasic(Entity, String, String, List&lt;Task&gt;)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestBasic.html" title="class in com.csse3200.game.components.quests">QuestBasic</a></dt>
-<dd>
-<div class="block">A constructor class for a progression quest to construct non-achievement quests w
- ith no dialogue or completion triggers (messages to send on completion).</div>
-</dd>
-<dt><a href="com/csse3200/game/components/quests/QuestBasic.html#%3Cinit%3E(com.csse3200.game.entities.Entity,java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D)" class="member-name-link">QuestBasic(Entity, String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[])</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestBasic.html" title="class in com.csse3200.game.components.quests">QuestBasic</a></dt>
+<dt><a href="com/csse3200/game/components/quests/QuestBasic.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D,boolean,boolean,int)" class="member-name-link">QuestBasic(String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[], boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestBasic.html" title="class in com.csse3200.game.components.quests">QuestBasic</a></dt>
 <dd>
 <div class="block">A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
   and completion triggers (messages to send on completion).</div>
@@ -3101,6 +3098,14 @@ loadScripts(document, 'script');</script>
 <div class="block">A popup UI that displays a popup message when a quest is completed.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/quests/QuestPopup.html#%3Cinit%3E()" class="member-name-link">QuestPopup()</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestPopup.html" title="class in com.csse3200.game.components.quests">QuestPopup</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/Quests.html#quests" class="member-name-link">quests</a> - Variable in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/Quests.html" title="class in com.csse3200.game.gamestate.data">Quests</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/GameState.html#quests" class="member-name-link">quests</a> - Static variable in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/Quests.html" class="type-name-link" title="class in com.csse3200.game.gamestate.data">Quests</a> - Class in <a href="com/csse3200/game/gamestate/data/package-summary.html">com.csse3200.game.gamestate.data</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/Quests.html#%3Cinit%3E()" class="member-name-link">Quests()</a> - Constructor for class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/Quests.html" title="class in com.csse3200.game.gamestate.data">Quests</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:R">R</h2>
@@ -3140,6 +3145,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Stores information about a raycast hit.</div>
 </dd>
 <dt><a href="com/csse3200/game/physics/raycast/RaycastHit.html#%3Cinit%3E()" class="member-name-link">RaycastHit()</a> - Constructor for class com.csse3200.game.physics.raycast.<a href="com/csse3200/game/physics/raycast/RaycastHit.html" title="class in com.csse3200.game.physics.raycast">RaycastHit</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/Quests.html#read(com.badlogic.gdx.utils.Json,com.badlogic.gdx.utils.JsonValue)" class="member-name-link">read(Json, JsonValue)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/Quests.html" title="class in com.csse3200.game.gamestate.data">Quests</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/files/FileLoader.html#readClass(java.lang.Class,java.lang.String)" class="member-name-link">readClass(Class&lt;T&gt;, String)</a> - Static method in class com.csse3200.game.files.<a href="com/csse3200/game/files/FileLoader.html" title="class in com.csse3200.game.files">FileLoader</a></dt>
 <dd>
@@ -3435,6 +3442,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Scrolling up will open the terminal and scrolling down will close the terminal.</div>
 </dd>
+<dt><a href="com/csse3200/game/gamestate/data/WorldState.html#seed" class="member-name-link">seed</a> - Variable in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/WorldState.html" title="class in com.csse3200.game.gamestate.data">WorldState</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/minigame/snake/Snake.Segment.html#%3Cinit%3E(int,int,com.csse3200.game.components.minigame.Direction)" class="member-name-link">Segment(int, int, Direction)</a> - Constructor for record class com.csse3200.game.components.minigame.snake.<a href="com/csse3200/game/components/minigame/snake/Snake.Segment.html" title="class in com.csse3200.game.components.minigame.snake">Snake.Segment</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>Segment</code> record class.</div>
@@ -3992,7 +4001,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">An AI task can be started and stopped at any time.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/Task.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,int)" class="member-name-link">Task(String, String, String, int)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Task.html" title="class in com.csse3200.game.components.quests">Task</a></dt>
+<dt><a href="com/csse3200/game/components/quests/Task.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,int,int,boolean,boolean)" class="member-name-link">Task(String, String, String, int, int, boolean, boolean)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Task.html" title="class in com.csse3200.game.components.quests">Task</a></dt>
 <dd>
 <div class="block">Constructs a new Task with specific details.</div>
 </dd>
@@ -4559,6 +4568,8 @@ the order they are declared.</div>
 <dt><a href="com/csse3200/game/gamestate/data/WorldState.html" class="type-name-link" title="class in com.csse3200.game.gamestate.data">WorldState</a> - Class in <a href="com/csse3200/game/gamestate/data/package-summary.html">com.csse3200.game.gamestate.data</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/gamestate/data/WorldState.html#%3Cinit%3E()" class="member-name-link">WorldState()</a> - Constructor for class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/WorldState.html" title="class in com.csse3200.game.gamestate.data">WorldState</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/Quests.html#write(com.badlogic.gdx.utils.Json)" class="member-name-link">write(Json)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/Quests.html" title="class in com.csse3200.game.gamestate.data">Quests</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/files/FileLoader.html#writeClass(java.lang.Object,java.lang.String)" class="member-name-link">writeClass(Object, String)</a> - Static method in class com.csse3200.game.files.<a href="com/csse3200/game/files/FileLoader.html" title="class in com.csse3200.game.files">FileLoader</a></dt>
 <dd>
