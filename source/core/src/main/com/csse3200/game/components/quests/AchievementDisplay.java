@@ -22,12 +22,18 @@ public class AchievementDisplay extends UIComponent {
         this.game = game;
     }
 
+    /**
+     * Creates and populates the UI with UI elements.
+     */
     @Override
     public void create() {
         super.create();
         addActors();
     }
 
+    /**
+     * Add UI elements to the display. Elements will be populated in their own Tables, before being added to a rootTable.
+     */
     private void addActors() {
         Label title = new Label("Achievements", skin, "title");
         Table menuBtns = makeMenuBtns();
@@ -47,6 +53,10 @@ public class AchievementDisplay extends UIComponent {
         stage.addActor(rootTable);
     }
 
+    /**
+     * Creates the Table for the visual representation of completed achievements.
+     * @return The Table showing achievements.
+     */
     private Table makeAchievementsTable() {
 
         Label achievementName = new Label("Test Achievement", skin);
@@ -61,6 +71,10 @@ public class AchievementDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Creates the table for the exit button.
+     * @return The Table showing the exit button.
+     */
     private Table makeMenuBtns() {
         TextButton exitBtn = new TextButton("Exit", skin);
 
@@ -79,6 +93,9 @@ public class AchievementDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Sets the current game screen back to the main menu.
+     */
     private void exitMenu() {
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
@@ -88,7 +105,9 @@ public class AchievementDisplay extends UIComponent {
         // draw is handled by the stage
     }
 
-
+    /**
+     * Clear the UI elements on the display
+     */
     @Override
     public void dispose() {
         rootTable.clear();

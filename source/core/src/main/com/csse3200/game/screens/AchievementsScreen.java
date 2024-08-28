@@ -36,28 +36,45 @@ public class AchievementsScreen extends ScreenAdapter {
     createUI();
   }
 
+  /**
+   * Render the AchievementsScreen.
+   */
   @Override
   public void render(float delta) {
     ServiceLocator.getEntityService().update();
     renderer.render();
   }
 
+  /**
+   * Resize the achievement screen window.
+   * @param width The width of the new screen.
+   * @param height The height of the new screen.
+   */
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
+  /**
+   * Pause the current screen.
+   */
   @Override
   public void pause() {
     logger.info("Game paused");
   }
 
+  /**
+   * Resume the current screen.
+   */
   @Override
   public void resume() {
     logger.info("Game resumed");
   }
 
+  /**
+   * Dispose of the current screen, disposing of the relevant services.
+   */
   @Override
   public void dispose() {
     renderer.dispose();
@@ -70,7 +87,7 @@ public class AchievementsScreen extends ScreenAdapter {
 
 
   /**
-   * Creates the main menu's ui including components for rendering ui elements to the screen and
+   * Creates the achievement screen's ui including components for rendering ui elements to the screen and
    * capturing and handling ui input.
    */
   private void createUI() {

@@ -41,6 +41,10 @@ public class QuestManager extends Component {
         }
     }
 
+    /**
+     * Adds a listener for the achievement, which completes the achievement when triggered.
+     * @param achievement The achievement being listened to.
+     */
     private void subscribeToAchievementEvents(QuestHidden achievement) {
         eventService.globalEventHandler.addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
     }
@@ -50,6 +54,10 @@ public class QuestManager extends Component {
         subscribeToQuestEvents(quest);
     }
 
+    /**
+     * Add a achievement to the overall list of achievements.
+     * @param achievement The achievement being added.
+     */
     public void addAchievement(QuestHidden achievement) {
         achievements.put(achievement.getQuestName(), achievement);
         subscribeToAchievementEvents(achievement);
@@ -59,6 +67,11 @@ public class QuestManager extends Component {
         return quests.get(questName);
     }
 
+    /**
+     * Get the class representation of an achievement.
+     * @param achievementName The name of the achievement being got.
+     * @return The class representation of the achievement.
+     */
     public QuestHidden getAchievement(String achievementName) {
         return achievements.get(achievementName);
     }
@@ -94,6 +107,10 @@ public class QuestManager extends Component {
        }
     }
 
+    /**
+     * Completes the achievement by changing the state of the achievement and triggering an achievement popup
+     * @param achievementName The name of the achievement being completed
+     */
     public void completeAchievement(String achievementName) {
         QuestHidden achievement = achievements.get(achievementName);
         if (achievement != null && !achievement.isCompleted()) {
