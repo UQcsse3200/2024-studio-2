@@ -1,5 +1,4 @@
 package com.csse3200.game.entities.factories;
-import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -73,6 +72,8 @@ public class PlayerFactory {
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(TextureRenderComponent.class).scaleEntity();
+    //BELOW IS HOW YOU LOAD SAVES: COMMENT OUT testQuests() in QuestManager constructor as well to use
+    player.getComponent(QuestManager.class).loadQuests();
     return player;
   }
 

@@ -45,20 +45,19 @@ public abstract class AbstractQuest {
     private boolean isActive;
     /** Triggers for task completion. */
     private final String[] taskCompletionTriggers;
-    /** The player entity whose owns the quest */
-    private final Entity player;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(Entity player, String questName, String questDescription, List<Task> tasks,
-                            Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue, String[] taskCompletionTriggers) {
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
         this.isSecretQuest = isSecretQuest;
-        this.isActive = true;
+        this.isActive = active;
+        this.isFailed = failed;
+        this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
         this.taskCompletionTriggers = taskCompletionTriggers;
-        this.player = player;
     }
 
     /** Returns quest name. */
@@ -106,17 +105,17 @@ public abstract class AbstractQuest {
         return tasks.get(currentTaskIndex).getHint();
     }
     /** Progress (increments) number of quest subtasks completed. */
-    public void progressQuest() {
+    public void progressQuest(Entity player) {
         if (!isQuestCompleted() && !isFailed) {
             if(taskCompletionTriggers!=null){
-                this.player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
+                player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
             this.isActive = false;
             if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
-                this.player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
+                player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
             }
         }
     }

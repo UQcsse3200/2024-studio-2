@@ -9,7 +9,6 @@ import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -28,7 +27,6 @@ import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
@@ -132,6 +130,7 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory, game);
+
     gameArea.create();
   }
 
