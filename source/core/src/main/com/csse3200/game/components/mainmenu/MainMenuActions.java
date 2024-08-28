@@ -1,7 +1,5 @@
 package com.csse3200.game.components.mainmenu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import org.slf4j.Logger;
@@ -34,7 +32,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**

@@ -1,48 +1,67 @@
 package com.csse3200.game.components.minigame.snake;
 
+import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigame.snake.controller.Events;
+import com.csse3200.game.components.minigame.snake.controller.SnakeController;
+
 import java.util.List;
 
-/*
- * This holds the logic for the Snake mini game. 
+/**
+ * Manages the logic and state of the Snake mini-game, including snake movement, scoring,  and
+ * game-over conditions.
  */
 public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
-    private SnakeGrid grid;
+    private final SnakeGrid grid;
+    private final SnakeController snakeController;
     private int score;
     private Boolean isGameOver;
 
-    /*
-    * Initialise values
-    */
-    public SnakeGame(Snake snake, Apple apple, SnakeGrid snakeGrid) {
-        this.snake = snake;
-        this.apple = apple;
-        this.grid = snakeGrid;
+    /**
+     * Initialises a new SnakeGame with a grid, snake, apple, and controller.
+     */
+    public SnakeGame() {
+        this.grid = new SnakeGrid();
+        this.snakeController = new SnakeController();
+        this.snake = new Snake(this.grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
+        this.apple = new Apple(this.grid);
         this.score = 0;
         this.isGameOver = false;
     }
 
     /**
-     * Getter for the isGameOver variable
-     * @return isGameOver, is true if over, else false
+     * methods to return snake object
+     * @return the snake
      */
+    public Snake getSnake() {
+        return this.snake;
+    }
+
+    /**
+     * Method to return apple object
+     * @return the apple
+     */
+    public Apple getApple() {
+        return this.apple;
+    }
+
+    /**
+     * Methods to return grid object
+     * @return the grid
+     */
+    public SnakeGrid getGrid() {
+        return this.grid;
+    }
+
     public boolean getIsGameOver() {
         return isGameOver;
     }
 
-    /**
-     * Set the isGameOver function. Is true if over, else false
-     * @param state: the state to set the isGameOver to
-     */
-    public void setIsGameOver(boolean state) {
-        this.isGameOver = state;
+    public void setIsGameOver() {
+        this.isGameOver = true;
     }
 
-    /**
-     * Returns the current score of the game.
-     * @return the current score of the game.
-     */
     public int getScore() {
         return score;
     }
@@ -56,30 +75,26 @@ public class SnakeGame {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
-            score += calculateScore();
+            score += 1;
         }
     }
 
     /**
-     * Adds constant to the score
-     * @return the constant to add to the score
-     * TODO: Might change scoreing system, hence the function
+     * Moves the snake and checks for game-over conditions.
+     *
+     * @param delta The time elapsed since the last update.
      */
-    private int calculateScore() {
-        return 1;
-    }
-
-    /**
-     * Sets the score (used for testing only)
-     * @param value: the value for the score to be set to.
-     */
-    public void setScore(int value) {
-        this.score = value;
+    public void snakeMove(float delta) {
+        snake.updateDirectionOnInput(snakeController.getInputDirection());
+        attemptEatFruit();
+        this.snake.update(delta);
+        if(boundaryDetection() || snakeCollisionDetection()) {
+            setIsGameOver();
+        }
     }
 
     /**
      * Detects if the snake it at the boundary of the grid
-     *
      * @return true if it is, false otherwise
      */
     public boolean boundaryDetection() {
@@ -101,10 +116,19 @@ public class SnakeGame {
         int snakeHeadY = snake.getY();
         List<Snake.Segment> snakeSegs = snake.getBodySegments();
         for (int i = 0; i <= snakeSegs.size() - 1; i += 1) {
-             if (snakeSegs.get(i).getX() == snakeHeadX && snakeSegs.get(i).getY() == snakeHeadY) {
+             if (snakeSegs.get(i).x() == snakeHeadX && snakeSegs.get(i).y() == snakeHeadY) {
                 return true;
              }
         }
         return false;
+    }
+
+    /**
+     * Handles player input and returns the corresponding game event.
+     *
+     * @return The event triggered by the player's input, or NONE if no event is triggered.
+     */
+    public Events handleInput() {
+        return snakeController.handleInput();
     }
 }

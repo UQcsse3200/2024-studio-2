@@ -7,7 +7,11 @@ import java.util.Map;
  */
 public class BaseEntityConfig {
     public int health = 1;
-    public int baseAttack = 0;
+    public int hunger = 100;
+    public int strength = 0;
+    public int defense = 0;
+    public int speed = 1;
+    public int experience = 0;
     public String animalName = "";
 
     public Map<Integer, String[]> hints = null;

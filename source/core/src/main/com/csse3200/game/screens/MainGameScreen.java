@@ -11,6 +11,7 @@ import com.csse3200.game.Overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -42,7 +43,9 @@ import java.util.LinkedList;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/QuestsOverlay/QuestsBG.png"};
+  private static final String[] mainGameTextures = {"images/health_bar_x1.png",
+          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png",
+          "images/xp_bar.png", "images/hunger_bar.png"};
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
   private boolean isPaused = false;
