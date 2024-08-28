@@ -28,6 +28,7 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+
 /**
  * A UI component for displaying the Main menu.
  */
@@ -40,6 +41,9 @@ public class MainMenuDisplay extends UIComponent {
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
 
+    /**
+     * Called when the component is created. Initializes the main menu UI.
+     */
     @Override
     public void create() {
         super.create();
@@ -50,12 +54,17 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
     }
 
+    /**
+     * Applies user settings to the game.
+     */
     private void applyUserSettings() {
         UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
         UserSettings.applySettings(settings); // Apply settings to the game
-
     }
 
+    /**
+     * Adds all UI elements (buttons, labels, etc.) to the main menu.
+     */
     private void addActors() {
         table = new Table();
         table.setFillParent(true);
@@ -110,15 +119,15 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-      minigamesBtn.addListener(
-              new ChangeListener() {
-                  @Override
-                  public void changed(ChangeEvent changeEvent, Actor actor) {
+        minigamesBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
 
-                      logger.info("SnakeGame button clicked");
-                      entity.getEvents().trigger("SnakeGame");
-                  }
-              });
+                        logger.info("SnakeGame button clicked");
+                        entity.getEvents().trigger("SnakeGame");
+                    }
+                });
 
         helpBtn.addListener(new ChangeListener() {
             @Override
@@ -157,6 +166,9 @@ public class MainMenuDisplay extends UIComponent {
         addSettingMenu();
     }
 
+    /**
+     * Adjusts the size of the table based on screen mode (fullscreen or windowed).
+     */
     private void sizeTable() {
         if (Gdx.graphics.isFullscreen()) {
             // full screen sizing
@@ -167,6 +179,9 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Displays the help window with slides for game instructions.
+     */
     private void showHelpWindow() {
         final int NUM_SLIDES = 5;
         final float WINDOW_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
@@ -216,7 +231,6 @@ public class MainMenuDisplay extends UIComponent {
 
         // Add the navigation table to the bottom of the helpWindow
         helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
-
 
         final int[] currentSlide = {0};
 
@@ -307,16 +321,16 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(helpWindow);
     }
 
-
-
+    /**
+     * Adds a minimize button to the top-right corner of the screen.
+     * This button toggles between fullscreen and windowed mode.
+     */
     private void addMinimizeButton() {
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
         } else {
             toggleWindowBtn = new TextButton("+", skin);
         }
-
-        //updateToggleWindowButtonText(); // Set initial text based on current screen mode
 
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
@@ -344,6 +358,9 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(topRightTable);
     }
 
+    /**
+     * Updates the text of the minimize button based on screen mode.
+     */
     private void updateToggleWindowButtonText() {
         boolean isFullscreen = Gdx.graphics.isFullscreen();
         if (isFullscreen) {
@@ -353,7 +370,9 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
-
+    /**
+     * Adds a settings menu to the screen.
+     */
     private void addSettingMenu() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE); // Set color to white
@@ -429,6 +448,9 @@ public class MainMenuDisplay extends UIComponent {
                 });
     }
 
+    /**
+     * Updates the position of the settings menu based on screen size.
+     */
     public void updateSettingMenu() {
         if (settingMenu != null) {
             // Center the menu on the screen
@@ -441,6 +463,9 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Adds an elevation effect to buttons when hovered.
+     */
     private void addButtonElevationEffect(TextButton button) {
         button.addListener(new ClickListener() {
             @Override
