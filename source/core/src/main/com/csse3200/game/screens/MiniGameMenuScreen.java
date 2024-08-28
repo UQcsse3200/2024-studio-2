@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 
+/**
+ * CLass for the MiniGame Menu Screen
+ */
 public class MiniGameMenuScreen implements Screen {
 
     private Stage stage; // Handles UI elements and input events
@@ -32,12 +35,17 @@ public class MiniGameMenuScreen implements Screen {
 
     private Texture backgroundTexture; // Background texture for the menu screen
 
-    // Constructor initializes the main game object
+    /**
+     * Constructor initializes the main game object
+     * @param game the gdx game
+     */
     public MiniGameMenuScreen(GdxGame game) {
         this.game = game;
     }
 
-    // Called when the screen is shown for the first time
+    /**
+     * Called when the screen is shown for the first time
+     */
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport()); // Sets up a stage with a viewport
@@ -51,14 +59,15 @@ public class MiniGameMenuScreen implements Screen {
 
         // Load Textures for background and minigames
         backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
-        snakeTexture = new Texture(Gdx.files.internal("images/img_1.png"));
-        skyTexture = new Texture(Gdx.files.internal("images/img_3.png"));
-        waterTexture = new Texture(Gdx.files.internal("images/img_4.png"));
+        snakeTexture = new Texture(Gdx.files.internal("images/minigames/snake_1.png"));
+        skyTexture = new Texture(Gdx.files.internal("images/minigames/bird.png"));
+        waterTexture = new Texture(Gdx.files.internal("images/minigames/fish.png"));
 
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
         Image snakeImage = new Image(snakeTexture);
         Image skyImage = new Image(skyTexture);
+        skyImage.setScale(0.8f); // scale down bird to 80%
         Image waterImage = new Image(waterTexture);
         TextButton snakeButton = new TextButton("Snake", skin);
         TextButton skyButton = new TextButton("Flappy bird", skin);
@@ -66,28 +75,26 @@ public class MiniGameMenuScreen implements Screen {
 
         // Table layout for organizing buttons and images
         Table table = new Table();
-        table.setFillParent(true); // Makes the table take up the entire screen
-        table.center(); // Centers the table on the screen
+        table.setFillParent(true);
+        table.center();
 
-        // Set up separate tables for each minigame's image and button
-        // Set up separate tables for each minigame's image and button with consistent padding
+        // Add each image to table
         Table snakeTable = new Table();
-        snakeTable.add(snakeImage).padBottom(10).row(); // Image padding from the bottom
-        snakeTable.add(snakeButton).padTop(10); // Button padding from the top
+        snakeTable.add(snakeImage).bottom().padBottom(10).row();
+        snakeTable.add(snakeButton).padTop(10);
 
         Table skyTable = new Table();
-        skyTable.add(skyImage).padBottom(10).row(); // Image padding from the bottom
-        skyTable.add(skyButton).padTop(10); // Button padding from the top
+        skyTable.add(skyImage).bottom().padBottom(10).padLeft(80).row();
+        skyTable.add(skyButton).padTop(10);
 
         Table waterTable = new Table();
-        waterTable.add(waterImage).padBottom(10).row(); // Image padding from the bottom
-        waterTable.add(waterButton).padTop(10); // Button padding from the top
+        waterTable.add(waterImage).bottom().padBottom(10).row();
+        waterTable.add(waterButton).padTop(10);
 
-// Add all game tables to the main table with consistent spacing between columns
-        table.add(snakeTable).pad(20).space(30); // Padding and space between columns
-        table.add(skyTable).pad(20).space(30);   // Padding and space between columns
-        table.add(waterTable).pad(20).space(30); // Padding and space between columns
-
+        // Add all game tables to the main table with consistent spacing between columns
+        table.add(snakeTable).bottom().pad(20).space(30);
+        table.add(skyTable).bottom().pad(20).space(30);
+        table.add(waterTable).bottom().pad(20).space(30);
 
         // Add the main table to the stage
         stage.addActor(table);
@@ -152,7 +159,10 @@ public class MiniGameMenuScreen implements Screen {
         });
     }
 
-    // Called every frame to render the screen
+    /**
+     * Called every frame to render the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // Set the background color
@@ -173,29 +183,41 @@ public class MiniGameMenuScreen implements Screen {
         }
     }
 
-    // Called when the screen is resized
+    /**
+     * Called when the screen is resized
+     * @param width width fo the new screen
+     * @param height height of the new screen
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true); // Updates the viewport to match the new screen dimensions
     }
 
-    // Called when the game is paused
+    /**
+     * Called when the game is paused
+     */
     @Override
     public void pause() {
     }
 
-    // Called when the game is resumed after a pause
+    /**
+     *  Called when the game is resumed after a pause
+     */
     @Override
     public void resume() {
     }
 
-    // Called when the screen is hidden
+    /**
+     * Called when the screen is hidden
+     */
     @Override
     public void hide() {
         dispose(); // Disposes of resources when the screen is no longer visible
     }
 
-    // Called to dispose of resources to prevent memory leaks
+    /**
+     *  Called to dispose of resources to prevent memory leaks
+     */
     @Override
     public void dispose() {
         stage.dispose(); // Disposes of the stage
