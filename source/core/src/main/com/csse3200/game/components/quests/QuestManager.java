@@ -242,7 +242,7 @@ public class QuestManager extends Component {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
             questComplete.play();
-            eventService.getGlobalEventHandler().trigger("achievementCompleted");
+            player.getEvents().trigger("achievementCompleted");
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
