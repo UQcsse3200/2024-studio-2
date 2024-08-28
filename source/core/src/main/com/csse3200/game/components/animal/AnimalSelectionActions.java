@@ -19,17 +19,20 @@ public class AnimalSelectionActions {
     private final GdxGame game;
     static String selectedAnimalImagePath;
 
+    // Constructor to initialize the AnimalSelectionActions class
     public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;
-        addListeners();
+        addListeners(); // Add listeners to handle user interactions
     }
 
+    // Getter method to retrieve the path of the selected animal image
     public static String getSelectedAnimalImagePath() {
         return selectedAnimalImagePath;
     }
 
+    // Method to add click listeners to the animal images, buttons, and other UI elements
     private void addListeners() {
         Image[] animalImages = display.getAnimalImages();
         TextButton[] animalButtons = display.getAnimalButtons();
@@ -39,6 +42,7 @@ public class AnimalSelectionActions {
                 "images/bird.png"
         };
 
+        // Add listeners to animal images and buttons
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
             final String animalImagePath = animalImagePaths[i];
@@ -62,6 +66,7 @@ public class AnimalSelectionActions {
             });
         }
 
+        // Add listener to the "Select" button to proceed with the selected animal
         display.getSelectButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,11 +75,12 @@ public class AnimalSelectionActions {
                     game.setScreen(new LoadingScreen(game));
                 } else {
                     logger.debug("No animal selected");
-                    showSelectionAlert();
+                    showSelectionAlert(); // Show an alert if no animal is selected
                 }
             }
         });
 
+        // Add listener to the "Back" button to return to the main menu
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -84,22 +90,25 @@ public class AnimalSelectionActions {
         });
     }
 
+    // Method to highlight the selected animal image and store its path
     void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
-            selectedAnimalImage.setColor(1, 1, 1, 1);
+            selectedAnimalImage.setColor(1, 1, 1, 1); // Reset color of the previously selected image
         }
 
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
-        selectedAnimalImage.setColor(1, 0, 0, 1);
+        selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight the selected image
 
         logger.debug("Animal selected: {}", animalImage.getName());
     }
 
+    // Method to show an alert if the "Select" button is clicked without an animal selected
     private void showSelectionAlert() {
         Dialog dialog = new Dialog("Alert", display.getSkin()) {
             @Override
             protected void result(Object object) {
+                // No specific action required after dismissing the alert
             }
         };
 
@@ -108,6 +117,7 @@ public class AnimalSelectionActions {
         dialog.show(display.getStage());
     }
 
+    // Method to display a dialog with information about the selected animal
     void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
         String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
