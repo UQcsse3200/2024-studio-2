@@ -5,15 +5,12 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.eventservice.EventService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * A container class that stores all of the services for a screen. This can be used to switch between screens without
+ * A container class that stores all the services for a screen. This can be used to switch between screens without
  * loosing any of the services that are loaded.
  */
 public class ServiceContainer {
-    private static final Logger logger = LoggerFactory.getLogger(ServiceContainer.class);
     private EntityService entityService;
     private RenderService renderService;
     private PhysicsService physicsService;
@@ -21,6 +18,16 @@ public class ServiceContainer {
     private InputService inputService;
     private ResourceService resourceService;
     private EventService eventService;
+
+    public ServiceContainer() {
+        this.entityService = ServiceLocator.getEntityService();
+        this.renderService = ServiceLocator.getRenderService();
+        this.physicsService = ServiceLocator.getPhysicsService();
+        this.timeSource = ServiceLocator.getTimeSource();
+        this.inputService = ServiceLocator.getInputService();
+        this.resourceService = ServiceLocator.getResourceService();
+        this.eventService = ServiceLocator.getEventService();
+    }
 
     public ServiceContainer(EntityService entityService, RenderService renderService, PhysicsService physicsService,
                             GameTime timeSource, InputService inputService, ResourceService resourceService,
@@ -35,26 +42,69 @@ public class ServiceContainer {
     }
 
     /**
-     * Gets the EntityService stored in this container
      * @return the EntityService stored in this container
      */
     public EntityService getEntityService() {return entityService;}
+
+    /**
+     * @return the RenderService stored in this container
+     */
     public RenderService getRenderService() {return renderService;}
+
+    /**
+     * @return the PhysicsService stored in this container
+     */
     public PhysicsService getPhysicsService() {return physicsService;}
+    /**
+     * @return the GameTime stored in this container
+     */
     public GameTime getTimeSource() {return timeSource;}
+    /**
+     * @return the InputService stored in this container
+     */
     public InputService getInputService() {return inputService;}
+    /**
+     * @return the ResourceService stored in this container
+     */
     public ResourceService getResourceService() {return resourceService;}
+    /**
+     * @return the EventService stored in this container
+     */
     public EventService getEventService() {return eventService;}
 
     /**
      * stores an EntityService in this container
-     * @param entityService
+     * @param entityService the service to be stored
      */
     public void storeEntityService(EntityService entityService) {this.entityService = entityService;}
+    /**
+     * stores an RenderService in this container
+     * @param renderService the service to be stored
+     */
     public void storeRenderService(RenderService renderService) {this.renderService = renderService;}
+    /**
+     * stores an PhysicsService in this container
+     * @param physicsService the service to be stored
+     */
     public void storePhysicsService(PhysicsService physicsService) {this.physicsService = physicsService;}
+    /**
+     * stores a GameTime in this container
+     * @param timeSource the time source to be stored
+     */
     public void storeTimeSource(GameTime timeSource) {this.timeSource = timeSource;}
+    /**
+     * stores an InputService in this container
+     * @param inputService the service to be stored
+     */
     public void storeInputService(InputService inputService) {this.inputService = inputService;}
+    /**
+     * stores a ResourceService in this container
+     * @param resourceService the service to be stored
+     */
     public void storeResourceService(ResourceService resourceService) {this.resourceService = resourceService;}
+    /**
+     * stores an EventService in this container
+     * @param eventService the service to be stored
+     */
     public void storeEventService(EventService eventService) {this.eventService = eventService;}
 }

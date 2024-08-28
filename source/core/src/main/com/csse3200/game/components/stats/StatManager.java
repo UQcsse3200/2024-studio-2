@@ -31,7 +31,7 @@ public class StatManager extends Component {
      */
     public void addStat(Stat stat) {
         stats.put(stat.getStatName(), stat);
-        eventService.globalEventHandler.addListener(stat.getStatName(), this::updateStat);
+        eventService.getGlobalEventHandler().addListener(stat.getStatName(), this::updateStat);
     }
 
     /** Gets a Stat object from within the StatManager

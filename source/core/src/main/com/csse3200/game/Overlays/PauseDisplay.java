@@ -22,6 +22,7 @@ public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     EventService eventService = ServiceLocator.getEventService();
     private Table rootTable;
+    private static final String BUTTONTEXTURE = "images/PauseOverlay/Button.png";
 
     public PauseDisplay() {
         super();
@@ -36,10 +37,7 @@ public class PauseDisplay extends UIComponent {
     private void addActors() {
         // Title label
         Label title = new Label("Attack On Animals", skin, "title");
-        Image titleBackGround =
-                new Image(
-                        ServiceLocator.getResourceService()
-                                .getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
+        Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
         // Create tables
         Table menuBtns = makeMenuBtns();
         // Root table that holds everything
@@ -62,15 +60,6 @@ public class PauseDisplay extends UIComponent {
         TextButton resumeBtn = new TextButton("Resume", skin);
         TextButton questsBtn = new TextButton("Quest Tracker", skin);
         TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
-        Image button = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
-        Image button2 = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
-        Image button3 = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/PauseOverlay/Button.png", Texture.class));
 
         // Add listeners for buttons
         resumeBtn.addListener(new ChangeListener() {
@@ -95,35 +84,32 @@ public class PauseDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
-                        eventService.globalEventHandler.trigger("exit");
+                        eventService.getGlobalEventHandler().trigger("exit");
                     }
                 });
 
-        //button.setScale(0.75f);
-        //button2.setScale(0.75f);
         // Layout buttons in a table
         Table table = new Table();
-        table.add(button).size(button.getWidth() * 0.75f, button.getHeight() * 0.75f).center();
-        table.row();
-        table.add(questsBtn).center().padTop(-button.getHeight()*0.75f);
-        table.row().padTop(10f);
-        table.add(button2).size(button2.getWidth() * 0.75f, button2.getHeight() * 0.75f).center();
-        table.row();
-        table.add(resumeBtn).center().padTop(-button.getHeight()*0.75f);
-        table.row().padTop(10f);
-        table.add(button3).size(button3.getWidth() * 0.75f, button3.getHeight() * 0.75f).center();
-        table.row();
-        table.add(mainMenuBtn).center().padTop(-button.getHeight()*0.75f);
+        Actor[] actors = {questsBtn, resumeBtn, mainMenuBtn};
+        for ( Actor button : actors){
+            Image buttonBackground = new Image(
+                    ServiceLocator.getResourceService()
+                            .getAsset(BUTTONTEXTURE, Texture.class));
+            table.add(buttonBackground).size(buttonBackground.getWidth() * 0.75f, buttonBackground.getHeight() * 0.75f).center();
+            table.row();
+            table.add(button).center().padTop(-buttonBackground.getHeight()*0.75f);
+            table.row().padTop(10f);
+        }
 
         return table;
     }
 
     private void exitOverlay() {
-        eventService.globalEventHandler.trigger("removeOverlay");
+        eventService.getGlobalEventHandler().trigger("removeOverlay");
     }
 
     private void openQuests() {
-        eventService.globalEventHandler.trigger("addOverlay",Overlay.OverlayType.QUEST_OVERLAY);
+        eventService.getGlobalEventHandler().trigger("addOverlay",Overlay.OverlayType.QUEST_OVERLAY);
     }
 
 

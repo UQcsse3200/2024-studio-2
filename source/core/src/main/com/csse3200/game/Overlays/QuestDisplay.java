@@ -13,8 +13,6 @@ import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,10 +24,6 @@ import java.util.List;
  * It manages the layout and rendering of quest-related information.
  */
 public class QuestDisplay extends UIComponent {
-    /**
-     * Logger for logging events related to quest display.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(QuestDisplay.class);
     /**
      * The event service used to handle events related to quest display.
      */
@@ -87,7 +81,7 @@ public class QuestDisplay extends UIComponent {
             questList.sort(questComparator);
 
             for (AbstractQuest quest : questList) {
-                if (!quest.isAchievement() && !quest.isSecret()) {
+                if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
             }
@@ -219,7 +213,7 @@ public class QuestDisplay extends UIComponent {
      */
 
     private void exitMenu() {
-        eventService.globalEventHandler.trigger("removeOverlay");
+        eventService.getGlobalEventHandler().trigger("removeOverlay");
     }
 
     /**

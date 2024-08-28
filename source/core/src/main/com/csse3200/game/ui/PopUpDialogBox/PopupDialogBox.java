@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+/**
+ * A customizable popup dialog box that displays animal information and health bars.
+ * This dialog box allows navigation through multiple pages of content using a confirm button.
+ */
 public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
@@ -23,6 +27,16 @@ public class PopupDialogBox extends Dialog {
     private String[] content;
     private int currentIndex = 0;
 
+    /**
+     * Constructs a new PopupDialogBox.
+     *
+     * @param titles        Array of titles for each page of content.
+     * @param content       Array of content for each page.
+     * @param animalImagePath Path to the image of the animal to be displayed.
+     * @param skin          Skin to be used for the UI elements.
+     * @param dialogWidth   Width of the dialog box.
+     * @param dialogHeight  Height of the dialog box.
+     */
     public PopupDialogBox(String[] titles, String[] content, String animalImagePath, Skin skin, float dialogWidth, float dialogHeight) {
         super("", skin);
         this.titles = titles;
@@ -52,6 +66,9 @@ public class PopupDialogBox extends Dialog {
         createDialogLayout();
     }
 
+    /**
+     * Adds action listeners to the buttons in the dialog.
+     */
     private void addActionListeners() {
         nextButton.addListener(new ChangeListener() {
             @Override
@@ -61,6 +78,9 @@ public class PopupDialogBox extends Dialog {
         });
     }
 
+    /**
+     * Creates and configures the layout of the dialog box.
+     */
     private void createDialogLayout() {
         Table contentTable = new Table();
         contentTable.pad(20);
@@ -90,11 +110,14 @@ public class PopupDialogBox extends Dialog {
 
         getContentTable().add(contentTable).expand().center();
 
-        // Set the size of the dialog box
+        // Set the size and position of the dialog box
         setSize(dialogWidth, dialogHeight);
         setPosition((Gdx.graphics.getWidth() - getWidth()) / 2f, (Gdx.graphics.getHeight() - getHeight()) / 2f);
     }
 
+    /**
+     * Moves to the next page of content in the dialog box. If all pages are shown, hides the dialog.
+     */
     private void proceedToNext() {
         currentIndex++;
         if (currentIndex < titles.length) {
@@ -105,6 +128,11 @@ public class PopupDialogBox extends Dialog {
         }
     }
 
+    /**
+     * Displays the dialog box on the specified stage.
+     *
+     * @param stage The stage on which to display the dialog box.
+     */
     public void display(Stage stage) {
         stage.addActor(this);
     }

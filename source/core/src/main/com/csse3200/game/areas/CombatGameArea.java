@@ -77,9 +77,9 @@ public class CombatGameArea extends GameArea {
 
     displayUI();
 
-    spawnTerrain();
-    player = spawnPlayer();
-    spawnCombatEnemy();
+//    spawnTerrain();
+//    player = spawnPlayer();
+//    spawnCombatEnemy();
 
     playMusic();
   }
@@ -90,42 +90,42 @@ public class CombatGameArea extends GameArea {
     spawnEntity(ui);
   }
 
-  private void spawnTerrain() {
-    // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
-    spawnEntity(new Entity().addComponent(terrain));
+//  private void spawnTerrain() {
+//    // Background terrain
+//    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
+//    spawnEntity(new Entity().addComponent(terrain));
+//
+//    // Terrain walls
+//    float tileSize = terrain.getTileSize();
+//    GridPoint2 tileBounds = terrain.getMapBounds(0);
+//    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+//
+//    // Left
+//    spawnEntityAt(
+//        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
+//    // Right
+//    spawnEntityAt(
+//        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+//        new GridPoint2(tileBounds.x, 0),
+//        false,
+//        false);
+//    // Top
+//    spawnEntityAt(
+//        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+//        new GridPoint2(0, tileBounds.y),
+//        false,
+//        false);
+//    // Bottom
+//    spawnEntityAt(
+//        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+//  }
 
-    // Terrain walls
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    // Left
-    spawnEntityAt(
-        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    // Right
-    spawnEntityAt(
-        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-        new GridPoint2(tileBounds.x, 0),
-        false,
-        false);
-    // Top
-    spawnEntityAt(
-        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-        new GridPoint2(0, tileBounds.y),
-        false,
-        false);
-    // Bottom
-    spawnEntityAt(
-        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
-  }
-
-  /** Spawn a player for testing purposes. Currently, this player can be moved */
-  private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer(game);
-    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-    return newPlayer;
-  }
+//  /** Spawn a player for testing purposes. Currently, this player can be moved */
+//  private Entity spawnPlayer() {
+//    Entity newPlayer = PlayerFactory.createPlayer(game);
+//    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+//    return newPlayer;
+//  }
 
   /** Spawn a combat enemy. Different to a regular enemy npc */
   private void spawnCombatEnemy() {
