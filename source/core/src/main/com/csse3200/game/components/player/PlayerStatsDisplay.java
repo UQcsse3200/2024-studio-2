@@ -15,7 +15,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Text;
+
+import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testCreate;
 
 
 /**
@@ -23,7 +24,7 @@ import org.w3c.dom.Text;
  */
 
 public class PlayerStatsDisplay extends UIComponent {
-    public Label xpLabel;
+
     Table table;
     public Image healthImage;
     public Image xpImage;
@@ -37,6 +38,7 @@ public class PlayerStatsDisplay extends UIComponent {
     private TextureAtlas[] textureAtlas;
     public static int totalFrames = 11;
     private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
+    public boolean addActorsTester=false;
 
     /**
      * Creates reusable ui styles and adds actors to the stage.
@@ -45,11 +47,12 @@ public class PlayerStatsDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        addActors();
+       addActorsTester= addActors();
         stage = ServiceLocator.getRenderService().getStage();
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
+        testCreate(addActorsTester,entity);
     }
 
     /**
@@ -95,7 +98,7 @@ public class PlayerStatsDisplay extends UIComponent {
      *
      * @see Table for positioning options
      */
-    private void addActors() {
+    private boolean addActors() {
         table = new Table();
         table.top().left();
         table.setFillParent(true);
@@ -141,6 +144,7 @@ public class PlayerStatsDisplay extends UIComponent {
         stage.addActor(table);
         //initialising the character stats
         updatePlayerHealthUI(health);
+        return true;
     }
 
 
@@ -232,8 +236,8 @@ public class PlayerStatsDisplay extends UIComponent {
         experienceLabel.remove();
         hungerImage.remove();
         hungerLabel.remove();
-        for (int i = 0; i < textureAtlas.length; i++) {
-            textureAtlas[i].dispose();
+        for (TextureAtlas atlas : textureAtlas) {
+            atlas.dispose();
         }
     }
 }

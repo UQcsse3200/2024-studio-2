@@ -116,6 +116,11 @@ public class EventHandler {
         (EventListener listener) -> ((EventListener2<T0, T1>) listener).handle(arg0, arg1));
   }
 
+  public boolean hasListener(String eventName) {
+    Array<EventListener> eventListeners =  listeners.get(eventName);
+    return eventListeners != null && !eventListeners.isEmpty();
+  }
+
   /**
    * Trigger an event with one argument
    *
