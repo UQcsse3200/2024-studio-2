@@ -31,7 +31,7 @@ public class ProximityComponent extends Component {
             }
         }
 
-    private void setupSpawnAnimation(Entity entity) {
+    public void setupSpawnAnimation(Entity entity) {
         entity.setEnabled(false); // Disable the entity until proximity is triggered
         entity.getEvents().addListener("proximityTriggered", () -> {
             AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);

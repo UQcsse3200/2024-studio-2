@@ -1,4 +1,6 @@
 package com.csse3200.game.components;
+import com.csse3200.game.events.listeners.EventListener0;
+import com.csse3200.game.events.listeners.EventListener1;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
+import java.util.function.Consumer;
+
+
 
 @ExtendWith(GameExtension.class)
 class ProximityComponentTest {
@@ -65,4 +71,30 @@ class ProximityComponentTest {
     verify(events).trigger("proximityTriggered"); // Verify the trigger method was called on the events instance
   }
 
+  @Test
+  void shouldStartSpawnAnimationWhenProximityTriggered() {
+    Entity entity = mock(Entity.class);
+    AnimationRenderComponent animationRenderComponent = mock(AnimationRenderComponent.class);
+    EventHandler events = mock(EventHandler.class);
+
+    when(entity.getComponent(AnimationRenderComponent.class)).thenReturn(animationRenderComponent);
+    when(entity.getEvents()).thenReturn(events);
+
+    ProximityComponent proximityComponent = new ProximityComponent(entity, 10f);
+    proximityComponent.setupSpawnAnimation(entity);
+
+    ArgumentCaptor<EventListener0> proximityListenerCaptor = ArgumentCaptor.forClass(EventListener0.class);
+    verify(events).addListener(eq("proximityTriggered"), proximityListenerCaptor.capture());
+    proximityListenerCaptor.getValue().handle();
+
+    // Verify that the "spawn" animation starts
+    verify(animationRenderComponent).startAnimation("spawn");
+
+    ArgumentCaptor<EventListener1<String>> animationEndCaptor = ArgumentCaptor.forClass(EventListener1.class);
+    verify(events).addListener(eq("animationEnd"), animationEndCaptor.capture());
+    animationEndCaptor.getValue().handle("spawn");
+
+    // Verify that the "walk" animation starts after the "spawn" animation ends
+    verify(animationRenderComponent).startAnimation("walk");
+  }
 }
