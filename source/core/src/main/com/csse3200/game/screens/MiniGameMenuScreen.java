@@ -51,9 +51,9 @@ public class MiniGameMenuScreen implements Screen {
 
         // Load Textures for background and minigames
         backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
-        snakeTexture = new Texture(Gdx.files.internal("images/img_1.png"));
-        skyTexture = new Texture(Gdx.files.internal("images/img_3.png"));
-        waterTexture = new Texture(Gdx.files.internal("images/img_4.png"));
+        snakeTexture = new Texture(Gdx.files.internal("images/minigames/snakeicon.png"));
+        skyTexture = new Texture(Gdx.files.internal("images/minigames/flappybirdicon.png"));
+        waterTexture = new Texture(Gdx.files.internal("images/minigames/underwatermazeicon.png"));
 
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
