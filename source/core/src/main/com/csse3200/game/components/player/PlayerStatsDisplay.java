@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testCreate;
+import static com.csse3200.game.components.player.PlayerStatsDisplayTester.*;
 
 
 /**
@@ -32,13 +32,17 @@ public class PlayerStatsDisplay extends UIComponent {
     public Label healthLabel;
     Label experienceLabel;
     public Label hungerLabel;
-    Animation<TextureRegion> healthBarAnimation;
-    Animation<TextureRegion> hungerBarAnimation;
-    Animation<TextureRegion> xpBarAnimation;
-    private TextureAtlas[] textureAtlas;
-    public static int totalFrames = 11;
-    private static final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
+    static Animation<TextureRegion> healthBarAnimation;
+    static Animation<TextureRegion> hungerBarAnimation;
+    static Animation<TextureRegion> xpBarAnimation;
+    public TextureAtlas[] textureAtlas;
+    public  int totalFrames = 11;
+    private  final Logger logger = LoggerFactory.getLogger(PlayerStatsDisplay.class);
     public boolean addActorsTester=false;
+    public int maxHealth;
+    public int maxHunger;
+    public int maxExperience;
+
 
     /**
      * Creates reusable ui styles and adds actors to the stage.
@@ -53,6 +57,10 @@ public class PlayerStatsDisplay extends UIComponent {
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
         testCreate(addActorsTester,entity);
+        maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
+        maxHealth= entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+        maxHunger=entity.getComponent(CombatStatsComponent.class).getMaxHunger();
+
     }
 
     /**
@@ -91,6 +99,8 @@ public class PlayerStatsDisplay extends UIComponent {
             xpBarFrames[i] = textureAtlas[2].findRegion(frameName3);
         }
         xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
+        testInitBarAnimation(textureAtlas, healthBarAnimation, hungerBarAnimation, xpBarAnimation);
+
     }
 
     /**
@@ -140,13 +150,13 @@ public class PlayerStatsDisplay extends UIComponent {
         table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
         table.add(hungerLabel).align(Align.left).padTop(-20);
 
-        // Add the table to the stage
+
         stage.addActor(table);
         //initialising the character stats
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-        testFinalImplementation();
+
         // Add the table to the stage
         return true;
     }
@@ -184,8 +194,9 @@ public class PlayerStatsDisplay extends UIComponent {
         // Calculate the frame index based on the current health
         int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
         int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+        String statName="health";
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-
+        testUpdatePlayerStatsUI( maxHealth, health,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, healthBarAnimation, healthImage);
     }
@@ -205,7 +216,8 @@ public class PlayerStatsDisplay extends UIComponent {
         int maxHunger = entity.getComponent(CombatStatsComponent.class).getMaxHunger();
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-
+        String statName="hunger";
+        testUpdatePlayerStatsUI( maxHunger, hunger,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, hungerBarAnimation, hungerImage);
     }
@@ -225,7 +237,8 @@ public class PlayerStatsDisplay extends UIComponent {
         int maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
         int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-
+        String statName="experience";
+        testUpdatePlayerStatsUI( maxExperience, experience,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, xpBarAnimation, xpImage);
     }
