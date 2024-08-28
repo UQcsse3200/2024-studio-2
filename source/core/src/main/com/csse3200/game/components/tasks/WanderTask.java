@@ -63,6 +63,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       logger.debug("wandering left");
       this.owner.getEntity().getEvents().trigger("wanderRight");
     }
+      this.owner.getEntity().getEvents().trigger("wanderStart");
   }
 
   @Override

@@ -34,8 +34,8 @@ import com.csse3200.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class EnemyFactory {
-  private static final NPCConfigs configs =
-      FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+  //private static final NPCConfigs configs =
+    //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
   /**
    * types of enemies
@@ -54,7 +54,7 @@ public class EnemyFactory {
    */
   public static Entity createChicken(Entity target) {
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-    BaseEntityConfig config = configs.chicken;
+    BaseEntityConfig config = NPCConfigs.chicken;
 
     TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
 
@@ -66,7 +66,7 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -83,7 +83,7 @@ public class EnemyFactory {
    */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
-    BaseEntityConfig config = configs.frog;
+    BaseEntityConfig config = NPCConfigs.frog;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -92,7 +92,7 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -110,7 +110,7 @@ public class EnemyFactory {
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
-    BaseEntityConfig config = configs.monkey;
+    BaseEntityConfig config = NPCConfigs.monkey;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -125,7 +125,7 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
@@ -150,7 +150,7 @@ public class EnemyFactory {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
     } else {
-      aiComponent.addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f));
     }
 

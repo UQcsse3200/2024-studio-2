@@ -1,4 +1,8 @@
 {
+  "ghost": {
+    "health": 40,
+    "strength": 10,
+    "speed": 10
   "chicken": {
     "health": 10,
     "baseAttack": 1,
@@ -19,6 +23,26 @@
     "baseDefense": 25,
     "speed": 1.5,
     "isEnemy": 1
+  },
+  "lion": {
+    "health": 40,
+    "baseAttack": 0
+  },
+  "cow": {
+    "health": 30,
+    "baseAttack": 0
+  },
+  "turtle": {
+    "health": 20,
+    "baseAttack": 0
+  },
+  "eagle": {
+    "health": 25,
+    "baseAttack": 0
+  },
+  "snake": {
+    "health": 30,
+    "baseAttack": 0
   }
 }
 

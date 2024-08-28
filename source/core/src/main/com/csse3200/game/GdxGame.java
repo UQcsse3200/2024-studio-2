@@ -8,9 +8,11 @@ import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.screens.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.csse3200.game.services.ServiceLocator;
 import static com.badlogic.gdx.Gdx.app;
 
 /**
@@ -28,7 +30,7 @@ public class GdxGame extends Game {
 
 
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -138,6 +140,13 @@ public class GdxGame extends Game {
         return new CombatScreen(this, screen, container, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
+      case MiniGameMenuScreen:
+          return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+
       default:
         return null;
     }
@@ -147,7 +156,8 @@ public class GdxGame extends Game {
    * types of screens
    */
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, COMBAT, SETTINGS
+    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen, LOADING_SCREEN, ANIMAL_SELECTION, COMBAT
+
   }
 
   /**
