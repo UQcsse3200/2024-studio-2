@@ -1,7 +1,7 @@
 package com.csse3200.game.components.quests;
 
 
-public class QuestHidden extends AbstractQuest {
+public class QuestHidden {
     private final String questName;
     private final String questDescription;
     private boolean completed = false;

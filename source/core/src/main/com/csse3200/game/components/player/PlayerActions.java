@@ -27,8 +27,8 @@ public class PlayerActions extends Component {
   private GdxGame game;
 
 
-  public PlayerActions(GdxGame game) {
-    this.game = game;
+  public PlayerActions() {
+
   }
 
   @Override

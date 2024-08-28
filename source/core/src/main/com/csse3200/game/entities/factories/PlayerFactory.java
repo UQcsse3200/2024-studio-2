@@ -33,7 +33,7 @@ public class PlayerFactory {
    * Create a player entity.
    * @return entity
    */
-  public static Entity createPlayer(GdxGame game) {
+  public static Entity createPlayer() {
     String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
@@ -46,7 +46,7 @@ public class PlayerFactory {
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions(game));
+            .addComponent(new PlayerActions());
             if (imagePath.equals("images/dog.png")) {
               player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
 

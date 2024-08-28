@@ -22,7 +22,7 @@ public class QuestManager extends Component {
     /** Map to store quests. */
     private final HashMap<String, QuestBasic> quests;
      /** Map to store achievements. */
-     private final HashMap<String, QuestBasic> achievements;
+     private final HashMap<String, QuestHidden> achievements;
     /** Event service to handle global events. */
     private final EventService eventService = ServiceLocator.getEventService();
     /** Logger for logging quest related attributes. */
@@ -93,7 +93,7 @@ public class QuestManager extends Component {
      * @param achievement The achievement being listened to.
      */
     private void subscribeToAchievementEvents(QuestHidden achievement) {
-        eventService.globalEventHandler.addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
+        eventService.getGlobalEventHandler().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
     }
     /**
      * Adds a new quest to the manager.
@@ -242,7 +242,7 @@ public class QuestManager extends Component {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
             questComplete.play();
-            eventService.globalEventHandler.trigger("achievementCompleted");
+            eventService.getGlobalEventHandler().trigger("achievementCompleted");
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
