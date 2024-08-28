@@ -25,9 +25,9 @@ import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testC
 public class PlayerStatsDisplay extends UIComponent {
 
     Table table;
-    public Image healthImage;
-    public Image xpImage;
-    public Image hungerImage;
+    public  Image healthImage;
+    public  Image xpImage;
+    public  Image hungerImage;
     public Label healthLabel;
     Label experienceLabel;
     public Label hungerLabel;
@@ -143,6 +143,10 @@ public class PlayerStatsDisplay extends UIComponent {
         stage.addActor(table);
         //initialising the character stats
         updatePlayerHealthUI(health);
+        updatePlayerHungerUI(hunger);
+        updatePlayerExperienceUI(experience);
+        testFinalImplementation();
+        // Add the table to the stage
         return true;
     }
 
