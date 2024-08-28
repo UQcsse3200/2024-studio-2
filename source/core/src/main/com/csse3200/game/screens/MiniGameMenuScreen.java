@@ -51,9 +51,9 @@ public class MiniGameMenuScreen implements Screen {
 
         // Load Textures for background and minigames
         backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
-        snakeTexture = new Texture(Gdx.files.internal("images/Snake.png"));
-        skyTexture = new Texture(Gdx.files.internal("images/minigames/Flappy_bird.png"));
-        waterTexture = new Texture(Gdx.files.internal("images/minigames/Underwater_maze.png"));
+        snakeTexture = new Texture(Gdx.files.internal("images/img_1.png"));
+        skyTexture = new Texture(Gdx.files.internal("images/img_3.png"));
+        waterTexture = new Texture(Gdx.files.internal("images/img_4.png"));
 
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
@@ -70,22 +70,24 @@ public class MiniGameMenuScreen implements Screen {
         table.center(); // Centers the table on the screen
 
         // Set up separate tables for each minigame's image and button
+        // Set up separate tables for each minigame's image and button with consistent padding
         Table snakeTable = new Table();
-        snakeTable.add(snakeImage).padBottom(10).row();
-        snakeTable.add(snakeButton).padBottom(10);
+        snakeTable.add(snakeImage).padBottom(10).row(); // Image padding from the bottom
+        snakeTable.add(snakeButton).padTop(10); // Button padding from the top
 
         Table skyTable = new Table();
-        skyTable.add(skyImage).padBottom(10).row();
-        skyTable.add(skyButton).padBottom(10);
+        skyTable.add(skyImage).padBottom(10).row(); // Image padding from the bottom
+        skyTable.add(skyButton).padTop(10); // Button padding from the top
 
         Table waterTable = new Table();
-        waterTable.add(waterImage).padBottom(10).row();
-        waterTable.add(waterButton).padBottom(10);
+        waterTable.add(waterImage).padBottom(10).row(); // Image padding from the bottom
+        waterTable.add(waterButton).padTop(10); // Button padding from the top
 
-        // Add all game tables to the main table in a row
-        table.add(snakeTable).pad(20);
-        table.add(skyTable).pad(20);
-        table.add(waterTable).pad(20);
+// Add all game tables to the main table with consistent spacing between columns
+        table.add(snakeTable).pad(20).space(30); // Padding and space between columns
+        table.add(skyTable).pad(20).space(30);   // Padding and space between columns
+        table.add(waterTable).pad(20).space(30); // Padding and space between columns
+
 
         // Add the main table to the stage
         stage.addActor(table);
