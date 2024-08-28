@@ -8,7 +8,8 @@ import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 import java.util.List;
 
 /**
- * A controller class for the logic of the Snake mini-game.
+ * Manages the logic and state of the Snake mini-game, including snake movement, scoring,  and
+ * game-over conditions.
  */
 public class SnakeGame {
     private final Snake snake;
@@ -20,6 +21,9 @@ public class SnakeGame {
     private Boolean isGameOver;
 
 
+    /**
+     * Initialises a new SnakeGame with a grid, snake, apple, and controller.
+     */
     public SnakeGame() {
         this.grid = new SnakeGrid();
         this.snakeController = new SnakeController();
@@ -41,25 +45,14 @@ public class SnakeGame {
         return this.grid;
     }
 
-    /**
-     * Getter for the isGameOver variable
-     * @return isGameOver, is true if over, else false
-     */
     public boolean getIsGameOver() {
         return isGameOver;
     }
 
-    /**
-     * Set the isGameOver function. Is true if over, else false
-     */
     public void setIsGameOver() {
         this.isGameOver = true;
     }
 
-    /**
-     * Returns the current score of the game.
-     * @return the current score of the game.
-     */
     public int getScore() {
         return score;
     }
@@ -77,6 +70,11 @@ public class SnakeGame {
         }
     }
 
+    /**
+     * Moves the snake and checks for game-over conditions.
+     *
+     * @param delta The time elapsed since the last update.
+     */
     public void snakeMove(float delta) {
         snake.updateDirectionOnInput(snakeController.getInputDirection());
         attemptEatFruit();
@@ -116,11 +114,12 @@ public class SnakeGame {
         return false;
     }
 
+    /**
+     * Handles player input and returns the corresponding game event.
+     *
+     * @return The event triggered by the player's input, or NONE if no event is triggered.
+     */
     public Events handleInput() {
         return snakeController.handleInput();
     }
-
-
-
-
 }

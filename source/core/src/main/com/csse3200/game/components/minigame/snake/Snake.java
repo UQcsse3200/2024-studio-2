@@ -7,7 +7,9 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ArrayList;
 
-/** Class for the snake in the snake game. */
+/**
+ * Represents the snake in the Snake mini-game, managing its position, movement, and growth.
+ */
 public class Snake {
     private int x;
     private int y;
@@ -19,7 +21,18 @@ public class Snake {
     private final float movePeriod;
     private float moveTimer;
 
-    public Snake(Grid grid, int startX, int startY, Direction startDirection, int startLength, float movePeriod) {
+    /**
+     * Initialises a new Snake with specified parameters.
+     *
+     * @param grid The grid on which the snake moves.
+     * @param startX The starting x-coordinate of the snake's head.
+     * @param startY The starting y-coordinate of the snake's head.
+     * @param startDirection The initial direction the snake is facing.
+     * @param startLength The initial length of the snake.
+     * @param movePeriod The time interval between moves.
+     */
+    public Snake(Grid grid, int startX, int startY, Direction startDirection, int startLength,
+                 float movePeriod) {
         this.grid = grid;
         this.movePeriod = movePeriod;
         this.moveTimer = movePeriod;
@@ -41,7 +54,9 @@ public class Snake {
     }
 
     /**
-     * @return the direction of the snake head
+     * Returns the current direction of the snake's head.
+     *
+     * @return The direction of the snake's head.
      */
     public Direction getDirection() {return this.direction;}
 
