@@ -1,6 +1,6 @@
 package com.csse3200.game.gamestate;
 
-import com.csse3200.game.gamestate.data.WorldState;
+import com.csse3200.game.gamestate.data.Quests;
 
 /**
  * A data struct that contains other data structs to be saved to JSONs by SaveHandler.

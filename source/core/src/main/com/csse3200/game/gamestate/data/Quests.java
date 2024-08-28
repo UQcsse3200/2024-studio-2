@@ -1,6 +1,5 @@
-package com.csse3200.game.gamestate;
+package com.csse3200.game.gamestate.data;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.areas.ForestGameArea;
@@ -114,14 +113,5 @@ public class Quests implements Json.Serializable {
             newQuests.add(nextQuest);
         }
         quests = newQuests;
-    }
-
-    private int getIteratorLength(Iterator<?> iterator) {
-        int count = 0;
-        while(iterator.hasNext()) {
-            count++;
-            iterator.next();
-        }
-        return count;
     }
 }

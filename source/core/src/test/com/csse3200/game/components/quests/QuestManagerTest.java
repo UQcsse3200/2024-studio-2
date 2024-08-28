@@ -4,6 +4,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
+import java.util.Objects;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -117,14 +120,26 @@ class QuestManagerTest {
 
     @Test
     void shouldSaveLoadQuestProgression() {
-        //unit test quest progress
+        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, true, 0);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(task),  false, null, null, true, false, 0);
 
-        //create default quests
+        GameState.quests.quests.clear();
+        GameState.quests.quests.add(quest1);
+        GameState.quests.quests.add(quest2);
 
-        //save default quests
+        SaveHandler.save(GameState.class, "test/saves/quests");
 
-        //reset and load default quests
+        GameState.quests.quests.clear();
 
-        //ensure they match saved quests
+        SaveHandler.load(GameState.class, "test/saves/quests");
+
+        assertTrue(GameState.quests.quests.getFirst().isFailed());
+        assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
+        assertEquals(1, GameState.quests.quests.getLast().getTasks().size());
+
+        GameState.quests.quests.clear();
+
+        SaveHandler.delete(GameState.class, "test/saves/quests");
     }
 }
