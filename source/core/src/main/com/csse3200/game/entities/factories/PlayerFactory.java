@@ -44,14 +44,11 @@ public class PlayerFactory {
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions());
-            if (imagePath.equals("images/dog.png")) {
-              player.addComponent(new CombatStatsComponent(70, 60, 70, 50, 50, 10));
-
-            } else if (imagePath.equals("images/croc.png")) {
-              player.addComponent(new CombatStatsComponent(90, 80, 90, 70, 30, 20));
-            } else if (imagePath.equals("images/bird.png")) {
-              player.addComponent(new CombatStatsComponent(60, 50, 40, 60, 100, 20));
-            }
+      switch (imagePath) {
+          case "images/dog.png" -> player.addComponent(new CombatStatsComponent(70, 60, 70, 50, 50, 10));
+          case "images/croc.png" -> player.addComponent(new CombatStatsComponent(90, 80, 90, 70, 30, 20));
+          case "images/bird.png" -> player.addComponent(new CombatStatsComponent(60, 50, 40, 60, 100, 20));
+      }
             player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
 
             player.addComponent(new InventoryComponent(stats.gold));
@@ -69,4 +66,5 @@ public class PlayerFactory {
   private PlayerFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
+    public static String getSelectedAnimalImagePath() { return AnimalSelectionActions.getSelectedAnimalImagePath();}
 }
