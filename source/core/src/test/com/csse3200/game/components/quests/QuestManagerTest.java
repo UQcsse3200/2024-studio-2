@@ -112,6 +112,7 @@ class QuestManagerTest {
         verify(eventHandler, never()).trigger(anyString());
     }
 
+    @Test
     void HandleAchievementCompletion() {
         QuestHidden achievement = new QuestHidden("Test Achievement", "Test Description");
         questManager.addAchievement(achievement);
