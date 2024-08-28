@@ -21,7 +21,9 @@ import static com.csse3200.game.components.player.PlayerStatsDisplayTester.*;
 
 
 /**
- * A UI component for displaying player stats, e.g. health.
+ * A UI component for displaying player stats, such as health, hunger, and experience.
+ * This component handles the creation, updating, and disposing
+ * the player's stats on the screen.
  */
 
 public class PlayerStatsDisplay extends UIComponent {
@@ -46,9 +48,10 @@ public class PlayerStatsDisplay extends UIComponent {
 
 
     /**
-     * Creates reusable ui styles and adds actors to the stage.
+     * Initializes and adds actors (UI elements) to the stage.
+     * Registers listeners for updating health, experience, and hunger.
+     * Makes call to the test method testCreate
      */
-
     @Override
     public void create() {
         super.create();
@@ -66,9 +69,11 @@ public class PlayerStatsDisplay extends UIComponent {
 
     }
 
+
     /**
-     * Initialises all required variables for health/xp/hunger bar animations
-     * @see Animation for animation details
+     * Initializes the animations for the health, hunger, and experience bars.
+     * Each bar's animation consist of series of consecutive frames from a texture atlas given in the assets folder.
+     * The animations reflect the current status of the player's health, hunger, and experience.
      */
     public void initBarAnimations() {
         // Initialise textureAtlas for 3 bars
@@ -107,9 +112,10 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     /**
-     * Creates animations and labels, and adds them on the stage using a table.
-     *
-     * @see Table for positioning options
+     * Creates the UI elements the bars and labels for each stat
+     * and adds them to the stage using a table for position management
+     * @return true if actors were successfully added to the stage, false otherwise for testing in PlayerStatsDisplayTester
+     * @see Table for positioning options.
      */
     private boolean addActors() {
         table = new Table();
@@ -164,6 +170,10 @@ public class PlayerStatsDisplay extends UIComponent {
         return true;
     }
 
+    /**
+     * Runs a test to incrementally update the player's health, experience, and hunger
+     * over time, scheduling frame updates with delayed execution. Used for Visual Testing.
+     */
     public void testFinalImplementation() {
 
 
@@ -211,17 +221,22 @@ public class PlayerStatsDisplay extends UIComponent {
         }, 1); // Initial delay of 1 second
     }
 
-
+    /**
+     * Draw method overridden to be handled by the stage.
+     *
+     * @param batch the batch used for drawing.
+     */
     @Override
     public void draw(SpriteBatch batch) {
         // handled by stage
     }
 
     /**
-     * Replaces the current frame for the specified statBar based on the current frame provided
-     * @param frameIndex The index of the desired frame in the Texture Region
-     * @param statBarAnimation The animation for the specific stat bar
-     * @param statBar The image that is the placeholder on the stage for the stat bar
+     * Sets a new frame for a stat bar animation on the stage.
+     *
+     * @param frameIndex The index of the desired frame in the animation to be changed
+     * @param statBarAnimation The animation for the specific stat bar to be changed
+     * @param statBar image that stores the current frame on the stage for the stat bar.
      */
     public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
         // Grab the desired frame at a specified frame rate
@@ -232,6 +247,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     /**
      * Updates the health animation and label in game to reflect current player health
+     * including the call to test functions for checking
      * @param health the current health stat value of the player
      */
     public void updatePlayerHealthUI(int health) {
@@ -253,6 +269,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     /**
      * Updates the hunger animation and label in game to reflect current player hunger
+     *  including the call to test functions for checking
      * @param hunger The current hunger stat value of the player
      */
     public void updatePlayerHungerUI(int hunger) {
@@ -275,6 +292,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     /**
      * Updates the experience animation and label in game to reflect current player experience
+     *  including the call to test functions for checking
      * @param experience The current experience stat value of the player
      */
     public void updatePlayerExperienceUI(int experience) {
@@ -296,6 +314,9 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
 
+     /**
+     * Disposes of the resources used by the PlayerStatsDisplay component, including textures and labels.
+     */
     @Override
     public void dispose() {
         super.dispose();
