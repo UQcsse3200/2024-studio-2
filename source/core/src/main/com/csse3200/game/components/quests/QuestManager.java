@@ -49,7 +49,7 @@ public class QuestManager extends Component {
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,false,null,null);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks);
         addQuest(firstStepsQuest);
 
         //creates 2 task quest
@@ -68,7 +68,7 @@ public class QuestManager extends Component {
 
         // Creates test quest that requires completion of 2 task quest
         List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
-        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,false,null,null);
+        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3);
         addQuest(finalQuest);
     }
 

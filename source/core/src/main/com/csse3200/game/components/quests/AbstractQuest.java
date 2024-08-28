@@ -1,5 +1,6 @@
 package com.csse3200.game.components.quests;
 
+import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
@@ -111,7 +112,8 @@ public abstract class AbstractQuest {
     public void progressQuest() {
         if (!isQuestCompleted() && !isFailed) {
             if(taskCompletionTriggers!=null){
-                ServiceLocator.getEventService().getGlobalEventHandler().trigger(taskCompletionTriggers[currentTaskIndex]);
+                EventHandler eventHandler = ServiceLocator.getEventService().getGlobalEventHandler();
+                eventHandler.trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;
         }
