@@ -15,6 +15,7 @@ com.csse3200.game.components.minigame.snake.controller
 com.csse3200.game.components.minigame.snake.rendering
 com.csse3200.game.components.npc
 com.csse3200.game.components.player
+com.csse3200.game.components.quests
 com.csse3200.game.components.settingsmenu
 com.csse3200.game.components.tasks
 com.csse3200.game.concurrency
@@ -36,12 +37,14 @@ com.csse3200.game.inventory.items.exceptions
 com.csse3200.game.inventory.items.food
 com.csse3200.game.inventory.items.potions
 com.csse3200.game.inventory.items.potions.healingpotion
+com.csse3200.game.overlays
 com.csse3200.game.physics
 com.csse3200.game.physics.components
 com.csse3200.game.physics.raycast
 com.csse3200.game.rendering
 com.csse3200.game.screens
 com.csse3200.game.services
+com.csse3200.game.services.eventservice
 com.csse3200.game.ui
 com.csse3200.game.ui.minigame
 com.csse3200.game.ui.PopUpDialogBox
