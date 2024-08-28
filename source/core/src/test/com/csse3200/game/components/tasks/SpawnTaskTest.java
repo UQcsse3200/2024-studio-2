@@ -76,7 +76,7 @@ class SpawnTaskTest {
     assertEquals(Status.INACTIVE, spawn.getStatus());
   }
   @Test
-  void constructorInitializesFieldsCorrectly() {
+  void constructorInitialisesCorrectly() {
     Vector2 target = new Vector2(10f, 10f);
     SpawnTask spawn = new SpawnTask(target, 1f);
     assertEquals(target, spawn.getSpawnPosition());
@@ -98,7 +98,7 @@ class SpawnTaskTest {
   }
 
   @Test
-  void updateMethodUpdatesElapsedTime() {
+  void updatesElapsedTime() {
     TaskRunner taskRunner = mock(TaskRunner.class);
     Entity entity = mock(Entity.class);
     EventHandler events = mock(EventHandler.class);
