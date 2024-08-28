@@ -11,4 +11,6 @@ public class GameState {
     private GameState() {}
 
     public static WorldState env = new WorldState();
+
+    public static Quests quests = new Quests();
 }
