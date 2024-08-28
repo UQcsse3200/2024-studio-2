@@ -23,17 +23,17 @@ import com.csse3200.game.GdxGame;
  */
 public class MiniGameMenuScreen implements Screen {
 
-    private Stage stage; // Handles UI elements and input events
-    private BitmapFont font; // For rendering fonts
-    private final GdxGame game; // Reference to the main game class
-    private Skin skin; // Skin for UI styling
-    private SpriteBatch batch; // SpriteBatch for rendering textures
+    private Stage stage;
+    private BitmapFont font;
+    private final GdxGame game;
+    private Skin skin;
+    private SpriteBatch batch;
 
-    private Texture snakeTexture; // Texture for Snake minigame
-    private Texture skyTexture; // Texture for Flappy Bird minigame
-    private Texture waterTexture; // Texture for Underwater Maze minigame
-
-    private Texture backgroundTexture; // Background texture for the menu screen
+    // Image textures
+    private Texture snakeTexture;
+    private Texture skyTexture;
+    private Texture waterTexture;
+    private Texture backgroundTexture;
 
     /**
      * Constructor initializes the main game object
@@ -59,9 +59,9 @@ public class MiniGameMenuScreen implements Screen {
 
         // Load Textures for background and minigames
         backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
-        snakeTexture = new Texture(Gdx.files.internal("images/minigames/snake_1.png"));
-        skyTexture = new Texture(Gdx.files.internal("images/minigames/bird.png"));
-        waterTexture = new Texture(Gdx.files.internal("images/minigames/fish.png"));
+        snakeTexture = new Texture(Gdx.files.internal("images/minigames/snakeicon.png"));
+        skyTexture = new Texture(Gdx.files.internal("images/minigames/flappybirdicon.png"));
+        waterTexture = new Texture(Gdx.files.internal("images/minigames/underwatermazeicon.png"));
 
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
@@ -73,7 +73,7 @@ public class MiniGameMenuScreen implements Screen {
         TextButton skyButton = new TextButton("Flappy bird", skin);
         TextButton waterButton = new TextButton("Underwater maze", skin);
 
-        // Table layout for organizing buttons and images
+        // Put images and buttons in table
         Table table = new Table();
         table.setFillParent(true);
         table.center();
@@ -91,55 +91,54 @@ public class MiniGameMenuScreen implements Screen {
         waterTable.add(waterImage).bottom().padBottom(10).row();
         waterTable.add(waterButton).padTop(10);
 
-        // Add all game tables to the main table with consistent spacing between columns
+        // Format table
         table.add(snakeTable).bottom().pad(20).space(30);
         table.add(skyTable).bottom().pad(20).space(30);
         table.add(waterTable).bottom().pad(20).space(30);
 
-        // Add the main table to the stage
         stage.addActor(table);
 
         // Create an exit button table and add it to the stage
         Table exitButtonTable = new Table();
-        exitButtonTable.setFillParent(true); // Makes the exit button table take up the entire screen
-        exitButtonTable.top().right(); // Positions the exit button in the top-right corner
-        exitButtonTable.add(exitButton).pad(10); // Adds padding around the exit button
-        stage.addActor(exitButtonTable); // Adds the exit button to the stage
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).pad(10);
+        stage.addActor(exitButtonTable);
 
-        // Add click listeners for buttons and images to handle user interaction
+        // Add listener for elements, highlight images and buttons and move screen accordingly
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainMenuScreen(game)); // Switches to the main menu screen when Exit is clicked
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
         snakeImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                snakeImage.setColor(Color.GREEN); // Highlights the Snake image
-                game.setScreen(new SnakeScreen(game)); // Switches to the Snake minigame screen
+                snakeImage.setColor(Color.GREEN);
+                game.setScreen(new SnakeScreen(game));
             }
         });
 
         skyImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                skyImage.setColor(Color.GREEN); // Highlights the Flappy Bird image
+                skyImage.setColor(Color.GREEN);
             }
         });
 
         waterImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                waterImage.setColor(Color.GREEN); // Highlights the Underwater Maze image
+                waterImage.setColor(Color.GREEN);
             }
         });
 
         snakeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                snakeButton.setColor(Color.GREEN); // Highlights the Snake button
+                snakeButton.setColor(Color.GREEN);
                 game.setScreen(new SnakeScreen(game)); // Switches to the Snake minigame screen
             }
         });
@@ -147,14 +146,14 @@ public class MiniGameMenuScreen implements Screen {
         skyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                skyButton.setColor(Color.GREEN); // Highlights the Flappy Bird button
+                skyButton.setColor(Color.GREEN);
             }
         });
 
         waterButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                waterButton.setColor(Color.GREEN); // Highlights the Underwater Maze button
+                waterButton.setColor(Color.GREEN);
             }
         });
     }
@@ -166,16 +165,17 @@ public class MiniGameMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         // Set the background color
-        Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f); // A light yellow color
+        Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears the screen
 
         // Draw the background texture
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // Draws the background image filling the screen
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
-        stage.act(Gdx.graphics.getDeltaTime()); // Updates the stage
-        stage.draw(); // Draws the stage
+        // Update and draw the stage
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
 
         // Handle the Escape key to return to the main menu
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -212,7 +212,7 @@ public class MiniGameMenuScreen implements Screen {
      */
     @Override
     public void hide() {
-        dispose(); // Disposes of resources when the screen is no longer visible
+        dispose();
     }
 
     /**
@@ -220,13 +220,13 @@ public class MiniGameMenuScreen implements Screen {
      */
     @Override
     public void dispose() {
-        stage.dispose(); // Disposes of the stage
-        font.dispose(); // Disposes of the font
-        skin.dispose(); // Disposes of the skin
-        snakeTexture.dispose(); // Disposes of the snake texture
-        skyTexture.dispose(); // Disposes of the sky texture
-        waterTexture.dispose(); // Disposes of the water texture
-        backgroundTexture.dispose(); // Disposes of the background texture
-        batch.dispose(); // Disposes of the SpriteBatch
+        stage.dispose();
+        font.dispose();
+        skin.dispose();
+        snakeTexture.dispose();
+        skyTexture.dispose();
+        waterTexture.dispose();
+        backgroundTexture.dispose();
+        batch.dispose();
     }
 }
