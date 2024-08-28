@@ -37,6 +37,7 @@ public class CombatScreenTest {
         this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy);
     }
 
+    /*
     @Test
     void testCorrectInitialise() {
     }
@@ -47,6 +48,6 @@ public class CombatScreenTest {
 
     @Test
     void enemyIsDisposedOnWin() {
-
     }
+    */
 }
