@@ -68,6 +68,7 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
     ForestGameArea forestGameArea = new ForestGameArea(terrainFactory, renderer.getCamera());
     forestGameArea.create();
+
   }
 
   @Override
