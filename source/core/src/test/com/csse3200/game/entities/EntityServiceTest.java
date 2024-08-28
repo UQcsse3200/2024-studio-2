@@ -1,5 +1,7 @@
 package com.csse3200.game.entities;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -48,5 +50,23 @@ class EntityServiceTest {
     entityService.register(entity);
     entityService.dispose();
     verify(entity).dispose();
+  }
+
+  @Test
+  void shouldDisableAllEntities() {
+    EntityService entityService = new EntityService();
+    Entity entity = spy(Entity.class);
+    entityService.register(entity);
+    entityService.restWholeScreen();
+    assertFalse(entity.isEnabled());
+  }
+
+  @Test
+  void shouldEnableAllEntities() {
+    EntityService entityService = new EntityService();
+    Entity entity = spy(Entity.class);
+    entityService.register(entity);
+    entityService.wakeWholeScreen();
+    assertTrue(entity.isEnabled());
   }
 }

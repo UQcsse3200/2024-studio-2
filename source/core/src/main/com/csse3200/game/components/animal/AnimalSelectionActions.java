@@ -111,7 +111,7 @@ public class AnimalSelectionActions {
      */
 
 
-    private void selectAnimal(Image animalImage, String animalImagePath) {
+    void selectAnimal(Image animalImage, String animalImagePath) {
         if (selectedAnimalImage != null) {
             selectedAnimalImage.setColor(1, 1, 1, 1); // Reset color of the previously selected image
         }
@@ -146,7 +146,7 @@ public class AnimalSelectionActions {
      * @param animalImagePath the path to the image of the selected animal
      */
 
-    private void showAnimalDialog(int animalIndex, String animalImagePath) {
+    void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
         String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
                 "This animal has unique characteristics.\n" +

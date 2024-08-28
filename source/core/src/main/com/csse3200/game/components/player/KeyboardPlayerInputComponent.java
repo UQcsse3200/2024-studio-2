@@ -77,9 +77,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      case Keys.O:
-        entity.getEvents().trigger("addMainGameScreen");
-        return true;
       default:
         return false;
     }

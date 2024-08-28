@@ -1,18 +1,20 @@
 package com.csse3200.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.extensions.GameExtension;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.BeforeEach;
-import static org.mockito.Mockito.*;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ui.DialogueBox;
-import com.badlogic.gdx.Gdx;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class EntityChatServiceTest {
@@ -48,7 +50,7 @@ class EntityChatServiceTest {
 
     @Test
     void shouldCreateEntityChat() {
-        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
         entityChatService.updateText(new String[] {"1", "2"});
         Assertions.assertArrayEquals(new String[] {"1", "2"}, entityChatService.getHints());
     }
@@ -56,23 +58,23 @@ class EntityChatServiceTest {
     @Test
     void shouldRemoveEntityChat() {
         entityChatService.updateText(new String[] {"1", "2"});
-        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
-        entityChatService.disposeDialogueBox();
-        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        entityChatService.disposeCurrentOverlay();
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
     @Test
     void illegalDispose() {
-        entityChatService.disposeDialogueBox();
-        Assertions.assertNull(entityChatService.getCurrentDialogueBox());
+        entityChatService.disposeCurrentOverlay();
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
     @Test
     void shouldUpdateEntityChat() {
         entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
 
-        DialogueBox chatOverlay = entityChatService.getCurrentDialogueBox();
+        DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
 
         String page1 = chatOverlay.getLabel().getText().toString();
         String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHint()];
@@ -83,8 +85,8 @@ class EntityChatServiceTest {
     @Test
     void buttonsExist() {
         entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox());
-        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox().getForwardButton());
-        Assertions.assertNotNull(entityChatService.getCurrentDialogueBox().getBackwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
     }
 }

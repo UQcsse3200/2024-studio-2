@@ -1,5 +1,6 @@
 package com.csse3200.game.components.quests;
 
+import com.csse3200.game.entities.Entity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +13,13 @@ class QuestBasicTest { // Also tests AbstractQuest class
 
     @BeforeEach
     void setUp() {
+        Entity player = new Entity();
         // Initialize the task with a required number of triggers
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5);
 
         // Create the quest with the task
-        quest = new QuestBasic("First Steps","Take your first steps in this world!", List.of(stepsTask),
-                true,false,null,null);
+        quest = new QuestBasic(player,"First Steps","Take your first steps in this world!", List.of(stepsTask),
+                false,null,null);
     }
 
     @Test
@@ -30,7 +32,6 @@ class QuestBasicTest { // Also tests AbstractQuest class
         assertEquals(0, quest.getProgression());
         assertEquals(1, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
-        assertTrue(quest.isAchievement());
         assertTrue(quest.isActive());
         assertFalse(quest.isSecret());
 
@@ -47,7 +48,6 @@ class QuestBasicTest { // Also tests AbstractQuest class
         assertEquals(1, quest.getProgression());
         assertEquals(0, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
-        assertTrue(quest.isAchievement());
         assertTrue(quest.isActive());
         assertFalse(quest.isSecret());
     }
@@ -63,7 +63,6 @@ class QuestBasicTest { // Also tests AbstractQuest class
         assertEquals(0, quest.getProgression());
         assertEquals(1, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
-        assertTrue(quest.isAchievement());
         assertTrue(quest.isFailed());
         assertFalse(quest.isActive());
         assertFalse(quest.isSecret());

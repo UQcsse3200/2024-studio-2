@@ -54,6 +54,7 @@ class CameraZoomComponentTest {
         // mock screen size
         when(graphics.getWidth()).thenReturn(100);
         when(graphics.getHeight()).thenReturn(200);
+        ServiceLocator.registerEventService(new EventService());
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.services.ResourceService;
@@ -19,30 +20,30 @@ import static org.mockito.Mockito.*;
 @ExtendWith(GameExtension.class)
 class QuestManagerTest {
     private QuestManager questManager;
-    private EventService eventService;
     private EventHandler eventHandler;
-    private ResourceService resourceService;
+    private Entity player;
 
     @BeforeEach
     void setUp() {
-        eventService = mock(EventService.class);
+        EventService eventService = mock(EventService.class);
         eventHandler = mock(EventHandler.class);
-        resourceService = mock(ResourceService.class);
+        ResourceService resourceService = mock(ResourceService.class);
+        player = mock(Entity.class);
 
         Sound mockSound = mock(Sound.class);
         when(resourceService.getAsset("sounds/QuestComplete.wav", Sound.class)).thenReturn(mockSound);
 
 
-        when(eventService.getGlobalEventHandler()).thenReturn(eventHandler);
+        when(player.getEvents()).thenReturn(eventHandler);
         ServiceLocator.registerEventService(eventService);
         ServiceLocator.registerResourceService(resourceService);
 
-        questManager = new QuestManager();
+        questManager = new QuestManager(player);
     }
 
     @Test
     void AddQuest() {
-        QuestBasic quest = new QuestBasic("Test Quest", "Test Description", List.of(), false, false, null, null);
+        QuestBasic quest = new QuestBasic(player,"Test Quest", "Test Description", List.of(), false, null, null);
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
@@ -57,8 +58,8 @@ class QuestManagerTest {
 
     @Test
     void GetAllQuests() {
-        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(), false, false, null, null);
-        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(), false, false, null, null);
+        QuestBasic quest1 = new QuestBasic(player,"Quest 1", "Description 1", List.of(),  false, null, null);
+        QuestBasic quest2 = new QuestBasic(player,"Quest 2", "Description 2", List.of(),  false, null, null);
         questManager.addQuest(quest1);
         questManager.addQuest(quest2);
 
@@ -70,7 +71,7 @@ class QuestManagerTest {
     @Test
     void HandleProgressQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task), false, false, null, null);
+        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
         questManager.addQuest(quest);
 
         questManager.progressQuest("Test Quest", "testTask");
@@ -80,7 +81,7 @@ class QuestManagerTest {
     @Test
     void HandleQuestCompletion() {
         Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task), false, false, null, null);
+        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
         questManager.addQuest(quest);
 
 
@@ -92,18 +93,12 @@ class QuestManagerTest {
     @Test
     void HandleFailQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task), false, false, null, null);
+        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
         questManager.addQuest(quest);
 
         questManager.failQuest("Test Quest");
         assertTrue(quest.isFailed());
     }
-
-    //@Test
-    //void shouldGetDialogueForCow() {
-
-   // }
-
 
     @Test
     void HandleNoQuestForProgression() {

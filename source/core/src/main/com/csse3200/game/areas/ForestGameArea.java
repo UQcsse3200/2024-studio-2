@@ -29,7 +29,6 @@ public class ForestGameArea extends GameArea {
   private static final int NUM_TREES = 7;
   private  static final int NUM_APPLES = 5;
   private  static final int NUM_HEALTH_POTIONS = 3;
-  private static final int NUM_GHOSTS = 7;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
@@ -76,7 +75,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestMusic = {BACKGROUND_MUSIC};
 
   private final TerrainFactory terrainFactory;
-  private List<Entity> enemies;
+  private final List<Entity> enemies;
   private Entity player;
 
   private final GdxGame game;

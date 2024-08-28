@@ -287,4 +287,12 @@ public class Entity {
   public String toString() {
     return String.format("Entity{id=%d}", id);
   }
+
+  /**
+   * Returns the enabled status of the Entity
+   * @return the status of the entity
+   */
+  public Boolean isEnabled(){
+    return this.enabled;
+  }
 }

@@ -3,8 +3,11 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
@@ -57,7 +60,8 @@ class PauseTaskTest {
 
     @Test
     void shouldMoveTowardsTarget() {
-        Entity target = new Entity().addComponent(new QuestManager());
+        Entity target = new Entity();
+                target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
         NPCConfigs configs =
                 FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
@@ -90,7 +94,8 @@ class PauseTaskTest {
 
     @Test
     void shouldChaseOnlyWhenInDistance() {
-        Entity target = new Entity().addComponent(new QuestManager());
+        Entity target = new Entity();
+        target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
 
         NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");

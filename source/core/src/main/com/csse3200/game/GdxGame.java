@@ -10,7 +10,6 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.csse3200.game.services.ServiceLocator;
 import static com.badlogic.gdx.Gdx.app;
 
 /**
@@ -75,8 +74,6 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
-
-
   /**
    * Changes to a new screen, does NOT dispose of old screen
    *
@@ -86,10 +83,7 @@ public class GdxGame extends Game {
   public void addScreen (ScreenType screenType, Screen screen) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
-            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+    ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
     setScreen(newScreen(screenType));
@@ -112,8 +106,6 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      case MAIN_GAME_DUP:
-        return new MainGameScreenDup(this, screen, null);
       case SETTINGS:
         return new SettingsScreen(this);
       case ACHIEVEMENTS:
@@ -131,7 +123,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
   }
 
   /**

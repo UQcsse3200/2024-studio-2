@@ -3,7 +3,6 @@ package com.csse3200.game.components.tasks;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.components.quests.QuestManager;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.
@@ -13,7 +12,6 @@ public class PauseTask extends ChaseTask {
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
-    private final QuestManager questManager;
     private BaseEntityConfig config;
 
     /**
@@ -27,7 +25,6 @@ public class PauseTask extends ChaseTask {
     public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
         super(target, priority, viewDistance, maxPauseDistance);
         this.maxPauseDistance = maxPauseDistance;
-        this.questManager = this.target.getComponent(QuestManager.class);
         this.hasApproached = false;
         this.config = null;
     }
@@ -52,12 +49,9 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-        if (this.config != null) {
-            String[] hintText = this.questManager.getDialogue(this.config.getAnimalName());
-            if (hintText == null || hintText.length == 0)  {
-                hintText = this.config.getBaseHint();
-            }
 
+        if (this.config != null) {
+            String[] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);
