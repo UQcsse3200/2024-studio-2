@@ -11,7 +11,6 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -26,10 +25,12 @@ import java.util.function.Supplier;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+  private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
+  private static final int NUM_GHOSTS = 2;
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
   private static final int NUM_TREES = 7;
   private  static final int NUM_APPLES = 5;
   private  static final int NUM_HEALTH_POTIONS = 3;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -50,11 +51,22 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
-          "images/dog.png",
-          "images/croc.png",
-          "images/bird.png",
-          "images/Healthpotion.png",
-          "images/foodtextures/apple.png",
+    "images/gt.png",
+    "images/top_left_grass.png",
+    "images/top_middle_grass.png",
+    "images/top_right_grass.png",
+    "images/middle_left_grass.png",
+    "images/middle_grass.png",
+    "images/middle_right_grass.png",
+    "images/lower_left_grass.png",
+    "images/lower_middle_grass.png",
+    "images/lower_right_grass.png",
+    "images/full_sand_tile.png",
+    "images/dog.png",
+    "images/croc.png",
+    "images/bird.png",
+    "images/Healthpotion.png",
+    "images/foodtextures/apple.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
@@ -73,11 +85,9 @@ public class ForestGameArea extends GameArea {
 
   private static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {BACKGROUND_MUSIC};
-
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
   private Entity player;
-
   private final GdxGame game;
 
   /**
@@ -129,37 +139,46 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
+    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
-    // Terrain walls
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+    // // Terrain walls
+    // float tileSize = terrain.getTileSize();
+    // GridPoint2 tileBounds = terrain.getMapBounds(0);
+    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    // Left
-    spawnEntityAt(
-        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    // Right
-    spawnEntityAt(
-        ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-        new GridPoint2(tileBounds.x, 0),
-        false,
-        false);
-    // Top
-    spawnEntityAt(
-        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-        new GridPoint2(0, tileBounds.y),
-        false,
-        false);
-    // Bottom
-    spawnEntityAt(
-        ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+    //  // Left
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
+    //  // Right
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+    //      new GridPoint2(tileBounds.x, 0),
+    //      false,
+    //      false);
+    //  // Top
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+    //      new GridPoint2(0, tileBounds.y),
+    //      false,
+    //      false);
+    //  // Bottom
+    //  spawnEntityAt(
+    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
+  }
+
+  private void updateTerrain(GridPoint2 playerPosition) {
+    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition, new GridPoint2(20, 20));
+    spawnEntity(new Entity().addComponent(terrain));
+  }
+
+  public void onPlayerMove(GridPoint2 newPlayerPosition) {
+    updateTerrain(newPlayerPosition);
   }
 
   private void spawnTrees() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
     for (int i = 0; i < NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -169,6 +188,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
+
     Entity newPlayer = PlayerFactory.createPlayer();
     newPlayer.addComponent(this.terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
@@ -176,8 +196,8 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
     for (int i = 0; i < numEntities; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -199,8 +219,8 @@ public class ForestGameArea extends GameArea {
 
 
   private void spawnEntityOnMap(Entity entity) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     spawnEntityAt(entity, randomPos, true, true);
   }
