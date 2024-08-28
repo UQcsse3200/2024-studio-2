@@ -36,6 +36,12 @@ public class MainGameActions extends Component {
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
 
+  /**
+   * returns to an old screen
+   * @param screen Screen object to be returned to
+   * @param container ServiceContainer that contains all the services for the
+   *                  screen that is being returned to
+   */
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen");
     // change to new GDXgame function

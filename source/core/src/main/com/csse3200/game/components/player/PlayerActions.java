@@ -28,6 +28,10 @@ public class PlayerActions extends Component {
 
   private final GdxGame game;
 
+  /**
+   * Constructor that takes the game so that new screens can be created by the player.
+   * @param game the games GdxGame object
+   */
   public PlayerActions(GdxGame game) {
     this.game = game;
   }
@@ -40,7 +44,6 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
-    entity.getEvents().addListener("addMainGameScreen", this::addMainGameScreen);
     entity.getEvents().addListener("startCombat", this::startCombat);
   }
 
@@ -97,10 +100,6 @@ public class PlayerActions extends Component {
   void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
     eventService.globalEventHandler.trigger("addOverlay", OverlayType.QUEST_OVERLAY);
-  }
-
-  public void addMainGameScreen(){
-    game.addMainGameDup();
   }
 
   public void startCombat(Entity enemy){

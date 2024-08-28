@@ -18,6 +18,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
   private Map<Integer, Boolean> buttonPressed = new HashMap<Integer, Boolean>();
 
+  /**
+   * Constructor, adds values to the button pressed map to avoid player gaining
+   * unintended velocity when entering and exiting screens while holding a wasd button
+   */
   public KeyboardPlayerInputComponent() {
     super(5);
     ServiceLocator.getEventService().globalEventHandler.addListener("resetVelocity",this::resetVelocity);
@@ -27,6 +31,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     buttonPressed.put(Keys.D, false);
   }
 
+  /**
+   * resets the players velocity to 0, 'unpresses' all keys
+   */
   private void resetVelocity () {
     walkDirection.set(Vector2.Zero);
     buttonPressed.put(Keys.W, false);
@@ -75,9 +82,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.Q:
         entity.getEvents().trigger("quest");
-        return true;
-      case Keys.O:
-        entity.getEvents().trigger("addMainGameScreen");
         return true;
       default:
         return false;

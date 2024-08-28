@@ -10,10 +10,8 @@ import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
-import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
@@ -26,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_TREES = 7;
-  private static final int NUM_GHOSTS = 2;
+  private static final int NUM_CHICKENS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
@@ -62,6 +60,7 @@ public class ForestGameArea extends GameArea {
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
+   * @param game GdxGame needed for creating the player
    * @requires terrainFactory != null
    */
   public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
@@ -70,7 +69,10 @@ public class ForestGameArea extends GameArea {
     this.game = game;
   }
 
-  /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
+  /**
+   * Create the game area, including terrain, static entities (trees),
+   * dynamic entities (player and NPCs), and ui
+   * */
   @Override
   public void create() {
     loadAssets();
@@ -80,13 +82,10 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
     spawnTrees();
     player = spawnPlayer();
-    spawnGhosts();
-    spawnGhostKing();
 
-    spawnChicken();
-    spawnChicken();
-    spawnChicken();
-    spawnChicken();
+    for (int i = 0;i < NUM_CHICKENS; i++) {
+      spawnChicken();
+    }
 
     spawnFrog();
     spawnMonkey();
@@ -149,22 +148,35 @@ public class ForestGameArea extends GameArea {
     }
   }
 
+  /**
+   * Creates the player entity for this screen
+   * @return the player entity
+   */
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer(game);
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
+  /**
+   * Spawns a chicken enemy, with the player entity as its target
+   */
   private void spawnChicken() {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity chicken = NPCFactory.createChicken(player);
+    Entity chicken = EnemyFactory.createChicken(player);
+
+    float proximityRange = 0.05f; // Set a suitable proximity range
+    chicken.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
 
     spawnEntityAt(chicken, randomPos, true, true);
   }
 
+  /**
+   * spawns a frog enemy, with the player entity as its target
+   */
   private void spawnFrog() {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
@@ -179,6 +191,9 @@ public class ForestGameArea extends GameArea {
 
   }
 
+  /**
+   * spawns a monkey enemy, with the player entity as its target
+   */
   private void spawnMonkey() {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
@@ -187,30 +202,10 @@ public class ForestGameArea extends GameArea {
     Entity monkey = EnemyFactory.createMonkey(player);
 
     float proximityRange = 0.05f; // Set a suitable proximity range
-    //monkey.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+    monkey.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
 
     spawnEntityAt(monkey, randomPos, true, true);
 
-  }
-
-  private void spawnGhosts() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < NUM_GHOSTS; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity ghost = NPCFactory.createGhost(player);
-      spawnEntityAt(ghost, randomPos, true, true);
-    }
-  }
-
-  private void spawnGhostKing() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createGhostKing(player);
-    spawnEntityAt(ghostKing, randomPos, true, true);
   }
 
   public void playMusic() {

@@ -36,6 +36,9 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     debugRenderer = ServiceLocator.getRenderService().getDebug();
   }
 
+  /**
+   * Moves the entity in the direction of the entities target (often the player)
+   */
   @Override
   public void start() {
     super.start();
@@ -54,6 +57,10 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
+  /**
+   * Updates the direction in which the entity needs to move in, checks every
+   * frame to see where the player is to determine this.
+   */
   @Override
   public void update() {
     Vector2 currentPos = owner.getEntity().getPosition();

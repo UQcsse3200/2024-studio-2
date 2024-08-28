@@ -10,7 +10,10 @@ import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
 
-/** Chases a target entity until they get too far away or line of sight is lost */
+/**
+ * Task for enemy entity to run away from the target entity until
+ * they get too far away or line of sight is lost
+ * */
 public class RunTask extends DefaultTask implements PriorityTask {
   private final Entity target;
   private final int priority;
@@ -23,7 +26,7 @@ public class RunTask extends DefaultTask implements PriorityTask {
   /**
    * @param target The entity to chase.
    * @param priority Task priority when chasing (0 when not chasing).
-   * @param viewDistance Maximum distance from the entity at which chasing can start.
+   * @param viewDistance Minimum distance from the target at which running can end.
    */
   public RunTask(Entity target, int priority, float viewDistance) {
     this.target = target;

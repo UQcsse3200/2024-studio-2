@@ -33,6 +33,12 @@ public class MovementTask extends DefaultTask {
     this.stopDistance = stopDistance;
   }
 
+  /**
+   * Moves an entity at a speed towards a target
+   *
+   * @param target vector for direction to move in
+   * @param speed velocity at which the entity moves
+   */
   public MovementTask(Vector2 target, Vector2 speed) {
     this(target);
     this.speed = speed;

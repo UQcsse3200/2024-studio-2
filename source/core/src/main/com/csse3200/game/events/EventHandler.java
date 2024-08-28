@@ -165,16 +165,4 @@ public class EventHandler {
   public void dispose() {
     listeners.clear();
   }
-
-  public void removeListener(String eventName, EventListener listenerToRemove) {
-    logger.debug("Removing listener {} from event {}", listenerToRemove, eventName);
-    Array<EventListener> eventListeners = listeners.getOrDefault(eventName, null);
-    if (eventListeners != null) {
-      eventListeners.removeValue(listenerToRemove, true);
-      if (eventListeners.size == 0) {
-        listeners.remove(eventName);
-      }
-    }
-  }
-
 }

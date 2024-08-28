@@ -100,6 +100,11 @@ public class MainGameScreen extends ScreenAdapter {
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
+  /**
+   * pauses all the entities, stops ONLY the screen from rendering,
+   * stops the physics engine from making any calculations, and stops
+   * the music of this screen.
+   */
   @Override
   public void pause() {
     isPaused = true;
@@ -107,6 +112,11 @@ public class MainGameScreen extends ScreenAdapter {
     logger.info("Game paused");
   }
 
+  /**
+   * resumes entities, rendering, physics and music, resets player velocity.
+   * Note: if the game is NOT already paused, entities, rendering and physics
+   *       remain unchanged, however the player velocity will still be reset.
+   */
   @Override
   public void resume() {
     isPaused = false;

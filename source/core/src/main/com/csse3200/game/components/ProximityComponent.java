@@ -4,10 +4,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
+/**
+ * Component class for spawning enemies when the player gets within a certain proximity.
+ * Enemies exits before this, but are disabled until the player enters their proximity.
+ */
 public class ProximityComponent extends Component {
     private final Entity target;
     private final float proximityRange;
 
+    /**
+     * @param target the player entity, for detecting if it is in range
+     * @param proximityRange the range in which the player will cause the entity to
+     *                       trigger the spawn animation and become enabled.
+     */
     public ProximityComponent(Entity target, float proximityRange) {
         this.target = target;
         this.proximityRange = proximityRange;

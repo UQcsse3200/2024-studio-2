@@ -8,12 +8,10 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
-import com.csse3200.game.entities.configs.GhostKingConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -39,12 +37,50 @@ public class EnemyFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
+  /**
+   * types of enemies
+   */
   private enum EnemyType {
     FROG,
     CHICKEN,
     MONKEY;
   }
 
+  /**
+   * Creates a chicken enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy chicken entity
+   */
+  public static Entity createChicken(Entity target) {
+    Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
+    BaseEntityConfig config = configs.chicken;
+
+    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
+
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+
+
+    chicken
+            .addComponent(animator)
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new ChickenAnimationController());
+
+    chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
+    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+
+    return chicken;
+  }
+
+  /**
+   * Creates a frog enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy frog entity
+   */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
     BaseEntityConfig config = configs.frog;
@@ -67,10 +103,10 @@ public class EnemyFactory {
   }
 
   /**
-   * Creates a monkey entity.
+   * Creates a monkey enemy.
    *
-   * @param target entity to chase
-   * @return entity
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy monkey entity
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
@@ -124,7 +160,7 @@ public class EnemyFactory {
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
             .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);

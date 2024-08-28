@@ -4,7 +4,7 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 /**
- * This class listens to events relevant to a ghost entity's state and plays the animation when one
+ * This class listens to events relevant to a monkey entity's state and plays the animation when one
  * of the events is triggered.
  */
 public class MonkeyAnimationController extends Component {
@@ -24,35 +24,38 @@ public class MonkeyAnimationController extends Component {
     entity.getEvents().addListener("runRightUp", this::animateRunRightUp);
   }
 
-  void animateRunDown() {
+  //The following methods will be updated with new animations in future sprints,
+  //so are currently placeholders
+
+  private void animateRunDown() {
     animator.startAnimation("run_down");
   }
 
-  void animateRunUp() {
+  private void animateRunUp() {
     animator.startAnimation("run_up");
   }
 
-  void animateRunLeft() {
+  private void animateRunLeft() {
     animator.startAnimation("run_left");
   }
 
-  void animateRunRight() {
+  private void animateRunRight() {
     animator.startAnimation("run_right");
   }
 
-  void animateRunLeftDown() {
+  private void animateRunLeftDown() {
     animator.startAnimation("run_left_down");
   }
 
-  void animateRunRightDown() {
+  private void animateRunRightDown() {
     animator.startAnimation("run_right_down");
   }
 
-  void animateRunLeftUp() {
+  private void animateRunLeftUp() {
     animator.startAnimation("run_left_up");
   }
 
-  void animateRunRightUp() {
+  private void animateRunRightUp() {
     animator.startAnimation("run_right_up");
   }
 

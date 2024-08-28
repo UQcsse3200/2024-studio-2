@@ -38,6 +38,9 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     return 1; // Low priority task
   }
 
+  /**
+   * Checks if the entity has spawned yet, if not waits, else it wanders
+   */
   @Override
   public void start() {
     super.start();
@@ -45,7 +48,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     Vector2 newPos = getRandomPosInRange();
 
       if (!isSpawned) {
-          logger.debug("Triggering spawnChicken event");
+          logger.debug("Triggering spawn event");
           this.owner.getEntity().getEvents().trigger("spawnStart");
           isSpawned = true;
 

@@ -76,13 +76,6 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
-  public void addMainGameDup() {
-    addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
-   }
-
-  //public void addCombatScreen() {
-  //  addScreen(ScreenType.COMBAT, getScreen());
-  //}
   public void addCombatScreen(Entity enemy) {
     addScreen(ScreenType.COMBAT, getScreen(), enemy);
   }
@@ -96,10 +89,7 @@ public class GdxGame extends Game {
   public void addScreen (ScreenType screenType, Screen screen) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
-            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+    ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
     setScreen(newScreen(screenType, screen, container));
@@ -110,17 +100,14 @@ public class GdxGame extends Game {
    *
    * @param screenType screen type
    * @param screen Old screen if we want to remember/ return to it.
+   * @param enemy Entity that triggered combat
    */
   public void addScreen (ScreenType screenType, Screen screen, Entity enemy) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
-            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+    ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
-    // setScreen(newScreen(screenType, screen, container));
     setScreen(newScreen(screenType, screen, container, enemy));
   }
 
@@ -147,8 +134,6 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      case MAIN_GAME_DUP:
-        return new MainGameScreenDup(this, screen, container);
       case COMBAT:
         return new CombatScreen(this, screen, container, enemy);
       case SETTINGS:
@@ -158,8 +143,11 @@ public class GdxGame extends Game {
     }
   }
 
+  /**
+   * types of screens
+   */
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, COMBAT, SETTINGS
+    MAIN_MENU, MAIN_GAME, COMBAT, SETTINGS
   }
 
   /**
