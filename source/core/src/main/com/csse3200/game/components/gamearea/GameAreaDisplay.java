@@ -8,14 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.ui.UIComponent;
+import com.csse3200.game.entities.factories.PlayerFactory;
+
 /**
- * Displays the name of the current game area.
+ * Displays the name of the current game area and the player icon based on the player's image.
  */
 public class GameAreaDisplay extends UIComponent {
     private final String gameAreaName;
     private Label title;
-    Texture playerIconTexture;
-
+    private Texture playerIconTexture;
 
     public GameAreaDisplay(String gameAreaName) {
         this.gameAreaName = gameAreaName;
@@ -29,13 +30,20 @@ public class GameAreaDisplay extends UIComponent {
 
     private void addActors() {
         title = new Label(this.gameAreaName, skin, "large");
-        if (gameAreaName.equals("Sky Kingdom")) {
-            playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sky.png"));
-        } else if (gameAreaName.equals("Sea Kingdom")) {
-            playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sea.png"));
-        } else {
-            playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
+
+        // Get the player image path from PlayerFactory
+        String playerImagePath = PlayerFactory.getSelectedAnimalImagePath();
+
+        // Determine the player icon texture based on the player image path
+        switch (playerImagePath) {
+            case "images/dog.png" ->
+                    playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
+            case "images/croc.png" -> playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sea.png"));
+            case "images/bird.png" -> playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sky.png"));
+            default ->
+                    playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png")); // Default icon
         }
+
         Image playerIcon = new Image(playerIconTexture);
         // Set the size of the icon to match the label's height
         float titleHeight = title.getPrefHeight();
@@ -73,8 +81,7 @@ public class GameAreaDisplay extends UIComponent {
     @Override
     public void dispose() {
         super.dispose();
-        if (playerIconTexture != null)
-        {
+        if (playerIconTexture != null) {
             playerIconTexture.dispose();
         }
         title.remove();
