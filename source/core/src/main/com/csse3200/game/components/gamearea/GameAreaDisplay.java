@@ -11,23 +11,36 @@ import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.entities.factories.PlayerFactory;
 
 /**
- * Displays the name of the current game area and the player icon based on the player's image.
+ * Displays the player icon based on the player's image corresponding to its kingdom.
  */
 public class GameAreaDisplay extends UIComponent {
     private final String gameAreaName;
     private Label title;
     private Texture playerIconTexture;
 
+    /**
+     * Constructs a GameAreaDisplay component.
+     *
+     * @param gameAreaName the name of the current game area to be displayed
+     */
     public GameAreaDisplay(String gameAreaName) {
         this.gameAreaName = gameAreaName;
     }
 
+    /**
+     * Initializes the GameAreaDisplay component and calls addactors() to add actors to the stage.
+     */
     @Override
     public void create() {
         super.create();
         addActors();
     }
 
+    /**
+     * Adds the title label and player icon to the UI using a table layout.
+     * The player icon is determined based on the selected player's image
+     * path with help of switch casewhich corresponds to its kingdom
+     */
     private void addActors() {
         title = new Label(this.gameAreaName, skin, "large");
 
@@ -69,6 +82,11 @@ public class GameAreaDisplay extends UIComponent {
         stage.addActor(topTable);
     }
 
+    /**
+     * Draws the UI component on the screen.
+     *
+     * @param batch the SpriteBatch used to draw the component
+     */
     @Override
     public void draw(SpriteBatch batch) {
         int screenHeight = Gdx.graphics.getHeight();
@@ -78,6 +96,9 @@ public class GameAreaDisplay extends UIComponent {
         title.setPosition(offsetX, screenHeight - offsetY);
     }
 
+    /**
+     * Disposes of assets used by this component, including the player icon texture and the title label.
+     */
     @Override
     public void dispose() {
         super.dispose();
