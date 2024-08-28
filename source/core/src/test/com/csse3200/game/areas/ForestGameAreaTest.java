@@ -16,11 +16,13 @@ class ForestGameAreaTest {
         TerrainFactory mockTerrainFactory = mock(TerrainFactory.class);
         CameraComponent mockCameraComponent = mock(CameraComponent.class);
 
+        // Initialise ForestGameArea with mocked dependencies
         forestGameArea = new ForestGameArea(mockTerrainFactory, mockCameraComponent);
     }
 
     @Test
     void testForestGameAreaInitialization() {
-        assertNotNull(forestGameArea, "I love the forest");
+        // Check that the forestGameArea is successfully created
+        assertNotNull(forestGameArea, "ForestGameArea should be initialised.");
     }
 }
