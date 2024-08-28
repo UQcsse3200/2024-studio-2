@@ -3,8 +3,8 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
@@ -24,11 +24,11 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
-  private GdxGame game;
+  private final Entity player;
 
 
-  public PlayerActions(GdxGame game) {
-    this.game = game;
+  public PlayerActions(Entity player) {
+    this.player = player;
   }
 
   @Override
@@ -39,7 +39,6 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
-    entity.getEvents().addListener("addMainGameScreen",this::addMainGameScreen);
   }
 
   @Override
@@ -66,7 +65,7 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventService.getGlobalEventHandler().trigger("steps");
+    player.getEvents().trigger("steps");
   }
 
   /**
@@ -84,20 +83,16 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
-    eventService.getGlobalEventHandler().trigger("attack");
+    player.getEvents().trigger("attackTask");
   }
 
-  void restMenu() {
+  private void restMenu() {
       logger.info("Sending Pause");
-      eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
   }
 
-  void quest() {
+  private void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
     eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
-  }
-
-  public void addMainGameScreen(){
-    game.addMainGameDup();
   }
 }

@@ -57,7 +57,8 @@ public class EntityService {
   }
 
   /**
-   * Pause all entities.
+   * Pause (disable) all entities so update in the gameplay loop doesn't occur for
+   * the event and its components.
    */
   public void restWholeScreen() {
     for (Entity entity : entities) {
@@ -65,6 +66,10 @@ public class EntityService {
     }
   }
 
+  /**
+   * Play (enable) all entities so update in the gameplay loop occurs for
+   * the event and its components.
+   */
   public void wakeWholeScreen() {
     for (Entity entity : entities) {
       entity.setEnabled(true);

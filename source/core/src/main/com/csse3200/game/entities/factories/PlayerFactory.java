@@ -1,11 +1,11 @@
 package com.csse3200.game.entities.factories;
 
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
@@ -33,7 +33,7 @@ public class PlayerFactory {
    * Create a player entity.
    * @return entity
    */
-  public static Entity createPlayer(GdxGame game) {
+  public static Entity createPlayer() {
     String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
@@ -44,8 +44,8 @@ public class PlayerFactory {
             .addComponent(new TextureRenderComponent(imagePath))
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions(game));
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+            player.addComponent(new PlayerActions(player));
             if (imagePath.equals("images/dog.png")) {
               player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0));
 
@@ -54,12 +54,15 @@ public class PlayerFactory {
             } else if (imagePath.equals("images/bird.png")) {
               player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0));
             }
-            player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+            else {
+                player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+            }
 
             player.addComponent(new PlayerInventoryDisplay(36, 9));
             player.addComponent(inputComponent);
             player.addComponent(new PlayerStatsDisplay());
-            player.addComponent(new QuestManager());
+            player.addComponent(new QuestManager(player));
+            player.addComponent(new QuestPopup());
 
 
 
