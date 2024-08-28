@@ -29,6 +29,7 @@ public class TerrainFactory {
   private static final int ROCK_TILE_COUNT = 1;
 
   private final OrthographicCamera camera;
+  private final CameraComponent cameraComponent;
   private final TerrainOrientation orientation;
   private final Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
 
@@ -49,12 +50,22 @@ public class TerrainFactory {
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
+    this.cameraComponent = cameraComponent;
     this.orientation = orientation;
   }
 
   /**
-   * Create a terrain of the given type, using the orientation of the factory.
-   * This method loads or generates the terrain chunks around the player's current position.
+   * Retrieve the component to which the camera is attached
+   *
+   * @return the camera component
+   */
+  public CameraComponent getCameraComponent() {
+    return this.cameraComponent;
+  }
+
+  /**
+   * Create a terrain of the given type, using the orientation of the factory. This can be extended
+   * to add additional game terrains.
    *
    * @param terrainType Terrain to create
    * @param playerPosition The current position of the player in the world

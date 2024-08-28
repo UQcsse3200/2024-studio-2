@@ -1,5 +1,7 @@
 package com.csse3200.game.areas;
 
+import com.badlogic.gdx.Gdx;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.CameraComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,10 +16,10 @@ class ForestGameAreaTest {
     @BeforeEach
     void setUp() {
         TerrainFactory mockTerrainFactory = mock(TerrainFactory.class);
-        CameraComponent mockCameraComponent = mock(CameraComponent.class);
+        GdxGame mockGdxGame = mock(GdxGame.class);
 
         // Initialise ForestGameArea with mocked dependencies
-        forestGameArea = new ForestGameArea(mockTerrainFactory, mockCameraComponent);
+        forestGameArea = new ForestGameArea(mockTerrainFactory, mockGdxGame);
     }
 
     @Test

@@ -7,14 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.areas.terrain.TerrainChunk;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -33,14 +30,14 @@ public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
-  private TiledMap tiledMap;
+  private static TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
 
-  private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
-  private TerrainResource terrainResource;
+  private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
+  private static TerrainResource terrainResource;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -82,7 +79,7 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to fill
    */
-  public void fillChunk(GridPoint2 chunkPos) {
+  public static void fillChunk(GridPoint2 chunkPos) {
 
     // Check if the chunk is within the bounds of the map
     if (loadedChunks.containsKey(chunkPos))
@@ -95,7 +92,7 @@ public class TerrainComponent extends RenderComponent {
             chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
       return;
 
-    chunk.generateTiles(chunkPos, loadedChunks, this.terrainResource);
+    chunk.generateTiles(chunkPos, loadedChunks, terrainResource);
     loadedChunks.put(chunkPos, chunk);
   }
 
@@ -104,7 +101,7 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to load around
    */
-  public void loadChunks(GridPoint2 chunkPos) {
+  public static void loadChunks(GridPoint2 chunkPos) {
 
     // top left
     GridPoint2 tl = new GridPoint2(chunkPos.x - 1, chunkPos.y + 1);

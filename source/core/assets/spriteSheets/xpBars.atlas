@@ -1,0 +1,82 @@
+xpBars.png
+size: 1719, 440
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0%_xp
+  rotate: false
+  xy: 0, 0
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 0
+10%_xp
+  rotate: false
+  xy: 573, 0
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 1
+20%_xp
+  rotate: false
+  xy: 1146, 0
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 2
+30%_xp
+  rotate: false
+  xy: 0, 110
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 3
+40%_xp
+  rotate: false
+  xy: 573, 110
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 4
+50%_xp
+  rotate: false
+  xy: 1146, 110
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 5
+60%_xp
+  rotate: false
+  xy: 0, 220
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 6
+70%_xp
+  rotate: false
+  xy: 573, 220
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 7
+80%_xp
+  rotate: false
+  xy: 1146, 220
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 8
+90%_xp
+  rotate: false
+  xy: 0, 330
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 9
+100%_xp
+  rotate: false
+  xy: 573, 330
+  size: 573, 110
+  orig: 573, 110
+  offset: 0, 0
+  index: 10

@@ -4,9 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.UserSettings;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.screens.MainMenuScreen;
-import com.csse3200.game.screens.SettingsScreen;
+import com.csse3200.game.screens.*;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class GdxGame extends Game {
     loadSettings();
 
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -45,11 +45,47 @@ public class GdxGame extends Game {
    * @param screenType screen type
    */
   public void setScreen(ScreenType screenType) {
-    logger.info("Setting game screen to {}", screenType);
+    logger.info("Setting screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
       currentScreen.dispose();
     }
+    setScreen(newScreen(screenType));
+  }
+
+  /**
+   * Changes to a screen that already exists, disposing of the current screen
+   * @param screen to be switched to
+   */
+   public void setOldScreen(Screen screen, ServiceContainer container) {
+    logger.info("Setting old screen: {}", screen);
+    Screen currentScreen = getScreen();
+    if (currentScreen != null) {
+      currentScreen.dispose();
+    }
+    setScreen(screen);
+    ServiceLocator.registerTimeSource(container.getTimeSource());
+    ServiceLocator.registerPhysicsService(container.getPhysicsService());
+    ServiceLocator.registerInputService(container.getInputService());
+    ServiceLocator.registerResourceService(container.getResourceService());
+    ServiceLocator.registerEntityService(container.getEntityService());
+    ServiceLocator.registerRenderService(container.getRenderService());
+    ServiceLocator.registerEventService(container.getEventService());
+    screen.resume();
+  }
+
+  /**
+   * Changes to a new screen, does NOT dispose of old screen
+   *
+   * @param screenType screen type
+   * @param screen Old screen if we want to remember/ return to it.
+   */
+  public void addScreen (ScreenType screenType, Screen screen) {
+    logger.info("Adding screen: {}", screenType);
+    screen.pause();
+    ServiceContainer container = new ServiceContainer();
+
+    ServiceLocator.clear();
     setScreen(newScreen(screenType));
   }
 
@@ -72,13 +108,22 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
+      case ACHIEVEMENTS:
+        return new AchievementsScreen(this);
+      case MINI_GAME_MENU_SCREEN:
+          return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
   }
 
   /**

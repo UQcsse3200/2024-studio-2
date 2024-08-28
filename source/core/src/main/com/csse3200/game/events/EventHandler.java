@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+
 /**
  * Send and receive events between objects. EventHandler provides an implementation of the Observer
  * pattern, also known as an event system or publish/subscribe. When an event is triggered with
@@ -23,10 +24,16 @@ import java.util.function.Consumer;
 public class EventHandler {
   private static final Logger logger = LoggerFactory.getLogger(EventHandler.class);
   Map<String, Array<EventListener>> listeners;
+  private String lastTriggeredEvent;
 
   public EventHandler() {
     // Assume no events by default, which will be the case for most entities
     listeners = new HashMap<>(0);
+    lastTriggeredEvent = null;
+  }
+
+  public Map<String, Array<EventListener>> getListeners() {
+    return listeners;
   }
 
   /**
@@ -82,6 +89,7 @@ public class EventHandler {
    */
   public void trigger(String eventName) {
     logTrigger(eventName);
+    lastTriggeredEvent = eventName;
     forEachListener(eventName, (EventListener listener) -> ((EventListener0) listener).handle());
   }
 
@@ -95,6 +103,7 @@ public class EventHandler {
   @SuppressWarnings("unchecked")
   public <T> void trigger(String eventName, T arg0) {
     logTrigger(eventName);
+    lastTriggeredEvent = eventName;
     forEachListener(
         eventName, (EventListener listener) -> ((EventListener1<T>) listener).handle(arg0));
   }
@@ -111,6 +120,7 @@ public class EventHandler {
   @SuppressWarnings("unchecked")
   public <T0, T1> void trigger(String eventName, T0 arg0, T1 arg1) {
     logTrigger(eventName);
+    lastTriggeredEvent = eventName;
     forEachListener(
         eventName,
         (EventListener listener) -> ((EventListener2<T0, T1>) listener).handle(arg0, arg1));
@@ -130,10 +140,20 @@ public class EventHandler {
   @SuppressWarnings("unchecked")
   public <T0, T1, T2> void trigger(String eventName, T0 arg0, T1 arg1, T2 arg2) {
     logTrigger(eventName);
+    lastTriggeredEvent = eventName;
     forEachListener(
         eventName,
         (EventListener listener) ->
             ((EventListener3<T0, T1, T2>) listener).handle(arg0, arg1, arg2));
+  }
+
+  /**
+   * Checks through the
+   *
+   * @return the most recent triggered event
+   */
+  public String getLastTriggeredEvent() {
+    return lastTriggeredEvent;
   }
 
   private void registerListener(String eventName, EventListener listener) {
@@ -155,5 +175,10 @@ public class EventHandler {
 
   private static void logTrigger(String eventName) {
     logger.debug("Triggering event {}", eventName);
+  }
+
+
+  public void dispose() {
+    listeners.clear();
   }
 }

@@ -5,4 +5,10 @@ package com.csse3200.game.entities.configs;
  */
 public class GhostKingConfig extends BaseEntityConfig {
   public int spookyFactor = 0;
+  protected GhostKingConfig() {
+    this.spritePath = "images/ghostKing.atlas";
+    this.animationSpeed = 0.1f;
+    this.health = 1;
+    this.baseAttack = 0;
+  }
 }

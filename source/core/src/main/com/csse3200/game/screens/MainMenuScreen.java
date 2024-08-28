@@ -14,6 +14,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +35,9 @@ public class MainMenuScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
+    ServiceLocator.registerEventService(new EventService());
 
     renderer = RenderFactory.createRenderer();
-
     loadAssets();
     createUI();
   }
@@ -71,6 +72,7 @@ public class MainMenuScreen extends ScreenAdapter {
     unloadAssets();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getEntityService().dispose();
+    ServiceLocator.getEventService().dispose();
 
     ServiceLocator.clear();
   }
@@ -79,7 +81,7 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainMenuTextures);
-    ServiceLocator.getResourceService().loadAll();
+    resourceService.loadAll();
   }
 
   private void unloadAssets() {
@@ -87,18 +89,17 @@ public class MainMenuScreen extends ScreenAdapter {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(mainMenuTextures);
   }
-
   /**
    * Creates the main menu's ui including components for rendering ui elements to the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
-    logger.debug("Creating ui");
+    logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new MainMenuDisplay())
-        .addComponent(new InputDecorator(stage, 10))
-        .addComponent(new MainMenuActions(game));
+            .addComponent(new InputDecorator(stage, 10))
+            .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().register(ui);
   }
 }

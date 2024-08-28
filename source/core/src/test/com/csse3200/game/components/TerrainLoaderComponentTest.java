@@ -24,12 +24,11 @@ public class TerrainLoaderComponentTest {
     @Before
     public void setUp() {
         // Mock necessary classes
-        mockTerrainComponent = mock(TerrainComponent.class);
         mockEntityService = mock(EntityService.class);
         player = mock(Entity.class);
 
         // Initialise the TerrainLoaderComponent with the mocked terrain
-        terrainLoader = new TerrainLoaderComponent(mockTerrainComponent);
+        terrainLoader = new TerrainLoaderComponent();
         // Set the player entity for the loader
         terrainLoader.setEntity(player);
 

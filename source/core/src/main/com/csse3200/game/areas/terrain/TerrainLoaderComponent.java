@@ -17,17 +17,7 @@ import com.csse3200.game.services.ServiceLocator;
  * terrain chunks as the player moves.
  */
 public class TerrainLoaderComponent extends Component {
-  private TerrainComponent terrain;
   private GridPoint2 previousChunk;
-
-  /**
-   * Constructs a TerrainLoaderComponent.
-   * 
-   * @param terrainFactory The factory used to generate or load terrain chunks.
-   */
-  public TerrainLoaderComponent(TerrainComponent terrain) {
-    this.terrain = terrain;
-  }
 
   @Override
   public void create() {
@@ -55,7 +45,7 @@ public class TerrainLoaderComponent extends Component {
   }
 
   private void loadChunks(Vector2 position) {
-    terrain.loadChunks(getPlayerChunk(position));
+    TerrainComponent.loadChunks(getPlayerChunk(position));
   }
 
   private GridPoint2 getPlayerChunk(Vector2 position) {
