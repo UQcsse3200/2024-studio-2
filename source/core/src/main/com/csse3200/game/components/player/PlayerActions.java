@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.Overlays.Overlay.OverlayType;
+import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -24,8 +24,8 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
+  private GdxGame game;
 
-  private final GdxGame game;
 
   public PlayerActions(GdxGame game) {
     this.game = game;
@@ -65,8 +65,8 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventService.globalEventHandler.trigger("steps");
-    eventService.globalEventHandler.trigger("Test Achievement");
+    eventService.getGlobalEventHandler().trigger("Test Achievement");
+    eventService.getGlobalEventHandler().trigger("steps");
   }
 
   /**
@@ -84,17 +84,17 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
-    eventService.globalEventHandler.trigger("attack");
+    eventService.getGlobalEventHandler().trigger("attack");
   }
 
   void restMenu() {
       logger.info("Sending Pause");
-      eventService.globalEventHandler.trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
+      eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
   }
 
   void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.globalEventHandler.trigger("addOverlay", OverlayType.QUEST_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
   }
 
 }

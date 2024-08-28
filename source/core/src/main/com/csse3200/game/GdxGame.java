@@ -26,7 +26,6 @@ public class GdxGame extends Game {
     logger.info("Creating game");
     loadSettings();
 
-
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
@@ -52,7 +51,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null, null));
+    setScreen(newScreen(screenType));
   }
 
   /**
@@ -93,7 +92,7 @@ public class GdxGame extends Game {
             ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container));
+    setScreen(newScreen(screenType));
   }
 
   @Override
@@ -105,21 +104,21 @@ public class GdxGame extends Game {
   /**
    * Create a new screen of the provided type.
    * @param screenType screen type
-   * @param screen for returning to an old screen, may be null.
-   * @param container container for services, for returning to an old screen. may be null.
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+  private Screen newScreen(ScreenType screenType) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
+      case MAIN_GAME_DUP:
+        return new MainGameScreenDup(this, screen, null);
       case SETTINGS:
         return new SettingsScreen(this);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
-      case MiniGameMenuScreen:
+      case MINI_GAME_MENU_SCREEN:
           return new MiniGameMenuScreen(this);
       case LOADING_SCREEN:
         return new LoadingScreen(this);
@@ -132,9 +131,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-
-    MAIN_MENU, MAIN_GAME, SETTINGS , MiniGameMenuScreen, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
-
+      MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
   }
 
   /**
