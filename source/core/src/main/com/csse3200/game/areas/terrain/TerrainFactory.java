@@ -24,6 +24,7 @@ public class TerrainFactory {
   private static final int ROCK_TILE_COUNT = 30;
 
   private final OrthographicCamera camera;
+  private final CameraComponent cameraComponent;
   private final TerrainOrientation orientation;
 
   /**
@@ -43,7 +44,17 @@ public class TerrainFactory {
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
+    this.cameraComponent = cameraComponent;
     this.orientation = orientation;
+  }
+
+  /**
+   * Retrieve the component to which the camera is attached
+   *
+   * @return the camera component
+   */
+  public CameraComponent getCameraComponent() {
+    return this.cameraComponent;
   }
 
   /**
