@@ -43,7 +43,7 @@ class QuestManagerTest {
 
     @Test
     void AddQuest() {
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Test Description", List.of(), false, null, null);
+        QuestBasic quest = new QuestBasic("Test Quest", "Test Description", List.of(), false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
@@ -58,8 +58,8 @@ class QuestManagerTest {
 
     @Test
     void GetAllQuests() {
-        QuestBasic quest1 = new QuestBasic(player,"Quest 1", "Description 1", List.of(),  false, null, null);
-        QuestBasic quest2 = new QuestBasic(player,"Quest 2", "Description 2", List.of(),  false, null, null);
+        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, false, 0);
+        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(),  false, null, null, true, false, 0);
         questManager.addQuest(quest1);
         questManager.addQuest(quest2);
 
@@ -70,8 +70,8 @@ class QuestManagerTest {
 
     @Test
     void HandleProgressQuest() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         questManager.progressQuest("Test Quest", "testTask");
@@ -80,8 +80,8 @@ class QuestManagerTest {
 
     @Test
     void HandleQuestCompletion() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
 
@@ -92,8 +92,8 @@ class QuestManagerTest {
 
     @Test
     void HandleFailQuest() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         questManager.failQuest("Test Quest");
