@@ -25,7 +25,7 @@ public class CombatActions extends Component {
 
   @Override
   public void create() {
-    ServiceLocator.getEventService().globalEventHandler.addListener("exit", this::onExit);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);

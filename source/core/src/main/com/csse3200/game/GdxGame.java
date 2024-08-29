@@ -137,8 +137,6 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      //case MAIN_GAME_DUP:
-      //  return new MainGameScreenDup(this, screen, container);
       case COMBAT:
         return new CombatScreen(this, screen, container, player, enemy);
       case SETTINGS:

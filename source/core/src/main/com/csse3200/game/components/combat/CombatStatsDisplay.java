@@ -32,10 +32,10 @@ public class CombatStatsDisplay extends UIComponent {
     title.setFontScale(1.2f);
 
     Label playerHealthLabel = new Label("Player Health: " + playerStats.getHealth(), skin, "large");
-    Label playerAttackLabel = new Label("Player Attack: " + playerStats.getBaseAttack(), skin, "large");
+    Label playerAttackLabel = new Label("Player Attack: " + playerStats.getStrength(), skin, "large");
 
     Label enemyHealthLabel = new Label("Enemy Health: " + enemyStats.getHealth(), skin, "large");
-    Label enemyAttackLabel = new Label("Enemy Attack: " + enemyStats.getBaseAttack(), skin, "large");
+    Label enemyAttackLabel = new Label("Enemy Attack: " + enemyStats.getStrength(), skin, "large");
 
     statsTable = new Table();
     statsTable.setFillParent(true);

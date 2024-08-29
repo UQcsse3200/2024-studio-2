@@ -32,7 +32,7 @@ public class CombatScreenTest {
                 ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
                 ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
                 ServiceLocator.getResourceService(), ServiceLocator.getEventService());
-        this.player = PlayerFactory.createPlayer(game);
+        //this.player = PlayerFactory.createPlayer(game);
         this.enemy = NPCFactory.createGhost(player);
         this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy);
     }
