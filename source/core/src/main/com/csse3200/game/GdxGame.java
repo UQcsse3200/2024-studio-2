@@ -97,7 +97,10 @@ public class GdxGame extends Game {
   public void addScreen (ScreenType screenType, Screen screen) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer();
+    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
+            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
+            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
+            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
     setScreen(newScreen(screenType, screen, container, null, null));
@@ -153,16 +156,16 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case COMBAT_POPUP:
         return new CombatCountDown(this);
+      case COMBAT:
+        return new CombatScreen(this, screen, container, player, enemy);
+      case BOSS_CUTSCENE:
+        return new BossCutsceneScreen(this, screen, container, player, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
-        case COMBAT:
-            return new CombatScreen(this, screen, container, player, enemy);
-        case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, player, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
-          return new MiniGameMenuScreen(this);
+        return new MiniGameMenuScreen(this);
       case LOADING_SCREEN:
         return new LoadingScreen(this);
       case ANIMAL_SELECTION:

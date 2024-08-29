@@ -5,8 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
+//import com.csse3200.game.overlays.Overlay;
+//import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
 import com.csse3200.game.components.combat.CombatExitDisplay;
@@ -56,7 +56,7 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  //private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -86,8 +86,8 @@ public class CombatScreen extends ScreenAdapter {
 
     createUI();
 
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
   }
 
@@ -161,8 +161,8 @@ public class CombatScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, this.enemy))
-        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatEnvironmentDisplay())
+        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
@@ -171,7 +171,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addOverlay(Overlay.OverlayType overlayType){
+  /*public void addOverlay(Overlay.OverlayType overlayType){
     logger.info("Adding Overlay {}", overlayType);
     if (enabledOverlays.isEmpty()) {
       this.rest();
@@ -207,7 +207,7 @@ public class CombatScreen extends ScreenAdapter {
     } else {
       enabledOverlays.getFirst().wake();
     }
-  }
+  }*/
 
   public void rest() {
     logger.info("Screen is resting");
