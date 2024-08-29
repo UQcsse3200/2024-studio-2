@@ -28,12 +28,9 @@ public class CombatScreenTest {
         // Initialise temporary game, screens, and entities.
         this.game = new GdxGame();
         this.oldScreen = new MainMenuScreen(game);
-        this.container = new ServiceContainer(ServiceLocator.getEntityService(),
-                ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-                ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-                ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+        this.container = new ServiceContainer();
         //this.player = PlayerFactory.createPlayer(game);
-        this.enemy = NPCFactory.createGhost(player);
+        this.enemy = NPCFactory.createKangaBossEntity(player);
         this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy);
     }
 

@@ -97,10 +97,7 @@ public class GdxGame extends Game {
   public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
     logger.info("Add combat Screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
-            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+    ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
     setScreen(newScreen(screenType, screen, container, player, enemy));
