@@ -57,7 +57,8 @@ public class CombatActions extends Component {
     //container.getEntityService().unregister(enemy);
     //container.getEntityService().update();
     // Set current screen to original MainGameScreen
-    game.setOldScreen(screen, container);
+//    game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
   /**
@@ -66,6 +67,7 @@ public class CombatActions extends Component {
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");
     // Set current screen to original MainGameScreen
-    game.setOldScreen(screen, container);
+//    game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
 }
