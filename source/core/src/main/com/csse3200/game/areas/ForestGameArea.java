@@ -225,8 +225,8 @@ public class ForestGameArea extends GameArea {
      * Spawns a chicken enemy, with the player entity as its target
      */
     private void spawnChicken() {
-        GridPoint2 minPos = new GridPoint2(0, 0);
-        GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
         Entity chicken = EnemyFactory.createChicken(player);
@@ -242,8 +242,8 @@ public class ForestGameArea extends GameArea {
      * spawns a frog enemy, with the player entity as its target
      */
     private void spawnFrog() {
-        GridPoint2 minPos = new GridPoint2(0, 0);
-        GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
         Entity frog = EnemyFactory.createFrog(player);
@@ -260,8 +260,8 @@ public class ForestGameArea extends GameArea {
      * spawns a monkey enemy, with the player entity as its target
      */
     private void spawnMonkey() {
-        GridPoint2 minPos = new GridPoint2(0, 0);
-        GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
         Entity monkey = EnemyFactory.createMonkey(player);
