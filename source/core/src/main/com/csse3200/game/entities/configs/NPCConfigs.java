@@ -11,5 +11,5 @@ public class NPCConfigs {
   public TurtleConfig turtle = new TurtleConfig();
   public EagleConfig eagle = new EagleConfig();
   public SnakeConfig snake = new SnakeConfig();
-  public BaseEntityConfig kangarooBoss = new BaseEntityConfig();
+  public BaseEntityConfig kangarooBoss = new KangarooBossConfig();
 }
