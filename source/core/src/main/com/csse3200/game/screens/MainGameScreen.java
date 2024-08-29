@@ -4,16 +4,17 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.Overlays.Overlay;
-import com.csse3200.game.Overlays.Overlay.OverlayType;
-import com.csse3200.game.Overlays.PauseOverlay;
-import com.csse3200.game.Overlays.QuestOverlay;
+import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.overlays.Overlay.OverlayType;
+import com.csse3200.game.overlays.PauseOverlay;
+import com.csse3200.game.overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
@@ -26,15 +27,15 @@ import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
+import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * The game screen containing the main game.
@@ -42,21 +43,58 @@ import java.util.LinkedList;
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
 public class MainGameScreen extends ScreenAdapter {
+
+  /**
+   * Logger instance for logging debug, info, and warning messages.
+   */
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+  /**
+   * Array of texture paths used in the main game screen.
+   */
   private static final String[] mainGameTextures = {"images/health_bar_x1.png",
           AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png",
-          "images/xp_bar.png", "images/hunger_bar.png","images/PauseOverlay/TitleBG.png",
-          "images/PauseOverlay/Button.png"};
+          "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
+  /**
+   * Initial position of the camera in game.
+   */
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
+  /**
+   * Queue of currently enabled overlays in the game screen.
+   */
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  /**
+   * Flag indicating whether the game is currently paused.
+   */
   private boolean isPaused = false;
+  /**
+   * Flag indicating whether the screen is in a resting state.
+   */
   private boolean resting = false;
+  /**
+   * Reference to the main game instance.
+   */
   private final GdxGame game;
+  /**
+   * Renderer for rendering game graphics.
+   */
   private final Renderer renderer;
+  /**
+   * Physics engine for handling physics simulations in the game.
+   */
   private final PhysicsEngine physicsEngine;
+  /**
+   * The game area where the main game takes place.
+   */
   private final ForestGameArea gameArea;
-  private final HashMap<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
+  /**
+   * Map of active overlay types and their statuses.
+   */
+  private final Map<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
+  /**
+   * Constructs a MainGameScreen instance.
+   * @param game The main game instance used.
+   */
     public MainGameScreen(GdxGame game) {
     this.game = game;
 
@@ -72,10 +110,12 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-
+    //register the EntityChatService
     ServiceLocator.registerEntityChatService(new EntityChatService());
 
     ServiceLocator.registerEventService(new EventService());
+
+    ServiceLocator.registerEntityChatService(new EntityChatService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -84,14 +124,19 @@ public class MainGameScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    ServiceLocator.getEventService().globalEventHandler.addListener("addOverlay",this::addOverlay);
-    ServiceLocator.getEventService().globalEventHandler.addListener("removeOverlay",this::removeOverlay);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory, game);
+
     gameArea.create();
   }
 
+  /**
+   * Renders the game screen and updates the physics engine, game entities, and renderer.
+   * @param delta The time elapsed since the last render call.
+   */
   @Override
   public void render(float delta) {
     if (!isPaused){
@@ -101,6 +146,11 @@ public class MainGameScreen extends ScreenAdapter {
     }
   }
 
+  /**
+   * Resizes the renderer to fit dimensions.
+   * @param width  width of the screen.
+   * @param height height of the screen.
+   */
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
@@ -108,9 +158,7 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   /**
-   * pauses all the entities, stops ONLY the screen from rendering,
-   * stops the physics engine from making any calculations, and stops
-   * the music of this screen.
+   * Pauses the game, stopping any ongoing music and setting the paused state.
    */
   @Override
   public void pause() {
@@ -119,21 +167,23 @@ public class MainGameScreen extends ScreenAdapter {
     logger.info("Game paused");
   }
 
+
   /**
-   * resumes entities, rendering, physics and music, resets player velocity.
-   * Note: if the game is NOT already paused, entities, rendering and physics
-   *       remain unchanged, however the player velocity will still be reset.
+   * Resumes the game and restarts music if not in resting state.
    */
   @Override
   public void resume() {
     isPaused = false;
-    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
+    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
     if (!resting) {
       gameArea.playMusic();
     }
     logger.info("Game resumed");
   }
 
+  /**
+   * Disposes of resources used by the game screen.
+   */
   @Override
   public void dispose() {
     logger.debug("Disposing main game screen");
@@ -149,6 +199,9 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.clear();
   }
 
+  /**
+   * Loads assets required for the main game screen.
+   */
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -156,6 +209,9 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getResourceService().loadAll();
   }
 
+  /**
+   * Unloads assets that are no longer needed.
+   */
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -176,6 +232,7 @@ public class MainGameScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
+        .addComponent(new MainGameExitDisplay())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
@@ -183,6 +240,10 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
+  /**
+   * Adds an overlay to the screen.
+   * @param overlayType The type of overlay to add.
+   */
   public void addOverlay(OverlayType overlayType){
     logger.debug("Attempting to Add {} Overlay", overlayType);
     if (activeOverlayTypes.get(overlayType)){
@@ -209,6 +270,10 @@ public class MainGameScreen extends ScreenAdapter {
     activeOverlayTypes.put(overlayType,true);
   }
 
+  /**
+   * Removes the topmost overlay from the screen.
+   */
+
   public void removeOverlay(){
     logger.info("Removing top Overlay");
 
@@ -229,6 +294,9 @@ public class MainGameScreen extends ScreenAdapter {
     }
   }
 
+  /**
+   * Puts the screen into a resting state, pausing music and resting all entities.
+   */
   public void rest() {
     logger.info("Screen is resting");
     resting = true;
@@ -236,10 +304,13 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
+  /**
+   * Wakes the screen from a resting state.
+   */
   public void wake() {
     logger.info("Screen is Awake");
     resting = false;
-    ServiceLocator.getEventService().globalEventHandler.trigger("resetVelocity");
+    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

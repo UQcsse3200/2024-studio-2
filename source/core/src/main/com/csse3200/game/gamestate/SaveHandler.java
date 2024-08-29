@@ -58,6 +58,10 @@ public class SaveHandler {
                 member.set(null,FileLoader.readClass(member.getType(),
                         toPath(member.getName(), dir),
                         FileLoader.Location.LOCAL));
+                logger.info("set {} to {}", member.getName(),
+                        FileLoader.readClass(member.getType(),
+                                toPath(member.getName(), dir),
+                                FileLoader.Location.LOCAL));
             } catch (IllegalAccessException ignored) {}
         }
         logger.info("Objects from {} class loaded from {}", className.getSimpleName(), dir);

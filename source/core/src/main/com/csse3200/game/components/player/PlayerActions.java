@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.Overlays.Overlay.OverlayType;
+import com.csse3200.game.overlays.Overlay.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
@@ -25,15 +25,13 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
+  private final Entity player;
 
   private final GdxGame game;
 
-  /**
-   * Constructor that takes the game so that new screens can be created by the player.
-   * @param game the games GdxGame object
-   */
-  public PlayerActions(GdxGame game) {
+  public PlayerActions(GdxGame game, Entity player) {
     this.game = game;
+    this.player = player;
   }
 
   @Override
@@ -71,7 +69,8 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
-    eventService.globalEventHandler.trigger("steps");
+    eventService.getGlobalEventHandler().trigger("Test Achievement");
+    player.getEvents().trigger("steps");
   }
 
   /**
@@ -89,17 +88,17 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
-    eventService.globalEventHandler.trigger("attack");
+    player.getEvents().trigger("attackTask");
   }
 
-  void restMenu() {
+  private void restMenu() {
       logger.info("Sending Pause");
-      eventService.globalEventHandler.trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
   }
 
-  void quest() {
+  private void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.globalEventHandler.trigger("addOverlay", OverlayType.QUEST_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
   }
 
   public void startCombat(Entity enemy){

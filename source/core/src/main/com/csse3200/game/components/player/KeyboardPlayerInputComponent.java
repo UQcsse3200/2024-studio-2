@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-  private Map<Integer, Boolean> buttonPressed = new HashMap<Integer, Boolean>();
+  private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
 
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
@@ -25,7 +25,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   public KeyboardPlayerInputComponent() {
     super(5);
-    ServiceLocator.getEventService().globalEventHandler.addListener("resetVelocity",this::resetVelocity);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("resetVelocity",this::resetVelocity);
     buttonPressed.put(Keys.W, false);
     buttonPressed.put(Keys.A, false);
     buttonPressed.put(Keys.S, false);
@@ -100,7 +100,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if(!this.enabled) {
       return false;
     }
-      if (buttonPressed.containsKey(keycode) && !buttonPressed.get(keycode)) {
+      if (buttonPressed.containsKey(keycode) && buttonPressed.get(keycode).equals(false)) {
       return true;
     }
     switch (keycode) {

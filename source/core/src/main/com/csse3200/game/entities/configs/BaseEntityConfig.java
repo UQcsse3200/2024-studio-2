@@ -1,25 +1,43 @@
 package com.csse3200.game.entities.configs;
 
+import java.util.Map;
+
 /**
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseEntityConfig {
-    public int health = 1;
-    public int baseAttack = 0;
-    public int baseDefense = 0;
-    public float speed = 0;
-    public int isEnemy = 0;
+    public int health = 100;
     public int hunger = 100;
+    public int baseAttack = 0;
     public int strength = 0;
     public int defense = 0;
-    public int experience = 0;
-    protected String animalName;
+    public int speed = 1;
+    public int experience = 100;
+    public int baseDefense = 0;
+    public String animalName = "";
+    public int isEnemy = 0;
+
+    public Map<Integer, String[]> hints = null;
+    public int hintLevel = 0;
+    public int currentHint = 0;
+
     protected String[] baseHint;
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
-
     protected BaseEntityConfig() {}
+    public String[] getStringHintLevel() {
+        return hints.get(hintLevel);
+    }
+
+    public void incrementHintLevel() {
+        if (hints != null && hintLevel < (hints.size() - 1)) {
+            hintLevel = hintLevel + 1;
+            restartCurrentHint();
+        }
+    }
+
+
 
     /**
      * Returns the path to the sprite image for this entity.
@@ -80,5 +98,11 @@ public class BaseEntityConfig {
      */
     public String[] getBaseHint() {
         return baseHint;
+    }
+
+    public void restartCurrentHint() {
+        if (hints != null) {
+            this.currentHint = 0;
+        }
     }
 }

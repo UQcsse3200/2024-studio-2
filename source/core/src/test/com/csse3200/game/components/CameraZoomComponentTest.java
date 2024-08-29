@@ -43,8 +43,8 @@ class CameraZoomComponentTest {
 
     @BeforeEach
     void beforeEach() {
-        ServiceLocator.registerEventService(new EventService());
         Gdx.graphics = graphics;
+        ServiceLocator.registerEventService(new EventService());
         ServiceLocator.registerInputService(new InputService());
         cameraComponent = new CameraComponent();
         cameraZoomComponent = new CameraZoomComponent();
@@ -54,6 +54,7 @@ class CameraZoomComponentTest {
         // mock screen size
         when(graphics.getWidth()).thenReturn(100);
         when(graphics.getHeight()).thenReturn(200);
+        ServiceLocator.registerEventService(new EventService());
     }
 
     /**

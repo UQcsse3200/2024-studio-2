@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -24,6 +25,7 @@ import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
+import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -53,6 +55,7 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
+        ServiceLocator.registerEventService(new EventService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -189,6 +192,7 @@ public class SnakeScreen extends ScreenAdapter {
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new MainGameActions(this.game))
+                .addComponent(new MainGameExitDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
