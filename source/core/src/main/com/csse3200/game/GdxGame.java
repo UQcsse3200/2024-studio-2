@@ -26,7 +26,6 @@ public class GdxGame extends Game {
     logger.info("Creating game");
     loadSettings();
 
-
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
 
@@ -52,7 +51,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null, null));
+    setScreen(newScreen(screenType, null, null, null));
   }
 
   /**
@@ -76,24 +75,13 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
-  public void addCombatScreen(Entity enemy) {
-    addScreen(ScreenType.COMBAT, getScreen(), enemy);
-  }
+    public void addCombatScreen(Entity enemy) {
+        addScreen(ScreenType.COMBAT, getScreen(), enemy);
+    }
 
-  /**
-   * Changes to a new screen, does NOT dispose of old screen
-   *
-   * @param screenType screen type
-   * @param screen Old screen if we want to remember/ return to it.
-   */
-  public void addScreen (ScreenType screenType, Screen screen) {
-    logger.info("Adding screen: {}", screenType);
-    screen.pause();
-    ServiceContainer container = new ServiceContainer();
-
-    ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container));
-  }
+    public void addBossCutsceneScreen(Entity enemy) {
+        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), enemy);
+    }
 
   /**
    * Changes to a new screen, does NOT dispose of old screen
@@ -117,9 +105,9 @@ public class GdxGame extends Game {
     getScreen().dispose();
   }
 
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
-    return newScreen(screenType, screen, container, null);
-  }
+    private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+        return newScreen(screenType, screen, container, null);
+    }
 
   /**
    * Create a new screen of the provided type.
@@ -134,18 +122,21 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      case COMBAT:
-        return new CombatScreen(this, screen, container, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
-      case LOADING_SCREEN:
-        return new LoadingScreen(this);
-      case ANIMAL_SELECTION:
-        return new AnimalSelectionScreen(this);
+        case COMBAT:
+            return new CombatScreen(this, screen, container, enemy);
+        case BOSS_CUTSCENE:
+            return new BossCutsceneScreen(this, screen, container, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
           return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+
       default:
         return null;
     }
@@ -155,7 +146,7 @@ public class GdxGame extends Game {
    * types of screens
    */
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS , MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, COMBAT, ACHIEVEMENTS
+    MAIN_MENU, MAIN_GAME, SETTINGS , MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, COMBAT, ACHIEVEMENTS, BOSS_CUTSCENE
 
   }
 

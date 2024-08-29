@@ -1,21 +1,26 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
-import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
@@ -26,22 +31,18 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
-import com.csse3200.game.ui.terminal.Terminal;
-import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
 import java.util.LinkedList;
 
-/**
- * The game screen containing the combat feature.
- *
- * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
- */
-public class CombatScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-    private static final String[] mainGameTextures = {"images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png"};
+public class BossCutsceneScreen extends ScreenAdapter {
+    private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
+    private float timeElapsed = 0;
+    private boolean transition;
+
+    private static final Logger logger = LoggerFactory.getLogger(BossCutsceneScreen.class);
     private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
     private boolean isPaused = false;
     private final GdxGame game;
@@ -51,15 +52,14 @@ public class CombatScreen extends ScreenAdapter {
     private final ServiceContainer oldScreenServices;
     private final Entity enemy;
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-    //private final ForestGameArea gameArea;
 
-    public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity enemy) {
+    public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity enemy) {
         this.game = game;
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.enemy = enemy;
 
-        logger.debug("Initialising combat screen services");
+        logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
 
         PhysicsService physicsService = new PhysicsService();
@@ -78,11 +78,11 @@ public class CombatScreen extends ScreenAdapter {
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-        loadAssets();
+        this.transition = false;
         createUI();
 
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay", this::addOverlay);
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay", this::removeOverlay);
         logger.debug("Initialising main game dup screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         //this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -91,10 +91,18 @@ public class CombatScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (!isPaused){
+        if (!isPaused) {
             physicsEngine.update();
             ServiceLocator.getEntityService().update();
             renderer.render();
+
+            timeElapsed += delta;
+            if (timeElapsed >= CUTSCENE_DURATION && !transition) {
+                transition = true;
+                logger.info("Cutscene finished, transitioning to combat screen");
+                // dispose();
+                game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, enemy));
+            }
         }
     }
 
@@ -120,61 +128,108 @@ public class CombatScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing main game screen");
+        logger.debug("Disposing cutscene screen");
 
         renderer.dispose();
-        unloadAssets();
 
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getResourceService().dispose();
         ServiceLocator.getEventService().dispose();
 
-
         ServiceLocator.clear();
     }
 
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainGameTextures);
-        ServiceLocator.getResourceService().loadAll();
-    }
-
-    private void unloadAssets() {
-        logger.debug("Unloading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainGameTextures);
-    }
-
     /**
-     * Creates the main game's ui including components for rendering ui elements to the screen and
-     * capturing and handling ui input.
+     * Creates and sets up the cutscene UI elements, including motion effects for the text and image.
+     * Debugged and Developed with ChatGPT
      */
     private void createUI() {
-        logger.debug("Creating ui");
+        logger.debug("Creating cutscene UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-        Entity ui = new Entity();
-        ui.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(new MainGameActions(this.game))
-                .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
+        // Create black bars
+        Texture topBarTexture = new Texture("images/black_bar.png");
+        Texture bottomBarTexture = new Texture("images/black_bar.png");
+        Texture enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
 
-        ServiceLocator.getEntityService().register(ui);
+        Image topBar = new Image(topBarTexture);
+        Image bottomBar = new Image(bottomBarTexture);
+
+        topBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
+        bottomBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
+
+        topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
+        bottomBar.setPosition(0, 0);
+
+        BitmapFont defaultFont = new BitmapFont();
+        defaultFont.getData().setScale(2.0f);
+
+        // Create label style with the font
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = defaultFont;
+        labelStyle.fontColor = Color.BLACK;
+
+        Label enemyNameLabel = new Label("Kanga", labelStyle);
+        enemyNameLabel.setAlignment(Align.center);
+
+        Image enemyImage = new Image(enemyImageTexture);
+
+        // Animate enemy name label (flash effect)
+        enemyNameLabel.addAction(
+                Actions.sequence(
+                        Actions.alpha(0f),
+                        Actions.repeat(5,
+                                Actions.sequence(
+                                        Actions.fadeIn(0.2f),
+                                        Actions.fadeOut(0.2f)
+                                )
+                        ),
+                        Actions.fadeIn(0.2f) // Finally, keep it visible
+                )
+        );
+
+        // Centered positions
+        float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
+        float centerY = (Gdx.graphics.getHeight() - 500) / 2f;
+
+        // Initial positions for sliding animations
+        enemyImage.setPosition(0, centerY); // Start from off-screen left
+        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
+
+        // Animate enemy image (slide-in effect)
+        enemyImage.addAction(
+                Actions.sequence(
+                        Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
+                )
+        );
+
+        // Animate enemy name label (slide-in effect)
+        enemyNameLabel.addAction(
+                Actions.sequence(
+                        Actions.moveTo(centerX + 250, centerY - 80, 2f, Interpolation.pow5Out)
+                )
+        );
+
+        // Table layout for positioning
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+        table.add(enemyImage).width(500).height(500);
+        table.row();
+        table.add(enemyNameLabel);
+
+        // Add actors to stage
+        stage.addActor(topBar);
+        stage.addActor(bottomBar);
+        stage.addActor(table);
     }
 
-    public void addOverlay(Overlay.OverlayType overlayType){
+    public void addOverlay(Overlay.OverlayType overlayType) {
         logger.info("Adding Overlay {}", overlayType);
         if (enabledOverlays.isEmpty()) {
             this.rest();
-        }
-        else {
+        } else {
             enabledOverlays.getFirst().rest();
         }
         switch (overlayType) {
@@ -187,21 +242,19 @@ public class CombatScreen extends ScreenAdapter {
         }
     }
 
-    public void removeOverlay(){
+    public void removeOverlay() {
         logger.debug("Removing top Overlay");
 
-        if (enabledOverlays.isEmpty()){
+        if (enabledOverlays.isEmpty()) {
             this.wake();
             return;
         }
 
         enabledOverlays.getFirst().remove();
-
         enabledOverlays.removeFirst();
 
-        if (enabledOverlays.isEmpty()){
+        if (enabledOverlays.isEmpty()) {
             this.wake();
-
         } else {
             enabledOverlays.getFirst().wake();
         }

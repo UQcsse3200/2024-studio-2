@@ -151,7 +151,7 @@ public class EnemyFactory {
       aiComponent.addTask(new RunTask(target, 10, 3f));
     } else {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
-      aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f));
+      aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
     }
 
     Entity npc =

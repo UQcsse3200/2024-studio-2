@@ -1,12 +1,20 @@
 package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.overlays.Overlay.*;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.overlays.Overlay.OverlayType;
+import com.csse3200.game.components.tasks.ChaseTask;
+import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -98,10 +106,19 @@ public class PlayerActions extends Component {
 
   private void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", Overlay.OverlayType.QUEST_OVERLAY);
   }
 
-  public void startCombat(Entity enemy){
-    game.addCombatScreen(enemy);
-  }
+    public void startCombat(Entity enemy){
+        AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
+        PriorityTask currentTask = aiTaskComponent.getCurrentTask();
+
+        if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
+                (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
+            currentTask.stop();
+            game.addBossCutsceneScreen(enemy);
+        } else {
+            game.addCombatScreen(enemy);
+        }
+    }
 }

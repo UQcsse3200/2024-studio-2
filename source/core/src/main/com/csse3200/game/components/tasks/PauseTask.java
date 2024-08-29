@@ -22,8 +22,8 @@ public class PauseTask extends ChaseTask {
      * @param viewDistance Maximum distance from the entity at which pausing can start.
      * @param maxPauseDistance Maximum distance from the entity to pause.
      */
-    public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
-        super(target, priority, viewDistance, maxPauseDistance);
+    public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance, boolean isBoss) {
+        super(target, priority, viewDistance, maxPauseDistance, isBoss);
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;

@@ -15,9 +15,9 @@ public class AvoidTask extends ChaseTask {
      * @param safeDistance Minimum distance to maintain from the target.
      * @param minAvoidDistance Minimum distance to avoid moving away from the target.
      */
-    public AvoidTask(Entity target, int priority, float safeDistance, float minAvoidDistance) {
+    public AvoidTask(Entity target, int priority, float safeDistance, float minAvoidDistance, boolean isBoss) {
         // Call parent constructor
-        super(target, priority, safeDistance, minAvoidDistance);
+        super(target, priority, safeDistance, minAvoidDistance, isBoss);
         this.safeDistance = safeDistance;
         this.minAvoidDistance = minAvoidDistance;
     }

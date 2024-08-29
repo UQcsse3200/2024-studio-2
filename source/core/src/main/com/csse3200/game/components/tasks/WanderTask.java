@@ -22,15 +22,21 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   private WaitTask waitTask;
   private Task currentTask;
   private boolean isSpawned = false;
+  private final boolean isBoss;
 
   /**
    * @param wanderRange Distance in X and Y the entity can move from its position when start() is
    *     called.
    * @param waitTime How long in seconds to wait between wandering.
    */
-  public WanderTask(Vector2 wanderRange, float waitTime) {
+  public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
     this.wanderRange = wanderRange;
     this.waitTime = waitTime;
+    this.isBoss = isBoss;
+  }
+
+  public boolean isBoss() {
+    return isBoss;
   }
 
   @Override
@@ -46,8 +52,9 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     super.start();
     startPos = owner.getEntity().getPosition();
     Vector2 newPos = getRandomPosInRange();
-
-      if (!isSpawned) {
+      if (this.isBoss) {
+          this.owner.getEntity().getEvents().trigger("kangaWanderStart");
+      } else if(!isSpawned) {
           logger.debug("Triggering spawn event");
           this.owner.getEntity().getEvents().trigger("spawnStart");
           isSpawned = true;
@@ -69,7 +76,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   @Override
   public void update() {
     if (currentTask.getStatus() != Status.ACTIVE) {
-      if (currentTask == waitTask && isSpawned) {
+      if (currentTask == waitTask && isSpawned && !isBoss) {
         startWandering();
       } else if (currentTask == movementTask) {
         startWaiting();
@@ -97,6 +104,13 @@ public class WanderTask extends DefaultTask implements PriorityTask {
 
   private void startMoving() {
     Vector2 newPos = getRandomPosInRange();
+
+    if (isBoss) {
+        logger.debug("Starting moving");
+        movementTask.setTarget(getRandomPosInRange());
+        swapTask(movementTask);
+        return;
+    }
 
     if (newPos.x - startPos.x < 0) {
       this.owner.getEntity().getEvents().trigger("wanderLeft");

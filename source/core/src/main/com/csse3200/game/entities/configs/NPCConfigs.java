@@ -13,4 +13,6 @@ public class NPCConfigs {
   public static ChickenConfig chicken = new ChickenConfig();
   public static FrogConfig frog = new FrogConfig();
   public static MonkeyConfig monkey = new MonkeyConfig();
+  public static BaseEntityConfig kangarooBoss = new KangarooBossConfig();
+
 }
