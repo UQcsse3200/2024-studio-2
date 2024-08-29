@@ -44,8 +44,8 @@ quests: [
 					description: Swing your first sword
 					hint: Just Attack!
 					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
+					triggerCount: 0
+					completed: false
 					failed: false
 				}
 			]
@@ -53,17 +53,17 @@ quests: [
 		isSecretQuest: false
 		questDialogue: {
 			class: java.util.ImmutableCollections$MapN
+			TupleKey{str='Cow', num=2}: [
+				Yippeee!
+				You completed your Quest!
+			]
 			TupleKey{str='Cow', num=1}: [
 				Welcome to Animal Kingdom!
 				Here let me help with your quest...
 				Press Spacebar!
 			]
-			TupleKey{str='Cow', num=2}: [
-				Yippeee!
-				You completed your Quest!
-			]
 		}
-		currentTaskIndex: 2
+		currentTaskIndex: 0
 		isFailed: false
 		isActive: false
 		taskCompletionTriggers: [
@@ -82,8 +82,8 @@ quests: [
 					description: He is Coming...
 					hint: RUN
 					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
+					triggerCount: 0
+					completed: false
 					failed: false
 				}
 				{
@@ -100,15 +100,15 @@ quests: [
 					description: Swing your first sword
 					hint: Just Attack!
 					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
+					triggerCount: 0
+					completed: false
 					failed: false
 				}
 			]
 		}
 		isSecretQuest: false
 		questDialogue: null
-		currentTaskIndex: 1
+		currentTaskIndex: 0
 		isFailed: false
 		isActive: false
 		taskCompletionTriggers: null
