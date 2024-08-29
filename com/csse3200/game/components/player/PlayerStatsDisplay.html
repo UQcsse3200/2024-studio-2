@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -98,10 +98,16 @@ loadScripts(document, 'script');</script>
 <dt>All Implemented Interfaces:</dt>
 <dd><code>com.badlogic.gdx.utils.Disposable</code>, <code><a href="../../rendering/Renderable.html" title="interface in com.csse3200.game.rendering">Renderable</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;<a href="../../rendering/Renderable.html" title="interface in com.csse3200.game.rendering">Renderable</a>&gt;</code></dd>
 </dl>
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="PlayerStatsDisplayTester.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplayTester</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PlayerStatsDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">A UI component for displaying player stats, e.g. health.</div>
+<div class="block">A UI component for displaying player stats, such as health, hunger, and experience.
+ This component handles the creation, updating, and disposing
+ the player's stats on the screen.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -109,6 +115,45 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#addActorsTester" class="member-name-link">addActorsTester</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>com.badlogic.gdx.scenes.scene2d.ui.Image</code></div>
+<div class="col-second odd-row-color"><code><a href="#healthImage" class="member-name-link">healthImage</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>com.badlogic.gdx.scenes.scene2d.ui.Label</code></div>
+<div class="col-second even-row-color"><code><a href="#healthLabel" class="member-name-link">healthLabel</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>com.badlogic.gdx.scenes.scene2d.ui.Image</code></div>
+<div class="col-second odd-row-color"><code><a href="#hungerImage" class="member-name-link">hungerImage</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>com.badlogic.gdx.scenes.scene2d.ui.Label</code></div>
+<div class="col-second even-row-color"><code><a href="#hungerLabel" class="member-name-link">hungerLabel</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#maxExperience" class="member-name-link">maxExperience</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#maxHealth" class="member-name-link">maxHealth</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#maxHunger" class="member-name-link">maxHunger</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>com.badlogic.gdx.graphics.g2d.TextureAtlas[]</code></div>
+<div class="col-second even-row-color"><code><a href="#textureAtlas" class="member-name-link">textureAtlas</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#totalFrames" class="member-name-link">totalFrames</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>com.badlogic.gdx.scenes.scene2d.ui.Image</code></div>
+<div class="col-second even-row-color"><code><a href="#xpImage" class="member-name-link">xpImage</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.ui.UIComponent">Fields inherited from class&nbsp;com.csse3200.game.ui.<a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></h3>
 <code><a href="../../ui/UIComponent.html#skin">skin</a>, <a href="../../ui/UIComponent.html#stage">stage</a></code></div>
@@ -144,34 +189,54 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Creates reusable ui styles and adds actors to the stage.</div>
+<div class="block">Initializes and adds actors (UI elements) to the stage.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called when the component is disposed.</div>
+<div class="block">Disposes of the resources used by the PlayerStatsDisplay component, including textures and labels.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draw the renderable.</div>
+<div class="block">Draw method overridden to be handled by the stage.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initBarAnimations()" class="member-name-link">initBarAnimations</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initialises all required variables for health/xp/hunger bars</div>
+<div class="block">Initializes the animations for the health, hunger, and experience bars.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNewFrame(int,com.badlogic.gdx.graphics.g2d.Animation,com.badlogic.gdx.scenes.scene2d.ui.Image)" class="member-name-link">setNewFrame</a><wbr>(int&nbsp;frameIndex,
+ com.badlogic.gdx.graphics.g2d.Animation&lt;com.badlogic.gdx.graphics.g2d.TextureRegion&gt;&nbsp;statBarAnimation,
+ com.badlogic.gdx.scenes.scene2d.ui.Image&nbsp;statBar)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets a new frame for a stat bar animation on the stage.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testFinalImplementation()" class="member-name-link">testFinalImplementation</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Runs a test to incrementally update the player's health, experience, and hunger
+ over time, scheduling frame updates with delayed execution.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerExperienceUI(int)" class="member-name-link">updatePlayerExperienceUI</a><wbr>(int&nbsp;experience)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the experience animation and label in game to reflect current player experience
+  including the call to test functions for checking</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerHealthUI(int)" class="member-name-link">updatePlayerHealthUI</a><wbr>(int&nbsp;health)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the player's health on the ui.</div>
+<div class="block">Updates the health animation and label in game to reflect current player health
+ including the call to test functions for checking</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerHungerUI(int)" class="member-name-link">updatePlayerHungerUI</a><wbr>(int&nbsp;hunger)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the hunger animation and label in game to reflect current player hunger
+  including the call to test functions for checking</div>
+</div>
 </div>
 </div>
 </div>
@@ -199,6 +264,80 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="healthImage">
+<h3>healthImage</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Image</span>&nbsp;<span class="element-name">healthImage</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="xpImage">
+<h3>xpImage</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Image</span>&nbsp;<span class="element-name">xpImage</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="hungerImage">
+<h3>hungerImage</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Image</span>&nbsp;<span class="element-name">hungerImage</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="healthLabel">
+<h3>healthLabel</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Label</span>&nbsp;<span class="element-name">healthLabel</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="hungerLabel">
+<h3>hungerLabel</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Label</span>&nbsp;<span class="element-name">hungerLabel</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="textureAtlas">
+<h3>textureAtlas</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.TextureAtlas[]</span>&nbsp;<span class="element-name">textureAtlas</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="totalFrames">
+<h3>totalFrames</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">totalFrames</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="addActorsTester">
+<h3>addActorsTester</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">addActorsTester</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="maxHealth">
+<h3>maxHealth</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">maxHealth</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="maxHunger">
+<h3>maxHunger</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">maxHunger</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="maxExperience">
+<h3>maxExperience</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">maxExperience</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -222,7 +361,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="create()">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block">Creates reusable ui styles and adds actors to the stage.</div>
+<div class="block">Initializes and adds actors (UI elements) to the stage.
+ Registers listeners for updating health, experience, and hunger.
+ Makes call to the test method testCreate</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../../ui/UIComponent.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
@@ -233,28 +374,44 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="initBarAnimations()">
 <h3>initBarAnimations</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initBarAnimations</span>()</div>
-<div class="block">Initialises all required variables for health/xp/hunger bars</div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="tag-list">
-<li><code>for animation details</code></li>
-</ul>
-</dd>
-</dl>
+<div class="block">Initializes the animations for the health, hunger, and experience bars.
+ Each bar's animation consist of series of consecutive frames from a texture atlas given in the assets folder.
+ The animations reflect the current status of the player's health, hunger, and experience.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="testFinalImplementation()">
+<h3>testFinalImplementation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">testFinalImplementation</span>()</div>
+<div class="block">Runs a test to incrementally update the player's health, experience, and hunger
+ over time, scheduling frame updates with delayed execution. Used for Visual Testing.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">RenderComponent</a></code></span></div>
-<div class="block">Draw the renderable. Should be called only by the renderer, not manually.</div>
+<div class="block">Draw method overridden to be handled by the stage.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">draw</a></code>&nbsp;in class&nbsp;<code><a href="../../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>batch</code> - Batch to render to.</dd>
+<dd><code>batch</code> - the batch used for drawing.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setNewFrame(int,com.badlogic.gdx.graphics.g2d.Animation,com.badlogic.gdx.scenes.scene2d.ui.Image)">
+<h3>setNewFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNewFrame</span><wbr><span class="parameters">(int&nbsp;frameIndex,
+ com.badlogic.gdx.graphics.g2d.Animation&lt;com.badlogic.gdx.graphics.g2d.TextureRegion&gt;&nbsp;statBarAnimation,
+ com.badlogic.gdx.scenes.scene2d.ui.Image&nbsp;statBar)</span></div>
+<div class="block">Sets a new frame for a stat bar animation on the stage.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>frameIndex</code> - The index of the desired frame in the animation to be changed</dd>
+<dd><code>statBarAnimation</code> - The animation for the specific stat bar to be changed</dd>
+<dd><code>statBar</code> - image that stores the current frame on the stage for the stat bar.</dd>
 </dl>
 </section>
 </li>
@@ -262,10 +419,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="updatePlayerHealthUI(int)">
 <h3>updatePlayerHealthUI</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerHealthUI</span><wbr><span class="parameters">(int&nbsp;health)</span></div>
-<div class="block">Updates the player's health on the ui.</div>
+<div class="block">Updates the health animation and label in game to reflect current player health
+ including the call to test functions for checking</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>health</code> - player health</dd>
+<dd><code>health</code> - the current health stat value of the player</dd>
 </dl>
 </section>
 </li>
@@ -273,20 +431,31 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="updatePlayerHungerUI(int)">
 <h3>updatePlayerHungerUI</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerHungerUI</span><wbr><span class="parameters">(int&nbsp;hunger)</span></div>
+<div class="block">Updates the hunger animation and label in game to reflect current player hunger
+  including the call to test functions for checking</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>hunger</code> - The current hunger stat value of the player</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="updatePlayerExperienceUI(int)">
 <h3>updatePlayerExperienceUI</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerExperienceUI</span><wbr><span class="parameters">(int&nbsp;experience)</span></div>
+<div class="block">Updates the experience animation and label in game to reflect current player experience
+  including the call to test functions for checking</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>experience</code> - The current experience stat value of the player</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../Component.html#dispose()">Component</a></code></span></div>
-<div class="block">Called when the component is disposed. Dispose of any internal resources here.</div>
+<div class="block">Disposes of the resources used by the PlayerStatsDisplay component, including textures and labels.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>dispose</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.utils.Disposable</code></dd>
