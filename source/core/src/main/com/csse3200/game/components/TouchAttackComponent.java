@@ -21,7 +21,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
  */
 public class TouchAttackComponent extends Component {
   private short targetLayer;
-  private float knockbackForce = 0f;
   private CombatStatsComponent combatStats;
   private HitboxComponent hitboxComponent;
 
@@ -31,16 +30,6 @@ public class TouchAttackComponent extends Component {
    */
   public TouchAttackComponent(short targetLayer) {
     this.targetLayer = targetLayer;
-  }
-
-  /**
-   * Create a component which attacks entities on collision, with knockback.
-   * @param targetLayer The physics layer of the target's collider.
-   * @param knockback The magnitude of the knockback applied to the entity.
-   */
-  public TouchAttackComponent(short targetLayer, float knockback) {
-    this.targetLayer = targetLayer;
-    this.knockbackForce = knockback;
   }
 
   @Override
@@ -67,15 +56,6 @@ public class TouchAttackComponent extends Component {
     if (targetStats != null) {
       // Trigger event to start combat screen
       target.getEvents().trigger("startCombat", this.entity);
-    }
-
-    // Apply knockback
-    PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
-    if (physicsComponent != null && knockbackForce > 0f) {
-      Body targetBody = physicsComponent.getBody();
-      Vector2 direction = target.getCenterPosition().sub(entity.getCenterPosition());
-      Vector2 impulse = direction.setLength(knockbackForce);
-      targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
   }
 }

@@ -27,7 +27,7 @@ public class GdxGame extends Game {
     loadSettings();
 
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
+    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -88,21 +88,6 @@ public class GdxGame extends Game {
   }
 
   /**
-   * Changes to a new screen, does NOT dispose of old screen
-   *
-   * @param screenType screen type
-   * @param screen Old screen if we want to remember/ return to it.
-   */
-  public void addScreen (ScreenType screenType, Screen screen) {
-    logger.info("Adding screen: {}", screenType);
-    screen.pause();
-    ServiceContainer container = new ServiceContainer();
-
-    ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container, null, null));
-  }
-
-  /**
    * Overloaded to add new combat screen
    * Changes to a new screen, does NOT dispose of old screen
    *
@@ -112,10 +97,7 @@ public class GdxGame extends Game {
   public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
     logger.info("Add combat Screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
-            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
-            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
-            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
+    ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
     setScreen(newScreen(screenType, screen, container, player, enemy));
@@ -171,8 +153,13 @@ public class GdxGame extends Game {
     }
   }
 
+  /**
+   * types of screens
+   */
   public enum ScreenType {
+
       MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE
+
   }
 
   /**

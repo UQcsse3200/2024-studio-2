@@ -51,28 +51,40 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     return isBoss;
   }
 
+  /**
+   * Moves the entity in the direction of the entities target (often the player)
+   */
   @Override
   public void start() {
     super.start();
 
     String event = this.isBoss ? "kangaChaseStart" : "chaseStart";
 
-    // Set movementTask based on npc type
-    movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
-            new MovementTask(target.getPosition());
-    movementTask.create(owner);
-    movementTask.start();
+      // Set movementTask based on npc type
+      Vector2 currentPos = owner.getEntity().getPosition();
+      Vector2 targetPos = target.getPosition();
+      movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+              new MovementTask(targetPos);
+      movementTask.create(owner);
+      movementTask.start();
 
-    this.owner.getEntity().getEvents().trigger(event);
+      this.owner.getEntity().getEvents().trigger(event);
 
-    if (this.isBoss) {
-      playTensionSound();
-      this.target.getEvents().trigger("startHealthBarBeating");
-    }
+      if (this.isBoss) {
+          playTensionSound();
+          this.target.getEvents().trigger("startHealthBarBeating");
+      }
+      if (targetPos.x - currentPos.x < 0 && !this.isBoss) {
+          this.owner.getEntity().getEvents().trigger("chaseLeft");
+      } else {
+          this.owner.getEntity().getEvents().trigger("chaseRight");
+      }
+
+      this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
-  void playTensionSound() {
-    if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
+    void playTensionSound() {
+        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
       heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
       heartbeatSound.setLooping(true);
       heartbeatSound.setVolume(1.0f);
@@ -90,13 +102,27 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     }
   }
 
+  /**
+   * Updates the direction in which the entity needs to move in, checks every
+   * frame to see where the player is to determine this.
+   */
   @Override
   public void update() {
-    movementTask.setTarget(target.getPosition());
+    Vector2 currentPos = owner.getEntity().getPosition();
+    Vector2 targetPos = target.getPosition();
+
+    movementTask.setTarget(targetPos);
     movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
     }
+
+    if (targetPos.x - currentPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("chaseLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("chaseRight");
+    }
+
   }
 
   public float getViewDistance() {
@@ -108,9 +134,9 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     super.stop();
     movementTask.stop();
 
-      if (this.isBoss) {
-          stopTensionSound();
-          this.target.getEvents().trigger("stopHealthBarBeating");
+    if (this.isBoss) {
+        stopTensionSound();
+        this.target.getEvents().trigger("stopHealthBarBeating");
     }
   }
 

@@ -1,8 +1,8 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -21,13 +21,13 @@ import org.slf4j.LoggerFactory;
 public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
   private static EntityService entityService;
-  private static EntityChatService entityChatService;
   private static RenderService renderService;
   private static PhysicsService physicsService;
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
   private static EventService eventService;
+  private static EntityChatService entityChatService;
 
   public static EntityChatService getEntityChatService() {
     return entityChatService;

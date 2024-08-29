@@ -13,7 +13,9 @@ public class BaseEntityConfig {
     public int defense = 0;
     public int speed = 1;
     public int experience = 100;
+    public int baseDefense = 0;
     public String animalName = "";
+    public int isEnemy = 0;
 
     public Map<Integer, String[]> hints = null;
     public int hintLevel = 0;

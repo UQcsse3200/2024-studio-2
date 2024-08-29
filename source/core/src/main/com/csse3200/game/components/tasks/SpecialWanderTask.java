@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
  * Wander around by moving a random position within a range of the starting position. Wait a little
  * bit between movements. Requires an entity with a PhysicsMovementComponent.
  */
-public class WanderTask extends DefaultTask implements PriorityTask {
-  private static final Logger logger = LoggerFactory.getLogger(WanderTask.class);
+public class SpecialWanderTask extends DefaultTask implements PriorityTask {
+  private static final Logger logger = LoggerFactory.getLogger(SpecialWanderTask.class);
 
   private final Vector2 wanderRange;
   private final float waitTime;
@@ -22,21 +22,15 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   private WaitTask waitTask;
   private Task currentTask;
   private boolean isSpawned = false;
-  private final boolean isBoss;
 
   /**
    * @param wanderRange Distance in X and Y the entity can move from its position when start() is
    *     called.
    * @param waitTime How long in seconds to wait between wandering.
    */
-  public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
+  public SpecialWanderTask(Vector2 wanderRange, float waitTime) {
     this.wanderRange = wanderRange;
     this.waitTime = waitTime;
-    this.isBoss = isBoss;
-  }
-
-  public boolean isBoss() {
-    return isBoss;
   }
 
   @Override
@@ -44,18 +38,14 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     return 1; // Low priority task
   }
 
-  /**
-   * Checks if the entity has spawned yet, if not waits, else it wanders
-   */
   @Override
   public void start() {
     super.start();
     startPos = owner.getEntity().getPosition();
     Vector2 newPos = getRandomPosInRange();
-      if (this.isBoss) {
-          this.owner.getEntity().getEvents().trigger("kangaWanderStart");
-      } else if(!isSpawned) {
-          logger.debug("Triggering spawn event");
+
+      if (!isSpawned) {
+          logger.debug("Triggering spawnChicken event");
           this.owner.getEntity().getEvents().trigger("spawnStart");
           isSpawned = true;
 
@@ -63,20 +53,15 @@ public class WanderTask extends DefaultTask implements PriorityTask {
           waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
           waitTask.create(owner);
           swapTask(waitTask);
-      } else if (newPos.x - startPos.x < 0) {
-      logger.debug("wandering right");
-      this.owner.getEntity().getEvents().trigger("wanderLeft");
-    } else {
-      logger.debug("wandering left");
-      this.owner.getEntity().getEvents().trigger("wanderRight");
-    }
-      this.owner.getEntity().getEvents().trigger("wanderStart");
+      }
+
+      triggerDirection(newPos, startPos);
   }
 
   @Override
   public void update() {
     if (currentTask.getStatus() != Status.ACTIVE) {
-      if (currentTask == waitTask && isSpawned && !isBoss) {
+      if (currentTask == waitTask && isSpawned) {
         startWandering();
       } else if (currentTask == movementTask) {
         startWaiting();
@@ -88,8 +73,12 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   }
 
   private void startWandering() {
+    Vector2 targetPos = getRandomPosInRange();
+    Vector2 currentPos = owner.getEntity().getPosition();
+    triggerDirection(targetPos, currentPos);
+
     logger.debug("Starting wandering");
-    movementTask = new MovementTask(getRandomPosInRange());
+    movementTask = new MovementTask(targetPos, wanderRange);
     movementTask.create(owner);
     movementTask.start();
     currentTask = movementTask;
@@ -103,23 +92,11 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   }
 
   private void startMoving() {
-    Vector2 newPos = getRandomPosInRange();
+    Vector2 targetPos = getRandomPosInRange();
 
-    if (isBoss) {
-        logger.debug("Starting moving");
-        movementTask.setTarget(getRandomPosInRange());
-        swapTask(movementTask);
-        return;
-    }
+    triggerDirection(targetPos, startPos);
 
-    if (newPos.x - startPos.x < 0) {
-      this.owner.getEntity().getEvents().trigger("wanderLeft");
-    } else {
-      this.owner.getEntity().getEvents().trigger("wanderRight");
-    }
-    logger.debug("Starting moving");
-
-    movementTask.setTarget(newPos);
+    movementTask.setTarget(targetPos);
     swapTask(movementTask);
   }
 
@@ -137,4 +114,33 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     Vector2 max = startPos.cpy().add(halfRange);
     return RandomUtils.random(min, max);
   }
+
+  private void triggerDirection(Vector2 targetPos, Vector2 startPos) {
+    float deltaX = targetPos.x - startPos.x;
+    float deltaY = targetPos.y - startPos.y;
+    if (deltaY > 0) { // Moving Up
+      if (deltaX > 0) {
+        this.owner.getEntity().getEvents().trigger("runRightUp");
+      } else if (deltaX < 0) {
+        this.owner.getEntity().getEvents().trigger("runLeftUp");
+      } else {
+        this.owner.getEntity().getEvents().trigger("runUp");
+      }
+    } else if (deltaY < 0) { // Moving Down
+      if (deltaX > 0) {
+        this.owner.getEntity().getEvents().trigger("runRightDown");
+      } else if (deltaX < 0) {
+        this.owner.getEntity().getEvents().trigger("runLeftDown");
+      } else {
+        this.owner.getEntity().getEvents().trigger("runDown");
+      }
+    } else { // Horizontal Movement
+      if (deltaX > 0) {
+        this.owner.getEntity().getEvents().trigger("runRight");
+      } else {
+        this.owner.getEntity().getEvents().trigger("runLeft");
+      }
+    }
+  }
+
 }

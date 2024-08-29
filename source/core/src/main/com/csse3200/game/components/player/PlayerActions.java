@@ -4,9 +4,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.overlays.Overlay.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.Overlay.OverlayType;
@@ -33,7 +35,6 @@ public class PlayerActions extends Component {
   private final Entity player;
 
   private final GdxGame game;
-
 
   public PlayerActions(GdxGame game, Entity player) {
     this.game = game;

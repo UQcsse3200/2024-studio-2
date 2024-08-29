@@ -1,6 +1,6 @@
 package com.csse3200.game.entities.factories;
-import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerActions;
@@ -43,14 +43,14 @@ public class PlayerFactory {
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
 
-    Entity player =
-        new Entity()
-            .addComponent(new TerrainLoaderComponent())
-            .addComponent(new TextureRenderComponent(imagePath))
-            .addComponent(new CameraZoomComponent())
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+        Entity player =
+                new Entity()
+                        .addComponent(new TerrainLoaderComponent())
+                        .addComponent(new TextureRenderComponent(imagePath))
+                        .addComponent(new CameraZoomComponent())
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
         if (imagePath.equals("images/dog.png")) {
           player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
