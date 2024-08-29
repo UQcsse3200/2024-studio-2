@@ -142,6 +142,11 @@ public class GdxGame extends Game {
         return new LoadingScreen(this);
       case ANIMAL_SELECTION:
         return new AnimalSelectionScreen(this);
+      case GAME_OVER_WIN:
+        return new GameOverWinScreen(this);
+      case GAME_OVER_LOSE:
+        return new GameOverLoseScreen(this);
+
 
       default:
         return null;
@@ -152,7 +157,8 @@ public class GdxGame extends Game {
    * types of screens
    */
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS , MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, COMBAT, ACHIEVEMENTS, BOSS_CUTSCENE
+
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE
 
   }
 
