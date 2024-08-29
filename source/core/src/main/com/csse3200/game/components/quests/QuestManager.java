@@ -3,6 +3,7 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class QuestManager extends Component {
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
     /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
+
     private final Entity player;
 
     /**Constructs questManager instance */
@@ -40,23 +42,27 @@ public class QuestManager extends Component {
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
-        testQuests();
+        if(GameState.quests.quests.isEmpty()) {
+            testQuests();
+        }
+        loadQuests();
     }
 
-    /**Sets up the tasks for the quests and dialogues.  */
+    /**
+     * Sets up the tasks for the quests and dialogues.
+     */
     private void testQuests() {
 
         //creates test tasks
-        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1);
-        Task attackTask = new Task("attackTask", "Swing your first sword", "Just Attack!", 1);
-        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1);
+        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
+        Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
+        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic(player,"First Steps","Take your first steps in this world!", tasks);
-        addQuest(firstStepsQuest);
-        QuestHidden tempAchievement = new QuestHidden("Test Achievement","This is a test achievement");
-        addAchievement(tempAchievement);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,null,null, false, false, 0);
+
+        GameState.quests.quests.add(firstStepsQuest);
 
         //creates 2 task quest
         String[] test2StepTextProg1 = new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest...","Press Spacebar!"};
@@ -69,13 +75,15 @@ public class QuestManager extends Component {
 
         String[] test2StepCompletionTriggers = new String[]{"","spawnKangaBoss"};
         List<Task> tasks1 = List.of(stepsTask, attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic(player,"2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, test2TaskQuestDialogue,test2StepCompletionTriggers);
-        addQuest(twoTaskQuest);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, test2TaskQuestDialogue,test2StepCompletionTriggers, false, false, 0);
+
+        GameState.quests.quests.add(twoTaskQuest);
 
         // Creates test quest that requires completion of 2 task quest
         List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
-        QuestBasic finalQuest = new QuestBasic(player,"Final Boss","Complete quest 1 and 2 to summon the boss", tasks3);
-        addQuest(finalQuest);
+        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,null,null, false, false, 0);
+
+        GameState.quests.quests.add(finalQuest);
     }
 
     /**
@@ -114,6 +122,17 @@ public class QuestManager extends Component {
         achievements.put(achievement.getQuestName(), achievement);
         subscribeToAchievementEvents(achievement);
     }
+
+    /**
+     * Automatically loads and registers all of the quests stored in GameState.
+     * @see GameState
+     */
+    public void loadQuests() {
+        for (QuestBasic quest : GameState.quests.quests) {
+            addQuest(quest);
+        }
+    }
+
     /**
      * Gets a list of all quests in QuestManager.
      * @return A list of all quests.
@@ -164,6 +183,7 @@ public class QuestManager extends Component {
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
         }
+
         Task currentTask = quest.getTasks().get(quest.getProgression());
         currentTask.handleEvent();
         //check if quest is failed or completed
@@ -194,7 +214,7 @@ public class QuestManager extends Component {
      */
 
     private void completeTask(QuestBasic quest) {
-        quest.progressQuest(); //advance quest progression
+        quest.progressQuest(player); //advance quest progression
         if (quest.isQuestCompleted()) {
             handleQuestCompletion(quest);
         } else {

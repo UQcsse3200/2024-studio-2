@@ -38,6 +38,7 @@ public class MainMenuScreen extends ScreenAdapter {
     ServiceLocator.registerEventService(new EventService());
 
     renderer = RenderFactory.createRenderer();
+
     loadAssets();
     createUI();
   }

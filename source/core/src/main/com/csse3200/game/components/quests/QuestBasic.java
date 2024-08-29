@@ -1,7 +1,5 @@
 package com.csse3200.game.components.quests;
 
-import com.csse3200.game.entities.Entity;
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +8,11 @@ import java.util.Map;
 public class QuestBasic extends AbstractQuest {
     /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
      *  and completion triggers (messages to send on completion). */
-    public QuestBasic(Entity player, String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers) {
-        super(player, questName, questDescription, tasks, isSecretQuest, dialogue,taskCompletionTriggers);
+    public QuestBasic(String questName, String questDescription, List<Task> tasks,
+                      Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue,
+                      String[] taskCompletionTriggers, boolean active, boolean failed,
+                      int currentTaskIndex) {
+        super(questName, questDescription, tasks, isSecretQuest, dialogue,
+                taskCompletionTriggers, active, failed, currentTaskIndex);
     }
-
-    /** A constructor class for a progression quest to construct non-achievement quests w
-     * ith no dialogue or completion triggers (messages to send on completion). */
-    public QuestBasic(Entity player, String questName, String questDescription, List<Task> tasks) {
-        super(player, questName, questDescription, tasks, false, null, null);
-    }
-
 }

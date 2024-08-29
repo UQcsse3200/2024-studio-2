@@ -4,6 +4,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.eventservice.EventService;
@@ -43,7 +45,7 @@ class QuestManagerTest {
 
     @Test
     void AddQuest() {
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Test Description", List.of(), false, null, null);
+        QuestBasic quest = new QuestBasic("Test Quest", "Test Description", List.of(), false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
@@ -58,8 +60,8 @@ class QuestManagerTest {
 
     @Test
     void GetAllQuests() {
-        QuestBasic quest1 = new QuestBasic(player,"Quest 1", "Description 1", List.of(),  false, null, null);
-        QuestBasic quest2 = new QuestBasic(player,"Quest 2", "Description 2", List.of(),  false, null, null);
+        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, false, 0);
+        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(),  false, null, null, true, false, 0);
         questManager.addQuest(quest1);
         questManager.addQuest(quest2);
 
@@ -70,8 +72,8 @@ class QuestManagerTest {
 
     @Test
     void HandleProgressQuest() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         questManager.progressQuest("Test Quest", "testTask");
@@ -80,8 +82,8 @@ class QuestManagerTest {
 
     @Test
     void HandleQuestCompletion() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
 
@@ -92,8 +94,8 @@ class QuestManagerTest {
 
     @Test
     void HandleFailQuest() {
-        Task task = new Task("testTask", "Test Task", "Description", 1);
-        QuestBasic quest = new QuestBasic(player,"Test Quest", "Description", List.of(task),  false, null, null);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
         questManager.addQuest(quest);
 
         questManager.failQuest("Test Quest");
@@ -113,5 +115,30 @@ class QuestManagerTest {
         questManager.addAchievement(achievement);
         questManager.completeAchievement("Test Achievement");
         verify(eventHandler).trigger("achievementCompleted");
+    }
+
+    @Test
+    void shouldSaveLoadQuestProgression() {
+        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, true, 0);
+        Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
+        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(task),  false, null, null, true, false, 0);
+
+        GameState.quests.quests.clear();
+        GameState.quests.quests.add(quest1);
+        GameState.quests.quests.add(quest2);
+
+        SaveHandler.save(GameState.class, "test/saves/quests");
+
+        GameState.quests.quests.clear();
+
+        SaveHandler.load(GameState.class, "test/saves/quests");
+
+        assertTrue(GameState.quests.quests.getFirst().isFailed());
+        assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
+        assertEquals(1, GameState.quests.quests.getLast().getTasks().size());
+
+        GameState.quests.quests.clear();
+
+        SaveHandler.delete(GameState.class, "test/saves/quests");
     }
 }
