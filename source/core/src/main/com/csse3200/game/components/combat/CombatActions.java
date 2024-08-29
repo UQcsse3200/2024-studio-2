@@ -52,7 +52,7 @@ public class CombatActions extends Component {
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
     // Kill enemy.
-    this.enemy.dispose();
+    //this.enemy.dispose();
     //this.enemy.update();
     //container.getEntityService().unregister(enemy);
     //container.getEntityService().update();
