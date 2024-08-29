@@ -227,7 +227,7 @@ public class NPCFactory {
   }
 
     /**
-     * Creates a Kanga Boss entity. This is the NPC for the final boss of the game.
+     * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
      *
      * @param target entity to chase
      * @return entity
@@ -255,7 +255,7 @@ public class NPCFactory {
 
     /**
      * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-     * there is no chase task included. This is where abilities could potentially be.
+     * there is no chase task included. This is where abilities components will be added.
      * loaded.
      *
      * @return entity
