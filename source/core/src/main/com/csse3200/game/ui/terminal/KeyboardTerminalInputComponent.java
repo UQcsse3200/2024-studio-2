@@ -43,6 +43,9 @@ public class KeyboardTerminalInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     // handle open and close terminal
     if (keycode == TOGGLE_OPEN_KEY) {
       terminal.toggleIsOpen();
@@ -64,7 +67,9 @@ public class KeyboardTerminalInputComponent extends InputComponent {
     if (!terminal.isOpen()) {
       return false;
     }
-
+    if(!this.enabled){
+      return false;
+    }
     if (character == '\b') {
       terminal.handleBackspace();
       return true;
@@ -92,6 +97,9 @@ public class KeyboardTerminalInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
+    if(!this.enabled){
+      return false;
+    }
     return terminal.isOpen();
   }
 }

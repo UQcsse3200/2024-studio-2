@@ -123,6 +123,11 @@ public class Renderer implements Disposable {
   }
 
   private void resizeCamera(int screenWidth, int screenHeight) {
+    float camViewportWidth = camera.getCamera().viewportWidth;
+    if (camViewportWidth != 0.0f) {
+      // Update game width to use camera viewport width
+      gameWidth = camViewportWidth;
+    }
     camera.resize(screenWidth, screenHeight, gameWidth);
   }
 
@@ -135,6 +140,7 @@ public class Renderer implements Disposable {
     stage.dispose();
     batch.dispose();
   }
+
 
   public Stage getStage() {
     return stage;

@@ -55,6 +55,9 @@ public class Entity {
   public void setEnabled(boolean enabled) {
     logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
+    for (Component component :createdComponents) {
+      component.setEnabled(enabled);
+    }
   }
 
   /**
@@ -283,5 +286,13 @@ public class Entity {
   @Override
   public String toString() {
     return String.format("Entity{id=%d}", id);
+  }
+
+  /**
+   * Returns the enabled status of the Entity
+   * @return the status of the entity
+   */
+  public Boolean isEnabled(){
+    return this.enabled;
   }
 }

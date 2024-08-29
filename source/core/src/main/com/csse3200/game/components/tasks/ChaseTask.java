@@ -12,14 +12,14 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
-  private final Entity target;
-  private final int priority;
-  private final float viewDistance;
-  private final float maxChaseDistance;
-  private final PhysicsEngine physics;
-  private final DebugRenderer debugRenderer;
-  private final RaycastHit hit = new RaycastHit();
-  private MovementTask movementTask;
+  protected final Entity target;
+  protected final int priority;
+  protected final float viewDistance;
+  protected final float maxChaseDistance;
+  protected final PhysicsEngine physics;
+  protected final DebugRenderer debugRenderer;
+  protected final RaycastHit hit = new RaycastHit();
+  protected MovementTask movementTask;
 
   /**
    * @param target The entity to chase.
@@ -42,7 +42,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask = new MovementTask(target.getPosition());
     movementTask.create(owner);
     movementTask.start();
-    
+
     this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
@@ -53,6 +53,10 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
     }
+  }
+
+  public float getViewDistance() {
+    return this.viewDistance;
   }
 
   @Override
@@ -70,11 +74,11 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     return getInactivePriority();
   }
 
-  private float getDistanceToTarget() {
+  protected float getDistanceToTarget() {
     return owner.getEntity().getPosition().dst(target.getPosition());
   }
 
-  private int getActivePriority() {
+  protected int getActivePriority() {
     float dst = getDistanceToTarget();
     if (dst > maxChaseDistance || !isTargetVisible()) {
       return -1; // Too far, stop chasing
@@ -82,7 +86,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     return priority;
   }
 
-  private int getInactivePriority() {
+  protected int getInactivePriority() {
     float dst = getDistanceToTarget();
     if (dst < viewDistance && isTargetVisible()) {
       return priority;
@@ -90,7 +94,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     return -1;
   }
 
-  private boolean isTargetVisible() {
+  protected boolean isTargetVisible() {
     Vector2 from = owner.getEntity().getCenterPosition();
     Vector2 to = target.getCenterPosition();
 

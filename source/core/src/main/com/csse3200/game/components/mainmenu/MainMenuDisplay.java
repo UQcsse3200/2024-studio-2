@@ -75,6 +75,7 @@ public class MainMenuDisplay extends UIComponent {
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
         TextButton settingsBtn = new TextButton("Settings", skin);
+        TextButton achievementsBtn = new TextButton("Achievements", skin);
         TextButton helpBtn = new TextButton("Help", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
@@ -83,6 +84,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
+        addButtonElevationEffect(achievementsBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
 
@@ -119,15 +121,14 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        minigamesBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
 
-                        logger.info("SnakeGame button clicked");
-                        entity.getEvents().trigger("SnakeGame");
-                    }
-                });
+        achievementsBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Achievements button clicked");
+                entity.getEvents().trigger("achievements");
+            }
+        });
 
         helpBtn.addListener(new ChangeListener() {
             @Override
@@ -146,7 +147,9 @@ public class MainMenuDisplay extends UIComponent {
         table.row();
         table.add(loadBtn).padTop(15f).height(45f).width(180f);
         table.row();
-        table.add(minigamesBtn).padTop(15f).height(45f).width(180f);
+        table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
+        table.row();
+        table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
         table.row();
         table.add(settingsBtn).padTop(15f).height(45f).width(180f);
         table.row();
