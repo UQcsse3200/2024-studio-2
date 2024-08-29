@@ -3,6 +3,7 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
@@ -51,7 +52,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType));
+    setScreen(newScreen(screenType, null, null, null));
   }
 
   /**
@@ -75,19 +76,27 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
+    public void addCombatScreen(Entity enemy) {
+        addScreen(ScreenType.COMBAT, getScreen(), enemy);
+    }
+
+    public void addBossCutsceneScreen(Entity enemy) {
+        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), enemy);
+    }
+
   /**
    * Changes to a new screen, does NOT dispose of old screen
    *
    * @param screenType screen type
    * @param screen Old screen if we want to remember/ return to it.
    */
-  public void addScreen (ScreenType screenType, Screen screen) {
+  public void addScreen (ScreenType screenType, Screen screen, Entity enemey) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
     ServiceContainer container = new ServiceContainer();
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType));
+    setScreen(newScreen(screenType, screen, container, enemey));
   }
 
   @Override
@@ -100,12 +109,16 @@ public class GdxGame extends Game {
     }
   }
 
+    private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+        return newScreen(screenType, screen, container, null);
+    }
+
   /**
    * Create a new screen of the provided type.
    * @param screenType screen type
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType) {
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity enemy) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
@@ -115,6 +128,10 @@ public class GdxGame extends Game {
         return new CombatCountDown(this);
       case SETTINGS:
         return new SettingsScreen(this);
+        case COMBAT:
+            return new CombatScreen(this, screen, container, enemy);
+        case BOSS_CUTSCENE:
+            return new BossCutsceneScreen(this, screen, container, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
@@ -130,7 +147,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT_POPUP
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, COMBAT_POPUP
   }
 
   /**

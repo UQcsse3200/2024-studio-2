@@ -127,7 +127,7 @@ public class MainMenuDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
 
                         logger.debug("Combat button clicked");
-                        entity.getEvents().trigger("combat");
+                        entity.getEvents().trigger("combatPop");
                     }
                 });
 

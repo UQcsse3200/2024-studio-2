@@ -2,6 +2,7 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -34,6 +35,7 @@ public class PlayerStatsDisplay extends UIComponent {
     public Label healthLabel;
     Label experienceLabel;
     public Label hungerLabel;
+    private Image vignetteImage;
     static Animation<TextureRegion> healthBarAnimation;
     static Animation<TextureRegion> hungerBarAnimation;
     static Animation<TextureRegion> xpBarAnimation;
@@ -66,8 +68,9 @@ public class PlayerStatsDisplay extends UIComponent {
         maxHealth= entity.getComponent(CombatStatsComponent.class).getMaxHealth();
         maxHunger=entity.getComponent(CombatStatsComponent.class).getMaxHunger();
 
+        entity.getEvents().addListener("startHealthBarBeating", this::startHealthBarBeating);
+        entity.getEvents().addListener("stopHealthBarBeating", this::stopHealthBarBeating);
     }
-
 
     /**
      * Initializes the animations for the health, hunger, and experience bars.
@@ -146,6 +149,11 @@ public class PlayerStatsDisplay extends UIComponent {
         float barImageWidth = (float) (healthImage.getWidth() * 0.7);
         float barImageHeight = (float) (healthImage.getHeight() * 0.4);
 
+        // Vignette image setup
+        vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
+        vignetteImage.setFillParent(true); // Cover the entire screen
+        vignetteImage.setVisible(false); // Initially invisible
+
         // Aligning the bars one below the other
         table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
@@ -160,71 +168,17 @@ public class PlayerStatsDisplay extends UIComponent {
 
 
         stage.addActor(table);
+        stage.addActor(vignetteImage);
+
         //initialising the character stats
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-        testFinalImplementation();
+//        testFinalImplementation();
         // Add the table to the stage
         return true;
     }
 
-    /**
-     * Runs a test to incrementally update the player's health, experience, and hunger
-     * over time, scheduling frame updates with delayed execution. Used for Visual Testing.
-     */
-    public void testFinalImplementation() {
-
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                // Schedule frame updates with incrementally increasing delays
-                for (int i = maxHealth; i >= 0; i -= 10) {
-                    int finalI = i;
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            // Update the animation frames
-                            updatePlayerHealthUI(finalI);
-
-                        }
-                    }, (100 - finalI) * 0.1f);
-
-                    for (int j = maxExperience; j >= 0; j -= 10) {
-                        int finalJ = j;
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Update the animation frames
-
-                                updatePlayerExperienceUI(finalJ);
-
-                            }
-                        }, (100 - finalJ) * 0.1f);}
-
-                        for (int k = maxHunger; k >= 0; k -= 10) {
-                            int finalK = k;
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    // Update the animation frames
-
-                                    updatePlayerHungerUI(finalK);
-                                }
-                            }, (100 - finalK) * 0.1f);}
-                            // Incremental delay in seconds
-                }
-                delayedActionDone = true;
-            }
-        }, 1); // Initial delay of 1 second
-    }
-
-    /**
-     * Draw method overridden to be handled by the stage.
-     *
-     * @param batch the batch used for drawing.
-     */
     @Override
     public void draw(SpriteBatch batch) {
         // handled by stage
@@ -313,6 +267,37 @@ public class PlayerStatsDisplay extends UIComponent {
 
     }
 
+    /**
+     * Starts the beating animation for the health bar during boss chase.
+     */
+    public void startHealthBarBeating() {
+        // Stop any existing beating actions
+        healthImage.clearActions();
+        vignetteImage.clearActions();
+
+        vignetteImage.setVisible(true);
+
+        healthImage.addAction(Actions.forever(
+                Actions.sequence(
+                        Actions.scaleTo(1.0f, 1.05f, 0.3f), // Slightly enlarge
+                        Actions.scaleTo(1.0f, 0.95f, 0.3f)  // Return to normal size
+                )
+        ));
+
+        vignetteImage.addAction(Actions.forever(
+                Actions.sequence(
+                        Actions.fadeIn(0.3f), // Fade in for vignette effect
+                        Actions.fadeOut(0.3f)  // Fade out for vignette effect
+                )
+        ));
+    }
+
+    public void stopHealthBarBeating() {
+        healthImage.clearActions();
+        vignetteImage.clearActions();
+        vignetteImage.setVisible(false); // Hide vignette when not beating
+        healthImage.setScale(1.0f); // Reset to normal scale
+    }
 
      /**
      * Disposes of the resources used by the PlayerStatsDisplay component, including textures and labels.
@@ -326,6 +311,7 @@ public class PlayerStatsDisplay extends UIComponent {
         experienceLabel.remove();
         hungerImage.remove();
         hungerLabel.remove();
+        vignetteImage.remove();
         for (TextureAtlas atlas : textureAtlas) {
             atlas.dispose();
         }

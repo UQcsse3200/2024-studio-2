@@ -23,6 +23,7 @@ public class MainMenuActions extends Component {
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
+    entity.getEvents().addListener("combatPop", this::onCombatpop);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("settings", this::onSettings);
@@ -49,6 +50,16 @@ public class MainMenuActions extends Component {
   }
 
   /**
+   * Opens a new combat screen.
+   * The combat screen will not actually be called from the main menu screen.
+   * This is for testing purposes only.
+   */
+  private void onCombat() {
+    logger.info("Start combat");
+    game.setScreen(GdxGame.ScreenType.COMBAT);
+  }
+
+  /**
    * Exits the game.
    */
   private void onExit() {
@@ -64,7 +75,7 @@ public class MainMenuActions extends Component {
     game.setScreen(GdxGame.ScreenType.SETTINGS);
   }
 
-  private void onCombat() {
+  private void onCombatpop() {
     logger.info("Opening combat popup");
     game.setScreen(GdxGame.ScreenType.COMBAT_POPUP);
   }

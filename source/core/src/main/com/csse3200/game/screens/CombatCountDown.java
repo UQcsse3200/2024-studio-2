@@ -50,7 +50,7 @@ public class CombatCountDown implements Screen {
         labelStyle.font.getData().setScale(1.5f);
         labelStyle.fontColor = Color.WHITE; // Set text color to white
 
-        Label questionLabel = new Label("Do you want to start combat?", labelStyle);
+        Label questionLabel = new Label("Do you want to fight?", labelStyle);
         questionLabel.setAlignment(Align.center);
         table.add(questionLabel).padBottom(40).colspan(2);
         table.row();
@@ -59,8 +59,8 @@ public class CombatCountDown implements Screen {
         buttonStyle.font.getData().setScale(1.3f);
         buttonStyle.fontColor = Color.WHITE; // Set button text color to white
 
-        TextButton yesButton = new TextButton("Fuck Yes", buttonStyle);
-        TextButton noButton = new TextButton("Hell No", buttonStyle);
+        TextButton yesButton = new TextButton("Yes", buttonStyle);
+        TextButton noButton = new TextButton("No", buttonStyle);
 
         yesButton.addListener(new ChangeListener() {
             @Override
@@ -96,7 +96,7 @@ public class CombatCountDown implements Screen {
 
             @Override
             public void onFinish() {
-                game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+//                game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
             }
         });
     }
