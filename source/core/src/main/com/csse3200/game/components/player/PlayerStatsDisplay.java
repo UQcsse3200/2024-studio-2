@@ -102,7 +102,7 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] xpBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < xpBarFrames.length; i++) {
-            String frameName3 = (i * 10) + "%_xp";
+            String frameName3 = (100 - (i * 10)) + "%_xp";
             xpBarFrames[i] = textureAtlas[2].findRegion(frameName3);
         }
         xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
