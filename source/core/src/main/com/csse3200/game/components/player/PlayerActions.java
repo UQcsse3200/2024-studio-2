@@ -1,6 +1,7 @@
 package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
@@ -107,16 +108,16 @@ public class PlayerActions extends Component {
     eventService.getGlobalEventHandler().trigger("addOverlay", Overlay.OverlayType.QUEST_OVERLAY);
   }
 
-  public void startCombat(Entity enemy){
-    AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
-    PriorityTask currentTask = aiTaskComponent.getCurrentTask();
+    public void startCombat(Entity enemy){
+        AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
+        PriorityTask currentTask = aiTaskComponent.getCurrentTask();
 
-    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
-            (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
-      currentTask.stop();
-      game.addBossCutsceneScreen(enemy);
-    } else {
-      game.addCombatScreen(enemy);
+        if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
+                (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
+            currentTask.stop();
+            game.addBossCutsceneScreen(enemy);
+        } else {
+            game.addCombatScreen(enemy);
+        }
     }
-  }
 }

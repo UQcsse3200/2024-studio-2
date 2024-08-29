@@ -91,7 +91,6 @@ public class MainGameScreen extends ScreenAdapter {
    */
   private final Map<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
-
   /**
    * Constructs a MainGameScreen instance.
    * @param game The main game instance used.
@@ -130,6 +129,7 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory, game);
+
     gameArea.create();
   }
 

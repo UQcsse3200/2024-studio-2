@@ -12,7 +12,7 @@ class TaskTest {
     void setUp() {
         stepsTask = new Task("steps",
                 "Take your first steps", "Just start moving!",
-                1);
+                1,0,false,false);
     }
 
     @Test

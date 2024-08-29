@@ -1,6 +1,7 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
@@ -34,41 +35,41 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/final_boss_kangaroo.png",
-    "images/ghost_king.png",
-    "images/Cow.png",
-    "images/snake.png",
-    "images/eagle.png",
-    "images/lion.png",
-    "images/turtle.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/gt.png",
-    "images/top_left_grass.png",
-    "images/top_middle_grass.png",
-    "images/top_right_grass.png",
-    "images/middle_left_grass.png",
-    "images/middle_grass.png",
-    "images/middle_right_grass.png",
-    "images/lower_left_grass.png",
-    "images/lower_middle_grass.png",
-    "images/lower_right_grass.png",
-    "images/full_sand_tile.png",
-    "images/dog.png",
-    "images/croc.png",
-    "images/bird.png",
-    "images/Healthpotion.png",
-    "images/foodtextures/apple.png",
+          "images/box_boy_leaf.png",
+          "images/tree.png",
+          "images/ghost_king.png",
+          "images/final_boss_kangaroo.png",
+          "images/Cow.png",
+          "images/snake.png",
+          "images/eagle.png",
+          "images/lion.png",
+          "images/turtle.png",
+          "images/ghost_1.png",
+          "images/grass_1.png",
+          "images/grass_2.png",
+          "images/grass_3.png",
+          "images/hex_grass_1.png",
+          "images/hex_grass_2.png",
+          "images/hex_grass_3.png",
+          "images/iso_grass_1.png",
+          "images/iso_grass_2.png",
+          "images/iso_grass_3.png",
+          "images/gt.png",
+          "images/top_left_grass.png",
+          "images/top_middle_grass.png",
+          "images/top_right_grass.png",
+          "images/middle_left_grass.png",
+          "images/middle_grass.png",
+          "images/middle_right_grass.png",
+          "images/lower_left_grass.png",
+          "images/lower_middle_grass.png",
+          "images/lower_right_grass.png",
+          "images/full_sand_tile.png",
+          "images/dog.png",
+          "images/croc.png",
+          "images/bird.png",
+          "images/Healthpotion.png",
+          "images/foodtextures/apple.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/final_boss_kangaroo.atlas", "images/Cow.atlas",
@@ -76,6 +77,8 @@ public class ForestGameArea extends GameArea {
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String[] heartbeatSound = {heartbeat};
 
   private static final List<String[]> soundArrays = List.of(
           new String[] {"sounds/mooing-cow.mp3"},
@@ -87,11 +90,6 @@ public class ForestGameArea extends GameArea {
 
   private static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {BACKGROUND_MUSIC};
-  private static final String heartbeat = "sounds/heartbeat.mp3";
-  private static final String[] heartbeatSound = {heartbeat};
-
-  private static Music music;
-
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
   private Entity player;
@@ -143,7 +141,7 @@ public class ForestGameArea extends GameArea {
     return player;
   }
 
-  public void displayUI() {
+  private void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     ui.addComponent(new QuestPopup());
@@ -182,7 +180,7 @@ public class ForestGameArea extends GameArea {
 
   private void updateTerrain(GridPoint2 playerPosition) {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition, new GridPoint2(20, 20));
-    spawnEntity(new Entity().addComponent(terrain));
+      spawnEntity(new Entity().addComponent(terrain));
   }
 
   public void onPlayerMove(GridPoint2 newPlayerPosition) {
@@ -201,6 +199,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
+
     Entity newPlayer = PlayerFactory.createPlayer(this.game);
     newPlayer.addComponent(this.terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
@@ -265,10 +264,10 @@ public class ForestGameArea extends GameArea {
     spawnEntityOnMap(eagle);
   }
 
-    private void spawnSnake() {
-        Entity snake = NPCFactory.createSnake(player, this.enemies);
-        spawnEntityOnMap(snake);
-    }
+  private void spawnSnake() {
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntityOnMap(snake);
+  }
 
   public static void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
