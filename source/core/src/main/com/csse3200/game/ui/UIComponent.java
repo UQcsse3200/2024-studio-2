@@ -31,4 +31,9 @@ public abstract class UIComponent extends RenderComponent implements Renderable 
   public float getZIndex() {
     return 1f;
   }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+
 }

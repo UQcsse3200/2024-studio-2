@@ -91,7 +91,6 @@ public class MainGameScreen extends ScreenAdapter {
    */
   private final Map<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
-
   /**
    * Constructs a MainGameScreen instance.
    * @param game The main game instance used.
