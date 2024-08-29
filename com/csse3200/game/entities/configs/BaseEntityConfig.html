@@ -90,7 +90,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="CowConfig.html" title="class in com.csse3200.game.entities.configs">CowConfig</a></code>, <code><a href="EagleConfig.html" title="class in com.csse3200.game.entities.configs">EagleConfig</a></code>, <code><a href="GhostKingConfig.html" title="class in com.csse3200.game.entities.configs">GhostKingConfig</a></code>, <code><a href="KangarooBossConfig.html" title="class in com.csse3200.game.entities.configs">KangarooBossConfig</a></code>, <code><a href="LionConfig.html" title="class in com.csse3200.game.entities.configs">LionConfig</a></code>, <code><a href="PlayerConfig.html" title="class in com.csse3200.game.entities.configs">PlayerConfig</a></code>, <code><a href="SnakeConfig.html" title="class in com.csse3200.game.entities.configs">SnakeConfig</a></code>, <code><a href="TurtleConfig.html" title="class in com.csse3200.game.entities.configs">TurtleConfig</a></code></dd>
+<dd><code><a href="ChickenConfig.html" title="class in com.csse3200.game.entities.configs">ChickenConfig</a></code>, <code><a href="CowConfig.html" title="class in com.csse3200.game.entities.configs">CowConfig</a></code>, <code><a href="EagleConfig.html" title="class in com.csse3200.game.entities.configs">EagleConfig</a></code>, <code><a href="FrogConfig.html" title="class in com.csse3200.game.entities.configs">FrogConfig</a></code>, <code><a href="KangarooBossConfig.html" title="class in com.csse3200.game.entities.configs">KangarooBossConfig</a></code>, <code><a href="LionConfig.html" title="class in com.csse3200.game.entities.configs">LionConfig</a></code>, <code><a href="MonkeyConfig.html" title="class in com.csse3200.game.entities.configs">MonkeyConfig</a></code>, <code><a href="PlayerConfig.html" title="class in com.csse3200.game.entities.configs">PlayerConfig</a></code>, <code><a href="SnakeConfig.html" title="class in com.csse3200.game.entities.configs">SnakeConfig</a></code>, <code><a href="TurtleConfig.html" title="class in com.csse3200.game.entities.configs">TurtleConfig</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseEntityConfig</span>
@@ -117,29 +117,35 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>int</code></div>
 <div class="col-second even-row-color"><code><a href="#baseAttack" class="member-name-link">baseAttack</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second odd-row-color"><code><a href="#baseHint" class="member-name-link">baseHint</a></code></div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#baseDefense" class="member-name-link">baseDefense</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#currentHint" class="member-name-link">currentHint</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second even-row-color"><code><a href="#baseHint" class="member-name-link">baseHint</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#defense" class="member-name-link">defense</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#currentHint" class="member-name-link">currentHint</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#experience" class="member-name-link">experience</a></code></div>
+<div class="col-second even-row-color"><code><a href="#defense" class="member-name-link">defense</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#health" class="member-name-link">health</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#experience" class="member-name-link">experience</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#hintLevel" class="member-name-link">hintLevel</a></code></div>
+<div class="col-second even-row-color"><code><a href="#health" class="member-name-link">health</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#hints" class="member-name-link">hints</a></code></div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#hintLevel" class="member-name-link">hintLevel</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#hints" class="member-name-link">hints</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#hunger" class="member-name-link">hunger</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#hunger" class="member-name-link">hunger</a></code></div>
+<div class="col-second even-row-color"><code><a href="#isEnemy" class="member-name-link">isEnemy</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
 <div class="col-second odd-row-color"><code><a href="#soundPath" class="member-name-link">soundPath</a></code></div>
@@ -286,9 +292,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="baseDefense">
+<h3>baseDefense</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">baseDefense</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="animalName">
 <h3>animalName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">animalName</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="isEnemy">
+<h3>isEnemy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">isEnemy</span></div>
 </section>
 </li>
 <li>

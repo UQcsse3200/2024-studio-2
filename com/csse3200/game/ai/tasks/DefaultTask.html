@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="../../components/tasks/ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code>, <code><a href="../../components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></code>, <code><a href="../../components/tasks/MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></code>, <code><a href="../../components/tasks/WaitTask.html" title="class in com.csse3200.game.components.tasks">WaitTask</a></code>, <code><a href="../../components/tasks/WanderTask.html" title="class in com.csse3200.game.components.tasks">WanderTask</a></code></dd>
+<dd><code><a href="../../components/tasks/ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code>, <code><a href="../../components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></code>, <code><a href="../../components/tasks/MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></code>, <code><a href="../../components/tasks/RunTask.html" title="class in com.csse3200.game.components.tasks">RunTask</a></code>, <code><a href="../../components/tasks/SpawnTask.html" title="class in com.csse3200.game.components.tasks">SpawnTask</a></code>, <code><a href="../../components/tasks/SpecialWanderTask.html" title="class in com.csse3200.game.components.tasks">SpecialWanderTask</a></code>, <code><a href="../../components/tasks/WaitTask.html" title="class in com.csse3200.game.components.tasks">WaitTask</a></code>, <code><a href="../../components/tasks/WanderTask.html" title="class in com.csse3200.game.components.tasks">WanderTask</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">DefaultTask</span>
@@ -167,18 +167,21 @@ implements <a href="Task.html" title="interface in com.csse3200.game.ai.tasks">T
 <div class="block">Get the current status of the task.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setOwner(com.csse3200.game.ai.tasks.TaskRunner)" class="member-name-link">setOwner</a><wbr>(<a href="TaskRunner.html" title="interface in com.csse3200.game.ai.tasks">TaskRunner</a>&nbsp;owner)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Start running this task.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stop the task immediately.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Run one frame of the task.</div>
 </div>
 </div>
@@ -294,6 +297,12 @@ implements <a href="Task.html" title="interface in com.csse3200.game.ai.tasks">T
 <dt>Returns:</dt>
 <dd>status</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setOwner(com.csse3200.game.ai.tasks.TaskRunner)">
+<h3>setOwner</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setOwner</span><wbr><span class="parameters">(<a href="TaskRunner.html" title="interface in com.csse3200.game.ai.tasks">TaskRunner</a>&nbsp;owner)</span></div>
 </section>
 </li>
 </ul>
