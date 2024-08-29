@@ -26,13 +26,15 @@ public class Task {
      * @param requiredTriggers  The number of triggers required to complete task.
      */
 
-    public Task(String taskName, String description, String hint, int requiredTriggers) {
+    public Task(String taskName, String description, String hint, int requiredTriggers,
+                int triggerCount, boolean completed, boolean failed) {
         this.taskName = taskName;
         this.description = description;
         this.hint = hint;
         this.requiredTriggers = requiredTriggers;
-        this.triggerCount = 0;
-        this.completed = false;
+        this.triggerCount = triggerCount;
+        this.completed = completed;
+        this.failed = failed;
     }
 
     /** Returns the task name. */

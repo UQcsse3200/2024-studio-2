@@ -7,9 +7,11 @@ public class CowConfig extends BaseEntityConfig {
 
     public CowConfig() {
         this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."};
+        this.spritePath = "images/Cow.atlas";
+        this.animationSpeed = 0.2f;
+        this.soundPath = new String[] {"sounds/mooing-cow.mp3"};
         this.health = 30;
         this.baseAttack = 0;
         this.animalName = "Cow";
-        this.soundPath = new String[] {"sounds/mooing-cow.mp3"};
     }
 }

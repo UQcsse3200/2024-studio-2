@@ -50,9 +50,6 @@ public class TouchPlayerInputComponent extends InputComponent {
       case Input.Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      case Input.Keys.O:
-        entity.getEvents().trigger("addMainGameScreen");
-        return true;
       default:
         return false;
     }

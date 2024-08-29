@@ -26,9 +26,8 @@ public class GdxGame extends Game {
     logger.info("Creating game");
     loadSettings();
 
-
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -52,7 +51,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null, null,null,null));
+    setScreen(newScreen(screenType, null, null, null, null));
   }
 
   /**
@@ -76,10 +75,6 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
-  public void addMainGameDup() {
-    addScreen(ScreenType.MAIN_GAME_DUP, getScreen());
-   }
-
   public void enterCombatScreen(Entity player, Entity enemy) {
     addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
   }
@@ -99,7 +94,7 @@ public class GdxGame extends Game {
             ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container,null,null));
+    setScreen(newScreen(screenType, screen, container, null, null));
   }
 
   /**
@@ -132,6 +127,8 @@ public class GdxGame extends Game {
    * @param screenType screen type
    * @param screen for returning to an old screen, may be null.
    * @param container container for services, for returning to an old screen. may be null.
+   * @param player player entity to be passed into the new screen (null if not needed).
+   * @param enemy enemy entity to be passed into the new screen (null if not needed).
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
@@ -140,19 +137,28 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
-      case MAIN_GAME_DUP:
-        return new MainGameScreenDup(this, screen, container);
+      //case MAIN_GAME_DUP:
+      //  return new MainGameScreenDup(this, screen, container);
       case COMBAT:
         return new CombatScreen(this, screen, container, player, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
+      case ACHIEVEMENTS:
+        return new AchievementsScreen(this);
+      case MINI_GAME_MENU_SCREEN:
+          return new MiniGameMenuScreen(this);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, MAIN_GAME_DUP, SETTINGS, COMBAT
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT
   }
 
   /**

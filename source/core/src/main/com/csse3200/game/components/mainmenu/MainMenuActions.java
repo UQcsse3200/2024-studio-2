@@ -2,6 +2,8 @@ package com.csse3200.game.components.mainmenu;
 
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,8 @@ public class MainMenuActions extends Component {
     entity.getEvents().addListener("load", this::onLoad);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("achievements", this::onAchievements);
+    entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
   }
 
   /**
@@ -30,7 +34,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**
@@ -39,6 +43,8 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+    SaveHandler.load(GameState.class, "saves");
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**
@@ -56,4 +62,16 @@ public class MainMenuActions extends Component {
     logger.info("Launching settings screen");
     game.setScreen(GdxGame.ScreenType.SETTINGS);
   }
+
+  private void onAchievements() {
+    logger.info("Launching achievements screen");
+    game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
+  }
+
+  private void onSnakeMiniGame() {
+    logger.info("Launching settings screen");
+    game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
+  }
+
+
 }

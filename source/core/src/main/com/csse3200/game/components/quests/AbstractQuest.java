@@ -1,6 +1,6 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.utils.Null;
+import com.csse3200.game.entities.Entity;
 
 import java.util.List;
 import java.util.Map;
@@ -11,24 +11,20 @@ public abstract class AbstractQuest {
     /**
      * The name of the quest.
      * */
-    protected final String questName;
+    private final String questName;
     /**
      * A description of the task.
      */
-    protected final String questDescription;
+    private final String questDescription;
     /**
      * taskArray indexing corresponds to number of tests completed
      * and each entry consists of the task to be completed during this step.
      */
-    protected final List<Task> tasks;
-    /**
-     * True if quest achievement has been unlocked.
-     */
-    protected final boolean isAchievement;
+    private final List<Task> tasks;
     /**
      * True if the quest is hidden (possible xp and levels).
      */
-    protected final boolean isSecretQuest;
+    private final boolean isSecretQuest;
     /**
      * questDialogue is a dict that relates
      * DialogueKey(String npcName, Integer ProgressionLevel)
@@ -47,16 +43,21 @@ public abstract class AbstractQuest {
      * True if quest is active (not completed or failed).
      */
     private boolean isActive;
+    /** Triggers for task completion. */
+    private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    public AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isAchievement, Boolean isSecretQuest, Map<DialogueKey,String[]> dialogue) {
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
-        this.isAchievement = isAchievement;
         this.isSecretQuest = isSecretQuest;
-        this.isActive = true;
+        this.isActive = active;
+        this.isFailed = failed;
+        this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
+        this.taskCompletionTriggers = taskCompletionTriggers;
     }
 
     /** Returns quest name. */
@@ -84,6 +85,9 @@ public abstract class AbstractQuest {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
         }
+        if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
+        }
         return tasks.get(currentTaskIndex).getDescription();
     }
 
@@ -95,15 +99,24 @@ public abstract class AbstractQuest {
         if (isQuestCompleted()) {
             return "QUEST COMPLETED";
         }
+        if (currentTaskIndex == getNumQuestTasks()) {
+            return "QUEST NOT COMPLETED";
+        }
         return tasks.get(currentTaskIndex).getHint();
     }
     /** Progress (increments) number of quest subtasks completed. */
-    public void progressQuest() {
+    public void progressQuest(Entity player) {
         if (!isQuestCompleted() && !isFailed) {
+            if(taskCompletionTriggers!=null){
+                player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
+            }
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
             this.isActive = false;
+            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+                player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
+            }
         }
     }
     /** Returns true if quest is failed. */
@@ -126,8 +139,8 @@ public abstract class AbstractQuest {
     /**
      * Returns the number of tasks to be completed for an individual test.
      */
-    public int getNumTasksCompleted() {
-        return (tasks.size() - 1) - currentTaskIndex;
+    public int getNumTasksToComplete() {
+        return tasks.size() - currentTaskIndex;
     }
 
     /**
@@ -136,10 +149,7 @@ public abstract class AbstractQuest {
     public int getNumQuestTasks() {
         return tasks.size();
     }
-    /** Returns true if quest achievement has been unlocked. */
-    public boolean isAchievement() {
-        return isAchievement;
-    }
+
     /** Returns true if the quest is secret (e.g. progression, XP, etc). */
     public boolean isSecret() {
         return isSecretQuest;
@@ -151,11 +161,10 @@ public abstract class AbstractQuest {
     }
 
     /** Returns the current quest dialogue for the given npc */
-    @Null
     public String[] getDialogue(String npcName) {
         if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
             return questDialogue.get(new DialogueKey(npcName, getProgression()));
         }
-            return null;
+        return new String[]{};
     }
 }

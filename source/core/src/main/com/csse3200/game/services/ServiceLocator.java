@@ -108,6 +108,7 @@ public class ServiceLocator {
     inputService = null;
     resourceService = null;
     eventService = null;
+    entityChatService = null;
   }
 
   private ServiceLocator() {

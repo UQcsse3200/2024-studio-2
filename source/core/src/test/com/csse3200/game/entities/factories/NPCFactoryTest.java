@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +43,7 @@ class NPCFactoryTest {
 
     private String[] textures = {
             "images/ghost.png",
+            "images/ghostKing.png",
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
@@ -51,6 +53,7 @@ class NPCFactoryTest {
 
     private String[] atlas = {
             "images/ghost.atlas",
+            "images/ghostKing.atlas",
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",
@@ -106,7 +109,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowIsEntity() {
-        assert(cow.getClass() == Entity.class);
+        assertEquals(cow.getClass(), Entity.class);
     }
 
     /**
@@ -155,8 +158,28 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, cow.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Cow should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the cow has the correct sound path.
+     */
+    @Test
+    void TestCowHasCorrectSoundPath() {
+        String[] sound = configs.cow.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.mp3"}));
+    }
+
+    /**
+     * Tests that the cow has the correct base hint.
+     */
+    @Test
+    void TestCowHasCorrectBaseHint() {
+        String[] baseHint = configs.cow.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Charlie the Cow."}));
     }
 
     /**
@@ -188,36 +211,6 @@ class NPCFactoryTest {
         assertEquals(pos, cow.getPosition());
     }
 
-//    /**
-//     * Tests that the cow's hint system works by getting current hint level to display hints.
-//     */
-//    @Test
-//    void TestCowGetInitialHintLevel() {
-//        CowConfig cowConfig = configs.cow;
-//        int hintLevel = cowConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-//    /**
-//     * Tests that the cow updates its hint when the hint level is incremented.
-//     */
-//    @Test
-//    void TestUpdateCowHint() {
-//        CowConfig cowConfig = configs.cow;
-//        cowConfig.incrementHintLevel();
-//        assertEquals(1, cowConfig.getHintLevel());
-//        cowConfig.restartCurrentHint();
-//
-//    }
-
-//    /**
-//     * Tests that the cow hint exists.
-//     */
-//    @Test
-//    void TestCowHintIsNotNull() {
-//        assertNotNull(configs.cow.getCurrentHint());
-//    }
-
     /**
      * Tests Creation of a lion.
      */
@@ -240,7 +233,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionIsEntity() {
-        assert(lion.getClass() == Entity.class);
+        assertEquals(lion.getClass(), Entity.class);
     }
 
     /**
@@ -290,8 +283,28 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, lion.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Lion should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the lion has the correct sound path.
+     */
+    @Test
+    void TestLionHasCorrectSoundPath() {
+        String[] sound = configs.lion.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.mp3"}));
+    }
+
+    /**
+     * Tests that the lion has the correct base hint.
+     */
+    @Test
+    void TestLionHasCorrectBaseHint() {
+        String[] baseHint = configs.lion.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}));
     }
 
     /**
@@ -323,38 +336,6 @@ class NPCFactoryTest {
         assertEquals(pos, lion.getPosition());
     }
 
-//    /**
-//     * Tests that the lion's hint system works by getting current hint level to display hints.
-//     */
-//    @Test
-//    void TestLionGetInitialHintLevel() {
-//        LionConfig lionConfig = configs.lion;
-//        int hintLevel = lionConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-//    /**
-//     * Tests that the lion updates its hint when the hint level is incremented.
-//     */
-//    @Test
-//    void TestUpdateLionHint() {
-//        configs.lion.incrementHintLevel();
-//        assertEquals(1, configs.lion.getHintLevel());
-//        configs.lion.restartCurrentHint();
-//
-//    }
-//
-//    /**
-//     * Tests that the lion hint exists.
-//     */
-//    @Test
-//    void TestLionHintIsNotNull() {
-//        assertNotNull(configs.lion.getCurrentHint());
-//    }
-//
-
-
-
     /**
      * Tests Creation of an eagle.
      */
@@ -364,20 +345,20 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the eagle has the correct name.
+     * Tests that the eagle's name is correct.
      */
-//    @Test
-//    void TestEagleName() {
-//        String name = configs.eagle.getAnimalName();
-//        assertEquals("Eagle", name);
-//    }
-//
+    @Test
+    void TestEagleName() {
+        String name = configs.eagle.getAnimalName();
+        assertEquals("Eagle", name);
+    }
+
     /**
      * Tests that the eagle is an Entity.
      */
     @Test
     void TestEagleIsEntity() {
-        assert(eagle.getClass() == Entity.class);
+        assertEquals(eagle.getClass(), Entity.class);
     }
 
     /**
@@ -427,8 +408,28 @@ class NPCFactoryTest {
      */
     @Test
     void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, eagle.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Eagle should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the eagle has the correct sound path.
+     */
+    @Test
+    void TestEagleHasCorrectSoundPath() {
+        String[] sound = configs.eagle.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.mp3"}));
+    }
+
+    /**
+     * Tests that the eagle has the correct base hint.
+     */
+    @Test
+    void TestEagleHasCorrectBaseHint() {
+        String[] baseHint = configs.eagle.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}));
     }
 
     /**
@@ -461,38 +462,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the eagle's hint system works by getting current hint level to display hints.
-     */
-//    @Test
-//    void TestEagleGetInitialHintLevel() {
-//        EagleConfig eagleConfig = configs.eagle;
-//        int hintLevel = eagleConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-    /**
-     * Tests that the eagle updates its hint when the hint level is incremented.
-     */
-//    @Test
-//    void TestUpdateEagleHint() {
-//        configs.eagle.incrementHintLevel();
-//        assertEquals(1, configs.eagle.getHintLevel());
-//        configs.eagle.restartCurrentHint();
-//
-//    }
-//
-    /**
-     * Tests that the eagle hint exists.
-     */
-//    @Test
-//    void TestEagleHintIsNotNull() {
-//        assertNotNull(configs.eagle.getCurrentHint());
-//    }
-
-
-
-
-    /**
      * Tests Creation of a turtle.
      */
     @Test
@@ -514,7 +483,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestTurtleIsEntity() {
-        assert(turtle.getClass() == Entity.class);
+        assertEquals(turtle.getClass(), Entity.class);
     }
 
     /**
@@ -563,8 +532,28 @@ class NPCFactoryTest {
      */
     @Test
     void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, turtle.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Turtle should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the turtle has the correct sound path.
+     */
+    @Test
+    void TestTurtleHasCorrectSoundPath() {
+        String[] sound = configs.turtle.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
+    }
+
+    /**
+     * Tests that the turtle has the correct base hint.
+     */
+    @Test
+    void TestTurtleHasCorrectBaseHint() {
+        String[] baseHint = configs.turtle.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
     }
 
     /**
@@ -597,91 +586,6 @@ class NPCFactoryTest {
     }
 
 
-//    /**
-//     * Tests that the turtle's hint system works by getting current hint level to display hints.
-//     */
-//    @Test
-//    void TestTurtleGetInitialHintLevel() {
-//        TurtleConfig turtleConfig = configs.turtle;
-//        int hintLevel = turtleConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-
-//    /**
-//     * Tests that the turtle updates its hint when the hint level is incremented.
-//     */
-//    @Test
-//    void TestUpdateTurtleHint() {
-//        configs.turtle.incrementHintLevel();
-//        assertEquals(1, configs.turtle.getHintLevel());
-//        configs.turtle.restartCurrentHint();
-//
-//    }
-//
-//    /**
-//     * Tests that the turtle hint exists.
-//     */
-//    @Test
-//    void TestTurtleHintIsNotNull() {
-//        assertNotNull(configs.turtle.getCurrentHint());
-//    }
-    
-    /**
-     * Tests that the snake's hint system works by getting current hint level to display hints.
-     */
-//    @Test
-//    void TestSnakeGetInitialHintLevel() {
-//        SnakeConfig snakeConfig = configs.snake;
-//        int hintLevel = snakeConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-    /**
-     * Tests that the snake updates its hint when the hint level is incremented.
-     */
-//    @Test
-//    void TestUpdateSnakeHint() {
-//        configs.snake.incrementHintLevel();
-//        assertEquals(1, configs.snake.getHintLevel());
-//        configs.snake.restartCurrentHint();
-//
-//    }
-//
-    /**
-     * Tests that the snake hint exists.
-     */
-//    @Test
-//    /**
-//     * Tests that the turtle's hint system works by getting current hint level to display hints.
-//     */
-//    @Test
-//    void TestTurtleGetInitialHintLevel() {
-//        TurtleConfig turtleConfig = configs.turtle;
-//        int hintLevel = turtleConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-//    /**
-//     * Tests that the turtle updates its hint when the hint level is incremented.
-//     */
-//    @Test
-//    void TestUpdateTurtleHint() {
-//        configs.turtle.incrementHintLevel();
-//        assertEquals(1, configs.turtle.getHintLevel());
-//        configs.turtle.restartCurrentHint();
-//
-//    }
-
-//    /**
-//     * Tests that the turtle hint exists.
-//     */
-//    @Test
-//    void TestTurtleHintIsNotNull() {
-//        assertNotNull(configs.turtle.getCurrentHint());
-//    }
-//
-
-
     /**
      * Tests Creation of a snake.
      */
@@ -693,24 +597,23 @@ class NPCFactoryTest {
     /**
      * Tests that the snake has the correct name.
      */
-//    @Test
-//    void TestSnakeName() {
-//        String name = configs.snake.getAnimalName();
-//        assertEquals("Snake", name);
-//    }
+    @Test
+    void TestSnakeName() {
+        String name = configs.snake.getAnimalName();
+        assertEquals("Snake", name);
+    }
 
     /**
      * Tests that the snake is an Entity.
      */
     @Test
     void TestSnakeIsEntity() {
-        assert(snake.getClass() == Entity.class);
+        assertEquals(snake.getClass(), Entity.class);
     }
 
     /**
      * Tests that the snake has a physics component.
      */
-
     @Test
     void TestSnakeHasPhysicsComponent() {
         assertNotNull(snake.getComponent(PhysicsComponent.class));
@@ -754,8 +657,28 @@ class NPCFactoryTest {
      */
     @Test
     void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Snake should have 0 Base Attack.");
+    }
+
+    /**
+     * Tests that the snake has the correct sound path.
+     */
+    @Test
+    void TestSnakeHasCorrectSoundPath() {
+        String[] sound = configs.snake.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.mp3"}));
+    }
+
+    /**
+     * Tests that the snake has the correct base hint.
+     */
+    @Test
+    void TestSnakeHasCorrectBaseHint() {
+        String[] baseHint = configs.snake.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."}));
     }
 
     /**
@@ -767,6 +690,14 @@ class NPCFactoryTest {
                 "Snake should have idle animation.");
     }
 
+    /**
+     * Tests that the snake is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestSnakeIsFriendly() {
+        assertNotNull(snake.getComponent(FriendlyNPCAnimationController.class),
+                "Snake should have a friendly AI controller.");
+    }
 
     /**
      * Tests that the snake is in the correct spot when placed.
@@ -778,35 +709,6 @@ class NPCFactoryTest {
 
         assertEquals(pos, snake.getPosition());
     }
-
-    /**
-     * Tests that the snake's hint system works by getting current hint level to display hints.
-     */
-//    @Test
-//    void TestSnakeGetInitialHintLevel() {
-//        SnakeConfig snakeConfig = configs.snake;
-//        int hintLevel = snakeConfig.getHintLevel();
-//        assertEquals(0, hintLevel);
-//    }
-//
-    /**
-     * Tests that the snake updates its hint when the hint level is incremented.
-     */
-//    @Test
-//    void TestUpdateSnakeHint() {
-//        configs.snake.incrementHintLevel();
-//        assertEquals(1, configs.snake.getHintLevel());
-//        configs.snake.restartCurrentHint();
-//
-//    }
-//
-    /**
-     * Tests that the snake hint exists.
-     */
-//    @Test
-//    void TestSnakeHintIsNotNull() {
-//        assertNotNull(configs.snake.getCurrentHint());
-//    }
 
     static class TestComponent1 extends Component {}
 

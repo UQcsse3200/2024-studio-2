@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.mainmenu.MainMenuActions;
@@ -38,6 +39,7 @@ public class MainMenuScreen extends ScreenAdapter {
     ServiceLocator.registerEventService(new EventService());
 
     renderer = RenderFactory.createRenderer();
+
     loadAssets();
     createUI();
   }
@@ -81,7 +83,7 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainMenuTextures);
-    ServiceLocator.getResourceService().loadAll();
+    resourceService.loadAll();
   }
 
   private void unloadAssets() {
@@ -89,18 +91,17 @@ public class MainMenuScreen extends ScreenAdapter {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(mainMenuTextures);
   }
-
   /**
    * Creates the main menu's ui including components for rendering ui elements to the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
-    logger.debug("Creating ui");
+    logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new MainMenuDisplay())
-        .addComponent(new InputDecorator(stage, 10))
-        .addComponent(new MainMenuActions(game));
+            .addComponent(new InputDecorator(stage, 10))
+            .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().register(ui);
   }
 }

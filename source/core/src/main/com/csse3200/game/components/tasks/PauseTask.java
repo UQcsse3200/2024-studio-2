@@ -3,23 +3,20 @@ package com.csse3200.game.components.tasks;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.csse3200.game.ui.ChatOverlay;
-import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.AbstractQuest;
 
-/** Pauses near a target entity until they move too far away or out of sight */
+/**
+ * Pauses near a target entity until they move too far away or out of sight.
+ * Extends the ChaseTask to include pausing behavior when in proximity to a target.
+ */
 public class PauseTask extends ChaseTask {
     private final float maxPauseDistance;
     private boolean hasApproached;
-    private static final Logger logger = LoggerFactory.getLogger(PauseTask.class);
-    private ChatOverlay hint;
     private Entity entity;
-    private final QuestManager questManager;
     private BaseEntityConfig config;
 
     /**
+     * Constructs a new PauseTask that will pause near a target entity.
+     *
      * @param target The entity to pause when seen.
      * @param priority Task priority when pausing (0 when not pausing).
      * @param viewDistance Maximum distance from the entity at which pausing can start.
@@ -28,29 +25,33 @@ public class PauseTask extends ChaseTask {
     public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
         super(target, priority, viewDistance, maxPauseDistance);
         this.maxPauseDistance = maxPauseDistance;
-        this.questManager = this.target.getComponent(QuestManager.class);
         this.hasApproached = false;
-        this.hint = null;
         this.config = null;
     }
 
+    /**
+     * Starts the pause behavior by triggering the pause event
+     * and initializing any necessary components.
+     */
     @Override
     public void start() {
         super.start();
         triggerPauseEvent();
     }
 
+    /**
+     * Triggers an event to start the pause behavior.
+     * If the entity has a config component, it fetches the dialogue or hint text
+     * associated with the entity to provide context for the pause event.
+     */
     protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
-        ConfigComponent<BaseEntityConfig> configComponent = (ConfigComponent<BaseEntityConfig>) entity.getComponent(ConfigComponent.class);
-        this.config = (BaseEntityConfig) configComponent.getConfig();
+        ConfigComponent<BaseEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
+        this.config = configComponent.getConfig();
 
-        if (configComponent != null && this.config != null) {
-            String[] hintText = this.questManager.getDialogue( this.config.getAnimalName() );
-            if (hintText == null) {
-                hintText = this.config.getBaseHint();
-            }
 
+        if (this.config != null) {
+            String[] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);
@@ -59,24 +60,25 @@ public class PauseTask extends ChaseTask {
         }
     }
 
+    /**
+     * Updates the pause behavior by checking the distance to the target entity
+     * and determining whether to approach, pause, or end the pause state.
+     */
     @Override
     public void update() {
         float distanceToTarget = getDistanceToTarget();
 
         if (!hasApproached && distanceToTarget > maxPauseDistance && distanceToTarget <= viewDistance) {
-
             // Move towards the target until within maxPauseDistance
             movementTask.setTarget(target.getPosition());
             movementTask.update();
 
         } else if (!hasApproached && distanceToTarget <= maxPauseDistance) {
-
             // NPC pauses when close enough to the target
             hasApproached = true;
             movementTask.stop();
 
         } else if (hasApproached && distanceToTarget > 1.5f) {
-
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
             if (this.config != null) {
@@ -89,6 +91,13 @@ public class PauseTask extends ChaseTask {
         }
     }
 
+    /**
+     * Returns the priority level of the pause behavior.
+     * Determines the priority based on whether the task is currently active or inactive.
+     *
+     * @return the priority level of the pause behavior.
+     */
+    @Override
     public int getPriority() {
         if (status == Status.ACTIVE) {
             return getActivePriority();
@@ -97,10 +106,13 @@ public class PauseTask extends ChaseTask {
         return getInactivePriority();
     }
 
-    protected float getDistanceToTarget() {
-        return owner.getEntity().getPosition().dst(target.getPosition());
-    }
-
+    /**
+     * Returns the priority level when the pause behavior is active.
+     * If the distance to the target is greater than the view distance or the target is not visible,
+     * the pause behavior should stop and the method returns -1.
+     *
+     * @return the active priority level or -1 if the behavior should stop.
+     */
     @Override
     protected int getActivePriority() {
         float distance = getDistanceToTarget();
@@ -110,6 +122,13 @@ public class PauseTask extends ChaseTask {
         return priority;
     }
 
+    /**
+     * Returns the priority level when the pause behavior is inactive.
+     * If the distance to the target is less than the view distance and the target is visible,
+     * the method returns the set priority; otherwise, it returns -1.
+     *
+     * @return the inactive priority level or -1 if the behavior should not activate.
+     */
     @Override
     protected int getInactivePriority() {
         float distance = getDistanceToTarget();

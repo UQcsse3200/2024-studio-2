@@ -22,7 +22,7 @@ public class MainGameActions extends Component {
 
   @Override
   public void create() {
-    ServiceLocator.getEventService().globalEventHandler.addListener("exit", this::onExit);
+    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 
