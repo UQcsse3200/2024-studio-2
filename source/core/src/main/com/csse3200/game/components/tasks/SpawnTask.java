@@ -7,9 +7,6 @@ import com.csse3200.game.ai.tasks.Task;
 
 /**
  * A task that spawns an entity at a specified position after a certain duration.
- *
- * @extends DefaultTask to inherit basic task functionality
- * @implements PriorityTask to specify task priority
  * */
 public class SpawnTask extends DefaultTask implements PriorityTask {
     private final Vector2 spawnPosition;
