@@ -34,7 +34,6 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
-    "images/ghost_king.png",
     "images/Cow.png",
     "images/snake.png",
     "images/eagle.png",
@@ -57,7 +56,7 @@ public class ForestGameArea extends GameArea {
     "images/foodtextures/apple.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas", "images/spawnChicken.atlas",
+    "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
           "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
           "images/eagle.atlas", "images/turtle.atlas"
   };

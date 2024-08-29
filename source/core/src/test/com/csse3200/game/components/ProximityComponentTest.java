@@ -25,6 +25,10 @@ import java.util.function.Consumer;
 
 @ExtendWith(GameExtension.class)
 class ProximityComponentTest {
+
+  /**
+   * Sets up the test environment before each test.
+   */
   @BeforeEach
   void beforeEach() {
     ServiceLocator.registerPhysicsService(new PhysicsService());
@@ -33,6 +37,9 @@ class ProximityComponentTest {
     ServiceLocator.registerTimeSource(gameTime);
   }
 
+  /**
+   * Tests that the ProximityComponent correctly initializes the entity as disabled.
+   */
   @Test
   void shouldDisableEntityInitially() {
     Entity target = mock(Entity.class);
@@ -43,6 +50,9 @@ class ProximityComponentTest {
     assertFalse(entity.getEnabled());
   }
 
+  /**
+   * Tests that the ProximityComponent enables the entity when the proximity condition is met.
+   */
   @Test
   void shouldEnableOnSpawn() {
     Entity entity = spy(new Entity());
@@ -52,6 +62,9 @@ class ProximityComponentTest {
     assertTrue(entity.getEnabled());
   }
 
+  /**
+   * Tests that the ProximityComponent updates the entity's state to enabled and triggers the proximity event.
+   */
   @Test
   void shouldUpdateToEnabled() {
     Entity target = mock(Entity.class);
@@ -71,6 +84,9 @@ class ProximityComponentTest {
     verify(events).trigger("proximityTriggered"); // Verify the trigger method was called on the events instance
   }
 
+  /**
+   * Tests that the ProximityComponent correctly sets up the spawn animation when proximity is triggered.
+   */
   @Test
   void shouldStartSpawnAnimationWhenProximityTriggered() {
     Entity entity = mock(Entity.class);

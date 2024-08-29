@@ -22,6 +22,10 @@ public class ProximityComponent extends Component {
         this.proximityRange = proximityRange;
     }
 
+    /**
+     * Updates the task's state based on the entity's position relative to the target.
+     * Triggers the "proximityTriggered" event when the entity is within the proximity range.
+     */
     @Override
         public void update() {
             if (Vector2.dst(entity.getPosition().x, entity.getPosition().y,
@@ -31,7 +35,13 @@ public class ProximityComponent extends Component {
             }
         }
 
-    public void setupSpawnAnimation(Entity entity) {
+    /**
+     * Sets up the spawn animation for the given entity.
+     * Disables the entity until proximity is triggered, then starts the spawn animation and transitions to walking after completion.
+     *
+     * @param entity the entity to set up the spawn animation for
+     */
+    void setupSpawnAnimation(Entity entity) {
         entity.setEnabled(false); // Disable the entity until proximity is triggered
         entity.getEvents().addListener("proximityTriggered", () -> {
             AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);
