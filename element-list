@@ -5,6 +5,7 @@ com.csse3200.game.areas
 com.csse3200.game.areas.terrain
 com.csse3200.game.components
 com.csse3200.game.components.animal
+com.csse3200.game.components.combat
 com.csse3200.game.components.gamearea
 com.csse3200.game.components.loading
 com.csse3200.game.components.maingame
@@ -17,6 +18,7 @@ com.csse3200.game.components.npc
 com.csse3200.game.components.player
 com.csse3200.game.components.quests
 com.csse3200.game.components.settingsmenu
+com.csse3200.game.components.stats
 com.csse3200.game.components.tasks
 com.csse3200.game.concurrency
 com.csse3200.game.entities
