@@ -105,7 +105,7 @@ public class PlayerStatsDisplay extends UIComponent {
         TextureRegion[] xpBarFrames = new TextureRegion[11];
         // Names each frame and locates associated frame in txt file
         for (int i = 0; i < xpBarFrames.length; i++) {
-            String frameName3 = (i * 10) + "%_xp";
+            String frameName3 = (100 - (i * 10)) + "%_xp";
             xpBarFrames[i] = textureAtlas[2].findRegion(frameName3);
         }
         xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
@@ -174,9 +174,55 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-//        testFinalImplementation();
+        testFinalImplementation();
         // Add the table to the stage
         return true;
+    }
+    public void testFinalImplementation() {
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                // Schedule frame updates with incrementally increasing delays
+                for (int i = maxHealth; i >= 0; i -= 10) {
+                    int finalI = i;
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            // Update the animation frames
+                            updatePlayerHealthUI(finalI);
+
+                        }
+                    }, (100 - finalI) * 0.1f);
+
+                    for (int j = maxExperience; j >= 0; j -= 10) {
+                        int finalJ = j;
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                // Update the animation frames
+
+                                updatePlayerExperienceUI(finalJ);
+
+                            }
+                        }, (100 - finalJ) * 0.1f);}
+
+                    for (int k = maxHunger; k >= 0; k -= 10) {
+                        int finalK = k;
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                // Update the animation frames
+
+                                updatePlayerHungerUI(finalK);
+                            }
+                        }, (100 - finalK) * 0.1f);}
+                    // Incremental delay in seconds
+                }
+                delayedActionDone = true;
+            }
+        }, 1); // Initial delay of 1 second
     }
 
     @Override

@@ -50,13 +50,15 @@ public class BossCutsceneScreen extends ScreenAdapter {
     private final PhysicsEngine physicsEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private final Entity player;
     private final Entity enemy;
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
-    public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity enemy) {
+    public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
         this.game = game;
         this.oldScreen = screen;
         this.oldScreenServices = container;
+        this.player = player;
         this.enemy = enemy;
 
         logger.debug("Initializing boss cutscene screen services");
@@ -101,7 +103,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
                 // dispose();
-                game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, enemy));
+                game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
             }
         }
     }

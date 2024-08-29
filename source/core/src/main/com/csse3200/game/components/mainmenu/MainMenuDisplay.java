@@ -71,6 +71,7 @@ public class MainMenuDisplay extends UIComponent {
 
         settingMenu = new Table();
 
+        // Initialises buttons
         TextButton startBtn = new TextButton("Start", skin);
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
@@ -80,6 +81,7 @@ public class MainMenuDisplay extends UIComponent {
         TextButton exitBtn = new TextButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
+        // Adds UI component (hover over buttons)
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
@@ -88,6 +90,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
 
+        // Added handles for when clicked
         startBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -96,6 +99,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+        // Added handles for when clicked
         loadBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -104,14 +108,18 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        minigamesBtn.addListener(new ChangeListener() { // Listener for Minigames button
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Minigames button clicked");
-                entity.getEvents().trigger("minigames"); // Trigger minigames event
-            }
-        });
+        // Added handles for when clicked
+        minigamesBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
 
+                        logger.debug("SnakeGame button clicked");
+                        entity.getEvents().trigger("SnakeGame");
+                    }
+                });
+
+        // Added handles for when clicked
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -121,7 +129,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-
+        // Added handles for when clicked
         achievementsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -130,6 +138,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+        // Added handles for when clicked
         helpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -140,9 +149,10 @@ public class MainMenuDisplay extends UIComponent {
 
         });
 
+        // Added the pop up when user trys to exit game
         addExitConfirmation(exitBtn);
 
-        table.setBounds(0,-190,200,1000);
+        // formats sizes of buttons
         table.add(startBtn).padTop(15f).height(45f).width(180f);
         table.row();
         table.add(loadBtn).padTop(15f).height(45f).width(180f);
@@ -159,13 +169,17 @@ public class MainMenuDisplay extends UIComponent {
         table.row();
         table.add(versionLabel).padTop(140f);
 
+        // Enables tables use
         stage.addActor(table);
+
+        // Formats height of buttons on screen
         sizeTable();
 
         // Add the minimize button to the top-right corner
         addMinimizeButton();
         stage.addActor(table);
 
+        // Adds the setting menu to program
         addSettingMenu();
     }
 
@@ -173,11 +187,12 @@ public class MainMenuDisplay extends UIComponent {
      * Adjusts the size of the table based on screen mode (fullscreen or windowed).
      */
     private void sizeTable() {
+        // Checks if the table is full screen
         if (Gdx.graphics.isFullscreen()) {
-            // full screen sizing
-            table.setBounds(0,-200,200,1000);
+            // Full screen sizing
+            table.setBounds(0,-215,200,1000);
         } else {
-            // small screen sizing
+            // Small screen sizing
             table.setBounds(0,-230,200,1000);
         }
     }
@@ -237,6 +252,7 @@ public class MainMenuDisplay extends UIComponent {
 
         final int[] currentSlide = {0};
 
+        // Handles when slide change is clicked
         previousButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -251,6 +267,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+        // Handles when slide change is clicked
         nextButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -265,6 +282,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+        // Handles when help menu is exited
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

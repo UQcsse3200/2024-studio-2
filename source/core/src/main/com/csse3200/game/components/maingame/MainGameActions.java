@@ -27,8 +27,6 @@ public class MainGameActions extends Component {
   public void create() {
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
-    entity.getEvents().addListener("combatWin", this::onCombatWin);
-    entity.getEvents().addListener("combatLose", this::onCombatLoss);
   }
 
   /**
@@ -44,7 +42,7 @@ public class MainGameActions extends Component {
     // change to new GDXgame function
     game.setOldScreen(screen, container);
   }
-
+  
   /**
    * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
    */
