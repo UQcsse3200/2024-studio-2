@@ -19,6 +19,7 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
   private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
+  private CombatCountDown combatCountDown;
 
   @Override
   public void create() {
@@ -93,6 +94,10 @@ public class GdxGame extends Game {
   public void dispose() {
     logger.debug("Disposing of current screen");
     getScreen().dispose();
+    super.dispose();
+    if (combatCountDown != null) {
+      combatCountDown.dispose();
+    }
   }
 
   /**
@@ -106,6 +111,8 @@ public class GdxGame extends Game {
         return new MainMenuScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
+      case COMBAT_POPUP:
+        return new CombatCountDown(this);
       case SETTINGS:
         return new SettingsScreen(this);
       case ACHIEVEMENTS:
@@ -123,7 +130,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT_POPUP
   }
 
   /**

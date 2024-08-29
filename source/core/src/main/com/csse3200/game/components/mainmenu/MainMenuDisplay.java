@@ -75,6 +75,7 @@ public class MainMenuDisplay extends UIComponent {
         TextButton startBtn = new TextButton("Start", skin);
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
+        TextButton combatBtn = new TextButton("Combat", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton achievementsBtn = new TextButton("Achievements", skin);
         TextButton helpBtn = new TextButton("Help", skin);
@@ -85,6 +86,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
+        addButtonElevationEffect(combatBtn);
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(achievementsBtn);
         addButtonElevationEffect(helpBtn);
@@ -116,6 +118,16 @@ public class MainMenuDisplay extends UIComponent {
 
                         logger.debug("SnakeGame button clicked");
                         entity.getEvents().trigger("SnakeGame");
+                    }
+                });
+
+        combatBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                        logger.debug("Combat button clicked");
+                        entity.getEvents().trigger("combat");
                     }
                 });
 
@@ -160,6 +172,8 @@ public class MainMenuDisplay extends UIComponent {
         table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
         table.row();
         table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
+        table.row();
+        table.add(combatBtn).padTop(15f).height(45f).width(180f);
         table.row();
         table.add(settingsBtn).padTop(15f).height(45f).width(180f);
         table.row();
