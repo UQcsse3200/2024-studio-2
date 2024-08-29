@@ -75,9 +75,14 @@ public class GdxGame extends Game {
     screen.resume();
   }
 
+
   public void enterCombatScreen(Entity player, Entity enemy) {
     addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
   }
+
+    public void addBossCutsceneScreen(Entity enemy) {
+        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), enemy);
+    }
 
   /**
    * Changes to a new screen, does NOT dispose of old screen
@@ -85,7 +90,7 @@ public class GdxGame extends Game {
    * @param screenType screen type
    * @param screen Old screen if we want to remember/ return to it.
    */
-  public void addScreen (ScreenType screenType, Screen screen) {
+  public void addScreen (ScreenType screenType, Screen screen, Entity enemey) {
     logger.info("Adding screen: {}", screenType);
     screen.pause();
     ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
@@ -122,6 +127,10 @@ public class GdxGame extends Game {
     getScreen().dispose();
   }
 
+    private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
+        return newScreen(screenType, screen, container, null);
+    }
+
   /**
    * Create a new screen of the provided type.
    * @param screenType screen type
@@ -143,6 +152,10 @@ public class GdxGame extends Game {
         return new CombatScreen(this, screen, container, player, enemy);
       case SETTINGS:
         return new SettingsScreen(this);
+        case COMBAT:
+            return new CombatScreen(this, screen, container, enemy);
+        case BOSS_CUTSCENE:
+            return new BossCutsceneScreen(this, screen, container, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
@@ -158,7 +171,7 @@ public class GdxGame extends Game {
   }
 
   public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE
   }
 
   /**

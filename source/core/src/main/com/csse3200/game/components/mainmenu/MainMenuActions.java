@@ -23,6 +23,7 @@ public class MainMenuActions extends Component {
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
+    entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("achievements", this::onAchievements);
@@ -45,6 +46,16 @@ public class MainMenuActions extends Component {
     logger.info("Load game");
     SaveHandler.load(GameState.class, "saves");
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+  }
+
+  /**
+   * Opens a new combat screen.
+   * The combat screen will not actually be called from the main menu screen.
+   * This is for testing purposes only.
+   */
+  private void onCombat() {
+    logger.info("Start combat");
+    game.setScreen(GdxGame.ScreenType.COMBAT);
   }
 
   /**

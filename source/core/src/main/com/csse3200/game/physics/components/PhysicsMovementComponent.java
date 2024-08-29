@@ -1,5 +1,4 @@
 package com.csse3200.game.physics.components;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.ai.movement.MovementController;
@@ -11,8 +10,7 @@ import org.slf4j.LoggerFactory;
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {
   private static final Logger logger = LoggerFactory.getLogger(PhysicsMovementComponent.class);
-  private static final Vector2 maxSpeed = Vector2Utils.ONE;
-
+  private Vector2 defaultSpeed = Vector2Utils.ONE;
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
@@ -49,7 +47,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     return movementEnabled;
   }
 
-  /** @return Target position in the world */
+  /**
+   * @return Target position in the world
+   */
   @Override
   public Vector2 getTarget() {
     return targetPosition;
@@ -68,7 +68,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   private void updateDirection(Body body) {
-    Vector2 desiredVelocity = getDirection().scl(maxSpeed);
+    Vector2 desiredVelocity = getDirection().scl(defaultSpeed);
     setToVelocity(body, desiredVelocity);
   }
 
@@ -82,5 +82,14 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private Vector2 getDirection() {
     // Move towards targetPosition based on our current position
     return targetPosition.cpy().sub(entity.getPosition()).nor();
+  }
+
+  /**
+   * Change the movement components max speed.
+   *
+   * @param maxSpeed new max speed
+   */
+  public void changeMaxSpeed(Vector2 maxSpeed) {
+    this.defaultSpeed = maxSpeed;
   }
 }
