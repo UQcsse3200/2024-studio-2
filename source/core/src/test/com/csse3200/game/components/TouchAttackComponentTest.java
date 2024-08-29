@@ -19,7 +19,6 @@ class TouchAttackComponentTest {
   void beforeEach() {
     ServiceLocator.registerPhysicsService(new PhysicsService());
   }
-
   @Test
   void shouldNotAttackOtherLayer() {
     short targetLayer = (1 << 3);

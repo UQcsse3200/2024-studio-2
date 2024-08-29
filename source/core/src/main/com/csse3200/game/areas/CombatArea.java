@@ -38,7 +38,6 @@ public class CombatArea extends GameArea {
     public void displayUI() {
         Entity ui = new Entity();
         ui.addComponent(new GameAreaDisplay("Combat"));
-        spawnEntity(ui);
     }
 
     public void playMusic() {

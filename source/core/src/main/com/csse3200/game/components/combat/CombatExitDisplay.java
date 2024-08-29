@@ -37,10 +37,9 @@ public class CombatExitDisplay extends UIComponent {
     table.top().right();
     table.setFillParent(true);
 
-    TextButton win = new TextButton("Exiting - win", skin);
+    TextButton win = new TextButton("Insta-kill enemy", skin);
     TextButton lose = new TextButton("Exiting - lose", skin);
 
-    // Triggers an event when the button is pressed.
     win.addListener(
       new ChangeListener() {
         @Override

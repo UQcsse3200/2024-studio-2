@@ -51,7 +51,7 @@ public class GdxGame extends Game {
     if (currentScreen != null) {
       currentScreen.dispose();
     }
-    setScreen(newScreen(screenType, null, null, null));
+    setScreen(newScreen(screenType, null, null, null, null));
   }
 
   /**
@@ -76,27 +76,34 @@ public class GdxGame extends Game {
   }
 
     public void addCombatScreen(Entity enemy) {
-        addScreen(ScreenType.COMBAT, getScreen(), enemy);
+        addScreen(ScreenType.COMBAT, getScreen(), null, enemy);
     }
 
-    public void addBossCutsceneScreen(Entity enemy) {
-        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), enemy);
+    public void addBossCutsceneScreen(Entity player, Entity enemy) {
+        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
     }
+
+  public void enterCombatScreen(Entity player, Entity enemy) {
+    addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
+  }
 
   /**
+   * Overloaded to add new combat screen
    * Changes to a new screen, does NOT dispose of old screen
    *
    * @param screenType screen type
    * @param screen Old screen if we want to remember/ return to it.
-   * @param enemy Entity that triggered combat
    */
-  public void addScreen (ScreenType screenType, Screen screen, Entity enemy) {
-    logger.info("Adding screen: {}", screenType);
+  public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
+    logger.info("Add combat Screen: {}", screenType);
     screen.pause();
-    ServiceContainer container = new ServiceContainer();
+    ServiceContainer container = new ServiceContainer(ServiceLocator.getEntityService(),
+            ServiceLocator.getRenderService(), ServiceLocator.getPhysicsService(),
+            ServiceLocator.getTimeSource(), ServiceLocator.getInputService(),
+            ServiceLocator.getResourceService(), ServiceLocator.getEventService());
 
     ServiceLocator.clear();
-    setScreen(newScreen(screenType, screen, container, enemy));
+    setScreen(newScreen(screenType, screen, container, player, enemy));
   }
 
   @Override
@@ -106,7 +113,7 @@ public class GdxGame extends Game {
   }
 
     private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
-        return newScreen(screenType, screen, container, null);
+        return newScreen(screenType, screen, container, null, null);
     }
 
   /**
@@ -114,9 +121,11 @@ public class GdxGame extends Game {
    * @param screenType screen type
    * @param screen for returning to an old screen, may be null.
    * @param container container for services, for returning to an old screen. may be null.
+   * @param player player entity to be passed into the new screen (null if not needed).
+   * @param enemy enemy entity to be passed into the new screen (null if not needed).
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity enemy) {
+  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
@@ -125,9 +134,9 @@ public class GdxGame extends Game {
       case SETTINGS:
         return new SettingsScreen(this);
         case COMBAT:
-            return new CombatScreen(this, screen, container, enemy);
+            return new CombatScreen(this, screen, container, player, enemy);
         case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, enemy);
+            return new BossCutsceneScreen(this, screen, container, player, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
