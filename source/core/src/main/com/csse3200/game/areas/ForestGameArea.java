@@ -32,43 +32,43 @@ public class ForestGameArea extends GameArea {
   private  static final int NUM_HEALTH_POTIONS = 3;
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/ghost_king.png",
-    "images/Cow.png",
-    "images/snake.png",
-    "images/eagle.png",
-    "images/lion.png",
-    "images/turtle.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/gt.png",
-    "images/top_left_grass.png",
-    "images/top_middle_grass.png",
-    "images/top_right_grass.png",
-    "images/middle_left_grass.png",
-    "images/middle_grass.png",
-    "images/middle_right_grass.png",
-    "images/lower_left_grass.png",
-    "images/lower_middle_grass.png",
-    "images/lower_right_grass.png",
-    "images/full_sand_tile.png",
-    "images/dog.png",
-    "images/croc.png",
-    "images/bird.png",
-    "images/Healthpotion.png",
-    "images/foodtextures/apple.png",
+          "images/box_boy_leaf.png",
+          "images/tree.png",
+          "images/ghost_king.png",
+          "images/Cow.png",
+          "images/snake.png",
+          "images/eagle.png",
+          "images/lion.png",
+          "images/turtle.png",
+          "images/ghost_1.png",
+          "images/grass_1.png",
+          "images/grass_2.png",
+          "images/grass_3.png",
+          "images/hex_grass_1.png",
+          "images/hex_grass_2.png",
+          "images/hex_grass_3.png",
+          "images/iso_grass_1.png",
+          "images/iso_grass_2.png",
+          "images/iso_grass_3.png",
+          "images/gt.png",
+          "images/top_left_grass.png",
+          "images/top_middle_grass.png",
+          "images/top_right_grass.png",
+          "images/middle_left_grass.png",
+          "images/middle_grass.png",
+          "images/middle_right_grass.png",
+          "images/lower_left_grass.png",
+          "images/lower_middle_grass.png",
+          "images/lower_right_grass.png",
+          "images/full_sand_tile.png",
+          "images/dog.png",
+          "images/croc.png",
+          "images/bird.png",
+          "images/Healthpotion.png",
+          "images/foodtextures/apple.png",
   };
   private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
+          "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
           "images/snake.atlas", "images/lion.atlas", "images/eagle.atlas", "images/turtle.atlas"
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
@@ -121,13 +121,13 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
-    /**
-     * gets the player
-     * @return player entity
-     */
-    public Entity getPlayer () {
-        return player;
-    }
+  /**
+   * gets the player
+   * @return player entity
+   */
+  public Entity getPlayer () {
+    return player;
+  }
 
   private void displayUI() {
     Entity ui = new Entity();
@@ -244,10 +244,10 @@ public class ForestGameArea extends GameArea {
     spawnEntityOnMap(eagle);
   }
 
-    private void spawnSnake() {
-        Entity snake = NPCFactory.createSnake(player, this.enemies);
-        spawnEntityOnMap(snake);
-    }
+  private void spawnSnake() {
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntityOnMap(snake);
+  }
 
   public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
