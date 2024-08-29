@@ -18,6 +18,10 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Screen that displays a countdown before entering a combat sequence.
+ * The user is prompted with a dialog to confirm if they want to fight.
+ */
 public class CombatCountDown implements Screen {
     private static final Logger logger = LoggerFactory.getLogger(CombatCountDown.class);
     private final GdxGame game;
@@ -27,6 +31,12 @@ public class CombatCountDown implements Screen {
     private Texture backgroundTexture;
     private final SpriteBatch batch;
 
+    /**
+     * Constructs the CombatCountDown screen with the game instance.
+     * Initializes the stage, loads assets, and creates the UI.
+     *
+     * @param game The main game instance.
+     */
     public CombatCountDown(GdxGame game) {
         this.game = game;
         this.gameTimer = new GameTimer(game);
@@ -37,10 +47,17 @@ public class CombatCountDown implements Screen {
         createUI();
     }
 
+    /**
+     * Loads the background texture and other assets needed for the screen.
+     */
     private void loadAssets() {
         backgroundTexture = new Texture(Gdx.files.internal("images/combat_background.jpg"));
     }
 
+    /**
+     * Creates the user interface for the countdown screen, including the
+     * confirmation dialog and timer label.
+     */
     private void createUI() {
         Table table = new Table();
         table.setFillParent(true);
@@ -59,9 +76,8 @@ public class CombatCountDown implements Screen {
         buttonStyle.font.getData().setScale(1.3f);
         buttonStyle.fontColor = Color.WHITE; // Set button text color to white
 
+        // Create and add listeners to the "Yes" button
         TextButton yesButton = new TextButton("Yes", buttonStyle);
-        TextButton noButton = new TextButton("No", buttonStyle);
-
         yesButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -70,6 +86,8 @@ public class CombatCountDown implements Screen {
             }
         });
 
+        // Create and add listeners to the "No" button
+        TextButton noButton = new TextButton("No", buttonStyle);
         noButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -87,6 +105,10 @@ public class CombatCountDown implements Screen {
         table.add(timerLabel).colspan(2).padTop(40);
     }
 
+    /**
+     * Starts a 3-second countdown before transitioning to the combat screen.
+     * Updates the UI with the remaining seconds and handles transition on finish.
+     */
     private void startCountdown() {
         gameTimer.startCountdown(3, new GameTimer.CountdownCallback() {
             @Override
@@ -96,7 +118,8 @@ public class CombatCountDown implements Screen {
 
             @Override
             public void onFinish() {
-//                game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
+                // Uncomment and set the appropriate screen type to transition to the combat screen.
+                // game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
             }
         });
     }
@@ -107,22 +130,25 @@ public class CombatCountDown implements Screen {
 
     @Override
     public void render(float delta) {
+        // Clear the screen with a dark grey color
         ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 
         batch.begin();
-        // Adjust this value to change opacity (0.0f to 1.0f)
+        // Set background opacity and draw the background texture
         float backgroundOpacity = 0.7f;
         batch.setColor(1, 1, 1, backgroundOpacity); // Set opacity for background
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setColor(1, 1, 1, 1); // Reset to full opacity for other drawings
         batch.end();
 
+        // Update and draw the stage (UI elements)
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
+        // Update the viewport on window resize to maintain aspect ratio
         stage.getViewport().update(width, height, true);
     }
 
@@ -140,6 +166,7 @@ public class CombatCountDown implements Screen {
 
     @Override
     public void dispose() {
+        // Dispose of assets and cancel any ongoing timers
         stage.dispose();
         gameTimer.cancel();
         backgroundTexture.dispose();
