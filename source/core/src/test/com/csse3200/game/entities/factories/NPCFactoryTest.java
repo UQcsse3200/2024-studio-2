@@ -761,8 +761,8 @@ class NPCFactoryTest {
      */
     @Test
     void TestKangaHasCorrectHP() {
-        assertEquals(1, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 1 HP.");
+        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 100 HP.");
     }
 
     /**
