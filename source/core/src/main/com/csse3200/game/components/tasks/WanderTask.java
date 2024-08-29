@@ -21,15 +21,21 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   private MovementTask movementTask;
   private WaitTask waitTask;
   private Task currentTask;
+  private final boolean isBoss;
 
   /**
    * @param wanderRange Distance in X and Y the entity can move from its position when start() is
    *     called.
    * @param waitTime How long in seconds to wait between wandering.
    */
-  public WanderTask(Vector2 wanderRange, float waitTime) {
+  public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
     this.wanderRange = wanderRange;
     this.waitTime = waitTime;
+    this.isBoss = isBoss;
+  }
+
+  public boolean isBoss() {
+    return isBoss;
   }
 
   @Override
@@ -46,11 +52,15 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     waitTask.create(owner);
     movementTask = new MovementTask(getRandomPosInRange());
     movementTask.create(owner);
-
     movementTask.start();
+
     currentTask = movementTask;
 
-    this.owner.getEntity().getEvents().trigger("wanderStart");
+    if (this.isBoss) {
+      this.owner.getEntity().getEvents().trigger("kangaWanderStart");
+    } else {
+      this.owner.getEntity().getEvents().trigger("wanderStart");
+    }
   }
 
   @Override

@@ -67,8 +67,8 @@ class PauseTaskTest {
                 FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
         AITaskComponent ai = new AITaskComponent()
-                .addTask(new PauseTask(target, 10, 10, 5))
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new PauseTask(target, 10, 10, 5, false))
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
 
         Entity entity = new Entity()
                 .addComponent(ai)
@@ -99,11 +99,11 @@ class PauseTaskTest {
         target.setPosition(2f, 2f);
 
         NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
-        PauseTask pauseTask = new PauseTask(target, 10, 10, 5);
+        PauseTask pauseTask = new PauseTask(target, 10, 10, 5, false);
 
         AITaskComponent ai = new AITaskComponent()
                 .addTask(pauseTask)
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
 
         Entity entity = new Entity()
                 .addComponent(ai)

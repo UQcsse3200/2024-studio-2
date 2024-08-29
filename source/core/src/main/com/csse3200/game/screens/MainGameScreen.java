@@ -52,7 +52,7 @@ public class MainGameScreen extends ScreenAdapter {
    * Array of texture paths used in the main game screen.
    */
   private static final String[] mainGameTextures = {"images/health_bar_x1.png",
-          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png",
+          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png", "images/vignette.png",
           "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
   /**
    * Initial position of the camera in game.

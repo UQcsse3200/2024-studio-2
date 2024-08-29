@@ -1,7 +1,9 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
@@ -30,11 +32,13 @@ public class ForestGameArea extends GameArea {
   private static final int NUM_TREES = 7;
   private  static final int NUM_APPLES = 5;
   private  static final int NUM_HEALTH_POTIONS = 3;
+  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
           "images/box_boy_leaf.png",
           "images/tree.png",
           "images/ghost_king.png",
+          "images/final_boss_kangaroo.png",
           "images/Cow.png",
           "images/snake.png",
           "images/eagle.png",
@@ -68,11 +72,13 @@ public class ForestGameArea extends GameArea {
           "images/foodtextures/apple.png",
   };
   private static final String[] forestTextureAtlases = {
-          "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/Cow.atlas",
+    "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/final_boss_kangaroo.atlas", "images/Cow.atlas",
           "images/snake.atlas", "images/lion.atlas", "images/eagle.atlas", "images/turtle.atlas"
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String[] heartbeatSound = {heartbeat};
 
   private static final List<String[]> soundArrays = List.of(
           new String[] {"sounds/mooing-cow.mp3"},
@@ -87,7 +93,11 @@ public class ForestGameArea extends GameArea {
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
   private Entity player;
+
   private final GdxGame game;
+
+  // Boolean to ensure that only a single boss entity is spawned when a trigger happens
+  private boolean kangarooBossSpawned = false;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -119,6 +129,8 @@ public class ForestGameArea extends GameArea {
     spawnEagle();
     spawnSnake();
     playMusic();
+    player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+    kangarooBossSpawned = false;
   }
 
   /**
@@ -168,7 +180,7 @@ public class ForestGameArea extends GameArea {
 
   private void updateTerrain(GridPoint2 playerPosition) {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition, new GridPoint2(20, 20));
-    spawnEntity(new Entity().addComponent(terrain));
+      spawnEntity(new Entity().addComponent(terrain));
   }
 
   public void onPlayerMove(GridPoint2 newPlayerPosition) {
@@ -188,10 +200,18 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnPlayer() {
 
-    Entity newPlayer = PlayerFactory.createPlayer();
+    Entity newPlayer = PlayerFactory.createPlayer(this.game);
     newPlayer.addComponent(this.terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
+  }
+
+  private void spawnKangarooBoss() {
+    if (!kangarooBossSpawned) {
+      Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+      spawnEntityOnMap(kangarooBoss);
+      kangarooBossSpawned = true;
+    }
   }
 
   private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
@@ -249,13 +269,13 @@ public class ForestGameArea extends GameArea {
     spawnEntityOnMap(snake);
   }
 
-  public void playMusic() {
+  public static void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.5f);
     music.play();
   }
-  public void pauseMusic() {
+  public static void pauseMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.pause();
   }
@@ -271,6 +291,7 @@ public class ForestGameArea extends GameArea {
       resourceService.loadSounds(sounds);
     }
     resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(heartbeatSound);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
@@ -288,6 +309,7 @@ public class ForestGameArea extends GameArea {
       resourceService.unloadAssets(sounds);
     }
     resourceService.unloadAssets(forestMusic);
+    resourceService.unloadAssets(heartbeatSound);
   }
 
   @Override
