@@ -35,6 +35,8 @@ public class ForestGameArea extends GameArea {
   private  static final int NUM_APPLES = 5;
   private  static final int NUM_HEALTH_POTIONS = 3;
   private static final int NUM_CHICKENS = 2;
+  private static final int NUM_FROGS = 5;
+  private static final int NUM_MONKEYS = 2;
   private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
           "images/box_boy_leaf.png",
@@ -127,9 +129,13 @@ public class ForestGameArea extends GameArea {
       for (int i = 0;i < NUM_CHICKENS; i++) {
         spawnChicken();
       }
+      for (int i = 0; i< NUM_FROGS; i++) {
+        spawnFrog();
 
-      spawnFrog();
-      spawnMonkey();
+      }
+      for (int i = 0; i< NUM_FROGS; i++) {
+        spawnMonkey();
+      }
 
       // items
     spawnHealthPotions();
@@ -242,8 +248,8 @@ public class ForestGameArea extends GameArea {
      * spawns a frog enemy, with the player entity as its target
      */
     private void spawnFrog() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 10);
 
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
         Entity frog = EnemyFactory.createFrog(player);
@@ -260,8 +266,8 @@ public class ForestGameArea extends GameArea {
      * spawns a monkey enemy, with the player entity as its target
      */
     private void spawnMonkey() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 10);
 
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
         Entity monkey = EnemyFactory.createMonkey(player);
