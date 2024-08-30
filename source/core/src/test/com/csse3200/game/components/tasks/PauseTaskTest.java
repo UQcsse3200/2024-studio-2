@@ -2,8 +2,12 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
@@ -57,13 +61,14 @@ class PauseTaskTest {
     @Test
     void shouldMoveTowardsTarget() {
         Entity target = new Entity();
+        target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
         NPCConfigs configs =
                 FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
         AITaskComponent ai = new AITaskComponent()
-                .addTask(new PauseTask(target, 10, 10, 5))
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new PauseTask(target, 10, 10, 5, false))
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
 
         Entity entity = new Entity()
                 .addComponent(ai)
@@ -90,14 +95,15 @@ class PauseTaskTest {
     @Test
     void shouldChaseOnlyWhenInDistance() {
         Entity target = new Entity();
+        target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
 
         NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
-        PauseTask pauseTask = new PauseTask(target, 10, 10, 5);
+        PauseTask pauseTask = new PauseTask(target, 10, 10, 5, false);
 
         AITaskComponent ai = new AITaskComponent()
                 .addTask(pauseTask)
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
 
         Entity entity = new Entity()
                 .addComponent(ai)

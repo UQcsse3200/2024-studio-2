@@ -38,27 +38,26 @@ class NPCFactoryTest {
     private Entity eagle;
     private Entity turtle;
     private Entity snake;
+    private Entity kanga;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
-            "images/ghost.png",
-            "images/ghostKing.png",
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
             "images/eagle.png",
-            "images/turtle.png"
+            "images/turtle.png",
+            "images/final_boss_kangaroo.png"
     };
 
     private String[] atlas = {
-            "images/ghost.atlas",
-            "images/ghostKing.atlas",
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",
             "images/eagle.atlas",
-            "images/turtle.atlas"
+            "images/turtle.atlas",
+            "images/final_boss_kangaroo.atlas"
     };
 
 
@@ -85,6 +84,7 @@ class NPCFactoryTest {
         eagle = NPCFactory.createEagle(player, enemies);
         turtle = NPCFactory.createTurtle(player, enemies);
         snake = NPCFactory.createSnake(player, enemies);
+        kanga = NPCFactory.createKangaBossEntity(player);
     }
 
     /**
@@ -158,7 +158,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, cow.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Cow should have 0 Base Attack.");
     }
 
@@ -283,7 +283,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, lion.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Lion should have 0 Base Attack.");
     }
 
@@ -408,7 +408,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, eagle.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Eagle should have 0 Base Attack.");
     }
 
@@ -532,7 +532,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, turtle.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Turtle should have 0 Base Attack.");
     }
 
@@ -657,7 +657,7 @@ class NPCFactoryTest {
      */
     @Test
     void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, snake.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
                 "Snake should have 0 Base Attack.");
     }
 
@@ -712,4 +712,72 @@ class NPCFactoryTest {
 
     static class TestComponent1 extends Component {}
 
+    /**
+     * Tests Creation of Kanga.
+     */
+    @Test
+    void TestKangaCreation() {
+        assertNotNull(kanga, "Kanga should not be null.");
+    }
+
+    /**
+     * Tests that the Kanga is an Entity.
+     */
+    @Test
+    void TestKangaIsEntity() {
+        assertEquals(kanga.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the Kanga has a physics component.
+     */
+    @Test
+    void TestKangaHasPhysicsComponent() {
+        assertNotNull(kanga.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the Kanga has a physics movement component.
+     */
+    @Test
+    void TestKangaHasPhysicsMovementComponent() {
+        assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the Kanga has a collider component.
+     */
+    @Test
+    void TestKangaHasColliderComponent() {
+        assertNotNull(kanga.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the Kanga has the correct HP stat.
+     */
+    @Test
+    void TestKangaHasCorrectHP() {
+        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 100 HP.");
+    }
+
+    /**
+     * Tests that the Kanga has an idle animation.
+     */
+    @Test
+    void TestKangaHasAnimation() {
+        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "Kanga should have idle animation.");
+    }
+
+    /**
+     * Tests that the Kanga is in the correct spot when placed.
+     */
+    @Test
+    void TestKangaSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        kanga.setPosition(pos);
+
+        assertEquals(pos, kanga.getPosition());
+    }
 }

@@ -1,18 +1,20 @@
 package com.csse3200.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.extensions.GameExtension;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.BeforeEach;
-import static org.mockito.Mockito.*;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ui.DialogueBox;
-import com.badlogic.gdx.Gdx;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class EntityChatServiceTest {
@@ -45,6 +47,16 @@ class EntityChatServiceTest {
         Gdx.input.setInputProcessor(stage);
     }
 
+    @Test
+    void hideChatBox() {
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        entityChatService.updateText(new String[] {"1", "2"});
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
+        entityChatService.hideCurrentOverlay();
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
+    }
 
     @Test
     void shouldCreateEntityChat() {

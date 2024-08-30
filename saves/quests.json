@@ -1,0 +1,117 @@
+{
+quests: [
+	{
+		questName: First Steps
+		questDescription: Take your first steps in this world!
+		tasks: {
+			class: java.util.ImmutableCollections$List12
+			items: [
+				{
+					taskName: steps
+					description: Take your first steps
+					hint: Just start moving!
+					requiredTriggers: 1
+					triggerCount: 1
+					completed: true
+					failed: false
+				}
+			]
+		}
+		isSecretQuest: false
+		questDialogue: null
+		currentTaskIndex: 1
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: 2 Task Quest
+		questDescription: Move then Attack for a Test Quest
+		tasks: {
+			class: java.util.ImmutableCollections$List12
+			items: [
+				{
+					taskName: steps
+					description: Take your first steps
+					hint: Just start moving!
+					requiredTriggers: 1
+					triggerCount: 1
+					completed: true
+					failed: false
+				}
+				{
+					taskName: attack
+					description: Swing your first sword
+					hint: Just Attack!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+		}
+		isSecretQuest: false
+		questDialogue: {
+			class: java.util.ImmutableCollections$MapN
+			TupleKey{str='Cow', num=2}: [
+				Yippeee!
+				You completed your Quest!
+			]
+			TupleKey{str='Cow', num=1}: [
+				Welcome to Animal Kingdom!
+				Here let me help with your quest...
+				Press Spacebar!
+			]
+		}
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: [
+			""
+			spawnKangaBoss
+		]
+	}
+	{
+		questName: Final Boss
+		questDescription: Complete quest 1 and 2 to summon the boss
+		tasks: {
+			class: java.util.ImmutableCollections$ListN
+			items: [
+				{
+					taskName: spawnKangaBoss
+					description: He is Coming...
+					hint: RUN
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+				{
+					taskName: steps
+					description: Take your first steps
+					hint: Just start moving!
+					requiredTriggers: 1
+					triggerCount: 1
+					completed: true
+					failed: false
+				}
+				{
+					taskName: attack
+					description: Swing your first sword
+					hint: Just Attack!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+		}
+		isSecretQuest: false
+		questDialogue: null
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+]
+}

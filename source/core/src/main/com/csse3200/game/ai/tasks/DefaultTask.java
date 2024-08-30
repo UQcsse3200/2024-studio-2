@@ -30,4 +30,8 @@ public abstract class DefaultTask implements Task {
   public Status getStatus() {
     return status;
   }
+
+  public void setOwner(TaskRunner owner) {
+    this.owner = owner;
+  }
 }
