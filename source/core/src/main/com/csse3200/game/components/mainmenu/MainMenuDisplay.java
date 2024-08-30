@@ -40,6 +40,7 @@ public class MainMenuDisplay extends UIComponent {
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
+    private Texture settingBackground;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -48,10 +49,11 @@ public class MainMenuDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating MainMenuDisplay");
-        addActors();
-        applyUserSettings();
+        settingBackground = new Texture("images/SettingBackground.png");;
         backgroundTexture = new Texture("images/BackgroundSplash.png");
         logger.info("Background texture loaded");
+        addActors();
+        applyUserSettings();
     }
 
     /**
@@ -70,6 +72,7 @@ public class MainMenuDisplay extends UIComponent {
         table.setFillParent(true);
 
         settingMenu = new Table();
+
 
         // Initialises buttons
         TextButton startBtn = new TextButton("Start", skin);
@@ -395,21 +398,15 @@ public class MainMenuDisplay extends UIComponent {
      * Adds a settings menu to the screen.
      */
     private void addSettingMenu() {
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE); // Set color to white
-        pixmap.fill();
 
-        // Create a Drawable from the Pixmap
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-
-        // Dispose of the Pixmap after creating the texture
-        pixmap.dispose();
+        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        settingMenu.setSize(550, 350);
-        settingMenu.setBackground(backgroundDrawable);
+        settingMenu.setSize(796, 486);
+
+        settingMenu.setBackground(settingDrawable);
         settingMenu.setVisible(false);
 
         Table topTable = new Table();
