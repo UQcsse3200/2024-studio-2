@@ -12,12 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -39,10 +34,12 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table settingMenu;
+    private Table userTable;
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
     private Texture settingBackground;
+    private Texture userTableBackground;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -51,8 +48,9 @@ public class MainMenuDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating MainMenuDisplay");
-        settingBackground = new Texture("images/SettingBackground.png");;
+        settingBackground = new Texture("images/SettingBackground.png");
         backgroundTexture = new Texture("images/BackgroundSplash.png");
+        userTableBackground = new Texture("images/UserTable.png");
         logger.info("Background texture loaded");
         addActors();
         applyUserSettings();
@@ -74,7 +72,7 @@ public class MainMenuDisplay extends UIComponent {
         table.setFillParent(true);
 
         settingMenu = new Table();
-
+        userTable = new Table();
 
         // Initialises buttons
         TextButton startBtn = new TextButton("Start", skin);
@@ -186,6 +184,44 @@ public class MainMenuDisplay extends UIComponent {
 
         // Adds the setting menu to program
         addSettingMenu();
+
+        //Adds the user logo to program
+        addUserTable();
+    }
+
+    private void addUserTable() {
+
+        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(userTableBackground));
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        userTable.setSize(122, 522);
+
+        userTable.setBackground(settingDrawable);
+        userTable.setVisible(true);
+
+        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/UserIcon.png"))));
+        Button mailBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/MailIcon.png"))));
+        Button settingBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingIcon.png"))));
+        Button leaderboardBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/LeaderboardIcon.png"))));
+        userTable.add(profileBtn).size(60, 60).top().padTop(30).expandY();
+        userTable.row();
+        userTable.add(mailBtn).size(50, 40).top().padTop(5).expandY();
+        userTable.row();
+        userTable.add(settingBtn).size(50, 50).top().padTop(5).expandY();
+        userTable.row();
+        userTable.add(leaderboardBtn).size(50, 50).top().padTop(5).expandY();
+        userTable.row();
+
+        stage.addActor(userTable);
+    }
+
+    private void updateUserTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        userTable.setPosition(screenWidth - 150, screenHeight - 600);
     }
 
     /**
@@ -370,6 +406,7 @@ public class MainMenuDisplay extends UIComponent {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
                 updateSettingMenu();
+                updateUserTable();
                 updateToggleWindowButtonText(); // Update text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
