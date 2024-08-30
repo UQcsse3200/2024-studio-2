@@ -28,7 +28,7 @@ public class DialogueBox {
     private TextButton backwardButton;
     private final int screenWidth = Gdx.graphics.getWidth();
 
-    private final String[] hints;
+    private String[] hints;
     private int currentHint;
 
     /**
@@ -180,6 +180,28 @@ public class DialogueBox {
     private void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
         label.setText(hints[currentHint]);
+    }
+
+    /**
+     * Hide all components of the dialogue box without removing them from the stage.
+     */
+    public void hideDialogueBox() {
+        if (backgroundImage != null) backgroundImage.setVisible(false);
+        if (label != null) label.setVisible(false);
+        if (forwardButton != null) forwardButton.setVisible(false);
+        if (backwardButton != null) backwardButton.setVisible(false);
+    }
+
+    /**
+     * Show all components of the dialogue box.
+     */
+    public void showDialogueBox(String[] hints) {
+        this.hints = hints;
+        this.label.setText(hints[0]);
+        if (backgroundImage != null) backgroundImage.setVisible(true);
+        if (label != null) label.setVisible(true);
+        if (forwardButton != null) forwardButton.setVisible(true);
+        if (backwardButton != null) backwardButton.setVisible(true);
     }
 
     /**

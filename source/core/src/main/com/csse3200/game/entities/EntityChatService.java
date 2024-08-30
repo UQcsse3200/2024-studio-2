@@ -50,15 +50,25 @@ public class EntityChatService {
     }
 
     /**
+     * Dispose of the current chat overlay if it exists.
+     */
+    public void hideCurrentOverlay() {
+        if (currentOverlay != null) {
+            currentOverlay.hideDialogueBox();
+            hints = null;
+        }
+    }
+
+    /**
      * Update the current chat overlay if it exists.
      */
     public void updateText(String[] text) {
         hints = text;
-        if (currentOverlay != null) {
-            currentOverlay.dispose();
-            currentOverlay = null;
+        if (currentOverlay == null) {
+            currentOverlay = new DialogueBox(hints);
+        } else {
+            currentOverlay.showDialogueBox(text);
         }
 
-        currentOverlay = new DialogueBox(hints);
     }
 }
