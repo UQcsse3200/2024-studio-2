@@ -142,7 +142,7 @@ public class NPCFactory {
 
   private static void endDialogue() {
     EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.disposeCurrentOverlay();
+    chatOverlayService.hideCurrentOverlay();
   }
 
   /**
