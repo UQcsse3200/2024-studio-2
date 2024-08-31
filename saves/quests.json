@@ -11,7 +11,7 @@ quests: [
 					description: Take your first steps
 					hint: Just start moving!
 					requiredTriggers: 1
-					triggerCount: 1
+					triggerCount: 0
 					completed: true
 					failed: false
 				}
@@ -35,8 +35,8 @@ quests: [
 					description: Take your first steps
 					hint: Just start moving!
 					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
+					triggerCount: 0
+					completed: false
 					failed: false
 				}
 				{
@@ -91,8 +91,8 @@ quests: [
 					description: Take your first steps
 					hint: Just start moving!
 					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
+					triggerCount: 0
+					completed: false
 					failed: false
 				}
 				{
