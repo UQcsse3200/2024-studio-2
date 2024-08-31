@@ -98,6 +98,7 @@ public class MainGameScreen extends ScreenAdapter {
     this.game = game;
 
     logger.debug("Initialising main game screen services");
+
     ServiceLocator.registerTimeSource(new GameTime());
 
     PhysicsService physicsService = new PhysicsService();
@@ -109,7 +110,6 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-    //register the EntityChatService
     ServiceLocator.registerEntityChatService(new EntityChatService());
 
     ServiceLocator.registerEventService(new EventService());
