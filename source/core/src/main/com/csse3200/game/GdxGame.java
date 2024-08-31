@@ -143,9 +143,9 @@ public class GdxGame extends Game {
       case ANIMAL_SELECTION:
         return new AnimalSelectionScreen(this);
       case GAME_OVER_WIN:
-        return new GameOverWinScreen(this);
+        return new GameOverWinScreen(this, enemy, screen, container);
       case GAME_OVER_LOSE:
-        return new GameOverLoseScreen(this);
+        return new GameOverLoseScreen(this, enemy);
 
 
       default:

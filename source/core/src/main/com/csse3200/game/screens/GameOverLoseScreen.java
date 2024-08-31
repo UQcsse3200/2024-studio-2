@@ -25,11 +25,13 @@ import org.slf4j.LoggerFactory;
 public class GameOverLoseScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GameOverLoseScreen.class);
     private final GdxGame game;
+    private final Entity enemy;
     private final Renderer renderer;
     private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
-    public GameOverLoseScreen(GdxGame game) {
+    public GameOverLoseScreen(GdxGame game, Entity enemy) {
         this.game = game;
+        this.enemy = enemy;
 
         logger.debug("Initialising game over win screen services");
         ServiceLocator.registerInputService(new InputService());
@@ -101,7 +103,7 @@ public class GameOverLoseScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new GameOverLoseDisplay())
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new GameOverActions(game));
+                .addComponent(new GameOverActions(game, enemy));
         ServiceLocator.getEntityService().register(ui);
     }
 }
