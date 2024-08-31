@@ -47,6 +47,16 @@ class EntityChatServiceTest {
         Gdx.input.setInputProcessor(stage);
     }
 
+    @Test
+    void hideChatBox() {
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        entityChatService.updateText(new String[] {"1", "2"});
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
+        entityChatService.hideCurrentOverlay();
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
+    }
 
     @Test
     void shouldCreateEntityChat() {

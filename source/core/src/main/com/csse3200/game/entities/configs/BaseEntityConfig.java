@@ -37,8 +37,6 @@ public class BaseEntityConfig {
         }
     }
 
-
-
     /**
      * Returns the path to the sprite image for this entity.
      *
@@ -89,7 +87,10 @@ public class BaseEntityConfig {
      *
      * @return the base attack value as an int.
      */
-    public int getBaseAttack() { return this.baseAttack; }
+    public int getBaseAttack () {
+        return this.baseAttack;
+    }
+
 
     /**
      * Returns the base hint messages for this entity.

@@ -127,16 +127,16 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
 
     //Enemies
-      for (int i = 0;i < NUM_CHICKENS; i++) {
-        spawnChicken();
-      }
-      for (int i = 0; i< NUM_FROGS; i++) {
-        spawnFrog();
-
-      }
-      for (int i = 0; i< NUM_FROGS; i++) {
-        spawnMonkey();
-      }
+//      for (int i = 0;i < NUM_CHICKENS; i++) {
+//        spawnChicken();
+//      }
+//      for (int i = 0; i< NUM_FROGS; i++) {
+//        spawnFrog();
+//
+//      }
+//      for (int i = 0; i< NUM_FROGS; i++) {
+//        spawnMonkey();
+//      }
 
       // items
     spawnHealthPotions();
@@ -165,7 +165,6 @@ public class ForestGameArea extends GameArea {
   public void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
-    ui.addComponent(new QuestPopup());
     spawnEntity(ui);
   }
 
