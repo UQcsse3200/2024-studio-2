@@ -83,7 +83,7 @@ public class NPCFactory {
    * Creates a Cow NPC.
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
-    CowConfig config = configs.cow;
+    CowConfig config = NPCConfigs.cow;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -91,7 +91,7 @@ public class NPCFactory {
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
-    LionConfig config = configs.lion;
+    LionConfig config = NPCConfigs.lion;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -99,7 +99,7 @@ public class NPCFactory {
    * Creates a Turtle NPC.
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
-    TurtleConfig config = configs.turtle;
+    TurtleConfig config = NPCConfigs.turtle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -107,7 +107,7 @@ public class NPCFactory {
    * Creates an Eagle NPC.
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
-    EagleConfig config = configs.eagle;
+    EagleConfig config = NPCConfigs.eagle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -115,7 +115,7 @@ public class NPCFactory {
    * Creates a Snake NPC.
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
-    SnakeConfig config = configs.snake;
+    SnakeConfig config = NPCConfigs.snake;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -126,7 +126,9 @@ public class NPCFactory {
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    ServiceLocator.registerEntityChatService(new EntityChatService());
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.updateText(hintText);
+
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
         Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
@@ -136,8 +138,6 @@ public class NPCFactory {
       }
     }
 
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
   }
 
   private static void endDialogue() {
@@ -180,7 +180,7 @@ public class NPCFactory {
      */
     public static Entity createKangaBossEntity(Entity target) {
         Entity kangarooBoss = createBossNPC(target);
-        BaseEntityConfig config = configs.kangarooBoss;
+        BaseEntityConfig config = NPCConfigs.kangarooBoss;
 
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
