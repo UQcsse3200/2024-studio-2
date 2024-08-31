@@ -1,49 +1,52 @@
 package com.csse3200.game.components.minigame.snake.rendering;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.components.minigame.MinigameRenderable;
+import com.csse3200.game.components.minigame.MinigameRenderer;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 
 /**
  * Renders the grid for the Snake mini-game.
  */
-public class GridRenderer {
+public class GridRenderer implements MinigameRenderable {
 
-    private static final int CELL_SIZE = 55;
+    private static final int CELL_SIZE = 20;
     private final SnakeGrid grid;
     private final Texture grassTexture;
-    private final SpriteBatch spriteBatch;
+    private final MinigameRenderer renderer;
 
     /**
      * Creates a new GridRenderer.
      *
      * @param grid The grid to render.
      * @param grassTexture The texture to use for rendering the grid cells.
-     * @param spriteBatch The SpriteBatch used for drawing.
+     * @param renderer The renderer used for drawing.
      */
-    public GridRenderer(SnakeGrid grid, Texture grassTexture, SpriteBatch spriteBatch) {
+    public GridRenderer(SnakeGrid grid, Texture grassTexture, MinigameRenderer renderer) {
         this.grid = grid;
         this.grassTexture = grassTexture;
-        this.spriteBatch = spriteBatch;
+        this.renderer = renderer;
+
     }
 
     /**
      * Renders the grid background.
      */
-    public void renderGrid() {
-        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
+    public void render() {
+        // Calculate the total size of the grid in world units
+        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
 
-        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
+        // Calculate the top-left corner of the grid so that it's centered in the camera's view
+        float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;
+        float startY = renderer.getCam().position.y - gridHeightInWorldUnits / 2f;
 
+        // Render the grid based on the camera's position
         for (int x = 0; x < grid.getWidth(); x++) {
             for (int y = 0; y < grid.getHeight(); y++) {
-                spriteBatch.draw(grassTexture,
-                        offsetX + x * CELL_SIZE,
-                        offsetY + y * CELL_SIZE,
+                renderer.getSb().draw(grassTexture,
+                        startX + x * CELL_SIZE,
+                        startY + y * CELL_SIZE,
                         CELL_SIZE,
                         CELL_SIZE);
             }

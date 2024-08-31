@@ -140,6 +140,7 @@ public class SnakeScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
+        snakeRenderer.resize(width, height);
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 

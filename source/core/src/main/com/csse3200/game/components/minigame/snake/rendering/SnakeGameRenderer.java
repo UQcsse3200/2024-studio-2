@@ -1,8 +1,7 @@
 package com.csse3200.game.components.minigame.snake.rendering;
 
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.components.minigame.MinigameRenderer;
 import com.csse3200.game.components.minigame.snake.AssetPaths;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.csse3200.game.services.ResourceService;
@@ -15,13 +14,12 @@ import static com.csse3200.game.components.minigame.snake.AssetPaths.IMAGES;
  */
 public class SnakeGameRenderer {
 
-    private final GridRenderer gridRenderer;
-    private final AppleRenderer appleRenderer;
-    private final SnakeRenderer snakeRenderer;
-    private final SpriteBatch spriteBatch;
     private final SnakeScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
+    //test
+
+    private final MinigameRenderer renderer;
 
 
     /**
@@ -31,16 +29,16 @@ public class SnakeGameRenderer {
      */
     public SnakeGameRenderer(SnakeGame game) {
         // Initialise the individual renderers
-        this.spriteBatch = new SpriteBatch();
+        this.renderer = new MinigameRenderer();
         ServiceLocator.registerResourceService(new ResourceService());
         loadAssets();
-        this.gridRenderer = new GridRenderer(game.getGrid(), grassTexture, spriteBatch);
-        this.appleRenderer = new AppleRenderer(game.getApple(), game.getGrid(), appleTexture, spriteBatch);
-        this.snakeRenderer = new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
+        renderer.addRenderable(new GridRenderer(game.getGrid(), grassTexture, renderer));
+        renderer.addRenderable(new AppleRenderer(game.getApple(), game.getGrid(), appleTexture,
+                renderer));
+        renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
                 snakeBodyHorizontalTexture,
-                snakeBodyVerticalTexture, snakeBodyBentTexture, spriteBatch);
+                snakeBodyVerticalTexture, snakeBodyBentTexture, renderer));
         this.scoreBoard = new SnakeScoreBoard(0);
-
     }
 
     /**
@@ -49,12 +47,14 @@ public class SnakeGameRenderer {
      * @param score The current score to be displayed on the scoreboard.
      */
     public void render(int score) {
-        spriteBatch.begin();
-        gridRenderer.renderGrid();
-        appleRenderer.renderApple();
-        snakeRenderer.renderSnake();
-        spriteBatch.end();
+        renderer.render();
         scoreBoard.updateScore(score);
+    }
+
+    public void resize(int width, int height) {
+
+            renderer.resize(width, height);
+
     }
 
     /**
@@ -87,7 +87,7 @@ public class SnakeGameRenderer {
      * Disposes of resources used by the renderer, including textures and the SpriteBatch.
      */
     public void dispose() {
-        spriteBatch.dispose();
+        renderer.dispose();
         appleTexture.dispose();
         snakeTexture.dispose();
         snakeBodyHorizontalTexture.dispose();
