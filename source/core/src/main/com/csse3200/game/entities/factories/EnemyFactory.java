@@ -36,7 +36,7 @@ import com.csse3200.game.services.ServiceLocator;
 public class EnemyFactory {
   //private static final NPCConfigs configs =
     //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
-
+  public static boolean FRIENDLY = false;
   /**
    * types of enemies
    */
@@ -53,26 +53,34 @@ public class EnemyFactory {
    * @return enemy chicken entity
    */
   public static Entity createChicken(Entity target) {
-    Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-    BaseEntityConfig config = NPCConfigs.chicken;
-
-    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
-
-    AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-
-    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
-    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-
-
-    chicken
-            .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
-            .addComponent(new ChickenAnimationController());
-
-    chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
-
-    return chicken;
+	  Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
+	  BaseEntityConfig config = NPCConfigs.chicken;
+	  
+	  TextureAtlas chickenAtlas;
+	  if (!FRIENDLY) {
+		  chickenAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-chicken.atlas", TextureAtlas.class);
+	  } else {
+		  chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+		  
+	  }
+	  
+	  // TODO: Need to implement handling of the EnemyNPC becoming a FriendlyNPC (Shubh)
+	  
+	  AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
+	  
+	  animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+	  animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+	  
+	  
+	  chicken
+			  .addComponent(animator)
+			  .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+			  .addComponent(new ChickenAnimationController());
+	  
+	  chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
+	  chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+	  
+	  return chicken;
   }
 
   /**
