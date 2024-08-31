@@ -1,25 +1,28 @@
 package com.csse3200.game.components.minigame.snake.rendering;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigame.MinigameRenderable;
+import com.csse3200.game.components.minigame.MinigameRenderer;
 import com.csse3200.game.components.minigame.snake.Snake;
 import com.csse3200.game.components.minigame.snake.SnakeGrid;
 
 /**
  * Renders the snake and its segments on the grid in the Snake mini-game.
  */
-public class SnakeRenderer {
+public class SnakeRenderer implements MinigameRenderable {
 
-    private static final int CELL_SIZE = 55;
+    private static final int CELL_SIZE = 20;
     private final Snake snake;
     private final SnakeGrid grid;
     private final Texture snakeTexture;
     private final Texture snakeBodyHorizontalTexture;
     private final Texture snakeBodyVerticalTexture;
     private final Texture snakeBodyBentTexture;
-    private final SpriteBatch spriteBatch;
+    private final MinigameRenderer renderer;
 
     /**
      * Creates a new SnakeRenderer.
@@ -30,48 +33,49 @@ public class SnakeRenderer {
      * @param snakeBodyHorizontalTexture The texture for the snake's horizontal body segments.
      * @param snakeBodyVerticalTexture The texture for the snake's vertical body segments.
      * @param snakeBodyBentTexture The texture for the snake's bent body segments.
-     * @param spriteBatch The SpriteBatch used for drawing.
+     * @param renderer The renderer used for drawing.
      */
     public SnakeRenderer(Snake snake, SnakeGrid grid, Texture snakeTexture,
                          Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
-                         Texture snakeBodyBentTexture, SpriteBatch spriteBatch) {
+                         Texture snakeBodyBentTexture, MinigameRenderer renderer) {
         this.snake = snake;
         this.grid = grid;
         this.snakeTexture = snakeTexture;
         this.snakeBodyHorizontalTexture = snakeBodyHorizontalTexture;
         this.snakeBodyVerticalTexture = snakeBodyVerticalTexture;
         this.snakeBodyBentTexture = snakeBodyBentTexture;
-        this.spriteBatch = spriteBatch;
+        this.renderer = renderer;
     }
 
     /**
      * Renders the snake, including its head and body segments, with appropriate rotation.
      */
-    public void renderSnake() {
-        int gridWidthInPixels = grid.getWidth() * CELL_SIZE;
-        int gridHeightInPixels = grid.getHeight() * CELL_SIZE;
+    public void render() {
+        // Calculate the top-left corner of the grid, centered in the camera's view
+        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
 
-        float offsetX = (Gdx.graphics.getWidth() - gridWidthInPixels) / 2f;
-        float offsetY = (Gdx.graphics.getHeight() - gridHeightInPixels) / 2f;
+        float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;
+        float startY = renderer.getCam().position.y - gridHeightInWorldUnits / 2f;
 
         // Render the snake's head
-        renderSnakeHead(offsetX, offsetY);
+        renderSnakeHead(startX, startY);
 
         // Render the snake's body
-        renderSnakeBody(offsetX, offsetY);
+        renderSnakeBody(startX, startY);
     }
 
     /**
      * Renders the snake's head with the appropriate rotation.
      */
-    private void renderSnakeHead(float offsetX, float offsetY) {
+    private void renderSnakeHead(float startX, float startY) {
         Direction direction = snake.getDirection();
         float rotation = getRotationForDirection(direction);
 
-        spriteBatch.draw(
+        renderer.getSb().draw(
                 snakeTexture,
-                offsetX + snake.getX() * CELL_SIZE,
-                offsetY + snake.getY() * CELL_SIZE,
+                startX + snake.getX() * CELL_SIZE,
+                startY + snake.getY() * CELL_SIZE,
                 CELL_SIZE / 2f,
                 CELL_SIZE / 2f,
                 CELL_SIZE,
@@ -91,7 +95,7 @@ public class SnakeRenderer {
     /**
      * Renders the snake's body segments with the appropriate textures and rotations.
      */
-    private void renderSnakeBody(float offsetX, float offsetY) {
+    private void renderSnakeBody(float startX, float startY) {
         Direction prevDirection = snake.getDirection();
         float segmentX, segmentY;
         Snake.Segment lastSegment = snake.getLastSegment();
@@ -101,8 +105,8 @@ public class SnakeRenderer {
             Texture bodyTexture;
             float rotation = 0f;
 
-            segmentX = offsetX + segment.x() * CELL_SIZE;
-            segmentY = offsetY + segment.y() * CELL_SIZE;
+            segmentX = startX + segment.x() * CELL_SIZE;
+            segmentY = startY + segment.y() * CELL_SIZE;
 
             if (prevDirection != currentDirection && !segment.equals(lastSegment)) {
                 bodyTexture = snakeBodyBentTexture;
@@ -113,7 +117,7 @@ public class SnakeRenderer {
                         : snakeBodyVerticalTexture;
             }
 
-            spriteBatch.draw(
+            renderer.getSb().draw(
                     bodyTexture,
                     segmentX,
                     segmentY,
