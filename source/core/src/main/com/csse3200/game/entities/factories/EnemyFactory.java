@@ -93,9 +93,16 @@ public class EnemyFactory {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
     BaseEntityConfig config = NPCConfigs.frog;
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class));
+    TextureAtlas frogAtlas;
+    if (!FRIENDLY) {
+        frogAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-frog.atlas", TextureAtlas.class);
+    } else {
+        frogAtlas = ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class);
+
+    }
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(frogAtlas);
+
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
@@ -120,9 +127,15 @@ public class EnemyFactory {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
     BaseEntityConfig config = NPCConfigs.monkey;
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/monkey.atlas", TextureAtlas.class));
+    TextureAtlas monkeyAtlas;
+    if (!FRIENDLY) {
+      monkeyAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-monkey.atlas", TextureAtlas.class);
+    } else {
+      monkeyAtlas = ServiceLocator.getResourceService().getAsset("images/monkey.atlas", TextureAtlas.class);
+
+    }
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(monkeyAtlas);
     animator.addAnimation("run_down", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_up", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_left", 0.1f, Animation.PlayMode.LOOP);
