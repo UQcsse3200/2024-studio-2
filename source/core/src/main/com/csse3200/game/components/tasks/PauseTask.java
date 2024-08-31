@@ -62,6 +62,22 @@ public class PauseTask extends ChaseTask {
     }
 
     /**
+     * Triggers an event to end the pause behavior.
+     * If the entity has a config component, it fetches the dialogue or hint text
+     * associated with the entity to provide context for the pause event.
+     */
+    protected void triggerPauseEventEnd() {
+        if (this.config != null) {
+            String animalName = (config).getAnimalName();
+            String eventName = String.format("PauseEnd%s", animalName);
+            entity.getEvents().trigger(eventName);
+        } else {
+            entity.getEvents().trigger("pauseEnd");
+        }
+    }
+
+
+    /**
      * Updates the pause behavior by checking the distance to the target entity
      * and determining whether to approach, pause, or end the pause state.
      */
@@ -79,16 +95,10 @@ public class PauseTask extends ChaseTask {
             hasApproached = true;
             movementTask.stop();
 
-        } else if (hasApproached && distanceToTarget > 1.5f) {
+        } else if (hasApproached && distanceToTarget > 1f) {
             // If the player moves out of viewDistance, the NPC stops but does not follow the player
             this.hasApproached = false;
-            if (this.config != null) {
-                String animalName = (config).getAnimalName();
-                String eventName = String.format("PauseEnd%s", animalName);
-                entity.getEvents().trigger(eventName);
-            } else {
-                entity.getEvents().trigger("pauseEnd");
-            }
+            triggerPauseEventEnd();
         }
     }
 
