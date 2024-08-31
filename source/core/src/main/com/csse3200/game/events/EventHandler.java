@@ -32,6 +32,10 @@ public class EventHandler {
     lastTriggeredEvent = null;
   }
 
+  public Map<String, Array<EventListener>> getListeners() {
+    return listeners;
+  }
+
   /**
    * Add a listener to an event with zero arguments
    *
@@ -122,6 +126,11 @@ public class EventHandler {
         (EventListener listener) -> ((EventListener2<T0, T1>) listener).handle(arg0, arg1));
   }
 
+  public boolean hasListener(String eventName) {
+    Array<EventListener> eventListeners =  listeners.get(eventName);
+    return eventListeners != null && !eventListeners.isEmpty();
+  }
+
   /**
    * Trigger an event with one argument
    *
@@ -171,5 +180,10 @@ public class EventHandler {
 
   private static void logTrigger(String eventName) {
     logger.debug("Triggering event {}", eventName);
+  }
+
+
+  public void dispose() {
+    listeners.clear();
   }
 }

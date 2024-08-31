@@ -1,0 +1,124 @@
+frog.png
+size: 800, 444
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+angry_float
+  rotate: false
+  xy: 13, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
+angry_float
+  rotate: false
+  xy: 102, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+angry_float
+  rotate: false
+  xy: 191, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+angry_float
+  rotate: false
+  xy: 283, 106
+  size: 47, 37
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+angry_float
+  rotate: false
+  xy: 369, 111
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 4
+angry_float
+  rotate: false
+  xy: 458, 111
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 5
+angry_float
+  rotate: false
+  xy: 547, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 6
+angry_float
+  rotate: false
+  xy: 547, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 7
+default
+  rotate: false
+  xy: 13, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 13, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 102, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy: 191, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 283, 106
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+float
+  rotate: false
+  xy: 369, 111
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 4
+float
+  rotate: false
+  xy: 458, 111
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 5
+float
+  rotate: false
+  xy: 547, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 6
+float
+  rotate: false
+  xy: 547, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 7

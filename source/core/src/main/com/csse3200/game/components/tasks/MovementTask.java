@@ -21,6 +21,7 @@ public class MovementTask extends DefaultTask {
   private long lastTimeMoved;
   private Vector2 lastPos;
   private PhysicsMovementComponent movementComponent;
+  private Vector2 speed;
 
   public MovementTask(Vector2 target) {
     this.target = target;
@@ -32,10 +33,27 @@ public class MovementTask extends DefaultTask {
     this.stopDistance = stopDistance;
   }
 
+  /**
+   * Moves an entity at a speed towards a target
+   *
+   * @param target vector for direction to move in
+   * @param speed velocity at which the entity moves
+   */
+  public MovementTask(Vector2 target, Vector2 speed) {
+    this(target);
+    this.speed = speed;
+  }
+
   @Override
   public void start() {
     super.start();
     this.movementComponent = owner.getEntity().getComponent(PhysicsMovementComponent.class);
+
+    // Checks if speed has been set otherwise keeps original speed
+    if (speed != null) {
+      movementComponent.changeMaxSpeed(speed);
+    }
+
     movementComponent.setTarget(target);
     movementComponent.setMoving(true);
     logger.debug("Starting movement towards {}", target);

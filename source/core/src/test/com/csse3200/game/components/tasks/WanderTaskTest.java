@@ -30,17 +30,27 @@ class WanderTaskTest {
 
   @Test
   void shouldTriggerEvent() {
-    WanderTask wanderTask = new WanderTask(Vector2Utils.ONE, 1f);
+    WanderTask wanderTask = new WanderTask(Vector2Utils.ONE, 1f, false);
 
     AITaskComponent aiTaskComponent = new AITaskComponent().addTask(wanderTask);
     Entity entity = new Entity().addComponent(aiTaskComponent).addComponent(new PhysicsMovementComponent());
     entity.create();
 
     // Register callbacks
+    // Right
     EventListener0 callback = mock(EventListener0.class);
-    entity.getEvents().addListener("wanderStart", callback);
+    entity.getEvents().addListener("wanderRight", callback);
 
-    wanderTask.start();
+    entity.getEvents().trigger("wanderRight");
+
+    verify(callback).handle();
+
+    //left
+    callback = mock(EventListener0.class);
+
+    entity.getEvents().addListener("wanderLeft", callback);
+
+    entity.getEvents().trigger("wanderLeft");
 
     verify(callback).handle();
   }

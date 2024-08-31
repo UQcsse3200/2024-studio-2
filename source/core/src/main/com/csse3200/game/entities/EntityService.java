@@ -1,6 +1,7 @@
 package com.csse3200.game.entities;
 
 import com.badlogic.gdx.utils.Array;
+import com.csse3200.game.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,5 +54,62 @@ public class EntityService {
     for (Entity entity : entities) {
       entity.dispose();
     }
+  }
+
+  /**
+   * Pause (disable) all entities so update in the gameplay loop doesn't occur for
+   * the event and its components.
+   */
+  public void restWholeScreen() {
+    for (Entity entity : entities) {
+      entity.setEnabled(false);
+    }
+  }
+
+  /**
+   * Play (enable) all entities so update in the gameplay loop occurs for
+   * the event and its components.
+   */
+  public void wakeWholeScreen() {
+    for (Entity entity : entities) {
+      entity.setEnabled(true);
+    }
+  }
+
+
+  /**
+   * Get the oldest (lowest index entity in entities) entity that contains the given component.
+   * This is used to search for very specific entities. e.g. Player
+   *
+   * @param componentType The component class, e.g. RenderComponent.class
+   * @param <T> The component type, e.g. RenderComponent
+   * @return The entity holding the component or null if nonexistent.
+   */
+
+  public <T extends Component> Entity getEntity(Class<T> componentType) {
+    for (Entity entity : entities) {
+      if (entity.getComponent(componentType) != null) {
+        return entity;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get the oldest (lowest index entity in entities) entity's component of a given component type.
+   * This is used to search for very specific components. e.g. QuestManager
+   *
+   * @param componentType The component class, e.g. RenderComponent.class
+   * @param <T> The component type, e.g. RenderComponent
+   * @return The oldest entity's component or null if nonexistent.
+   */
+  public <T extends Component> Component getSpecificComponent(Class<T> componentType) {
+    for (Entity entity : entities) {
+      Component component = entity.getComponent(componentType);
+      if (component != null) {
+        return component;
+      }
+    }
+    return null;
   }
 }

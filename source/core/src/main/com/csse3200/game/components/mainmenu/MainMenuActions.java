@@ -2,6 +2,8 @@ package com.csse3200.game.components.mainmenu;
 
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +23,10 @@ public class MainMenuActions extends Component {
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
+    entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("achievements", this::onAchievements);
     entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
   }
 
@@ -40,6 +44,18 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+    SaveHandler.load(GameState.class, "saves");
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+  }
+
+  /**
+   * Opens a new combat screen.
+   * The combat screen will not actually be called from the main menu screen.
+   * This is for testing purposes only.
+   */
+  private void onCombat() {
+    logger.info("Start combat");
+    game.setScreen(GdxGame.ScreenType.COMBAT);
   }
 
   /**
@@ -58,9 +74,14 @@ public class MainMenuActions extends Component {
     game.setScreen(GdxGame.ScreenType.SETTINGS);
   }
 
+  private void onAchievements() {
+    logger.info("Launching achievements screen");
+    game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
+  }
+
   private void onSnakeMiniGame() {
     logger.info("Launching settings screen");
-    game.setScreen(GdxGame.ScreenType.MiniGameMenuScreen);
+    game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
   }
 
 

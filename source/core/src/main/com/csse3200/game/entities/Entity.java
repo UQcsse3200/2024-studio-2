@@ -28,7 +28,6 @@ public class Entity {
   private static final Logger logger = LoggerFactory.getLogger(Entity.class);
   private static int nextId = 0;
   private static final String EVT_NAME_POS = "setPosition";
-
   private final int id;
   private final IntMap<Component> components;
   private final EventHandler eventHandler;
@@ -38,7 +37,9 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
 
+
   public Entity() {
+
     id = nextId;
     nextId++;
 
@@ -55,8 +56,14 @@ public class Entity {
   public void setEnabled(boolean enabled) {
     logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
+    for (Component component :createdComponents) {
+      component.setEnabled(enabled);
+    }
   }
 
+  public boolean getEnabled(){
+    return enabled;
+  }
   /**
    * Get the entity's game position.
    *
@@ -283,5 +290,13 @@ public class Entity {
   @Override
   public String toString() {
     return String.format("Entity{id=%d}", id);
+  }
+
+  /**
+   * Returns the enabled status of the Entity
+   * @return the status of the entity
+   */
+  public Boolean isEnabled(){
+    return this.enabled;
   }
 }
