@@ -54,4 +54,20 @@ public class ItemFactory {
     public static Entity createApple(Entity target) {
         return createItem(target, new Foods.Apple(1));
     }
+
+    public static Entity createCarrot(Entity target) {
+        return createItem(target, new Foods.Carrot(1));
+    }
+
+    public static Entity createCandy(Entity target) {
+        return createItem(target, new Foods.Candy(1));
+    }
+
+    public static Entity createChickenLeg(Entity target) {
+        return createItem(target, new Foods.ChickenLeg(1));
+    }
+
+    public static Entity createMeat(Entity target) {
+        return createItem(target, new Foods.Meat(1));
+    }
 }

@@ -56,7 +56,9 @@ public class DialogueBox {
         label.setPosition(labelX, labelY);
         stage.addActor(label);
 
-        createButtons(labelY);
+        if (labelText.length > 1) {
+            createButtons(labelY);
+        }
     }
 
     /**

@@ -26,8 +26,12 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
   private static final int NUM_TREES = 7;
-  private  static final int NUM_APPLES = 5;
-  private  static final int NUM_HEALTH_POTIONS = 3;
+  private  static final int NUM_APPLES = 20;
+  private  static final int NUM_HEALTH_POTIONS = 10;
+  private static final int NUM_CARROTS = 20;
+  private static final int NUM_CHICKEN_LEGS = 10;
+  private static final int NUM_MEAT = 10;
+  private static final int NUM_CANDY = 5;
   private static final int NUM_CHICKENS = 2;
   private static final int NUM_FROGS = 5;
   private static final int NUM_MONKEYS = 2;
@@ -69,6 +73,12 @@ public class ForestGameArea extends GameArea {
           "images/bird.png",
           "images/Healthpotion.png",
           "images/foodtextures/apple.png",
+          "images/foodtextures/carrot.png",
+          "images/foodtextures/chicken_leg.png",
+          "images/foodtextures/meat.png",
+          "images/foodtextures/candy.png",
+          "images/potiontexture/attack.png",
+          "images/potiontexture/defense.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
@@ -141,6 +151,10 @@ public class ForestGameArea extends GameArea {
       // items
     spawnHealthPotions();
     spawnApples();
+    spawnCarrots();
+    spawmMeat();
+    spawnCandy();
+    spawnChickenLeg();
 
     //Friendlies
     spawnCow();
@@ -291,17 +305,37 @@ public class ForestGameArea extends GameArea {
 
   private void spawnHealthPotions() {
     Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS);
+    spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS, 30, 30);
   }
 
   private void spawnApples() {
     Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(appleGenerator, NUM_APPLES);
+    spawnRandomItem(appleGenerator, NUM_APPLES, 20, 20);
   }
 
-  private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+  private void spawnCarrots() {
+    Supplier<Entity> carrotGenerator = () -> ItemFactory.createCarrot(player);
+    spawnRandomItem(carrotGenerator, NUM_CARROTS, 25, 25);
+  }
+
+  private void spawnCandy() {
+    Supplier<Entity> candyGenerator = () -> ItemFactory.createCandy(player);
+    spawnRandomItem(candyGenerator, NUM_CANDY, 75, 75);
+  }
+
+  private void spawnChickenLeg() {
+    Supplier<Entity> chickenGenerator = () -> ItemFactory.createChickenLeg(player);
+    spawnRandomItem(chickenGenerator, NUM_CHICKEN_LEGS, 50,50);
+  }
+
+  private void spawmMeat() {
+    Supplier<Entity> meatGenerator = () -> ItemFactory.createMeat(player);
+    spawnRandomItem(meatGenerator, NUM_MEAT, 50, 50);
+  }
+
+  private void spawnRandomItem(Supplier<Entity> creator, int numEntities, int x, int y) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - x, PLAYER_SPAWN.y - y);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + x, PLAYER_SPAWN.y + y);
 
     for (int i = 0; i < numEntities; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);

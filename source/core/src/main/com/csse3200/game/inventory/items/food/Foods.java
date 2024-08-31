@@ -8,7 +8,6 @@ public class Foods {
      * Apple class manages the apple fields inherited from AbstractFood
      */
     public static class Apple extends AbstractFood {
-        protected Texture appleTexture;
         private final static String path = "images/foodtextures/apple.png";
 
         /**
@@ -25,14 +24,13 @@ public class Foods {
      * ChickenLeg class manages the apple fields inherited from AbstractFood
      */
     public static class ChickenLeg extends AbstractFood {
-        protected Texture meatTexture;
-        private final static String path = "images/foodtexture/chicken_leg.png";
+        private final static String path = "images/foodtextures/chicken_leg.png";
 
         /**
          * Constructs a ChickenLeg class with while assigning fields with set values.
          */
-        public ChickenLeg(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity, new FeedEffect(7));
+        public ChickenLeg(int quantity) {
+            super("Chicken_Leg", 12, 1, quantity, new FeedEffect(7));
             this.setTexturePath(path);
             this.setDescription("This is a chicken leg");
         }
@@ -42,14 +40,13 @@ public class Foods {
      * Meat class manages the apple fields inherited from AbstractFood
      */
     public static class Meat extends AbstractFood {
-        protected Texture meatTexture;
-        private final static String path = "images/foodtexture/meat.png";
+        private final static String path = "images/foodtextures/meat.png";
 
         /**
          * Constructs a Meat class with while assigning fields with set values.
          */
-        public Meat(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity, new FeedEffect(7));
+        public Meat(int quantity) {
+            super("Meat", 13, 1, quantity, new FeedEffect(7));
             this.setTexturePath(path);
             this.setDescription("This is meat");
         }
@@ -59,14 +56,13 @@ public class Foods {
      * Candy class manages the apple fields inherited from AbstractFood
      */
     public static class Candy extends AbstractFood {
-        protected Texture candyTexture;
-        private final static String path = "images/foodtexture/candy.png";
+        private final static String path = "images/foodtextures/candy.png";
 
         /**
          * Constructs a Candy class  while assigning fields with set values.
          */
-        public Candy(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity, new FeedEffect(10));
+        public Candy(int quantity) {
+            super("Candy", 14, 1, quantity, new FeedEffect(10));
             this.setTexturePath(path);
             this.setDescription("This is candy");
         }
@@ -76,14 +72,13 @@ public class Foods {
      * Carrot class manages the apple fields inherited from AbstractFood
      */
     public static class Carrot extends AbstractFood {
-        protected Texture carrotTexture;
-        private final static String path = "images/foodtexture/carrot.png";
+        private final static String path = "images/foodtextures/carrot.png";
 
         /**
          * Constructs a Carrot class with while assigning fields with set values.
          */
-        public Carrot(String name, int itemCode, int limit, int quantity) {
-            super(name, itemCode, limit, quantity, new FeedEffect(3));
+        public Carrot(int quantity) {
+            super("Carrot", 15, 1, quantity, new FeedEffect(3));
             this.setTexturePath(path);
             this.setDescription("This is a carrot");
         }
