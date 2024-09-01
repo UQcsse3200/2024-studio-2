@@ -1,6 +1,5 @@
 package com.csse3200.game.inventory.items.food;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 
 public class Foods {
