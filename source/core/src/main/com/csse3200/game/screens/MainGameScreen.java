@@ -114,7 +114,6 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEventService(new EventService());
 
-    ServiceLocator.registerEntityChatService(new EntityChatService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -130,7 +129,9 @@ public class MainGameScreen extends ScreenAdapter {
         this.gameArea = new ForestGameArea(terrainFactory, game);
 
     gameArea.create();
-  }
+    ServiceLocator.registerEntityChatService(new EntityChatService());
+
+    }
 
   /**
    * Renders the game screen and updates the physics engine, game entities, and renderer.

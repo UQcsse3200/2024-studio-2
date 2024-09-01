@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.concurrency.JobSystem;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -19,11 +20,14 @@ import com.badlogic.gdx.utils.Align;
  */
 public class DialogueBox {
 
-    private final Stage stage;
-    private final Skin skin;
-    private Texture backgroundTexture;
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+    private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
+    private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
+    private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
+
+    private Stage stage;
+    private Label label;
     private Image backgroundImage;
-    private final Label label;
     private TextButton forwardButton;
     private TextButton backwardButton;
     private final int screenWidth = Gdx.graphics.getWidth();
@@ -32,20 +36,33 @@ public class DialogueBox {
     private int currentHint;
 
     /**
-     * Creates a new ChatOverlay with the given hint messages.
+     * Creates a new DialogueBox with the given hint messages.
      *
      * @param labelText The array of hint messages to display.
      */
     public DialogueBox(String[] labelText) {
-        this.stage = ServiceLocator.getRenderService().getStage();
-        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
         this.hints = labelText;
+        JobSystem.launch(this::screenInit);
+    }
+
+    private Void screenInit() {
+        this.stage = ServiceLocator.getRenderService().getStage();
         this.currentHint = 0;
 
-        createBackgroundImage("images/blue-bar.png", 700);
+        // Create background image
+        float desiredHeight = 700;
+        float imageWidth = BACKGROUND_TEXTURE.getWidth();
+        float imageHeight = BACKGROUND_TEXTURE.getHeight();
+        float ratio = imageWidth / imageHeight;
+        float newWidth = desiredHeight * ratio;
 
-        this.label = new Label(hints[currentHint], skin, "default-white");
+        this.backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
+        backgroundImage.setSize(newWidth, desiredHeight);
+        backgroundImage.setPosition((screenWidth - newWidth) / 2, -125);
+        stage.addActor(backgroundImage);
+
+        // Create label
+        this.label = new Label(hints[currentHint], SKIN, "default-white");
         this.label.setFontScale(1.5f);
 
         float labelWidth = label.getPrefWidth();
@@ -56,84 +73,20 @@ public class DialogueBox {
         label.setPosition(labelX, labelY);
         stage.addActor(label);
 
-        createButtons(labelY);
-    }
-
-    /**
-     * Returns the hints array.
-     *
-     * @return The hints array.
-     */
-    public String[] getHints() {
-        return this.hints;
-    }
-
-    /**
-     * Returns the current hint index.
-     *
-     * @return The current hint index.
-     */
-    public int getCurrentHint() {
-        return this.currentHint;
-    }
-
-    /**
-     * Allows access to the labels text
-     *
-     * @return the current label on the image
-     */
-    public Label getLabel() {
-        return this.label;
-    }
-
-    /**
-     * Creates a background image for the chat overlay with the specified image path and height.
-     *
-     * @param backgroundPath The file path of the background image.
-     * @param desiredHeight The desired height for the background image.
-     */
-    private void createBackgroundImage(String backgroundPath, float desiredHeight) {
-        this.backgroundTexture = new Texture(Gdx.files.internal(backgroundPath));
-
-        float imageWidth = this.backgroundTexture.getWidth();
-        float imageHeight = this.backgroundTexture.getHeight();
-        float ratio = imageWidth / imageHeight;
-        float newWidth = desiredHeight * ratio;
-
-        this.backgroundImage = new Image(new TextureRegionDrawable(backgroundTexture));
-        backgroundImage.setSize(newWidth, desiredHeight);
-        backgroundImage.setPosition((screenWidth - newWidth) / 2, -125);
-
-        this.stage.addActor(backgroundImage);
-    }
-
-    /**
-     * Creates forward and backward navigation buttons for cycling through hint messages.
-     *
-     * @param labelY The y-coordinate for button positioning relative to the label.
-     */
-    private void createButtons(float labelY) {
-        // Load button images
-        Texture buttonImageTexture = new Texture(Gdx.files.internal("images/blue-button.png"));
-        Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
-
-        TextureRegionDrawable buttonImageDrawable = new TextureRegionDrawable(buttonImageTexture);
-        TextureRegionDrawable buttonHoverDrawable = new TextureRegionDrawable(buttonHoverTexture);
-
+        // Create buttons
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = skin.getFont("button");
-        buttonStyle.fontColor = skin.getColor("white");
-        buttonStyle.downFontColor = skin.getColor("white");
-        buttonStyle.overFontColor = skin.getColor("black");
+        buttonStyle.font = SKIN.getFont("button");
+        buttonStyle.fontColor = SKIN.getColor("white");
+        buttonStyle.downFontColor = SKIN.getColor("white");
+        buttonStyle.overFontColor = SKIN.getColor("black");
+        buttonStyle.up = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+        buttonStyle.down = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+        buttonStyle.over = new TextureRegionDrawable(BUTTON_HOVER_TEXTURE);
 
-        buttonStyle.up = buttonImageDrawable;
-        buttonStyle.down = buttonImageDrawable;
-        buttonStyle.over = buttonHoverDrawable;
-
-        backwardButton = new TextButton("Back", buttonStyle);
-        forwardButton = new TextButton("Continue", buttonStyle);
-        backwardButton.padLeft(50f); // Align text in button
-        forwardButton.padLeft(55f); // Align text in button
+        this.backwardButton = new TextButton("Back", buttonStyle);
+        this.forwardButton = new TextButton("Continue", buttonStyle);
+        backwardButton.padLeft(50f);
+        forwardButton.padLeft(55f);
 
         forwardButton.getLabel().setAlignment(Align.center);
 
@@ -146,7 +99,7 @@ public class DialogueBox {
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
 
-        // Add input listeners to the buttons for navigation
+        // Add input listeners
         forwardButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -162,29 +115,32 @@ public class DialogueBox {
                 return true;
             }
         });
+
+        return null;
     }
 
-    /**
-     * Handles the forward button click event to show the next hint message.
-     * Cycles back to the first hint after reaching the end.
-     */
+    public String[] getHints() {
+        return this.hints;
+    }
+
+    public int getCurrentHint() {
+        return this.currentHint;
+    }
+
+    public Label getLabel() {
+        return this.label;
+    }
+
     private void handleForwardButtonClick() {
         currentHint = (currentHint + 1) % (hints.length);
         label.setText(hints[currentHint]);
     }
 
-    /**
-     * Handles the backward button click event to show the previous hint message.
-     * Cycles back to the last hint after reaching the beginning.
-     */
     private void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
         label.setText(hints[currentHint]);
     }
 
-    /**
-     * Hide all components of the dialogue box without removing them from the stage.
-     */
     public void hideDialogueBox() {
         if (backgroundImage != null) backgroundImage.setVisible(false);
         if (label != null) label.setVisible(false);
@@ -192,9 +148,6 @@ public class DialogueBox {
         if (backwardButton != null) backwardButton.setVisible(false);
     }
 
-    /**
-     * Show all components of the dialogue box.
-     */
     public void showDialogueBox(String[] hints) {
         this.hints = hints;
         this.label.setText(hints[0]);
@@ -204,46 +157,15 @@ public class DialogueBox {
         if (backwardButton != null) backwardButton.setVisible(true);
     }
 
-    /**
-     * Disposes of the resources used by the chat overlay, including textures and UI components.
-     * Ensures that all resources are properly cleaned up to prevent memory leaks.
-     */
     public void dispose() {
-        if (backgroundImage != null) {
-            backgroundImage.remove();
-        }
-
-        if (label != null) {
-            label.remove();
-        }
-
-        if (forwardButton != null) {
-            forwardButton.remove();
-        }
-
-        if (backwardButton != null) {
-            backwardButton.remove();
-        }
-
-        if (backgroundTexture != null) {
-            backgroundTexture.dispose();
-        }
+        if (backgroundImage != null) backgroundImage.remove();
+        if (label != null) label.remove();
+        if (forwardButton != null) forwardButton.remove();
+        if (backwardButton != null) backwardButton.remove();
     }
 
-    /**
-     * Gets the forward button used for navigating to the next hint.
-     *
-     * @return the forward TextButton instance.
-     */
-    public TextButton getForwardButton() {
-        return forwardButton;
-    }
+    public TextButton getForwardButton() {return forwardButton;}
 
-    /**
-     * Gets the backward button used for navigating to the previous hint.
-     *
-     * @return the backward TextButton instance.
-     */
     public TextButton getBackwardButton() {
         return backwardButton;
     }
