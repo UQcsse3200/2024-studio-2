@@ -28,18 +28,12 @@ public class GameOverWinScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GameOverWinScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
-    private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
     private final Entity enemy;
-    // Initialise screen services
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
 
 
-    public GameOverWinScreen(GdxGame game, Entity enemy, Screen screen, ServiceContainer container) {
+    public GameOverWinScreen(GdxGame game, Entity enemy) {
         this.game = game;
         this.enemy = enemy;
-        this.oldScreen = screen;
-        this.oldScreenServices = container;
 
         logger.debug("Initialising game over win screen services");
         ServiceLocator.registerInputService(new InputService());
@@ -50,7 +44,6 @@ public class GameOverWinScreen extends ScreenAdapter {
 
         renderer = RenderFactory.createRenderer();
 
-        loadAssets();
         createUI();
     }
 
@@ -81,7 +74,6 @@ public class GameOverWinScreen extends ScreenAdapter {
         logger.debug("Disposing main menu screen");
 
         renderer.dispose();
-        unloadAssets();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getEventService().dispose();
@@ -89,18 +81,6 @@ public class GameOverWinScreen extends ScreenAdapter {
         ServiceLocator.clear();
     }
 
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainMenuTextures);
-        resourceService.loadAll();
-    }
-
-    private void unloadAssets() {
-        logger.debug("Unloading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainMenuTextures);
-    }
     /**
      * Creates the main menu's ui including components for rendering ui elements to the screen and
      * capturing and handling ui input.
@@ -110,8 +90,7 @@ public class GameOverWinScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
-            .addComponent(new GameOverWinDisplay(oldScreen, oldScreenServices))
-            .addComponent(new GameOverActions(game, enemy));
+            .addComponent(new GameOverActions(this.game, this.enemy));
         ServiceLocator.getEntityService().register(ui);
     }
 }

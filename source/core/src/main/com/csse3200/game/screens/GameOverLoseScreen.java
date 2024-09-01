@@ -27,13 +27,12 @@ public class GameOverLoseScreen extends ScreenAdapter {
     private final GdxGame game;
     private final Entity enemy;
     private final Renderer renderer;
-    private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
     public GameOverLoseScreen(GdxGame game, Entity enemy) {
         this.game = game;
         this.enemy = enemy;
 
-        logger.debug("Initialising game over win screen services");
+        logger.debug("Initialising game over lose screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -42,7 +41,6 @@ public class GameOverLoseScreen extends ScreenAdapter {
 
         renderer = RenderFactory.createRenderer();
 
-        loadAssets();
         createUI();
     }
 
@@ -70,28 +68,14 @@ public class GameOverLoseScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing main menu screen");
+        logger.debug("Disposing combat lose screen");
 
         renderer.dispose();
-        unloadAssets();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getEventService().dispose();
 
         ServiceLocator.clear();
-    }
-
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainMenuTextures);
-        resourceService.loadAll();
-    }
-
-    private void unloadAssets() {
-        logger.debug("Unloading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainMenuTextures);
     }
     /**
      * Creates the main menu's ui including components for rendering ui elements to the screen and

@@ -36,16 +36,15 @@ public class GameOverActions extends Component {
         game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
     }
 
+    //Deprecated kill enemy code which causes bug with kangaroo boss not rendering BGM mp3
     private void onReturnToMainGame(Screen screen, ServiceContainer container) {
         logger.info("Returning to main game screen");
-        // Kill enemy.
-//        this.enemy.dispose();
-//        this.enemy.update();
-//        container.getEntityService().unregister(enemy);
-//        container.getEntityService().update();
-        // Set current screen to main game screen
+        this.enemy.dispose();
+        this.enemy.update();
+        container.getEntityService().unregister(enemy);
+        container.getEntityService().update();
+      // Set current screen to main game screen
         game.setOldScreen(screen, container);
-//        game.setScreen((GdxGame.ScreenType.MAIN_GAME));
+        game.setScreen((GdxGame.ScreenType.MAIN_GAME));
     }
-
 }
