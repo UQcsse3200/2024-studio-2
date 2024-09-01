@@ -304,31 +304,49 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(monkey, randomPos, true, true);
   }
 
+  /**
+   * spawns health potions on map
+   */
   private void spawnHealthPotions() {
-    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
+    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS, 30, 30);
   }
 
+  /**
+   * spawns the apples on the map
+   */
   private void spawnApples() {
     Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(appleGenerator, NUM_APPLES, 20, 20);
   }
 
+  /**
+   * Spawns the carrots on map
+   */
   private void spawnCarrots() {
     Supplier<Entity> carrotGenerator = () -> ItemFactory.createCarrot(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(carrotGenerator, NUM_CARROTS, 25, 25);
   }
 
+  /**
+   * spawns candy on the map
+   */
   private void spawnCandy() {
     Supplier<Entity> candyGenerator = () -> ItemFactory.createCandy(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(candyGenerator, NUM_CANDY, 75, 75);
   }
 
+  /**
+   * spawns chicken legs on map
+   */
   private void spawnChickenLeg() {
     Supplier<Entity> chickenGenerator = () -> ItemFactory.createChickenLeg(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(chickenGenerator, NUM_CHICKEN_LEGS, 50,50);
   }
 
+  /**
+   * spawns meat on the map
+   */
   private void spawmMeat() {
     Supplier<Entity> meatGenerator = () -> ItemFactory.createMeat(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(meatGenerator, NUM_MEAT, 50, 50);

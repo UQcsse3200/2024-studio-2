@@ -1,7 +1,6 @@
 package com.csse3200.game.inventory.items.food;
 
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 
 public class Foods {
     /**

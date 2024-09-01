@@ -43,8 +43,8 @@ public class ItemFactory {
      * @param target The entity the health potion will interact with
      * @return The created health potion entity.
      */
-    public static Entity createHealthPotion(Entity target) {
-        return createItem(target, new HealingPotion(1));
+    public static Entity createHealthPotion(Entity target, CombatStatsComponent stat) {
+        return createItem(target, new HealingPotion(1, stat));
     }
 
     /**

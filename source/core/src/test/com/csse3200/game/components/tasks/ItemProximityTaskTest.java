@@ -1,6 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.Gdx;
 
 @ExtendWith(GameExtension.class)
 public class ItemProximityTaskTest {
+    CombatStatsComponent player = new CombatStatsComponent(20,20,20,20,20,20);
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();
@@ -50,7 +52,7 @@ public class ItemProximityTaskTest {
     void testInitialisation() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        HealingPotion item = new HealingPotion(1);
+        HealingPotion item = new HealingPotion(1, player);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 0.1f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);
@@ -71,7 +73,7 @@ public class ItemProximityTaskTest {
     void shouldCreateItemOverlayWhenNear() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        HealingPotion item = new HealingPotion(1);
+        HealingPotion item = new HealingPotion(1, player);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 2.0f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);
@@ -90,7 +92,7 @@ public class ItemProximityTaskTest {
     void shouldNotCreateItemOverlayWhenFar() {
         Entity target = new Entity();
         target.setPosition(1f, 1f);
-        HealingPotion item = new HealingPotion(1);
+        HealingPotion item = new HealingPotion(1, player);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 0.01f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);

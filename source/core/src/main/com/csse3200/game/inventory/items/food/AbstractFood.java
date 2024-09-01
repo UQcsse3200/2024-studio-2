@@ -4,8 +4,6 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.effects.AbstractEffect;
-import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 
 /**
  * The AbstractFood class manages the amount of hunger points (provided from food items) is added to the hunger bar
@@ -40,10 +38,15 @@ public class AbstractFood extends ConsumableItem {
     }
 
     /**
-     * Applies the effects of the food. This method will be used by all food types
+     * Applies the effects of the food. This method will be used by all food type
      */
     public void applyFeedingEffect() {
-        playerStats.addHunger(this.feedingAmount);
+        if (this.playerStats.getHunger() + this.feedingAmount <= 100) {
+            this.playerStats.addHunger(this.feedingAmount);
+        } else {
+            int remainder = this.feedingAmount - (this.playerStats.getHunger() + this.feedingAmount - 100);
+            this.playerStats.addHunger(remainder);
+        }
     }
 
     /**
@@ -56,6 +59,7 @@ public class AbstractFood extends ConsumableItem {
     public void useItem(ItemUsageContext inputs) {
         if (!super.isEmpty()) {
             applyFeedingEffect();
+            System.out.printf("Player has fed animal by %d points\n", feedingAmount);
         }
         super.useItem(inputs);
     }

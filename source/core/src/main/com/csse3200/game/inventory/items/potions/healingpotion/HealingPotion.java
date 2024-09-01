@@ -1,8 +1,10 @@
 package com.csse3200.game.inventory.items.potions.healingpotion;
 
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
 import com.csse3200.game.inventory.items.effects.healing.HealEffect;
 import com.csse3200.game.inventory.items.potions.AbstractPotion;
+import com.csse3200.game.components.CombatStatsComponent;
 
 import java.util.List;
 
@@ -40,21 +42,38 @@ public class HealingPotion extends AbstractPotion{
      *
      * @param quantity the number of uses this potion has
      */
-    public HealingPotion(int quantity) {
-        super("Health Potion", 2, 3, quantity, List.of(new HealEffect (50)));
+    public HealingPotion(int quantity, CombatStatsComponent playerStat) {
+        super("Health Potion", 2, 3, quantity, 25, playerStat);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
     }
 
     /**
-     * Applies the effects of the healing potion by iterating through the list of effects
-     * and invoking their {@link AbstractEffect#apply()} method. This method is called each time
-     * the potion is used, reducing the number of uses remaining.
+     * Applies the effects of this potion. This method must be implemented by subclasses
+     * to define how the specific effects of the potion are applied
      */
     @Override
     public void applyEffect() {
-        for (AbstractEffect effect : possibleEffects) {
-            effect.apply(); // Apply each effect in the list
+        if (this.playerStats.getHealth() + this.effectAmount <= 100) {
+            this.playerStats.addHealth(this.effectAmount);
+        } else {
+            int remainder = this.effectAmount - (this.playerStats.getHealth() + this.effectAmount - 100);
+            this.playerStats.addHealth(remainder);
         }
+    }
+
+    /**
+     * Uses the potion by applying its effects and decreasing its number of uses.
+     * If no uses are left, the potion is marked as empty.
+     *
+     * @param inputs the context in which the item is used, typically passed from the game engine
+     */
+    @Override
+    public void useItem(ItemUsageContext inputs) {
+        if (!super.isEmpty()) {
+            applyEffect();
+            System.out.printf("Player has healed animal by %d points\n", this.effectAmount);
+        }
+        super.useItem(inputs);
     }
 }

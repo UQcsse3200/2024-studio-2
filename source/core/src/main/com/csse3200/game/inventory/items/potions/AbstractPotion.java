@@ -1,5 +1,6 @@
 package com.csse3200.game.inventory.items.potions;
 
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
@@ -38,39 +39,41 @@ public abstract class AbstractPotion extends ConsumableItem {
      * A list of possible effects that this potion can apply when used.
      */
     protected List<AbstractEffect> possibleEffects;
-
+    protected int effectAmount;
+    protected CombatStatsComponent playerStats;
 
     /**
      * Constructs a new {@code Potion} with the specified quantity and a list of possible effects.
      *
      * @param quantity    the number of times this potion can be used
-     * @param possibleEffects a list of {@link AbstractEffect} objects representing the effects that this
+     * @param effectAmount a list of {@link AbstractEffect} objects representing the effects that this
+     *
      * potion can apply
      */
-    protected AbstractPotion(String name, int itemCode, int limit, int quantity, List<AbstractEffect> possibleEffects) {
+    protected AbstractPotion(String name, int itemCode, int limit, int quantity, int effectAmount, CombatStatsComponent playerStats) {
         super(name, itemCode, limit, quantity);
-        this.possibleEffects = possibleEffects;
-
+        this.effectAmount = effectAmount;
+        this.playerStats = playerStats;
     }
+
+//
 
     /**
-     * Returns the list of possible effects that this potion can apply.
-     *
-     * @return a list of {@link AbstractEffect} objects representing the effects of this potion
+     * returns the effect amount value
+      * @return effectAmount - the amount added to the stats
      */
-    public List<AbstractEffect> getPossibleEffects() {
-        return possibleEffects;
+    public int getEffectAmount() {
+        return this.effectAmount;
     }
 
-
-    /**
-     * Set the list of possible effects for this potion.
-     *
-     * @param possibleEffects a list of {@link AbstractEffect} objects representing the new effects for this potion
-     */
-    public void setPossibleEffects(List<AbstractEffect> possibleEffects) {
-        this.possibleEffects = possibleEffects;
-    }
+//    /**
+//     * Set the list of possible effects for this potion.
+//     *
+//     * @param possibleEffects a list of {@link AbstractEffect} objects representing the new effects for this potion
+//     */
+//    public void setPossibleEffects(List<AbstractEffect> possibleEffects) {
+//        this.possibleEffects = possibleEffects;
+//    }
 
     /**
      * Applies the effects of this potion. This method must be implemented by subclasses

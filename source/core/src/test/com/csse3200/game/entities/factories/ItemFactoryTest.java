@@ -54,7 +54,7 @@ public class ItemFactoryTest {
 
         // Ensure that the quantity is non-negative and less than the limit
         apple = ItemFactory.createApple(player, stat);
-        healthPotion = ItemFactory.createHealthPotion(player);
+        healthPotion = ItemFactory.createHealthPotion(player, stat);
     }
 
     @Test
