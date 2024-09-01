@@ -5,6 +5,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.inventory.items.AbstractFoodTest;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.physics.PhysicsService;
@@ -37,6 +38,7 @@ public class ItemFactoryTest {
     @BeforeEach
     void setup() {
         GameTime gameTime = mock(GameTime.class);
+        CombatStatsComponent stat = mock(CombatStatsComponent.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
         ServiceLocator.registerPhysicsService(new PhysicsService());
@@ -51,7 +53,7 @@ public class ItemFactoryTest {
         Entity player = new Entity();
 
         // Ensure that the quantity is non-negative and less than the limit
-        apple = ItemFactory.createApple(player);
+        apple = ItemFactory.createApple(player, stat);
         healthPotion = ItemFactory.createHealthPotion(player);
     }
 

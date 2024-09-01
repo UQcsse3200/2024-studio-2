@@ -1,6 +1,7 @@
 package com.csse3200.game.inventory.items;
 
 
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 import com.csse3200.game.inventory.items.food.AbstractFood;
@@ -14,42 +15,54 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(GameExtension.class)
 public class AbstractFoodTest {
     private TestableItem food;
-    private TestableEffect effect1;
+    //private TestableEffect effect1;
+    private TestableStat stats;
 
     private static class TestableItem extends AbstractFood {
-        public TestableItem(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
+        public TestableItem(String name, int itemCode, int limit, int quantity, int feedingEffect, CombatStatsComponent stat) {
             super(name,
                     itemCode,
                     limit,
                     quantity,
-                    feedingEffect);
+                    feedingEffect,
+                    stat);
         }
     }
 
-    private static class TestableEffect extends FeedEffect {
-        public TestableEffect(int feedingEffect) {
-            super(feedingEffect);
+//    private static class TestableEffect extends FeedEffect {
+//        public TestableEffect(int feedingEffect) {
+//            super(feedingEffect);
+//        }
+//    }
+    private static class TestableStat extends CombatStatsComponent {
+        public TestableStat(int health, int hunger, int strength, int defense, int speed, int experience) {
+            super(health, hunger, strength, defense, speed, experience);
         }
-    }
+}
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        effect1 = new TestableEffect(10);
-        food = new TestableItem("test", 3, 10, 3, effect1);
+        //effect1 = new TestableEffect(10);
+        stats = new TestableStat(50, 0, 50, 50, 50, 50);
+
+        food = new TestableItem("test", 3, 10, 3, 10, stats);
     }
 
     @Test
     public void testApplyEffect() {
+        int orignalHunger = stats.getHunger();
+
         food.useItem(null);
         assertEquals(2, food.getQuantity(), "The food should have 2 uses left after one use.");
-
+        assertEquals(orignalHunger + 10, stats.getHunger());
         food.useItem(null);
         assertEquals(1, food.getQuantity(), "The food should have 1 use left after two uses.");
-
+        assertEquals(orignalHunger + 20, stats.getHunger());
         food.useItem(null);
         assertTrue(food.isEmpty(), "The food should be empty after 3 uses.");
+        assertEquals(orignalHunger + 30, stats.getHunger());
 
-        assertEquals(effect1, food.getFeedingEffect());
+        //assertEquals(effect1, food.getFeedingEffect());
     }
 
 

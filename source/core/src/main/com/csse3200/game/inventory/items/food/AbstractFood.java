@@ -1,5 +1,7 @@
 package com.csse3200.game.inventory.items.food;
 
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.effects.AbstractEffect;
@@ -13,7 +15,8 @@ public class AbstractFood extends ConsumableItem {
     /**
      * The feeding effect that food can apply on animals
      */
-    protected AbstractEffect feedingEffect;
+    protected int feedingAmount;
+    protected CombatStatsComponent playerStats;
 
     /**
      * Constructs a AbstractFood with the specified uses
@@ -23,23 +26,24 @@ public class AbstractFood extends ConsumableItem {
      * @param limit the stack limit of the item
      * @param quantity the initial quantity for this item
      */
-    protected AbstractFood(String name, int itemCode, int limit, int quantity, FeedEffect feedingEffect) {
+    protected AbstractFood(String name, int itemCode, int limit, int quantity, int feedingAmount, CombatStatsComponent playerStats) {
         super(name, itemCode, limit, quantity);
-        this.feedingEffect = feedingEffect;
+        this.feedingAmount = feedingAmount;
+        this.playerStats = playerStats;
     }
 
     /**
      * Returns the effect of the food
      */
-    public AbstractEffect getFeedingEffect() {
-        return this.feedingEffect;
+    public int getFeedingEffect() {
+        return this.feedingAmount;
     }
 
     /**
      * Applies the effects of the food. This method will be used by all food types
      */
     public void applyFeedingEffect() {
-        this.feedingEffect.apply();
+        playerStats.addHunger(this.feedingAmount);
     }
 
     /**

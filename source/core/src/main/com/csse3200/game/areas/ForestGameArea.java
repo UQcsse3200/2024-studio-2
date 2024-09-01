@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
@@ -309,27 +310,27 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnApples() {
-    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
+    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(appleGenerator, NUM_APPLES, 20, 20);
   }
 
   private void spawnCarrots() {
-    Supplier<Entity> carrotGenerator = () -> ItemFactory.createCarrot(player);
+    Supplier<Entity> carrotGenerator = () -> ItemFactory.createCarrot(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(carrotGenerator, NUM_CARROTS, 25, 25);
   }
 
   private void spawnCandy() {
-    Supplier<Entity> candyGenerator = () -> ItemFactory.createCandy(player);
+    Supplier<Entity> candyGenerator = () -> ItemFactory.createCandy(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(candyGenerator, NUM_CANDY, 75, 75);
   }
 
   private void spawnChickenLeg() {
-    Supplier<Entity> chickenGenerator = () -> ItemFactory.createChickenLeg(player);
+    Supplier<Entity> chickenGenerator = () -> ItemFactory.createChickenLeg(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(chickenGenerator, NUM_CHICKEN_LEGS, 50,50);
   }
 
   private void spawmMeat() {
-    Supplier<Entity> meatGenerator = () -> ItemFactory.createMeat(player);
+    Supplier<Entity> meatGenerator = () -> ItemFactory.createMeat(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(meatGenerator, NUM_MEAT, 50, 50);
   }
 

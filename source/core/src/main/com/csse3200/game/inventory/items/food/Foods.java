@@ -1,5 +1,6 @@
 package com.csse3200.game.inventory.items.food;
 
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.effects.feeding.FeedEffect;
 
 public class Foods {
@@ -12,8 +13,8 @@ public class Foods {
         /**
          * Constructs an Apple class  while assigning fields with set values.
          */
-        public Apple(int quantity) {
-            super("Apple", 11, 1, quantity, new FeedEffect(2));
+        public Apple(int quantity, CombatStatsComponent stat) {
+            super("Apple", 11, 1, quantity, 2, stat);
             this.setTexturePath(path);
             this.setDescription("This is an apple");
         }
@@ -28,8 +29,8 @@ public class Foods {
         /**
          * Constructs a ChickenLeg class with while assigning fields with set values.
          */
-        public ChickenLeg(int quantity) {
-            super("Chicken_Leg", 12, 1, quantity, new FeedEffect(7));
+        public ChickenLeg(int quantity, CombatStatsComponent stat) {
+            super("Chicken_Leg", 12, 1, quantity, 7, stat);
             this.setTexturePath(path);
             this.setDescription("This is a chicken leg");
         }
@@ -44,8 +45,8 @@ public class Foods {
         /**
          * Constructs a Meat class with while assigning fields with set values.
          */
-        public Meat(int quantity) {
-            super("Meat", 13, 1, quantity, new FeedEffect(7));
+        public Meat(int quantity, CombatStatsComponent stat) {
+            super("Meat", 13, 1, quantity, 7, stat);
             this.setTexturePath(path);
             this.setDescription("This is meat");
         }
@@ -60,8 +61,8 @@ public class Foods {
         /**
          * Constructs a Candy class  while assigning fields with set values.
          */
-        public Candy(int quantity) {
-            super("Candy", 14, 1, quantity, new FeedEffect(10));
+        public Candy(int quantity, CombatStatsComponent stat) {
+            super("Candy", 14, 1, quantity, 10, stat);
             this.setTexturePath(path);
             this.setDescription("This is candy");
         }
@@ -76,8 +77,8 @@ public class Foods {
         /**
          * Constructs a Carrot class with while assigning fields with set values.
          */
-        public Carrot(int quantity) {
-            super("Carrot", 15, 1, quantity, new FeedEffect(3));
+        public Carrot(int quantity, CombatStatsComponent stat) {
+            super("Carrot", 15, 1, quantity, 3, stat);
             this.setTexturePath(path);
             this.setDescription("This is a carrot");
         }
