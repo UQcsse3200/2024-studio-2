@@ -45,6 +45,11 @@ public class DialogueBox {
         JobSystem.launch(this::screenInit);
     }
 
+    /**
+     * Initializes the screen components and returns Void.
+     *
+     * @return Void
+     */
     private Void screenInit() {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.currentHint = 0;
