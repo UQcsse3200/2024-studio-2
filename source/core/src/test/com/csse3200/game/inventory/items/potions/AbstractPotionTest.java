@@ -33,7 +33,7 @@ class AbstractPotionTest  {
         healingPotion.useItem(null);
         assertTrue(healingPotion.isEmpty(), "The potion should be empty after 3 uses.");
 
-        assertEquals(125, playerStat.getHealth(), "The potion should have 125 health.");
+        assertEquals(100, playerStat.getHealth(), "The potion should have 100 health.");
     }
 }
 

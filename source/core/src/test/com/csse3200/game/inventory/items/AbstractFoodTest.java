@@ -62,7 +62,7 @@ public class AbstractFoodTest {
     @Test
     public void testMaxHunger() {
         food1.useItem(null);
-        assertEquals(100, stats.getHunger(), "The hunger should be 100");
+        assertEquals(100, stats1.getHunger(), "The hunger should be 100");
     }
 
 
