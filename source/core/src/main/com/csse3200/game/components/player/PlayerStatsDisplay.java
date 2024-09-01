@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import static com.csse3200.game.components.player.PlayerStatsDisplayTester.*;
 
 /**
@@ -174,56 +175,23 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-        testFinalImplementation();
+        startHungerDecreaseTimer();
         // Add the table to the stage
         return true;
     }
-    public void testFinalImplementation() {
-
-
+    public void startHungerDecreaseTimer() {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                // Schedule frame updates with incrementally increasing delays
-                for (int i = maxHealth; i >= 0; i -= 10) {
-                    int finalI = i;
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            // Update the animation frames
-                            updatePlayerHealthUI(finalI);
-
-                        }
-                    }, (100 - finalI) * 0.1f);
-
-                    for (int j = maxExperience; j >= 0; j -= 10) {
-                        int finalJ = j;
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Update the animation frames
-
-                                updatePlayerExperienceUI(finalJ);
-
-                            }
-                        }, (100 - finalJ) * 0.1f);}
-
-                    for (int k = maxHunger; k >= 0; k -= 10) {
-                        int finalK = k;
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Update the animation frames
-
-                                updatePlayerHungerUI(finalK);
-                            }
-                        }, (100 - finalK) * 0.1f);}
-                    // Incremental delay in seconds
+                // Call addHunger on the instance of CombatStatsComponent
+                CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+                if (combatStats != null) {
+                    combatStats.addHunger(-1); // Correctly call instance method
                 }
-                delayedActionDone = true;
             }
-        }, 1); // Initial delay of 1 second
+        }, 5, 5); // Initial delay of 15 seconds, then repeat every 15 seconds
     }
+
 
     @Override
     public void draw(SpriteBatch batch) {
