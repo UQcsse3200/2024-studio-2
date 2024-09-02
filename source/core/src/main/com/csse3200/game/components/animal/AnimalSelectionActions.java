@@ -154,6 +154,15 @@ public class AnimalSelectionActions {
 
         dialogHelper.displayDialog(title, content, animalImagePath, 900f, 400f);
     }
+
+    /**
+     * Resets the animal selection state
+     * This method clears the currently selected animal by setting the
+     * selectedAnimalImage and selectedAnimalImagePath to null. This ensures
+     * that no residual selection data is carried over between sessions or
+     * screen transitions, prompting the user to select an animal afresh.
+     *
+     */
     public void resetSelection() {
         selectedAnimalImage = null;
         selectedAnimalImagePath = null;
