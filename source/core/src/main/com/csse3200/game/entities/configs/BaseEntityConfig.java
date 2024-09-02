@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.configs;
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
@@ -21,7 +22,7 @@ public class BaseEntityConfig {
     public int hintLevel = 0;
     public int currentHint = 0;
 
-    protected String[] baseHint;
+    protected String[][] baseHint;
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
@@ -97,7 +98,7 @@ public class BaseEntityConfig {
      *
      * @return an array of String containing the base hints.
      */
-    public String[] getBaseHint() {
+    public String[][] getBaseHint() {
         return baseHint;
     }
 

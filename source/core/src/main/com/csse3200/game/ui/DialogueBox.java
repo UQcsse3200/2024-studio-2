@@ -32,7 +32,7 @@ public class DialogueBox {
     private TextButton backwardButton;
     private final int screenWidth = Gdx.graphics.getWidth();
 
-    private String[] hints;
+    private String[][] hints;
     private int currentHint;
 
     /**
@@ -40,7 +40,7 @@ public class DialogueBox {
      *
      * @param labelText The array of hint messages to display.
      */
-    public DialogueBox(String[] labelText) {
+    public DialogueBox(String[][] labelText) {
         this.hints = labelText;
         JobSystem.launch(this::screenInit);
     }
@@ -67,7 +67,13 @@ public class DialogueBox {
         stage.addActor(backgroundImage);
 
         // Create label
-        this.label = new Label(hints[currentHint], SKIN, "default-white");
+        String currentHintText = hints[0][currentHint];
+        if (currentHintText.startsWith("/c")) {
+            currentHintText = currentHintText.substring(2);
+            String[] options = currentHintText.split("/s");
+            currentHintText = options[0];
+        }
+        this.label = new Label(currentHintText, SKIN, "default-white");
         this.label.setFontScale(1.5f);
 
         float labelWidth = label.getPrefWidth();
@@ -124,7 +130,7 @@ public class DialogueBox {
         return null;
     }
 
-    public String[] getHints() {
+    public String[][] getHints() {
         return this.hints;
     }
 
@@ -137,13 +143,25 @@ public class DialogueBox {
     }
 
     private void handleForwardButtonClick() {
-        currentHint = (currentHint + 1) % (hints.length);
-        label.setText(hints[currentHint]);
+        currentHint = (currentHint + 1) % (hints[0].length);
+        String currentHintText = hints[0][currentHint];
+        if (currentHintText.startsWith("/c")) {
+            currentHintText = currentHintText.substring(2);
+            String[] options = currentHintText.split("/s");
+            currentHintText = options[0];
+        }
+        label.setText(currentHintText);
     }
 
     private void handleBackwardButtonClick() {
-        currentHint = (currentHint - 1 + hints.length) % hints.length;
-        label.setText(hints[currentHint]);
+        currentHint = (currentHint - 1 + hints[0].length) % hints[0].length;
+        String currentHintText = hints[0][currentHint];
+        if (currentHintText.startsWith("/c")) {
+            currentHintText = currentHintText.substring(2);
+            String[] options = currentHintText.split("/s");
+            currentHintText = options[0];
+        }
+        label.setText(currentHintText);
     }
 
     public void hideDialogueBox() {
@@ -153,9 +171,9 @@ public class DialogueBox {
         if (backwardButton != null) backwardButton.setVisible(false);
     }
 
-    public void showDialogueBox(String[] hints) {
+    public void showDialogueBox(String[][] hints) {
         this.hints = hints;
-        this.label.setText(hints[0]);
+        this.label.setText(hints[0][0]);
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) label.setVisible(true);
         if (forwardButton != null) forwardButton.setVisible(true);

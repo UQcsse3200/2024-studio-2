@@ -8,7 +8,7 @@ public class EntityChatService {
     private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
 
     private DialogueBox currentOverlay;
-    private String[] hints;
+    private String[][] hints;
 
     /**
      * Create a new chat overlay with the given hint text.
@@ -25,7 +25,7 @@ public class EntityChatService {
      *
      * @return a copy of the hints array as a String[]
      */
-    public String[] getHints() {
+    public String[][] getHints() {
         // Return a copy of the hints array to prevent modification of the original array
         return hints.clone();
     }
@@ -62,7 +62,7 @@ public class EntityChatService {
     /**
      * Update the current chat overlay if it exists.
      */
-    public void updateText(String[] text) {
+    public void updateText(String[][] text) {
         hints = text;
         if (currentOverlay == null) {
             currentOverlay = new DialogueBox(hints);

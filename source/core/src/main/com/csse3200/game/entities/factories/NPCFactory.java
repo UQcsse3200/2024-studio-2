@@ -72,7 +72,7 @@ public class NPCFactory {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-      npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
@@ -125,7 +125,7 @@ public class NPCFactory {
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
   }
 
-  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+  private static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
     EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.updateText(hintText);
 
