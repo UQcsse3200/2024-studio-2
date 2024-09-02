@@ -117,6 +117,8 @@ public class GameOverLoseDisplay extends UIComponent {
         table.row();
         table.add(exitBtn).padTop(15f).height(45f).width(180f);
         table.row();
+        table.add(replayBtn).padTop(15f).height(45f).width(180f);
+        table.row();
         table.add(versionLabel).padTop(50f);
         table.row();
 
@@ -240,6 +242,10 @@ public class GameOverLoseDisplay extends UIComponent {
         bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
 
         settingMenu.add(topTable).expandX().fillX(); // Top-right table
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
         settingMenu.row().padTop(30f);
         settingMenu.add(contentTable).expandX().expandY().padLeft(50);
         settingMenu.row().padTop(30f);
