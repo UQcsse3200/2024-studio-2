@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat;
 
+import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Manages the turn-based combat loop and handles attacks
  */
-public class CombatManager {
+public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
     private enum Turn { PLAYER, ENEMY }
