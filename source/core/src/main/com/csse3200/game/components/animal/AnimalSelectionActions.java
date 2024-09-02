@@ -154,4 +154,9 @@ public class AnimalSelectionActions {
 
         dialogHelper.displayDialog(title, content, animalImagePath, 900f, 400f);
     }
+    public void resetSelection() {
+        selectedAnimalImage = null;
+        selectedAnimalImagePath = null;
+    }
+
 }
