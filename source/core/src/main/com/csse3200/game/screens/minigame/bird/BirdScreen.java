@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -35,12 +40,10 @@ public class BirdScreen extends ScreenAdapter {
     private final GdxGame game;
     private final MinigameRenderer renderer;
     private final ObstacleRenderer obstacleRenderer;
-
-    // this will need to be refactored later
     private List<Obstacle> obstacles;
-    // end block
-
     private static final Logger logger = LoggerFactory.getLogger(BirdScreen.class);
+    private Stage stage;
+    private Skin skin;
 
     public BirdScreen(GdxGame game) {
         this.game = game;
@@ -49,17 +52,13 @@ public class BirdScreen extends ScreenAdapter {
 
         this.renderer = new MinigameRenderer();
 
-        // TEsting
-        // THis will need to be moved to the bird game class eventually
         obstacles = new ArrayList<>();
-        for(int i =0; i < 20; i ++) {
+        for (int i = 0; i < 20; i++) {
             obstacles.add(new Obstacle(400 + i * 300));
         }
         this.obstacleRenderer = new ObstacleRenderer(obstacles, renderer);
-        // end code block
 
         createUI();
-
     }
 
     private void registerServices() {
@@ -73,42 +72,64 @@ public class BirdScreen extends ScreenAdapter {
         logger.debug("Services registered successfully for BirdScreen");
     }
 
-
     @Override
     public void render(float dt) {
         clearBackground();
 
-        // this will need ot be refactored later
-        for(Obstacle obstacle: obstacles) {
+        for (Obstacle obstacle : obstacles) {
             obstacle.setPosition(dt);
         }
-        // end block
 
         this.renderer.render();
+        stage.act(dt);
+        stage.draw();
     }
 
     private void clearBackground() {
-        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
+        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 
     private void createUI() {
-        logger.debug("Creating bird minigame ui");
-        Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
+        logger.debug("Creating bird minigame UI");
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
 
+
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        exitButton.addListener(event -> {
+            if (exitButton.isPressed()) {
+                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+                return true;
+            }
+            return false;
+        });
+
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.align(Align.topRight);
+        table.pad(10);
+        table.add(exitButton);
+
+        stage.addActor(table);
+
+        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
