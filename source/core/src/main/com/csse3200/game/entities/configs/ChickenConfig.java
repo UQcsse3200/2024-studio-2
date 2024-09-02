@@ -7,7 +7,7 @@ public class ChickenConfig extends BaseEntityConfig{
     protected ChickenConfig() {
         this.spritePath = "images/chicken.atlas";
         this.animationSpeed = 0.1f;
-        this.health = 10;
+        this.health = 9;
         this.baseAttack = 1;
         this.baseDefense = 1;
         this.speed = 2;

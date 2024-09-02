@@ -22,6 +22,7 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import java.lang.Math;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -63,10 +64,9 @@ public class EnemyFactory {
     animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
     animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
 
-
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, config.speed, 0))
+            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2), 0, config.baseAttack, 0, config.speed, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -92,12 +92,16 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 3), 0, config.baseAttack + (int)(Math.random() * 11), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
     frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+
+    //System.out.println("frog health:"+config.health);
+    //System.out.println("frog attack:"+config.baseAttack);
+    //System.out.println("frog defense:"+config.baseDefense);
 
     return frog;
   }
@@ -125,7 +129,7 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health  + (int)(Math.random() * 5), 0, config.baseAttack + (int)(Math.random() * 5), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
