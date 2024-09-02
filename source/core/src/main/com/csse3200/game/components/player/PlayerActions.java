@@ -4,21 +4,19 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.overlays.Overlay.*;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.audio.DogSoundPlayer;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -30,15 +28,17 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  EventService eventService = ServiceLocator.getEventService();
+  private final EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
-
+  private DogSoundPlayer dogSoundPlayer;
+  private final String selectedAnimal;
   private final GdxGame game;
 
-  public PlayerActions(GdxGame game, Entity player) {
+  public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
     this.game = game;
     this.player = player;
+    this.selectedAnimal = selectedAnimal;
   }
 
   @Override
@@ -50,10 +50,19 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("startCombat", this::startCombat);
+
+    if ("images/dog.png".equals(selectedAnimal)) {
+      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/panting.mp3", Sound.class);
+      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/bark.mp3", Sound.class);
+      dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+    } //handle cat option here
   }
 
   @Override
   public void update() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.updatePantingSound(moving, 1.0f);
+    }
     if (moving) {
       updateSpeed();
     }
@@ -63,61 +72,54 @@ public class PlayerActions extends Component {
     Body body = physicsComponent.getBody();
     Vector2 velocity = body.getLinearVelocity();
     Vector2 desiredVelocity = walkDirection.cpy().scl(MAX_SPEED);
-    // impulse = (desiredVel - currentVel) * mass
     Vector2 impulse = desiredVelocity.sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
 
-  /**
-   * Moves the player towards a given direction.
-   *
-   * @param direction direction to move in
-   */
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
+    logger.info("Player started moving in direction: " + direction);
     eventService.getGlobalEventHandler().trigger("Test Achievement");
     player.getEvents().trigger("steps");
   }
 
-  /**
-   * Stops the player from walking.
-   */
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
+    logger.info("Player stopped moving.");
   }
 
-  /**
-   * Makes the player attack.
-   */
   void attack() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.playBarkingSound(1.0f);
+    }
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
     player.getEvents().trigger("attackTask");
   }
 
   private void restMenu() {
-      logger.info("Sending Pause");
+    logger.info("Sending Pause");
     eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
   }
 
   private void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.getGlobalEventHandler().trigger("addOverlay", Overlay.OverlayType.QUEST_OVERLAY);
+    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
   }
 
-    public void startCombat(Entity enemy){
-        AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
-        PriorityTask currentTask = aiTaskComponent.getCurrentTask();
+  public void startCombat(Entity enemy) {
+    AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
+    PriorityTask currentTask = aiTaskComponent.getCurrentTask();
 
-        if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
-                (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
-            currentTask.stop();
-            game.addBossCutsceneScreen(player, enemy);
-        } else {
-            game.enterCombatScreen(player, enemy);
-        }
+    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss()) ||
+            (currentTask instanceof ChaseTask && ((ChaseTask) currentTask).isBoss())) {
+      currentTask.stop();
+      game.addBossCutsceneScreen(player, enemy);
+    } else {
+      game.enterCombatScreen(player, enemy);
     }
+  }
 }
