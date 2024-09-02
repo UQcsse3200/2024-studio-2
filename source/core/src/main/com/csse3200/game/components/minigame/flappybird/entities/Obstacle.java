@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
+// Very rough class. will need to polish up, have not done boundaries yet
 public class Obstacle {
     private Vector2 topPosition;
     private Vector2 bottomPosition;
@@ -26,9 +27,11 @@ public class Obstacle {
         this.topPosition = new Vector2(start, height + GAP);
     }
 
-//    public void setPosition(int x, int y) {
-//        this.postion = new Vector2(x, y);
-//    }
+    public void setPosition(float dt) {
+        dt = dt * 60;
+        this.bottomPosition.sub(dt, 0);
+        this.topPosition.sub(dt, 0);
+    }
 
     public Vector2 getPositionBottom() {
         return this.bottomPosition;

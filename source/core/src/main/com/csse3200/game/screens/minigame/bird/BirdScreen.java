@@ -28,11 +28,17 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BirdScreen extends ScreenAdapter {
     private final GdxGame game;
     private final MinigameRenderer renderer;
-    private final Obstacle obstacle;
     private final ObstacleRenderer obstacleRenderer;
+
+    // this will need to be refactored later
+    private List<Obstacle> obstacles;
+    // end block
 
     private static final Logger logger = LoggerFactory.getLogger(BirdScreen.class);
 
@@ -42,8 +48,16 @@ public class BirdScreen extends ScreenAdapter {
         RenderFactory.createRenderer();
 
         this.renderer = new MinigameRenderer();
-        this.obstacle = new Obstacle(200);
-        this.obstacleRenderer = new ObstacleRenderer(obstacle, renderer);
+
+        // TEsting
+        // THis will need to be moved to the bird game class eventually
+        obstacles = new ArrayList<>();
+        for(int i =0; i < 20; i ++) {
+            obstacles.add(new Obstacle(400 + i * 300));
+        }
+        this.obstacleRenderer = new ObstacleRenderer(obstacles, renderer);
+        // end code block
+
         createUI();
 
     }
@@ -63,6 +77,12 @@ public class BirdScreen extends ScreenAdapter {
     @Override
     public void render(float dt) {
         clearBackground();
+
+        // this will need ot be refactored later
+        for(Obstacle obstacle: obstacles) {
+            obstacle.setPosition(dt);
+        }
+        // end block
 
         this.renderer.render();
     }
