@@ -52,22 +52,22 @@ public class CombatActions extends Component {
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
     // Kill enemy.
-//    this.enemy.dispose();
-//    this.enemy.update();
-//    container.getEntityService().unregister(enemy);
-//    container.getEntityService().update();
+    //this.enemy.dispose();
+    //this.enemy.update();
+    //container.getEntityService().unregister(enemy);
+    //container.getEntityService().update();
     // Set current screen to original MainGameScreen
-    game.setOldScreen(screen, container);
-    // game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+//    game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
   /**
    * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
    */
-  private void onCombatLoss() {
-    logger.info("Setting to game over lose screen after combat loss.");
+  private void onCombatLoss(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen after combat loss.");
     // Set current screen to original MainGameScreen
-    //game.setOldScreen(screen, container);
+//    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
 }

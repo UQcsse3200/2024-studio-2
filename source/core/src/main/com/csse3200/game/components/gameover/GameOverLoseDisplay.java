@@ -35,6 +35,8 @@ public class GameOverLoseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(GameOverLoseDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private Table settingMenu;
+    private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
 
@@ -44,7 +46,7 @@ public class GameOverLoseDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        logger.info("Creating GameOverLoseDisplay");
+        logger.info("Creating MainMenuDisplay");
         addActors();
         applyUserSettings();
         backgroundTexture = new Texture("images/GameOverLose.png");
@@ -65,6 +67,8 @@ public class GameOverLoseDisplay extends UIComponent {
     private void addActors() {
         table = new Table();
         table.setFillParent(true);
+
+        settingMenu = new Table();
 
         // Initialises buttons
         TextButton achievementsBtn = new TextButton("Achievements", skin);
@@ -93,7 +97,7 @@ public class GameOverLoseDisplay extends UIComponent {
         table.row();
         table.add(exitBtn).padTop(15f).height(45f).width(180f);
         table.row();
-        table.add(versionLabel).padTop(15f);
+        table.add(versionLabel).padTop(50f);
         table.row();
 
         // Enables tables use
@@ -105,6 +109,9 @@ public class GameOverLoseDisplay extends UIComponent {
         // Add the minimize button to the top-right corner
         addMinimizeButton();
         stage.addActor(table);
+
+        // Adds the setting menu to program
+        addSettingMenu();
     }
 
     /**
@@ -143,6 +150,7 @@ public class GameOverLoseDisplay extends UIComponent {
                     // Switch to fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
+                updateSettingMenu();
                 updateToggleWindowButtonText(); // Update text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
@@ -166,6 +174,99 @@ public class GameOverLoseDisplay extends UIComponent {
             toggleWindowBtn.setText("-"); // Show minus for minimizing
         } else {
             toggleWindowBtn.setText("+"); // Show plus for maximizing
+        }
+    }
+
+    /**
+     * Adds a settings menu to the screen.
+     */
+    private void addSettingMenu() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE); // Set color to white
+        pixmap.fill();
+
+        // Create a Drawable from the Pixmap
+        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+
+        // Dispose of the Pixmap after creating the texture
+        pixmap.dispose();
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        settingMenu.setSize(550, 350);
+        settingMenu.setBackground(backgroundDrawable);
+        settingMenu.setVisible(false);
+
+        Table topTable = new Table();
+        topTable.top().padTop(10);
+
+        Label title = new Label("Settings", skin, "title");
+
+        topTable.add(title).expandX().center();
+        topTable.row();
+
+        TextButton closeButton = new TextButton("X", skin);
+        topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
+
+        settingsMenuDisplay = new SettingsMenuDisplay();
+        Table contentTable = settingsMenuDisplay.makeSettingsTable();
+
+        // Create a table for the "Apply" button
+        Table bottomRightTable = new Table();
+        bottomRightTable.bottom(); // Align contents to bottom-right
+
+        TextButton applyButton = new TextButton("Apply", skin);
+        bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
+
+        settingMenu.add(topTable).expandX().fillX(); // Top-right table
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
+        settingMenu.row().padTop(30f);
+        settingMenu.add(bottomRightTable).expandX().right().padLeft(100); // Bottom-right table
+
+        // Center the menu on the screen
+        settingMenu.setPosition(
+                (screenWidth - settingMenu.getWidth()) / 2,
+                (screenHeight - settingMenu.getHeight()) / 2
+        );
+
+        stage.addActor(settingMenu);
+
+        closeButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        settingMenu.setVisible(false);
+                        table.setTouchable(Touchable.enabled);
+                    }
+                });
+
+        // Add event listener for the "Apply" button
+        applyButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.info("Apply button clicked");
+                        settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
+                        settingMenu.setVisible(false); // Optionally hide the settings menu
+                        table.setTouchable(Touchable.enabled);
+                    }
+                });
+    }
+
+    /**
+     * Updates the position of the settings menu based on screen size.
+     */
+    public void updateSettingMenu() {
+        if (settingMenu != null) {
+            // Center the menu on the screen
+            float screenWidth = Gdx.graphics.getWidth();
+            float screenHeight = Gdx.graphics.getHeight();
+            settingMenu.setPosition(
+                    (screenWidth - settingMenu.getWidth()) / 2,
+                    (screenHeight - settingMenu.getHeight()) / 2
+            );
         }
     }
 

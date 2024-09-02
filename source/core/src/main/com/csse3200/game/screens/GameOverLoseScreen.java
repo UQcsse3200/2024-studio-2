@@ -25,14 +25,13 @@ import org.slf4j.LoggerFactory;
 public class GameOverLoseScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GameOverLoseScreen.class);
     private final GdxGame game;
-    private final Entity enemy;
     private final Renderer renderer;
+    private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
-    public GameOverLoseScreen(GdxGame game, Entity enemy) {
+    public GameOverLoseScreen(GdxGame game) {
         this.game = game;
-        this.enemy = enemy;
 
-        logger.debug("Initialising game over lose screen services");
+        logger.debug("Initialising game over win screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -41,6 +40,7 @@ public class GameOverLoseScreen extends ScreenAdapter {
 
         renderer = RenderFactory.createRenderer();
 
+        loadAssets();
         createUI();
     }
 
@@ -68,14 +68,28 @@ public class GameOverLoseScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing combat lose screen");
+        logger.debug("Disposing main menu screen");
 
         renderer.dispose();
+        unloadAssets();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getEventService().dispose();
 
         ServiceLocator.clear();
+    }
+
+    private void loadAssets() {
+        logger.debug("Loading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadTextures(mainMenuTextures);
+        resourceService.loadAll();
+    }
+
+    private void unloadAssets() {
+        logger.debug("Unloading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(mainMenuTextures);
     }
     /**
      * Creates the main menu's ui including components for rendering ui elements to the screen and
@@ -87,7 +101,7 @@ public class GameOverLoseScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new GameOverLoseDisplay())
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new GameOverActions(game, enemy));
+                .addComponent(new GameOverActions(game));
         ServiceLocator.getEntityService().register(ui);
     }
 }

@@ -130,9 +130,9 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
-      case COMBAT:
-        return new CombatScreen(this, screen, container, player, enemy);
-      case BOSS_CUTSCENE:
+        case COMBAT:
+            return new CombatScreen(this, screen, container, player, enemy);
+        case BOSS_CUTSCENE:
             return new BossCutsceneScreen(this, screen, container, player, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
@@ -143,9 +143,9 @@ public class GdxGame extends Game {
       case ANIMAL_SELECTION:
         return new AnimalSelectionScreen(this);
       case GAME_OVER_WIN:
-        return new GameOverWinScreen(this, enemy);
+        return new GameOverWinScreen(this);
       case GAME_OVER_LOSE:
-        return new GameOverLoseScreen(this, enemy);
+        return new GameOverLoseScreen(this);
 
 
       default:
