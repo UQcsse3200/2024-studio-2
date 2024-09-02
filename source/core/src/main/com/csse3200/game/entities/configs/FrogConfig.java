@@ -7,7 +7,10 @@ public class FrogConfig extends BaseEntityConfig{
     protected FrogConfig() {
         this.spritePath = "images/chicken.atlas";
         this.animationSpeed = 0.1f;
-        this.health = 1;
-        this.baseAttack = 0;
+        this.health = 5;
+        this.baseAttack = 50;
+        this.baseDefense = 5;
+        this.speed = 0.5f;
+        this.experience = 5;
     }
 }

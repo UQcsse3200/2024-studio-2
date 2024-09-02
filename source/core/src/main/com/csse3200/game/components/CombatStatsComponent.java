@@ -16,12 +16,12 @@ public class CombatStatsComponent extends Component {
   private int hunger;
   private int strength;
   private int defense;
-  private int speed;
+  private float speed;
   private int experience;
   private final int maxHunger;
   private final int maxExperience;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, float speed, int experience) {
       this.maxHealth = health;
       this.maxHunger = hunger;
       this.maxExperience=experience;
@@ -182,7 +182,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return entity's speed
    */
-  public int getSpeed() {
+  public float getSpeed() {
     return speed;
   }
 
@@ -192,7 +192,7 @@ public class CombatStatsComponent extends Component {
    *
    * @param speed speed
    */
-  public void setSpeed(int speed) {
+  public void setSpeed(float speed) {
     if (speed >= 0) {
       this.speed = speed;
     } else {
@@ -205,7 +205,7 @@ public class CombatStatsComponent extends Component {
    *
    * //@param defense defense to add
    */
-  public void addSpeed(int speed) {
+  public void addSpeed(float speed) {
     setSpeed(this.speed + speed);
   }
 

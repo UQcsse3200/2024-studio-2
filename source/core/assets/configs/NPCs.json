@@ -3,11 +3,12 @@
     "health": 40,
     "strength": 10,
     "speed": 10
+  },
   "chicken": {
     "health": 10,
     "baseAttack": 1,
     "baseDefense": 1,
-    "speed": 2,
+    "speed": 3,
     "isEnemy": 1
   },
   "frog": {

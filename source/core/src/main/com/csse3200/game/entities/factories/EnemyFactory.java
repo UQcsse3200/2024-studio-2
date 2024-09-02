@@ -35,7 +35,7 @@ import com.csse3200.game.services.ServiceLocator;
  */
 public class EnemyFactory {
   //private static final NPCConfigs configs =
-    //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+  //        FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
   /**
    * types of enemies
@@ -66,7 +66,7 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, config.speed, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();

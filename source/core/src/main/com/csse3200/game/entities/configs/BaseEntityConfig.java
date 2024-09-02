@@ -11,7 +11,7 @@ public class BaseEntityConfig {
     public int baseAttack = 0;
     public int strength = 0;
     public int defense = 0;
-    public int speed = 1;
+    public float speed = 1;
     public int experience = 100;
     public int baseDefense = 0;
     public String animalName = "";
