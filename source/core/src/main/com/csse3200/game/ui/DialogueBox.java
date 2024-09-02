@@ -42,7 +42,8 @@ public class DialogueBox {
      */
     public DialogueBox(String[][] labelText) {
         this.hints = labelText;
-        JobSystem.launch(this::screenInit);
+//        JobSystem.launch(this::screenInit);
+        screenInit();
     }
 
     /**
@@ -50,7 +51,7 @@ public class DialogueBox {
      *
      * @return Void
      */
-    private Void screenInit() {
+    private void screenInit() {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.currentHint = 0;
 
@@ -127,7 +128,7 @@ public class DialogueBox {
             }
         });
 
-        return null;
+//        return null;
     }
 
     public String[][] getHints() {
