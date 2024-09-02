@@ -380,7 +380,7 @@ public class ForestGameArea extends GameArea {
     }
   }
 
-   private void spawnEntityOnMap(Entity entity) {
+  private void spawnEntityOnMap(Entity entity) {
        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
         GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -418,6 +418,7 @@ public class ForestGameArea extends GameArea {
     music.setVolume(0.5f);
     music.play();
   }
+
   public static void pauseMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.pause();
