@@ -72,12 +72,14 @@ public class GameOverLoseDisplay extends UIComponent {
 
         // Initialises buttons
         TextButton achievementsBtn = new TextButton("Achievements", skin);
+        TextButton replayBtn = new TextButton("Replay", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
 
         // Adds UI component (hover over buttons)
         addButtonElevationEffect(achievementsBtn);
+        addButtonElevationEffect(replayBtn);
         addButtonElevationEffect(exitBtn);
 
         // Added handles for when clicked
@@ -88,12 +90,22 @@ public class GameOverLoseDisplay extends UIComponent {
                 entity.getEvents().trigger("achievements");
             }
         });
+        // Added handles for when replay clicked
+        replayBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Replay button clicked");
+                entity.getEvents().trigger("replay");
+            }
+        });
 
         // Added the pop up when user trys to exit game
         addExitConfirmation(exitBtn);
 
         // formats sizes of buttons
         table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
+        table.row();
+        table.add(replayBtn).padTop(15f).height(45f).width(180f);
         table.row();
         table.add(exitBtn).padTop(15f).height(45f).width(180f);
         table.row();
@@ -220,6 +232,10 @@ public class GameOverLoseDisplay extends UIComponent {
         bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
 
         settingMenu.add(topTable).expandX().fillX(); // Top-right table
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
+        settingMenu.row().padTop(30f);
+        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
         settingMenu.row().padTop(30f);
         settingMenu.add(contentTable).expandX().expandY().padLeft(50);
         settingMenu.row().padTop(30f);
