@@ -2,7 +2,6 @@ package com.csse3200.game.inventory.items.potions;
 
 
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
 
 import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.Test;
@@ -14,18 +13,27 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(GameExtension.class)
 class AbstractPotionTest  {
     private HealingPotion healingPotion;
+    private DefensePotion defensePotion;
     private CombatStatsComponent playerStat;
+    private CombatStatsComponent playerStat1;
 
     @BeforeEach
     void setUp() {
-        playerStat = new CombatStatsComponent(50, 50,10,10,10,10);
+        playerStat = new CombatStatsComponent(25, 50,10,10,10,10);
         healingPotion = new HealingPotion( 3, playerStat);
+        playerStat1 = new CombatStatsComponent(50, 50,10,0,10,10);
+        defensePotion = new DefensePotion( 3, playerStat1);
+
     }
 
     @Test
-    void testApplyEffect() {
+    void testHealingApplyEffect() {
+        int originalHealth = playerStat.getHealth();
         healingPotion.useItem(null);
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");
+        assertEquals(25, healingPotion.getEffectAmount());
+        assertEquals(originalHealth + 25, playerStat.getHealth());
+
 
         healingPotion.useItem(null);
         assertEquals(1, healingPotion.getQuantity(), "The potion should have 1 use left after two uses.");
@@ -34,6 +42,18 @@ class AbstractPotionTest  {
         assertTrue(healingPotion.isEmpty(), "The potion should be empty after 3 uses.");
 
         assertEquals(100, playerStat.getHealth(), "The potion should have 100 health.");
+    }
+
+    @Test
+    void testDefenseApplyEffect() throws InterruptedException {
+        int originalDefense = playerStat1.getDefense();
+        defensePotion.useItem(null);
+        assertEquals(2, defensePotion.getQuantity(), "The potion should have 2 uses left after one use.");
+        assertEquals(originalDefense + 25, playerStat1.getDefense(), "The defense should have 25.");
+
+        Thread.sleep(120000);
+
+        assertEquals(originalDefense, playerStat1.getDefense(), "The potion has finished and is back to 0");
     }
 }
 

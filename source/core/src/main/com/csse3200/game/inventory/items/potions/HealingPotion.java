@@ -1,13 +1,7 @@
-package com.csse3200.game.inventory.items.potions.healingpotion;
+package com.csse3200.game.inventory.items.potions;
 
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.effects.AbstractEffect;
-import com.csse3200.game.inventory.items.effects.healing.HealEffect;
-import com.csse3200.game.inventory.items.potions.AbstractPotion;
 import com.csse3200.game.components.CombatStatsComponent;
-
-import java.util.List;
-
 
 
 /**
@@ -52,8 +46,7 @@ public class HealingPotion extends AbstractPotion{
      * Applies the effects of this potion. This method must be implemented by subclasses
      * to define how the specific effects of the potion are applied
      */
-    @Override
-    public void applyEffect() {
+    public void applyHealingEffect() {
         if (this.playerStats.getHealth() + this.effectAmount <= 100) {
             this.playerStats.addHealth(this.effectAmount);
         } else {
@@ -71,7 +64,8 @@ public class HealingPotion extends AbstractPotion{
     @Override
     public void useItem(ItemUsageContext inputs) {
         if (!super.isEmpty()) {
-            applyEffect();
+            applyHealingEffect();
+            System.out.printf("Player has %d defense points\n", this.playerStats.getHealth());
             System.out.printf("Player has healed animal by %d points\n", this.effectAmount);
         }
         super.useItem(inputs);
