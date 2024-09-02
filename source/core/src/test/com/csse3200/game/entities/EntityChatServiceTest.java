@@ -89,6 +89,7 @@ class EntityChatServiceTest {
         Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
+    // TODO: This test seems to not be updating anything so I might rewrite this accordingly - Julian
     @Test
     void shouldUpdateEntityChat() {
         entityChatService.updateText(testText);
