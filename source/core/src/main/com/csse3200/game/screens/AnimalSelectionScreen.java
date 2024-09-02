@@ -15,6 +15,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
     private AnimalSelectionDisplay display;
     private AnimalSelectionActions actions;
 
+
     /**
      * Constructor for AnimalSelectionScreen.
      *
@@ -36,6 +37,8 @@ public class AnimalSelectionScreen extends ScreenAdapter {
 
         // Set up actions for handling UI interactions, passing the display, dialog helper, and game instance
         actions = new AnimalSelectionActions(display, dialogHelper, game);
+
+        actions.resetSelection(); // Reset the selection when the screen is created
     }
 
     /**
