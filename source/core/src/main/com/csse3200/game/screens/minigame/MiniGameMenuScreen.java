@@ -1,4 +1,4 @@
-package com.csse3200.game.screens;
+package com.csse3200.game.screens.minigame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.screens.MainMenuScreen;
+import com.csse3200.game.screens.minigame.bird.BirdScreen;
+import com.csse3200.game.screens.minigame.snake.SnakeScreen;
 
 /**
  * CLass for the MiniGame Menu Screen
@@ -125,6 +128,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 skyImage.setColor(Color.GREEN);
+                game.setScreen(new BirdScreen(game));
             }
         });
 
@@ -147,6 +151,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 skyButton.setColor(Color.GREEN);
+                game.setScreen(new BirdScreen(game));
             }
         });
 

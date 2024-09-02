@@ -17,8 +17,6 @@ public class SnakeGameRenderer {
     private final SnakeScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
-    //test
-
     private final MinigameRenderer renderer;
 
 
@@ -52,9 +50,7 @@ public class SnakeGameRenderer {
     }
 
     public void resize(int width, int height) {
-
-            renderer.resize(width, height);
-
+        renderer.resize(width, height);
     }
 
     /**

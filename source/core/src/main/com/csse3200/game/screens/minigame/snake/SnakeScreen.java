@@ -1,7 +1,8 @@
-package com.csse3200.game.screens;
+package com.csse3200.game.screens.minigame.snake;
 
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.screens.minigame.MiniGameMenuScreen;
 import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

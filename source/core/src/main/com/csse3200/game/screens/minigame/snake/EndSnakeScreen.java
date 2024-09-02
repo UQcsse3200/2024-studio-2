@@ -1,4 +1,4 @@
-package com.csse3200.game.screens;
+package com.csse3200.game.screens.minigame.snake;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,6 +17,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.MiniGameConstants;
 import com.csse3200.game.components.minigame.MiniGameMedals;
+import com.csse3200.game.screens.MainMenuScreen;
+import com.csse3200.game.screens.minigame.MiniGameMenuScreen;
+import com.csse3200.game.screens.minigame.snake.SnakeScreen;
 
 /**
  * Makes a new screen when the snake game is over.
