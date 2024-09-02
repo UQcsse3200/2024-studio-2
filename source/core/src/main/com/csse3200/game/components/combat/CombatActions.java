@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -58,6 +59,10 @@ public class CombatActions extends Component {
     //container.getEntityService().update();
     // Set current screen to original MainGameScreen
 //    game.setOldScreen(screen, container);
+    // Convert defeated enemy to a FriendlyNPC
+    
+    // TODO: Fix this so comment this out if need be
+    EntityConverter.convertToFriendly(enemy);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 

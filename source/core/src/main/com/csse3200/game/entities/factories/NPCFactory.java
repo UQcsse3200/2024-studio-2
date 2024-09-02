@@ -144,7 +144,14 @@ public class NPCFactory {
     EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.disposeCurrentOverlay();
   }
-
+  
+  // TODO: Fix this so comment this method out if need be
+  public static void registerFriendlyNPC(Entity npc) {
+    // Register the NPC as a friendly one
+    npc.getEvents().trigger("onFriendlyNPCCreated");
+    // Need to add additional logic
+  }
+  
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
    *
