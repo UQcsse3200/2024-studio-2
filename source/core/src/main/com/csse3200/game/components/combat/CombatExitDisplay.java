@@ -46,7 +46,6 @@ public class CombatExitDisplay extends UIComponent {
         public void changed(ChangeEvent changeEvent, Actor actor) {
           entity.getEvents().trigger("KangaDefeated", "add", 1);
           entity.getEvents().trigger("combatWin", screen, container);
-
         }
       });
 
@@ -55,7 +54,7 @@ public class CombatExitDisplay extends UIComponent {
       new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          entity.getEvents().trigger("combatLose", screen, container);
+          entity.getEvents().trigger("combatLose");
         }
       });
 

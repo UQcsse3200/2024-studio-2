@@ -1,9 +1,12 @@
 package com.csse3200.game.components.gameover;
 
+import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,22 +18,17 @@ public class GameOverActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(GameOverActions.class);
     private GdxGame game;
 
-    public GameOverActions(GdxGame game) {
+    private final Entity enemy;
+
+    public GameOverActions(GdxGame game, Entity enemy) {
         this.game = game;
+        this.enemy = enemy;
     }
 
     @Override
     public void create() {
-        entity.getEvents().addListener("exit", this::onExit);
+        entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
         entity.getEvents().addListener("achievements", this::onAchievements);
-    }
-
-    /**
-     * Exits the game.
-     */
-    private void onExit() {
-        logger.info("Exit game");
-        game.exit();
     }
 
     private void onAchievements() {
@@ -38,4 +36,15 @@ public class GameOverActions extends Component {
         game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
     }
 
+    //Deprecated kill enemy code which causes bug with kangaroo boss not rendering BGM mp3
+    private void onReturnToMainGame(Screen screen, ServiceContainer container) {
+        logger.info("Returning to main game screen");
+        this.enemy.dispose();
+        this.enemy.update();
+        container.getEntityService().unregister(enemy);
+        container.getEntityService().update();
+      // Set current screen to main game screen
+        game.setOldScreen(screen, container);
+        game.setScreen((GdxGame.ScreenType.MAIN_GAME));
+    }
 }
