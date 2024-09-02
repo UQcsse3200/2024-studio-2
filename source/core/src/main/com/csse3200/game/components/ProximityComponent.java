@@ -22,6 +22,16 @@ public class ProximityComponent extends Component {
         this.proximityRange = proximityRange;
     }
 
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
     /**
      * Updates the task's state based on the entity's position relative to the target.
      * Triggers the "proximityTriggered" event when the entity is within the proximity range.

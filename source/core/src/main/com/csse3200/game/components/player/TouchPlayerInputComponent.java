@@ -111,4 +111,13 @@ public class TouchPlayerInputComponent extends InputComponent {
   }
 
 
+  @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
 }

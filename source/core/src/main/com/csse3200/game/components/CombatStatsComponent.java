@@ -253,4 +253,14 @@ public class CombatStatsComponent extends Component {
     return maxHunger;
   }
   public int getMaxExperience(){return maxExperience;}
+
+  @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
 }

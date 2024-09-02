@@ -40,6 +40,16 @@ public class GameOverLoseDisplay extends UIComponent {
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
 
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
     /**
      * Called when the component is created. Initializes the Game Over lose UI.
      */
@@ -73,12 +83,14 @@ public class GameOverLoseDisplay extends UIComponent {
         // Initialises buttons
         TextButton achievementsBtn = new TextButton("Achievements", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
+        TextButton replayBtn = new TextButton("Replay", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
 
         // Adds UI component (hover over buttons)
         addButtonElevationEffect(achievementsBtn);
         addButtonElevationEffect(exitBtn);
+        addButtonElevationEffect(replayBtn);
 
         // Added handles for when clicked
         achievementsBtn.addListener(new ChangeListener() {
@@ -86,6 +98,14 @@ public class GameOverLoseDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Achievements button clicked");
                 entity.getEvents().trigger("achievements");
+            }
+        });
+        // Added handles for replay clicked
+        replayBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.info("replay button clicked");
+                entity.getEvents().trigger("replay");
             }
         });
 

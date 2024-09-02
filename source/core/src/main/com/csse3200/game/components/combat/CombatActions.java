@@ -24,7 +24,7 @@ public class
 CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
-  private final Entity enemy; // Each combat can only have one enemy.
+  private Entity enemy; // Each combat can only have one enemy.
 
   private Stage stage;
   private CombatButtonActions actions;
@@ -42,6 +42,7 @@ CombatActions extends Component {
   public CombatActions(GdxGame game) {
     this.game = game;
       stage = new Stage();
+
     Gdx.input.setInputProcessor(stage);  // Set the stage as the input processor to handle user input
 
     // Load the skin for UI elements from the specified JSON file
@@ -131,13 +132,15 @@ CombatActions extends Component {
     logger.info("onAttack before");
     // Perform attack logic here, like decreasing health
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+
     logger.info("Attack button after");
   }
   private void onBoast(Screen screen, ServiceContainer container) {
     logger.info("onBoast before");
     // Perform boost logic here, like increasing health
     // maybe like entity.getComponent(CombatStatsComponent.class).increaseHealth(10);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+
     logger.info("Boost button after");
   }
   /**

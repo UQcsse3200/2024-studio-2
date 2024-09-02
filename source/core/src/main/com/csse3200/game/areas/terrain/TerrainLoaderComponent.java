@@ -20,6 +20,16 @@ public class TerrainLoaderComponent extends Component {
   private GridPoint2 previousChunk;
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     // Initialize the player's starting chunk position and load the initial chunks.
     previousChunk = getPlayerChunk(entity.getPosition());

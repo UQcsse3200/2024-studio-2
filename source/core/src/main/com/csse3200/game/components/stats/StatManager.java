@@ -57,4 +57,13 @@ public class StatManager extends Component {
         }
     }
 
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
 }
