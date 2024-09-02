@@ -40,43 +40,28 @@ public class DefensePotion extends AbstractPotion{
      *
      * @param quantity the number of uses this potion has
      */
-    public DefensePotion(int quantity, CombatStatsComponent playerStat) {
-        super("Defense Potion", 2, 3, quantity, 25, playerStat);
+    public DefensePotion(int quantity) {
+        super("Defense Potion", 2, 3, quantity, 25);
         this.setTexturePath(path);
         this.setDescription("This is a defense potion");
-    }
-
-    /**
-     * Applies the effects of this potion. This method must be implemented by subclasses
-     * to define how the specific effects of the potion are applied. These effects will be reverted once two minutes
-     * in game time have passed
-     */
-    public void applyDefenseEffect() {
-        int revert = this.effectAmount;
-        this.playerStats.addDefense(this.effectAmount);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Revert the defense boost
-                playerStats.addDefense(-(revert));
-                System.out.println("Defense effect has been reverted");
-            }
-        }, DURATION);
     }
 
     /**
      * Uses the potion by applying its effects and decreasing its number of uses.
      * If no uses are left, the potion is marked as empty.
      *
-     * @param inputs the context in which the item is used, typically passed from the game engine
+     * @param context the context in which the item is used (contains a Player to use on)
      */
     @Override
-    public void useItem(ItemUsageContext inputs) {
-        if (!super.isEmpty()) {
-            applyDefenseEffect();
-            System.out.printf("Player has increase the animal's defense by %d points\n", this.effectAmount);
-        }
-        super.useItem(inputs);
+    public void useItem(ItemUsageContext context) {
+        super.useItem(context);
+        context.player.getComponent(CombatStatsComponent.class).addDefense(this.effectAmount);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() { // Revert the defense boost
+            @Override
+            public void run() {
+                context.player.getComponent(CombatStatsComponent.class).addDefense(-effectAmount);
+            }
+        }, DURATION);
     }
 }

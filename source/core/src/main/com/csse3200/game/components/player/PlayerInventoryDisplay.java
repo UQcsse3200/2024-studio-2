@@ -160,7 +160,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
-                entity.getEvents().trigger("useItem", item);
+                ItemUsageContext context = new ItemUsageContext(entity);
+                inventory.useItemAt(index, context);
+                entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();
             }
         });

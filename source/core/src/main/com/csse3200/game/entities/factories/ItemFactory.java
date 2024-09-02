@@ -45,61 +45,57 @@ public class ItemFactory {
      * @param target The entity the health potion will interact with
      * @return The created health potion entity.
      */
-    public static Entity createHealthPotion(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new HealingPotion(1, stat));
+    public static Entity createHealthPotion(Entity target) {
+        return createItem(target, new HealingPotion(1));
     }
 
     /**
      * Creates a defense potion entity that interacts with the specified target.
      *
      * @param target The entity the defense potion will interact with
-     * @param stat The stats of the target it will affect
      * @return The created health potion entity.
      */
-    public static Entity createDefensePotion(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new DefensePotion(1, stat));
+    public static Entity createDefensePotion(Entity target) {
+        return createItem(target, new DefensePotion(1));
     }
 
     /**
      * Creates an attack potion entity that interacts with the specified target.
      *
      * @param target The entity the attack potion will interact with
-     * @param stat The stats of the target it will affect
      * @return The created attack potion entity
      */
-    public static Entity createAttackPotion(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new AttackPotion(1, stat));
+    public static Entity createAttackPotion(Entity target) {
+        return createItem(target, new AttackPotion(1));
     }
 
     /**
      * Creates an apple entity that interacts with the specified target.
      * @param target The entity the apple with interact with
-     * @param stat the stats of the target it will affect
      * @return The created apple entity.
      */
-    public static Entity createApple(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new Foods.Apple(1, stat));
+    public static Entity createApple(Entity target) {
+        return createItem(target, new Foods.Apple(1));
     }
 
     /**
      * Creates a carrot entity that interacts with the specifc target
      * @param target The entity the apple with interact with
-     * @param stat the stats of the target it will affect
      * @return the created carrot entity
      */
-    public static Entity createCarrot(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new Foods.Carrot(1, stat));
+    public static Entity createCarrot(Entity target) {
+        return createItem(target, new Foods.Carrot(1));
     }
 
-    public static Entity createCandy(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new Foods.Candy(1, stat));
+    public static Entity createCandy(Entity target) {
+        return createItem(target, new Foods.Candy(1));
     }
 
-    public static Entity createChickenLeg(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new Foods.ChickenLeg(1, stat));
+    public static Entity createChickenLeg(Entity target) {
+        return createItem(target, new Foods.ChickenLeg(1));
     }
 
-    public static Entity createMeat(Entity target, CombatStatsComponent stat) {
-        return createItem(target, new Foods.Meat(1, stat));
+    public static Entity createMeat(Entity target) {
+        return createItem(target, new Foods.Meat(1));
     }
 }

@@ -52,7 +52,7 @@ public class ItemProximityTaskTest {
     void testInitialisation() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        HealingPotion item = new HealingPotion(1, player);
+        HealingPotion item = new HealingPotion(1);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 0.1f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);
@@ -73,7 +73,7 @@ public class ItemProximityTaskTest {
     void shouldCreateItemOverlayWhenNear() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        HealingPotion item = new HealingPotion(1, player);
+        HealingPotion item = new HealingPotion(1);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 2.0f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);
@@ -92,7 +92,7 @@ public class ItemProximityTaskTest {
     void shouldNotCreateItemOverlayWhenFar() {
         Entity target = new Entity();
         target.setPosition(1f, 1f);
-        HealingPotion item = new HealingPotion(1, player);
+        HealingPotion item = new HealingPotion(1);
 
         ItemProximityTask task = new ItemProximityTask(target, 1, 0.01f, item);
         AITaskComponent component = new AITaskComponent().addTask(task);

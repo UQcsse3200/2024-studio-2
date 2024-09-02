@@ -27,7 +27,6 @@ import com.csse3200.game.components.CombatStatsComponent;
  *
  * @see AbstractPotion
  */
-
 public class HealingPotion extends AbstractPotion{
     private final static String path = "images/Healthpotion.png";
 
@@ -36,38 +35,20 @@ public class HealingPotion extends AbstractPotion{
      *
      * @param quantity the number of uses this potion has
      */
-    public HealingPotion(int quantity, CombatStatsComponent playerStat) {
-        super("Health Potion", 2, 3, quantity, 25, playerStat);
+    public HealingPotion(int quantity) {
+        super("Health Potion", 2, 3, quantity, 25);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
     }
 
     /**
-     * Applies the effects of this potion. This method must be implemented by subclasses
-     * to define how the specific effects of the potion are applied
-     */
-    public void applyHealingEffect() {
-        if (this.playerStats.getHealth() + this.effectAmount <= 100) {
-            this.playerStats.addHealth(this.effectAmount);
-        } else {
-            int remainder = this.effectAmount - (this.playerStats.getHealth() + this.effectAmount - 100);
-            this.playerStats.addHealth(remainder);
-        }
-    }
-
-    /**
-     * Uses the potion by applying its effects and decreasing its number of uses.
-     * If no uses are left, the potion is marked as empty.
+     * Uses the potion by healing the player a certain amount.
      *
-     * @param inputs the context in which the item is used, typically passed from the game engine
+     * @param context the context in which the item is used (contains a player entity)
      */
     @Override
-    public void useItem(ItemUsageContext inputs) {
-        if (!super.isEmpty()) {
-            applyHealingEffect();
-            System.out.printf("Player has %d defense points\n", this.playerStats.getHealth());
-            System.out.printf("Player has healed animal by %d points\n", this.effectAmount);
-        }
-        super.useItem(inputs);
+    public void useItem(ItemUsageContext context) {
+        context.player.getComponent(CombatStatsComponent.class).addHealth(this.effectAmount);
+        super.useItem(context);
     }
 }

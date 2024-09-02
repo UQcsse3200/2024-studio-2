@@ -25,12 +25,10 @@ import java.util.List;
  */
 
 public abstract class AbstractPotion extends ConsumableItem {
-
     /**
      * A list of possible effects that this potion can apply when used.
      */
     protected int effectAmount;
-    protected CombatStatsComponent playerStats;
 
     /**
      * Constructs a new {@code Potion} with the specified quantity and a list of possible effects.
@@ -39,10 +37,9 @@ public abstract class AbstractPotion extends ConsumableItem {
      *
      * potion can apply
      */
-    protected AbstractPotion(String name, int itemCode, int limit, int quantity, int effectAmount, CombatStatsComponent playerStats) {
+    protected AbstractPotion(String name, int itemCode, int limit, int quantity, int effectAmount) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
-        this.playerStats = playerStats;
     }
 
     /**
@@ -52,24 +49,4 @@ public abstract class AbstractPotion extends ConsumableItem {
     public int getEffectAmount() {
         return this.effectAmount;
     }
-
-//    /**
-//     * Applies the effects of this potion. This method must be implemented by subclasses
-//     * to define how the specific effects of the potion are applied
-//     */
-//    public abstract void applyEffect();
-
-//    /**
-//     * Uses the potion by applying its effects and decreasing its number of uses.
-//     * If no uses are left, the potion is marked as empty.
-//     *
-//     * @param inputs the context in which the item is used, typically passed from the game engine
-//     */
-//    @Override
-//    public void useItem(ItemUsageContext inputs) {
-//        if (!super.isEmpty()) {
-//            return;
-//        }
-//        super.useItem(inputs);
-//    }
 }

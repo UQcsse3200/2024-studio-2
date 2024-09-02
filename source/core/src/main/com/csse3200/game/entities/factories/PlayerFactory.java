@@ -5,7 +5,6 @@ import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.components.player.PlayerItemHandlerComponent;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
@@ -68,8 +67,7 @@ public class PlayerFactory {
               .addComponent(inputComponent)
               .addComponent(new PlayerStatsDisplay())
               .addComponent(new QuestManager(player))
-              .addComponent(new QuestPopup())
-              .addComponent(new PlayerItemHandlerComponent());
+              .addComponent(new QuestPopup());
             player.addComponent((new StatManager()));
 
 
