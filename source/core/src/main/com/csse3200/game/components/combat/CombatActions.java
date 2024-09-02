@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
@@ -13,10 +14,13 @@ import org.slf4j.LoggerFactory;
  * This class listens to events relevant to the Main Game Screen and does something when one of the
  * events is triggered.
  */
-public class CombatActions extends Component {
+public class
+CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
   private final Entity enemy; // Each combat can only have one enemy.
+  //private TextButton attackButton; initialized in CombatButtons Class
+  //private TextButton boostButton;
 
   public CombatActions(GdxGame game, Entity enemy) {
     this.game = game;
@@ -29,6 +33,8 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
+    entity.getEvents().addListener("Attack", this::onAttack);
+    entity.getEvents().addListener("Boast", this::onBoast);
   }
 
   /**
@@ -70,4 +76,18 @@ public class CombatActions extends Component {
 //    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
+  private void onAttack(Screen screen, ServiceContainer container) {
+    logger.info("onAttack before");
+    // Perform attack logic here, like decreasing health
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    logger.info("Attack button after");
+  }
+  private void onBoast(Screen screen, ServiceContainer container) {
+    logger.info("onBoast before");
+    // Perform boost logic here, like increasing health
+    // maybe like entity.getComponent(CombatStatsComponent.class).increaseHealth(10);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    logger.info("Boost button after");
+  }
+
 }
