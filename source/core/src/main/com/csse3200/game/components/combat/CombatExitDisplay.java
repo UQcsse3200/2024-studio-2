@@ -26,7 +26,17 @@ public class CombatExitDisplay extends UIComponent {
     this.container = container;
   }
 
-  @Override
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
   public void create() {
     super.create();
     addActors();
@@ -39,8 +49,8 @@ public class CombatExitDisplay extends UIComponent {
 
     TextButton win = new TextButton("Insta-kill enemy", skin);
     TextButton lose = new TextButton("Exiting - lose", skin);
-    TextButton attack = new TextButton("Attack", skin);
-    TextButton boast = new TextButton("Boost", skin);
+    //TextButton attack = new TextButton("Attack", skin);
+    //TextButton boast = new TextButton("Boost", skin);
 
     win.addListener(
       new ChangeListener() {
@@ -61,26 +71,26 @@ public class CombatExitDisplay extends UIComponent {
         }
       });
 
-    attack.addListener(
-            new ChangeListener() {
-              @Override
-              public void changed(ChangeEvent changeEvent, Actor actor) {
-                entity.getEvents().trigger("Attack", screen, container);
-              }
-            });
+//    attack.addListener(
+//            new ChangeListener() {
+//              @Override
+//              public void changed(ChangeEvent changeEvent, Actor actor) {
+//                entity.getEvents().trigger("Attack", screen, container);
+//              }
+//            });
 
-    boast.addListener(
-            new ChangeListener() {
-              @Override
-              public void changed(ChangeEvent changeEvent, Actor actor) {
-                entity.getEvents().trigger("Boast", screen, container);
-              }
-            });
+//    boast.addListener(
+//            new ChangeListener() {
+//              @Override
+//              public void changed(ChangeEvent changeEvent, Actor actor) {
+//                entity.getEvents().trigger("Boast", screen, container);
+//              }
+//            });
 
     table.add(win).padTop(10f).padRight(10f);
     table.add(lose).padTop(10f).padRight(10f);
-    table.add(attack).padTop(10f).padRight(10f);
-    table.add(boast).padTop(10f).padRight(10f);
+    //table.add(attack).padTop(10f).padRight(10f);
+    //table.add(boast).padTop(10f).padRight(10f);
 
     stage.addActor(table);
   }

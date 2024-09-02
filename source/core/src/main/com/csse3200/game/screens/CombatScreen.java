@@ -170,7 +170,8 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(new TerminalDisplay())
+        .addComponent(new CombatActions(this.game));
 
 
     ServiceLocator.getEntityService().register(ui);
