@@ -29,6 +29,8 @@ public class ForestGameArea extends GameArea {
   private static final int NUM_TREES = 7;
   private  static final int NUM_APPLES = 20;
   private  static final int NUM_HEALTH_POTIONS = 10;
+  private static final int NUM_DEFENSE_POTIONS = 10;
+  private static final int NUM_ATTACK_POTIONS = 10;
   private static final int NUM_CARROTS = 20;
   private static final int NUM_CHICKEN_LEGS = 10;
   private static final int NUM_MEAT = 10;
@@ -151,6 +153,8 @@ public class ForestGameArea extends GameArea {
 
       // items
     spawnHealthPotions();
+    spawnDefensePotions();
+    spawnAttackPotions();
     spawnApples();
     spawnCarrots();
     spawmMeat();
@@ -310,6 +314,19 @@ public class ForestGameArea extends GameArea {
   private void spawnHealthPotions() {
     Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player, player.getComponent(CombatStatsComponent.class));
     spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS, 30, 30);
+  }
+
+  /**
+   * Spawns the defense potions on map
+   */
+  private void spawnDefensePotions() {
+    Supplier<Entity> defensePotionGenerator = () -> ItemFactory.createDefensePotion(player, player.getComponent(CombatStatsComponent.class));
+    spawnRandomItem(defensePotionGenerator, NUM_DEFENSE_POTIONS, 35, 35);
+  }
+
+  private void spawnAttackPotions() {
+    Supplier<Entity> attackPotionGenerator = () -> ItemFactory.createAttackPotion(player, player.getComponent(CombatStatsComponent.class));
+    spawnRandomItem(attackPotionGenerator, NUM_ATTACK_POTIONS, 35, 35);
   }
 
   /**

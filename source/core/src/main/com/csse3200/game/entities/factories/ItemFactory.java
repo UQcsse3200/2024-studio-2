@@ -7,6 +7,8 @@ import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.HealingPotion;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
@@ -48,14 +50,43 @@ public class ItemFactory {
     }
 
     /**
+     * Creates a defense potion entity that interacts with the specified target.
+     *
+     * @param target The entity the defense potion will interact with
+     * @param stat The stats of the target it will affect
+     * @return The created health potion entity.
+     */
+    public static Entity createDefensePotion(Entity target, CombatStatsComponent stat) {
+        return createItem(target, new DefensePotion(1, stat));
+    }
+
+    /**
+     * Creates an attack potion entity that interacts with the specified target.
+     *
+     * @param target The entity the attack potion will interact with
+     * @param stat The stats of the target it will affect
+     * @return The created attack potion entity
+     */
+    public static Entity createAttackPotion(Entity target, CombatStatsComponent stat) {
+        return createItem(target, new AttackPotion(1, stat));
+    }
+
+    /**
      * Creates an apple entity that interacts with the specified target.
      * @param target The entity the apple with interact with
+     * @param stat the stats of the target it will affect
      * @return The created apple entity.
      */
     public static Entity createApple(Entity target, CombatStatsComponent stat) {
         return createItem(target, new Foods.Apple(1, stat));
     }
 
+    /**
+     * Creates a carrot entity that interacts with the specifc target
+     * @param target The entity the apple with interact with
+     * @param stat the stats of the target it will affect
+     * @return the created carrot entity
+     */
     public static Entity createCarrot(Entity target, CombatStatsComponent stat) {
         return createItem(target, new Foods.Carrot(1, stat));
     }
