@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbstractPotionTest  {
     private HealingPotion healingPotion;
     private DefensePotion defensePotion;
+    private AttackPotion attackPotion;
     private CombatStatsComponent playerStat;
     private CombatStatsComponent playerStat1;
 
@@ -21,8 +22,9 @@ class AbstractPotionTest  {
     void setUp() {
         playerStat = new CombatStatsComponent(25, 50,10,10,10,10);
         healingPotion = new HealingPotion( 3, playerStat);
-        playerStat1 = new CombatStatsComponent(50, 50,10,0,10,10);
+        playerStat1 = new CombatStatsComponent(50, 50,0,0,10,10);
         defensePotion = new DefensePotion( 3, playerStat1);
+        attackPotion = new AttackPotion(3, playerStat1);
 
     }
 
@@ -54,6 +56,18 @@ class AbstractPotionTest  {
         Thread.sleep(120000);
 
         assertEquals(originalDefense, playerStat1.getDefense(), "The potion has finished and is back to 0");
+    }
+
+    @Test
+    void testAttackApplyEffect() throws InterruptedException {
+        int originalAttack = playerStat1.getStrength();
+        attackPotion.useItem(null);
+        assertEquals(2, attackPotion.getQuantity(), "The potion should have 2 uses left after one use.");
+        assertEquals(originalAttack + 25, playerStat1.getStrength(), "The strength should have 25.");
+
+        Thread.sleep(120000);
+
+        assertEquals(originalAttack, playerStat1.getStrength(), "The potion has finished and is back to 0");
     }
 }
 
