@@ -1,10 +1,4 @@
 {
-  "NUM_TREES" : 7,
-  "NUM_APPLES" : 5,
-  "NUM_HEALTH_POTIONS" : 3,
-  "NUM_CHICKENS" : 2,
-  "NUM_FROGS" : 5,
-  "NUM_MONKEYS" : 2,
   "forestTextures" : [
     "images/box_boy_leaf.png",
     "images/tree.png",
@@ -53,19 +47,5 @@
     "images/eagle.atlas",
     "images/turtle.atlas",
     "images/final_boss_kangaroo.atlas"
-  ],
-  "gameSounds" : [
-      "sounds/mooing-cow.mp3",
-      "sounds/tiger-roar.mp3",
-      "sounds/turtle-hiss.mp3",
-      "sounds/snake-hiss.mp3",
-      "sounds/eagle-scream.mp3",
-      "sounds/QuestComplete.wav",
-      "sounds/Impact4.ogg"
-  ],
-  "gameMusic" : [
-    "sounds/BGM_03_mp3.mp3",
-    "sounds/heartbeat.mp3"
-  ],
-  "backgroundMusic" : "sounds/BGM_03_mp3.mp3"
+  ]
 }
