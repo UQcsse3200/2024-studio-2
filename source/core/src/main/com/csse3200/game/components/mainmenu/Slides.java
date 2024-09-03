@@ -28,7 +28,7 @@ public class Slides {
     public int getNumSlides() {return numSlides;}
 
     public boolean moveSlidesForward() {
-        if (currentSlide < numSlides) {
+        if (currentSlide < numSlides - 1) {
             slides.get(currentSlide).setVisible(false);
             currentSlide++;
             slides.get(currentSlide).setVisible(true);
