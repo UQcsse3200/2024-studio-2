@@ -61,7 +61,12 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      this.health = health;
+      if (health >= this.maxHealth) {
+        this.health = this.maxHealth;
+      }
+      else {
+        this.health = health;
+      }
     } else {
       this.health = 0;
     }
@@ -95,7 +100,12 @@ public class CombatStatsComponent extends Component {
    */
   public void setHunger(int hunger) {
     if (hunger >= 0) {
-      this.hunger = hunger;
+      if (hunger >= this.maxHunger) {
+        this.hunger = this.maxHunger;
+      }
+      else {
+        this.hunger = hunger;
+      }
     } else {
       this.hunger = 0;
     }
@@ -135,7 +145,7 @@ public class CombatStatsComponent extends Component {
     if (strength >= 0) {
       this.strength = strength;
     } else {
-      logger.error("Cannot set strength to a negative value");
+      this.strength = 0;
     }
   }
 
@@ -166,7 +176,7 @@ public class CombatStatsComponent extends Component {
     if (defense >= 0) {
       this.defense = defense;
     } else {
-      logger.error("Cannot set defense to a negative value");
+      this.defense = 0;
     }
   }
 
@@ -198,7 +208,7 @@ public class CombatStatsComponent extends Component {
     if (speed >= 0) {
       this.speed = speed;
     } else {
-      logger.error("Cannot set speed to a negative value");
+      this.speed = 0;
     }
   }
 
@@ -226,7 +236,7 @@ public class CombatStatsComponent extends Component {
     if (experience >= 0) {
       this.experience = experience;
     } else {
-      logger.error("Cannot set experience to a negative value");
+      this.experience = 0;
     }
 
     if (experience >= this.maxExperience && isPlayer) {
