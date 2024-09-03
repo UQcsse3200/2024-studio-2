@@ -66,30 +66,46 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
 
     //Enemies
-//      for (int i = 0;i < configs.NUM_CHICKENS; i++) {
-//        spawnChicken();
-//      }
-//      for (int i = 0; i< configs.NUM_FROGS; i++) {
-//        spawnFrog();
-//      }
-      for (int i = 0; i< config.spawns.NUM_MONKEYS; i++) {
-        spawnMonkey();
-      }
+    spawnEnemies();
 
-      // items
-    spawnHealthPotions();
-    spawnApples();
+    // items
+    spawnItems();
 
     //Friendlies
-    spawnCow();
-    spawnLion();
-    spawnTurtle();
-    spawnCow();
-    spawnEagle();
-    spawnSnake();
+    spawnNPCs();
+
     playMusic();
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
+  }
+
+  private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      spawnEntityAt(enemy, randomPos, true, false);
+      enemies.add(enemy);
+      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+    }
+  }
+
+  private void spawnEnemies() {
+    Supplier<Entity> generator;
+
+    // Chicken
+    generator = () -> EnemyFactory.createChicken(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
+
+    // Monkey
+    generator = () -> EnemyFactory.createMonkey(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+
+    // Frog
+    generator = () -> EnemyFactory.createFrog(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
   }
 
   /**
@@ -168,13 +184,20 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-    private void spawnKangarooBoss() {
-        if (!kangarooBossSpawned) {
-            Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
-            spawnEntityOnMap(kangarooBoss);
-            kangarooBossSpawned = true;
-        }
+  private void spawnKangarooBoss() {
+    if (!kangarooBossSpawned) {
+      Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+      spawnEntityOnMap(kangarooBoss);
+      kangarooBossSpawned = true;
     }
+  }
+
+  private void spawnEntityOnMap(Entity entity) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    spawnEntityAt(entity, randomPos, true, true);
+  }
 
   /**
    * Spawns a chicken enemy, with the player entity as its target
@@ -227,57 +250,62 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(monkey, randomPos, true, true);
   }
 
-  private void spawnHealthPotions() {
-    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(healthPotionGenerator, config.spawns.NUM_HEALTH_POTIONS);
+  private void spawnItems() {
+    Supplier<Entity> generator;
+
+    // Health Potions
+    generator = () -> ItemFactory.createHealthPotion(player);
+    spawnRandomItem(generator, config.spawns.NUM_HEALTH_POTIONS);
+
+    // Apples
+    generator = () -> ItemFactory.createApple(player);
+    spawnRandomItem(generator, config.spawns.NUM_APPLES);
   }
 
-  private void spawnApples() {
-    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(appleGenerator, config.spawns.NUM_APPLES);
-  }
+  private void spawnRandomItem(Supplier<Entity> creator, int numItems) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
 
-  private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < numEntities; i++) {
+    for (int i = 0; i < numItems; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity obstacle = creator.get();
-      spawnEntityAt(obstacle, randomPos, true, false);
+      Entity item = creator.get();
+      spawnEntityAt(item, randomPos, true, false);
     }
   }
 
-   private void spawnEntityOnMap(Entity entity) {
-       GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-       GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-        spawnEntityAt(entity, randomPos, true, true);
-    }
+  private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    private void spawnCow() {
-        Entity cow = NPCFactory.createCow(player, this.enemies);
-        spawnEntityOnMap(cow);
+    for (int i = 0; i < numNPCs; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity npc = creator.get();
+      spawnEntityAt(npc, randomPos, true, false);
     }
+  }
 
-    private void spawnLion() {
-        Entity lion = NPCFactory.createLion(player, this.enemies);
-        spawnEntityOnMap(lion);
-    }
+  private void spawnNPCs() {
+    Supplier<Entity> generator;
 
-    private void spawnTurtle() {
-        Entity turtle = NPCFactory.createTurtle(player, this.enemies);
-        spawnEntityOnMap(turtle);
-    }
+    // Cow
+    generator = () -> NPCFactory.createCow(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_COWS);
 
-    private void spawnEagle() {
-        Entity eagle = NPCFactory.createEagle(player, this.enemies);
-        spawnEntityOnMap(eagle);
-    }
+    // Lion
+    generator = () -> NPCFactory.createLion(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_LIONS);
 
-  private void spawnSnake() {
-    Entity snake = NPCFactory.createSnake(player, this.enemies);
-    spawnEntityOnMap(snake);
+    // Turtle
+    generator = () -> NPCFactory.createTurtle(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_TURTLES);
+
+    // Eagle
+    generator = () -> NPCFactory.createEagle(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_EAGLES);
+
+    // Snake
+    generator = () -> NPCFactory.createSnake(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
   }
 
   public static void playMusic() {
