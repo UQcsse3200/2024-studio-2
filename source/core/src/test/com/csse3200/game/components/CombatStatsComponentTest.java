@@ -51,5 +51,108 @@ class CombatStatsComponentTest {
 
     combat.setStrength(-50);
     assertEquals(150, combat.getStrength());
+
+    combat.addStrength(50);
+    assertEquals(200, combat.getStrength());
+
+    combat.addStrength(-100);
+    assertEquals(100, combat.getStrength());
   }
+
+  @Test
+  void shouldSetGetdefense() {
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 20, 0, 0, false);
+    assertEquals(20, combat.getDefense());
+
+    combat.setDefense(150);
+    assertEquals(150, combat.getDefense());
+
+    combat.setDefense(-50);
+    assertEquals(150, combat.getDefense());
+
+    combat.addDefense(50);
+    assertEquals(200, combat.getDefense());
+
+    combat.addDefense(-100);
+    assertEquals(100, combat.getDefense());
+  }
+
+  @Test
+  void shouldSetGetspeed() {
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 20, 0, false);
+    assertEquals(20, combat.getSpeed());
+
+    combat.setSpeed(150);
+    assertEquals(150, combat.getSpeed());
+
+    combat.setSpeed(-50);
+    assertEquals(150, combat.getSpeed());
+
+    combat.addSpeed(50);
+    assertEquals(200, combat.getSpeed());
+
+    combat.addSpeed(-100);
+    assertEquals(100, combat.getSpeed());
+  }
+
+  @Test
+  void shouldSetGetexperience() {
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 20, false);
+    assertEquals(20, combat.getExperience());
+
+    combat.setExperience(150);
+    assertEquals(150, combat.getExperience());
+
+    combat.setExperience(-50);
+    assertEquals(150, combat.getExperience());
+
+    combat.addExperience(50);
+    assertEquals(200, combat.getExperience());
+
+    combat.addExperience(-100);
+    assertEquals(100, combat.getExperience());
+  }
+
+  @Test
+  void shouldLevelUpAndIncreaseStats() {
+    int initialHealth = 100;
+    int initialStrength = 50;
+    int initialDefense = 30;
+    int initialSpeed = 20;
+    int initialExperience = 95;
+    int maxExperience = 100;
+
+    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, true);
+
+    combat.addExperience(10);
+    assertEquals(5, combat.getExperience());
+
+    assertEquals((int) Math.ceil(maxExperience * 1.25), combat.getMaxExperience());
+    assertEquals((int) Math.ceil(initialHealth * 1.02), combat.getMaxHealth());
+    assertEquals((int) Math.ceil(initialStrength * 1.02), combat.getStrength());
+    assertEquals((int) Math.ceil(initialDefense * 1.02), combat.getDefense());
+    assertEquals((int) Math.ceil(initialSpeed * 1.02), combat.getSpeed());
+  }
+
+  @Test
+  void shouldLevelUpAndIncreaseStats2() {
+    int initialHealth = 100;
+    int initialStrength = 50;
+    int initialDefense = 30;
+    int initialSpeed = 20;
+    int initialExperience = 95;
+    int maxExperience = 100;
+
+    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, true);
+
+    combat.setExperience(105);
+    assertEquals(5, combat.getExperience());
+
+    assertEquals((int) Math.ceil(maxExperience * 1.25), combat.getMaxExperience());
+    assertEquals((int) Math.ceil(initialHealth * 1.02), combat.getMaxHealth());
+    assertEquals((int) Math.ceil(initialStrength * 1.02), combat.getStrength());
+    assertEquals((int) Math.ceil(initialDefense * 1.02), combat.getDefense());
+    assertEquals((int) Math.ceil(initialSpeed * 1.02), combat.getSpeed());
+  }
+
 }

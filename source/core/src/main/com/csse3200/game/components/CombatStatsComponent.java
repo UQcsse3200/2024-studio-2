@@ -229,9 +229,9 @@ public class CombatStatsComponent extends Component {
       logger.error("Cannot set experience to a negative value");
     }
 
-    if (this.experience >= this.maxExperience && isPlayer) {
+    if (experience >= this.maxExperience && isPlayer) {
 
-      int experienceDiff = this.maxExperience - this.experience;
+      int experienceDiff = this.experience - this.maxExperience;
 
       this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
       setExperience(experienceDiff);
@@ -255,21 +255,6 @@ public class CombatStatsComponent extends Component {
 
     setExperience(this.experience + experience);
 
-    if (this.experience >= this.maxExperience && isPlayer) {
-
-      int experienceDiff = this.maxExperience - this.experience;
-
-      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
-      setExperience(experienceDiff);
-
-      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
-      this.maxHealth = this.maxHealth + healthDiff;
-      addHealth(healthDiff);
-      addStrength((int) Math.ceil(this.strength * 0.02));
-      addDefense((int) Math.ceil(this.defense * 0.02));
-      addSpeed((int) Math.ceil(this.speed * 0.02));
-
-    }
   }
 
 
