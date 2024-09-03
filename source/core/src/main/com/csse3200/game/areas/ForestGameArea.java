@@ -1,7 +1,6 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
-
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
@@ -10,6 +9,7 @@ import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.*;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -23,58 +23,14 @@ import java.util.function.Supplier;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+  private static final ForestGameAreaConfig configs = FileLoader.readClass(
+          ForestGameAreaConfig.class,
+          "configs/ForestGameAreaConfig.json");
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
-  private static final int NUM_TREES = 7;
-  private  static final int NUM_APPLES = 5;
-  private  static final int NUM_HEALTH_POTIONS = 3;
-  private static final int NUM_CHICKENS = 2;
-  private static final int NUM_FROGS = 5;
-  private static final int NUM_MONKEYS = 2;
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
-  private static final String[] forestTextures = {
-          "images/box_boy_leaf.png",
-          "images/tree.png",
-          "images/ghost_king.png",
-          "images/final_boss_kangaroo.png",
-          "images/Cow.png",
-          "images/snake.png",
-          "images/eagle.png",
-          "images/lion.png",
-          "images/turtle.png",
-          "images/ghost_1.png",
-          "images/grass_1.png",
-          "images/grass_2.png",
-          "images/grass_3.png",
-          "images/hex_grass_1.png",
-          "images/hex_grass_2.png",
-          "images/hex_grass_3.png",
-          "images/iso_grass_1.png",
-          "images/iso_grass_2.png",
-          "images/iso_grass_3.png",
-          "images/gt.png",
-          "images/top_left_grass.png",
-          "images/top_middle_grass.png",
-          "images/top_right_grass.png",
-          "images/middle_left_grass.png",
-          "images/middle_grass.png",
-          "images/middle_right_grass.png",
-          "images/lower_left_grass.png",
-          "images/lower_middle_grass.png",
-          "images/lower_right_grass.png",
-          "images/full_sand_tile.png",
-          "images/dog.png",
-          "images/croc.png",
-          "images/bird.png",
-          "images/Healthpotion.png",
-          "images/foodtextures/apple.png",
-  };
-  private static final String[] forestTextureAtlases = {
-    "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
-          "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-          "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
-  };
+
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
     private static final String heartbeat = "sounds/heartbeat.mp3";
@@ -127,14 +83,13 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
 
     //Enemies
-      for (int i = 0;i < NUM_CHICKENS; i++) {
-        spawnChicken();
-      }
-      for (int i = 0; i< NUM_FROGS; i++) {
-        spawnFrog();
-
-      }
-      for (int i = 0; i< NUM_FROGS; i++) {
+//      for (int i = 0;i < configs.NUM_CHICKENS; i++) {
+//        spawnChicken();
+//      }
+//      for (int i = 0; i< configs.NUM_FROGS; i++) {
+//        spawnFrog();
+//      }
+      for (int i = 0; i< configs.NUM_MONKEYS; i++) {
         spawnMonkey();
       }
 
@@ -212,7 +167,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < NUM_TREES; i++) {
+    for (int i = 0; i < configs.NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
@@ -291,12 +246,12 @@ public class ForestGameArea extends GameArea {
 
   private void spawnHealthPotions() {
     Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS);
+    spawnRandomItem(healthPotionGenerator, configs.NUM_HEALTH_POTIONS);
   }
 
   private void spawnApples() {
     Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(appleGenerator, NUM_APPLES);
+    spawnRandomItem(appleGenerator, configs.NUM_APPLES);
   }
 
   private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
@@ -337,10 +292,10 @@ public class ForestGameArea extends GameArea {
         spawnEntityOnMap(eagle);
     }
 
-    private void spawnSnake() {
-        Entity snake = NPCFactory.createSnake(player, this.enemies);
-        spawnEntityOnMap(snake);
-    }
+  private void spawnSnake() {
+    Entity snake = NPCFactory.createSnake(player, this.enemies);
+    spawnEntityOnMap(snake);
+  }
 
   public static void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
@@ -348,16 +303,17 @@ public class ForestGameArea extends GameArea {
     music.setVolume(0.5f);
     music.play();
   }
+
   public static void pauseMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.pause();
   }
 
   public void loadAssets() {
-    logger.debug("Loading assets");
+    logger.info("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(forestTextures);
-    resourceService.loadTextureAtlases(forestTextureAtlases);
+    resourceService.loadTextures(configs.forestTextures);
+    resourceService.loadTextureAtlases(configs.forestTextureAtlases);
     resourceService.loadSounds(questSounds);
     resourceService.loadSounds(forestSounds);
     for (String[] sounds : soundArrays) {
@@ -368,15 +324,15 @@ public class ForestGameArea extends GameArea {
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
-      logger.info("Loading... {}%", resourceService.getProgress());
+      logger.debug("Loading... {}%", resourceService.getProgress());
     }
   }
 
   public void unloadAssets() {
-    logger.debug("Unloading assets");
+    logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(forestTextures);
-    resourceService.unloadAssets(forestTextureAtlases);
+    resourceService.unloadAssets(configs.forestTextures);
+    resourceService.unloadAssets(configs.forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
     for (String[] sounds : soundArrays) {
       resourceService.unloadAssets(sounds);
