@@ -216,15 +216,10 @@ public class MainMenuDisplay extends UIComponent {
         slideTable.setFillParent(true);
 
         // Create slide instances
-        Table[] slideInstances = new Table[NUM_SLIDES];
-        slideInstances[0] = new Slides.MovementSlide(skin);
-        slideInstances[1] = new Slides.CombatSlide(skin);
-        slideInstances[2] = new Slides.StorylineSlide(skin);
-        slideInstances[3] = new Slides.MinigamesSlide(skin);
-        slideInstances[4] = new Slides.StatsSlide(skin);
+        Slides.Slide[] slides = Slides.getAllSlides(skin);
 
         // Add the first slide to the slideTable
-        slideTable.add(slideInstances[0]).expand().fill().row();
+        slideTable.add(slides[0]).expand().fill().row();
 
         logger.info("Help window opened, displaying Movement slide");
 
@@ -257,11 +252,11 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (currentSlide[0] > 0) {
-                    slideInstances[currentSlide[0]].setVisible(false);
+                    slides[currentSlide[0]].setVisible(false);
                     currentSlide[0]--;
-                    slideInstances[currentSlide[0]].setVisible(true);
+                    slides[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
-                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
                     logger.info("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
@@ -272,11 +267,11 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (currentSlide[0] < NUM_SLIDES - 1) {
-                    slideInstances[currentSlide[0]].setVisible(false);
+                    slides[currentSlide[0]].setVisible(false);
                     currentSlide[0]++;
-                    slideInstances[currentSlide[0]].setVisible(true);
+                    slides[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
-                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
                     logger.info("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
@@ -292,14 +287,14 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Initially show only the first slide
-        slideInstances[0].setVisible(true);
+        slides[0].setVisible(true);
         // Initially hide all slides except the first
         for (int i = 1; i < NUM_SLIDES; i++) {
-            slideInstances[i].setVisible(false);
+            slides[i].setVisible(false);
         }
 
         slideTable.clear(); // Clear any existing slides
-        slideTable.add(slideInstances[0]).expand().fill(); // Add the first slide
+        slideTable.add(slides[0]).expand().fill(); // Add the first slide
 
         // Center the window on the stage
         helpWindow.setPosition(
@@ -314,21 +309,21 @@ public class MainMenuDisplay extends UIComponent {
                 switch (keycode) {
                     case Input.Keys.LEFT:
                         if (currentSlide[0] > 0) {
-                            slideInstances[currentSlide[0]].setVisible(false);
+                            slides[currentSlide[0]].setVisible(false);
                             currentSlide[0]--;
-                            slideInstances[currentSlide[0]].setVisible(true);
+                            slides[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
-                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
                             logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
                         }
                         return true;
                     case Input.Keys.RIGHT:
                         if (currentSlide[0] < NUM_SLIDES - 1) {
-                            slideInstances[currentSlide[0]].setVisible(false);
+                            slides[currentSlide[0]].setVisible(false);
                             currentSlide[0]++;
-                            slideInstances[currentSlide[0]].setVisible(true);
+                            slides[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
-                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
                             logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
                         }
                         return true;
