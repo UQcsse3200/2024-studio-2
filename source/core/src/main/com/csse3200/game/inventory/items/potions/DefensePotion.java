@@ -55,12 +55,13 @@ public class DefensePotion extends AbstractPotion{
     @Override
     public void useItem(ItemUsageContext context) {
         super.useItem(context);
+        int original = context.player.getComponent(CombatStatsComponent.class).getDefense();
         context.player.getComponent(CombatStatsComponent.class).addDefense(this.effectAmount);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() { // Revert the defense boost
             @Override
             public void run() {
-                context.player.getComponent(CombatStatsComponent.class).addDefense(-effectAmount);
+                context.player.getComponent(CombatStatsComponent.class).setDefense(original);
             }
         }, DURATION);
     }
