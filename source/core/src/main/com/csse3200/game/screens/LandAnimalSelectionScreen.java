@@ -10,7 +10,7 @@ import com.csse3200.game.components.animal.AnimalSelectionDisplay;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
-public class AnimalSelectionScreen extends ScreenAdapter {
+public class LandAnimalSelectionScreen extends ScreenAdapter {
     private Stage stage;
     private AnimalSelectionDisplay display;
     private AnimalSelectionActions actions;
@@ -21,7 +21,7 @@ public class AnimalSelectionScreen extends ScreenAdapter {
      *
      * @param game The main game instance.
      */
-    public AnimalSelectionScreen(GdxGame game) {
+    public LandAnimalSelectionScreen(GdxGame game) {
         // Initialize the stage, which is the root container for all UI elements
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);  // Set the stage as the input processor to handle user input
