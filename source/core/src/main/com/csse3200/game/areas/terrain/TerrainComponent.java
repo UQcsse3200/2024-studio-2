@@ -12,11 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
+
+import java.util.*;
 
 
 /**
@@ -34,6 +31,13 @@ public class TerrainComponent extends RenderComponent {
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
+
+  // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
+  //  TO TILED MAP SETS I WOULD IMAGINE!
+  private static Set<GridPoint2> activeChunks = new HashSet<>();
+  private static Set<GridPoint2> previouslyActive = new HashSet<>();
+  private static Set<GridPoint2> newChunks = new HashSet<>();
+  private static Set<GridPoint2> oldChunks = new HashSet<>();
 
   private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private static TerrainResource terrainResource;
@@ -79,7 +83,6 @@ public class TerrainComponent extends RenderComponent {
    * @param chunkPos The position of the chunk to fill
    */
   public static void fillChunk(GridPoint2 chunkPos) {
-
     // Check if the chunk is within the bounds of the map
     if (loadedChunks.containsKey(chunkPos))
       return;
@@ -111,12 +114,40 @@ public class TerrainComponent extends RenderComponent {
    * @param r The number of chunks away to spawn
    */
   public static void loadChunks(GridPoint2 chunkPos, int r) {
-    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();;
+    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();
+    previouslyActive = activeChunks;
+    activeChunks.clear();
     for (int dx : moves) {
       for (int dy : moves) {
-        fillChunk(new GridPoint2(chunkPos.x + dx, chunkPos.y + dy));
+        GridPoint2 pos = new GridPoint2(chunkPos.x + dx, chunkPos.y + dy);
+        fillChunk(pos);
+        activeChunks.add(pos);
       }
     }
+
+    updateChunkStatus();
+  }
+
+  private static void updateChunkStatus() {
+    newChunks.clear();
+    newChunks.addAll(activeChunks);
+    newChunks.removeAll(previouslyActive);
+
+    oldChunks.clear();
+    oldChunks.addAll(previouslyActive);
+    oldChunks.removeAll(activeChunks);
+  }
+
+  public static Set<GridPoint2> getNewChunks() {
+    return newChunks;
+  }
+
+  public static Set<GridPoint2> getOldChunks() {
+    return oldChunks;
+  }
+
+  public static Set<GridPoint2> getActiveChunks() {
+    return activeChunks;
   }
 
   /**
