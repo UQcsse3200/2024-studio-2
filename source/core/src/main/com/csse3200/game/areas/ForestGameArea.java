@@ -79,8 +79,8 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String heartbeat = "sounds/heartbeat.mp3";
   private static final String[] heartbeatSound = {heartbeat};
-  private static final String[] dogSound = {"sounds/panting.mp3"};
-  private static final String[] dogBarkSound = {"sounds/bark.mp3"};
+  private static final String[] dogSound = {"sounds/animal/panting.mp3"};
+  private static final String[] dogBarkSound = {"sounds/animal/bark.mp3"};
 
   private static final List<String[]> soundArrays = List.of(
           new String[] {"sounds/mooing-cow.mp3"},

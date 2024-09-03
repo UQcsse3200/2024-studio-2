@@ -52,8 +52,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("startCombat", this::startCombat);
 
     if ("images/dog.png".equals(selectedAnimal)) {
-      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/panting.mp3", Sound.class);
-      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/bark.mp3", Sound.class);
+      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
+      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
       dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
     } //handle cat option here
   }
