@@ -77,7 +77,7 @@ public class ForestGameArea extends GameArea {
     spawnItems();
 
     //Friendlies
-    spawnNPCs();
+    spawnFriendlyNPCs();
 
     playMusic();
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
@@ -194,7 +194,7 @@ public class ForestGameArea extends GameArea {
     spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
   }
 
-  private void spawnNPCs() {
+  private void spawnFriendlyNPCs() {
     Supplier<Entity> generator;
 
     // Cow
