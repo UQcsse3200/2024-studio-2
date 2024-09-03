@@ -6,6 +6,9 @@ package com.csse3200.game.areas;
 public class ForestGameAreaConfig {
     public String[] forestTextures;
     public String[] forestTextureAtlases;
+    public String[] gameSounds;
+    public String[] gameMusic;
+    public String backgroundMusic;
     public int NUM_TREES;
     public int NUM_APPLES;
     public int NUM_HEALTH_POTIONS;
