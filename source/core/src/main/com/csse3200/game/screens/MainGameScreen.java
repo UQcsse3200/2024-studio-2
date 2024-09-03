@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.overlays.PauseOverlay;
@@ -24,7 +25,6 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -114,8 +114,6 @@ public class MainGameScreen extends ScreenAdapter {
     //register the EntityChatService
     ServiceLocator.registerEntityChatService(new EntityChatService());
 
-    ServiceLocator.registerEventService(new EventService());
-
     ServiceLocator.registerEntityChatService(new EntityChatService());
 
     renderer = RenderFactory.createRenderer();
@@ -124,7 +122,6 @@ public class MainGameScreen extends ScreenAdapter {
 
     loadAssets();
     createUI();
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -173,7 +170,8 @@ public class MainGameScreen extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
+    KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    inputComponent.resetVelocity();
     if (!resting) {
       gameArea.playMusic();
     }
@@ -193,7 +191,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    ServiceLocator.getEventService().dispose();
 
     ServiceLocator.clear();
   }
@@ -261,7 +258,7 @@ public class MainGameScreen extends ScreenAdapter {
         enabledOverlays.addFirst(new QuestOverlay(this));
         break;
       case PAUSE_OVERLAY:
-        enabledOverlays.addFirst(new PauseOverlay(this));
+        enabledOverlays.addFirst(new PauseOverlay(this, game));
         break;
       default:
         logger.warn("Unknown Overlay type: {}", overlayType);
@@ -311,7 +308,8 @@ public class MainGameScreen extends ScreenAdapter {
   public void wake() {
     logger.info("Screen is Awake");
     resting = false;
-    ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
+    KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    inputComponent.resetVelocity();
     gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }

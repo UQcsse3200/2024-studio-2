@@ -12,7 +12,6 @@ import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.UIComponent;
 
 import java.util.Comparator;
@@ -25,10 +24,6 @@ import java.util.List;
  * It manages the layout and rendering of quest-related information.
  */
 public class QuestDisplay extends UIComponent {
-    /**
-     * The event service used to handle events related to quest display.
-     */
-    EventService eventService = ServiceLocator.getEventService();
     /**
      * The background table for UI elements.
      */

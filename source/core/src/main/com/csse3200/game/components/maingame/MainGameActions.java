@@ -1,12 +1,9 @@
 package com.csse3200.game.components.maingame;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
