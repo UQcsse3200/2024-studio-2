@@ -33,7 +33,7 @@ public class TerrainComponent extends RenderComponent {
   private float tileSize;
 
   // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
-  //  TO TILED MAP SETS I WOULD IMAGINE!
+  //  TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
   private static Set<GridPoint2> activeChunks = new HashSet<>();
   private static Set<GridPoint2> previouslyActive = new HashSet<>();
   private static Set<GridPoint2> newChunks = new HashSet<>();
@@ -114,9 +114,13 @@ public class TerrainComponent extends RenderComponent {
    * @param r The number of chunks away to spawn
    */
   public static void loadChunks(GridPoint2 chunkPos, int r) {
-    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();
-    previouslyActive = activeChunks;
+    // Reset active chunk status
+    previouslyActive.clear();
+    previouslyActive.addAll(activeChunks);
     activeChunks.clear();
+
+    // Iterate over all chunks in a square of radius r around the player and spawn them in.
+    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();
     for (int dx : moves) {
       for (int dy : moves) {
         GridPoint2 pos = new GridPoint2(chunkPos.x + dx, chunkPos.y + dy);
@@ -136,6 +140,10 @@ public class TerrainComponent extends RenderComponent {
     oldChunks.clear();
     oldChunks.addAll(previouslyActive);
     oldChunks.removeAll(activeChunks);
+  }
+
+  public static TerrainChunk getChunk(GridPoint2 chunkPos) {
+    return loadedChunks.get(chunkPos);
   }
 
   public static Set<GridPoint2> getNewChunks() {

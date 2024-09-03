@@ -25,6 +25,10 @@ public class TerrainLoader {
         TerrainComponent.loadChunks(posToChunk(position));
     }
 
+    public static GridPoint2 chunktoWorldPos(GridPoint2 pos) {
+        return new GridPoint2(pos.x * TerrainFactory.CHUNK_SIZE,pos.y * TerrainFactory.CHUNK_SIZE);
+    }
+
     private static GridPoint2 posToChunk(Vector2 pos) {
         return new GridPoint2((int) pos.x / TerrainFactory.CHUNK_SIZE,(int) pos.y / TerrainFactory.CHUNK_SIZE);
     }

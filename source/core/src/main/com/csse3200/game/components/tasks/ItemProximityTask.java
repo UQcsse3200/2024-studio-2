@@ -100,7 +100,6 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
                 logger.debug("I WAS DISPOSED OF!");
                 itemOverlay.dispose();
                 itemOverlay = null;
-
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
