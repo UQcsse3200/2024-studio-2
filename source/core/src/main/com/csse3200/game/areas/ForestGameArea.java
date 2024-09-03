@@ -134,7 +134,7 @@ public class ForestGameArea extends GameArea {
         spawnFrog();
 
       }
-      for (int i = 0; i< NUM_FROGS; i++) {
+      for (int i = 0; i< NUM_MONKEYS; i++) {
         spawnMonkey();
       }
 

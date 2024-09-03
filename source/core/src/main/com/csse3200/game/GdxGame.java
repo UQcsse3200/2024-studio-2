@@ -130,10 +130,10 @@ public class GdxGame extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
-        case COMBAT:
-            return new CombatScreen(this, screen, container, player, enemy);
-        case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, player, enemy);
+      case COMBAT:
+        return new CombatScreen(this, screen, container, player, enemy);
+      case BOSS_CUTSCENE:
+        return new BossCutsceneScreen(this, screen, container, player, enemy);
       case ACHIEVEMENTS:
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:

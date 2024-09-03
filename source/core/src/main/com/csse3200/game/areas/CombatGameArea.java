@@ -23,9 +23,10 @@ public class CombatGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 12);
   private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 13);
+  private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
 
   private static final float WALL_WIDTH = 0.1f;
-  private static final String[] forestTextures = {
+  private static final String[] combatAreaTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
     "images/final_boss_kangaroo_idle.png",
@@ -41,7 +42,7 @@ public class CombatGameArea extends GameArea {
     "images/iso_grass_2.png",
     "images/iso_grass_3.png"
   };
-  private static final String[] forestTextureAtlases = {
+  private static final String[] combatAreaTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -74,12 +75,11 @@ public class CombatGameArea extends GameArea {
   @Override
   public void create() {
     loadAssets();
-
     displayUI();
 
-//    spawnTerrain();
-//    player = spawnPlayer();
-//    spawnCombatEnemy();
+    // spawnTerrain();
+    player = spawnPlayer();
+    spawnCombatEnemy();
 
     playMusic();
   }
@@ -92,7 +92,7 @@ public class CombatGameArea extends GameArea {
 
 //  private void spawnTerrain() {
 //    // Background terrain
-//    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
+//    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
 //    spawnEntity(new Entity().addComponent(terrain));
 //
 //    // Terrain walls
@@ -121,11 +121,11 @@ public class CombatGameArea extends GameArea {
 //  }
 
 //  /** Spawn a player for testing purposes. Currently, this player can be moved */
-//  private Entity spawnPlayer() {
-//    Entity newPlayer = PlayerFactory.createPlayer(game);
-//    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-//    return newPlayer;
-//  }
+  private Entity spawnPlayer() {
+    Entity newPlayer = PlayerFactory.createPlayer(game);
+    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    return newPlayer;
+  }
 
   /** Spawn a combat enemy. Different to a regular enemy npc */
   private void spawnCombatEnemy() {
@@ -148,8 +148,8 @@ public class CombatGameArea extends GameArea {
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(forestTextures);
-    resourceService.loadTextureAtlases(forestTextureAtlases);
+    resourceService.loadTextures(combatAreaTextures);
+    resourceService.loadTextureAtlases(combatAreaTextureAtlases);
     resourceService.loadSounds(forestSounds);
     resourceService.loadMusic(forestMusic);
 
@@ -162,8 +162,8 @@ public class CombatGameArea extends GameArea {
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(forestTextures);
-    resourceService.unloadAssets(forestTextureAtlases);
+    resourceService.unloadAssets(combatAreaTextures);
+    resourceService.unloadAssets(combatAreaTextureAtlases);
     resourceService.unloadAssets(forestSounds);
     resourceService.unloadAssets(forestMusic);
   }

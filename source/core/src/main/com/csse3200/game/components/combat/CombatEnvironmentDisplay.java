@@ -35,15 +35,15 @@ public class CombatEnvironmentDisplay extends UIComponent {
     table.setFillParent(true);
 
     // Import image.
-    Texture texture = ServiceLocator.getResourceService().getAsset("images/grass_3.png", Texture.class);
-    Image bg = new Image(texture);
+    // Texture texture = ServiceLocator.getResourceService().getAsset("images/grass_1.png", Texture.class);
+    // Image bg = new Image(texture);
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     // Full stage.
-    bg.setSize(stage.getWidth(), stage.getHeight());
+    // bg.setSize(stage.getWidth(), stage.getHeight());
 
-    table.add(bg).expand().fill();
-    stage.addActor(table);
+    // table.add(bg).expand().fill();
+    // stage.addActor(table);
   }
 
   @Override
