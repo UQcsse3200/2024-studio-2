@@ -12,7 +12,7 @@ public class BaseEntityConfig {
     public int strength = 0;
     public int defense = 0;
     public int speed = 1;
-    public int experience = 100;
+    public int experience = 10;
     public int baseDefense = 0;
     public String animalName = "";
     public int isEnemy = 0;

@@ -179,17 +179,53 @@ public class PlayerStatsDisplay extends UIComponent {
         // Add the table to the stage
         return true;
     }
+
     public void startHungerDecreaseTimer() {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                // Call addHunger on the instance of CombatStatsComponent
                 CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
                 if (combatStats != null) {
-                    combatStats.addHunger(-1); // Correctly call instance method
+                    // Decrease hunger by 1 every 3 seconds
+                    combatStats.addHunger(-1);
+                    int hunger = combatStats.getHunger();
+                    updatePlayerHungerUI(hunger);
+
+                    // Adjust health based on the current hunger level
+                    adjustHealthBasedOnHunger(hunger, combatStats);
                 }
             }
-        }, 5, 5); // Initial delay of 15 seconds, then repeat every 15 seconds
+        }, 3, 3); // Initial delay of 3 seconds, then repeat every 3 seconds
+    }
+
+    private void adjustHealthBasedOnHunger(int hunger, CombatStatsComponent combatStats) {
+        int health = combatStats.getHealth();
+
+        if (hunger >= 90 && health < maxHealth) {
+            // Increase health by 1 if hunger is 90+ and health isn't max
+            combatStats.addHealth(1);
+            updatePlayerHealthUI(combatStats.getHealth());
+        } else if (hunger < 20 && hunger > 0) {
+            // Decrease health by 1 every 3 seconds if hunger is less than 20
+            combatStats.addHealth(-1);
+            updatePlayerHealthUI(combatStats.getHealth());
+        } else if (hunger == 0) {
+            // Decrease health by 1 every second if hunger is 0
+            startHealthDecreaseTimer(combatStats);
+        }
+    }
+
+
+    private void startHealthDecreaseTimer(CombatStatsComponent combatStats) {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if (combatStats.getHunger() == 0) {
+                    combatStats.addHealth(-1);
+                    updatePlayerHealthUI(combatStats.getHealth());
+                }
+            }
+        }, 0, 1); // Run every second
     }
 
 
