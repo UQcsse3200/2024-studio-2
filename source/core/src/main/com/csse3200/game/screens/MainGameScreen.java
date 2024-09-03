@@ -4,6 +4,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.overlays.PauseOverlay;
@@ -229,10 +230,12 @@ public class MainGameScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     Entity ui = new Entity();
+
+    Component mainGameActions = new MainGameActions(this.game);
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game))
-        .addComponent(new MainGameExitDisplay())
+        .addComponent(mainGameActions)
+        .addComponent(new MainGameExitDisplay(mainGameActions))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
