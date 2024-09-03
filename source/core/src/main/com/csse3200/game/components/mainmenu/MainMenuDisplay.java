@@ -302,7 +302,7 @@ public class MainMenuDisplay extends UIComponent {
         if (slides.moveSlidesBackward()) {
             table.clear(); // Clear the table
             table.add(slides.getSlide()).expand().fill(); // Add the current slide
-            logger.debug("Slide changed to: " + slides.getSlide().getName());
+            logger.debug("Slide changed to: " + slides.getName());
         }
     }
 
@@ -310,7 +310,7 @@ public class MainMenuDisplay extends UIComponent {
         if (slides.moveSlidesForward()) {
             table.clear(); // Clear the table
             table.add(slides.getSlide()).expand().fill(); // Add the current slide
-            logger.debug("Slide changed to: " + slides.getSlide().getName());
+            logger.debug("Slide changed to: " + slides.getName());
         }
     }
 
