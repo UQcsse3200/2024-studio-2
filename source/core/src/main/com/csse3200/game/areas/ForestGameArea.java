@@ -32,6 +32,8 @@ public class ForestGameArea extends GameArea {
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
   private Entity player;
+  // private final List<Entity> staticItems;
+  // private final List<Entity> dynamicItems;
 
   private final GdxGame game;
 
@@ -80,9 +82,40 @@ public class ForestGameArea extends GameArea {
     spawnNPCs();
 
     playMusic();
+    // player.getEvents().addListener(Entity.EVT_NAME_POS, this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
   }
+
+  // private void handleNewChunks(Vector2 playerPos) {
+  //   if (!movedChunks(playerPos)) {return;}
+  //   TerrainComponent.loadChunks(playerPos);
+  //   handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+  //   handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+  //   handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+  //   handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+  // }
+
+  /**
+   Chunk Terminology:
+   Create - actually generating a new chunk using convolution etc.
+   Loaded - has already been generated and is in the hash map of chunks
+   Active - loaded chunks within a certain radius of the player on which entities are being actively spawned and maintained.
+   Inactive - loaded chunks outside of a certain radius of the player where entities will no longer be maintained.
+
+   Entity (Item/NPC/Bosses) Terminology:
+   Static - entity that is kept loaded in the list of entities and is never disposed off due to player movements.
+   Dynamic - entity that is only loaded if it is on an active chunk (and we will only update this when the player moves chunks).4
+
+   Player Movement Terminology:
+   New Chunk - a chunk which has become active after a player moved chunks.
+   Old Chunk - a chunk which become inactive after a player moved chunks.
+
+   GAME CONFIG CONSTANT:
+   RADIUS - the radius which differentiates active and inactive chunks.
+   */
+  // private void handleItems(List<TerrainChunk> newChunks, List<TerrainChunk> oldChunks) {
+  // }
 
   /**
    * gets the player
