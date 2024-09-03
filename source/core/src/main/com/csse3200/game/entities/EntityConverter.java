@@ -3,37 +3,68 @@ package com.csse3200.game.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.Component;
-import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
+import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.components.tasks.WanderTask;
+import com.csse3200.game.components.tasks.PauseTask;
+import com.csse3200.game.components.tasks.AvoidTask;
+import com.badlogic.gdx.math.Vector2;
 
-
+import java.util.List;
 
 public class EntityConverter {
 	
-	/**
-	 * Converts an EnemyNPC to a FriendlyNPC.
-	 *
-	 * @param enemy The enemy NPC entity to be converted.
-	 */
-	public static void convertToFriendly(Entity enemy) {
-		// Set the NPC state to friendly
-		EnemyFactory.FRIENDLY = true;
+	public static void convertToFriendly(Entity enemy, Entity player, List<Entity> enemies) {
+		// Remove enemy-specific components
+		enemy.removeComponent(CombatStatsComponent.class);
+		enemy.removeComponent(TouchAttackComponent.class);
 		
-		// Change properties or textures
-		AnimationRenderComponent animator =
-				new AnimationRenderComponent(
-						ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class));
-		animator.addAnimation("float", 10, Animation.PlayMode.LOOP);
+		// Update AI behavior
+		AITaskComponent aiComponent = enemy.getComponent(AITaskComponent.class);
+		if (aiComponent != null) {
+			aiComponent.dispose(); // This will stop the current task
+			enemy.removeComponent(AITaskComponent.class);
+			
+			AITaskComponent newAIComponent = new AITaskComponent()
+					.addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
+					.addTask(new PauseTask(player, 10, 2f, 1f, false));
+			
+			for (Entity otherEnemy : enemies) {
+				newAIComponent.addTask(new AvoidTask(otherEnemy, 10, 3f, 3f, false));
+			}
+			
+			enemy.addComponent(newAIComponent);
+		}
 		
-		// Modify behavior or components to make the NPC friendly
-		enemy.removeComponent(CombatStatsComponent.class); // Example: Remove combat capabilities
-		enemy.addComponent(new Component()); // Add friendly behavior component
+		// Update animation
+		AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
+		if (animator != null) {
+			TextureAtlas atlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+			animator.stopAnimation();
+			animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+			enemy.addComponent(new FriendlyNPCAnimationController());
+		}
 		
-		// Register friendly NPC using NPCFactory
+		// Adjust movement speed
+		PhysicsMovementComponent movement = enemy.getComponent(PhysicsMovementComponent.class);
+		if (movement != null) {
+			movement.changeMaxSpeed(new Vector2(2f, 2f)); // Set to a friendlier, slower speed
+		}
+		
+		// Add friendly NPC specific components
+		BaseEntityConfig config = new BaseEntityConfig(); // Might want to create a specific config for converted entities
+		enemy.addComponent(new CombatStatsComponent(config.health, 0, 0, 0, 0, 0));
+		
+		// Register as a friendly NPC
 		NPCFactory.registerFriendlyNPC(enemy);
+		
+		// Trigger conversion event
+		enemy.getEvents().trigger("onConvertToFriendly");
 	}
 }

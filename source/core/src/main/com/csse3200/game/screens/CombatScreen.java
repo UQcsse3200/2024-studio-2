@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The game screen containing the combat feature.
@@ -57,6 +58,7 @@ public class CombatScreen extends ScreenAdapter {
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  List<Entity> Enemies;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -160,7 +162,7 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, this.enemy))
+        .addComponent(new CombatActions(this.game, this.enemy,this.player))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
