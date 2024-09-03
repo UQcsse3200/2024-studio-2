@@ -24,7 +24,7 @@ public class TerrainLoaderComponent extends Component {
     // Initialize the player's starting chunk position and load the initial chunks.
     previousChunk = getPlayerChunk(entity.getPosition());
     System.out.println(previousChunk);
-    loadInitialChunks();
+    loadChunks(entity.getPosition());
   }
 
   @Override
@@ -37,11 +37,6 @@ public class TerrainLoaderComponent extends Component {
       loadChunks(currentPosition);
       previousChunk = currentChunk;
     }
-  }
-
-  private void loadInitialChunks() {
-    // Load the initial 3x3 grid of chunks around the player's starting position
-    loadChunks(entity.getPosition());
   }
 
   private void loadChunks(Vector2 position) {
