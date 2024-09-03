@@ -48,7 +48,7 @@ public class HealingPotion extends AbstractPotion{
      */
     @Override
     public void useItem(ItemUsageContext context) {
-        context.player.getComponent(CombatStatsComponent.class).addHealth(this.effectAmount);
         super.useItem(context);
+        context.player.getComponent(CombatStatsComponent.class).addHealth(this.effectAmount);
     }
 }
