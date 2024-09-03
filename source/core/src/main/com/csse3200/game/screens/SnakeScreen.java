@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.csse3200.game.components.minigame.MiniGameMedals;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.services.eventservice.EventService;
@@ -28,6 +29,7 @@ import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.csse3200.game.components.minigame.MiniGameNames;
 
 /**
  * Represents the screen for the Snake game.
@@ -100,7 +102,7 @@ public class SnakeScreen extends ScreenAdapter {
      *
      * @return true if a screen change was triggered, false otherwise.
      */
-    private boolean handleInput() {
+    public boolean handleInput() {
         if (snakeGame.handleInput() == Events.RESTART) {  // Restart the game
             game.setScreen(new SnakeScreen(game));
             return true;
@@ -115,7 +117,7 @@ public class SnakeScreen extends ScreenAdapter {
     /**
      * Clears the screen with a specific background color.
      */
-    private void clearBackground() {
+    public void clearBackground() {
         Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
@@ -125,10 +127,10 @@ public class SnakeScreen extends ScreenAdapter {
      *
      * @param delta Time in seconds since the last frame.
      */
-    private void updateGame(float delta) {
+    public void updateGame(float delta) {
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
-            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
+            game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE));
         }
     }
 
@@ -200,5 +202,6 @@ public class SnakeScreen extends ScreenAdapter {
 
         ServiceLocator.getEntityService().register(ui);
     }
+
 }
 
