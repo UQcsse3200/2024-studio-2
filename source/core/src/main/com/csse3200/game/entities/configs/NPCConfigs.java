@@ -3,7 +3,7 @@ package com.csse3200.game.entities.configs;
 /**
  * Defines all NPC configs to be loaded by the NPC Factory.
  */
-public class NPCConfigs {
+public class  NPCConfigs {
   public static BaseEntityConfig base = new BaseEntityConfig();
   public static CowConfig cow = new CowConfig();
   public static LionConfig lion = new LionConfig();
