@@ -24,15 +24,7 @@ import java.util.function.Supplier;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final TexturesConfig textures = FileLoader.readClass(
-          TexturesConfig.class,
-          "configs/ForestGameAreaConfigs/textures.json");
-  private static final SoundsConfig sounds = FileLoader.readClass(
-          SoundsConfig.class,
-          "configs/ForestGameAreaConfigs/sounds.json");
-  private static final EntitySpawnConfig spawnConfig = FileLoader.readClass(
-          EntitySpawnConfig.class,
-          "configs/ForestGameAreaConfigs/entitySpawn.json");
+  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
@@ -80,7 +72,7 @@ public class ForestGameArea extends GameArea {
 //      for (int i = 0; i< configs.NUM_FROGS; i++) {
 //        spawnFrog();
 //      }
-      for (int i = 0; i< spawnConfig.NUM_MONKEYS; i++) {
+      for (int i = 0; i< config.spawns.NUM_MONKEYS; i++) {
         spawnMonkey();
       }
 
@@ -158,7 +150,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < spawnConfig.NUM_TREES; i++) {
+    for (int i = 0; i < config.spawns.NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
@@ -237,12 +229,12 @@ public class ForestGameArea extends GameArea {
 
   private void spawnHealthPotions() {
     Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(healthPotionGenerator, spawnConfig.NUM_HEALTH_POTIONS);
+    spawnRandomItem(healthPotionGenerator, config.spawns.NUM_HEALTH_POTIONS);
   }
 
   private void spawnApples() {
     Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(appleGenerator, spawnConfig.NUM_APPLES);
+    spawnRandomItem(appleGenerator, config.spawns.NUM_APPLES);
   }
 
   private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
@@ -289,24 +281,25 @@ public class ForestGameArea extends GameArea {
   }
 
   public static void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(sounds.backgroundMusic, Music.class);
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
+            Music.class);
     music.setLooping(true);
     music.setVolume(0.5f);
     music.play();
   }
 
   public static void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(sounds.backgroundMusic, Music.class);
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
     music.pause();
   }
 
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(textures.forestTextures);
-    resourceService.loadTextureAtlases(textures.forestTextureAtlases);
-    resourceService.loadSounds(sounds.gameSounds);
-    resourceService.loadMusic(sounds.gameMusic);
+    resourceService.loadTextures(config.textures.forestTextures);
+    resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
+    resourceService.loadSounds(config.sounds.gameSounds);
+    resourceService.loadMusic(config.sounds.gameMusic);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
@@ -317,16 +310,16 @@ public class ForestGameArea extends GameArea {
   public void unloadAssets() {
     logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(textures.forestTextures);
-    resourceService.unloadAssets(textures.forestTextureAtlases);
-    resourceService.unloadAssets(sounds.gameSounds);
-    resourceService.unloadAssets(sounds.gameMusic);
+    resourceService.unloadAssets(config.textures.forestTextures);
+    resourceService.unloadAssets(config.textures.forestTextureAtlases);
+    resourceService.unloadAssets(config.sounds.gameSounds);
+    resourceService.unloadAssets(config.sounds.gameMusic);
   }
 
   @Override
   public void dispose() {
     super.dispose();
-    ServiceLocator.getResourceService().getAsset(sounds.backgroundMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
   }
 }
