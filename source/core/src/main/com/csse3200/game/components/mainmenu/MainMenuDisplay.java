@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -22,12 +21,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+import java.util.List;
 
 /**
  * A UI component for displaying the Main menu.
@@ -216,10 +215,10 @@ public class MainMenuDisplay extends UIComponent {
         slideTable.setFillParent(true);
 
         // Create slide instances
-        Slides.Slide[] slides = Slides.getAllSlides(skin);
+        List<Slide> slides = Slide.getAllSlides(skin);
 
         // Add the first slide to the slideTable
-        slideTable.add(slides[0]).expand().fill().row();
+        slideTable.add(slides.getFirst()).expand().fill().row();
 
         logger.info("Help window opened, displaying Movement slide");
 
@@ -252,12 +251,13 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (currentSlide[0] > 0) {
-                    slides[currentSlide[0]].setVisible(false);
+                    slides.get(currentSlide[0]).setVisible(false);
                     currentSlide[0]--;
-                    slides[currentSlide[0]].setVisible(true);
+                    slides.get(currentSlide[0]).setVisible(true);
                     slideTable.clear(); // Clear the table
-                    slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                    // Add the current slide
+                    slideTable.add(slides.get(currentSlide[0])).expand().fill();
+                    logger.debug("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
         });
@@ -267,12 +267,13 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (currentSlide[0] < NUM_SLIDES - 1) {
-                    slides[currentSlide[0]].setVisible(false);
+                    slides.get(currentSlide[0]).setVisible(false);
                     currentSlide[0]++;
-                    slides[currentSlide[0]].setVisible(true);
+                    slides.get(currentSlide[0]).setVisible(true);
                     slideTable.clear(); // Clear the table
-                    slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                    // Add the current slide
+                    slideTable.add(slides.get(currentSlide[0])).expand().fill();
+                    logger.debug("Slide changed to: " + (currentSlide[0] + 1));
                 }
             }
         });
@@ -287,14 +288,14 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Initially show only the first slide
-        slides[0].setVisible(true);
+        slides.getFirst().setVisible(true);
         // Initially hide all slides except the first
         for (int i = 1; i < NUM_SLIDES; i++) {
-            slides[i].setVisible(false);
+            slides.get(i).setVisible(false);
         }
 
         slideTable.clear(); // Clear any existing slides
-        slideTable.add(slides[0]).expand().fill(); // Add the first slide
+        slideTable.add(slides.getFirst()).expand().fill(); // Add the first slide
 
         // Center the window on the stage
         helpWindow.setPosition(
@@ -309,22 +310,25 @@ public class MainMenuDisplay extends UIComponent {
                 switch (keycode) {
                     case Input.Keys.LEFT:
                         if (currentSlide[0] > 0) {
-                            slides[currentSlide[0]].setVisible(false);
+                            slides.get(currentSlide[0]).setVisible(false);
                             currentSlide[0]--;
-                            slides[currentSlide[0]].setVisible(true);
+                            slides.get(currentSlide[0]).setVisible(true);
                             slideTable.clear(); // Clear the table
-                            slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
+                            slideTable.add(slides.get(currentSlide[0])).expand().fill(); // Add the
+                            // current slide
                             logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
                         }
                         return true;
                     case Input.Keys.RIGHT:
                         if (currentSlide[0] < NUM_SLIDES - 1) {
-                            slides[currentSlide[0]].setVisible(false);
+                            slides.get(currentSlide[0]).setVisible(false);
                             currentSlide[0]++;
-                            slides[currentSlide[0]].setVisible(true);
+                            slides.get(currentSlide[0]).setVisible(true);
                             slideTable.clear(); // Clear the table
-                            slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
+                            slideTable.add(slides.get(currentSlide[0])).expand().fill(); // Add the
+                            // current slide
+                            logger.debug("Slide changed to: " + (currentSlide[0] + 1) + " (via " +
+                                    "RIGHT key)");
                         }
                         return true;
                     default:
