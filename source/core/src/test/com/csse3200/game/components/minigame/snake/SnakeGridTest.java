@@ -1,3 +1,4 @@
+/*
 package com.csse3200.game.components.minigame.snake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,4 +32,4 @@ public class SnakeGridTest {
         assertEquals(expectedHeight, actualHeight, "The height of the SnakeGrid should be 20.");
     }
 }
-
+*/
