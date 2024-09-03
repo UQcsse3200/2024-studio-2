@@ -11,10 +11,10 @@ import com.csse3200.game.entities.Entity;
  * to be used within an AI task system.
  */
 public abstract class ProximityTask extends DefaultTask  implements PriorityTask {
-    private final Entity target;
-    private final int priority;
-    private final float proximityThreshold;
-    private boolean hasApproached;
+    protected final Entity target;
+    protected final int priority;
+    protected final float proximityThreshold;
+    protected boolean hasApproached;
 
     /**
      * Constructs a new ProximityTask.
@@ -93,7 +93,7 @@ public abstract class ProximityTask extends DefaultTask  implements PriorityTask
      * @return true if the target entity is within the proximity threshold,
      *         false otherwise.
      */
-    private boolean targetInProximity() {
+    protected boolean targetInProximity() {
         return target.getPosition().dst(owner.getEntity().getPosition()) <= proximityThreshold;
     }
 }
