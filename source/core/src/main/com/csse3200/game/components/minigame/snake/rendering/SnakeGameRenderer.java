@@ -54,6 +54,7 @@ public class SnakeGameRenderer {
     public void resize(int width, int height) {
 
             renderer.resize(width, height);
+            scoreBoard.resize(width, height);
 
     }
 
