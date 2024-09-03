@@ -3,7 +3,10 @@ package com.csse3200.game.inventory.items.potions;
 
 import com.csse3200.game.components.CombatStatsComponent;
 
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.food.AbstractFood;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,9 +18,21 @@ class AbstractPotionTest  {
     private HealingPotion healingPotion;
     private DefensePotion defensePotion;
     private AttackPotion attackPotion;
+    private Entity playerStat;
+//    private TestableStat player;
+    private TestablePLayer player1;
+
+
+    private static class TestablePLayer extends ItemUsageContext {
+        public TestablePLayer(Entity entity) {
+            super(entity);
+        }
+    }
 
     @BeforeEach
     void setUp() {
+        playerStat = new Entity().addComponent(new CombatStatsComponent(0,0,0,0,0, 0));
+        player1 = new TestablePLayer(playerStat);
         healingPotion = new HealingPotion( 3);
         defensePotion = new DefensePotion( 3);
         attackPotion = new AttackPotion(3);
@@ -26,11 +41,11 @@ class AbstractPotionTest  {
 
     @Test
     void testHealingApplyEffect() {
-//        int originalHealth = playerStat.getHealth();
-        healingPotion.useItem(null);
+        int originalHealth = player1.player.getComponent(CombatStatsComponent.class).getHealth();
+        healingPotion.useItem(player1);
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");
         assertEquals(25, healingPotion.getEffectAmount());
-//        assertEquals(originalHealth + 25, playerStat.getHealth());
+        assertEquals(originalHealth + 25, player1.player.getComponent(CombatStatsComponent.class).getHealth(), "Should be 25");
 
 
         healingPotion.useItem(null);
@@ -44,10 +59,10 @@ class AbstractPotionTest  {
 
     @Test
     void testDefenseApplyEffect() throws InterruptedException {
-//        int originalDefense = playerStat1.getDefense();
+        int originalDefense = player1.player.getComponent(CombatStatsComponent.class).getDefense();
         defensePotion.useItem(null);
         assertEquals(2, defensePotion.getQuantity(), "The potion should have 2 uses left after one use.");
-//        assertEquals(originalDefense + 25, playerStat1.getDefense(), "The defense should have 25.");
+        assertEquals(originalDefense + 25, player1.player.getComponent(CombatStatsComponent.class).getDefense(), "The defense should have 25.");
 
         Thread.sleep(120000);
 
@@ -56,14 +71,14 @@ class AbstractPotionTest  {
 
     @Test
     void testAttackApplyEffect() throws InterruptedException {
-//        int originalAttack = playerStat1.getStrength();
+        int originalAttack = player1.player.getComponent(CombatStatsComponent.class).getStrength();
         attackPotion.useItem(null);
         assertEquals(2, attackPotion.getQuantity(), "The potion should have 2 uses left after one use.");
-//        assertEquals(originalAttack + 25, playerStat1.getStrength(), "The strength should have 25.");
+        assertEquals(originalAttack + 25, player1.player.getComponent(CombatStatsComponent.class).getStrength(), "The strength should have 25.");
 
         Thread.sleep(120000);
 
-//        assertEquals(originalAttack, playerStat1.getStrength(), "The potion has finished and is back to 0");
+        assertEquals(originalAttack, player1.player.getComponent(CombatStatsComponent.class).getStrength(), "The potion has finished and is back to 0");
     }
 }
 
