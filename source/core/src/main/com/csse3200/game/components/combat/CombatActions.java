@@ -4,17 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.combatButtons.CombatButtonActions;
-import com.csse3200.game.components.combatButtons.CombatButtonDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.*;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does something when one of the
@@ -25,11 +24,8 @@ CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
   private Entity enemy; // Each combat can only have one enemy.
-
   private Stage stage;
-  private CombatButtonActions actions;
-  private CombatButtonDisplay display;
-
+  private CombatButtonStagDisplay Display;
 
 
   //private TextButton attackButton;
@@ -39,24 +35,7 @@ CombatActions extends Component {
     this.game = game;
     this.enemy = enemy;
   }
-  public CombatActions(GdxGame game) {
-    this.game = game;
-      stage = new Stage();
 
-    Gdx.input.setInputProcessor(stage);  // Set the stage as the input processor to handle user input
-
-    // Load the skin for UI elements from the specified JSON file
-    Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
-    // Initialize the dialog helper with the skin and stage
-    PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
-
-    // Set up the display component for animal selection, passing in the stage and skin
-    display = new CombatButtonDisplay(stage, skin);
-
-    // Set up actions for handling UI interactions, passing the display, dialog helper, and game instance
-    actions = new CombatButtonActions(display, dialogHelper, game);
-  }
   @Override
   public void render(float delta) {
     // Clear the screen to prevent overlapping frames
@@ -86,7 +65,7 @@ CombatActions extends Component {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
-    entity.getEvents().addListener("Boast", this::onBoast);
+    entity.getEvents().addListener("Boost", this::onBoost);
   }
 
   /**
@@ -131,16 +110,33 @@ CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("onAttack before");
     // Perform attack logic here, like decreasing health
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-
+    int healthCheck=0;
+    if (healthCheck!= 0) {
+      logger.info("CombatActions::onAttack, before Attack- health check!=0");
+      Display= new CombatButtonStagDisplay( healthCheck, true,true);
+      game.setScreen(new LoadingScreen(game));
+      logger.info("CombatActions::onAttack, after Attack- health check!=0");
+    } else {
+      Display= new CombatButtonStagDisplay( healthCheck, false,true);
+      logger.info("CombatActions::onAttack, Attack- health check = 0 big L");
+      //AttackButton.setVisible(false);// cannot attack no more
+    }
+    //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
     logger.info("Attack button after");
   }
-  private void onBoast(Screen screen, ServiceContainer container) {
-    logger.info("onBoast before");
+  private void onBoost(Screen screen, ServiceContainer container) {
+    logger.info("onBoost before");
     // Perform boost logic here, like increasing health
-    // maybe like entity.getComponent(CombatStatsComponent.class).increaseHealth(10);
-    //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-
+    int healthCheck=100;
+    if (healthCheck!=100) {
+      logger.info("CombatActions::onBoost, Boost- health check!=100");
+      Display= new CombatButtonStagDisplay( healthCheck, true,true);
+      game.setScreen(new LoadingScreen(game));
+    } else {
+      logger.info("CombatActions::onBoost, Boost- health check = sigma");
+      Display= new CombatButtonStagDisplay( healthCheck, true,false);
+      //BoostButton.setVisible(false);// Maximum boost my guy
+    }
     logger.info("Boost button after");
   }
   /**
