@@ -26,7 +26,6 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
-import java.util.List;
 
 /**
  * A UI component for displaying the Main menu.
@@ -215,7 +214,6 @@ public class MainMenuDisplay extends UIComponent {
 
         // Create slide instances
         Slides slides = new Slides(skin);
-        final int NUM_SLIDES = slides.getNumSlides();
 
         // Add the first slide to the slideTable
         slideTable.add(slides.getSlide()).expand().fill().row();
@@ -244,30 +242,16 @@ public class MainMenuDisplay extends UIComponent {
         // Add the navigation table to the bottom of the helpWindow
         helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
 
-        final int[] currentSlide = {0};
-
         // Handles when slide change is clicked
         previousButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (slides.moveSlidesBackward()) {
-                    slideTable.clear(); // Clear the table
-                    slideTable.add(slides.getSlide()).expand().fill(); // Add the current slide
-                    logger.debug("Slide changed to: " + slides.getSlide().getName());
-                }
-            }
+            public void changed(ChangeEvent event, Actor actor) {previousSlide(slides, slideTable);}
         });
 
         // Handles when slide change is clicked
         nextButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (slides.moveSlidesForward()) {
-                    slideTable.clear(); // Clear the table
-                    slideTable.add(slides.getSlide()).expand().fill(); // Add the current slide
-                    logger.debug("Slide changed to: " + slides.getSlide().getName());
-                }
-            }
+            public void changed(ChangeEvent event, Actor actor) {nextSlide(slides, slideTable);}
         });
 
         // Handles when help menu is exited
@@ -294,27 +278,14 @@ public class MainMenuDisplay extends UIComponent {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.LEFT:
-                        if (currentSlide[0] > 0) {
-                            slides.getSlide().setVisible(false);
-                            currentSlide[0]--;
-                            slides.getSlide().setVisible(true);
-                            slideTable.clear(); // Clear the table
-                            slideTable.add(slides.getSlide()).expand().fill(); // Add the
-                            // current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
-                        }
+                        previousSlide(slides, slideTable);
                         return true;
                     case Input.Keys.RIGHT:
-                        if (currentSlide[0] < NUM_SLIDES - 1) {
-                            slides.getSlide().setVisible(false);
-                            currentSlide[0]++;
-                            slides.getSlide().setVisible(true);
-                            slideTable.clear(); // Clear the table
-                            slideTable.add(slides.getSlide()).expand().fill(); // Add the
-                            // current slide
-                            logger.debug("Slide changed to: " + (currentSlide[0] + 1) + " (via " +
-                                    "RIGHT key)");
-                        }
+                        nextSlide(slides, slideTable);
+                        return true;
+                    case Input.Keys.ESCAPE:
+                        helpWindow.remove(); // Close the help window
+                        logger.info("Help window closed");
                         return true;
                     default:
                         return false;
@@ -324,6 +295,23 @@ public class MainMenuDisplay extends UIComponent {
 
         // Show the window
         stage.addActor(helpWindow);
+    }
+
+    // Helper function to move slides forwards and backwards:
+    private void previousSlide(Slides slides, Table table) {
+        if (slides.moveSlidesBackward()) {
+            table.clear(); // Clear the table
+            table.add(slides.getSlide()).expand().fill(); // Add the current slide
+            logger.debug("Slide changed to: " + slides.getSlide().getName());
+        }
+    }
+
+    private void nextSlide(Slides slides, Table table) {
+        if (slides.moveSlidesForward()) {
+            table.clear(); // Clear the table
+            table.add(slides.getSlide()).expand().fill(); // Add the current slide
+            logger.debug("Slide changed to: " + slides.getSlide().getName());
+        }
     }
 
     /**
