@@ -20,13 +20,10 @@ public class MainGameActions extends Component {
 
   public MainGameActions(GdxGame game) {
     this.game = game;
-    ServiceLocator.registerEventService(new EventService());
   }
 
   @Override
   public void create() {
-    ServiceLocator.registerEventService(new EventService());
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 

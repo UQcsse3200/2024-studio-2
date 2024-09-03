@@ -83,8 +83,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         this.transition = false;
         createUI();
 
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay", this::addOverlay);
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay", this::removeOverlay);
         logger.debug("Initialising main game dup screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         //this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -225,41 +223,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         stage.addActor(topBar);
         stage.addActor(bottomBar);
         stage.addActor(table);
-    }
-
-    public void addOverlay(Overlay.OverlayType overlayType) {
-        logger.info("Adding Overlay {}", overlayType);
-        if (enabledOverlays.isEmpty()) {
-            this.rest();
-        } else {
-            enabledOverlays.getFirst().rest();
-        }
-        switch (overlayType) {
-            case PAUSE_OVERLAY:
-                enabledOverlays.addFirst(new PauseOverlay());
-                break;
-            default:
-                logger.warn("Unknown Overlay type: {}", overlayType);
-                break;
-        }
-    }
-
-    public void removeOverlay() {
-        logger.debug("Removing top Overlay");
-
-        if (enabledOverlays.isEmpty()) {
-            this.wake();
-            return;
-        }
-
-        enabledOverlays.getFirst().remove();
-        enabledOverlays.removeFirst();
-
-        if (enabledOverlays.isEmpty()) {
-            this.wake();
-        } else {
-            enabledOverlays.getFirst().wake();
-        }
     }
 
     public void rest() {
