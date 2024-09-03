@@ -17,14 +17,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.MiniGameConstants;
 import com.csse3200.game.components.minigame.MiniGameMedals;
+import com.csse3200.game.components.minigame.MiniGameNames;
 
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.
  */
-public class EndSnakeScreen extends ScreenAdapter {
+public class EndMiniGameScreen extends ScreenAdapter {
     private final GdxGame game;
     private final int score;
+    private final MiniGameNames gameName;
     private final Stage stage;
     private final Skin skin;
 
@@ -33,9 +35,10 @@ public class EndSnakeScreen extends ScreenAdapter {
     private final BitmapFont font26;
     private final BitmapFont font32;
 
-    public EndSnakeScreen(GdxGame game, int score) {
+    public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName) {
         this.game = game;
         this.score = score;
+        this.gameName = gameName;
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -54,10 +57,9 @@ public class EndSnakeScreen extends ScreenAdapter {
      * Will take the user back to the Main menu screen
      */
     private void setupExitButton() {
-        // Create the exit button
+
         TextButton exitButton = new TextButton("Exit", skin);
 
-        // Set up the exit button click event
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -100,6 +102,7 @@ public class EndSnakeScreen extends ScreenAdapter {
     /**
      * Changes the screen if escape or R is pressed (to mini-games menu or back to game respectively)
      */
+    // TODO: generalise this
     private void handleKeyPress() {
 
         // Key functionality for escape and restart
@@ -187,48 +190,43 @@ public class EndSnakeScreen extends ScreenAdapter {
     }
 
     /**
-     * Gets the personalised massage based on score
-     * @return the message
-     */
-    private String getMessage() {
-
-        if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
-            // Fail
-            return "Damn that was a small snake...";
-
-        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
-            // Bronze
-            return "Nawww, look he's growing";
-
-        } else if (score < MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
-            // Silver
-            return "That's a really big snake alright";
-
-        } else {
-            // Gold
-            return "Snake king!";
-        }
-    }
-
-    /**
-     * Get the medal associated with the players score.
+     * Get the medal associated with the players score for current game
      * @param score: the players score
      * @return the medal associated with the score
      */
     private MiniGameMedals getMedal(int score) {
 
-        if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
+        // Get the medal thresholds for each game
+        int bronzeThreshold, silverThreshold, goldThreshold;
+        switch (gameName) {
+            case SNAKE -> {
+                bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
+            }
+            case BIRD -> {
+                bronzeThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+            }
+            case MAZE -> {
+                bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
+            }
+            default -> throw new IllegalArgumentException("Unknown mini-game: " + game);
+        }
+
+        // Return the medal
+        if (score < bronzeThreshold) {
             // Fail
             return MiniGameMedals.FAIL;
-
-        } else if (score < MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
+        } else if (score < silverThreshold) {
             // Bronze
             return MiniGameMedals.BRONZE;
-
-        } else if (score < MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
+        } else if (score < goldThreshold) {
             // Silver
             return MiniGameMedals.SILVER;
-
         } else {
             // Gold
             return MiniGameMedals.GOLD;
@@ -240,25 +238,76 @@ public class EndSnakeScreen extends ScreenAdapter {
      */
     private void setBackgroundColor() {
 
-        if (score < MiniGameConstants.SNAKE_BRONZE_THRESHOLD) {
-            // Failed
-            // Background colour green rgb 50, 82, 29, 1
-            Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
-        } else if (score <  MiniGameConstants.SNAKE_SILVER_THRESHOLD) {
-            // Bronze
-            // Background colour green rgb 169, 113, 66, 1
-            Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
-        } else if (score < MiniGameConstants.SNAKE_GOLD_THRESHOLD) {
-            // Silver
-            // Background colour green rgb 115, 122, 140, 1
-            Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
-        } else {
-            // Gold
-            // Background colour green rgb 173, 162, 114, 1
-            Gdx.gl.glClearColor(173f / 255f, 162f / 255f, 114f / 255f, 1f);
+        switch (getMedal(score)) {
+            case FAIL ->
+                // Failed
+                // Background colour rgb 50, 82, 29, 1
+                    Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
+            case BRONZE ->
+                // Bronze
+                // Background colour rgb 169, 113, 66, 1
+                    Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
+            case SILVER ->
+                // Silver
+                // Background colour rgb 115, 122, 140, 1
+                    Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
+            case GOLD ->
+                // Gold
+                // Background colour rgb 173, 162, 114, 1
+                    Gdx.gl.glClearColor(173f / 255f, 162f / 255f, 114f / 255f, 1f);
+            default -> throw new IllegalArgumentException("Unknown mini-game");
+        }
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
+     * Gets the personalised massage based on score and mini-game
+     * @return the message
+     */
+    private String getMessage() {
+        int bronzeMedalThreshold, silverMedalThreshold, goldMedalThreshold;
+        String failMessage, bronzeMessage, silverMessage, goldMessage;
+
+        switch (gameName) {
+            case SNAKE -> {
+                bronzeMedalThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
+                failMessage = "Damn that was a small snake...";
+                bronzeMessage = "Nawww, look he's growing";
+                silverMessage = "That's a really big snake alright";
+                goldMessage = "Snake king!";
+            }
+            case BIRD -> {
+                bronzeMedalThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+                failMessage = "Bird message FAIL";
+                bronzeMessage = "Bird message BRONZE";
+                silverMessage = "Bird message SILVER";
+                goldMessage = "Bird message GOLD";
+            }
+            case MAZE -> {
+                bronzeMedalThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
+                failMessage = "Maze message FAIL";
+                bronzeMessage = "Maze message BRONZE";
+                silverMessage = "Maze message SILVER";
+                goldMessage = "Maze message GOLD";
+            }
+            default -> throw new IllegalArgumentException("Unknown mini-game");
         }
 
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (score < bronzeMedalThreshold) {
+            return failMessage;
+        } else if (score < silverMedalThreshold) {
+            return bronzeMessage;
+        } else if (score < goldMedalThreshold) {
+            return silverMessage;
+        } else {
+            return goldMessage;
+        }
     }
 
     /**
