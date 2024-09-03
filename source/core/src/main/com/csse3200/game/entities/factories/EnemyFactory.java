@@ -66,7 +66,7 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0, false))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -92,7 +92,7 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -125,7 +125,7 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 

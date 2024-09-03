@@ -11,20 +11,22 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
-  private final int maxHealth;
+  private int maxHealth;
   private int health;
   private int hunger;
   private int strength;
   private int defense;
   private int speed;
   private int experience;
+  private boolean isPlayer;
   private final int maxHunger;
-  private final int maxExperience;
+  private int maxExperience;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
       this.maxHealth = health;
       this.maxHunger = hunger;
-      this.maxExperience=experience;
+      this.maxExperience=100;
+      this.isPlayer = isPlayer;
       setHealth(health);
       setHunger(hunger);
       setStrength(strength);
@@ -226,6 +228,22 @@ public class CombatStatsComponent extends Component {
     } else {
       logger.error("Cannot set experience to a negative value");
     }
+
+    if (this.experience >= this.maxExperience && isPlayer) {
+
+      int experienceDiff = this.maxExperience - this.experience;
+
+      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+      setExperience(experienceDiff);
+
+      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
+      this.maxHealth = this.maxHealth + healthDiff;
+      addHealth(healthDiff);
+      addStrength((int) Math.ceil(this.strength * 0.02));
+      addDefense((int) Math.ceil(this.defense * 0.02));
+      addSpeed((int) Math.ceil(this.speed * 0.02));
+
+    }
   }
 
   /**
@@ -234,7 +252,24 @@ public class CombatStatsComponent extends Component {
    * @param experience experience to add
    */
   public void addExperience(int experience) {
+
     setExperience(this.experience + experience);
+
+    if (this.experience >= this.maxExperience && isPlayer) {
+
+      int experienceDiff = this.maxExperience - this.experience;
+
+      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+      setExperience(experienceDiff);
+
+      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
+      this.maxHealth = this.maxHealth + healthDiff;
+      addHealth(healthDiff);
+      addStrength((int) Math.ceil(this.strength * 0.02));
+      addDefense((int) Math.ceil(this.defense * 0.02));
+      addSpeed((int) Math.ceil(this.speed * 0.02));
+
+    }
   }
 
 

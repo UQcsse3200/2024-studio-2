@@ -13,6 +13,7 @@ public class BaseEntityConfig {
     public int defense = 0;
     public int speed = 1;
     public int experience = 10;
+    public boolean isPlayer = false;
     public int baseDefense = 0;
     public String animalName = "";
     public int isEnemy = 0;

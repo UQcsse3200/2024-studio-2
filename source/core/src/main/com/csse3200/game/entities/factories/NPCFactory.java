@@ -60,7 +60,7 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0,0))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
@@ -189,7 +189,7 @@ public class NPCFactory {
         animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
         kangarooBoss
-                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100))
+                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100, false))
                 .addComponent(animator)
                 .addComponent(new KangaBossAnimationController());
 
@@ -212,7 +212,7 @@ public class NPCFactory {
 
         kangarooBoss
                 .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100, false));
 
         kangarooBoss.scaleHeight(3.0f);
 
