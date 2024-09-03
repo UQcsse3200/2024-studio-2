@@ -102,7 +102,17 @@ public class TerrainComponent extends RenderComponent {
    * @param chunkPos The position of the chunk to load around
    */
   public static void loadChunks(GridPoint2 chunkPos) {
-    int[] moves = {-1, 0, 1};
+    loadChunks(chunkPos, 1);
+  }
+
+  /**
+   * Load all chunks in a given radius (a square - not circle) around the given chunk position.
+   *
+   * @param chunkPos The position of the chunk to load around
+   * @param r The number of chunks away to spawn
+   */
+  public static void loadChunks(GridPoint2 chunkPos, int r) {
+    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();;
     for (int dx : moves) {
       for (int dy : moves) {
         fillChunk(new GridPoint2(chunkPos.x + dx, chunkPos.y + dy));
