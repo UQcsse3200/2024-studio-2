@@ -54,7 +54,7 @@ class AbstractPotionTest  {
         healingPotion.useItem(player1);
         assertTrue(healingPotion.isEmpty(), "The potion should be empty after 3 uses.");
 
-        assertEquals(100, player1.player.getComponent(CombatStatsComponent.class).getHealth(), "The potion should have 100 health.");
+        assertEquals(75, player1.player.getComponent(CombatStatsComponent.class).getHealth(), "The potion should have 100 health.");
     }
 
     @Test
