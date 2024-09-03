@@ -25,12 +25,6 @@ public class AbstractFoodTest {
         }
     }
 
-    private static class TestableStat extends CombatStatsComponent {
-        public TestableStat(int health, int hunger, int strength, int defense, int speed, int experience) {
-            super(health, hunger, strength, defense, speed, experience);
-        }
-    }
-
     private static class TestableItem extends AbstractFood{
         public TestableItem(String name, int itemCode, int limit, int quantity, int feedingEffect) {
             super(name,
@@ -43,7 +37,7 @@ public class AbstractFoodTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        stat = new CombatStatsComponent(50,0,50,50,50,50);
+        stat = new CombatStatsComponent(50, 50,50,50,50,50);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         food = new TestableItem("test", 3, 10, 3, 10);
     }
@@ -52,14 +46,14 @@ public class AbstractFoodTest {
     public void testApplyEffect() {
         food.useItem(player1);
         assertEquals(2, food.getQuantity(), "The food should have 2 uses left after one use.");
-        assertEquals(10, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 10");
+        assertEquals(60, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 60");
 
         food.useItem(player1);
         assertEquals(1, food.getQuantity(), "The food should have 1 use left after two uses.");
-        assertEquals(20, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 20");
+        assertEquals(70, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 70");
 
         food.useItem(player1);
         assertTrue(food.isEmpty(), "The food should be empty after 3 uses.");
-        assertEquals( 30, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 30");
+        assertEquals( 80, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 80");
     }
 }

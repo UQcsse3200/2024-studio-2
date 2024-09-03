@@ -22,8 +22,8 @@ public class CombatStatsComponent extends Component {
   private final int maxExperience;
 
   public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
-      this.maxHealth = health;
-      this.maxHunger = hunger;
+      this.maxHealth = 100;
+      this.maxHunger = 100;
       this.maxExperience=experience;
       setHealth(health);
       setHunger(hunger);
@@ -112,7 +112,7 @@ public class CombatStatsComponent extends Component {
   public void addHunger(int change) {
     int newHunger = Math.min(maxHunger, this.hunger + change);
     newHunger = Math.max(0, newHunger);
-    setHealth(newHunger);
+    setHunger(newHunger);
   }
 
 
