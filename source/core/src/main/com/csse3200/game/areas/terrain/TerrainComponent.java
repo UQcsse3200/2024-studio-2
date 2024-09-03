@@ -102,41 +102,12 @@ public class TerrainComponent extends RenderComponent {
    * @param chunkPos The position of the chunk to load around
    */
   public static void loadChunks(GridPoint2 chunkPos) {
-
-    // top left
-    GridPoint2 tl = new GridPoint2(chunkPos.x - 1, chunkPos.y + 1);
-    fillChunk(tl);
-
-    // top
-    GridPoint2 t = new GridPoint2(chunkPos.x, chunkPos.y + 1);
-    fillChunk(t);
-
-    // top right
-    GridPoint2 tr = new GridPoint2(chunkPos.x + 1, chunkPos.y + 1);
-    fillChunk(tr);
-
-    // left
-    GridPoint2 l = new GridPoint2(chunkPos.x - 1, chunkPos.y);
-    fillChunk(l);
-
-    // player position
-    fillChunk(chunkPos);
-
-    // right
-    GridPoint2 r = new GridPoint2(chunkPos.x + 1, chunkPos.y);
-    fillChunk(r);
-
-    // bottom left
-    GridPoint2 bl = new GridPoint2(chunkPos.x - 1, chunkPos.y - 1);
-    fillChunk(bl);
-
-    // bottom
-    GridPoint2 b = new GridPoint2(chunkPos.x, chunkPos.y - 1);
-    fillChunk(b);
-
-    // bottom right
-    GridPoint2 br = new GridPoint2(chunkPos.x + 1, chunkPos.y - 1);
-    fillChunk(br);
+    int[] moves = {-1, 0, 1};
+    for (int dx : moves) {
+      for (int dy : moves) {
+        fillChunk(new GridPoint2(chunkPos.x + dx, chunkPos.y + dy));
+      }
+    }
   }
 
   /**
