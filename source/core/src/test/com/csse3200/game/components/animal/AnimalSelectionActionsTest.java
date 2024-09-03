@@ -1,12 +1,10 @@
 package com.csse3200.game.components.animal;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class AnimalSelectionActionsTest {
 
-    private AnimalSelectionDisplay mockDisplay;
+    private LandAnimalSelectionDisplay mockDisplay;
     private PopUpHelper mockDialogHelper;
     private GdxGame mockGame;
     private AnimalSelectionActions actions;
@@ -36,7 +34,7 @@ public class AnimalSelectionActionsTest {
     @Before
     public void setUp() {
         // Mock dependencies
-        mockDisplay = mock(AnimalSelectionDisplay.class);
+        mockDisplay = mock(LandAnimalSelectionDisplay.class);
         mockDialogHelper = mock(PopUpHelper.class);
         mockGame = mock(GdxGame.class);
 

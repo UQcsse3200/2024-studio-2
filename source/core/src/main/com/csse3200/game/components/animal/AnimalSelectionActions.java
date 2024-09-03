@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
-    final AnimalSelectionDisplay display;
+    final LandAnimalSelectionDisplay display;
     private final PopUpHelper dialogHelper;
     static Image selectedAnimalImage;
     private final GdxGame game;
@@ -29,7 +29,7 @@ public class AnimalSelectionActions {
      * @param dialogHelper helper for displaying dialogs
      * @param game the game instance to change screens
      */
-    public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
+    public AnimalSelectionActions(LandAnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;

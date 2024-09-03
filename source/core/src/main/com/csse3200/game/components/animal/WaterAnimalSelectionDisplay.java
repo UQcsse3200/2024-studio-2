@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
-public class WaterAnimalSelectionDisplay extends AnimalSelectionDisplay {
+public class WaterAnimalSelectionDisplay extends LandAnimalSelectionDisplay {
     public WaterAnimalSelectionDisplay(Stage stage, Skin skin) {
         super(stage, skin);
         initializeDisplay();

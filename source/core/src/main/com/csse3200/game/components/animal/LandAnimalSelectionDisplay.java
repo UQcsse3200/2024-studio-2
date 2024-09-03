@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
  * The class manages the UI components related to
  * animal selection, including images, buttons, and their layout on the stage.
  */
-public class AnimalSelectionDisplay {
+public class LandAnimalSelectionDisplay {
     private final Stage stage;
     private final Skin skin;
     private final Image[] animalImages;
@@ -24,7 +24,7 @@ public class AnimalSelectionDisplay {
      * @param stage The stage where UI elements are added.
      * @param skin  The skin for styling UI elements.
      */
-    public AnimalSelectionDisplay(Stage stage, Skin skin) {
+    public LandAnimalSelectionDisplay(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
 

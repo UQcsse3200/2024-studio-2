@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.animal.AnimalSelectionDisplay;
+import com.csse3200.game.components.animal.LandAnimalSelectionDisplay;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
 public class LandAnimalSelectionScreen extends ScreenAdapter {
     private Stage stage;
-    private AnimalSelectionDisplay display;
+    private LandAnimalSelectionDisplay display;
     private AnimalSelectionActions actions;
 
 
@@ -33,7 +33,7 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
         PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
 
         // Set up the display component for animal selection, passing in the stage and skin
-        display = new AnimalSelectionDisplay(stage, skin);
+        display = new LandAnimalSelectionDisplay(stage, skin);
 
         // Set up actions for handling UI interactions, passing the display, dialog helper, and game instance
         actions = new AnimalSelectionActions(display, dialogHelper, game);
