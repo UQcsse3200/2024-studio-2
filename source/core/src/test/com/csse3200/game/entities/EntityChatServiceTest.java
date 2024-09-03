@@ -13,12 +13,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class EntityChatServiceTest {
     private EntityChatService entityChatService;
+
+    private final String[][] testText = {
+            { "Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye" },
+            { "Potions heals you by (n) HP!", "I hope this helped." },
+            { "Final boss?? That Kangaroo??", "idk" },
+            { "Good luck!" }
+    };
 
     @BeforeEach
     void beforeEach() {
@@ -47,31 +56,32 @@ class EntityChatServiceTest {
         Gdx.input.setInputProcessor(stage);
     }
 
-//    @Test
-//    void hideChatBox() {
-//        Assertions.assertNull(entityChatService.getCurrentOverlay());
-//        entityChatService.updateText(new String[] {"1", "2"});
-//        Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
-//        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
-//        Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
-//        entityChatService.hideCurrentOverlay();
-//        Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
-//    }
+    @Test
+    void hideChatBox() {
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        entityChatService.updateText(testText);
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
+        entityChatService.hideCurrentOverlay();
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
 
-//    @Test
-//    void shouldCreateEntityChat() {
-//        Assertions.assertNull(entityChatService.getCurrentOverlay());
-//        entityChatService.updateText(new String[] {"1", "2"});
-//        Assertions.assertArrayEquals(new String[] {"1", "2"}, entityChatService.getHints());
-//    }
-//
-//    @Test
-//    void shouldRemoveEntityChat() {
-//        entityChatService.updateText(new String[] {"1", "2"});
-//        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-//        entityChatService.disposeCurrentOverlay();
-//        Assertions.assertNull(entityChatService.getCurrentOverlay());
-//    }
+    }
+
+    @Test
+    void shouldCreateEntityChat() {
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        entityChatService.updateText(testText);
+        Assertions.assertArrayEquals(testText, entityChatService.getHints());
+    }
+
+    @Test
+    void shouldRemoveEntityChat() {
+        entityChatService.updateText(testText);
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        entityChatService.disposeCurrentOverlay();
+        Assertions.assertNull(entityChatService.getCurrentOverlay());
+    }
 
     @Test
     void illegalDispose() {
@@ -79,24 +89,25 @@ class EntityChatServiceTest {
         Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
-//    @Test
-//    void shouldUpdateEntityChat() {
-//        entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-//        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-//
-//        DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
-//
-//        String page1 = chatOverlay.getLabel().getText().toString();
-//        String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHint()];
-//        Assertions.assertEquals("This is a test 1 String", page1);
-//        Assertions.assertEquals("This is a test 1 String", hint1);
-//    }
+    // TODO: This test seems to not be updating anything so I might rewrite this accordingly - Julian
+    @Test
+    void shouldUpdateEntityChat() {
+        entityChatService.updateText(testText);
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
 
-//    @Test
-//    void buttonsExist() {
-//        entityChatService.updateText(new String[] {"This is a test 1 String", "This is a test 2 String"});
-//        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-//        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
-//        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
-//    }
+        DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
+
+        String page1 = chatOverlay.getLabel().getText().toString();
+        Assertions.assertEquals("Welcome to Animal Kingdom!", page1);
+        String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHint()][0];
+        Assertions.assertEquals("Welcome to Animal Kingdom!", hint1);
+    }
+
+    @Test
+    void buttonsExist() {
+        entityChatService.updateText(testText);
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
+    }
 }
