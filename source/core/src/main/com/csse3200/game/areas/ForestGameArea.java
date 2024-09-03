@@ -61,8 +61,13 @@ public class ForestGameArea extends GameArea {
 
     displayUI();
 
+    // Terrain
     spawnTerrain();
+
+    // Obstacles
     spawnTrees();
+
+    // Player
     player = spawnPlayer();
 
     //Enemies
@@ -77,35 +82,6 @@ public class ForestGameArea extends GameArea {
     playMusic();
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
-  }
-
-  private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
-
-    for (int i = 0; i < numItems; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity enemy = creator.get();
-      spawnEntityAt(enemy, randomPos, true, false);
-      enemies.add(enemy);
-      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
-    }
-  }
-
-  private void spawnEnemies() {
-    Supplier<Entity> generator;
-
-    // Chicken
-    generator = () -> EnemyFactory.createChicken(player);
-    spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
-
-    // Monkey
-    generator = () -> EnemyFactory.createMonkey(player);
-    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
-
-    // Frog
-    generator = () -> EnemyFactory.createFrog(player);
-    spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
   }
 
   /**
@@ -199,57 +175,6 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(entity, randomPos, true, true);
   }
 
-  /**
-   * Spawns a chicken enemy, with the player entity as its target
-   */
-   private void spawnChicken() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity chicken = EnemyFactory.createChicken(player);
-    enemies.add(chicken);
-
-    float proximityRange = 0.05f; // Set a suitable proximity range
-    chicken.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
-
-    spawnEntityAt(chicken, randomPos, true, true);
-  }
-  /**
-   * spawns a frog enemy, with the player entity as its target
-   */
-  private void spawnFrog() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 10);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity frog = EnemyFactory.createFrog(player);
-    enemies.add(frog);
-
-    float proximityRange = 0.05f; // Set a suitable proximity range
-    frog.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
-
-    spawnEntityAt(frog, randomPos, true, true);
-
-  }
-
-  /**
-   * spawns a monkey enemy, with the player entity as its target
-   */
-  private void spawnMonkey() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 10);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity monkey = EnemyFactory.createMonkey(player);
-    enemies.add(monkey);
-
-    float proximityRange = 0.05f; // Set a suitable proximity range
-    monkey.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
-
-    spawnEntityAt(monkey, randomPos, true, true);
-  }
-
   private void spawnItems() {
     Supplier<Entity> generator;
 
@@ -262,26 +187,20 @@ public class ForestGameArea extends GameArea {
     spawnRandomItem(generator, config.spawns.NUM_APPLES);
   }
 
-  private void spawnRandomItem(Supplier<Entity> creator, int numItems) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+  private void spawnEnemies() {
+    Supplier<Entity> generator;
 
-    for (int i = 0; i < numItems; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity item = creator.get();
-      spawnEntityAt(item, randomPos, true, false);
-    }
-  }
+    // Chicken
+    generator = () -> EnemyFactory.createChicken(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
 
-  private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    // Monkey
+    generator = () -> EnemyFactory.createMonkey(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
 
-    for (int i = 0; i < numNPCs; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity npc = creator.get();
-      spawnEntityAt(npc, randomPos, true, false);
-    }
+    // Frog
+    generator = () -> EnemyFactory.createFrog(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
   }
 
   private void spawnNPCs() {
@@ -306,6 +225,41 @@ public class ForestGameArea extends GameArea {
     // Snake
     generator = () -> NPCFactory.createSnake(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
+  }
+
+  private void spawnRandomItem(Supplier<Entity> creator, int numItems) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity item = creator.get();
+      spawnEntityAt(item, randomPos, true, false);
+    }
+  }
+
+  private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+    for (int i = 0; i < numNPCs; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity npc = creator.get();
+      spawnEntityAt(npc, randomPos, true, false);
+    }
+  }
+
+  private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      spawnEntityAt(enemy, randomPos, true, false);
+      enemies.add(enemy);
+      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+    }
   }
 
   public static void playMusic() {
