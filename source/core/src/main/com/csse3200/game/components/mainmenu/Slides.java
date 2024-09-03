@@ -1,74 +1,76 @@
 package com.csse3200.game.components.mainmenu;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+// TODO: Update this to have slide info in a txt or json file and load them in
+// TODO: statically - that way in game stats can be updated by just writing to
+// TODO: that file and then just opening that file when opening help slides
 public class Slides {
+    public static int NUM_SLIDES = 5;
 
-    public static class MovementSlide extends Table {
-        public MovementSlide(Skin skin) {
-            Label titleLabel = new Label("Movement Instructions", skin, "title");
-            Label contentLabel = new Label("Here are the instructions for movement...", skin);
-
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
-
-        }
+    public static Slide[] getAllSlides(Skin skin) {
+        Slide[] slides = new Slide[NUM_SLIDES];
+        slides[0] = getMovementSlide(skin);
+        slides[1] = getCombatSlide(skin);
+        slides[2] = getStorylineSlide(skin);
+        slides[3] = getMinigamesSlide(skin);
+        slides[4] = getStatsSlide(skin);
+        return slides;
     }
 
+    public static class Slide extends Table {
+        private final String name;
 
-    /**
-     * Slide displaying Combat instructions.
-     */
-    public static class CombatSlide extends Table {
-        public CombatSlide(Skin skin) {
-            Label titleLabel = new Label("Combat Instructions", skin, "title");
-            Label contentLabel = new Label("Here are the instructions for combat...", skin);
-
+        public Slide(String name, Skin skin, String title, String contents) {
+            this.name = name;
+            Label titleLabel = new Label(title, skin, "title");
+            Label contentLabel = new Label(contents, skin);
             add(titleLabel).padTop(20f).expandX().center().row();
             add(contentLabel).padTop(20f).expandX().center().row();
         }
+
+        public String getName() {return this.name;}
+    }
+
+    /**
+     * Slide displaying Movement information.
+     */
+    private static Slide getMovementSlide(Skin skin) {
+        return new Slide("movement", skin,
+                "Movement Instructions", "Here are the instructions for movement...");
+    }
+
+    /**
+     * Slide displaying Combat information.
+     */
+    private static Slide getCombatSlide(Skin skin) {
+        return new Slide("combat", skin,
+                "Combat Instructions", "Here are the instructions for combat...");
     }
 
     /**
      * Slide displaying Storyline information.
      */
-    public static class StorylineSlide extends Table {
-        public StorylineSlide(Skin skin) {
-            Label titleLabel = new Label("Storyline Overview", skin, "title");
-            Label contentLabel = new Label("Here's the storyline of the game...", skin);
-
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
-        }
+    private static Slide getStorylineSlide(Skin skin) {
+        return new Slide("storyline", skin,
+                "Storyline Overview", "Here's the storyline of the game...");
     }
 
     /**
-     * Slide displaying Minigames information.
+     * Slide displaying Mini-games information.
      */
-    public static class MinigamesSlide extends Table {
-        public MinigamesSlide(Skin skin) {
-            Label titleLabel = new Label("Minigames", skin, "title");
-            Label contentLabel = new Label("Here are some details about the minigames...", skin);
-
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
-        }
+    private static Slide getMinigamesSlide(Skin skin) {
+        return new Slide("minigames", skin,
+                "Minigames", "Here are the instructions for movement...");
     }
 
     /**
      * Slide displaying Stats information.
      */
-    public static class StatsSlide extends Table {
-        public StatsSlide(Skin skin) {
-            Label titleLabel = new Label("Game Stats", skin, "title");
-            Label contentLabel = new Label("Here are some statistics about the game...", skin);
-
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
-        }
+    private static Slide getStatsSlide(Skin skin) {
+        return new Slide("stats", skin,
+                "Game Stats", "Here are some statistics about the game...");
     }
-
 }

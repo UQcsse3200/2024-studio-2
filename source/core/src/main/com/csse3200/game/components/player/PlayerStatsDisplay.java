@@ -18,14 +18,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import static com.csse3200.game.components.player.PlayerStatsDisplayTester.*;
-
 /**
  * A UI component for displaying player stats, such as health, hunger, and experience.
  * This component handles the creation, updating, and disposing
  * the player's stats on the screen.
  */
-
 public class PlayerStatsDisplay extends UIComponent {
 
     Table table;
@@ -178,7 +175,6 @@ public class PlayerStatsDisplay extends UIComponent {
         // Add the table to the stage
         return true;
     }
-
 
     @Override
     public void draw(SpriteBatch batch) {
