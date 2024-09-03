@@ -2,6 +2,7 @@ package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
+    DialogueBox itemOverlay;
+
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -146,12 +150,31 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                return true;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //double calls when mouse held, to be fixed
+                logger.info(String.valueOf(inventory.getAt(index)));
+                logger.info("entered");
+                disposeItemOverlay();
+                if (inventory.getIndex(index) != 0) {
+                    String[] itemText = {item.getDescription() + ". Quantity: "
+                            + item.getQuantity() + "/" + item.getLimit()};
+                    itemOverlay = new DialogueBox(itemText);
+                }
+
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                //double calls when mouse held, to be fixed
+//                try {
+//                    itemOverlay.dispose();
+//                    itemOverlay = null;
+//                } catch (NullPointerException e) {
+//                    logger.info(e + ": no itemOverlay to dispose");
+//                }
+                logger.info("exited");
+                disposeItemOverlay();
+
             }
         });
 
@@ -208,6 +231,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
+        disposeItemOverlay();
         super.dispose();
     }
 
@@ -231,6 +255,13 @@ public class PlayerInventoryDisplay extends UIComponent {
             table.clear();
             table.remove();
             table = null;
+        }
+    }
+
+    private void disposeItemOverlay() {
+        if (itemOverlay != null) {
+            itemOverlay.dispose();
+            itemOverlay = null;
         }
     }
 
