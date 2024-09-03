@@ -297,7 +297,7 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(helpWindow);
     }
 
-    // Helper function to move slides forwards and backwards:
+    // Helper function to move slides backwards:
     private void previousSlide(Slides slides, Table table) {
         if (slides.moveSlidesBackward()) {
             table.clear(); // Clear the table
@@ -306,6 +306,7 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
+    // Helper function to move slides backwards:
     private void nextSlide(Slides slides, Table table) {
         if (slides.moveSlidesForward()) {
             table.clear(); // Clear the table
