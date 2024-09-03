@@ -124,8 +124,6 @@ public class MainGameScreen extends ScreenAdapter {
 
     loadAssets();
     createUI();
-
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
@@ -260,10 +258,10 @@ public class MainGameScreen extends ScreenAdapter {
       }
     switch (overlayType) {
       case QUEST_OVERLAY:
-        enabledOverlays.addFirst(new QuestOverlay());
+        enabledOverlays.addFirst(new QuestOverlay(this));
         break;
       case PAUSE_OVERLAY:
-        enabledOverlays.addFirst(new PauseOverlay());
+        enabledOverlays.addFirst(new PauseOverlay(this));
         break;
       default:
         logger.warn("Unknown Overlay type: {}", overlayType);
