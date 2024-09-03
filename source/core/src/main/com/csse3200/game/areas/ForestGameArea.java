@@ -129,15 +129,6 @@ public class ForestGameArea extends GameArea {
     //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
-  private void updateTerrain(GridPoint2 playerPosition) {
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition, new GridPoint2(20, 20));
-      spawnEntity(new Entity().addComponent(terrain));
-  }
-
-  public void onPlayerMove(GridPoint2 newPlayerPosition) {
-    updateTerrain(newPlayerPosition);
-  }
-
   private void spawnTrees() {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
