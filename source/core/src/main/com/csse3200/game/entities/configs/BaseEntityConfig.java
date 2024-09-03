@@ -25,7 +25,7 @@ public class BaseEntityConfig {
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
-    protected BaseEntityConfig() {}
+    public BaseEntityConfig() {}
     public String[] getStringHintLevel() {
         return hints.get(hintLevel);
     }

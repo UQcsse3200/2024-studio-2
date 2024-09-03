@@ -91,7 +91,7 @@ public class ForestGameArea extends GameArea {
   private static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {BACKGROUND_MUSIC};
   private final TerrainFactory terrainFactory;
-  private final List<Entity> enemies;
+  public static List<Entity> enemies = null;
   private Entity player;
 
   private final GdxGame game;
@@ -107,7 +107,7 @@ public class ForestGameArea extends GameArea {
    */
   public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
     super();
-    this.enemies = new ArrayList<>();
+    enemies = new ArrayList<>();
     this.terrainFactory = terrainFactory;
     this.game = game;
   }
