@@ -29,6 +29,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final MiniGameNames gameName;
     private final Stage stage;
     private final Skin skin;
+    private float scale;
 
     // fonts
     private final BitmapFont font18;
@@ -39,6 +40,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.game = game;
         this.score = score;
         this.gameName = gameName;
+        this.scale = 1;
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -59,6 +61,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private void setupExitButton() {
 
         TextButton exitButton = new TextButton("Exit", skin);
+        // Scale the button's font
+        exitButton.getLabel().setFontScale(scale);
+
+        // Scale the button's size
 
         exitButton.addListener(new ClickListener() {
             @Override
@@ -73,7 +79,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
         table.top().right();
-        table.add(exitButton).pad(10);
+        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
 
         // Add the table to the stage
         stage.addActor(table);
@@ -126,46 +133,50 @@ public class EndMiniGameScreen extends ScreenAdapter {
         table.setFillParent(true);
 
         // End of Mini-Game label
-        font32.getData().setScale(3f);
+        font32.getData().setScale(3f * scale);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
         Label endGameLabel = new Label("End of Mini-Game", labelStyle);
-        table.add(endGameLabel).center().padBottom(80).row();
+        table.add(endGameLabel).center().padBottom(80 * scale).row();
         table.row();
 
         // Score label
-        font26.getData().setScale(2f);
+        font26.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label scoreLabel = new Label("Score: " + score, labelStyle);
-        table.add(scoreLabel).center().padBottom(50).row();
+        table.add(scoreLabel).center().padBottom(50 * scale).row();
         table.row();
 
         // Medal label
         MiniGameMedals medal = getMedal(score);
         if (medal == MiniGameMedals.FAIL) {
-            font26.getData().setScale(2f);
+            font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You FAILED", labelStyle);
-            table.add(medalLabel).center().padBottom(150).row();
+            table.add(medalLabel).center().padBottom(150 * scale).row();
             table.row();
 
         } else {
-            font26.getData().setScale(2f);
+            font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
-            table.add(medalLabel).center().padBottom(150).row();
+            table.add(medalLabel).center().padBottom(150 * scale).row();
             table.row();
         }
 
         // Personalised message label
-        font18.getData().setScale(2f);
+        font18.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font18, Color.WHITE);
         String scoreMessage = getMessage();
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
-        table.add(scoreMessageLabel).center().padBottom(100);
+        table.add(scoreMessageLabel).center().padBottom(100 * scale);
         table.row();
 
         // Add buttons to the table
         TextButton tryAgainButton = new TextButton("Try Again", skin);
+        // Scale the button's font
+        tryAgainButton.getLabel().setFontScale(scale);
+
+        // Scale the button's size
         tryAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -174,6 +185,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
         });
 
         TextButton menuButton = new TextButton("Mini-Game Menu", skin);
+        // Scale the button's font
+        menuButton.getLabel().setFontScale(scale);
+
+        // Scale the button's size
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -183,8 +198,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         });
 
         // Add buttons to the table and align them at the bottom
-        table.add(tryAgainButton).pad(10).row();
-        table.add(menuButton).center().pad(10).row();
+        table.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
+        table.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
 
         stage.addActor(table);
     }
@@ -320,5 +335,26 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose(); 
+    }
+
+    /**
+     * Resize function that automatically gets called when the screen is resized.
+     * Resizes all components with a consistent scale to maintain the screen's
+     * original design.
+     * @param width The width of the resized screen.
+     * @param height The height of the resized screen.
+     */
+    @Override
+    public void resize(int width, int height) {
+        // Update the stage viewport
+        stage.getViewport().update(width, height, true);
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+        float scaleWidth = width / baseWidth;
+        float scaleHeight = height / baseHeight;
+        scale = Math.min(scaleWidth, scaleHeight);
+        stage.clear();
+        setupExitButton();
+        renderEndMessage();
     }
 }

@@ -28,6 +28,7 @@ public class MiniGameMenuScreen implements Screen {
     private final GdxGame game;
     private Skin skin;
     private SpriteBatch batch;
+    private float scale;
 
     // Image textures
     private Texture snakeTexture;
@@ -41,6 +42,7 @@ public class MiniGameMenuScreen implements Screen {
      */
     public MiniGameMenuScreen(GdxGame game) {
         this.game = game;
+        this.scale = 1;
     }
 
     /**
@@ -53,7 +55,7 @@ public class MiniGameMenuScreen implements Screen {
 
         batch = new SpriteBatch(); // Initializes SpriteBatch for rendering
         font = new BitmapFont(); // Loads a default font
-        font.getData().setScale(2); // Scales the font size
+        font.getData().setScale(2 * scale); // Scales the font size
 
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json")); // Loads a UI skin
 
@@ -66,9 +68,11 @@ public class MiniGameMenuScreen implements Screen {
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
         Image snakeImage = new Image(snakeTexture);
+        snakeImage.setScale(scale);
         Image skyImage = new Image(skyTexture);
-        skyImage.setScale(0.8f); // scale down bird to 80%
+        skyImage.setScale(0.8f * scale); // scale down bird to 80%
         Image waterImage = new Image(waterTexture);
+        waterImage.setScale((scale));
         TextButton snakeButton = new TextButton("Snake", skin);
         TextButton skyButton = new TextButton("Flappy bird", skin);
         TextButton waterButton = new TextButton("Underwater maze", skin);
@@ -188,9 +192,23 @@ public class MiniGameMenuScreen implements Screen {
      * @param width width fo the new screen
      * @param height height of the new screen
      */
+    /**
+     * Resize function that automatically gets called when the screen is resized.
+     * Resizes all components with a consistent scale to maintain the screen's
+     * original design.
+     * @param width The width of the resized screen.
+     * @param height The height of the resized screen.
+     */
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true); // Updates the viewport to match the new screen dimensions
+        // Update the stage viewport
+        stage.getViewport().update(width, height, true);
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+        float scaleWidth = width / baseWidth;
+        float scaleHeight = height / baseHeight;
+        scale = Math.min(scaleWidth, scaleHeight);
+
     }
 
     /**
