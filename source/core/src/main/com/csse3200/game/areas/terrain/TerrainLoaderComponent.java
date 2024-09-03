@@ -1,15 +1,8 @@
 package com.csse3200.game.areas.terrain;
 
-import java.awt.print.PrinterIOException;
-
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.areas.terrain.TerrainComponent;
-import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Component for dynamically loading terrain chunks based on the player's position.
