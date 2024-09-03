@@ -24,9 +24,9 @@ public class AirAnimalSelectionDisplay extends AnimalSelectionDisplay {
 
         // Paths to the images of the animals
         String[] animalImagePaths = {
-                "images/eagle.png",
-                "images/owl.png",
-                "images/pigeon.png"
+                "images/bird.png",
+                "images/bird.png",
+                "images/bird.png"
         };
 
         // Add images and buttons for each animal
