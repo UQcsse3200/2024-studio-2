@@ -2,16 +2,17 @@ package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.areas.terrain.TerrainLoader;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -67,11 +68,12 @@ public class ForestGameArea extends GameArea {
     // Terrain
     spawnTerrain();
 
-    // Obstacles
-    spawnTrees();
-
     // Player
     player = spawnPlayer();
+    TerrainLoader.setChunk(player.getPosition());
+
+    // Obstacles
+    spawnTrees();
 
     //Enemies
     spawnEnemies();
@@ -83,19 +85,22 @@ public class ForestGameArea extends GameArea {
     spawnNPCs();
 
     playMusic();
-    // player.getEvents().addListener(Entity.EVT_NAME_POS, this::handleNewChunks);
+    player.getEvents().addListener("setPosition", this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
   }
 
-  // private void handleNewChunks(Vector2 playerPos) {
-  //   if (!movedChunks(playerPos)) {return;}
-  //   TerrainComponent.loadChunks(playerPos);
-  //   handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-  //   handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-  //   handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-  //   handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-  // }
+   private void handleNewChunks(Vector2 playerPos) {
+     if (TerrainLoader.movedChunk(playerPos)) {
+       logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
+      }
+//     if (!movedChunks(playerPos)) {return;}
+//     TerrainComponent.loadChunks(playerPos);
+//     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+   }
 
   /**
    Chunk Terminology:

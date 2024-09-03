@@ -36,6 +36,8 @@ public abstract class GameArea implements Disposable {
     for (Entity entity : areaEntities) {
       entity.dispose();
     }
+
+    // TODO: DISPOSE OF TERRAIN HERE!
   }
 
   /**
