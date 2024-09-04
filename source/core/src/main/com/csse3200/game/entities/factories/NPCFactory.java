@@ -54,14 +54,13 @@ public class NPCFactory {
    * @param config  the specific configuration object.
    * @return entity
    */
-  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseEntityConfig config) {
+  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseFriendlyEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0,0))
-            .addComponent(animator)
+    npc.addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
 
@@ -83,7 +82,7 @@ public class NPCFactory {
    * Creates a Cow NPC.
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
-    CowConfig config = configs.cow;
+    BaseFriendlyEntityConfig config = configs.cow;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -91,7 +90,7 @@ public class NPCFactory {
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
-    LionConfig config = configs.lion;
+    BaseFriendlyEntityConfig config = configs.lion;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -99,7 +98,7 @@ public class NPCFactory {
    * Creates a Turtle NPC.
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
-    TurtleConfig config = configs.turtle;
+    BaseFriendlyEntityConfig config = configs.turtle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -107,7 +106,7 @@ public class NPCFactory {
    * Creates an Eagle NPC.
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
-    EagleConfig config = configs.eagle;
+    BaseFriendlyEntityConfig config = configs.eagle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -115,11 +114,11 @@ public class NPCFactory {
    * Creates a Snake NPC.
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
-    SnakeConfig config = configs.snake;
+    BaseFriendlyEntityConfig config = configs.snake;
     return createFriendlyNPC(target, enemies, config);
   }
 
-  private static AnimationRenderComponent init_animator(BaseEntityConfig entity_config) {
+  private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
@@ -180,7 +179,7 @@ public class NPCFactory {
      */
     public static Entity createKangaBossEntity(Entity target) {
         Entity kangarooBoss = createBossNPC(target);
-        BaseEntityConfig config = configs.kangarooBoss;
+        BaseEnemyEntityConfig config = configs.kangarooBoss;
 
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
@@ -208,7 +207,7 @@ public class NPCFactory {
      */
     public static Entity createKangaBossCombatEntity() {
         Entity kangarooBoss = createCombatBossNPC();
-        BaseEntityConfig config = configs.kangarooBoss;
+        BaseEnemyEntityConfig config = configs.kangarooBoss;
 
         kangarooBoss
                 .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))

@@ -11,6 +11,7 @@ import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
@@ -54,7 +55,7 @@ public class EnemyFactory {
    */
   public static Entity createChicken(Entity target) {
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-    BaseEntityConfig config = configs.chicken;
+    BaseEnemyEntityConfig config = configs.chicken;
 
     TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
@@ -83,7 +84,7 @@ public class EnemyFactory {
    */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
-    BaseEntityConfig config = configs.frog;
+    BaseEnemyEntityConfig config = configs.frog;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -110,7 +111,7 @@ public class EnemyFactory {
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
-    BaseEntityConfig config = configs.monkey;
+    BaseEnemyEntityConfig config = configs.monkey;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
