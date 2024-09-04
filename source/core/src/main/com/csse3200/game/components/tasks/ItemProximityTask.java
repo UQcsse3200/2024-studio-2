@@ -104,7 +104,7 @@ public class ItemProximityTask extends DefaultTask implements PriorityTask {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
         } else if (!isPlayerNearItem()) {
-            logger.info("Player is not close enough to pick up the item.");
+            logger.debug("Player is not close enough to pick up the item.");
         }
     }
 

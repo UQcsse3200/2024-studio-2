@@ -71,6 +71,7 @@ public class ForestGameArea extends GameArea {
 
     // Player
     player = spawnPlayer();
+    logger.info("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
     TerrainLoader.setChunk(player.getPosition());
 
     // Obstacles
@@ -105,24 +106,6 @@ public class ForestGameArea extends GameArea {
 //     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
    }
 
-  /**
-   Chunk Terminology:
-   Create - actually generating a new chunk using convolution etc.
-   Loaded - has already been generated and is in the hash map of chunks
-   Active - loaded chunks within a certain radius of the player on which entities are being actively spawned and maintained.
-   Inactive - loaded chunks outside of a certain radius of the player where entities will no longer be maintained.
-
-   Entity (Item/NPC/Bosses) Terminology:
-   Static - entity that is kept loaded in the list of entities and is never disposed off due to player movements.
-   Dynamic - entity that is only loaded if it is on an active chunk (and we will only update this when the player moves chunks).4
-
-   Player Movement Terminology:
-   New Chunk - a chunk which has become active after a player moved chunks.
-   Old Chunk - a chunk which become inactive after a player moved chunks.
-
-   GAME CONFIG CONSTANT:
-   RADIUS - the radius which differentiates active and inactive chunks.
-   */
    private void handleItems() {
      // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
     for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
@@ -155,7 +138,6 @@ public class ForestGameArea extends GameArea {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
-    TerrainComponent.loadChunks(PLAYER_SPAWN);
 
     // // Terrain walls
     // float tileSize = terrain.getTileSize();

@@ -12,7 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
 
 
@@ -23,6 +24,7 @@ import java.util.*;
  * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
+  private static final Logger logger = LoggerFactory.getLogger(TerrainComponent.class);
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
@@ -104,7 +106,7 @@ public class TerrainComponent extends RenderComponent {
    * @param chunkPos The position of the chunk to load around
    */
   public static void loadChunks(GridPoint2 chunkPos) {
-    loadChunks(chunkPos, 1);
+    loadChunks(chunkPos, 3);
   }
 
   /**
@@ -124,6 +126,7 @@ public class TerrainComponent extends RenderComponent {
     for (int dx : moves) {
       for (int dy : moves) {
         GridPoint2 pos = new GridPoint2(chunkPos.x + dx, chunkPos.y + dy);
+        logger.info("Loading Chunk at {}, {}", pos.x, pos.y);
         fillChunk(pos);
         activeChunks.add(pos);
       }
