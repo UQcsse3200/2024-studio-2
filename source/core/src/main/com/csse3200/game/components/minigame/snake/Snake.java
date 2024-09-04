@@ -17,7 +17,7 @@ public class Snake {
     private final Deque<Segment> snakeBody;
     private int length;
     private Direction direction;
-    private Direction nextDirection;
+    private final Deque<Direction> nextDirection;
     private final float movePeriod;
     private float moveTimer;
 
@@ -37,7 +37,7 @@ public class Snake {
         this.movePeriod = movePeriod;
         this.moveTimer = movePeriod;
         this.direction = startDirection;
-        this.nextDirection = startDirection;
+        this.nextDirection = new ArrayDeque<>();
         this.length = startLength;
         x = startX;
         y = startY;
@@ -50,7 +50,6 @@ public class Snake {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
-        this.nextDirection = direction;
     }
 
     /**
@@ -67,17 +66,25 @@ public class Snake {
      * @param direction the direction to update to
      */
     public void updateDirectionOnInput(Direction direction) {
-        if (direction == Direction.UP && this.direction != Direction.DOWN) {
-            this.nextDirection = direction;
+        Direction latestDirection;
+        if (nextDirection.size() > 1) {
+            return;
+        } else if (nextDirection.isEmpty()) {
+            latestDirection = this.direction;
+        } else {
+            latestDirection = nextDirection.peekLast();
         }
-        if (direction == Direction.DOWN && this.direction != Direction.UP) {
-            this.nextDirection = direction;
+        if (direction == Direction.UP && latestDirection != Direction.DOWN) {
+            this.nextDirection.add(direction);
         }
-        if (direction == Direction.LEFT && this.direction != Direction.RIGHT) {
-            this.nextDirection = direction;
+        if (direction == Direction.DOWN && latestDirection != Direction.UP) {
+            this.nextDirection.add(direction);
         }
-        if (direction == Direction.RIGHT && this.direction != Direction.LEFT) {
-            this.nextDirection = direction;
+        if (direction == Direction.LEFT && latestDirection != Direction.RIGHT) {
+            this.nextDirection.add(direction);
+        }
+        if (direction == Direction.RIGHT && latestDirection != Direction.LEFT) {
+            this.nextDirection.add(direction);
         }
     }
 
@@ -122,7 +129,9 @@ public class Snake {
     public void update(float dt) {
         moveTimer -= dt;
         if (moveTimer <= 0) {
-            direction = nextDirection;
+            if (!nextDirection.isEmpty()) {
+                direction = nextDirection.removeFirst();
+            }
             move(direction);
             moveTimer += movePeriod;
         }
