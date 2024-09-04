@@ -2,6 +2,7 @@ package com.csse3200.game.components.minigame.snake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.csse3200.game.components.minigame.snake.SnakeGrid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

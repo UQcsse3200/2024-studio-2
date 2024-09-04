@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigame.snake;
+package com.csse3200.game.rendering.Minigames;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,3 @@
-/*
 package com.csse3200.game.components.minigame.snake;
 
 import com.badlogic.gdx.Gdx;
@@ -129,6 +128,5 @@ public class SnakeControllerTest {
     }
 }
 
-*/
 
 
