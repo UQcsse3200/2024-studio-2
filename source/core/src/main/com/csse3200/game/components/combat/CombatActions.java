@@ -30,10 +30,6 @@ CombatActions extends Component {
   private ServiceContainer container;
 
 
-
-  //private TextButton attackButton;
-  //private TextButton boostButton;
-
   public CombatActions(GdxGame game, Entity enemy) {
     this.game = game;
     this.enemy = enemy;
@@ -73,11 +69,9 @@ CombatActions extends Component {
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
-    //ServiceLocator.getEventService().getGlobalEventHandler().addListener();
-    //Display.getEntity().getEvents().addListener("Attack",onAttack(screen, container););
     entity.getEvents().addListener("Attack", this::onAttack);
-    entity.getEvents().addListener("Boost", this::onBoost);
-
+    entity.getEvents().addListener("Guard", this::onGuard);
+    entity.getEvents().addListener("Counter", this::onCounter);
     //Display.create();
   }
 
@@ -123,34 +117,20 @@ CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("onAttack before");
     // Perform attack logic here, like decreasing health
-    int healthCheck=0;
-    if (healthCheck!= 0) {
-      logger.info("CombatActions::onAttack, before Attack- health check!=0");
-      Display= new CombatButtonStagDisplay(screen, container, healthCheck, true,true);
-      game.setScreen(new LoadingScreen(game));
-      logger.info("CombatActions::onAttack, after Attack- health check!=0");
-    } else {
-      Display= new CombatButtonStagDisplay( screen, container, healthCheck, false,true);
-      logger.info("CombatActions::onAttack, Attack- health check = 0  Attack disabled ideally ig");
-      //AttackButton.setVisible(false);// cannot attack no more
-    }
-    //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
     logger.info("Attack button after");
   }
-  private void onBoost(Screen screen, ServiceContainer container) {
-    logger.info("onBoost before");
+  private void onGuard(Screen screen, ServiceContainer container) {
+    logger.info("onGuard before");
     // Perform boost logic here, like increasing health
-    int healthCheck=100;
-    if (healthCheck!=100) {
-      logger.info("CombatActions::onBoost, Boost- health check!=100");
-      Display= new CombatButtonStagDisplay( screen, container, healthCheck, true,true);
-      game.setScreen(new LoadingScreen(game));
-    } else {
-      logger.info("CombatActions::onBoost, Boost- health check = sigma");
-      Display= new CombatButtonStagDisplay( screen, container, healthCheck, true,false);
-      //BoostButton.setVisible(false);// Maximum boost my guy
-    }
-    logger.info("Boost button after");
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    logger.info("Guard  button after");
+  }
+  private void onCounter(Screen screen, ServiceContainer container) {
+    logger.info("before Counter");
+    // Perform boost logic here, like increasing health
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    logger.info("after Counter");
   }
   /**
    * Called when the screen is disposed to free resources.
