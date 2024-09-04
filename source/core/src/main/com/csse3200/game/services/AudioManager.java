@@ -14,8 +14,13 @@ public class AudioManager {
 
     private static float musicVolume = 1f;  // Default music volume (0.0 to 1.0)
     private static float soundVolume = 1f;  // Default sound volume (0.0 to 1.0)
+    private static boolean isMuted = false;  // Global mute state
     private static Music currentMusic;  // The currently playing background music
-    private static final Map<Sound, Long> soundInstances = new HashMap<>();  // To manage sound instances
+    private static final Map<Sound, Long> soundInstances = new HashMap<>(); // To manage sound instances
+
+    // Set the desired audio scale values even if the game is muted.
+    private static float desiredMusicVolume = 1f;  // User-desired music volume
+    private static float desiredSoundVolume = 1f;  // User-desired sound volume
 
     /**
      * Play the specified sound at the current sound volume level, retrieved via ResourceService.
@@ -54,6 +59,52 @@ public class AudioManager {
             currentMusic = music;
         }
     }
+    /**
+     * Mute both music and sound. This will set the volume to 0 but retain the previous volume.
+     */
+    public static void muteAudio() {
+        if (!isMuted) {
+            // Set volumes to 0 without changing desired values
+            musicVolume = 0f;
+            soundVolume = 0f;
+            if (currentMusic != null) {
+                currentMusic.setVolume(musicVolume);
+            }
+            for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
+                entry.getKey().setVolume(entry.getValue(), soundVolume);
+            }
+
+            isMuted = true;
+        }
+    }
+
+    /**
+     * Unmute both music and sound. This will restore the volume to its previous levels.
+     */
+    public static void unmuteAudio() {
+        if (isMuted) {
+            // Restore desired volumes when unmuted
+            musicVolume = desiredMusicVolume;
+            soundVolume = desiredSoundVolume;
+
+            if (currentMusic != null) {
+                currentMusic.setVolume(musicVolume);
+            }
+            for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
+                entry.getKey().setVolume(entry.getValue(), soundVolume);
+            }
+
+            isMuted = false;
+        }
+    }
+
+    /**
+     * Check if the audio is muted.
+     * @return True if audio is muted, false otherwise.
+     */
+    public static boolean isMuted() {
+        return isMuted;
+    }
 
     /**
      * Stop the currently playing music.
@@ -66,23 +117,31 @@ public class AudioManager {
 
     /**
      * Set the volume for all music. This will apply to the currently playing music if any.
+     * If the audio is muted, it will override this and set the volume to 0.
      * @param volume Volume level (0.0 to 1.0)
      */
     public static void setMusicVolume(float volume) {
-        musicVolume = volume;
-        if (currentMusic != null) {
-            currentMusic.setVolume(musicVolume);  // Update volume for currently playing music
+        desiredMusicVolume = volume;  // Always save the desired value
+        if (!isMuted) {
+            musicVolume = volume;
+            if (currentMusic != null) {
+                currentMusic.setVolume(musicVolume);
+            }
         }
     }
 
     /**
      * Set the volume for all sounds. This will apply to currently playing sounds as well.
+     * If the audio is muted, it will override this and set the volume to 0.
      * @param volume Volume level (0.0 to 1.0)
      */
     public static void setSoundVolume(float volume) {
-        soundVolume = volume;
-        for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
-            entry.getKey().setVolume(entry.getValue(), soundVolume);  // Update volume for all playing sounds
+        desiredSoundVolume = volume;  // Always save the desired value
+        if (!isMuted) {
+            soundVolume = volume;
+            for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
+                entry.getKey().setVolume(entry.getValue(), soundVolume);
+            }
         }
     }
 
@@ -91,7 +150,7 @@ public class AudioManager {
      * @return The current music volume (0.0 to 1.0)
      */
     public static float getMusicVolume() {
-        return musicVolume;
+        return isMuted ? 0f : musicVolume;
     }
 
     /**
@@ -99,6 +158,14 @@ public class AudioManager {
      * @return The current sound volume (0.0 to 1.0)
      */
     public static float getSoundVolume() {
-        return soundVolume;
+        return isMuted ? 0f : soundVolume;
+    }
+
+    public static float getDesiredMusicVolume() {
+        return desiredMusicVolume;  // Return the desired volume even if muted
+    }
+
+    public static float getDesiredSoundVolume() {
+        return desiredSoundVolume;  // Return the desired volume even if muted
     }
 }

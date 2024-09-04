@@ -25,6 +25,7 @@ import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.AudioManager;
 
 /**
  * A UI component for displaying the Main menu.
@@ -40,6 +41,11 @@ public class MainMenuDisplay extends UIComponent {
     private Texture backgroundTexture;
     private Texture settingBackground;
     private Texture userTableBackground;
+    private Button muteButton;  // Mute toggle button with texture
+    private float lastMusicVolume = 1f;  // Store music volume before muting
+    private float lastSoundVolume = 1f;  // Store sound volume before muting
+    private Texture muteTexture;  // Texture for mute state
+    private Texture unmuteTexture;  // Texture for unmute state
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -48,12 +54,21 @@ public class MainMenuDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating MainMenuDisplay");
+        loadTextures();  // Load textures for the mute button
         settingBackground = new Texture("images/SettingBackground.png");
         backgroundTexture = new Texture("images/BackgroundSplash.png");
         userTableBackground = new Texture("images/UserTable.png");
         logger.info("Background texture loaded");
         addActors();
         applyUserSettings();
+    }
+
+    /**
+     * Load the textures for the mute and unmute button states.
+     */
+    private void loadTextures() {
+        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
+        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
     }
 
     /**
@@ -179,7 +194,8 @@ public class MainMenuDisplay extends UIComponent {
         sizeTable();
 
         // Add the minimize button to the top-right corner
-        addMinimizeButton();
+        addTopRightButtons();
+        updateMuteButtonIcon();
         stage.addActor(table);
 
         // Adds the setting menu to program
@@ -187,6 +203,14 @@ public class MainMenuDisplay extends UIComponent {
 
         //Adds the user logo to program
         addUserTable();
+    }
+
+    private void updateMuteButtonIcon() {
+        if (AudioManager.isMuted()) {
+            muteButton.getStyle().up = new TextureRegionDrawable(new TextureRegion(muteTexture));
+        } else {
+            muteButton.getStyle().up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
+        }
     }
 
     private void addUserTable() {
@@ -384,16 +408,22 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds a minimize button to the top-right corner of the screen.
-     * This button toggles between fullscreen and windowed mode.
+     * Adds a minimize button and mute button to the top-right corner of the screen.
      */
-    private void addMinimizeButton() {
+    private void addTopRightButtons() {
+        // Create a table to hold both buttons
+        Table topRightTable = new Table();
+        topRightTable.top().right();
+        topRightTable.setFillParent(true);
+
+        // Initialize the minimize button
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
         } else {
-            toggleWindowBtn = new TextButton("+", skin);
+            toggleWindowBtn = new TextButton("+", skin); // Start with the plus (maximize) icon
         }
 
+        // Listener for minimizing/maximizing window
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -405,17 +435,34 @@ public class MainMenuDisplay extends UIComponent {
                     // Switch to fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
-                updateToggleWindowButtonText(); // Update text after toggling
+                updateToggleWindowButtonText(); // Update button text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
             }
         });
 
-        Table topRightTable = new Table();
-        topRightTable.top().right();
-        topRightTable.setFillParent(true);
-        topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
+        // Create the mute button
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+        buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
+        muteButton = new Button(buttonStyle);
 
+        muteButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (AudioManager.isMuted()) {
+                    AudioManager.unmuteAudio();
+                } else {
+                    AudioManager.muteAudio();
+                }
+                updateMuteButtonIcon();
+            }
+        });
+
+        // Add the minimize/maximize button and mute button to the table
+        topRightTable.add(muteButton).size(40, 40).pad(10);  // Add mute button first
+        topRightTable.add(toggleWindowBtn).size(40, 40).pad(10);  // Add minimize/maximize button
+
+        // Add the table to the stage
         stage.addActor(topRightTable);
     }
 
@@ -430,6 +477,7 @@ public class MainMenuDisplay extends UIComponent {
             toggleWindowBtn.setText("+"); // Show plus for maximizing
         }
     }
+
 
     /**
      * Adds a settings menu to the screen.
@@ -499,6 +547,7 @@ public class MainMenuDisplay extends UIComponent {
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
                         table.setTouchable(Touchable.enabled);
+                        updateMuteButtonIcon();
                     }
                 });
     }
