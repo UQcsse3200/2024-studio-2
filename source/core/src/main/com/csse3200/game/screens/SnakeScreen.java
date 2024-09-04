@@ -1,5 +1,10 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.services.eventservice.EventService;
@@ -42,6 +47,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final SnakeGameRenderer snakeRenderer;
     private final Renderer renderer;
     private final BitmapFont font;
+    private final Skin skin;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -51,6 +57,7 @@ public class SnakeScreen extends ScreenAdapter {
     public SnakeScreen(GdxGame game) {
         this.game = game;
 
+        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         logger.debug("Initialising snake minigame screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -86,7 +93,8 @@ public class SnakeScreen extends ScreenAdapter {
             return;  // If screen change was triggered, exit the render method.
         }
 
-        ServiceLocator.getEntityService().update();
+        //ServiceLocator.getEntityService().update();
+        //setupExitButton();
         renderer.render();
 
         updateGame(delta);
@@ -95,6 +103,7 @@ public class SnakeScreen extends ScreenAdapter {
             snakeRenderer.render(snakeGame.getScore());
         }
     }
+
 
     /**
      * Handles player input for restarting or exiting the game.
@@ -178,6 +187,7 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.clear();
         font.dispose();
+        skin.dispose();
     }
 
     /**
@@ -200,6 +210,28 @@ public class SnakeScreen extends ScreenAdapter {
                 .addComponent(new TerminalDisplay());
 
         ServiceLocator.getEntityService().register(ui);
+
+        // Set up exit button
+        TextButton exitButton = new TextButton("Exit", skin);
+        //exitButton.getLabel();
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main menu and original screen colour
+                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+
+        // Set up the table for UI layout
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top().right();
+        table.add(exitButton).width(exitButton.getWidth()).height(exitButton.getHeight()).center().pad(10).row();
+
+        // Add the table to the stage
+        stage.addActor(table);
     }
 
 }

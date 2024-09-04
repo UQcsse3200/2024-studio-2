@@ -1,6 +1,4 @@
-/*
 package com.csse3200.game.components.minigame.snake;
-
 
 import com.csse3200.game.components.minigame.snake.controller.Events;
 import org.junit.Test;
@@ -28,5 +26,3 @@ public class EventsTest {
         assertEquals("EXIT_TO_MENU", Events.EXIT_TO_MENU.toString());
     }
 }
-
- */
