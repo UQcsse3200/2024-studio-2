@@ -102,7 +102,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
     /**
      * Changes the screen if escape or R is pressed (to mini-games menu or back to game respectively)
      */
-    // TODO: generalise this
     private void handleKeyPress() {
 
         // Key functionality for escape and restart
