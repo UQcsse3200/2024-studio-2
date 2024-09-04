@@ -1,6 +1,6 @@
 package com.csse3200.game.entities.configs;
 
-public class TurtleConfig extends BaseEntityConfig {
+public class TurtleConfig extends BaseFriendlyEntityConfig {
     protected TurtleConfig() {
         this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."};
         this.spritePath = "images/turtle.atlas";

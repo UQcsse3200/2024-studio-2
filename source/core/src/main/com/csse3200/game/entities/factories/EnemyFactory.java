@@ -34,8 +34,8 @@ import com.csse3200.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class EnemyFactory {
-  //private static final NPCConfigs configs =
-    //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+  private static final NPCConfigs configs =
+      FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
   /**
    * types of enemies
@@ -54,9 +54,9 @@ public class EnemyFactory {
    */
   public static Entity createChicken(Entity target) {
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-    BaseEntityConfig config = NPCConfigs.chicken;
+    BaseEntityConfig config = configs.chicken;
 
-    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
     AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
 
@@ -83,11 +83,11 @@ public class EnemyFactory {
    */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
-    BaseEntityConfig config = NPCConfigs.frog;
+    BaseEntityConfig config = configs.frog;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
@@ -110,11 +110,11 @@ public class EnemyFactory {
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
-    BaseEntityConfig config = NPCConfigs.monkey;
+    BaseEntityConfig config = configs.monkey;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/monkey.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("run_down", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_up", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_left", 0.1f, Animation.PlayMode.LOOP);

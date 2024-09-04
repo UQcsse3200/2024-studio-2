@@ -3,7 +3,7 @@ package com.csse3200.game.entities.configs;
 /**
  * Defines the Eagle's statistics stored in eagle config files to be loaded by the NPC factory.
  */
-public class EagleConfig extends BaseEntityConfig {
+public class EagleConfig extends BaseFriendlyEntityConfig {
     protected EagleConfig() {
         this.baseHint = new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."};
         this.spritePath = "images/eagle.atlas";

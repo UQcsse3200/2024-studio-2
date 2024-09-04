@@ -1,8 +1,4 @@
 {
-  "ghost": {
-    "health": 40,
-    "strength": 10,
-    "speed": 10
   "chicken": {
     "health": 10,
     "baseAttack": 1,
