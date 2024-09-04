@@ -48,7 +48,7 @@ public class LoadingDisplay extends UIComponent {
         table.setFillParent(true);
         table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/BackgroundSplashBasic.png"))));
 
-        loadingLabel = new Label("Loading..." + progress + "%", skin, "default-white");
+        loadingLabel = new Label("Loading..." + progress + "%", skin, "large-white");
 
         table.add(loadingLabel).expandX().padTop(50);
         table.row();
