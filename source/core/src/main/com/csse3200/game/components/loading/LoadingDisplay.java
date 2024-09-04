@@ -38,7 +38,7 @@ public class LoadingDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
-        loadingLabel = new Label("Loading...", skin);
+        loadingLabel = new Label("Loading..." + progress + "%", skin);
 
         table.add(loadingLabel).expandX().padTop(50);
         table.row();
@@ -55,7 +55,7 @@ public class LoadingDisplay extends UIComponent {
     public void update() {
         super.update();
         progress += 0.01f;
-        System.out.println(progress);
+        loadingLabel.setText("Loading..." + (int) (progress * 100) + "%");
         progressBar.setValue(progress);
         
     }
