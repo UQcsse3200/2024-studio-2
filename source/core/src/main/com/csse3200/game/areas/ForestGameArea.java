@@ -20,8 +20,8 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
-import java.util.ArrayList;
+
+import java.util.*;
 import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
@@ -36,7 +36,8 @@ public class ForestGameArea extends GameArea {
   private final List<Entity> enemies;
   private Entity player;
   // private final List<Entity> staticItems;
-  // private final List<Entity> dynamicItems;
+   private final Map<Integer, Entity> dynamicItems = new HashMap<>();
+   private int totalItems = 0;
 
   private final GdxGame game;
 
@@ -117,6 +118,17 @@ public class ForestGameArea extends GameArea {
      //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
      //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
      //  ONTO THE CHUNK)
+     List<Integer> removals = new ArrayList<>();
+     for (int key : dynamicItems.keySet()) {
+       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
+       if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+          removals.add(key);
+       }
+     }
+
+     for (int i : removals) {
+       dynamicItems.remove(i);
+     }
    }
 
   /**
@@ -261,6 +273,8 @@ public class ForestGameArea extends GameArea {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity item = creator.get();
       spawnEntityAt(item, randomPos, true, false);
+      dynamicItems.put(totalItems, item);
+      totalItems++;
     }
   }
 

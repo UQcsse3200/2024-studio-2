@@ -126,7 +126,7 @@ public class TerrainComponent extends RenderComponent {
     for (int dx : moves) {
       for (int dy : moves) {
         GridPoint2 pos = new GridPoint2(chunkPos.x + dx, chunkPos.y + dy);
-        logger.info("Loading Chunk at {}, {}", pos.x, pos.y);
+        logger.debug("Loading Chunk at {}, {}", pos.x, pos.y);
         fillChunk(pos);
         activeChunks.add(pos);
       }
