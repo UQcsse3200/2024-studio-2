@@ -121,7 +121,9 @@ public class SettingsMenuDisplay extends UIComponent {
                 (Event event) -> {
                     float value = audioScaleSlider.getValue();
                     audioScaleValue.setText(String.format("%d", (int) value));
-
+                    // Apply a square function for gradual change
+                    float scaledValue = (float) Math.pow(value / 100f, 2); // Scale value non-linearly
+                    AudioManager.setMusicVolume(scaledValue); // Apply scaled value to music volume
                     return true;
                 });
 
@@ -129,7 +131,9 @@ public class SettingsMenuDisplay extends UIComponent {
                 (Event event) -> {
                     float value = soundScaleSlider.getValue();
                     soundScaleValue.setText(String.format("%d", (int) value));
-
+                    // Apply a square function for gradual change
+                    float scaledValue = (float) Math.pow(value / 100f, 2); // Scale value non-linearly
+                    AudioManager.setSoundVolume(scaledValue); // Apply scaled value to sound volume
                     return true;
                 });
 

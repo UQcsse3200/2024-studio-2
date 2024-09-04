@@ -65,9 +65,17 @@ public class UserSettings {
         } else {
             Gdx.graphics.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
         }
-        //applyAudioSettings(settings.audioScale, settings.soundScale);
+        applyAudioSettings(settings.audioScale, settings.soundScale);
     }
+    private static void applyAudioSettings(float audioScale, float soundScale) {
+        // Convert the audio scales to 0.0 - 1.0 and set in AudioManager
+        float musicVolume = audioScale / 100f;
+        float soundVolume = soundScale / 100f;
 
+        // Set the volume in the AudioManager
+        AudioManager.setMusicVolume(musicVolume);
+        AudioManager.setSoundVolume(soundVolume);
+    }
 
     private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
