@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 
@@ -24,10 +25,10 @@ import com.csse3200.game.GdxGame;
 public class MiniGameMenuScreen implements Screen {
 
     private Stage stage;
-    private BitmapFont font;
     private final GdxGame game;
     private Skin skin;
     private SpriteBatch batch;
+    private float scale;
 
     // Image textures
     private Texture snakeTexture;
@@ -35,27 +36,19 @@ public class MiniGameMenuScreen implements Screen {
     private Texture waterTexture;
     private Texture backgroundTexture;
 
-    /**
-     * Constructor initializes the main game object
-     * @param game the gdx game
-     */
     public MiniGameMenuScreen(GdxGame game) {
         this.game = game;
+        this.scale = 1;
     }
 
-    /**
-     * Called when the screen is shown for the first time
-     */
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport()); // Sets up a stage with a viewport
-        Gdx.input.setInputProcessor(stage); // Sets the input processor to handle stage events
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
 
-        batch = new SpriteBatch(); // Initializes SpriteBatch for rendering
-        font = new BitmapFont(); // Loads a default font
-        font.getData().setScale(2); // Scales the font size
+        batch = new SpriteBatch();
 
-        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json")); // Loads a UI skin
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         // Load Textures for background and minigames
         backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
@@ -66,46 +59,62 @@ public class MiniGameMenuScreen implements Screen {
         // Create buttons and images for the minigames
         TextButton exitButton = new TextButton("Exit", skin);
         Image snakeImage = new Image(snakeTexture);
+        snakeImage.setScale(scale);
         Image skyImage = new Image(skyTexture);
-        skyImage.setScale(0.8f); // scale down bird to 80%
+        skyImage.setScale(0.8f * scale); // scale down bird to 80%
         Image waterImage = new Image(waterTexture);
+        waterImage.setScale(scale);
         TextButton snakeButton = new TextButton("Snake", skin);
+        snakeButton.getLabel().setFontScale(scale);
         TextButton skyButton = new TextButton("Flappy bird", skin);
+        skyButton.getLabel().setFontScale(scale);
         TextButton waterButton = new TextButton("Underwater maze", skin);
+        waterButton.getLabel().setFontScale(scale);
+        snakeButton.setSize(snakeButton.getWidth() * scale, snakeButton.getHeight() * scale);
+        skyButton.setSize(skyButton.getWidth() * scale, skyButton.getHeight() * scale);
+        waterButton.setSize(waterButton.getWidth() * scale, waterButton.getHeight() * scale);
 
-        // Put images and buttons in table
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center();
+        // Position elements manually
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
-        // Add each image to table
-        Table snakeTable = new Table();
-        snakeTable.add(snakeImage).bottom().padBottom(10).row();
-        snakeTable.add(snakeButton).padTop(10);
+        // Determine the Y position for all images (vertical alignment)
+        float centerY = screenHeight / 3f;
 
-        Table skyTable = new Table();
-        skyTable.add(skyImage).bottom().padBottom(10).padLeft(80).row();
-        skyTable.add(skyButton).padTop(10);
+        // Calculate the X positions based on the screen width
+        float snakeX = screenWidth * 0.2f - (snakeImage.getWidth() * scale) / 2;
+        float skyX = screenWidth * 0.5f - (skyImage.getWidth() * 0.8f * scale) / 2;
+        float waterX = screenWidth * 0.8f - (waterImage.getWidth() * scale) / 2;
 
-        Table waterTable = new Table();
-        waterTable.add(waterImage).bottom().padBottom(10).row();
-        waterTable.add(waterButton).padTop(10);
+        // Set positions for the images
+        snakeImage.setPosition(snakeX, centerY);
+        skyImage.setPosition(skyX - 50*scale, centerY);
+        waterImage.setPosition(waterX, centerY);
 
-        // Format table
-        table.add(snakeTable).bottom().pad(20).space(30);
-        table.add(skyTable).bottom().pad(20).space(30);
-        table.add(waterTable).bottom().pad(20).space(30);
 
-        stage.addActor(table);
+        // Set positions for the buttons consistently below the images
+        // With some manual adjustments to x position
+        snakeButton.setPosition(snakeX + 80 *scale, 200 * scale);
+        skyButton.setPosition(skyX + 20 * scale, 200 * scale);
+        waterButton.setPosition(waterX + 100 * scale, 200 * scale);
 
-        // Create an exit button table and add it to the stage
-        Table exitButtonTable = new Table();
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).pad(10);
-        stage.addActor(exitButtonTable);
 
-        // Add listener for elements, highlight images and buttons and move screen accordingly
+        // Position the exit button
+        exitButton.setPosition(screenWidth - exitButton.getWidth() - 10 * scale, screenHeight - exitButton.getHeight() - 10 * scale);
+        exitButton.setSize(exitButton.getWidth() * scale, exitButton.getHeight() * scale);
+        exitButton.getLabel().setFontScale(scale);
+
+
+        // Add actors to the stage
+        stage.addActor(snakeImage);
+        stage.addActor(snakeButton);
+        stage.addActor(skyImage);
+        stage.addActor(skyButton);
+        stage.addActor(waterImage);
+        stage.addActor(waterButton);
+        stage.addActor(exitButton);
+
+        // Add listener for elements
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -158,10 +167,6 @@ public class MiniGameMenuScreen implements Screen {
         });
     }
 
-    /**
-     * Called every frame to render the screen
-     * @param delta The time in seconds since the last render.
-     */
     @Override
     public void render(float delta) {
         // Set the background color
@@ -183,45 +188,34 @@ public class MiniGameMenuScreen implements Screen {
         }
     }
 
-    /**
-     * Called when the screen is resized
-     * @param width width fo the new screen
-     * @param height height of the new screen
-     */
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true); // Updates the viewport to match the new screen dimensions
+        // Update the stage viewport
+        stage.getViewport().update(width, height, true);
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+        float scaleWidth = width / baseWidth;
+        float scaleHeight = height / baseHeight;
+        scale = Math.min(scaleWidth, scaleHeight);
+        show();
     }
 
-    /**
-     * Called when the game is paused
-     */
     @Override
     public void pause() {
     }
 
-    /**
-     *  Called when the game is resumed after a pause
-     */
     @Override
     public void resume() {
     }
 
-    /**
-     * Called when the screen is hidden
-     */
     @Override
     public void hide() {
         dispose();
     }
 
-    /**
-     *  Called to dispose of resources to prevent memory leaks
-     */
     @Override
     public void dispose() {
         stage.dispose();
-        font.dispose();
         skin.dispose();
         snakeTexture.dispose();
         skyTexture.dispose();
