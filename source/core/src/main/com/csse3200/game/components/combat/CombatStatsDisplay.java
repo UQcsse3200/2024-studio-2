@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
@@ -33,6 +32,7 @@ public class CombatStatsDisplay extends UIComponent {
   private Label playerHealthLabel;
   private Label enemyHealthLabel;
   private Label experienceLabel;
+  private TextureAtlas[] textureAtlases;
   private static Animation<TextureRegion> playerHealthBarAnimation;
   private static Animation<TextureRegion> enemyHealthBarAnimation;
   private static Animation<TextureRegion> xpBarAnimation;
@@ -59,18 +59,18 @@ public class CombatStatsDisplay extends UIComponent {
     // Combat Table
     Label title = new Label("Combat Stats", skin, "title");
     title.setFontScale(1.2f);
-    Label playerHealthLabel = new Label("Player Health: " + playerStats.getHealth(), skin, "large");
+    Label playerHealthLabelTable = new Label("Player Health: " + playerStats.getHealth(), skin, "large");
     Label playerAttackLabel = new Label("Player Attack: " + playerStats.getStrength(), skin, "large");
-    Label enemyHealthLabel = new Label("Enemy Health: " + enemyStats.getHealth(), skin, "large");
+    Label enemyHealthLabelTable = new Label("Enemy Health: " + enemyStats.getHealth(), skin, "large");
     Label enemyAttackLabel = new Label("Enemy Attack: " + enemyStats.getStrength(), skin, "large");
     statsTable = new Table();
     statsTable.setFillParent(true);
     statsTable.setDebug(true);
     float paddingTop = 28f;
     statsTable.add(title).center().padTop(paddingTop).row();
-    statsTable.add(playerHealthLabel).padTop(paddingTop ).row();
+    statsTable.add(playerHealthLabelTable).padTop(paddingTop ).row();
     statsTable.add(playerAttackLabel).padTop(paddingTop).row();
-    statsTable.add(enemyHealthLabel).padTop(paddingTop).row();
+    statsTable.add(enemyHealthLabelTable).padTop(paddingTop).row();
     statsTable.add(enemyAttackLabel).padTop(paddingTop);
     stage.addActor(statsTable);
 
@@ -138,6 +138,12 @@ public class CombatStatsDisplay extends UIComponent {
   @Override
   public void dispose() {
     super.dispose();
+    playerHealthImage.remove();
+    enemyHealthImage.remove();
+    xpImage.remove();
+    playerHealthLabel.remove();
+    enemyHealthLabel.remove();
+    experienceLabel.remove();
     //title.remove();
     statsTable.remove();
   }
