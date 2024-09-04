@@ -35,6 +35,7 @@ public class LoadingDisplay extends UIComponent {
         progressBar = new ProgressBar(0, 100, 1, false, skin);
         progressBar.setValue(0);
         progressBar.setColor(0.2f, 0.7f, 0.3f,1);
+        loadingLabel = new Label("Loading..." + progress + "%", skin, "large-white");
     }
 
     @Override
@@ -47,8 +48,6 @@ public class LoadingDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
         table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/BackgroundSplashBasic.png"))));
-
-        loadingLabel = new Label("Loading..." + progress + "%", skin, "large-white");
 
         table.add(loadingLabel).expandX().padTop(50);
         table.row();

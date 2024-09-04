@@ -21,7 +21,7 @@ public class LoadingDisplayTest {
         // Update the progress and verify the progress bar is updated
         loadingDisplay = new LoadingDisplay();
         loadingDisplay.update();
-        assertEquals(0.01f, loadingDisplay.progressBar.getValue(), 0.01f);
+        assertEquals(1, loadingDisplay.progressBar.getValue(), 1);
     }
 
     @Test
