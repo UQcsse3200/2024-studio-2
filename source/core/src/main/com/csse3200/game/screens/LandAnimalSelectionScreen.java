@@ -85,7 +85,21 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
     }
     private void addButtonToSwitchScreen(String buttonText, final Class<? extends ScreenAdapter> screenClass, Skin skin) {
         TextButton button = new TextButton(buttonText, skin);
-        button.setPosition(50, stage.getHeight() - 100 * (stage.getActors().size + 1));  // Position buttons dynamically
+
+        // Position the buttons at the bottom of the screen
+        float buttonWidth = 200;
+        float buttonHeight = 50;
+        float padding = 20;
+        float xPos = stage.getWidth() / 2f - buttonWidth / 2f;  // Center the button horizontally
+
+        if (buttonText.equals("Water Animals")) {
+            float yPos = padding;  // Position the first button at the bottom with padding
+            button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
+        } else if (buttonText.equals("Air Animals")) {
+            float yPos = padding + buttonHeight + padding;  // Position the second button above the first
+            button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
+        }
+
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -98,7 +112,9 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
                 }
             }
         });
+
         stage.addActor(button);
     }
+
 
 }
