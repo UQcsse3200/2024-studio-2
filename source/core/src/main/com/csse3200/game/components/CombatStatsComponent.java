@@ -254,6 +254,10 @@ public class CombatStatsComponent extends Component {
       addSpeed((int) Math.ceil(this.speed * 0.02));
 
     }
+
+    if (experience >= this.maxExperience && !isPlayer) {
+      this.experience = this.maxExperience;
+    }
   }
 
   /**
