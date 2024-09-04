@@ -1,88 +1,74 @@
 package com.csse3200.game.components.mainmenu;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.csse3200.game.files.FileLoader;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Slides {
-    private List<Table> slides;
-    private List<String> slideNames;
-    private final int numSlides;
-    private int currentSlide;
 
-    public Slides(Skin skin) {
-        loadSlidesFromJson(skin);
-        this.currentSlide = 0;
-        this.numSlides = slides.size();
+    public static class MovementSlide extends Table {
+        public MovementSlide(Skin skin) {
+            Label titleLabel = new Label("Movement Instructions", skin, "title");
+            Label contentLabel = new Label("Here are the instructions for movement...", skin);
 
-        // Initially hide all slides except the first
-        slides.getFirst().setVisible(true);
-        for (int i = 1; i < numSlides; i++) {
-            slides.get(i).setVisible(false);
+            add(titleLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).expandX().center().row();
+
         }
     }
 
-    public Table getSlide() {return slides.get(currentSlide);}
 
-    public boolean moveSlidesForward() {
-        if (currentSlide < numSlides - 1) {
-            slides.get(currentSlide).setVisible(false);
-            currentSlide++;
-            slides.get(currentSlide).setVisible(true);
-            return true;
-        }
-        return false;
-    }
+    /**
+     * Slide displaying Combat instructions.
+     */
+    public static class CombatSlide extends Table {
+        public CombatSlide(Skin skin) {
+            Label titleLabel = new Label("Combat Instructions", skin, "title");
+            Label contentLabel = new Label("Here are the instructions for combat...", skin);
 
-    public boolean moveSlidesBackward() {
-        if (currentSlide > 0) {
-            slides.get(currentSlide).setVisible(false);
-            currentSlide--;
-            slides.get(currentSlide).setVisible(true);
-            return true;
-        }
-        return false;
-    }
-
-    public String getName() {
-        return slideNames.get(currentSlide);
-    }
-
-    private void loadSlidesFromJson(Skin skin) {
-        this.slides = new ArrayList<>();
-        this.slideNames = new ArrayList<>();
-        this.currentSlide = 0;
-
-        // Read array of SlideData from JSON
-        SlideData[] slidesData = FileLoader.readClass(SlideData[].class, "configs/HelpSlides.json");
-
-        if (slidesData != null) {
-            for (SlideData data : slidesData) {
-                createSlide(data.name, skin, data.title, data.content);
-            }
-        } else {
-            throw new RuntimeException("Error: Slide data could not be loaded from slides.json.");
+            add(titleLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).expandX().center().row();
         }
     }
 
-    private void createSlide(String name, Skin skin, String title, String contents) {
-        slideNames.add(name);
-        slides.add(new Table());
-        Label titleLabel = new Label(title, skin, "title");
-        Label contentLabel = new Label(contents, skin);
-        slides.get(currentSlide).add(titleLabel).padTop(20f).expandX().center().row();
-        slides.get(currentSlide).add(contentLabel).padTop(20f).expandX().center().row();
-        currentSlide++;
+    /**
+     * Slide displaying Storyline information.
+     */
+    public static class StorylineSlide extends Table {
+        public StorylineSlide(Skin skin) {
+            Label titleLabel = new Label("Storyline Overview", skin, "title");
+            Label contentLabel = new Label("Here's the storyline of the game...", skin);
+
+            add(titleLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).expandX().center().row();
+        }
     }
 
-    // Helper class to represent slide data loaded from JSON
-    private static class SlideData {
-        public String name;
-        public String title;
-        public String content;
+    /**
+     * Slide displaying Minigames information.
+     */
+    public static class MinigamesSlide extends Table {
+        public MinigamesSlide(Skin skin) {
+            Label titleLabel = new Label("Minigames", skin, "title");
+            Label contentLabel = new Label("Here are some details about the minigames...", skin);
+
+            add(titleLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).expandX().center().row();
+        }
     }
+
+    /**
+     * Slide displaying Stats information.
+     */
+    public static class StatsSlide extends Table {
+        public StatsSlide(Skin skin) {
+            Label titleLabel = new Label("Game Stats", skin, "title");
+            Label contentLabel = new Label("Here are some statistics about the game...", skin);
+
+            add(titleLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).expandX().center().row();
+        }
+    }
+
 }
