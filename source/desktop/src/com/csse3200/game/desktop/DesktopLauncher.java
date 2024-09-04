@@ -10,7 +10,7 @@ public class DesktopLauncher {
   public static void main(String[] arg) {
     Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
     config.setTitle("AttackOnAnimal");
-    config.setWindowIcon("images/logo.png");
+    config.setWindowIcon("images/Logo1.png");
     new Lwjgl3Application(new GdxGame(), config);
   }
 }
