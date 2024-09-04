@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -199,6 +201,7 @@ public class MainMenuDisplay extends UIComponent {
      * Displays the help window with slides for game instructions.
      */
     private void showHelpWindow() {
+        final int NUM_SLIDES = 5;
         final float WINDOW_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
         final float WINDOW_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
 
@@ -213,10 +216,15 @@ public class MainMenuDisplay extends UIComponent {
         slideTable.setFillParent(true);
 
         // Create slide instances
-        Slides slides = new Slides(skin);
+        Table[] slideInstances = new Table[NUM_SLIDES];
+        slideInstances[0] = new Slides.MovementSlide(skin);
+        slideInstances[1] = new Slides.CombatSlide(skin);
+        slideInstances[2] = new Slides.StorylineSlide(skin);
+        slideInstances[3] = new Slides.MinigamesSlide(skin);
+        slideInstances[4] = new Slides.StatsSlide(skin);
 
         // Add the first slide to the slideTable
-        slideTable.add(slides.getSlide()).expand().fill().row();
+        slideTable.add(slideInstances[0]).expand().fill().row();
 
         logger.info("Help window opened, displaying Movement slide");
 
@@ -242,16 +250,36 @@ public class MainMenuDisplay extends UIComponent {
         // Add the navigation table to the bottom of the helpWindow
         helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
 
+        final int[] currentSlide = {0};
+
         // Handles when slide change is clicked
         previousButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {previousSlide(slides, slideTable);}
+            public void changed(ChangeEvent event, Actor actor) {
+                if (currentSlide[0] > 0) {
+                    slideInstances[currentSlide[0]].setVisible(false);
+                    currentSlide[0]--;
+                    slideInstances[currentSlide[0]].setVisible(true);
+                    slideTable.clear(); // Clear the table
+                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                }
+            }
         });
 
         // Handles when slide change is clicked
         nextButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {nextSlide(slides, slideTable);}
+            public void changed(ChangeEvent event, Actor actor) {
+                if (currentSlide[0] < NUM_SLIDES - 1) {
+                    slideInstances[currentSlide[0]].setVisible(false);
+                    currentSlide[0]++;
+                    slideInstances[currentSlide[0]].setVisible(true);
+                    slideTable.clear(); // Clear the table
+                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                }
+            }
         });
 
         // Handles when help menu is exited
@@ -263,8 +291,15 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+        // Initially show only the first slide
+        slideInstances[0].setVisible(true);
+        // Initially hide all slides except the first
+        for (int i = 1; i < NUM_SLIDES; i++) {
+            slideInstances[i].setVisible(false);
+        }
+
         slideTable.clear(); // Clear any existing slides
-        slideTable.add(slides.getSlide()).expand().fill(); // Add the first slide
+        slideTable.add(slideInstances[0]).expand().fill(); // Add the first slide
 
         // Center the window on the stage
         helpWindow.setPosition(
@@ -278,14 +313,24 @@ public class MainMenuDisplay extends UIComponent {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.LEFT:
-                        previousSlide(slides, slideTable);
+                        if (currentSlide[0] > 0) {
+                            slideInstances[currentSlide[0]].setVisible(false);
+                            currentSlide[0]--;
+                            slideInstances[currentSlide[0]].setVisible(true);
+                            slideTable.clear(); // Clear the table
+                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
+                        }
                         return true;
                     case Input.Keys.RIGHT:
-                        nextSlide(slides, slideTable);
-                        return true;
-                    case Input.Keys.ESCAPE:
-                        helpWindow.remove(); // Close the help window
-                        logger.info("Help window closed");
+                        if (currentSlide[0] < NUM_SLIDES - 1) {
+                            slideInstances[currentSlide[0]].setVisible(false);
+                            currentSlide[0]++;
+                            slideInstances[currentSlide[0]].setVisible(true);
+                            slideTable.clear(); // Clear the table
+                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
+                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
+                        }
                         return true;
                     default:
                         return false;
@@ -295,24 +340,6 @@ public class MainMenuDisplay extends UIComponent {
 
         // Show the window
         stage.addActor(helpWindow);
-    }
-
-    // Helper function to move slides backwards:
-    private void previousSlide(Slides slides, Table table) {
-        if (slides.moveSlidesBackward()) {
-            table.clear(); // Clear the table
-            table.add(slides.getSlide()).expand().fill(); // Add the current slide
-            logger.debug("Slide changed to: " + slides.getName());
-        }
-    }
-
-    // Helper function to move slides backwards:
-    private void nextSlide(Slides slides, Table table) {
-        if (slides.moveSlidesForward()) {
-            table.clear(); // Clear the table
-            table.add(slides.getSlide()).expand().fill(); // Add the current slide
-            logger.debug("Slide changed to: " + slides.getName());
-        }
     }
 
     /**
