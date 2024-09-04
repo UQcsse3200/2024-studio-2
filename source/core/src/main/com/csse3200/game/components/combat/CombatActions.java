@@ -25,7 +25,7 @@ CombatActions extends Component {
   private GdxGame game;
   private Entity enemy; // Each combat can only have one enemy.
   private Stage stage;
-  private CombatButtonStagDisplay Display;
+  private CombatButtonDisplay Display;
   private Screen screen;
   private ServiceContainer container;
 
@@ -38,7 +38,7 @@ CombatActions extends Component {
     this.screen = screen;
     this.container = container;
     //this.stage = new Stage();
-    this.Display = new CombatButtonStagDisplay(screen, container);
+    this.Display = new CombatButtonDisplay(screen, container);
   }
 
   @Override

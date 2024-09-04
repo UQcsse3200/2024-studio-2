@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
-public class CombatButtonStagDisplay extends UIComponent {
+public class CombatButtonDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
@@ -28,13 +28,13 @@ public class CombatButtonStagDisplay extends UIComponent {
     private boolean GuardStatus=true;
 
 
-    public  CombatButtonStagDisplay(Screen screen, ServiceContainer container ) {
+    public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
         this.screen = screen;
         this.container = container;
     }
 
 
-    public  CombatButtonStagDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean GuardStatus ) {
+    public  CombatButtonDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean GuardStatus ) {
         this.iHealthCheck = iHealthCheck;
         logger.info("iHealthCheck: " + iHealthCheck);
         this.AttackStatus = AttackStatus;
