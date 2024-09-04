@@ -24,8 +24,6 @@ public class CombatStatsDisplay extends UIComponent {
   private CombatStatsComponent playerStats;
   private CombatStatsComponent enemyStats;
   private Table statsTable;
-  private Table playerTable;
-  private Table enemyTable;
   private Image playerHealthImage;
   private Image enemyHealthImage;
   private  Image xpImage;
@@ -36,6 +34,8 @@ public class CombatStatsDisplay extends UIComponent {
   private static Animation<TextureRegion> playerHealthBarAnimation;
   private static Animation<TextureRegion> enemyHealthBarAnimation;
   private static Animation<TextureRegion> xpBarAnimation;
+  private float barImageWidth;
+  private float barImageHeight;
   private int playerMaxHealth;
   private int enemyMaxHealth;
   private int maxExperience;
@@ -53,6 +53,81 @@ public class CombatStatsDisplay extends UIComponent {
     super.create();
     addActors();
   }
+
+  /**
+   * Initialises a table containing the images of the player's stats bars and their associated labels
+   * @return A table to be added to the stage containing the player stats bars and labels
+   */
+  private Table initialisePlayerStatBars() {
+    float barWidthScaling = 0.7f;
+    float barHeightScaling = 0.4f;
+    float barLabelGap = 2f;
+    float xpHeightScaling = 1.15f;
+    float tableTopPadding = 10f;
+    float tableLeftPadding = 5f;
+
+    // Player Bars Display
+    Table playerTable = new Table();
+    playerTable.top().left();
+    playerTable.setFillParent(true);
+    playerTable.padTop(tableTopPadding).padLeft(tableLeftPadding);
+
+    // Health text
+    int health = playerStats.getHealth();
+    CharSequence healthText = String.format("HP: %d", health);
+    playerHealthLabel = new Label(healthText, skin, "large");
+
+    // Experience text
+    int experience = playerStats.getExperience();
+    CharSequence experienceText = String.format("EXP: %d", experience);
+    experienceLabel = new Label(experienceText, skin, "large");
+
+    // Health/XP images
+    playerHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png",
+            Texture.class));
+    xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
+    barImageWidth = (float) (playerHealthImage.getWidth() * barWidthScaling);
+    barImageHeight = (float) (playerHealthImage.getHeight() * barHeightScaling);
+
+    // Aligning the bars one below the other and adding them to table
+    playerTable.add(playerHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap);
+    playerTable.add(playerHealthLabel).align(Align.left);
+    playerTable.row();
+    playerTable.add(xpImage).size(barImageWidth, (float) (barImageHeight * xpHeightScaling)).pad(barLabelGap);
+    playerTable.add(experienceLabel).align(Align.left);
+
+    return playerTable;
+  }
+
+  /**
+   * Initialises a table containing the enemy's stats bars and lables
+   * @return A table containing the enemy's health bar and its associated label
+   */
+  private Table initialiseEnemyStatBars() {
+    // Padding to separate enemy bar from buttons
+    float barButtonPadding = 50f;
+    float barLabelGap = 2f;
+    float generalPadding = 30f;
+
+    // Enemy Bars Display
+    Table enemyTable = new Table();
+    enemyTable.right().top();
+    enemyTable.setFillParent(true);
+    enemyTable.padTop(barButtonPadding);
+
+    // Enemy health text
+    int eHealth = enemyStats.getHealth();
+    CharSequence eHealthText = String.format("HP: %d", eHealth);
+    enemyHealthLabel = new Label(eHealthText, skin, "large");
+
+    // Images
+    enemyHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png",
+            Texture.class));
+    enemyTable.add(enemyHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap).padTop(generalPadding);
+    enemyTable.add(enemyHealthLabel).align(Align.left).padRight(generalPadding).padTop(generalPadding);
+    return enemyTable;
+  }
+
 
 
   private boolean addActors() {
@@ -74,56 +149,13 @@ public class CombatStatsDisplay extends UIComponent {
     statsTable.add(enemyAttackLabel).padTop(paddingTop);
     stage.addActor(statsTable);
 
-    // Player Bars Display
-    playerTable = new Table();
-    playerTable.top().left();
-    playerTable.setFillParent(true);
-    playerTable.padTop(10f).padLeft(5f);
-
-    // Enemy Bars Display
-    enemyTable = new Table();
-    enemyTable.right().top();
-    enemyTable.setFillParent(true);
-    enemyTable.padTop(50);
-
-    // Health text
-    int health = playerStats.getHealth();
-    CharSequence healthText = String.format("HP: %d", health);
-    playerHealthLabel = new Label(healthText, skin, "large");
-
-    int eHealth = enemyStats.getHealth();
-    CharSequence eHealthText = String.format("HP: %d", eHealth);
-    enemyHealthLabel = new Label(eHealthText, skin, "large");
-
-    // Experience text
-    int experience = playerStats.getExperience();
-    CharSequence experienceText = String.format("EXP: %d", experience);
-    experienceLabel = new Label(experienceText, skin, "large");
-
-    // Images
-    playerHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
-    enemyHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png", Texture.class));
-    xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
-    float barImageWidth = (float) (playerHealthImage.getWidth() * 0.7);
-    float barImageHeight = (float) (playerHealthImage.getHeight() * 0.4);
-
-    // Aligning the bars one below the other
-    playerTable.add(playerHealthImage).size(barImageWidth, barImageHeight).pad(2);
-    playerTable.add(playerHealthLabel).align(Align.left);
-    playerTable.row().padTop(0);
-
-    playerTable.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.15)).pad(2);
-    playerTable.add(experienceLabel).align(Align.left);
-    playerTable.row().padTop(30);
-
-    enemyTable.add(enemyHealthImage).size(barImageWidth, barImageHeight).pad(2).padTop(30).padRight(10); // Padding between the bar and label
-    enemyTable.add(enemyHealthLabel).align(Align.left).padLeft(10).padRight(30).padTop(30); // Add padding on both sides
+    Table playerTable = initialisePlayerStatBars();
+    Table enemyTable = initialiseEnemyStatBars();
 
     stage.addActor(playerTable);
     stage.addActor(enemyTable);
 
     return true;
-
   }
 
   @Override
