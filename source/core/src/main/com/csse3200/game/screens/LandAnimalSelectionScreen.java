@@ -28,7 +28,7 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
     public LandAnimalSelectionScreen(GdxGame game) {
         // Initialize the stage, which is the root container for all UI elements
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);  // Set -up of  stage as the input processor to handle user input
+        Gdx.input.setInputProcessor(stage);  // Set-up of stage as the input processor to handle user input
         this.game = game;
 
         // Load the skin for UI elements from the specified JSON file
@@ -83,22 +83,28 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
         // Dispose of the stage to free up resources
         stage.dispose();
     }
+
     private void addButtonToSwitchScreen(String buttonText, final Class<? extends ScreenAdapter> screenClass, Skin skin) {
         TextButton button = new TextButton(buttonText, skin);
 
-        // Position the buttons at the bottom of the screen
+        // Define button dimensions
         float buttonWidth = 200;
         float buttonHeight = 50;
         float padding = 20;
-        float xPos = stage.getWidth() / 2f - buttonWidth / 2f;  // Center the button horizontally
+
+        // Position buttons on the left side, bottom of the screen
+        float xPos = padding;
+        float yPos;
 
         if (buttonText.equals("Water Animals")) {
-            float yPos = padding;  // Position the first button at the bottom with padding
-            button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
+            yPos = padding;
         } else if (buttonText.equals("Air Animals")) {
-            float yPos = padding + buttonHeight + padding;  // Position the second button above the first
-            button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
+            yPos = padding + buttonHeight + padding;
+        } else {
+            return;
         }
+
+        button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
 
         button.addListener(new ClickListener() {
             @Override
@@ -115,6 +121,4 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
 
         stage.addActor(button);
     }
-
-
 }
