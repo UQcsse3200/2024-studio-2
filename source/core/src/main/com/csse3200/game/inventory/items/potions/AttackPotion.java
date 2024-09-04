@@ -42,6 +42,19 @@ public class AttackPotion extends  AbstractPotion{
         effectStartTime = gameTime.getTime();
     }
 
+    /**
+     * Checks if the duration of potion usage is expired
+     * @param context the ItemUsageContext
+     * @return true if it is expired
+     */
+    public boolean isExpired(ItemUsageContext context) {
+        return (gameTime.getTime() - effectStartTime >= DURATION);
+    }
+
+    /**
+     * Updates the potion state, checking if the effect duration has elapsed.
+     * @param context
+     */
     public void update(ItemUsageContext context) {
         if (gameTime.getTime() - effectStartTime >= DURATION) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);

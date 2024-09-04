@@ -50,6 +50,10 @@ public class DefensePotion extends AbstractPotion{
         this.gameTime = gameTime;
     }
 
+    public GameTime getGameTime() {
+        return gameTime;
+    }
+
     /**
      * Uses the potion by applying its effects and decreasing its number of uses.
      * If no uses are left, the potion is marked as empty.
@@ -65,10 +69,19 @@ public class DefensePotion extends AbstractPotion{
     }
 
     /**
+     * Checks if the duration of potion usage is expired
+     * @param context the ItemUsageContext
+     * @return true if it is expired
+     */
+    public boolean isExpired(ItemUsageContext context) {
+        return (gameTime.getTime() - effectStartTime >= DURATION);
+    }
+
+    /**
      * Updates the potion state, checking if the effect duration has elapsed.
      */
     public void update(ItemUsageContext context) {
-        if (gameTime.getTime() - effectStartTime >= DURATION) {
+        if (isExpired(context)) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
             stats.setDefense(stats.getDefense() - this.effectAmount);
         }

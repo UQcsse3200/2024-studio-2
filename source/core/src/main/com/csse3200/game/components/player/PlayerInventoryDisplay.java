@@ -7,9 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.tasks.ItemProximityTask;
+import com.csse3200.game.components.tasks.UseItemTask;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +27,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
+    AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
     private Window window;
     private Table table;
@@ -161,6 +166,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
+                aiComponent.addTask(new UseItemTask(entity,23, item, context));
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();
