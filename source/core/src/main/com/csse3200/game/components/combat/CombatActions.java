@@ -22,10 +22,13 @@ import java.awt.*;
 public class
 CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private final GdxGame game;
+  private GdxGame game;
   private Entity enemy; // Each combat can only have one enemy.
   private Stage stage;
   private CombatButtonStagDisplay Display;
+  private Screen screen;
+  private ServiceContainer container;
+
 
 
   //private TextButton attackButton;
@@ -34,6 +37,12 @@ CombatActions extends Component {
   public CombatActions(GdxGame game, Entity enemy) {
     this.game = game;
     this.enemy = enemy;
+  }
+  public CombatActions(Screen screen, ServiceContainer container) {
+    this.screen = screen;
+    this.container = container;
+    //this.stage = new Stage();
+    this.Display = new CombatButtonStagDisplay(screen, container);
   }
 
   @Override
@@ -64,8 +73,12 @@ CombatActions extends Component {
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener();
+    //Display.getEntity().getEvents().addListener("Attack",onAttack(screen, container););
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Boost", this::onBoost);
+
+    //Display.create();
   }
 
   /**
@@ -113,12 +126,12 @@ CombatActions extends Component {
     int healthCheck=0;
     if (healthCheck!= 0) {
       logger.info("CombatActions::onAttack, before Attack- health check!=0");
-      Display= new CombatButtonStagDisplay( healthCheck, true,true);
+      Display= new CombatButtonStagDisplay(screen, container, healthCheck, true,true);
       game.setScreen(new LoadingScreen(game));
       logger.info("CombatActions::onAttack, after Attack- health check!=0");
     } else {
-      Display= new CombatButtonStagDisplay( healthCheck, false,true);
-      logger.info("CombatActions::onAttack, Attack- health check = 0 big L");
+      Display= new CombatButtonStagDisplay( screen, container, healthCheck, false,true);
+      logger.info("CombatActions::onAttack, Attack- health check = 0  Attack disabled ideally ig");
       //AttackButton.setVisible(false);// cannot attack no more
     }
     //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
@@ -130,11 +143,11 @@ CombatActions extends Component {
     int healthCheck=100;
     if (healthCheck!=100) {
       logger.info("CombatActions::onBoost, Boost- health check!=100");
-      Display= new CombatButtonStagDisplay( healthCheck, true,true);
+      Display= new CombatButtonStagDisplay( screen, container, healthCheck, true,true);
       game.setScreen(new LoadingScreen(game));
     } else {
       logger.info("CombatActions::onBoost, Boost- health check = sigma");
-      Display= new CombatButtonStagDisplay( healthCheck, true,false);
+      Display= new CombatButtonStagDisplay( screen, container, healthCheck, true,false);
       //BoostButton.setVisible(false);// Maximum boost my guy
     }
     logger.info("Boost button after");

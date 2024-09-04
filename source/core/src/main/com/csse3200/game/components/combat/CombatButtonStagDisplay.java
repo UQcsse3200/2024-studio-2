@@ -20,9 +20,9 @@ public class CombatButtonStagDisplay extends UIComponent {
     private Table table;
     private Screen screen;
     private ServiceContainer container;
-    private int iHealthCheck = 0;
-    TextButton AttackButton = new TextButton("Attack", skin);
-    TextButton BoostButton = new TextButton("Boost", skin);
+    private int iHealthCheck =-100;
+    TextButton AttackButton ;
+    TextButton BoostButton ;
     private boolean AttackStatus=true;
     private boolean BoostStatus=true;
 
@@ -33,13 +33,14 @@ public class CombatButtonStagDisplay extends UIComponent {
     }
 
 
-    public  CombatButtonStagDisplay(int iHealthCheck, boolean AttackStatus , boolean BoostStatus ) {
+    public  CombatButtonStagDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean BoostStatus ) {
         this.iHealthCheck = iHealthCheck;
         logger.info("iHealthCheck: " + iHealthCheck);
         this.AttackStatus = AttackStatus;
         this.BoostStatus = BoostStatus;
-        ChangeActors(iHealthCheck, AttackStatus, BoostStatus);
+        //ChangeActors(iHealthCheck, AttackStatus, BoostStatus);
         logger.info("CombatButtonStagDisplay in const for change actor");
+        create();
     }
 
 
@@ -58,21 +59,25 @@ public class CombatButtonStagDisplay extends UIComponent {
         super.create();
         if(iHealthCheck== -100)
         {
+            logger.info("CombatButtonStagDisplay::Create() , before calling addActors");
             addActors();
+            logger.info("CombatButtonStagDisplay::Create() , after calling addActors");
         }
         else {
+            logger.info("CombatButtonStagDisplay::Create() , before calling ChangeActors");
             ChangeActors(iHealthCheck , AttackStatus, BoostStatus);
+            logger.info("CombatButtonStagDisplay::Create() , after calling ChangeActors");
         }
 
     }
 
     private void addActors() {
         table = new Table();
-        table.top().right();
+        table.center().left();
         table.setFillParent(true);
 
-//        TextButton AttackButton = new TextButton("Attack", skin);
-//        TextButton BoostButton = new TextButton("Boost", skin);
+        AttackButton = new TextButton("Attack", skin);
+        BoostButton = new TextButton("Boost", skin);
 
         AttackButton.addListener(
                 new ChangeListener() {
@@ -86,12 +91,12 @@ public class CombatButtonStagDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        entity.getEvents().trigger("Boast", screen, container);
+                        entity.getEvents().trigger("Boost", screen, container);
                     }
                 });
 
-        table.add(AttackButton).padTop(10f).padRight(10f);
-        table.add(BoostButton).padTop(10f).padRight(10f);
+        table.add(AttackButton).padBottom(10f).padLeft(10f);
+        table.add(BoostButton).padBottom(10f).padLeft(10f);
 
         stage.addActor(table);
     }

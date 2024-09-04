@@ -170,7 +170,9 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(new TerminalDisplay())
+        .addComponent(new CombatButtonStagDisplay( oldScreen, oldScreenServices));
+
        // .addComponent(new CombatActions(this.game));
 
 
