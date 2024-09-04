@@ -30,7 +30,7 @@ public class GridRendererTest {
     private MinigameRenderer renderer;
 
     // mocks SpriteBatch
-    @Mock
+    @Mockq
     private SpriteBatch spriteBatch;
 
     // spy on the camera to track the changes
