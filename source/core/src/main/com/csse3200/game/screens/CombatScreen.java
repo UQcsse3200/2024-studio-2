@@ -5,6 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -54,6 +56,7 @@ public class CombatScreen extends ScreenAdapter {
   private final ServiceContainer oldScreenServices;
   private final Entity player;
   private final Entity enemy;
+  private final CombatArea gameArea;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
@@ -89,6 +92,10 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
+    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
+    this.gameArea = new CombatArea(game, terrainFactory, player, enemy);
+    gameArea.create();
+
   }
 
   @Override

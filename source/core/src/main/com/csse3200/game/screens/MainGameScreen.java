@@ -115,8 +115,6 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEventService(new EventService());
 
-    ServiceLocator.registerEntityChatService(new EntityChatService());
-
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
