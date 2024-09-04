@@ -8,9 +8,11 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.AbstractFoodTest;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.food.AbstractFood;
+import com.csse3200.game.services.GameTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +23,8 @@ class AbstractPotionTest  {
     private AttackPotion attackPotion;
     private CombatStatsComponent stat;
     private TestablePLayer player1;
+    private GameTime gameTime;
+    private static final long DURATION = 120000;
 
 
     private static class TestablePLayer extends ItemUsageContext {
@@ -33,10 +37,12 @@ class AbstractPotionTest  {
     void setUp() {
         stat = new CombatStatsComponent(0, 0,0,0,0,0);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
+        gameTime = Mockito.mock(GameTime.class);
         healingPotion = new HealingPotion( 3);
-        defensePotion = new DefensePotion( 3);
-        attackPotion = new AttackPotion(3);
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis());
 
+        defensePotion = new DefensePotion( 3, gameTime);
+        attackPotion = new AttackPotion(3, gameTime);
     }
 
     @Test
@@ -61,24 +67,26 @@ class AbstractPotionTest  {
     void testDefenseApplyEffect() throws InterruptedException {
         int originalDefense = player1.player.getComponent(CombatStatsComponent.class).getDefense();
         defensePotion.useItem(player1);
-        assertEquals(2, defensePotion.getQuantity(), "The potion should have 2 uses left after one use.");
-        assertEquals(originalDefense + 25, player1.player.getComponent(CombatStatsComponent.class).getDefense(), "The defense should have 25.");
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
+        defensePotion.update(player1);
+        assertEquals(originalDefense + defensePotion.getEffectAmount(), player1.player.getComponent(CombatStatsComponent.class).getDefense());
 
-        Thread.sleep(120000);
-
-        assertEquals(originalDefense, player1.player.getComponent(CombatStatsComponent.class).getDefense(), "The potion has finished and is back to 0");
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION + 1);
+        defensePotion.update(player1);
+        assertEquals(originalDefense, player1.player.getComponent(CombatStatsComponent.class).getDefense());
     }
 
     @Test
     void testAttackApplyEffect() throws InterruptedException {
         int originalAttack = player1.player.getComponent(CombatStatsComponent.class).getStrength();
         attackPotion.useItem(player1);
-        assertEquals(2, attackPotion.getQuantity(), "The potion should have 2 uses left after one use.");
-        assertEquals(originalAttack + 25, player1.player.getComponent(CombatStatsComponent.class).getStrength(), "The strength should have 25.");
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
+        attackPotion.update(player1);
+        assertEquals(originalAttack + 25, player1.player.getComponent(CombatStatsComponent.class).getStrength());
 
-        Thread.sleep(120000);
-
-        assertEquals(originalAttack, player1.player.getComponent(CombatStatsComponent.class).getStrength(), "The potion has finished and is back to 0");
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION + 1);
+        attackPotion.update(player1);
+        assertEquals(originalAttack, player1.player.getComponent(CombatStatsComponent.class).getStrength());
     }
 }
 

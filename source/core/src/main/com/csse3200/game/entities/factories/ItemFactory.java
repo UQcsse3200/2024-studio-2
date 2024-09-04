@@ -12,6 +12,7 @@ import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.HealingPotion;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
+import com.csse3200.game.services.GameTime;
 
 /**
  * A factory class for creating various item entities in the game.
@@ -19,7 +20,6 @@ import com.csse3200.game.rendering.TextureRenderComponent;
  * with specific behaviours such proximity detection using AI tasks and physics components
  */
 public class ItemFactory {
-
 
     /**
      * Creates an item entity with the specified target and item.
@@ -56,7 +56,8 @@ public class ItemFactory {
      * @return The created health potion entity.
      */
     public static Entity createDefensePotion(Entity target) {
-        return createItem(target, new DefensePotion(1));
+        GameTime gameTime = new GameTime();
+        return createItem(target, new DefensePotion(1, gameTime));
     }
 
     /**
@@ -66,7 +67,8 @@ public class ItemFactory {
      * @return The created attack potion entity
      */
     public static Entity createAttackPotion(Entity target) {
-        return createItem(target, new AttackPotion(1));
+        GameTime gameTime = new GameTime();
+        return createItem(target, new AttackPotion(1, gameTime));
     }
 
     /**

@@ -2,6 +2,7 @@ package com.csse3200.game.inventory.items.potions;
 
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.services.GameTime;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,16 +13,19 @@ public class AttackPotion extends  AbstractPotion{
      * default time of potion effect
      */
     private static final long DURATION = 120000;
+    private GameTime gameTime;
+    private long effectStartTime;
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
      *
      * @param quantity the number of uses this potion has
      */
-    public AttackPotion(int quantity) {
-        super("Defense Potion", 2, 3, quantity, 25);
+    public AttackPotion(int quantity, GameTime gameTime) {
+        super("Attack Potion", 2, 3, quantity, 25);
         this.setTexturePath(path);
-        this.setDescription("This is a defense potion");
+        this.setDescription("This is a attack potion");
+        this.gameTime = gameTime;
     }
 
     /**
@@ -33,15 +37,15 @@ public class AttackPotion extends  AbstractPotion{
     @Override
     public void useItem(ItemUsageContext context) {
         super.useItem(context);
-        int original = context.player.getComponent(CombatStatsComponent.class).getStrength();
         context.player.getComponent(CombatStatsComponent.class).addStrength(this.effectAmount);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Revert the defense boost
-                context.player.getComponent(CombatStatsComponent.class).setStrength(original);
-            }
-        }, DURATION);
+        // Record the time when the effect started
+        effectStartTime = gameTime.getTime();
+    }
+
+    public void update(ItemUsageContext context) {
+        if (gameTime.getTime() - effectStartTime >= DURATION) {
+            CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
+            stats.setStrength(stats.getStrength() - this.effectAmount);
+        }
     }
 }
