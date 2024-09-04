@@ -19,8 +19,7 @@ import java.awt.*;
  * This class listens to events relevant to the Main Game Screen and does something when one of the
  * events is triggered.
  */
-public class
-CombatActions extends Component {
+public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
   private Entity enemy; // Each combat can only have one enemy.
@@ -34,21 +33,11 @@ CombatActions extends Component {
     this.game = game;
     this.enemy = enemy;
   }
-  public CombatActions(Screen screen, ServiceContainer container) {
-    this.screen = screen;
-    this.container = container;
-    //this.stage = new Stage();
-    this.Display = new CombatButtonDisplay(screen, container);
-  }
+
 
   @Override
   public void render(float delta) {
-    // Clear the screen to prevent overlapping frames
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    // Update and draw the stage (and all its actors) based on the current delta time
-    stage.act(Gdx.graphics.getDeltaTime());
-    stage.draw();
   }
 
   /**
