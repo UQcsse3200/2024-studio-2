@@ -48,6 +48,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final Renderer renderer;
     private final BitmapFont font;
     private final Skin skin;
+    private final Stage stage;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -72,7 +73,9 @@ public class SnakeScreen extends ScreenAdapter {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-        createUI();
+        this.stage = ServiceLocator.getRenderService().getStage();
+
+        setupExitButton();
 
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
@@ -188,32 +191,13 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.clear();
         font.dispose();
         skin.dispose();
+        stage.dispose();
     }
 
-    /**
-     * Creates the snake minigame's ui including components for rendering ui elements to the screen and
-     * capturing and handling ui input.
-     */
-    private void createUI() {
-        logger.debug("Creating snake minigame ui");
-        Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
-        Entity ui = new Entity();
-        ui.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(new MainGameActions(this.game))
-                .addComponent(new MainGameExitDisplay())
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-
-        ServiceLocator.getEntityService().register(ui);
-
+    private void setupExitButton() {
         // Set up exit button
         TextButton exitButton = new TextButton("Exit", skin);
-        //exitButton.getLabel();
+        //exitButton.getLabel().setFontScale(scale);
 
         exitButton.addListener(new ClickListener() {
             @Override
@@ -232,6 +216,26 @@ public class SnakeScreen extends ScreenAdapter {
 
         // Add the table to the stage
         stage.addActor(table);
+    }
+
+    /**
+     * This is not currently used.
+     */
+    private void createUI() {
+        logger.debug("Creating snake minigame ui");
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForTerminal();
+
+        Entity ui = new Entity();
+        ui.addComponent(new InputDecorator(stage, 10))
+                .addComponent(new PerformanceDisplay())
+                .addComponent(new MainGameActions(this.game))
+                .addComponent(new MainGameExitDisplay())
+                .addComponent(new Terminal())
+                .addComponent(inputComponent)
+                .addComponent(new TerminalDisplay());
+
+        ServiceLocator.getEntityService().register(ui);
     }
 
 }
