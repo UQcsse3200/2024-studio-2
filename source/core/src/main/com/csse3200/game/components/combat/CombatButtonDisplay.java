@@ -36,7 +36,7 @@ public class CombatButtonDisplay extends UIComponent {
 
     public  CombatButtonDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean GuardStatus ) {
         this.iHealthCheck = iHealthCheck;
-        logger.info("iHealthCheck: " + iHealthCheck);
+        logger.info("iHealthCheck: {}", iHealthCheck);
         this.AttackStatus = AttackStatus;
         this.GuardStatus = GuardStatus;
         //ChangeActors(iHealthCheck, AttackStatus, BoostStatus);
