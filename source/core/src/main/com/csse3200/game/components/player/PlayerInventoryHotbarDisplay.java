@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.inventory.Inventory;
@@ -26,12 +27,12 @@ import org.slf4j.LoggerFactory;
 public class PlayerInventoryHotbarDisplay extends UIComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryHotbarDisplay.class);
-    private Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
+    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Table table;
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
     private final int numberOfSlots;
-    private Texture hotBarTexture;
+    private final Texture hotBarTexture;
     private boolean toggleHotbar = true;
 
     public PlayerInventoryHotbarDisplay(int hotBarCapacity, int capacity) {
@@ -134,6 +135,14 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 // Handle exit event
+            }
+        });
+        slot.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Item {} was used", item.getName());
+                inventory.useItemAt(index, null);
+                regenerateInventory();
             }
         });
     }
