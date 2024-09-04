@@ -32,6 +32,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     private final ImageButton[] hotBarSlots;
     private final int numberOfSlots;
     private Texture hotBarTexture;
+    private boolean toggleHotbar = true;
 
     public PlayerInventoryHotbarDisplay(int hotBarCapacity, int capacity) {
         if (hotBarCapacity < 1) {
@@ -44,21 +45,44 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.numberOfSlots = hotBarCapacity;
         this.table = new Table();
         stage = ServiceLocator.getRenderService().getStage();
-        initializeSlots();
+
+        createHotbar();
 
     }
     @Override
     public void create() {
         super.create();
-
+        entity.getEvents().addListener("toggleInventory", this::toggleInventoryhotbar);
+        entity.getEvents().addListener("addItem", this::addItem);
     }
+    private void toggleInventoryhotbar() {
+        if (toggleHotbar) {
+            logger.debug("Inventory hotbar toggle off");
+            table.setVisible(false); // hide inventory
+            toggleHotbar = false;
+        } else {
+            logger.debug("Inventory hotbar toggled on.");
+            table.setVisible(true); // show inventory
+            stage.addActor(table); // ensure it's added to the stage
+            toggleHotbar = true;
+        }
+    }
+    private void regenerateInventory() {
+        if (toggleHotbar) {
+            toggleInventoryhotbar(); // Hacky way to regenerate inventory without duplicating code
+            toggleInventoryhotbar();
+        }
+    }
+    private void addItem(AbstractItem item) {
 
+        regenerateInventory();
+    }
     @Override
     protected void draw(SpriteBatch batch) {
         // handled by stage
     }
 
-    private void initializeSlots() {
+    private void createHotbar() {
         table.clear(); // Clear previous content
         table.center().right();
 
