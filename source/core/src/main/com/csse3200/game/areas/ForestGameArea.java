@@ -10,6 +10,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -250,14 +251,17 @@ public class ForestGameArea extends GameArea {
   }
 
   public void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.setLooping(true);
+//    music.setVolume(0.5f);
+//    music.play();
+    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
   }
   public void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
-    music.pause();
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.pause();
+    AudioManager.stopMusic();  // Stop the music
+
   }
 
   public void loadAssets() {

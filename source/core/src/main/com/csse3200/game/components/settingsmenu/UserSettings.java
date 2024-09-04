@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.files.FileLoader.Location;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.services.AudioManager;
 
 import java.io.File;
 import java.util.HashMap;
@@ -66,24 +67,7 @@ public class UserSettings {
         }
         //applyAudioSettings(settings.audioScale, settings.soundScale);
     }
-    /**
-     private static void applyAudioSettings(float audioScale, float soundScale) {
-     float volume = audioScale / 100f; // Scale to 0.0 - 1.0
 
-     // Apply volume settings to sounds
-     for (Map.Entry<Sound, Float> entry : soundVolumes.entrySet()) {
-     Sound sound = entry.getKey();
-     float originalVolume = entry.getValue();
-     sound.setVolume(0, volume * originalVolume); // Adjust volume
-     }
-
-     // Appply volume settings to music
-     for (Map.Entry<Music, Float> entry : musicVolumes.entrySet()) {
-     Music music = entry.getKey();
-     float originalVolume = entry.getValue();
-     music.setVolume(volume * originalVolume); // adjust volume
-     }
-     } **/
 
     private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
