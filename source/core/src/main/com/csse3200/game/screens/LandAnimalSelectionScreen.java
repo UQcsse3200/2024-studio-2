@@ -43,6 +43,7 @@ public class LandAnimalSelectionScreen extends ScreenAdapter {
         // Set up actions for handling UI interactions, passing the display, dialog helper, and game instance
         actions = new AnimalSelectionActions(display, dialogHelper, game);
         addButtonToSwitchScreen("Water Animals", WaterAnimalSelectionScreen.class, skin);
+        addButtonToSwitchScreen("Air Animals", AirAnimalSelectionScreen.class, skin);
 
         actions.resetSelection(); // Reset the selection when the screen is created
     }
