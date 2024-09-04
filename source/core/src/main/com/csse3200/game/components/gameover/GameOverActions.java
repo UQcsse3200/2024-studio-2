@@ -49,7 +49,7 @@ public class GameOverActions extends Component {
         game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
     }
     private void onReplay() {
-        logger.info("Replay game - takes you to main game arena");
+        logger.info("Replay game - takes you to main game screen");
         game.setScreen(GdxGame.ScreenType.MAIN_GAME);
     }
 }

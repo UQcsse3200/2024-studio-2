@@ -82,15 +82,15 @@ public class GameOverLoseDisplay extends UIComponent {
 
         // Initialises buttons
         TextButton achievementsBtn = new TextButton("Achievements", skin);
-        TextButton exitBtn = new TextButton("Exit", skin);
         TextButton replayBtn = new TextButton("Replay", skin);
+        TextButton exitBtn = new TextButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
 
         // Adds UI component (hover over buttons)
         addButtonElevationEffect(achievementsBtn);
-        addButtonElevationEffect(exitBtn);
         addButtonElevationEffect(replayBtn);
+        addButtonElevationEffect(exitBtn);
 
         // Added handles for when clicked
         achievementsBtn.addListener(new ChangeListener() {
@@ -100,11 +100,11 @@ public class GameOverLoseDisplay extends UIComponent {
                 entity.getEvents().trigger("achievements");
             }
         });
-        // Added handles for replay clicked
+        // Added handles for when replay clicked
         replayBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("replay button clicked");
+                logger.debug("Replay button clicked");
                 entity.getEvents().trigger("replay");
             }
         });
@@ -115,9 +115,9 @@ public class GameOverLoseDisplay extends UIComponent {
         // formats sizes of buttons
         table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
         table.row();
-        table.add(exitBtn).padTop(15f).height(45f).width(180f);
-        table.row();
         table.add(replayBtn).padTop(15f).height(45f).width(180f);
+        table.row();
+        table.add(exitBtn).padTop(15f).height(45f).width(180f);
         table.row();
         table.add(versionLabel).padTop(50f);
         table.row();
