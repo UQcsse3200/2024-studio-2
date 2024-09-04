@@ -152,29 +152,15 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                logger.info(String.valueOf(inventory.getAt(index)));
-                logger.info("entered");
                 disposeItemOverlay();
-                if (inventory.getIndex(index) != 0) {
                     String[] itemText = {item.getDescription() + ". Quantity: "
                             + item.getQuantity() + "/" + item.getLimit()};
                     itemOverlay = new DialogueBox(itemText);
-                }
-
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //double calls when mouse held, to be fixed
-//                try {
-//                    itemOverlay.dispose();
-//                    itemOverlay = null;
-//                } catch (NullPointerException e) {
-//                    logger.info(e + ": no itemOverlay to dispose");
-//                }
-                logger.info("exited");
                 disposeItemOverlay();
-
             }
         });
 
@@ -258,6 +244,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Disposes of the inventory item overlay pop up.
+     */
     private void disposeItemOverlay() {
         if (itemOverlay != null) {
             itemOverlay.dispose();
