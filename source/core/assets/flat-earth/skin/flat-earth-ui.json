@@ -344,6 +344,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	large: {
 		font: font_large,
 		fontColor: black
+	},
+	large-white: {
+		font: font_large,
+		fontColor: white
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
