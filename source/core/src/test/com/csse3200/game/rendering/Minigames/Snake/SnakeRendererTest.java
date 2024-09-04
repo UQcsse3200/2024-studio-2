@@ -1,4 +1,3 @@
-/*
 package com.csse3200.game.components.minigame.snake;
 
 
@@ -108,5 +107,4 @@ public class SnakeRendererTest {
         assertEquals(expectedRotation4, rotation4, 0.01);
     }
 }
- */
 

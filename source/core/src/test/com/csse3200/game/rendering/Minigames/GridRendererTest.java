@@ -1,4 +1,3 @@
-/*
 package com.csse3200.game.components.minigame.snake;
 
 import static org.mockito.Mockito.*;
@@ -31,7 +30,7 @@ public class GridRendererTest {
     private MinigameRenderer renderer;
 
     // mocks SpriteBatch
-    @Mockq
+    @Mock
     private SpriteBatch spriteBatch;
 
     // spy on the camera to track the changes
@@ -81,4 +80,3 @@ public class GridRendererTest {
         }
     }
 }
- */
