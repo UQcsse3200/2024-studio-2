@@ -50,6 +50,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final Skin skin;
     private final Stage stage;
     private float scale;
+    private Table exitButtonTable;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -59,6 +60,7 @@ public class SnakeScreen extends ScreenAdapter {
     public SnakeScreen(GdxGame game) {
         this.game = game;
         this.scale = 1;
+        this.exitButtonTable = new Table();
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         logger.debug("Initialising snake minigame screen services");
@@ -159,13 +161,13 @@ public class SnakeScreen extends ScreenAdapter {
 //        logger.trace("Resized renderer: ({} x {})", width, height);
 //        renderer.resize(width, height);
         stage.getViewport().update(width, height, true);
-//        float baseWidth = 1920f;
-//        float baseHeight = 1200f;
-//        float scaleWidth = width / baseWidth;
-//        float scaleHeight = height / baseHeight;
-//        scale = Math.min(scaleWidth, scaleHeight);
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+        float scaleWidth = width / baseWidth;
+        float scaleHeight = height / baseHeight;
+        scale = Math.min(scaleWidth, scaleHeight);
 //        stage.clear();
-//        setupExitButton();
+        setupExitButton();
         snakeRenderer.resize(width, height);
     }
 
@@ -208,6 +210,7 @@ public class SnakeScreen extends ScreenAdapter {
 
     private void setupExitButton() {
         // Set up exit button
+        exitButtonTable.clear();
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.getLabel().setFontScale(scale);
 
@@ -221,13 +224,12 @@ public class SnakeScreen extends ScreenAdapter {
         });
 
         // Set up the table for UI layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.top().right();
-        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
 
         // Add the table to the stage
-        stage.addActor(table);
+        stage.addActor(exitButtonTable);
     }
 
     /**
@@ -242,7 +244,7 @@ public class SnakeScreen extends ScreenAdapter {
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new MainGameActions(this.game))
-                .addComponent(new MainGameExitDisplay())
+                //.addComponent(new MainGameExitDisplay()) // adds extra exit button
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
