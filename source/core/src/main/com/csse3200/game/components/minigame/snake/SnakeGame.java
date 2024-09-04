@@ -1,8 +1,6 @@
 package com.csse3200.game.components.minigame.snake;
 
 import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.snake.controller.Events;
-import com.csse3200.game.components.minigame.snake.controller.SnakeController;
 
 import java.util.List;
 
@@ -14,7 +12,6 @@ public class SnakeGame {
     private final Snake snake;
     private final Apple apple;
     private final SnakeGrid grid;
-    private final SnakeController snakeController;
     private int score;
     private Boolean isGameOver;
 
@@ -23,7 +20,6 @@ public class SnakeGame {
      */
     public SnakeGame() {
         this.grid = new SnakeGrid();
-        this.snakeController = new SnakeController();
         this.snake = new Snake(this.grid, 0, 0, Direction.RIGHT, 2, 1f / 6);
         this.apple = new Apple(this.grid);
         this.score = 0;
@@ -80,12 +76,22 @@ public class SnakeGame {
     }
 
     /**
+     * Update snake direction based on an input direction.
+     * If the input direction is reversed 180 degrees from the current
+     * direction of the snake, it will not change.
+     *
+     * @param direction the direction to update to
+     */
+    public void handleSnakeInput(Direction direction) {
+        snake.updateDirectionOnInput(direction);
+    }
+
+    /**
      * Moves the snake and checks for game-over conditions.
      *
      * @param delta The time elapsed since the last update.
      */
     public void snakeMove(float delta) {
-        snake.updateDirectionOnInput(snakeController.getInputDirection());
         attemptEatFruit();
         this.snake.update(delta);
         if(boundaryDetection() || snakeCollisionDetection()) {
@@ -121,14 +127,5 @@ public class SnakeGame {
              }
         }
         return false;
-    }
-
-    /**
-     * Handles player input and returns the corresponding game event.
-     *
-     * @return The event triggered by the player's input, or NONE if no event is triggered.
-     */
-    public Events handleInput() {
-        return snakeController.handleInput();
     }
 }
