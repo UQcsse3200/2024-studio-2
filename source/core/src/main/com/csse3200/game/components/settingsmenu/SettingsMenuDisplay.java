@@ -29,6 +29,8 @@ public class SettingsMenuDisplay extends UIComponent {
     private Slider audioScaleSlider;
     private Slider soundScaleSlider;
     private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
+    private Label audioScaleValue;
+    private Label soundScaleValue;
 
     public SettingsMenuDisplay() {
         super();
@@ -67,13 +69,13 @@ public class SettingsMenuDisplay extends UIComponent {
         // Create components
         Label audioScaleLabel = new Label("Audio:", skin);
         audioScaleSlider = new Slider(0, 100, 1, false, skin);
-        audioScaleSlider.setValue(settings.audioScale);
-        Label audioScaleValue = new Label(String.format("%d", (int) settings.audioScale), skin);
+        audioScaleSlider.setValue(AudioManager.getDesiredMusicVolume() * 100);  // Set slider from AudioManager
+        audioScaleValue = new Label(String.format("%d", (int) (AudioManager.getDesiredMusicVolume() * 100)), skin);
 
         Label soundScaleLabel = new Label("Sound:", skin);
         soundScaleSlider = new Slider(0, 100, 1, false, skin);
-        soundScaleSlider.setValue(settings.soundScale);
-        Label soundScaleValue = new Label(String.format("%d", (int) settings.soundScale), skin);
+        soundScaleSlider.setValue(AudioManager.getDesiredSoundVolume() * 100);  // Set slider from AudioManager
+        soundScaleValue = new Label(String.format("%d", (int) (AudioManager.getDesiredSoundVolume() * 100)), skin);
 
         Label fpsLabel = new Label("FPS Cap:", skin);
         fpsText = new TextField(Integer.toString(settings.fps), skin);
@@ -117,13 +119,12 @@ public class SettingsMenuDisplay extends UIComponent {
         table.add(displayModeLabel).left().padRight(15f);
         table.add(displayModeSelect).left();
 
+        // Listeners for sliders
         audioScaleSlider.addListener(
                 (Event event) -> {
                     float value = audioScaleSlider.getValue();
                     audioScaleValue.setText(String.format("%d", (int) value));
-                    // Apply a square function for gradual change
-                    float scaledValue = (float) Math.pow(value / 100f, 2); // Scale value non-linearly
-                    AudioManager.setMusicVolume(scaledValue); // Apply scaled value to music volume
+                    AudioManager.setMusicVolume(value / 100f);  // Update AudioManager directly
                     return true;
                 });
 
@@ -131,9 +132,7 @@ public class SettingsMenuDisplay extends UIComponent {
                 (Event event) -> {
                     float value = soundScaleSlider.getValue();
                     soundScaleValue.setText(String.format("%d", (int) value));
-                    // Apply a square function for gradual change
-                    float scaledValue = (float) Math.pow(value / 100f, 2); // Scale value non-linearly
-                    AudioManager.setSoundVolume(scaledValue); // Apply scaled value to sound volume
+                    AudioManager.setSoundVolume(value / 100f);  // Update AudioManager directly
                     return true;
                 });
 
@@ -210,6 +209,10 @@ public class SettingsMenuDisplay extends UIComponent {
         settings.soundScale = soundScaleSlider.getValue();
         settings.displayMode = new UserSettings.DisplaySettings(displayModeSelect.getSelected().object);
         UserSettings.set(settings, true);
+
+        AudioManager.setMusicVolume(settings.audioScale / 100f);
+        AudioManager.setSoundVolume(settings.soundScale / 100f);
+
     }
 
 

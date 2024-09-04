@@ -24,6 +24,11 @@ public class UserSettings {
     private static Map<Sound, Float> soundVolumes = new HashMap<>();
     private static Map<Music, Float> musicVolumes = new HashMap<>();
 
+    // Store the last unmuted volume levels for easy restoration after unmuting
+    private static float lastMusicVolume = 1f;
+    private static float lastSoundVolume = 1f;
+    private static boolean isMuted = false;
+
     /**
      * Get the stored user settings
      * @return Copy of the current settings
@@ -67,14 +72,64 @@ public class UserSettings {
         }
         applyAudioSettings(settings.audioScale, settings.soundScale);
     }
+    /**
+     * Applies the audio settings to the game, including handling mute/unmute.
+     * @param audioScale The music volume scale (0-100).
+     * @param soundScale The sound effects volume scale (0-100).
+     */
     private static void applyAudioSettings(float audioScale, float soundScale) {
-        // Convert the audio scales to 0.0 - 1.0 and set in AudioManager
-        float musicVolume = audioScale / 100f;
-        float soundVolume = soundScale / 100f;
+        if (isMuted) {
+            AudioManager.setMusicVolume(0f);
+            AudioManager.setSoundVolume(0f);
+        } else {
+            // Store the last known unmuted values for restoration after unmuting
+            lastMusicVolume = audioScale / 100f;
+            lastSoundVolume = soundScale / 100f;
 
-        // Set the volume in the AudioManager
-        AudioManager.setMusicVolume(musicVolume);
-        AudioManager.setSoundVolume(soundVolume);
+            AudioManager.setMusicVolume(lastMusicVolume);
+            AudioManager.setSoundVolume(lastSoundVolume);
+        }
+    }
+
+    /**
+     * Mutes the audio globally, storing the current volume settings and setting them to 0.
+     */
+    public static void muteAudio() {
+        if (!isMuted) {
+            // Store current volumes before muting
+            lastMusicVolume = AudioManager.getMusicVolume();
+            lastSoundVolume = AudioManager.getSoundVolume();
+
+            // Set volumes to 0
+            AudioManager.setMusicVolume(0f);
+            AudioManager.setSoundVolume(0f);
+
+            isMuted = true;
+        }
+    }
+
+    /**
+     * Unmutes the audio globally, restoring the last saved volume levels.
+     */
+    public static void unmuteAudio() {
+        if (isMuted) {
+            // Restore the volumes
+            AudioManager.setMusicVolume(lastMusicVolume);
+            AudioManager.setSoundVolume(lastSoundVolume);
+
+            isMuted = false;
+        }
+    }
+
+    /**
+     * Toggles between mute and unmute.
+     */
+    public static void toggleMute() {
+        if (isMuted) {
+            unmuteAudio();
+        } else {
+            muteAudio();
+        }
     }
 
     private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
