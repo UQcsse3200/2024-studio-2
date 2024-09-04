@@ -218,7 +218,7 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(userTable);
     }
 
-    private void updateUserTable() {
+    public void updateUserTable() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         userTable.setPosition(screenWidth - 150, screenHeight - 600);
@@ -405,8 +405,6 @@ public class MainMenuDisplay extends UIComponent {
                     // Switch to fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
-                updateSettingMenu();
-                updateUserTable();
                 updateToggleWindowButtonText(); // Update text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
