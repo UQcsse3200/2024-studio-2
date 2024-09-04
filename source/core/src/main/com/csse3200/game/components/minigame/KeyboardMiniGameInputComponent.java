@@ -29,11 +29,11 @@ public class KeyboardMiniGameInputComponent extends InputComponent {
         }
         return switch (keycode) {
             case Keys.R -> {
-                entity.getEvents().trigger("restart", Direction.UP);
+                entity.getEvents().trigger("restart");
                 yield true;
             }
             case Keys.ESCAPE -> {
-                entity.getEvents().trigger("exit", Direction.LEFT);
+                entity.getEvents().trigger("exit");
                 yield true;
             }
             default -> false;

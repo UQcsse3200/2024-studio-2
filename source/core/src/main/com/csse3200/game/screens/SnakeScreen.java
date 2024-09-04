@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.minigame.Direction;
 import com.csse3200.game.components.minigame.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigame.snake.controller.KeyboardSnakeInputComponent;
@@ -7,6 +8,7 @@ import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.overlays.QuestOverlay;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,7 @@ public class SnakeScreen extends ScreenAdapter {
     private final SnakeGameRenderer snakeRenderer;
     private final Renderer renderer;
     private final BitmapFont font;
+
     /**
      * Queue of currently enabled overlays in the game screen.
      */
@@ -61,14 +64,18 @@ public class SnakeScreen extends ScreenAdapter {
      * Map of active overlay types and their statuses.
      */
     private final Map<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
      *
      * @param game The main game instance that controls the screen.
      */
-    public SnakeScreen(GdxGame game) {
+    public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
         this.game = game;
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         logger.debug("Initialising snake minigame screen services");
         ServiceLocator.registerInputService(new InputService());
@@ -127,7 +134,8 @@ public class SnakeScreen extends ScreenAdapter {
     private void updateGame(float delta) {
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
-            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore()));
+            dispose();
+            game.setScreen(new EndSnakeScreen(game, snakeGame.getScore(), oldScreen, oldScreenServices));
         }
     }
 
@@ -217,22 +225,16 @@ public class SnakeScreen extends ScreenAdapter {
      * @return true if a screen change was triggered, false otherwise.
      */
     void restartGame() {
-        game.setScreen(new SnakeScreen(game));
+        dispose();
+        game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
     }
 
     void exitGame() {
-        game.setScreen(new MiniGameMenuScreen(game));
+        game.setOldScreen(oldScreen, oldScreenServices);
     }
 
-    /**
-     * Adds an overlay to the screen.
-     * @param overlayType The type of overlay to add.
-     */
     public void addOverlay(Overlay.OverlayType overlayType){
-        logger.debug("Attempting to Add {} Overlay", overlayType);
-        if (activeOverlayTypes.get(overlayType)){
-            return;
-        }
+        logger.info("Adding Overlay {}", overlayType);
         if (enabledOverlays.isEmpty()) {
             this.rest();
         }
@@ -240,9 +242,6 @@ public class SnakeScreen extends ScreenAdapter {
             enabledOverlays.getFirst().rest();
         }
         switch (overlayType) {
-            case QUEST_OVERLAY:
-                enabledOverlays.addFirst(new QuestOverlay());
-                break;
             case PAUSE_OVERLAY:
                 enabledOverlays.addFirst(new PauseOverlay());
                 break;
@@ -250,24 +249,18 @@ public class SnakeScreen extends ScreenAdapter {
                 logger.warn("Unknown Overlay type: {}", overlayType);
                 break;
         }
-        logger.info("Added {} Overlay", overlayType);
-        activeOverlayTypes.put(overlayType,true);
     }
 
-    /**
-     * Removes the topmost overlay from the screen.
-     */
-
     public void removeOverlay(){
-        logger.info("Removing top Overlay");
+        logger.debug("Removing top Overlay");
 
         if (enabledOverlays.isEmpty()){
             this.wake();
             return;
         }
-        Overlay currentFirst = enabledOverlays.getFirst();
-        activeOverlayTypes.put(currentFirst.overlayType,false);
-        currentFirst.remove();
+
+        enabledOverlays.getFirst().remove();
+
         enabledOverlays.removeFirst();
 
         if (enabledOverlays.isEmpty()){
@@ -278,22 +271,15 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
-    /**
-     * Puts the screen into a resting state, pausing music and resting all entities.
-     */
     public void rest() {
         logger.info("Screen is resting");
-        resting = true;
+        //gameArea.pauseMusic();
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
-    /**
-     * Wakes the screen from a resting state.
-     */
     public void wake() {
         logger.info("Screen is Awake");
-        resting = false;
-        ServiceLocator.getEventService().getGlobalEventHandler().trigger("resetVelocity");
+        //gameArea.playMusic();
         ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

@@ -109,7 +109,8 @@ public class MiniGameMenuScreen implements Screen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+                dispose();
             }
         });
 
@@ -117,7 +118,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 snakeImage.setColor(Color.GREEN);
-                game.setScreen(new SnakeScreen(game));
+                game.enterSnakeScreen();
             }
         });
 
@@ -139,7 +140,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 snakeButton.setColor(Color.GREEN);
-                game.setScreen(new SnakeScreen(game)); // Switches to the Snake minigame screen
+                game.enterSnakeScreen();; // Switches to the Snake minigame screen
             }
         });
 
@@ -178,9 +179,10 @@ public class MiniGameMenuScreen implements Screen {
         stage.draw();
 
         // Handle the Escape key to return to the main menu
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new MainMenuScreen(game)); // Switches to the main menu when ESC is pressed
-        }
+        // this causes problems when pressing esc in mini-game
+        //if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        //    game.setScreen(new MainMenuScreen(game)); // Switches to the main menu when ESC is pressed
+        //}
     }
 
     /**
@@ -205,6 +207,7 @@ public class MiniGameMenuScreen implements Screen {
      */
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     /**
