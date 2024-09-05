@@ -14,8 +14,6 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Displays the name of the current game area.
@@ -37,7 +35,6 @@ public class CombatStatsDisplay extends UIComponent {
   private static Animation<TextureRegion> xpBarAnimation;
   private float barImageWidth;
   private float barImageHeight;
-  private  final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
   private static final int totalFrames = 11;
   private int playerMaxHealth;
   private int enemyMaxHealth;
@@ -244,7 +241,6 @@ public class CombatStatsDisplay extends UIComponent {
 
     int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
     frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-    String statName="experience";
     // Set the current frame of the health bar animation
     setNewFrame(frameIndex, xpBarAnimation, xpImage);
   }
