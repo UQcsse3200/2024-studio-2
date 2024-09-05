@@ -14,8 +14,8 @@ import com.csse3200.game.GdxGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BirdyDashScreen implements Screen {
-    private static final Logger logger = LoggerFactory.getLogger(BirdyDashScreen.class);
+public class BirdieDashScreen implements Screen {
+    private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
     private final GdxGame game;
     private SpriteBatch batch;
     private Texture background;
@@ -23,7 +23,7 @@ public class BirdyDashScreen implements Screen {
     private Skin skin;
     private TextButton exitButton;
 
-    public BirdyDashScreen(GdxGame game) {
+    public BirdieDashScreen(GdxGame game) {
         this.game = game;
     }
 
