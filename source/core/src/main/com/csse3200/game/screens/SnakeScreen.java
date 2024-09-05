@@ -1,12 +1,20 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.minigame.snake.controller.Events;
+import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigame.KeyboardMiniGameInputComponent;
+import com.csse3200.game.components.minigame.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.overlays.PauseOverlay;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,26 +22,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.terminal.Terminal;
-import com.csse3200.game.ui.terminal.TerminalDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.minigame.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.csse3200.game.components.minigame.MiniGameNames;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Represents the screen for the Snake game.
@@ -53,14 +60,35 @@ public class SnakeScreen extends ScreenAdapter {
     private Table exitButtonTable;
 
     /**
+     * Queue of currently enabled overlays in the game screen.
+     */
+    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+    /**
+     * Flag indicating whether the game is currently paused.
+     */
+    private boolean isPaused = false;
+    /**
+     * Flag indicating whether the screen is in a resting state.
+     */
+    private boolean resting = false;
+    /**
+     * Map of active overlay types and their statuses.
+     */
+    private final Map<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
+
+    /**
      * Initialises the SnakeScreen with the provided game instance.
      *
      * @param game The main game instance that controls the screen.
      */
-    public SnakeScreen(GdxGame game) {
+    public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
         this.game = game;
         this.scale = 1;
         this.exitButtonTable = new Table();
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         logger.debug("Initialising snake minigame screen services");
@@ -69,6 +97,9 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
         ServiceLocator.registerEventService(new EventService());
+
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
 
         renderer = RenderFactory.createRenderer();
 
@@ -79,13 +110,12 @@ public class SnakeScreen extends ScreenAdapter {
 
         this.stage = ServiceLocator.getRenderService().getStage();
 
-        createUI();
-
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
 
         setupExitButton();
+        createUI();
     }
 
     /**
@@ -98,12 +128,7 @@ public class SnakeScreen extends ScreenAdapter {
     public void render(float delta) {
         clearBackground();
 
-        if (handleInput()) {
-            return;  // If screen change was triggered, exit the render method.
-        }
-
-        //ServiceLocator.getEntityService().update();
-        //setupExitButton();
+        ServiceLocator.getEntityService().update();
         renderer.render();
 
         updateGame(delta);
@@ -113,23 +138,6 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
-
-    /**
-     * Handles player input for restarting or exiting the game.
-     *
-     * @return true if a screen change was triggered, false otherwise.
-     */
-    public boolean handleInput() {
-        if (snakeGame.handleInput() == Events.RESTART) {  // Restart the game
-            game.setScreen(new SnakeScreen(game));
-            return true;
-        }
-        if (snakeGame.handleInput() == Events.EXIT_TO_MENU) {  // Go to mini-games menu
-            game.setScreen(new MiniGameMenuScreen(game));
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Clears the screen with a specific background color.
@@ -144,10 +152,14 @@ public class SnakeScreen extends ScreenAdapter {
      *
      * @param delta Time in seconds since the last frame.
      */
-    public void updateGame(float delta) {
+    private void updateGame(float delta) {
+        if (resting) {
+            return;
+        }
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
-            game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE));
+            dispose();
+            game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }
     }
 
@@ -233,24 +245,100 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     /**
-     * This is not currently used.
+     * Creates the snake mini-game's ui including components for rendering ui elements to the screen and
+     * capturing and handling ui input.
      */
     private void createUI() {
-        logger.debug("Creating snake minigame ui");
+        logger.debug("Creating snake mini-game ui");
         InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
+                new KeyboardSnakeInputComponent();
 
         Entity ui = new Entity();
-        ui.addComponent(new InputDecorator(stage, 10))
+        ui
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new MainGameActions(this.game))
-                //.addComponent(new MainGameExitDisplay()) // adds extra exit button
-                .addComponent(new Terminal())
                 .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
+                .addComponent(new KeyboardMiniGameInputComponent());
 
+        ui.getEvents().addListener("move", this::handleSnakeInput);
+        ui.getEvents().addListener("restart", this::restartGame);
+        ui.getEvents().addListener("exit", this::exitGame);
+        //ui.getEvents().addListener("pause", this::pause);
         ServiceLocator.getEntityService().register(ui);
     }
 
+    /**
+     * Update snake direction based on an input direction.
+     * If the input direction is reversed 180 degrees from the current
+     * direction of the snake, it will not change.
+     *
+     * @param direction the direction to update to
+     */
+    void handleSnakeInput(Direction direction) {
+        snakeGame.handleSnakeInput(direction);
+    }
+
+    /**
+     * Handles player input for restarting or exiting the game.
+     *
+     * @return true if a screen change was triggered, false otherwise.
+     */
+    void restartGame() {
+        dispose();
+        game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+    }
+
+    void exitGame() {
+        game.setOldScreen(oldScreen, oldScreenServices);
+    }
+
+    public void addOverlay(Overlay.OverlayType overlayType){
+        logger.info("Adding Overlay {}", overlayType);
+        if (enabledOverlays.isEmpty()) {
+            this.rest();
+        }
+        else {
+            enabledOverlays.getFirst().rest();
+        }
+        switch (overlayType) {
+            case PAUSE_OVERLAY:
+                enabledOverlays.addFirst(new PauseOverlay());
+                break;
+            default:
+                logger.warn("Unknown Overlay type: {}", overlayType);
+                break;
+        }
+    }
+
+    public void removeOverlay(){
+        logger.debug("Removing top Overlay");
+
+        if (enabledOverlays.isEmpty()){
+            this.wake();
+            return;
+        }
+
+        enabledOverlays.getFirst().remove();
+
+        enabledOverlays.removeFirst();
+
+        if (enabledOverlays.isEmpty()){
+            this.wake();
+
+        } else {
+            enabledOverlays.getFirst().wake();
+        }
+    }
+
+    public void rest() {
+        logger.info("Screen is resting");
+        resting = true;
+        ServiceLocator.getEntityService().restWholeScreen();
+    }
+
+    public void wake() {
+        logger.info("Screen is Awake");
+        resting = false;
+        ServiceLocator.getEntityService().wakeWholeScreen();
+    }
 }
 

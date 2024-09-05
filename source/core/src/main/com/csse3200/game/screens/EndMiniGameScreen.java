@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,6 +19,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigame.MiniGameConstants;
 import com.csse3200.game.components.minigame.MiniGameMedals;
 import com.csse3200.game.components.minigame.MiniGameNames;
+import com.csse3200.game.services.ServiceContainer;
 
 /**
  * Makes a new screen when the snake game is over.
@@ -35,12 +37,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final BitmapFont font18;
     private final BitmapFont font26;
     private final BitmapFont font32;
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
 
-    public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName) {
+    public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
         this.score = score;
         this.gameName = gameName;
         this.scale = 1;
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -71,7 +77,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(new MainMenuScreen(game));
+                game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
@@ -113,12 +119,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            game.setScreen(new SnakeScreen(game));
+            dispose();
+            game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to Mini-games menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-            game.setScreen(new MiniGameMenuScreen(game));
+            game.setOldScreen(oldScreen, oldScreenServices);
         }
     }
 
@@ -179,7 +186,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         tryAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SnakeScreen(game));
+                dispose();
+                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
             }
         });
 
@@ -192,7 +200,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(new MiniGameMenuScreen(game));
+                game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
