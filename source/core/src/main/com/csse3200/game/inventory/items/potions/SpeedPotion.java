@@ -4,30 +4,8 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
 
-/**
- * The {@code DefensePotion} class represents a specific type of potion that temporarily increases the defense a
- * player.
- *
- * <p>
- * This class extends the {@link AbstractPotion} abstract class and provides an implementation of the
- *  method to apply its defense effects. A defense potion contains one or more
- *  objects that determine how much defense is increase when the potion is used.
- * </p>
- *
- * <p>
- * When a  is created, it is initialized with a specific quantity (number of uses)
- * </p>
- *
- * <p>
- * The {@code DefensePotion} is typically used in the context of gameplay where players consume the potion
- * to temporarily increase defense. The specific effects of the potion are defined by the instances
- * passed to the constructor.
- * </p>
- *
- * @see AbstractPotion
- */
-public class DefensePotion extends AbstractPotion{
-    private final static String path = "images/potiontexture/defense.png";
+public class SpeedPotion extends AbstractPotion{
+    private final static String path = "images/potiontexture/speed.png";
     /**
      * default time of potion effect
      */
@@ -40,10 +18,10 @@ public class DefensePotion extends AbstractPotion{
      *
      * @param quantity the number of uses this potion has
      */
-    public DefensePotion(int quantity, GameTime gameTime) {
+    public SpeedPotion(int quantity, GameTime gameTime) {
         super("Defense Potion", 2, 3, quantity, 25);
         this.setTexturePath(path);
-        this.setDescription("This is a defense potion");
+        this.setDescription("This is a speed potion");
         this.gameTime = gameTime;
     }
 
@@ -60,7 +38,7 @@ public class DefensePotion extends AbstractPotion{
     @Override
     public void useItem(ItemUsageContext context) {
         super.useItem(context);
-        context.player.getComponent(CombatStatsComponent.class).addDefense(this.effectAmount);
+        context.player.getComponent(CombatStatsComponent.class).addSpeed(this.effectAmount);
         // Record the time when the effect started
         effectStartTime = gameTime.getTime();
     }
@@ -80,7 +58,8 @@ public class DefensePotion extends AbstractPotion{
     public void update(ItemUsageContext context) {
         if (isExpired(context)) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
-            stats.setDefense(stats.getDefense() - this.effectAmount);
+            stats.setDefense(stats.getSpeed() - this.effectAmount);
         }
     }
 }
+

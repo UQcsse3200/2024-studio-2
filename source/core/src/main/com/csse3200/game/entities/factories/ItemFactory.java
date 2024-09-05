@@ -10,6 +10,7 @@ import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.HealingPotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.GameTime;
@@ -58,6 +59,11 @@ public class ItemFactory {
     public static Entity createDefensePotion(Entity target) {
         GameTime gameTime = new GameTime();
         return createItem(target, new DefensePotion(1, gameTime));
+    }
+
+    public static Entity createSpeedPotion(Entity target) {
+        GameTime gameTime = new GameTime();
+        return createItem(target, new SpeedPotion(1, gameTime));
     }
 
     /**

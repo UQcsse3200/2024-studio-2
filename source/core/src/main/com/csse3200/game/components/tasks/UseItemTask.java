@@ -10,6 +10,7 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.potions.AbstractPotion;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.GameTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,11 @@ public class UseItemTask extends DefaultTask implements PriorityTask {
         if (activePotion() && this.potion instanceof AttackPotion) {
             if (((AttackPotion) this.potion).isExpired(this.context)) {
                 ((AttackPotion) this.potion).update(this.context);
+            }
+        }
+        if (activePotion() && this.potion instanceof SpeedPotion) {
+            if (((SpeedPotion) this.potion).isExpired(this.context)) {
+                ((SpeedPotion) this.potion).update(this.context);
             }
         }
     }

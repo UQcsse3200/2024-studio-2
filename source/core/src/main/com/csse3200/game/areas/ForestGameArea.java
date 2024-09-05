@@ -31,6 +31,7 @@ public class ForestGameArea extends GameArea {
   private  static final int NUM_HEALTH_POTIONS = 10;
   private static final int NUM_DEFENSE_POTIONS = 10;
   private static final int NUM_ATTACK_POTIONS = 10;
+  private static final int NUM_SPEEDPOTIONS = 10;
   private static final int NUM_CARROTS = 20;
   private static final int NUM_CHICKEN_LEGS = 10;
   private static final int NUM_MEAT = 10;
@@ -82,6 +83,7 @@ public class ForestGameArea extends GameArea {
           "images/foodtextures/candy.png",
           "images/potiontexture/attack.png",
           "images/potiontexture/defense.png",
+          "images/potiontexture/speed.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
@@ -155,6 +157,7 @@ public class ForestGameArea extends GameArea {
     spawnHealthPotions();
     spawnDefensePotions();
     spawnAttackPotions();
+    spawnSpeedPotions();
     spawnApples();
     spawnCarrots();
     spawmMeat();
@@ -324,9 +327,20 @@ public class ForestGameArea extends GameArea {
     spawnRandomItem(defensePotionGenerator, NUM_DEFENSE_POTIONS, 35, 35);
   }
 
+  /**
+   * Spawns the attack potions on map
+   */
   private void spawnAttackPotions() {
     Supplier<Entity> attackPotionGenerator = () -> ItemFactory.createAttackPotion(player);
     spawnRandomItem(attackPotionGenerator, NUM_ATTACK_POTIONS, 35, 35);
+  }
+
+  /**
+   * Spawns the speed potions on map
+   */
+  private void spawnSpeedPotions() {
+    Supplier<Entity> speedPotionGenerator = () -> ItemFactory.createSpeedPotion(player);
+    spawnRandomItem(speedPotionGenerator, NUM_SPEEDPOTIONS, 40, 40);
   }
 
   /**
