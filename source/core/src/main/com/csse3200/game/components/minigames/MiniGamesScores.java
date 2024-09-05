@@ -6,7 +6,7 @@ package com.csse3200.game.components.minigames;
 public class MiniGamesScores {
 
     /**
-     * Each mini-game highest score
+     * Each mini-game the highest score
      */
     private int snakeHighScore;
     private int birdHighScore;
@@ -87,15 +87,15 @@ public class MiniGamesScores {
      * Compares current high score and adjusts medals and high score appropriately
      * @param value the new score to be checked
      */
-    public void checkAndSetFlappyBirdScoreMedal(int value) {
+    public void checkAndSetBirdScoreMedal(int value) {
         if (value > this.birdHighScore) {
-            if (value >= MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD) {
+            if (value >= MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD) {
                 // Gold medal
                 this.birdMedal = MiniGameMedals.GOLD;
-            } else if (value >= MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD) {
+            } else if (value >= MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD) {
                 // Silver Medal
                 this.birdMedal = MiniGameMedals.SILVER;
-            } else if (value >= MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD) {
+            } else if (value >= MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD) {
                 // Bronze Medal
                 this.birdMedal = MiniGameMedals.BRONZE;
             } else {

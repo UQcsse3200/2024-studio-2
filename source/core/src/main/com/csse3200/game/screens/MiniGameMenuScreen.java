@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -146,7 +147,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 snakeButton.setColor(Color.GREEN);
-                game.enterSnakeScreen();; // Switches to the Snake minigame screen
+                game.enterSnakeScreen(); // Switches to the Snake minigame screen
             }
         });
 

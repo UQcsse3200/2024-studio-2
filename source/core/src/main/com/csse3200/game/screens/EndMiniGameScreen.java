@@ -227,9 +227,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
             }
             case BIRD -> {
-                bronzeThreshold = MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD;
+                bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
             }
             case MAZE -> {
                 bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
@@ -301,9 +301,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldMessage = "Snake king!";
             }
             case BIRD -> {
-                bronzeMedalThreshold = MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD;
-                silverMedalThreshold = MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD;
-                goldMedalThreshold = MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD;
+                bronzeMedalThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
                 failMessage = "Bird message FAIL";
                 bronzeMessage = "Bird message BRONZE";
                 silverMessage = "Bird message SILVER";

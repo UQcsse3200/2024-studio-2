@@ -17,13 +17,12 @@ public final class MiniGameConstants {
     public static final int SNAKE_SILVER_THRESHOLD = 15;
     public static final int SNAKE_GOLD_THRESHOLD = 30;
 
-    // Flappy bird and Maze yet to be implemented
     /**
-     * Flappy bird game GOLD, SILVER and BRONZE score thresholds
+     * Birdie Dash game GOLD, SILVER and BRONZE score thresholds
      */
-    public static final int BIRDY_DASH_GOLD_THRESHOLD = 6;
-    public static final int BIRDY_DASH_SILVER_THRESHOLD = 4;
-    public static final int BIRDY_DASH_BRONZE_THRESHOLD = 2;
+    public static final int BIRDIE_DASH_GOLD_THRESHOLD = 6;
+    public static final int BIRDIE_DASH_SILVER_THRESHOLD = 4;
+    public static final int BIRDIE_DASH_BRONZE_THRESHOLD = 2;
 
     /**
      * Maze game GOLD, SILVER and BRONZE score thresholds
