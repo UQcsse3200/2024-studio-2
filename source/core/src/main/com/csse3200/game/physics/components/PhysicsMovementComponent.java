@@ -17,16 +17,6 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private boolean movementEnabled = true;
 
   @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
-
-  @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
   }

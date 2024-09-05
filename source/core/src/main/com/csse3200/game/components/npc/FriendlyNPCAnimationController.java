@@ -10,15 +10,6 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 public class FriendlyNPCAnimationController extends Component {
     AnimationRenderComponent animator;
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
 
     @Override
     public void create() {

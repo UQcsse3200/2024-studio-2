@@ -35,17 +35,6 @@ public class GameOverWinDisplay extends UIComponent {
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
-
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Called when the component is created. Initializes the Game Over win UI.
      */

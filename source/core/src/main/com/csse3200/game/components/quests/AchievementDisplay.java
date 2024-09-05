@@ -21,17 +21,6 @@ public class AchievementDisplay extends UIComponent {
         super();
         this.game = game;
     }
-
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Creates and populates the UI with UI elements.
      */

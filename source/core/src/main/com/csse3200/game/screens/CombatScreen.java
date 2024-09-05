@@ -155,13 +155,6 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-//    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
-//
-//    // Add individual buttons to the stage
-//    stage.addActor(combatButtons.getAttackButton());
-//    stage.addActor(combatButtons.getBoostButton());
-
-
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, this.enemy))

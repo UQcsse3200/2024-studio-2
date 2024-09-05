@@ -51,16 +51,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         slots = new ImageButton[numRows * numCols];
     }
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Initializes the component by setting up event listeners for toggling the inventory display
      * and adding items.
