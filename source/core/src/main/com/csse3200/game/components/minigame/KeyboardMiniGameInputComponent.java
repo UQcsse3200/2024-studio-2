@@ -34,12 +34,22 @@ public class KeyboardMiniGameInputComponent extends InputComponent {
                 entity.getEvents().trigger("restart");
                 yield true;
             }
-            case Keys.BACKSPACE -> {
-                entity.getEvents().trigger("exit");
-                yield true;
-            }
             case Keys.ESCAPE -> {
                 ServiceLocator.getEventService().getGlobalEventHandler().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+                yield true;
+            }
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(!this.enabled){
+            return false;
+        }
+        return switch (keycode) {
+            case Keys.BACKSPACE -> {
+                entity.getEvents().trigger("exit");
                 yield true;
             }
             default -> false;
