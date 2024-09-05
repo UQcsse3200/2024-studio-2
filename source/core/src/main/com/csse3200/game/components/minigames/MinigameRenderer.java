@@ -1,7 +1,6 @@
-package com.csse3200.game.components.minigame;
+package com.csse3200.game.rendering.minigames;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
