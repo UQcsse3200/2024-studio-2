@@ -59,6 +59,8 @@ public class CombatStatsDisplay extends UIComponent {
   public void create() {
     super.create();
     addActors();
+    entity.getEvents().addListener("updateHealth", this::updateHealthUI);
+    entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
   }
 
   /**
@@ -207,15 +209,22 @@ public class CombatStatsDisplay extends UIComponent {
     stage.addActor(playerTable);
     stage.addActor(enemyTable);
 
+    initBarAnimations();
+
+    //initialising the character stats
+    updateHealthUI(playerStats.getHealth(), playerMaxHealth, true);
+    updateHealthUI(enemyStats.getHealth(), enemyMaxHealth, false);
+    updatePlayerExperienceUI(playerStats.getExperience());
+
     return true;
   }
 
   /**
-   * Updates the health animation and label in game to reflect current player health
+   * Updates the health animation and label in game to reflect current player/enemy health
    * including the call to test functions for checking
    * @param health the current health stat value of the player
    */
-  public void updatePlayerHealthUI(int health, int maxHealth, boolean isPlayer) {
+  public void updateHealthUI(int health, int maxHealth, boolean isPlayer) {
     CharSequence text = String.format("HP: %d", health);
 
     int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
