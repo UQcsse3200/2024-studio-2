@@ -123,7 +123,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {  // Go to Mini-games menu
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
             game.setOldScreen(oldScreen, oldScreenServices);
         }

@@ -185,10 +185,9 @@ public class MiniGameMenuScreen implements Screen {
         stage.draw();
 
         // Handle the Escape key to return to the main menu
-        // this causes problems when pressing esc in mini-game
-        //if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-        //    game.setScreen(new MainMenuScreen(game)); // Switches to the main menu when ESC is pressed
-        //}
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+            game.setScreen(new MainMenuScreen(game)); // Switches to the main menu when ESC is pressed
+        }
     }
 
     @Override
