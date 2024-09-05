@@ -96,7 +96,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
 
 
 // Set the table size based on the full texture size
-        table.setSize(150, 517);
+        table.setSize(160, 517);
         for (int i = 0; i < numberOfSlots; i++) {
             AbstractItem item = inventory.getAt(i);
 
@@ -105,10 +105,10 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             if (item != null) {
                 addSlotListeners(slot, item, i);
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
-                slot.add(itemImage).center().size(60, 60); // Scale down slot content as well
+                slot.add(itemImage).center().size(75, 75); // Scale down slot content as well
             }
 
-            table.add(slot).size(82,78).pad(5).padRight(35); // Scale down slot size
+            table.add(slot).size(80,80).pad(5).padRight(45); // Scale down slot size
             table.row(); // Move to the next row after adding each slot
             hotBarSlots[i] = slot;
         }

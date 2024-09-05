@@ -1,5 +1,7 @@
 package com.csse3200.game.components.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -7,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
@@ -27,7 +32,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
-
+    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
+    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
+    private final Texture invbck =new Texture("Inventory/inventory.png");
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -94,10 +101,16 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     private void generateWindow() {
         // Create the window (pop-up)
-        window = new Window("Inventory", skin);
-
+        window = new Window("Inventory",skininv);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(window.getTitleLabel().getStyle());
+        titleStyle.fontColor = Color.BLACK;
+        window.getTitleLabel().setAlignment(Align.center);
+        window.getTitleTable().padTop(150); // Adjust the value to move the title lower
         // Create the table for inventory slots
+        window.getTitleLabel().setStyle(titleStyle);
         table = new Table();
+        window.getTitleTable().padBottom(20);
+
 
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
@@ -106,7 +119,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 AbstractItem item = inventory.getAt(index);
 
                 // Create the slot with the inventory background
-                final ImageButton slot = new ImageButton(skin);
+                final ImageButton slot = new ImageButton(skinSlots);
 
                 // final ImageButton slot = new ImageButton(skin, "inventory-slot");
 
@@ -114,10 +127,10 @@ public class PlayerInventoryDisplay extends UIComponent {
                 if (item != null) {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
-                    slot.add(itemImage).center().size(100, 100);
+                    slot.add(itemImage).center().size(80, 80);
                 }
 
-                table.add(slot).size(120, 120).pad(5); // Add the slot to the table
+                table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
@@ -129,8 +142,8 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.pack();
         // Set position in stage top-center
         window.setPosition(
-                (stage.getWidth() - window.getWidth()) / 2,
-                (stage.getHeight() - window.getHeight() - 25)
+                (stage.getWidth() - window.getWidth()) / 2,  // Center horizontally
+                (stage.getHeight() - window.getHeight()) / 2 // Center vertically
         );
     }
 

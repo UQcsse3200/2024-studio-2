@@ -64,8 +64,8 @@ public class PlayerFactory {
           player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
         }
 
-        player.addComponent(new PlayerInventoryDisplay(36, 9))
-              .addComponent(new PlayerInventoryHotbarDisplay(5,36))
+        player.addComponent(new PlayerInventoryDisplay(45, 9))
+              .addComponent(new PlayerInventoryHotbarDisplay(5,45))
               .addComponent(inputComponent)
               .addComponent(new PlayerStatsDisplay())
               .addComponent(new QuestManager(player))
