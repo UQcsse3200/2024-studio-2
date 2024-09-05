@@ -33,11 +33,17 @@ public class MiniGameMenuScreen implements Screen {
     private Texture waterTexture;
     private Texture backgroundTexture;
 
+    /**
+     * Constructor initializes the main game object
+     * @param game the gdx game
+     */
     public MiniGameMenuScreen(GdxGame game) {
         this.game = game;
         this.scale = 1;
     }
-
+    /**
+     * Called when the screen is shown for the first time
+     */
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -166,11 +172,16 @@ public class MiniGameMenuScreen implements Screen {
         });
     }
 
+
+    /**
+     * Called every frame to render the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // Set the background color
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears the screen
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Draw the background texture
         batch.begin();
@@ -183,10 +194,15 @@ public class MiniGameMenuScreen implements Screen {
 
         // Handle the Escape key to return to the main menu
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-            game.setScreen(new MainMenuScreen(game)); // Switches to the main menu when ESC is pressed
+            game.setScreen(new MainMenuScreen(game));
         }
     }
 
+    /**
+     * Called when the screen is resized
+     * @param width width fo the new screen
+     * @param height height of the new screen
+     */
     @Override
     public void resize(int width, int height) {
         // Update the stage viewport
@@ -199,20 +215,33 @@ public class MiniGameMenuScreen implements Screen {
         show();
     }
 
+    /**
+     * Called when the game is paused
+     */
     @Override
     public void pause() {
     }
 
+    /**
+     *  Called when the game is resumed after a pause
+     */
     @Override
     public void resume() {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Called when the screen is hidden
+     */
     @Override
     public void hide() {
         //dispose();
     }
 
+
+    /**
+     *  Called to dispose of resources to prevent memory leaks
+     */
     @Override
     public void dispose() {
         stage.dispose();
