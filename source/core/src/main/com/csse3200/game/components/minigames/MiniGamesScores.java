@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigame;
+package com.csse3200.game.components.minigames;
 
 /**
  * Class to store games high scores
@@ -9,22 +9,22 @@ public class MiniGamesScores {
      * Each mini-game highest score
      */
     private int snakeHighScore;
-    private int flappyBirdHighScore;
+    private int birdHighScore;
     private int mazeHighScore;
 
     /**
      * Each mini-game highest medal
      */
     private MiniGameMedals snakeMedal;
-    private MiniGameMedals flappyBirdMedal;
+    private MiniGameMedals birdMedal;
     private MiniGameMedals mazeMedal;
 
     public MiniGamesScores() {
         snakeHighScore = 0;
-        flappyBirdHighScore = 0;
+        birdHighScore = 0;
         mazeHighScore = 0;
         snakeMedal = MiniGameMedals.FAIL;
-        flappyBirdMedal = MiniGameMedals.FAIL;
+        birdMedal = MiniGameMedals.FAIL;
         mazeMedal = MiniGameMedals.FAIL;
     }
 
@@ -71,16 +71,16 @@ public class MiniGamesScores {
      * Get the flappy bird high score
      * @return the high score for the flappy bird game
      */
-    public int getFlappyBirdHighScore() {
-        return flappyBirdHighScore;
+    public int getBirdHighScore() {
+        return birdHighScore;
     }
 
     /**
      * Get the flappy bird high score medal
      * @return the flappy bird high score medal
      */
-    public MiniGameMedals getFlappyBirdMedal() {
-        return flappyBirdMedal;
+    public MiniGameMedals getBirdMedal() {
+        return birdMedal;
     }
 
     /**
@@ -88,21 +88,21 @@ public class MiniGamesScores {
      * @param value the new score to be checked
      */
     public void checkAndSetFlappyBirdScoreMedal(int value) {
-        if (value > this.flappyBirdHighScore) {
-            if (value >= MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD) {
+        if (value > this.birdHighScore) {
+            if (value >= MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD) {
                 // Gold medal
-                this.flappyBirdMedal = MiniGameMedals.GOLD;
-            } else if (value >= MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD) {
+                this.birdMedal = MiniGameMedals.GOLD;
+            } else if (value >= MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD) {
                 // Silver Medal
-                this.flappyBirdMedal = MiniGameMedals.SILVER;
-            } else if (value >= MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD) {
+                this.birdMedal = MiniGameMedals.SILVER;
+            } else if (value >= MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD) {
                 // Bronze Medal
-                this.flappyBirdMedal = MiniGameMedals.BRONZE;
+                this.birdMedal = MiniGameMedals.BRONZE;
             } else {
                 // Failed
-                this.flappyBirdMedal = MiniGameMedals.FAIL;
+                this.birdMedal = MiniGameMedals.FAIL;
             }
-            this.flappyBirdHighScore = value;
+            this.birdHighScore = value;
         }
     }
 

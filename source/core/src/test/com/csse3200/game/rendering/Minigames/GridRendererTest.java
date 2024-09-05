@@ -1,13 +1,13 @@
 package com.csse3200.game.rendering.Minigames;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.csse3200.game.components.minigame.MinigameRenderer;
-import com.csse3200.game.components.minigame.snake.SnakeGrid;
-import com.csse3200.game.components.minigame.snake.rendering.GridRenderer;
+import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.snake.SnakeGrid;
+import com.csse3200.game.components.minigames.snake.rendering.GridRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

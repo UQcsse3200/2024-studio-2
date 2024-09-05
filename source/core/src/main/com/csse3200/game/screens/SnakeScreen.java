@@ -6,12 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.csse3200.game.components.minigame.snake.controller.Events;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigame.snake.controller.KeyboardSnakeInputComponent;
-import com.csse3200.game.components.minigame.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
+import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.services.ServiceContainer;
@@ -33,10 +32,9 @@ import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
-import com.csse3200.game.components.minigame.snake.SnakeGame;
+import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.csse3200.game.components.minigame.MiniGameNames;
+import com.csse3200.game.components.minigames.MiniGameNames;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -139,7 +137,6 @@ public class SnakeScreen extends ScreenAdapter {
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
     }
-
 
     /**
      * Clears the screen with a specific background color.

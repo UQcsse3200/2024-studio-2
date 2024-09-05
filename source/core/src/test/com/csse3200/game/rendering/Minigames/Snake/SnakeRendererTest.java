@@ -1,11 +1,11 @@
 package com.csse3200.game.rendering.Minigames.Snake;
 
-import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.snake.Snake;
-import com.csse3200.game.components.minigame.snake.SnakeGrid;
-import com.csse3200.game.components.minigame.snake.rendering.SnakeRenderer;
+import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.components.minigames.snake.Snake;
+import com.csse3200.game.components.minigames.snake.SnakeGrid;
+import com.csse3200.game.components.minigames.snake.rendering.SnakeRenderer;
 import com.badlogic.gdx.graphics.Texture;
-import com.csse3200.game.components.minigame.MinigameRenderer;
+import com.csse3200.game.components.minigames.MinigameRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -16,9 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.minigame.MiniGameConstants;
-import com.csse3200.game.components.minigame.MiniGameMedals;
-import com.csse3200.game.components.minigame.MiniGameNames;
+import com.csse3200.game.components.minigames.MiniGameConstants;
+import com.csse3200.game.components.minigames.MiniGameMedals;
+import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceContainer;
 
 /**
@@ -227,9 +227,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
             }
             case BIRD -> {
-                bronzeThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+                bronzeThreshold = MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD;
             }
             case MAZE -> {
                 bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
@@ -301,9 +301,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldMessage = "Snake king!";
             }
             case BIRD -> {
-                bronzeMedalThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
-                silverMedalThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
-                goldMedalThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+                bronzeMedalThreshold = MiniGameConstants.BIRDY_DASH_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.BIRDY_DASH_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.BIRDY_DASH_GOLD_THRESHOLD;
                 failMessage = "Bird message FAIL";
                 bronzeMessage = "Bird message BRONZE";
                 silverMessage = "Bird message SILVER";

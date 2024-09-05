@@ -9,13 +9,13 @@ import com.csse3200.game.GdxGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FlappyBirdScreen implements Screen {
-    private static final Logger logger = LoggerFactory.getLogger(FlappyBirdScreen.class);
+public class BirdyDashScreen implements Screen {
+    private static final Logger logger = LoggerFactory.getLogger(BirdyDashScreen.class);
     private final GdxGame game;
     private SpriteBatch batch;
     private Texture background;
 
-    public FlappyBirdScreen(GdxGame game) {
+    public BirdyDashScreen(GdxGame game) {
         this.game = game;
     }
 

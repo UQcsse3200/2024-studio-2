@@ -1,9 +1,9 @@
-package com.csse3200.game.components.minigame.snake.rendering;
+package com.csse3200.game.components.minigames.snake.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.csse3200.game.components.minigame.MinigameRenderable;
-import com.csse3200.game.components.minigame.MinigameRenderer;
-import com.csse3200.game.components.minigame.snake.SnakeGrid;
+import com.csse3200.game.components.minigames.MinigameRenderable;
+import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.snake.SnakeGrid;
 
 /**
  * Renders the grid for the Snake mini-game.

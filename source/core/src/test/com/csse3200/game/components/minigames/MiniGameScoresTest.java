@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigame;
+package com.csse3200.game.components.minigames;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ public class MiniGameScoresTest {
         assertEquals(0, miniGamesScores.getSnakeHighScore());
         assertEquals(MiniGameMedals.FAIL, miniGamesScores.getSnakeMedal());
 
-        assertEquals(0, miniGamesScores.getFlappyBirdHighScore());
-        assertEquals(MiniGameMedals.FAIL, miniGamesScores.getFlappyBirdMedal());
+        assertEquals(0, miniGamesScores.getBirdHighScore());
+        assertEquals(MiniGameMedals.FAIL, miniGamesScores.getBirdMedal());
 
         assertEquals(0, miniGamesScores.getMazeHighScore());
         assertEquals(MiniGameMedals.FAIL, miniGamesScores.getMazeMedal());

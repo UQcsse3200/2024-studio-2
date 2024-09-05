@@ -1,8 +1,8 @@
-package com.csse3200.game.components.minigame.snake.controller;
+package com.csse3200.game.components.minigames.snake.controller;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.csse3200.game.components.minigame.Direction;
+import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.input.InputComponent;
 
 /**
