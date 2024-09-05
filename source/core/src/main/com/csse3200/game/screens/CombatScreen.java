@@ -93,7 +93,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    this.gameArea = new CombatArea(game, terrainFactory, player, enemy);
+    this.gameArea = new CombatArea(terrainFactory, player, enemy);
     gameArea.create();
 
   }

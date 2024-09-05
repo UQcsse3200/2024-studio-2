@@ -1,24 +1,33 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.csse3200.game.GdxGame;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.entities.factories.ObstacleFactory;
+import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.GridPoint2Utils;
+import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Combat area used in combat screen. */
+/** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
-    private static final Logger logger = LoggerFactory.getLogger(CombatArea.class);
-    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(25, 25);
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(50, 50);
-    private static final String[] combatTextures = {
+    private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
+    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(9, 15);
+    private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 15);
+
+    private static final float WALL_WIDTH = 0.1f;
+    private static final String[] forestTextures = {
             "images/box_boy_leaf.png",
             "images/tree.png",
             "images/ghost_king.png",
@@ -55,81 +64,91 @@ public class CombatArea extends GameArea {
             "images/Healthpotion.png",
             "images/foodtextures/apple.png",
     };
-    private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
-    private final TerrainFactory terrainFactory;
-    private final Entity player;
-    private final Entity enemy;
-    private final GdxGame game;
-
-    private static final String[] combatTextureAtlases = {
+    private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
     };
+    private static final String[] questSounds = {"sounds/QuestComplete.wav"};
+    private static final String[] forestSounds = {"sounds/Impact4.ogg"};
+    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String[] heartbeatSound = {heartbeat};
+    private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
+    private static final String[] forestMusic = {backgroundMusic};
+    private final TerrainFactory terrainFactory;
 
-    public CombatArea(GdxGame game, TerrainFactory terrainFactory, Entity player, Entity enemy) {
+    private enum Turn { PLAYER, ENEMY }
+    private Turn currentTurn;
+    private Entity player;
+    private Entity enemy;
+    private boolean isCombatEnd = false;
+
+    /**
+     * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
+     * has engaged combat with.
+     *
+     * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
+     * @requires terrainFactory != null
+     */
+    // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
+    // Then this enemy can be spawned within this class in some function spawn_enemy()
+    public CombatArea(TerrainFactory terrainFactory, Entity player, Entity enemy) {
         super();
-        this.game = game;
-        this.enemy = enemy;
-        this.player = player;
         this.terrainFactory = terrainFactory;
+        this.player = player;
+        this.enemy = enemy;
     }
 
-
-
-    /** Create the game area, including player and enemy.*/
+    /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
     @Override
     public void create() {
         loadAssets();
-
         displayUI();
-
         spawnTerrain();
-
         spawnPlayer();
-
-        spawnEnemy();
-
+        spawnCombatEnemy();
+        currentTurn = Turn.PLAYER;
         playMusic();
+    }
+
+
+    private void displayUI() {
+        Entity ui = new Entity();
+        ui.addComponent(new GameAreaDisplay("Box Forest"));
+        spawnEntity(ui);
     }
 
     private void spawnTerrain() {
         // Background terrain
-        terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+        terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, new GridPoint2(10, 10), new GridPoint2(5, 5));
         spawnEntity(new Entity().addComponent(terrain));
+
     }
 
+    /** Spawn a player for testing purposes. Currently, this player can be moved */
     private void spawnPlayer() {
-        logger.info("Spawning player into combat screen from CombatArea");
-        spawnEntityAt(player, PLAYER_SPAWN, true, true);
+
     }
 
-    private void spawnEnemy() {
-        logger.info("Spawning enemy into combat screen from CombatArea");
-        spawnEntityAt(enemy, PLAYER_SPAWN, true, true);
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnCombatEnemy() {
+        spawnEntityAt(enemy, ENEMY_COMBAT_SPAWN, true, true);
     }
 
-    public void displayUI() {
-        Entity ui = new Entity();
-        ui.addComponent(new GameAreaDisplay("Combat"));
-    }
-
-    public void playMusic() {
+    private void playMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
     }
-    public void pauseMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-        music.pause();
-    }
 
-    public void loadAssets() {
+    private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(combatTextures);
-        resourceService.loadTextureAtlases(combatTextureAtlases);
+        resourceService.loadTextures(forestTextures);
+        resourceService.loadTextureAtlases(forestTextureAtlases);
+        resourceService.loadSounds(forestSounds);
+        resourceService.loadMusic(forestMusic);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -137,11 +156,13 @@ public class CombatArea extends GameArea {
         }
     }
 
-    public void unloadAssets() {
+    private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(combatTextures);
-        resourceService.unloadAssets(combatTextureAtlases);
+        resourceService.unloadAssets(forestTextures);
+        resourceService.unloadAssets(forestTextureAtlases);
+        resourceService.unloadAssets(forestSounds);
+        resourceService.unloadAssets(forestMusic);
     }
 
     @Override
