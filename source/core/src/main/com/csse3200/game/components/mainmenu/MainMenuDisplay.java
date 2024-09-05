@@ -42,8 +42,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture settingBackground;
     private Texture userTableBackground;
     private Button muteButton;  // Mute toggle button with texture
-    private float lastMusicVolume = 1f;  // Store music volume before muting
-    private float lastSoundVolume = 1f;  // Store sound volume before muting
     private Texture muteTexture;  // Texture for mute state
     private Texture unmuteTexture;  // Texture for unmute state
 
