@@ -696,7 +696,7 @@ public class MainMenuDisplay extends UIComponent {
                 Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
 
                 final Dialog dialog = new Dialog("", skin);
-                dialog.setBackground(dialogBackground); // Set the background image
+                dialog.setBackground(dialogBackground);
                 dialog.pad(40f);
                 dialog.setSize(500f, 300f);
                 dialog.setModal(true);
@@ -707,7 +707,6 @@ public class MainMenuDisplay extends UIComponent {
 
                 TextButton yesBtn = new TextButton("Yes", skin);
                 TextButton noBtn = new TextButton("No", skin);
-
                 yesBtn.getLabel().setFontScale(1.2f);
                 noBtn.getLabel().setFontScale(1.2f);
 
@@ -723,7 +722,7 @@ public class MainMenuDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         logger.info("Exit canceled");
-                        dialog.hide();
+                        dialog.remove();
                     }
                 });
 
@@ -735,7 +734,7 @@ public class MainMenuDisplay extends UIComponent {
                         (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
                         (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
                 );
-                dialog.show(stage);
+                stage.addActor(dialog);
             }
         });
     }
