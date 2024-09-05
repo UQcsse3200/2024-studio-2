@@ -106,20 +106,16 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("onAttack before");
     // Perform attack logic here, like decreasing health
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-    logger.info("Attack button after");
+
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");
-    // Perform boost logic here, like increasing health
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-    logger.info("Guard  button after");
+    // Perform Guard logic here, like increasing health
+
   }
   private void onCounter(Screen screen, ServiceContainer container) {
     logger.info("before Counter");
-    // Perform boost logic here, like increasing health
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-    logger.info("after Counter");
+    // Perform counter logic here.
   }
   /**
    * Called when the screen is disposed to free resources.
