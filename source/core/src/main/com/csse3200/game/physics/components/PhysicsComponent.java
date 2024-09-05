@@ -65,6 +65,16 @@ public class PhysicsComponent extends Component {
   }
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     body.setTransform(entity.getPosition(), 0f);
     body.setActive(true);

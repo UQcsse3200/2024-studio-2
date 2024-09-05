@@ -132,4 +132,14 @@ public class Terminal extends Component {
   public void setEnteredMessage(String text) {
     enteredMessage = text;
   }
+
+  @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
 }

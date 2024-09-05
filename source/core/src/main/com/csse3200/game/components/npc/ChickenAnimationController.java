@@ -11,6 +11,16 @@ public class ChickenAnimationController extends Component {
   AnimationRenderComponent animator;
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     super.create();
     // Get the AnimationRenderComponent associated with the entity and store it in the animator field

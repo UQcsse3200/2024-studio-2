@@ -24,6 +24,16 @@ public class TouchTerminalInputComponent extends InputComponent {
 
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     super.create();
     terminal = entity.getComponent(Terminal.class);

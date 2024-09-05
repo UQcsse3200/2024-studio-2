@@ -48,6 +48,16 @@ public class PlayerStatsDisplay extends UIComponent {
     public int maxExperience;
 
 
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
     /**
      * Initializes and adds actors (UI elements) to the stage.
      * Registers listeners for updating health, experience, and hunger.
@@ -174,56 +184,11 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
-        testFinalImplementation();
+
         // Add the table to the stage
         return true;
     }
-    public void testFinalImplementation() {
 
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                // Schedule frame updates with incrementally increasing delays
-                for (int i = maxHealth; i >= 0; i -= 10) {
-                    int finalI = i;
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            // Update the animation frames
-                            updatePlayerHealthUI(finalI);
-
-                        }
-                    }, (100 - finalI) * 0.1f);
-
-                    for (int j = maxExperience; j >= 0; j -= 10) {
-                        int finalJ = j;
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Update the animation frames
-
-                                updatePlayerExperienceUI(finalJ);
-
-                            }
-                        }, (100 - finalJ) * 0.1f);}
-
-                    for (int k = maxHunger; k >= 0; k -= 10) {
-                        int finalK = k;
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Update the animation frames
-
-                                updatePlayerHungerUI(finalK);
-                            }
-                        }, (100 - finalK) * 0.1f);}
-                    // Incremental delay in seconds
-                }
-                delayedActionDone = true;
-            }
-        }, 1); // Initial delay of 1 second
-    }
 
     @Override
     public void draw(SpriteBatch batch) {
