@@ -50,6 +50,8 @@ public class MainMenuDisplay extends UIComponent {
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
+    private boolean isNightMode = false; // A flag to track whether night mode is enabled
+    private Texture nightBackgroundTexture;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -77,6 +79,7 @@ public class MainMenuDisplay extends UIComponent {
         dog2Texture = new Texture("images/dog2.png");
         crocTexture = new Texture("images/croc.png");
         birdTexture = new Texture("images/bird.png");
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
     }
 
     /**
@@ -246,6 +249,8 @@ public class MainMenuDisplay extends UIComponent {
         // Formats height of buttons on screen
         sizeTable();
 
+        addTopLeftToggle();
+
         // Add the minimize button to the top-right corner
         addTopRightButtons();
         updateMuteButtonIcon();
@@ -256,6 +261,39 @@ public class MainMenuDisplay extends UIComponent {
 
         //Adds the user logo to program
         addUserTable();
+    }
+
+    private void addTopLeftToggle() {
+        Table topLeftTable = new Table();
+        topLeftTable.top().left();
+        topLeftTable.setFillParent(true);
+
+        TextButton nightToggleButton = new TextButton("Night Mode", skin);
+        nightToggleButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isNightMode = !isNightMode;
+                if (isNightMode) {
+                    nightToggleButton.setText("Day Mode");
+                    applyNightMode();
+                } else {
+                    nightToggleButton.setText("Night Mode");
+                    applyDayMode();
+                }
+            }
+        });
+
+        topLeftTable.add(nightToggleButton).size(150, 50).pad(10);
+
+        stage.addActor(topLeftTable);
+    }
+
+    private void applyNightMode() {
+        backgroundTexture = nightBackgroundTexture;
+    }
+
+    private void applyDayMode() {
+        backgroundTexture = new Texture("images/BackgroundSplash.png");
     }
 
     private void updateMuteButtonIcon() {
