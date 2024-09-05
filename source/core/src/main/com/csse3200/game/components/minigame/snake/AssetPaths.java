@@ -1,5 +1,7 @@
 package com.csse3200.game.components.minigame.snake;
 
+import com.csse3200.game.components.animal.AnimalSelectionActions;
+
 /**
  * Contains file paths for the assets used in the Snake mini-game,
  * including images for the apple, snake, and grid.
@@ -17,6 +19,8 @@ public class AssetPaths {
             GRASS_IMAGE,
             SNAKE_BODY_HORIZONTAL_IMAGE,
             SNAKE_BODY_VERTICAL_IMAGE,
-            SNAKE_BODY_BENT_IMAGE
+            SNAKE_BODY_BENT_IMAGE,
+            "images/PauseOverlay/TitleBG.png",
+            "images/PauseOverlay/Button.png"
     };
 }

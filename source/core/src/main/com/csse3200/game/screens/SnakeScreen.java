@@ -84,6 +84,9 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerTimeSource(new GameTime());
         ServiceLocator.registerEventService(new EventService());
 
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
+
         renderer = RenderFactory.createRenderer();
 
         // Sets the score
@@ -132,6 +135,9 @@ public class SnakeScreen extends ScreenAdapter {
      * @param delta Time in seconds since the last frame.
      */
     private void updateGame(float delta) {
+        if (resting) {
+            return;
+        }
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
             dispose();
@@ -273,13 +279,13 @@ public class SnakeScreen extends ScreenAdapter {
 
     public void rest() {
         logger.info("Screen is resting");
-        //gameArea.pauseMusic();
+        resting = true;
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
     public void wake() {
         logger.info("Screen is Awake");
-        //gameArea.playMusic();
+        resting = false;
         ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }
