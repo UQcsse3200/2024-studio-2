@@ -1,22 +1,14 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
-import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
-import com.csse3200.game.entities.factories.ObstacleFactory;
-import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.GridPoint2Utils;
-import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +23,7 @@ public class CombatArea extends GameArea {
             "images/box_boy_leaf.png",
             "images/tree.png",
             "images/ghost_king.png",
-            "images/final_boss_kangaroo.png",
+            "images/final_boss_kangaroo_idle.png",
             "images/Cow.png",
             "images/snake.png",
             "images/eagle.png",
@@ -75,28 +67,24 @@ public class CombatArea extends GameArea {
     private static final String[] heartbeatSound = {heartbeat};
     private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
     private static final String[] forestMusic = {backgroundMusic};
-    private final TerrainFactory terrainFactory;
-
-    private enum Turn { PLAYER, ENEMY }
-    private Turn currentTurn;
+    private final CombatTerrainFactory combatTerrainFactory;
     private Entity player;
     private Entity enemy;
-    private boolean isCombatEnd = false;
 
     /**
-     * Initialise this ForestGameArea to use the provided TerrainFactory and the enemy which player
+     * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
      * has engaged combat with.
      *
-     * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
+     * @param combatTerrainFactory CombatTerrainFactory used to create the terrain for the GameArea.
      * @requires terrainFactory != null
      */
     // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
     // Then this enemy can be spawned within this class in some function spawn_enemy()
-    public CombatArea(TerrainFactory terrainFactory, Entity player, Entity enemy) {
+    public CombatArea(CombatTerrainFactory combatTerrainFactory, Entity player, Entity enemy) {
         super();
-        this.terrainFactory = terrainFactory;
-        this.player = player;
-        this.enemy = enemy;
+        this.combatTerrainFactory = combatTerrainFactory;
+        //this.player = player;
+        //this.enemy = enemy;
     }
 
     /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -107,7 +95,6 @@ public class CombatArea extends GameArea {
         spawnTerrain();
         spawnPlayer();
         spawnCombatEnemy();
-        currentTurn = Turn.PLAYER;
         playMusic();
     }
 
@@ -120,7 +107,7 @@ public class CombatArea extends GameArea {
 
     private void spawnTerrain() {
         // Background terrain
-        terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, new GridPoint2(10, 10), new GridPoint2(5, 5));
+        terrain = combatTerrainFactory.createTerrain(TerrainType.FOREST_DEMO);
         spawnEntity(new Entity().addComponent(terrain));
 
     }
@@ -132,7 +119,11 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        spawnEntityAt(enemy, ENEMY_COMBAT_SPAWN, true, true);
+        Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
+        // Create in the world
+        spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
+        //return combatEnemyNPC;
+        //spawnEntityAt(enemy, ENEMY_COMBAT_SPAWN, true, true);
     }
 
     private void playMusic() {

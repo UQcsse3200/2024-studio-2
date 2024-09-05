@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
@@ -87,13 +88,13 @@ public class CombatScreen extends ScreenAdapter {
 
     loadAssets();
 
-    createUI();
+    //createUI();
 
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
-    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    this.gameArea = new CombatArea(terrainFactory, player, enemy);
+    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+    this.gameArea = new CombatArea(combatTerrainFactory, player, enemy);
     gameArea.create();
 
   }
