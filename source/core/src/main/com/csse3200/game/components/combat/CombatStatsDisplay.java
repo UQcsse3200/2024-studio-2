@@ -47,7 +47,6 @@ public class CombatStatsDisplay extends UIComponent {
     enemyMaxHealth = enemyStats.getMaxHealth();
     maxExperience = playerStats.getMaxExperience();
   }
-
   @Override
   public void create() {
     super.create();

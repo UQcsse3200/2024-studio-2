@@ -19,10 +19,12 @@ public class GameOverActions extends Component {
         this.game = game;
     }
 
+
     @Override
     public void create() {
         entity.getEvents().addListener("exit", this::onExit);
         entity.getEvents().addListener("achievements", this::onAchievements);
+        entity.getEvents().addListener("replay", this::onReplay);
     }
 
     /**
@@ -37,5 +39,8 @@ public class GameOverActions extends Component {
         logger.info("Launching achievements screen");
         game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
     }
-
+    private void onReplay() {
+        logger.info("Replay game - takes you to main game screen");
+        game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    }
 }

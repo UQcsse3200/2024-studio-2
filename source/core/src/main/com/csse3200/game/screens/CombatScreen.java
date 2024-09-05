@@ -5,13 +5,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.combat.*;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.combat.CombatStatsDisplay;
-import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -169,7 +166,11 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(playerCombatStats)
         .addComponent(enemyCombatStats)
-        .addComponent(new TerminalDisplay());
+        .addComponent(new TerminalDisplay())
+        .addComponent(new CombatButtonDisplay( oldScreen, oldScreenServices));
+
+       // .addComponent(new CombatActions(this.game));
+
 
     ServiceLocator.getEntityService().register(ui);
   }
