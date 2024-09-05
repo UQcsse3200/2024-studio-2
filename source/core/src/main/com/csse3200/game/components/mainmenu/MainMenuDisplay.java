@@ -556,11 +556,11 @@ public class MainMenuDisplay extends UIComponent {
 
         Label title = new Label("Settings", skin, "title");
 
-        topTable.add(title).expandX().center();
+        topTable.add(title).expandX().center().padTop(10);
         topTable.row();
 
         TextButton closeButton = new TextButton("X", skin);
-        topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
+        topTable.add(closeButton).size(40, 40).right().expandX().padRight(30).padTop(-30);
 
         settingsMenuDisplay = new SettingsMenuDisplay();
         Table contentTable = settingsMenuDisplay.makeSettingsTable();
@@ -570,7 +570,7 @@ public class MainMenuDisplay extends UIComponent {
         bottomRightTable.bottom(); // Align contents to bottom-right
 
         TextButton applyButton = new TextButton("Apply", skin);
-        bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
+        bottomRightTable.add(applyButton).size(80, 40).padBottom(30f).padRight(30f);
 
         settingMenu.add(topTable).expandX().fillX(); // Top-right table
         settingMenu.row().padTop(30f);
