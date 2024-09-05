@@ -14,14 +14,13 @@ import java.util.Objects;
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
-    private enum Turn { PLAYER, ENEMY }
+    private enum Turn { INIT, PLAYER, ENEMY }
     private Turn currentTurn;
+    public enum Action { ATTACK, GUARD, COUNTER };
     private final Entity player;
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
-    private int playerHealth;
-    private int enemyHealth;
     private boolean isCombatEnd = false;
 
     public CombatManager(Entity player, Entity enemy) {
@@ -31,51 +30,61 @@ public class CombatManager extends Component {
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
-        this.playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
-        this.enemyHealth = enemy.getComponent(CombatStatsComponent.class).getHealth();
-
-        this.currentTurn = Turn.PLAYER;
+        this.currentTurn = Turn.INIT;
     }
 
     /**
      * Player has clicked attack button to select 'attack' as their action.
      */
-    public void onAttackSelected() {
-        if (currentTurn == Turn.PLAYER && !isCombatEnd) {
-            handlePlayerTurn();
-            checkCombatEnd();
-            if (!isCombatEnd) {
-                switchToEnemyTurn();
-            }
-            // Update UI.
-        }
-    }
+    public void onAttackSelected()
+    {
+        checkTurn();
 
-    private void switchToEnemyTurn() {
-        currentTurn = Turn.ENEMY;
-        logger.info("Switching to Enemy Turn");
-        handleEnemyTurn();
+        if (currentTurn == Turn.PLAYER) {
+            enemyStats.hit(playerStats);
+        } else {
+            playerStats.hit(enemyStats);
+        }
+
         checkCombatEnd();
-        if (!isCombatEnd) {
-            currentTurn = Turn.PLAYER;
-            logger.info("Switching to Player Turn");
+
+        switchTurn();
+
+        if (currentTurn == Turn.PLAYER) {
+            enemyStats.hit(playerStats);
+        } else {
+            playerStats.hit(enemyStats);
+        }
+
+        checkCombatEnd();
+    }
+
+    /**
+     * Sets the current turn to whoever currently has the fastest speed stat.
+     */
+    private void checkTurn() {
+        if (playerStats.getSpeed() >= enemyStats.getSpeed()) {
+            this.currentTurn = Turn.PLAYER;
+        } else {
+            this.currentTurn = Turn.ENEMY;
         }
     }
 
-    private void handlePlayerTurn() {
-        enemyStats.hit(playerStats);
-    }
-
-    private void handleEnemyTurn() {
-        playerStats.hit(enemyStats);
+    /**
+     * Switches currentTurn to opposite of current currentTurn.
+     */
+    private void switchTurn() {
+        if (currentTurn == Turn.PLAYER) {
+            currentTurn = Turn.ENEMY;
+        } else {
+            currentTurn = Turn.PLAYER;
+        }
     }
 
     private void checkCombatEnd() {
-        if (playerHealth <= 0 || enemyHealth <= 0) {
+        if (playerStats.getHealth() <= 0 || enemyStats.getHealth() <= 0) {
             isCombatEnd = true;
             logger.info("Combat ended");
-            player.getComponent(CombatStatsComponent.class).setHealth(playerHealth);
-            enemy.getComponent(CombatStatsComponent.class).setHealth(enemyHealth);
         }
     }
 
