@@ -135,6 +135,9 @@ public class SnakeScreen extends ScreenAdapter {
         if (!snakeGame.getIsGameOver()) {
             snakeRenderer.render(snakeGame.getScore());
         }
+
+        stage.act(delta);   // Update the stage
+        stage.draw();       // Draw the UI (pause overlay)
     }
 
 
