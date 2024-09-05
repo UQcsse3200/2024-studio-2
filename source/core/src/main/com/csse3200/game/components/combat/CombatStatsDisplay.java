@@ -230,6 +230,23 @@ public class CombatStatsDisplay extends UIComponent {
     }
   }
 
+  /**
+   * Updates the experience animation and label in game to reflect current player experience
+   *  including the call to test functions for checking
+   * @param experience The current experience stat value of the player
+   */
+  public void updatePlayerExperienceUI(int experience) {
+    CharSequence text = String.format("EXP: %d", experience);
+    experienceLabel.setText(text);
+
+    int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
+    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+    String statName="experience";
+    testUpdatePlayerStatsUI(maxExperience, experience,statName );
+    // Set the current frame of the health bar animation
+    setNewFrame(frameIndex, xpBarAnimation, xpImage);
+  }
+
   @Override
   public void draw(SpriteBatch batch)  {
     int screenHeight = Gdx.graphics.getHeight();
