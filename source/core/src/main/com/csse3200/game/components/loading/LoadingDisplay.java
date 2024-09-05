@@ -28,6 +28,7 @@ public class LoadingDisplay extends UIComponent {
     private Table table;
     public ProgressBar progressBar;
     private Label loadingLabel;
+    private Label tipsLabel;
 
     private float progress;
     public LoadingDisplay() {
@@ -36,6 +37,7 @@ public class LoadingDisplay extends UIComponent {
         progressBar.setValue(0);
         progressBar.setColor(0.2f, 0.7f, 0.3f,1);
         loadingLabel = new Label("Loading..." + progress + "%", skin, "large-white");
+        tipsLabel = new Label("If you're having trobule winning in combat, try getting better at the game.", skin, "default-white");
     }
 
     @Override
@@ -49,9 +51,11 @@ public class LoadingDisplay extends UIComponent {
         table.setFillParent(true);
         table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/BackgroundSplashBasic.png"))));
 
-        table.add(loadingLabel).expandX().padTop(50);
+        table.add(loadingLabel).padTop(300);
         table.row();
         table.add(progressBar).width(300).padTop(20);
+        table.row();
+        table.add(tipsLabel).expandY().bottom().padBottom(30);
 
 
         stage.addActor(table);
