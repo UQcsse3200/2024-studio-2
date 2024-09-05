@@ -12,10 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testInitBarAnimation;
+import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testUpdatePlayerStatsUI;
 
 /**
  * Displays the name of the current game area.
@@ -37,6 +41,8 @@ public class CombatStatsDisplay extends UIComponent {
   private static Animation<TextureRegion> xpBarAnimation;
   private float barImageWidth;
   private float barImageHeight;
+  private  final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
+  private static int totalFrames = 11;
   private int playerMaxHealth;
   private int enemyMaxHealth;
   private int maxExperience;
@@ -136,14 +142,13 @@ public class CombatStatsDisplay extends UIComponent {
    */
   public void initBarAnimations() {
     float animationFrameRate = 0.66f;
-    int numberOfFrames = 11;
     int numberOfAtlases = 2;
 
     // Initialise textureAtlas for 2 bars
     textureAtlas = new TextureAtlas[numberOfAtlases];
     // HealthBar initialisation
     textureAtlas[0] = new TextureAtlas("spriteSheets/healthBars.txt");
-    TextureRegion[] healthBarFrames = new TextureRegion[numberOfFrames];
+    TextureRegion[] healthBarFrames = new TextureRegion[totalFrames];
     // Names each frame and locates associated frame in txt file
     for (int i = 0; i < healthBarFrames.length; i++) {
       String healthFrameNames = (100 - i * 10) + "%_health";
@@ -154,7 +159,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     // xpBar initialisation
     textureAtlas[1] = new TextureAtlas("spriteSheets/xpBars.atlas");
-    TextureRegion[] xpBarFrames = new TextureRegion[numberOfFrames];
+    TextureRegion[] xpBarFrames = new TextureRegion[totalFrames];
     // Names each frame and locates associated frame in txt file
     for (int i = 0; i < xpBarFrames.length; i++) {
       String xpFrameNames = (100 - (i * 10)) + "%_xp";
@@ -203,6 +208,26 @@ public class CombatStatsDisplay extends UIComponent {
     stage.addActor(enemyTable);
 
     return true;
+  }
+
+  /**
+   * Updates the health animation and label in game to reflect current player health
+   * including the call to test functions for checking
+   * @param health the current health stat value of the player
+   */
+  public void updatePlayerHealthUI(int health, int maxHealth, boolean isPlayer) {
+    CharSequence text = String.format("HP: %d", health);
+
+    int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
+    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+
+    if (isPlayer) {
+      playerHealthLabel.setText(text);
+      setNewFrame(frameIndex, playerHealthBarAnimation, playerHealthImage);
+    } else {
+      enemyHealthLabel.setText(text);
+      setNewFrame(frameIndex, enemyHealthBarAnimation, enemyHealthImage);
+    }
   }
 
   @Override
