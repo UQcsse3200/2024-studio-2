@@ -12,14 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testInitBarAnimation;
-import static com.csse3200.game.components.player.PlayerStatsDisplayTester.testUpdatePlayerStatsUI;
 
 /**
  * Displays the name of the current game area.
@@ -42,7 +38,7 @@ public class CombatStatsDisplay extends UIComponent {
   private float barImageWidth;
   private float barImageHeight;
   private  final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
-  private static int totalFrames = 11;
+  private static final int totalFrames = 11;
   private int playerMaxHealth;
   private int enemyMaxHealth;
   private int maxExperience;
@@ -184,7 +180,7 @@ public class CombatStatsDisplay extends UIComponent {
     statBar.setDrawable(new TextureRegionDrawable(currentFrame));
   }
 
-  private boolean addActors() {
+  private void addActors() {
     // Combat Table
     Label title = new Label("Combat Stats", skin, "title");
     title.setFontScale(1.2f);
@@ -215,8 +211,6 @@ public class CombatStatsDisplay extends UIComponent {
     updateHealthUI(playerStats.getHealth(), playerMaxHealth, true);
     updateHealthUI(enemyStats.getHealth(), enemyMaxHealth, false);
     updatePlayerExperienceUI(playerStats.getExperience());
-
-    return true;
   }
 
   /**
@@ -251,7 +245,6 @@ public class CombatStatsDisplay extends UIComponent {
     int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
     frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
     String statName="experience";
-    testUpdatePlayerStatsUI(maxExperience, experience,statName );
     // Set the current frame of the health bar animation
     setNewFrame(frameIndex, xpBarAnimation, xpImage);
   }
