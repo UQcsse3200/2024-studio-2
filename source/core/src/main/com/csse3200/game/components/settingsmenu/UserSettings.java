@@ -29,6 +29,7 @@ public class UserSettings {
     private static float lastSoundVolume = 1f;
     private static boolean isMuted = false;
 
+
     /**
      * Get the stored user settings
      * @return Copy of the current settings
@@ -162,6 +163,7 @@ public class UserSettings {
         public float audioScale = 100;
         public float soundScale = 100;
         public com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings displayMode = null;
+        public String selectedMusicTrack = "Track 1";
     }
 
     /**

@@ -22,6 +22,8 @@ public class AudioManager {
     private static float desiredMusicVolume = 1f;  // User-desired music volume
     private static float desiredSoundVolume = 1f;  // User-desired sound volume
 
+    private static Map<String, Music> musicTracks = new HashMap<>();
+
     /**
      * Play the specified sound at the current sound volume level, retrieved via ResourceService.
      * @param soundPath The path of the sound file to be played.

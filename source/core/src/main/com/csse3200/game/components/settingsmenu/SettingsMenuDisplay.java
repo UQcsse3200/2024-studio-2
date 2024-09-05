@@ -31,6 +31,7 @@ public class SettingsMenuDisplay extends UIComponent {
     private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
     private Label audioScaleValue;
     private Label soundScaleValue;
+    private SelectBox<String> musicSelectBox; // Declare as a class-level field
 
     public SettingsMenuDisplay() {
         super();
@@ -72,6 +73,14 @@ public class SettingsMenuDisplay extends UIComponent {
         audioScaleSlider.setValue(AudioManager.getDesiredMusicVolume() * 100);  // Set slider from AudioManager
         audioScaleValue = new Label(String.format("%d", (int) (AudioManager.getDesiredMusicVolume() * 100)), skin);
 
+        Label musicSelectLabel = new Label("Select Music:", skin);
+        musicSelectBox = new SelectBox<>(skin);  // Initialize the class-level field
+
+        // Add available music tracks (these should match the keys used in AudioManager)
+        musicSelectBox.setItems("Track 1", "Track 2"); // Example music track names
+        musicSelectBox.setSelected(settings.selectedMusicTrack);  // Set default selected track
+
+
         Label soundScaleLabel = new Label("Sound:", skin);
         soundScaleSlider = new Slider(0, 100, 1, false, skin);
         soundScaleSlider.setValue(AudioManager.getDesiredSoundVolume() * 100);  // Set slider from AudioManager
@@ -92,6 +101,12 @@ public class SettingsMenuDisplay extends UIComponent {
 
         // Position Components on table
         Table table = new Table();
+
+        table.row().padTop(10f);
+        table.add(musicSelectLabel).left().padRight(15f);
+        table.add(musicSelectBox).left().expandX();
+        table.row();
+
         Table audioScaleTable = new Table();
         audioScaleTable.add(audioScaleSlider).width(100).left();
         audioScaleTable.add(audioScaleValue).left().padLeft(5f).expandX();
@@ -135,6 +150,16 @@ public class SettingsMenuDisplay extends UIComponent {
                     AudioManager.setSoundVolume(value / 100f);  // Update AudioManager directly
                     return true;
                 });
+
+        musicSelectBox.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        settings.selectedMusicTrack = musicSelectBox.getSelected();
+                    }
+                }
+        );
+
 
 
         return table;
@@ -208,6 +233,7 @@ public class SettingsMenuDisplay extends UIComponent {
         settings.audioScale = audioScaleSlider.getValue();
         settings.soundScale = soundScaleSlider.getValue();
         settings.displayMode = new UserSettings.DisplaySettings(displayModeSelect.getSelected().object);
+        settings.selectedMusicTrack = musicSelectBox.getSelected();  // Save selected music track
         UserSettings.set(settings, true);
 
         AudioManager.setMusicVolume(settings.audioScale / 100f);
