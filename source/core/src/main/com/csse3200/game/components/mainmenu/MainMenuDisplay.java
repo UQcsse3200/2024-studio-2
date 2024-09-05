@@ -693,15 +693,10 @@ public class MainMenuDisplay extends UIComponent {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-                pixmap.setColor(Color.WHITE);
-                pixmap.fill();
-
-                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-                pixmap.dispose();
+                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
 
                 final Dialog dialog = new Dialog("", skin);
-                dialog.setBackground(dialogBackground);
+                dialog.setBackground(dialogBackground); // Set the background image
                 dialog.pad(40f);
                 dialog.setSize(500f, 300f);
                 dialog.setModal(true);
