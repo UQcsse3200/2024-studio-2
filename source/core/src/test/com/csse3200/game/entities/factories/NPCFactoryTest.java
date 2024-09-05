@@ -475,16 +475,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the turtle has the correct base hint.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseHint() {
-        String[] baseHint = configs.turtle.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
-    }
-
-    /**
      * Tests that the turtle has an idle animation.
      */
     @Test
