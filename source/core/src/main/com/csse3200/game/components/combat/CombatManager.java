@@ -6,46 +6,48 @@ import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  * Manages the turn-based combat loop and handles attacks
  */
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     private enum Turn { PLAYER, ENEMY }
     private Turn currentTurn;
     private final Entity player;
     private final Entity enemy;
-    int playerHealth;
-    int enemyHealth;
+    private final CombatStatsComponent playerStats;
+    private final CombatStatsComponent enemyStats;
+    private int playerHealth;
+    private int enemyHealth;
     private boolean isCombatEnd = false;
 
     public CombatManager(Entity player, Entity enemy) {
         this.player = player;
-        this.playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
         this.enemy = enemy;
+
+        this.playerStats = player.getComponent(CombatStatsComponent.class);
+        this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
+
+        this.playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
         this.enemyHealth = enemy.getComponent(CombatStatsComponent.class).getHealth();
+
         this.currentTurn = Turn.PLAYER;
     }
 
-    /** This function will be called from clicking combat buttons */
-    public void onPlayerTurnCompleted() {
+    /**
+     * Player has clicked attack button to select 'attack' as their action.
+     */
+    public void onAttackSelected() {
         if (currentTurn == Turn.PLAYER && !isCombatEnd) {
             handlePlayerTurn();
             checkCombatEnd();
             if (!isCombatEnd) {
                 switchToEnemyTurn();
             }
+            // Update UI.
         }
     }
 
@@ -61,13 +63,11 @@ public class CombatManager extends Component {
     }
 
     private void handlePlayerTurn() {
-        enemyHealth -= 10;
-        logger.info("Enemy health after player turn: {}", enemyHealth);
+        enemyStats.hit(playerStats);
     }
 
     private void handleEnemyTurn() {
-        playerHealth -= 10;
-        logger.info("Player health after enemy turn: {}", playerHealth);
+        playerStats.hit(enemyStats);
     }
 
     private void checkCombatEnd() {
@@ -78,4 +78,22 @@ public class CombatManager extends Component {
             enemy.getComponent(CombatStatsComponent.class).setHealth(enemyHealth);
         }
     }
+
+    public Entity getPlayer() {
+        return player;
+    }
+    public Entity getEnemy() {
+        return enemy;
+    }
+
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
 }
