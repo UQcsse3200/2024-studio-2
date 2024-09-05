@@ -329,6 +329,10 @@ public class MainMenuDisplay extends UIComponent {
         helpWindow.setResizable(true);
         helpWindow.setMovable(true);
 
+        // Set the background of the helpWindow using the settingBackground texture
+        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
+        helpWindow.setBackground(settingDrawable);
+
         // Create a table to hold all slides
         final Table slideTable = new Table();
         slideTable.setFillParent(true);
