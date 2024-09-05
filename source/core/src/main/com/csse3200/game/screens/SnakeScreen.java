@@ -128,7 +128,6 @@ public class SnakeScreen extends ScreenAdapter {
     public void render(float delta) {
         clearBackground();
 
-        ServiceLocator.getEntityService().update();
         renderer.render();
 
         updateGame(delta);
@@ -231,7 +230,7 @@ public class SnakeScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(new MainMenuScreen(game));
+                exitGame();
             }
         });
 
