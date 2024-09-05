@@ -138,7 +138,7 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 skyImage.setColor(Color.GREEN);
-                game.setScreen(new BirdyDashScreen(game));
+                game.setScreen(new BirdieDashScreen(game));
             }
         });
 
