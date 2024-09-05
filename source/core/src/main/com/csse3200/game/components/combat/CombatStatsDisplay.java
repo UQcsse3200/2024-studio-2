@@ -30,7 +30,7 @@ public class CombatStatsDisplay extends UIComponent {
   private Label playerHealthLabel;
   private Label enemyHealthLabel;
   private Label experienceLabel;
-  private TextureAtlas[] textureAtlases;
+  private TextureAtlas[] textureAtlas;
   private static Animation<TextureRegion> playerHealthBarAnimation;
   private static Animation<TextureRegion> enemyHealthBarAnimation;
   private static Animation<TextureRegion> xpBarAnimation;
@@ -126,6 +126,40 @@ public class CombatStatsDisplay extends UIComponent {
     enemyTable.add(enemyHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap).padTop(generalPadding);
     enemyTable.add(enemyHealthLabel).align(Align.left).padRight(generalPadding).padTop(generalPadding);
     return enemyTable;
+  }
+
+  /**
+   * Initializes the animations for the health, hunger, and experience bars.
+   * Each bar's animation consist of series of consecutive frames from a texture atlas given in the assets folder.
+   * The animations reflect the current status of the player's health, hunger, and experience.
+   */
+  public void initBarAnimations() {
+    float animationFrameRate = 0.66f;
+    int numberOfFrames = 11;
+    int numberOfAtlases = 2;
+
+    // Initialise textureAtlas for 2 bars
+    textureAtlas = new TextureAtlas[numberOfAtlases];
+    // HealthBar initialisation
+    textureAtlas[0] = new TextureAtlas("spriteSheets/healthBars.txt");
+    TextureRegion[] healthBarFrames = new TextureRegion[numberOfFrames];
+    // Names each frame and locates associated frame in txt file
+    for (int i = 0; i < healthBarFrames.length; i++) {
+      String healthFrameNames = (100 - i * 10) + "%_health";
+      healthBarFrames[i] = textureAtlas[0].findRegion(healthFrameNames);
+    }
+    playerHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
+    enemyHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
+
+    // xpBar initialisation
+    textureAtlas[1] = new TextureAtlas("spriteSheets/xpBars.atlas");
+    TextureRegion[] xpBarFrames = new TextureRegion[numberOfFrames];
+    // Names each frame and locates associated frame in txt file
+    for (int i = 0; i < xpBarFrames.length; i++) {
+      String xpFrameNames = (100 - (i * 10)) + "%_xp";
+      xpBarFrames[i] = textureAtlas[1].findRegion(xpFrameNames);
+    }
+    xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
   }
 
 
