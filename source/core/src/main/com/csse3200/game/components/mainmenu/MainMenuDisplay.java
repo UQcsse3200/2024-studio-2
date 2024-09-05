@@ -263,37 +263,56 @@ public class MainMenuDisplay extends UIComponent {
         addUserTable();
     }
 
+    /**
+     * Adds a toggle button to the top left corner of the screen that allows switching
+     * between Night Mode and Day Mode. The button changes its label based on the
+     * current mode (Night Mode or Day Mode).
+     */
     private void addTopLeftToggle() {
+        // Create a new Table to position the toggle button at the top left of the screen.
         Table topLeftTable = new Table();
         topLeftTable.top().left();
         topLeftTable.setFillParent(true);
 
+        // Create a toggle button with the initial label as "Night Mode".
         TextButton nightToggleButton = new TextButton("Night Mode", skin);
+
+        // Add a listener to handle button clicks and switch between Night and Day modes.
         nightToggleButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isNightMode = !isNightMode;
+                isNightMode = !isNightMode;  // Toggle the Night Mode state.
+
+                // Update the button text and apply the corresponding mode.
                 if (isNightMode) {
-                    nightToggleButton.setText("Day Mode");
-                    applyNightMode();
+                    nightToggleButton.setText("Day Mode");  // Change text to "Day Mode".
+                    applyNightMode();  // Apply Night Mode settings.
                 } else {
-                    nightToggleButton.setText("Night Mode");
-                    applyDayMode();
+                    nightToggleButton.setText("Night Mode");  // Change text to "Night Mode".
+                    applyDayMode();  // Apply Day Mode settings.
                 }
             }
         });
 
+        // Add the button to the top left table with size and padding.
         topLeftTable.add(nightToggleButton).size(150, 50).pad(10);
 
+        // Add the table to the stage to render it on the screen.
         stage.addActor(topLeftTable);
     }
 
+    /**
+     * Applies Night Mode by changing the background texture to the night version.
+     */
     private void applyNightMode() {
-        backgroundTexture = nightBackgroundTexture;
+        backgroundTexture = nightBackgroundTexture;  // Set the night mode background.
     }
 
+    /**
+     * Applies Day Mode by changing the background texture to the default day version.
+     */
     private void applyDayMode() {
-        backgroundTexture = new Texture("images/BackgroundSplash.png");
+        backgroundTexture = new Texture("images/BackgroundSplash.png");  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
