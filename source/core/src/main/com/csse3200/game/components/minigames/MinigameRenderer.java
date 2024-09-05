@@ -15,7 +15,7 @@ public class MinigameRenderer {
     private final static float DEFAULT_HEIGHT = 1200;
     private final SpriteBatch sb;
     private final OrthographicCamera cam;
-    private List<MinigameRenderable> renderables = new ArrayList<>();
+    private final List<MinigameRenderable> renderables = new ArrayList<>();
 
     public MinigameRenderer() {
         this.sb = new SpriteBatch();
