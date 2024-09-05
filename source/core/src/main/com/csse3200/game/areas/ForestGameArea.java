@@ -6,6 +6,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
@@ -20,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.ArrayList;
 import com.csse3200.game.entities.factories.ItemFactory;
+
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
@@ -255,7 +258,15 @@ public class ForestGameArea extends GameArea {
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
 //    music.play();
-    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
+    }
   }
   public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
@@ -274,7 +285,8 @@ public class ForestGameArea extends GameArea {
     for (String[] sounds : soundArrays) {
       resourceService.loadSounds(sounds);
     }
-    resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
+    //resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
