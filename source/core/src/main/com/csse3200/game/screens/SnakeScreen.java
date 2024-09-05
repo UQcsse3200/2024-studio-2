@@ -38,7 +38,7 @@ import com.csse3200.game.components.minigames.MiniGameNames;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents the screen for the Snake game.
@@ -55,24 +55,17 @@ public class SnakeScreen extends ScreenAdapter {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private Table exitButtonTable;
+    private final Table exitButtonTable;
 
     /**
      * Queue of currently enabled overlays in the game screen.
      */
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-    /**
-     * Flag indicating whether the game is currently paused.
-     */
-    private boolean isPaused = false;
+
     /**
      * Flag indicating whether the screen is in a resting state.
      */
     private boolean resting = false;
-    /**
-     * Map of active overlay types and their statuses.
-     */
-    private final Map<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 
@@ -163,39 +156,20 @@ public class SnakeScreen extends ScreenAdapter {
     }
 
     /**
-     * Resizes the renderer
+     * Resizes the elements on the screen including game elements, score board and exit button
      * @param width the width to resize to
      * @param height the height to resize to
      */
     @Override
     public void resize(int width, int height) {
-//        logger.trace("Resized renderer: ({} x {})", width, height);
-//        renderer.resize(width, height);
         stage.getViewport().update(width, height, true);
         float baseWidth = 1920f;
         float baseHeight = 1200f;
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
-//        stage.clear();
         setupExitButton();
         snakeRenderer.resize(width, height);
-    }
-
-    /**
-     * Game pause
-     */
-    @Override
-    public void pause() {
-        logger.info("Game paused");
-    }
-
-    /**
-     * Game resume
-     */
-    @Override
-    public void resume() {
-        logger.info("Game resumed");
     }
 
     /**
@@ -219,6 +193,9 @@ public class SnakeScreen extends ScreenAdapter {
         stage.dispose();
     }
 
+    /**
+     * Makes an exit button in the top right of the screen
+     */
     private void setupExitButton() {
         // Set up exit button
         exitButtonTable.clear();
@@ -278,18 +255,23 @@ public class SnakeScreen extends ScreenAdapter {
 
     /**
      * Handles player input for restarting or exiting the game.
-     *
-     * @return true if a screen change was triggered, false otherwise.
      */
     void restartGame() {
         dispose();
         game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
     }
 
+    /**
+     * Exits the game
+     */
     void exitGame() {
         game.setOldScreen(oldScreen, oldScreenServices);
     }
 
+    /**
+     * Adds the pause overlay
+     * @param overlayType the overlay type
+     */
     public void addOverlay(Overlay.OverlayType overlayType){
         logger.info("Adding Overlay {}", overlayType);
         if (enabledOverlays.isEmpty()) {
@@ -298,16 +280,16 @@ public class SnakeScreen extends ScreenAdapter {
         else {
             enabledOverlays.getFirst().rest();
         }
-        switch (overlayType) {
-            case PAUSE_OVERLAY:
-                enabledOverlays.addFirst(new PauseOverlay());
-                break;
-            default:
-                logger.warn("Unknown Overlay type: {}", overlayType);
-                break;
+        if (Objects.requireNonNull(overlayType) == Overlay.OverlayType.PAUSE_OVERLAY) {
+            enabledOverlays.addFirst(new PauseOverlay());
+        } else {
+            logger.warn("Unknown Overlay type: {}", overlayType);
         }
     }
 
+    /**
+     * Removes the pause overlay
+     */
     public void removeOverlay(){
         logger.debug("Removing top Overlay");
 
@@ -328,12 +310,18 @@ public class SnakeScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * rests the screen (when paused)
+     */
     public void rest() {
         logger.info("Screen is resting");
         resting = true;
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
+    /**
+     * Wakes the screen (when unpaused)
+     */
     public void wake() {
         logger.info("Screen is Awake");
         resting = false;
