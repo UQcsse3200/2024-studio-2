@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigame;
+package com.csse3200.game.rendering.minigames;
 
 public interface MinigameRenderable {
 
