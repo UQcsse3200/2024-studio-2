@@ -41,6 +41,7 @@ public class MiniGameMenuScreen implements Screen {
         this.game = game;
         this.scale = 1;
     }
+
     /**
      * Called when the screen is shown for the first time
      */
@@ -101,12 +102,10 @@ public class MiniGameMenuScreen implements Screen {
         skyButton.setPosition(skyX + 20 * scale, 200 * scale);
         waterButton.setPosition(waterX + 100 * scale, 200 * scale);
 
-
         // Position the exit button
         exitButton.setPosition(screenWidth - exitButton.getWidth() - 10 * scale, screenHeight - exitButton.getHeight() - 10 * scale);
         exitButton.setSize(exitButton.getWidth() * scale, exitButton.getHeight() * scale);
         exitButton.getLabel().setFontScale(scale);
-
 
         // Add actors to the stage
         stage.addActor(snakeImage);
@@ -172,7 +171,6 @@ public class MiniGameMenuScreen implements Screen {
         });
     }
 
-
     /**
      * Called every frame to render the screen
      * @param delta The time in seconds since the last render.
@@ -234,10 +232,7 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is hidden
      */
     @Override
-    public void hide() {
-        //dispose();
-    }
-
+    public void hide() { }
 
     /**
      *  Called to dispose of resources to prevent memory leaks
