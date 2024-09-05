@@ -8,6 +8,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
@@ -22,6 +23,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
@@ -168,6 +170,118 @@ public class EnemyFactory {
     return npc;
   }
 
+
+  /**
+   * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
+  public static Entity createKangaBossEntity(Entity target) {
+    Entity kangarooBoss = createBossNPC(target);
+    BaseEnemyEntityConfig config = configs.kangarooBoss;
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    kangarooBoss
+            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100))
+            .addComponent(animator)
+            .addComponent(new KangaBossAnimationController());
+
+    kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    kangarooBoss.scaleHeight(3.0f);
+
+    return kangarooBoss;
+  }
+
+  /**
+   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
+   * there is no chase task included. This is where abilities components will be added.
+   * loaded.
+   *
+   * @return entity
+   */
+  public static Entity createKangaBossCombatEntity() {
+    Entity kangarooBoss = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.kangarooBoss;
+
+    kangarooBoss
+            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
+            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+
+    kangarooBoss.scaleHeight(3.0f);
+
+    return kangarooBoss;
+  }
+
+  /**
+   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  private static Entity createBaseNPC(Entity target) {
+    AITaskComponent aiComponent =
+            new AITaskComponent()
+                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
+                    .addTask(new ChaseTask(target, 10, 3f, 4f, true));
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+  /**
+   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  public static Entity createBossNPC(Entity target) {
+    AITaskComponent aiComponent =
+            new AITaskComponent()
+                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
+                    .addTask(new ChaseTask(target, 10, 6f, 8f, true));
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+  /**
+   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  public static Entity createCombatBossNPC() {
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
+
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
   private EnemyFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
