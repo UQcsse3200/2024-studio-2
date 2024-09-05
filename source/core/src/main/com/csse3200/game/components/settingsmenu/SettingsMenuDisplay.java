@@ -67,7 +67,7 @@ public class SettingsMenuDisplay extends UIComponent {
         UserSettings.Settings settings = UserSettings.get();
 
         // Create components
-        Label audioScaleLabel = new Label("Audio:", skin);
+        Label audioScaleLabel = new Label("Background Music:", skin);
         audioScaleSlider = new Slider(0, 100, 1, false, skin);
         audioScaleSlider.setValue(AudioManager.getDesiredMusicVolume() * 100);  // Set slider from AudioManager
         audioScaleValue = new Label(String.format("%d", (int) (AudioManager.getDesiredMusicVolume() * 100)), skin);
