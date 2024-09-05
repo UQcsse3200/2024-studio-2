@@ -88,7 +88,7 @@ public class CombatScreen extends ScreenAdapter {
 
     loadAssets();
 
-    //createUI();
+    createUI();
 
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
@@ -170,8 +170,8 @@ public class CombatScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, this.enemy))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
-        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        //.addComponent(new CombatEnvironmentDisplay())
+        //.addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
