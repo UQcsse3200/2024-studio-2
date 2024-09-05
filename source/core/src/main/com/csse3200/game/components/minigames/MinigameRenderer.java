@@ -1,4 +1,4 @@
-package com.csse3200.game.rendering.minigames;
+package com.csse3200.game.components.minigames;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

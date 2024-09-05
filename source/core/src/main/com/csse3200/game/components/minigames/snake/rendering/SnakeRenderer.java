@@ -1,14 +1,11 @@
-package com.csse3200.game.components.minigame.snake.rendering;
+package com.csse3200.game.components.minigames.snake.rendering;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.MinigameRenderable;
-import com.csse3200.game.components.minigame.MinigameRenderer;
-import com.csse3200.game.components.minigame.snake.Snake;
-import com.csse3200.game.components.minigame.snake.SnakeGrid;
+import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.components.minigames.MinigameRenderable;
+import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.snake.Snake;
+import com.csse3200.game.components.minigames.snake.SnakeGrid;
 
 /**
  * Renders the snake and its segments on the grid in the Snake mini-game.

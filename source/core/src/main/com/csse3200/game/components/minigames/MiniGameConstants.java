@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigame;
+package com.csse3200.game.components.minigames;
 
 /**
  * Class to hold all medal constants for all Mini-games. Used for scoring and rewards.
@@ -21,9 +21,9 @@ public final class MiniGameConstants {
     /**
      * Flappy bird game GOLD, SILVER and BRONZE score thresholds
      */
-    public static final int FLAPPY_BIRD_GOLD_THRESHOLD = 6;
-    public static final int FLAPPY_BIRD_SILVER_THRESHOLD = 4;
-    public static final int FLAPPY_BIRD_BRONZE_THRESHOLD = 2;
+    public static final int BIRDY_DASH_GOLD_THRESHOLD = 6;
+    public static final int BIRDY_DASH_SILVER_THRESHOLD = 4;
+    public static final int BIRDY_DASH_BRONZE_THRESHOLD = 2;
 
     /**
      * Maze game GOLD, SILVER and BRONZE score thresholds

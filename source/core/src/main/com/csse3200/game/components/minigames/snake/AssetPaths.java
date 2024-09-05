@@ -1,6 +1,4 @@
-package com.csse3200.game.components.minigame.snake;
-
-import com.csse3200.game.components.animal.AnimalSelectionActions;
+package com.csse3200.game.components.minigames.snake;
 
 /**
  * Contains file paths for the assets used in the Snake mini-game,

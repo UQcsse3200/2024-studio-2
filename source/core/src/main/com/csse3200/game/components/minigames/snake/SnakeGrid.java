@@ -1,6 +1,6 @@
-package com.csse3200.game.components.minigame.snake;
+package com.csse3200.game.components.minigames.snake;
 
-import com.csse3200.game.components.minigame.Grid;
+import com.csse3200.game.components.minigames.Grid;
 
 /**
  * Represents a specialised grid for the Snake game.

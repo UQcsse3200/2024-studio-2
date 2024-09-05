@@ -1,14 +1,13 @@
-package com.csse3200.game.components.minigame.snake;
+package com.csse3200.game.components.minigames.snake;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import com.csse3200.game.components.minigame.Direction;
-import com.csse3200.game.components.minigame.snake.controller.Events;
-import com.csse3200.game.components.minigame.snake.controller.SnakeController;
+import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.components.minigames.snake.controller.Events;
+import com.csse3200.game.components.minigames.snake.controller.SnakeController;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

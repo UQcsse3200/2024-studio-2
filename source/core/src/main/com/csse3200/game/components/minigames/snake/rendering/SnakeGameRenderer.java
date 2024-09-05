@@ -1,13 +1,13 @@
-package com.csse3200.game.components.minigame.snake.rendering;
+package com.csse3200.game.components.minigames.snake.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.csse3200.game.components.minigame.MinigameRenderer;
-import com.csse3200.game.components.minigame.snake.AssetPaths;
-import com.csse3200.game.components.minigame.snake.SnakeGame;
+import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.snake.AssetPaths;
+import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.minigame.SnakeScoreBoard;
-import static com.csse3200.game.components.minigame.snake.AssetPaths.IMAGES;
+import com.csse3200.game.ui.minigames.SnakeScoreBoard;
+import static com.csse3200.game.components.minigames.snake.AssetPaths.IMAGES;
 
 /**
  * Renders all elements of the Snake mini-game, including the grid, apple, snake, and scoreboard.
@@ -17,10 +17,8 @@ public class SnakeGameRenderer {
     private final SnakeScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
-    //test
 
     private final MinigameRenderer renderer;
-
 
     /**
      * Initialises the SnakeGameRenderer and its sub-renderers.
@@ -51,11 +49,14 @@ public class SnakeGameRenderer {
         scoreBoard.updateScore(score);
     }
 
+    /**
+     * Resizes the screen
+     * @param width width of the screen
+     * @param height height of the screen
+     */
     public void resize(int width, int height) {
-
             renderer.resize(width, height);
             scoreBoard.resize(width, height);
-
     }
 
     /**
