@@ -23,27 +23,29 @@ public class BirdieDashScreen implements Screen {
     private Skin skin;
     private TextButton exitButton;
 
+    /**
+     * Constructor for BirdieDashScreen.
+     * @param game The game object to manage screens.
+     */
     public BirdieDashScreen(GdxGame game) {
         this.game = game;
     }
 
+    /**
+     * Called when this screen becomes the current screen.
+     */
     @Override
     public void show() {
         batch = new SpriteBatch();
         background = new Texture(Gdx.files.internal("images/minigames/snakebodyvertical.png"));
-
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
 
         exitButton = new TextButton("Exit", skin);
         exitButton.setSize(100, 50);
         exitButton.setPosition(Gdx.graphics.getWidth() - exitButton.getWidth() - 10, Gdx.graphics.getHeight() - exitButton.getHeight() - 10);
-
 
         exitButton.addListener(new ClickListener() {
             @Override
@@ -53,40 +55,58 @@ public class BirdieDashScreen implements Screen {
             }
         });
 
-
         stage.addActor(exitButton);
     }
 
+    /**
+     * Called every frame to render the screen.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
-
         stage.act(delta);
         stage.draw();
     }
 
+    /**
+     * Called when the screen is resized.
+     * @param width The new width of the screen.
+     * @param height The new height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Called when the application is paused.
+     */
     @Override
     public void pause() {}
 
+    /**
+     * Called when the application is resumed.
+     */
     @Override
     public void resume() {}
 
+    /**
+     * Called when this screen is no longer the current screen.
+     */
     @Override
     public void hide() {
         dispose();
     }
 
+    /**
+     * Cleans up resources when the screen is disposed.
+     */
     @Override
     public void dispose() {
         background.dispose();
