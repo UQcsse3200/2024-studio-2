@@ -50,9 +50,9 @@ public class CombatStatsDisplay extends UIComponent {
   public CombatStatsDisplay(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
     this.playerStats = playerStats;
     this.enemyStats = enemyStats;
-    //playerMaxHealth = playerStats.getMaxHealth();
-    //enemyMaxHealth = enemyStats.getMaxHealth();
-    //maxExperience = playerStats.getMaxExperience();
+    playerMaxHealth = playerStats.getMaxHealth();
+    enemyMaxHealth = enemyStats.getMaxHealth();
+    maxExperience = playerStats.getMaxExperience();
   }
 
   @Override
