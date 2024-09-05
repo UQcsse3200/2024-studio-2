@@ -118,8 +118,8 @@ public class MiniGameMenuScreen implements Screen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //dispose();
                 game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-                dispose();
             }
         });
 
@@ -214,7 +214,7 @@ public class MiniGameMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        //dispose();
     }
 
     @Override
