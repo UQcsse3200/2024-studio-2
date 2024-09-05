@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -162,7 +163,19 @@ public class CombatStatsDisplay extends UIComponent {
     xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
   }
 
-
+  /**
+   * Sets a new frame for a stat bar animation on the stage.
+   *
+   * @param frameIndex The index of the desired frame in the animation to be changed
+   * @param statBarAnimation The animation for the specific stat bar to be changed
+   * @param statBar image that stores the current frame on the stage for the stat bar.
+   */
+  public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
+    // Grab the desired frame at a specified frame rate
+    TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex * 0.066f);
+    // Replace the frame shown on the stage
+    statBar.setDrawable(new TextureRegionDrawable(currentFrame));
+  }
 
   private boolean addActors() {
     // Combat Table
