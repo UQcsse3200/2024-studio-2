@@ -12,6 +12,16 @@ import org.slf4j.LoggerFactory;
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
     private enum Turn { PLAYER, ENEMY }
     private Turn currentTurn;
     private final Entity player;
