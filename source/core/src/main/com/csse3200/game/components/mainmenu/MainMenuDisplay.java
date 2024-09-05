@@ -44,6 +44,12 @@ public class MainMenuDisplay extends UIComponent {
     private Button muteButton;  // Mute toggle button with texture
     private Texture muteTexture;  // Texture for mute state
     private Texture unmuteTexture;  // Texture for unmute state
+    private Texture dog2Texture;
+    private Texture crocTexture;
+    private Texture birdTexture;
+    private Image dog2Image;
+    private Image crocImage;
+    private Image birdImage;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -58,6 +64,7 @@ public class MainMenuDisplay extends UIComponent {
         userTableBackground = new Texture("images/UserTable.png");
         logger.info("Background texture loaded");
         addActors();
+        animateAnimals();
         applyUserSettings();
     }
 
@@ -67,6 +74,9 @@ public class MainMenuDisplay extends UIComponent {
     private void loadTextures() {
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
+        dog2Texture = new Texture("images/dog2.png");
+        crocTexture = new Texture("images/croc.png");
+        birdTexture = new Texture("images/bird.png");
     }
 
     /**
@@ -78,6 +88,42 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
+     * Animates the dog2, croc, and bird images to move across the screen repeatedly.
+     */
+    private void animateAnimals() {
+        float screenHeight = Gdx.graphics.getHeight();
+//
+//        // Use the generic method to animate each animal
+//        animateAnimal(dog2Image, screenHeight / 3, 10f);  // Dog moves in 10 seconds
+//        animateAnimal(crocImage, screenHeight / 2, 8f);   // Crocodile moves in 8 seconds
+        animateAnimal(birdImage, 2 * screenHeight / 3, 6f); // Bird moves in 6 seconds
+    }
+
+
+    /**
+     * Adds an animation to the specified animal image to move from left to right across the screen and repeat forever.
+     *
+     * @param image       The animal image to animate.
+     * @param startY      The starting Y position of the animal.
+     * @param moveTime    The time it takes for the animal to move across the screen.
+     */
+    private void animateAnimal(Image image, float startY, float moveTime) {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Set starting position (off-screen to the left)
+        image.setPosition(-image.getWidth(), startY);
+
+        // Animate the animal to move from left to right and repeat forever
+        image.addAction(Actions.forever(Actions.sequence(
+                Actions.moveTo(screenWidth, startY, moveTime),  // Move across the screen in moveTime seconds
+                Actions.moveTo(-image.getWidth(), startY)       // Reset position to the left
+        )));
+    }
+
+
+
+    /**
      * Adds all UI elements (buttons, labels, etc.) to the main menu.
      */
     private void addActors() {
@@ -86,6 +132,15 @@ public class MainMenuDisplay extends UIComponent {
 
         settingMenu = new Table();
         userTable = new Table();
+        // Create Image actors for the animals
+        //dog2Image = new Image(dog2Texture);
+        //crocImage = new Image(crocTexture);
+        birdImage = new Image(birdTexture);
+
+        // Add animal images to the stage
+        //stage.addActor(dog2Image);
+        //stage.addActor(crocImage);
+        stage.addActor(birdImage);
 
         // Initialises buttons
         TextButton startBtn = new TextButton("Start", skin);
@@ -664,6 +719,9 @@ public class MainMenuDisplay extends UIComponent {
     @Override
     public void dispose() {
         table.clear();
+        dog2Texture.dispose();
+        crocTexture.dispose();
+        birdTexture.dispose();
         super.dispose();
     }
 }
