@@ -98,6 +98,12 @@ public class AudioManager {
         }
     }
 
+    private static float scaleVolume(float input) {
+        // Apply quadratic scaling to make the volume change more gradual
+        return input * input;
+    }
+
+
     /**
      * Check if the audio is muted.
      * @return True if audio is muted, false otherwise.
@@ -123,7 +129,7 @@ public class AudioManager {
     public static void setMusicVolume(float volume) {
         desiredMusicVolume = volume;  // Always save the desired value
         if (!isMuted) {
-            musicVolume = volume;
+            musicVolume = (float) scaleVolume(volume);
             if (currentMusic != null) {
                 currentMusic.setVolume(musicVolume);
             }
@@ -138,7 +144,7 @@ public class AudioManager {
     public static void setSoundVolume(float volume) {
         desiredSoundVolume = volume;  // Always save the desired value
         if (!isMuted) {
-            soundVolume = volume;
+            soundVolume = (float)scaleVolume(volume);
             for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
                 entry.getKey().setVolume(entry.getValue(), soundVolume);
             }
