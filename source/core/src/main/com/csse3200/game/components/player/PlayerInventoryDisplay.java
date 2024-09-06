@@ -9,8 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -33,12 +32,15 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
-
-    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
-    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    private final Texture invbck =new Texture("Inventory/inventory.png");
-
     DialogueBox itemOverlay;
+    private boolean toggleHotbar = true;
+
+
+    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));//created by @PratulW5
+    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));//created by @PratulW5
+
+    PlayerInventoryHotbarDisplay hotbar;
+
 
 
 
@@ -60,6 +62,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
 
         this.inventory = new Inventory(capacity);
+        this.hotbar= new PlayerInventoryHotbarDisplay(5,inventory,this);
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];
@@ -80,6 +83,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
+        toggleHotbar();
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
@@ -93,6 +97,11 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    public void toggleHotbar() {
+        if (toggleHotbar) hotbar.disposeTable();
+        else hotbar.createHotbar();
+        toggleHotbar = !toggleHotbar;
+    }
     /**
      * Handles drawing of the component. The actual rendering is managed by the stage.
      *
@@ -162,16 +171,16 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param item  The item in the slot.
      * @param index The index of the slot in the inventory.
      */
-    private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
+    void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
                 disposeItemOverlay();
-                    String[] itemText = {item.getDescription() + ". Quantity: "
-                            + item.getQuantity() + "/" + item.getLimit()};
-                    itemOverlay = new DialogueBox(itemText);
+                String[] itemText = {item.getDescription() + ". Quantity: "
+                        + item.getQuantity() + "/" + item.getLimit()};
+                itemOverlay = new DialogueBox(itemText);
             }
 
             @Override
@@ -218,11 +227,14 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    private void regenerateInventory() {
+    void regenerateInventory() {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();
+
         }
+        toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
+        toggleHotbar();
     }
 
     /**

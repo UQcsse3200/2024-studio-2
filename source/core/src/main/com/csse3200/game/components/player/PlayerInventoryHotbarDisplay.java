@@ -3,171 +3,109 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * PlayerInventoryHotbarDisplay is a UI component that displays players quick selection panel for
- * better user interaction during gameplay
- * It creates a table of first n inventory slots that can display items, handle item usage,
- * and update dynamically when the inventory changes.
+ * UI component for displaying the player's quick-selection hotbar.
+ * It manages a table with a fixed number of inventory slots that display items,
+ * handle item usage, and update dynamically based on inventory changes.
  */
-
 public class PlayerInventoryHotbarDisplay extends UIComponent {
 
-    private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryHotbarDisplay.class);
-    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    private final Table table;
+
+    private final Skin skinSlots = new Skin(Gdx.files.internal("Inventory/skinforslot.json")); //created by @PratulW5
+    private final Table table = new Table();
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
-    private final int numberOfSlots;
-    private final Texture hotBarTexture;
-    private boolean toggleHotbar = true;
+    private final int hotBarCapacity;
+    private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
 
-    public PlayerInventoryHotbarDisplay(int hotBarCapacity, int capacity) {
-        if (hotBarCapacity < 1) {
-            throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
-        }
-        this.inventory = new Inventory(capacity);
-        this.hotBarTexture=new Texture("Inventory/hotbar.png");
+    private final PlayerInventoryDisplay playerInventoryDisplay;
 
+    /**
+     * Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.
+     *
+     * @param hotBarCapacity Number of slots in the hotbar
+     * @param inventory      Player's inventory
+     * @param playerInventoryDisplay Inventory display manager
+     */
+    public PlayerInventoryHotbarDisplay(int hotBarCapacity, Inventory inventory, PlayerInventoryDisplay playerInventoryDisplay) {
+        if (hotBarCapacity < 1) throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
+        this.inventory = inventory;
+        this.hotBarCapacity=hotBarCapacity;
+        this.playerInventoryDisplay = playerInventoryDisplay;
         this.hotBarSlots = new ImageButton[hotBarCapacity];
-        this.numberOfSlots = hotBarCapacity;
-        this.table = new Table();
         stage = ServiceLocator.getRenderService().getStage();
-
         createHotbar();
+    }
 
-    }
-    @Override
-    public void create() {
-        super.create();
-        entity.getEvents().addListener("toggleInventory", this::toggleInventoryhotbar);
-        entity.getEvents().addListener("addItem", this::addItem);
-    }
-    private void toggleInventoryhotbar() {
-        if (toggleHotbar) {
-            logger.debug("Inventory hotbar toggle off");
-            table.setVisible(false); // hide inventory
-            toggleHotbar = false;
-        } else {
-            logger.debug("Inventory hotbar toggled on.");
-            table.setVisible(true); // show inventory
-            stage.addActor(table); // ensure it's added to the stage
-            toggleHotbar = true;
-        }
-    }
-    private void regenerateInventory() {
-        if (toggleHotbar) {
-            toggleInventoryhotbar(); // Hacky way to regenerate inventory without duplicating code
-            toggleInventoryhotbar();
-        }
-    }
-    private void addItem(AbstractItem item) {
+    /**
+     * Toggles the visibility of the hotbar.
+     * If the hotbar is currently visible, it will be removed, and vice versa.
+     */
 
-        regenerateInventory();
-    }
+
     @Override
     protected void draw(SpriteBatch batch) {
-        // handled by stage
+        // Drawing is handled by the stage
     }
 
-    private void createHotbar() {
-        table.clear(); // Clear previous content
+    /**
+     * Creates the hotbar UI, populates it with slots, and positions it on the stage.
+     */
+    void createHotbar() {
+        table.clear();
         table.center().right();
-
-
-
-        // Use the full texture for the background
-        Drawable backgroundDrawable = new TextureRegionDrawable(hotBarTexture); // Use the full texture
-        // Set the full texture as the background
-        table.setBackground(backgroundDrawable);
-
-
-// Set the table size based on the full texture size
+        table.setBackground(new TextureRegionDrawable(hotBarTexture));
         table.setSize(160, 517);
-        for (int i = 0; i < numberOfSlots; i++) {
+
+        for (int i = 0; i < hotBarCapacity; i++) {
             AbstractItem item = inventory.getAt(i);
-
-            final ImageButton slot = new ImageButton(skinSlots);
-
+            ImageButton slot = new ImageButton(skinSlots);
             if (item != null) {
-                addSlotListeners(slot, item, i);
+                playerInventoryDisplay.addSlotListeners(slot, item, i);
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
-                slot.add(itemImage).center().size(75, 75); // Scale down slot content as well
+                slot.add(itemImage).center().size(75, 75);
             }
-
-            table.add(slot).size(80,80).pad(5).padRight(45); // Scale down slot size
-            table.row(); // Move to the next row after adding each slot
+            table.add(slot).size(80, 80).pad(5).padRight(45);
+            table.row();
             hotBarSlots[i] = slot;
         }
 
-        // Calculate the position to align the table to the right center
-        float tableX = stage.getWidth() - table.getWidth() - 20; // Align to the right with padding
-        float tableY = (stage.getHeight() - table.getHeight()) / 2; // Center vertically
-
-        table.setPosition(tableX, tableY); // Set the calculated position
-
+        float tableX = stage.getWidth() - table.getWidth() - 20;
+        float tableY = (stage.getHeight() - table.getHeight()) / 2;
+        table.setPosition(tableX, tableY);
         stage.addActor(table);
-    }
-
-
-
-    private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
-        slot.addListener(new InputListener() {
-            @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                // Handle mouse moved event
-                return true;
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // Handle exit event
-            }
-        });
-        slot.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Item {} was used", item.getName());
-                inventory.useItemAt(index, null);
-                regenerateInventory();
-            }
-        });
     }
 
     @Override
     public void dispose() {
         disposeSlots();
         disposeTable();
-
         super.dispose();
     }
 
-    private void disposeTable() {
-        if (table != null) {
-            table.clear();
-            table.remove();
-        }
+    /**
+     * Disposes of the table by clearing its contents and removing it from the stage.
+     */
+    void disposeTable() {
+        table.clear();
+        table.remove();
     }
 
+    /**
+     * Disposes of each slot in the hotbar by clearing and removing them.
+     */
     private void disposeSlots() {
-        for (int i = 0; i < numberOfSlots; i++) {
-            if (hotBarSlots[i] != null) {
-                hotBarSlots[i].clear();
-                hotBarSlots[i].remove();
-            }
+        for (ImageButton slot : hotBarSlots) {
+            slot.clear();
+            slot.remove();
         }
     }
 }
