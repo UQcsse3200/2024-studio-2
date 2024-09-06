@@ -25,15 +25,44 @@ public class DialogueBox {
     private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
     private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
-    private final Stage stage;
-    private final Label label;
-    private final Image backgroundImage;
-    private final TextButton forwardButton;
-    private final TextButton backwardButton;
+    private Stage stage;
+    private Label label;
+    private Image backgroundImage;
+    private TextButton forwardButton;
+    private TextButton backwardButton;
     private final int screenWidth = Gdx.graphics.getWidth();
 
     private String[] hints;
     private int currentHint;
+
+    /**
+     * Creates a new base DialogueBox with the given hint messages.
+     */
+    public DialogueBox(Stage stage) {
+        this.stage = stage;
+        dialogueBoxInitialisation(true);
+    }
+
+    public void dialogueBoxInitialisation(boolean hide) {
+        this.hints = new String[]{};
+        this.currentHint = 0;
+
+        this.backgroundImage = createBackgroundImage();
+        this.label = createLabel();
+        this.forwardButton = createForwardButton();
+        this.backwardButton = createBackwardButton();
+
+        if (hide) {
+            hideDialogueBox();
+        }
+
+        stage.addActor(backgroundImage);
+        stage.addActor(label);
+        stage.addActor(forwardButton);
+        stage.addActor(backwardButton);
+
+        addButtonListeners();
+    }
 
     /**
      * Creates a new DialogueBox with the given hint messages.
@@ -43,19 +72,7 @@ public class DialogueBox {
     public DialogueBox(String[] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.hints = labelText;
-        this.currentHint = 0;
-
-        this.backgroundImage = createBackgroundImage();
-        this.label = createLabel();
-        this.forwardButton = createForwardButton();
-        this.backwardButton = createBackwardButton();
-
-        stage.addActor(backgroundImage);
-        stage.addActor(label);
-        stage.addActor(forwardButton);
-        stage.addActor(backwardButton);
-
-        addButtonListeners();
+        dialogueBoxInitialisation(false);
     }
 
     /**
@@ -83,17 +100,25 @@ public class DialogueBox {
      * @return The Label instance.
      */
     private Label createLabel() {
-        Label label = new Label(hints[currentHint], SKIN, "default-white");
+        if (hints.length > 0) {
+            label = new Label(hints[currentHint], SKIN, "default-white");
+        } else {
+            label = new Label("", SKIN, "default-white");
+        }
         label.setFontScale(1.5f);
 
-        float labelWidth = label.getPrefWidth();
-        float labelHeight = label.getPrefHeight();
-        float labelX = backgroundImage.getX() + (backgroundImage.getWidth() - labelWidth) / 2;
-        float labelY = -220 + (backgroundImage.getHeight() - labelHeight) / 2;
-
-        label.setPosition(labelX, labelY);
+        updateLabelPosition();
 
         return label;
+    }
+
+    private void updateLabelPosition() {
+        float middle = stage.getWidth();
+        float labelWidth = label.getPrefWidth();
+        float labelHeight = label.getPrefHeight();
+        float labelX = (middle - labelWidth) / 2;
+        float labelY = -210 + (backgroundImage.getHeight() - labelHeight) / 2;
+        label.setPosition(labelX, labelY, Align.center);
     }
 
     /**
@@ -110,7 +135,7 @@ public class DialogueBox {
         float buttonWidth = forwardButton.getWidth();
         float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
-        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 275);
+        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 290);
 
         return forwardButton;
     }
@@ -128,7 +153,7 @@ public class DialogueBox {
         float buttonWidth = backwardButton.getWidth();
         float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
-        backwardButton.setPosition(centerX, label.getY() - 275);
+        backwardButton.setPosition(centerX, label.getY() - 290);
 
         return backwardButton;
     }
@@ -172,28 +197,56 @@ public class DialogueBox {
         });
     }
 
+    /**
+     * Returns the array of hint messages.
+     *
+     * @return An array of strings containing the hint messages.
+     */
     public String[] getHints() {
         return this.hints;
     }
 
+    /**
+     * Returns the index of the current hint being displayed.
+     *
+     * @return The index of the current hint.
+     */
     public int getCurrentHint() {
         return this.currentHint;
     }
 
+    /**
+     * Returns the Label object used for displaying hints.
+     *
+     * @return The Label instance for displaying hints.
+     */
     public Label getLabel() {
         return this.label;
     }
 
+    /**
+     * Handles the forward button click event to navigate to the next hint.
+     * Updates the label text to the next hint in the array and repositions the label.
+     */
     private void handleForwardButtonClick() {
-        currentHint = (currentHint + 1) % (hints.length);
+        currentHint = (currentHint + 1) % hints.length;
         label.setText(hints[currentHint]);
+        updateLabelPosition();
     }
 
+    /**
+     * Handles the backward button click event to navigate to the previous hint.
+     * Updates the label text to the previous hint in the array and repositions the label.
+     */
     private void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
         label.setText(hints[currentHint]);
+        updateLabelPosition();
     }
 
+    /**
+     * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
+     */
     public void hideDialogueBox() {
         if (backgroundImage != null) backgroundImage.setVisible(false);
         if (label != null) label.setVisible(false);
@@ -201,15 +254,28 @@ public class DialogueBox {
         if (backwardButton != null) backwardButton.setVisible(false);
     }
 
+    /**
+     * Displays the dialogue box with the provided hint messages.
+     * Sets the first hint message, shows all components (background image, label, and buttons),
+     * and resets the current hint index to 0.
+     *
+     * @param hints An array of strings containing the hint messages to display.
+     */
     public void showDialogueBox(String[] hints) {
         this.hints = hints;
-        this.label.setText(hints[0]);
+        this.currentHint = 0; // Reset to the first hint
+        this.label.setText(hints[currentHint]);
+        updateLabelPosition(); // Update position after setting text
         if (backgroundImage != null) backgroundImage.setVisible(true);
-        if (label != null) label.setVisible(true);
+        if (label != null) this.label.setVisible(true);
         if (forwardButton != null) forwardButton.setVisible(true);
         if (backwardButton != null) backwardButton.setVisible(true);
     }
 
+    /**
+     * Removes all components of the dialogue box from the stage.
+     * This should be called to clean up resources when the dialogue box is no longer needed.
+     */
     public void dispose() {
         if (backgroundImage != null) backgroundImage.remove();
         if (label != null) label.remove();
@@ -217,8 +283,20 @@ public class DialogueBox {
         if (backwardButton != null) backwardButton.remove();
     }
 
-    public TextButton getForwardButton() {return forwardButton;}
+    /**
+     * Returns the TextButton instance used for the "Continue" (forward) action.
+     *
+     * @return The TextButton instance for the forward button.
+     */
+    public TextButton getForwardButton() {
+        return forwardButton;
+    }
 
+    /**
+     * Returns the TextButton instance used for the "Back" (backward) action.
+     *
+     * @return The TextButton instance for the backward button.
+     */
     public TextButton getBackwardButton() {
         return backwardButton;
     }

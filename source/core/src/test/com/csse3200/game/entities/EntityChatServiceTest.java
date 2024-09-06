@@ -33,23 +33,21 @@ class EntityChatServiceTest {
         ServiceLocator.registerTimeSource(gameTime);
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
-        entityChatService = new EntityChatService();
-        ServiceLocator.registerEntityChatService(entityChatService);
 
         Stage stage = ServiceLocator.getRenderService().getStage();
-
+        entityChatService = new EntityChatService(stage);
+        ServiceLocator.registerEntityChatService(entityChatService);
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
 
         // Load all resources
         resourceService.loadAll();
-
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Test
     void hideChatBox() {
-        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
         entityChatService.updateText(new String[] {"1", "2"});
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
@@ -60,7 +58,7 @@ class EntityChatServiceTest {
 
     @Test
     void shouldCreateEntityChat() {
-        Assertions.assertNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
         entityChatService.updateText(new String[] {"1", "2"});
         Assertions.assertArrayEquals(new String[] {"1", "2"}, entityChatService.getHints());
     }

@@ -1,20 +1,31 @@
 package com.csse3200.game.entities;
 
 import com.csse3200.game.ui.DialogueBox;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.concurrency.JobSystem;
+import java.util.concurrent.CompletableFuture;
 
 public class EntityChatService {
     private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
-
     private DialogueBox currentOverlay;
     private String[] hints;
+    private boolean isVisible;
 
     /**
      * Create a new chat overlay with the given hint text.
      */
     public EntityChatService() {
         currentOverlay = null;
+        hints = null;
+    }
+
+    /**
+     * Create a new chat overlay with the given hint text.
+     */
+    public EntityChatService(Stage stage) {
+        currentOverlay = new DialogueBox(stage);
         hints = null;
     }
 
@@ -65,6 +76,7 @@ public class EntityChatService {
     public void updateText(String[] text) {
         hints = text;
         if (currentOverlay == null) {
+            // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
         } else {
             currentOverlay.showDialogueBox(text);
