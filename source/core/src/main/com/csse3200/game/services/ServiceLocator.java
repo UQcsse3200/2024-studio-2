@@ -25,10 +25,10 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-  private static DialogueBoxService entityChatService;
+  private static DialogueBoxService dialogueBoxService;
 
-  public static DialogueBoxService getEntityChatService() {
-    return entityChatService;
+  public static DialogueBoxService getDialogueBoxService() {
+    return dialogueBoxService;
   }
 
   public static EntityService getEntityService() {
@@ -62,7 +62,7 @@ public class ServiceLocator {
 
   public static void registerEntityChatService(DialogueBoxService service) {
     logger.debug("Registering entity chat service {}", service);
-    entityChatService = service;
+    dialogueBoxService = service;
   }
 
   public static void registerRenderService(RenderService service) {
@@ -98,7 +98,7 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
-    entityChatService = null;
+    dialogueBoxService = null;
   }
 
   private ServiceLocator() {

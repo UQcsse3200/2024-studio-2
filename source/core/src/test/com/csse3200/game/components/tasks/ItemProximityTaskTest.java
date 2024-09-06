@@ -88,7 +88,7 @@ public class ItemProximityTaskTest {
 
 
         // Check that the overlay was created
-        Assertions.assertTrue(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().isVisible());
     }
 
     @Test
@@ -107,6 +107,6 @@ public class ItemProximityTaskTest {
         task.update();
 
         // Check that the overlay was created
-        Assertions.assertFalse(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertFalse(ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().isVisible());
     }
 }

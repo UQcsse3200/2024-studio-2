@@ -125,7 +125,7 @@ public class NPCFactory {
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+    DialogueBoxService chatOverlayService = ServiceLocator.getDialogueBoxService();
     chatOverlayService.updateText(hintText);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
@@ -140,7 +140,7 @@ public class NPCFactory {
   }
 
   private static void endDialogue() {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+    DialogueBoxService chatOverlayService = ServiceLocator.getDialogueBoxService();
     chatOverlayService.hideCurrentOverlay();
   }
 
