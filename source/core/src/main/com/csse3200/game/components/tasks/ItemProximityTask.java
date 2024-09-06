@@ -4,6 +4,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

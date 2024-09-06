@@ -229,6 +229,7 @@ public class DialogueBox {
      * Updates the label text to the next hint in the array and repositions the label.
      */
     private void handleForwardButtonClick() {
+
         currentHint = (currentHint + 1) % hints.length;
         label.setText(hints[currentHint]);
         updateLabelPosition();

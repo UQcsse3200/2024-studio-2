@@ -2,6 +2,7 @@ package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.EntityChatService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
@@ -36,6 +37,8 @@ public class ItemProximityTaskTest {
         ServiceLocator.registerRenderService(renderService);
 
         Stage stage = ServiceLocator.getRenderService().getStage();
+        EntityChatService entityChatService = new EntityChatService(stage);
+        ServiceLocator.registerEntityChatService(entityChatService);
 
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
