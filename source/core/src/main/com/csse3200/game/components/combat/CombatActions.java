@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import static com.csse3200.game.entities.factories.EnemyFactory.FRIENDLY;
+
 
 import static com.csse3200.game.areas.ForestGameArea.enemies;
 
@@ -69,6 +71,7 @@ public class CombatActions extends Component {
     // Convert defeated enemy to a FriendlyNPC
     
     // TODO: Fix this so comment this out if need be
+    FRIENDLY = true;
     EntityConverter.convertToFriendly(enemy, player, enemies);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
