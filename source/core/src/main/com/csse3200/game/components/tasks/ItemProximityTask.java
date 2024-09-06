@@ -22,6 +22,7 @@ public class ItemProximityTask extends ProximityTask {
     private final AbstractItem item;
     private boolean itemPickedUp = false;
     DialogueBox itemOverlay;
+    private boolean hasApproached;
 
     public ItemProximityTask(Entity target,
                              int priority,
@@ -54,6 +55,28 @@ public class ItemProximityTask extends ProximityTask {
         this.target.getEvents().addListener("pickUpItem", this::addToInventory);
     }
 
+
+    /**
+     * Updates the task each frame. It checks the players proximity to the item and displays
+     * an overlay if the player is near. If the play moves away, the overlay is removed.
+     */
+    @Override
+    public void update() {
+        super.update();
+        if(isPlayerNearItem() && !this.hasApproached) {
+            this.hasApproached = true;
+            String[] itemText = {item.getDescription() + " - press P to pick it up."};
+            ServiceLocator.getEntityChatService().updateText(itemText);
+            ServiceLocator.getEntityChatService().getCurrentOverlay();
+        }
+
+        else if (!isPlayerNearItem() && this.hasApproached) {
+            this.hasApproached = false;
+            ServiceLocator.getEntityChatService().hideCurrentOverlay();
+
+        }
+    }
+
     /**
      *Adds the item to the players' inventory if they are near the item and haven't picked it up
      * Disposes of the item entity once it has been picked up and logs the event
@@ -67,9 +90,7 @@ public class ItemProximityTask extends ProximityTask {
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
                 logger.debug("I WAS DISPOSED OF!");
-                itemOverlay.dispose();
-                itemOverlay = null;
-
+                ServiceLocator.getEntityChatService().hideCurrentOverlay();
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
@@ -100,6 +121,14 @@ public class ItemProximityTask extends ProximityTask {
                 itemOverlay.dispose();
                 itemOverlay = null;
             }
+    }
+
+    /**
+     * Checks if the player is near the item using the distance between the item and the player
+     * @return true if the player is within the proximity threshold, false otherwise.
+     */
+    private boolean isPlayerNearItem() {
+        return target.getPosition().dst(owner.getEntity().getPosition()) <= proximityThreshold;
     }
 
     @Override
