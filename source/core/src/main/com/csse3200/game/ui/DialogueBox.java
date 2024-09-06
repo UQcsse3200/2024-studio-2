@@ -267,10 +267,12 @@ public class DialogueBox {
         this.currentHint = 0; // Reset to the first hint
         this.label.setText(hints[currentHint]);
         updateLabelPosition(); // Update position after setting text
+        if (hints.length > 1) {
+            if (forwardButton != null) forwardButton.setVisible(true);
+            if (backwardButton != null) backwardButton.setVisible(true);
+        }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);
-        if (forwardButton != null) forwardButton.setVisible(true);
-        if (backwardButton != null) backwardButton.setVisible(true);
     }
 
     /**
