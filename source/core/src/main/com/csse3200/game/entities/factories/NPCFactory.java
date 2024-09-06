@@ -16,7 +16,7 @@ import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -125,7 +125,9 @@ public class NPCFactory {
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    ServiceLocator.registerEntityChatService(new EntityChatService());
+    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.updateText(hintText);
+
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
         Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
@@ -135,13 +137,11 @@ public class NPCFactory {
       }
     }
 
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
   }
 
   private static void endDialogue() {
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.disposeCurrentOverlay();
+    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.hideCurrentOverlay();
   }
 
   /**
@@ -153,7 +153,7 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                    .addTask(new PauseTask(target, 10, 2f, 1f, false));
+                    .addTask(new PauseTask(target, 10, 2f, 1.2f, false));
 
     // Avoid all the enemies on the game
     for (Entity enemy : enemies) {

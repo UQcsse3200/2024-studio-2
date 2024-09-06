@@ -16,7 +16,7 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
@@ -97,9 +97,6 @@ public class MainGameScreen extends PausableScreen {
       ServiceLocator.registerEntityService(new EntityService());
       ServiceLocator.registerRenderService(new RenderService());
       //register the EntityChatService
-      ServiceLocator.registerEntityChatService(new EntityChatService());
-
-      ServiceLocator.registerEntityChatService(new EntityChatService());
 
       renderer = RenderFactory.createRenderer();
       renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -112,7 +109,11 @@ public class MainGameScreen extends PausableScreen {
           this.gameArea = new ForestGameArea(terrainFactory, game);
 
       gameArea.create();
-  }
+
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+
+    }
 
   /**
    * Renders the game screen and updates the physics engine, game entities, and renderer.

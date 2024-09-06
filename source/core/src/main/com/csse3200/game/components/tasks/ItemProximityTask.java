@@ -4,6 +4,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,6 @@ public class ItemProximityTask extends ProximityTask {
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
     private final AbstractItem item;
     private boolean itemPickedUp = false;
-    DialogueBox itemOverlay;
 
     public ItemProximityTask(Entity target,
                              int priority,
@@ -29,18 +29,6 @@ public class ItemProximityTask extends ProximityTask {
         super(target, priority, proximityThreshold);
         this.item = item;
         this.hasApproached = false;
-    }
-
-
-    /**
-     * Creates an overlay that displays item information and prompts the player to pick up the item.
-     * This method is called when the player is near the item.
-     */
-    private void createItemOverlay() {
-        if (this.itemOverlay == null) {
-            String[] itemText = {item.getDescription() + " - press P to pick it up."};
-            itemOverlay = new DialogueBox(itemText);
-        }
     }
 
     /**
@@ -66,9 +54,7 @@ public class ItemProximityTask extends ProximityTask {
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
                 logger.debug("I WAS DISPOSED OF!");
-                itemOverlay.dispose();
-                itemOverlay = null;
-
+                ServiceLocator.getEntityChatService().hideCurrentOverlay();
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
@@ -95,15 +81,13 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedAway() {
-        if (this.itemOverlay != null) {
-                itemOverlay.dispose();
-                itemOverlay = null;
-            }
+        ServiceLocator.getEntityChatService().hideCurrentOverlay();
     }
 
     @Override
     public void handleTargetMovedClose() {
-        createItemOverlay();
+        String[] itemText = {item.getDescription() + " - press P to pick it up."};
+        ServiceLocator.getEntityChatService().updateText(itemText);
     }
 
     /**
