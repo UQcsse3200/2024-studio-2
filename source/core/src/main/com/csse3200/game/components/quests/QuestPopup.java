@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,8 +18,6 @@ public class QuestPopup extends UIComponent {
     private boolean showing = false;
     /** Label for quest completion. */
     private Label questCompleted;
-    /** Event service for UI. */
-    private final EventService eventService = ServiceLocator.getEventService();
     /** Scale of font size. */
     private static final float FONTSCALE = 2f;
 
@@ -33,12 +29,11 @@ public class QuestPopup extends UIComponent {
     }
 
     /**
-     * Initializes the component and adds event listener.
+     * Initializes the component.
      */
     @Override
     public void create() {
         super.create();
-        eventService.getGlobalEventHandler().addListener("questCompleted", this::showQuestCompletedPopup);
         addActors();
     }
 

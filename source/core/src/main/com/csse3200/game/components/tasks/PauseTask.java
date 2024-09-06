@@ -12,7 +12,7 @@ public class PauseTask extends ChaseTask {
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
-    private BaseEntityConfig config;
+    private BaseFriendlyEntityConfig config;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -22,16 +22,15 @@ public class PauseTask extends ChaseTask {
      * @param viewDistance Maximum distance from the entity at which pausing can start.
      * @param maxPauseDistance Maximum distance from the entity to pause.
      */
-    public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance) {
-        super(target, priority, viewDistance, maxPauseDistance);
+    public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance, boolean isBoss) {
+        super(target, priority, viewDistance, maxPauseDistance, isBoss);
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
     }
 
     /**
-     * Starts the pause behavior by triggering the pause event
-     * and initializing any necessary components.
+     * Starts the pause behavior
      */
     @Override
     public void start() {
@@ -46,7 +45,7 @@ public class PauseTask extends ChaseTask {
      */
     protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
-        ConfigComponent<BaseEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
+        ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
 
@@ -59,6 +58,22 @@ public class PauseTask extends ChaseTask {
             entity.getEvents().trigger("PauseStart");
         }
     }
+
+    /**
+     * Triggers an event to end the pause behavior.
+     * If the entity has a config component, it fetches the dialogue or hint text
+     * associated with the entity to provide context for the pause event.
+     */
+    protected void triggerPauseEventEnd() {
+        if (this.config != null) {
+            String animalName = (config).getAnimalName();
+            String eventName = String.format("PauseEnd%s", animalName);
+            entity.getEvents().trigger(eventName);
+        } else {
+            entity.getEvents().trigger("pauseEnd");
+        }
+    }
+
 
     /**
      * Updates the pause behavior by checking the distance to the target entity
@@ -77,18 +92,20 @@ public class PauseTask extends ChaseTask {
             // NPC pauses when close enough to the target
             hasApproached = true;
             movementTask.stop();
-
-        } else if (hasApproached && distanceToTarget > 1.5f) {
-            // If the player moves out of viewDistance, the NPC stops but does not follow the player
-            this.hasApproached = false;
-            if (this.config != null) {
-                String animalName = (config).getAnimalName();
-                String eventName = String.format("PauseEnd%s", animalName);
-                entity.getEvents().trigger(eventName);
-            } else {
-                entity.getEvents().trigger("pauseEnd");
-            }
         }
+    }
+
+    /**
+     * Stops the pause behavior
+     */
+    @Override
+    public void stop() {
+        super.stop();
+        movementTask.start();
+
+        // Ensure the chat box doesn't hang around when its not supposed to
+        this.hasApproached = false;
+        triggerPauseEventEnd();
     }
 
     /**
@@ -117,6 +134,7 @@ public class PauseTask extends ChaseTask {
     protected int getActivePriority() {
         float distance = getDistanceToTarget();
         if (distance > getViewDistance() || !isTargetVisible()) {
+            this.hasApproached = false;
             return -1; // Too far or not visible, stop the task
         }
         return priority;
@@ -132,6 +150,7 @@ public class PauseTask extends ChaseTask {
     @Override
     protected int getInactivePriority() {
         float distance = getDistanceToTarget();
+
         if (distance < getViewDistance() && isTargetVisible()) {
             return priority;
         }

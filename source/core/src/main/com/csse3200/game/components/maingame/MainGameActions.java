@@ -4,7 +4,6 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,21 +21,46 @@ public class MainGameActions extends Component {
 
   @Override
   public void create() {
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 
   /**
    * Swaps to the Main Menu screen.
    */
-  private void onExit() {
+  public void onExit() {
     logger.info("Exiting main game screen");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
 
+  /**
+   * returns to an old screen
+   * @param screen Screen object to be returned to
+   * @param container ServiceContainer that contains all the services for the
+   *                  screen that is being returned to
+   */
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen");
     // change to new GDXgame function
     game.setOldScreen(screen, container);
+  }
+  
+  /**
+   * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
+   */
+  private void onCombatWin(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen after combat win.");
+    // Set current screen to original MainGameScreen
+    // game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+  }
+
+  /**
+   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
+   */
+  private void onCombatLoss(Screen screen, ServiceContainer container) {
+    logger.info("Returning to main game screen after combat loss.");
+    // Set current screen to original MainGameScreen
+    //game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
 }

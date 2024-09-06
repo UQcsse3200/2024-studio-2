@@ -21,15 +21,22 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   private MovementTask movementTask;
   private WaitTask waitTask;
   private Task currentTask;
+  private boolean isSpawned = false;
+  private final boolean isBoss;
 
   /**
    * @param wanderRange Distance in X and Y the entity can move from its position when start() is
    *     called.
    * @param waitTime How long in seconds to wait between wandering.
    */
-  public WanderTask(Vector2 wanderRange, float waitTime) {
+  public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
     this.wanderRange = wanderRange;
     this.waitTime = waitTime;
+    this.isBoss = isBoss;
+  }
+
+  public boolean isBoss() {
+    return isBoss;
   }
 
   @Override
@@ -37,26 +44,50 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     return 1; // Low priority task
   }
 
+  /**
+   * Checks if the entity has spawned yet, if not waits, else it wanders
+   */
   @Override
   public void start() {
     super.start();
     startPos = owner.getEntity().getPosition();
+    Vector2 newPos = getRandomPosInRange();
+      if (this.isBoss) {
+        // Wait for the spawn event to complete or for a specified duration before starting to wander
+        waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+        waitTask.create(owner);
+        movementTask = new MovementTask(getRandomPosInRange());
+        movementTask.create(owner);
+        movementTask.start();
 
-    waitTask = new WaitTask(waitTime);
-    waitTask.create(owner);
-    movementTask = new MovementTask(getRandomPosInRange());
-    movementTask.create(owner);
+        currentTask = movementTask;
 
-    movementTask.start();
-    currentTask = movementTask;
+        this.owner.getEntity().getEvents().trigger("kangaWanderStart");
+      } else if(!isSpawned) {
+          logger.debug("Triggering spawn event");
+          this.owner.getEntity().getEvents().trigger("spawnStart");
+          isSpawned = true;
 
-    this.owner.getEntity().getEvents().trigger("wanderStart");
+          // Wait for the spawn event to complete or for a specified duration before starting to wander
+          waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+          waitTask.create(owner);
+          swapTask(waitTask);
+      } else if (newPos.x - startPos.x < 0) {
+      logger.debug("wandering right");
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+    } else {
+      logger.debug("wandering left");
+      this.owner.getEntity().getEvents().trigger("wanderRight");
+    }
+      this.owner.getEntity().getEvents().trigger("wanderStart");
   }
 
   @Override
   public void update() {
     if (currentTask.getStatus() != Status.ACTIVE) {
-      if (currentTask == movementTask) {
+      if (currentTask == waitTask && isSpawned && !isBoss) {
+        startWandering();
+      } else if (currentTask == movementTask) {
         startWaiting();
       } else {
         startMoving();
@@ -65,14 +96,39 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     currentTask.update();
   }
 
+  private void startWandering() {
+    logger.debug("Starting wandering");
+    movementTask = new MovementTask(getRandomPosInRange());
+    movementTask.create(owner);
+    movementTask.start();
+    currentTask = movementTask;
+  }
+
   private void startWaiting() {
     logger.debug("Starting waiting");
+    waitTask = new WaitTask(waitTime);
+    waitTask.create(owner);
     swapTask(waitTask);
   }
 
   private void startMoving() {
+    Vector2 newPos = getRandomPosInRange();
+
+    if (isBoss) {
+        logger.debug("Starting moving");
+        movementTask.setTarget(getRandomPosInRange());
+        swapTask(movementTask);
+        return;
+    }
+
+    if (newPos.x - startPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("wanderRight");
+    }
     logger.debug("Starting moving");
-    movementTask.setTarget(getRandomPosInRange());
+
+    movementTask.setTarget(newPos);
     swapTask(movementTask);
   }
 

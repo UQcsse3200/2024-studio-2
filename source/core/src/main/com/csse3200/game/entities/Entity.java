@@ -28,7 +28,6 @@ public class Entity {
   private static final Logger logger = LoggerFactory.getLogger(Entity.class);
   private static int nextId = 0;
   private static final String EVT_NAME_POS = "setPosition";
-
   private final int id;
   private final IntMap<Component> components;
   private final EventHandler eventHandler;
@@ -38,7 +37,9 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
 
+
   public Entity() {
+
     id = nextId;
     nextId++;
 
@@ -60,6 +61,9 @@ public class Entity {
     }
   }
 
+  public boolean getEnabled(){
+    return enabled;
+  }
   /**
    * Get the entity's game position.
    *

@@ -41,6 +41,7 @@ public class AnimationRenderComponent extends RenderComponent {
   private Animation<TextureRegion> currentAnimation;
   private String currentAnimationName;
   private float animationPlayTime;
+  private boolean flipX = false;
 
   /**
    * Create the component for a given texture atlas.
@@ -119,6 +120,7 @@ public class AnimationRenderComponent extends RenderComponent {
    * @param name Name of the animation to play.
    */
   public void startAnimation(String name) {
+
     Animation<TextureRegion> animation = animations.getOrDefault(name, null);
     if (animation == null) {
       logger.error(
@@ -171,10 +173,18 @@ public class AnimationRenderComponent extends RenderComponent {
       return;
     }
     TextureRegion region = currentAnimation.getKeyFrame(animationPlayTime);
+    if (region.isFlipX() != flipX) {
+      region.flip(true, false);
+    }
+
     Vector2 pos = entity.getPosition();
     Vector2 scale = entity.getScale();
     batch.draw(region, pos.x, pos.y, scale.x, scale.y);
     animationPlayTime += timeSource.getDeltaTime();
+  }
+
+  public void setFlipX(boolean flipX) {
+    this.flipX = flipX;
   }
 
   @Override

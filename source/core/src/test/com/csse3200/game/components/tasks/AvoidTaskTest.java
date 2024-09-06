@@ -38,7 +38,7 @@ class AvoidTaskTest {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
 
-        AvoidTask avoidTask = new AvoidTask(target, 10, 5, 10);
+        AvoidTask avoidTask = new AvoidTask(target, 10, 5, 10, false);
         AITaskComponent ai = new AITaskComponent().addTask(avoidTask);
         Entity entity = makePhysicsEntity().addComponent(ai);
         entity.create();
@@ -64,7 +64,7 @@ class AvoidTaskTest {
         entity.create();
         entity.setPosition(0f, 0f);
 
-        AvoidTask avoidTask = new AvoidTask(target, 10, 5, 10);
+        AvoidTask avoidTask = new AvoidTask(target, 10, 5, 10, false);
         avoidTask.create(() -> entity);
 
         // Not currently active, target is too far, should have negative priority

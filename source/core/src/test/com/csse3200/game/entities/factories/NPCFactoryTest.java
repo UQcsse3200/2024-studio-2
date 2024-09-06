@@ -38,27 +38,26 @@ class NPCFactoryTest {
     private Entity eagle;
     private Entity turtle;
     private Entity snake;
+    private Entity kanga;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
-            "images/ghost.png",
-            "images/ghostKing.png",
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
             "images/eagle.png",
-            "images/turtle.png"
+            "images/turtle.png",
+            "images/final_boss_kangaroo.png"
     };
 
     private String[] atlas = {
-            "images/ghost.atlas",
-            "images/ghostKing.atlas",
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",
             "images/eagle.atlas",
-            "images/turtle.atlas"
+            "images/turtle.atlas",
+            "images/final_boss_kangaroo.atlas"
     };
 
 
@@ -142,24 +141,6 @@ class NPCFactoryTest {
     @Test
     void TestCowHasConfigComponent() {
         assertNotNull(cow.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the cow has the correct HP stat.
-     */
-    @Test
-    void TestCowHasCorrectHP() {
-        assertEquals(30, cow.getComponent(CombatStatsComponent.class).getHealth(),
-                "Cow should have 30 HP.");
-    }
-
-    /**
-     * Tests that the cow has the correct base attack stat.
-     */
-    @Test
-    void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Cow should have 0 Base Attack.");
     }
 
     /**
@@ -270,24 +251,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the lion has the correct HP stat.
-     */
-    @Test
-    void TestLionHasCorrectHP() {
-        assertEquals(40, lion.getComponent(CombatStatsComponent.class).getHealth(),
-                "Lion should have 40 HP.");
-    }
-
-    /**
-     * Tests that the lion has the correct base attack stat.
-     */
-    @Test
-    void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Lion should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the lion has the correct sound path.
      */
     @Test
@@ -392,24 +355,6 @@ class NPCFactoryTest {
     @Test
     void TestEagleHasConfigComponent() {
         assertNotNull(eagle.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the eagle has the correct HP stat.
-     */
-    @Test
-    void TestEagleHasCorrectHP() {
-        assertEquals(25, eagle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Eagle should have 25 HP.");
-    }
-
-    /**
-     * Tests that the eagle has the correct base attack stat.
-     */
-    @Test
-    void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Eagle should have 0 Base Attack.");
     }
 
     /**
@@ -519,24 +464,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the turtle has the correct HP stat.
-     */
-    @Test
-    void TestTurtleHasCorrectHP() {
-        assertEquals(20, turtle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Turtle should have 20 HP.");
-    }
-
-    /**
-     * Tests that the turtle has the correct base attack stat.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Turtle should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the turtle has the correct sound path.
      */
     @Test
@@ -544,16 +471,6 @@ class NPCFactoryTest {
         String[] sound = configs.turtle.getSoundPath();
         assertNotNull(sound);
         assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
-    }
-
-    /**
-     * Tests that the turtle has the correct base hint.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseHint() {
-        String[] baseHint = configs.turtle.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
     }
 
     /**
@@ -644,24 +561,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the snake has the correct HP stat.
-     */
-    @Test
-    void TestSnakeHasCorrectHP() {
-        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
-                "Snake should have 30 HP.");
-    }
-
-    /**
-     * Tests that the snake has the correct base attack stat.
-     */
-    @Test
-    void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Snake should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the snake has the correct sound path.
      */
     @Test
@@ -709,7 +608,4 @@ class NPCFactoryTest {
 
         assertEquals(pos, snake.getPosition());
     }
-
-    static class TestComponent1 extends Component {}
-
 }

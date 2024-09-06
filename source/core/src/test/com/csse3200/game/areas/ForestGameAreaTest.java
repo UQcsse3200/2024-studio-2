@@ -1,9 +1,7 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Gdx;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.CameraComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
