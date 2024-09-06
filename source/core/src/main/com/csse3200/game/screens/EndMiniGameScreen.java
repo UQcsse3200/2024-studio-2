@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,9 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.minigame.MiniGameConstants;
-import com.csse3200.game.components.minigame.MiniGameMedals;
-import com.csse3200.game.components.minigame.MiniGameNames;
+import com.csse3200.game.components.minigames.MiniGameConstants;
+import com.csse3200.game.components.minigames.MiniGameMedals;
+import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.services.ServiceContainer;
 
 /**
  * Makes a new screen when the snake game is over.
@@ -35,12 +37,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final BitmapFont font18;
     private final BitmapFont font26;
     private final BitmapFont font32;
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
 
-    public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName) {
+    public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
         this.score = score;
         this.gameName = gameName;
         this.scale = 1;
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -48,7 +54,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-        
+
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
@@ -71,7 +77,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(new MainMenuScreen(game));
+                game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
@@ -113,12 +119,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            game.setScreen(new SnakeScreen(game));
+            dispose();
+            game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-            game.setScreen(new MiniGameMenuScreen(game));
+            game.setOldScreen(oldScreen, oldScreenServices);
         }
     }
 
@@ -179,7 +186,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         tryAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SnakeScreen(game));
+                dispose();
+                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
             }
         });
 
@@ -192,7 +200,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(new MiniGameMenuScreen(game));
+                game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
@@ -219,9 +227,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
             }
             case BIRD -> {
-                bronzeThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+                bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
             }
             case MAZE -> {
                 bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
@@ -293,9 +301,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 goldMessage = "Snake king!";
             }
             case BIRD -> {
-                bronzeMedalThreshold = MiniGameConstants.FLAPPY_BIRD_BRONZE_THRESHOLD;
-                silverMedalThreshold = MiniGameConstants.FLAPPY_BIRD_SILVER_THRESHOLD;
-                goldMedalThreshold = MiniGameConstants.FLAPPY_BIRD_GOLD_THRESHOLD;
+                bronzeMedalThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+                silverMedalThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+                goldMedalThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
                 failMessage = "Bird message FAIL";
                 bronzeMessage = "Bird message BRONZE";
                 silverMessage = "Bird message SILVER";
@@ -333,7 +341,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font26.dispose();
         font32.dispose();
         stage.dispose();
-        skin.dispose(); 
+        skin.dispose();
     }
 
     /**
