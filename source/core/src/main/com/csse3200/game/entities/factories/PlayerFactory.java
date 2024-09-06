@@ -48,7 +48,8 @@ public class PlayerFactory {
                         .addComponent(new TerrainLoaderComponent())
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
-                        .addComponent(new PhysicsComponent())
+                        // Notify terrain component when moving
+                        .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
