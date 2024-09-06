@@ -260,3 +260,4 @@ public class SnakeScreen extends PausableScreen {
         game.setOldScreen(oldScreen, oldScreenServices);
     }
 }
+

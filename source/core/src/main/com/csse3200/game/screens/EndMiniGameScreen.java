@@ -54,7 +54,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-
+        
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
@@ -341,7 +341,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font26.dispose();
         font32.dispose();
         stage.dispose();
-        skin.dispose();
+        skin.dispose(); 
     }
 
     /**

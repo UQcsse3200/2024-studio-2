@@ -33,6 +33,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
+    DialogueBox itemOverlay;
+
 
     private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
