@@ -1,5 +1,4 @@
 package com.csse3200.game.components.player;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -53,7 +51,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
-
         this.inventory = new Inventory(capacity);
         this.hotbar= new PlayerInventoryHotbarDisplay(5,inventory,this);
         this.numCols = numCols;
@@ -115,35 +112,26 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.getTitleLabel().setStyle(titleStyle);
         table = new Table();
         window.getTitleTable().padBottom(20);
-
-
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
-
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(skinSlots);
-
-                // final ImageButton slot = new ImageButton(skin, "inventory-slot");
-
                 // Add the item image to the slot
                 if (item != null) {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(80, 80);
                 }
-
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
-
         // Add the table to the window
         window.add(table).expand().fill();
-
         window.pack();
         // Set position in stage top-center
         window.setPosition(
@@ -171,7 +159,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                         + item.getQuantity() + "/" + item.getLimit()};
                 itemOverlay = new DialogueBox(itemText);
             }
-
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 disposeItemOverlay();
@@ -220,7 +207,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();
-
         }
         else {
             hotbar.disposeTable();
