@@ -55,9 +55,9 @@ public class EnemyFactory {
   public static Entity createChicken(Entity target) {
 	  Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
 	  BaseEntityConfig config = NPCConfigs.chicken;
-	  
-	  TextureAtlas
-		  chickenAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-chicken.atlas", TextureAtlas.class);
+    
+    TextureAtlas chickenAtlas;
+                chickenAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-chicken.atlas", TextureAtlas.class);
 	  
 	  // TODO: Need to implement handling of the EnemyNPC becoming a FriendlyNPC (Shubh)
 	  

@@ -3,6 +3,7 @@ package com.csse3200.game.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -17,6 +18,8 @@ import com.csse3200.game.components.tasks.AvoidTask;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
+
+//import static com.csse3200.game.entities.factories.NPCFactory.init_animator;
 
 public class EntityConverter {
 	
@@ -42,14 +45,21 @@ public class EntityConverter {
 			enemy.addComponent(newAIComponent);
 		}
 		
-		// Update animation
-		AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
-		if (animator != null) {
-			TextureAtlas atlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
-			animator.stopAnimation();
-			animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-			enemy.addComponent(new FriendlyNPCAnimationController());
-		}
+		// Either get the position of the enemy and then delete it and spawn it in as an FNPC
+		// Try running the init_animator function from NPCFactory
+		
+
+		
+//		// Update animation
+//		AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
+//		if (animator != null) {
+//			//TextureAtlas atlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+//			animator.stopAnimation();
+//			animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+//			enemy.addComponent(new FriendlyNPCAnimationController());
+//		}
+		
+		
 		
 		// Adjust movement speed
 		PhysicsMovementComponent movement = enemy.getComponent(PhysicsMovementComponent.class);
@@ -57,9 +67,19 @@ public class EntityConverter {
 			movement.changeMaxSpeed(new Vector2(2f, 2f)); // Set to a friendlier, slower speed
 		}
 		
+		
+		// Attach config to the EnemyFactory so that the entity's sprite can be loaded in. Rn it's not attaching which is why i am having problems with asset loading and null
+		BaseEntityConfig config = (BaseEntityConfig) enemy.getComponent(ConfigComponent.class).getConfig();
+		
 		// Add friendly NPC specific components
-		BaseEntityConfig config = new BaseEntityConfig(); // Might want to create a specific config for converted entities
+		//BaseEntityConfig config = new BaseEntityConfig(); // Might want to create a specific config for converted entities
 		enemy.addComponent(new CombatStatsComponent(config.health, 0, 0, 0, 0, 0));
+		
+		
+		AnimationRenderComponent animator = new AnimationRenderComponent(
+				ServiceLocator.getResourceService()
+						.getAsset(config.getSpritePath(), TextureAtlas.class));
+		animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 		
 		// Register as a friendly NPC
 		NPCFactory.registerFriendlyNPC(enemy);
