@@ -1,12 +1,8 @@
 package com.csse3200.game.components.stats;
 
 import com.csse3200.game.components.Component;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.security.cert.Extension;
 import java.util.HashMap;
 
 /**
@@ -18,7 +14,6 @@ public class StatManager extends Component {
     /** Data structure for all stats, the string is the value returned by Stat.getStatName()
      */
     private final HashMap<String, Stat> stats;
-    private final EventService eventService = ServiceLocator.getEventService();
     private static final Logger logger = LoggerFactory.getLogger(StatManager.class);
 
     public StatManager() {
@@ -31,7 +26,6 @@ public class StatManager extends Component {
      */
     public void addStat(Stat stat) {
         stats.put(stat.getStatName(), stat);
-        eventService.getGlobalEventHandler().addListener(stat.getStatName(), this::updateStat);
     }
 
     /** Gets a Stat object from within the StatManager

@@ -10,8 +10,8 @@ import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.UIComponent;
 
 import java.util.Comparator;
@@ -25,10 +25,6 @@ import java.util.List;
  */
 public class QuestDisplay extends UIComponent {
     /**
-     * The event service used to handle events related to quest display.
-     */
-    EventService eventService = ServiceLocator.getEventService();
-    /**
      * The background table for UI elements.
      */
     private Table background;
@@ -36,6 +32,10 @@ public class QuestDisplay extends UIComponent {
      * The root table for UI elements.
      */
     private Table rootTable;
+    /**
+     * Screen that this
+     */
+    private MainGameScreen mainGameScreen;
 
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
@@ -56,8 +56,9 @@ public class QuestDisplay extends UIComponent {
         }
     };
 
-    public QuestDisplay() {
+    public QuestDisplay(MainGameScreen mainGameScreen) {
         super();
+        this.mainGameScreen = mainGameScreen;
     }
 
     @Override
@@ -213,7 +214,7 @@ public class QuestDisplay extends UIComponent {
      */
 
     private void exitMenu() {
-        eventService.getGlobalEventHandler().trigger("removeOverlay");
+        mainGameScreen.removeOverlay();
     }
 
     /**

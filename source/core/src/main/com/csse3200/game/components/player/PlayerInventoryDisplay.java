@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +33,15 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
+
     private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture invbck =new Texture("Inventory/inventory.png");
+
+    DialogueBox itemOverlay;
+
+
+
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -159,12 +166,17 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                return true;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //double calls when mouse held, to be fixed
+                disposeItemOverlay();
+                    String[] itemText = {item.getDescription() + ". Quantity: "
+                            + item.getQuantity() + "/" + item.getLimit()};
+                    itemOverlay = new DialogueBox(itemText);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                disposeItemOverlay();
             }
         });
 
@@ -221,6 +233,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
+        disposeItemOverlay();
         super.dispose();
     }
 
@@ -244,6 +257,16 @@ public class PlayerInventoryDisplay extends UIComponent {
             table.clear();
             table.remove();
             table = null;
+        }
+    }
+
+    /**
+     * Disposes of the inventory item overlay pop up.
+     */
+    private void disposeItemOverlay() {
+        if (itemOverlay != null) {
+            itemOverlay.dispose();
+            itemOverlay = null;
         }
     }
 

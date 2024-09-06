@@ -1,0 +1,13 @@
+{
+  "NUM_TREES" : 7,
+  "NUM_APPLES" : 25,
+  "NUM_HEALTH_POTIONS" : 25,
+  "NUM_CHICKENS" : 1,
+  "NUM_FROGS" : 2,
+  "NUM_MONKEYS" : 1,
+  "NUM_COWS" : 2,
+  "NUM_LIONS" : 1,
+  "NUM_TURTLES" : 2,
+  "NUM_EAGLES" : 1,
+  "NUM_SNAKES" : 2
+}

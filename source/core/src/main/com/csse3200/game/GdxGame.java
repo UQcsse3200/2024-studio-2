@@ -71,7 +71,6 @@ public class GdxGame extends Game {
     ServiceLocator.registerResourceService(container.getResourceService());
     ServiceLocator.registerEntityService(container.getEntityService());
     ServiceLocator.registerRenderService(container.getRenderService());
-    ServiceLocator.registerEventService(container.getEventService());
     screen.resume();
   }
 
@@ -123,34 +122,20 @@ public class GdxGame extends Game {
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    switch (screenType) {
-      case MAIN_MENU:
-        return new MainMenuScreen(this);
-      case MAIN_GAME:
-        return new MainGameScreen(this);
-      case SETTINGS:
-        return new SettingsScreen(this);
-        case COMBAT:
-            return new CombatScreen(this, screen, container, player, enemy);
-        case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, player, enemy);
-      case ACHIEVEMENTS:
-        return new AchievementsScreen(this);
-      case MINI_GAME_MENU_SCREEN:
-          return new MiniGameMenuScreen(this);
-      case LOADING_SCREEN:
-        return new LoadingScreen(this);
-      case ANIMAL_SELECTION:
-        return new AnimalSelectionScreen(this);
-      case GAME_OVER_WIN:
-        return new GameOverWinScreen(this);
-      case GAME_OVER_LOSE:
-        return new GameOverLoseScreen(this);
-
-
-      default:
-        return null;
-    }
+      return switch (screenType) {
+          case MAIN_MENU -> new MainMenuScreen(this);
+          case MAIN_GAME -> new MainGameScreen(this);
+          case SETTINGS -> new SettingsScreen(this);
+          case COMBAT -> new CombatScreen(this, screen, container, player, enemy);
+          case BOSS_CUTSCENE -> new BossCutsceneScreen(this, screen, container, player, enemy);
+          case ACHIEVEMENTS -> new AchievementsScreen(this);
+          case MINI_GAME_MENU_SCREEN -> new MiniGameMenuScreen(this);
+          case LOADING_SCREEN -> new LoadingScreen(this);
+          case ANIMAL_SELECTION -> new AnimalSelectionScreen(this);
+          case GAME_OVER_WIN -> new GameOverWinScreen(this);
+          case GAME_OVER_LOSE -> new GameOverLoseScreen(this);
+          default -> null;
+      };
   }
 
   /**

@@ -1,8 +1,10 @@
 package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +17,17 @@ import org.slf4j.LoggerFactory;
 
 public class PauseOverlay extends Overlay {
     private static final Logger logger = LoggerFactory.getLogger(PauseOverlay.class);
+    private MainGameScreen mainGameScreen;
+    private GdxGame game;
 
     /**
      * Constructs an overlay instance and initializes its UI components.
      */
-    public PauseOverlay() {
+    public PauseOverlay(MainGameScreen mainGameScreen, GdxGame game) {
         super(OverlayType.PAUSE_OVERLAY);
         logger.debug("Initialising PauseOverlay");
+        this.mainGameScreen = mainGameScreen;
+        this.game = game;
         createUI();
     }
 
@@ -57,7 +63,7 @@ public class PauseOverlay extends Overlay {
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
         super.add(ui);
-        ui.addComponent(new PauseDisplay()).addComponent(new InputDecorator(stage, 10));
+        ui.addComponent(new PauseDisplay(mainGameScreen, game)).addComponent(new InputDecorator(stage, 10));
         ServiceLocator.getEntityService().register(ui);
     }
 }
