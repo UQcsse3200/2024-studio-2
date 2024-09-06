@@ -23,15 +23,6 @@ public class MainGameActions extends Component {
     ServiceLocator.registerEventService(new EventService());
   }
 
-  @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
 
   @Override
   public void create() {

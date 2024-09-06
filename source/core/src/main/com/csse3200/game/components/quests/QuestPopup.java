@@ -32,16 +32,6 @@ public class QuestPopup extends UIComponent {
         this.entity.getEvents().addListener("questCompleted", this::showQuestCompletedPopup);
     }
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Initializes the component and adds event listener.
      */

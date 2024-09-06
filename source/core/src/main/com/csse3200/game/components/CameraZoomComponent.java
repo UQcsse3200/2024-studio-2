@@ -11,16 +11,6 @@ public class CameraZoomComponent extends Component {
     private CameraComponent cameraComponent;
 
     @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void create() {
         cameraComponent = entity.getComponent(CameraComponent.class);
         entity.getEvents().addListener("cameraZoom", this::zoom);

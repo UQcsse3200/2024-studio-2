@@ -35,23 +35,12 @@ public class CombatActions extends Component {
   }
 
 
-  @Override
-  public void render(float delta) {
-
-  }
-
   /**
    * Called when the screen is resized.
    *
    * @param width  The new width of the screen.
    * @param height The new height of the screen.
    */
-  @Override
-  public void resize(int width, int height) {
-    // Update the stage's viewport to the new screen size, centering the stage
-    stage.getViewport().update(width, height, true);
-  }
-
   @Override
   public void create() {
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);

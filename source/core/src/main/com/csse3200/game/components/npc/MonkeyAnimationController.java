@@ -11,16 +11,6 @@ public class MonkeyAnimationController extends Component {
   AnimationRenderComponent animator;
 
   @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
-
-  @Override
   public void create() {
     super.create();
     animator = this.entity.getComponent(AnimationRenderComponent.class);

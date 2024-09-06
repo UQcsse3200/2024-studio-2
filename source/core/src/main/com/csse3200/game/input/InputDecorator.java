@@ -55,13 +55,4 @@ public class InputDecorator extends InputComponent {
     return inputProcessor.touchUp(screenX, screenY, pointer, button);
   }
 
-  @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
 }
