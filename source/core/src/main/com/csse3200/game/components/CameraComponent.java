@@ -19,6 +19,16 @@ public class CameraComponent extends Component {
   }
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void update() {
     Vector2 position = entity.getCenterPosition();
     if (!lastPosition.epsilonEquals(entity.getCenterPosition())) {

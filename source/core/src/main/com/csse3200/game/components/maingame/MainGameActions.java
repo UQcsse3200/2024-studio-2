@@ -24,6 +24,16 @@ public class MainGameActions extends Component {
   }
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     ServiceLocator.registerEventService(new EventService());
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);

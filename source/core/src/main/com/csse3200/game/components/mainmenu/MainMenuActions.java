@@ -20,6 +20,16 @@ public class MainMenuActions extends Component {
   }
 
   @Override
+  public void render(float delta) {
+
+  }
+
+  @Override
+  public void resize(int width, int height) {
+
+  }
+
+  @Override
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
