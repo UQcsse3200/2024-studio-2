@@ -2,7 +2,6 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
@@ -11,7 +10,6 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
-import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 
