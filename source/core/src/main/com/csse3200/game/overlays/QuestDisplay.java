@@ -11,6 +11,7 @@ import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
@@ -35,7 +36,7 @@ public class QuestDisplay extends UIComponent {
     /**
      * Screen that this
      */
-    private MainGameScreen mainGameScreen;
+    private PausableScreen screen;
 
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
@@ -56,9 +57,9 @@ public class QuestDisplay extends UIComponent {
         }
     };
 
-    public QuestDisplay(MainGameScreen mainGameScreen) {
+    public QuestDisplay(PausableScreen screen) {
         super();
-        this.mainGameScreen = mainGameScreen;
+        this.screen = screen;
     }
 
     @Override
@@ -214,7 +215,7 @@ public class QuestDisplay extends UIComponent {
      */
 
     private void exitMenu() {
-        mainGameScreen.removeOverlay();
+        screen.removeOverlay();
     }
 
     /**

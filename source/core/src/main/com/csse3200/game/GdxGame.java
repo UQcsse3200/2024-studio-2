@@ -86,6 +86,10 @@ public class GdxGame extends Game {
     addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
   }
 
+  public void enterSnakeScreen() {
+    addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
+  }
+
   /**
    * Overloaded to add new combat screen
    * Changes to a new screen, does NOT dispose of old screen
@@ -122,20 +126,36 @@ public class GdxGame extends Game {
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-      return switch (screenType) {
-          case MAIN_MENU -> new MainMenuScreen(this);
-          case MAIN_GAME -> new MainGameScreen(this);
-          case SETTINGS -> new SettingsScreen(this);
-          case COMBAT -> new CombatScreen(this, screen, container, player, enemy);
-          case BOSS_CUTSCENE -> new BossCutsceneScreen(this, screen, container, player, enemy);
-          case ACHIEVEMENTS -> new AchievementsScreen(this);
-          case MINI_GAME_MENU_SCREEN -> new MiniGameMenuScreen(this);
-          case LOADING_SCREEN -> new LoadingScreen(this);
-          case ANIMAL_SELECTION -> new AnimalSelectionScreen(this);
-          case GAME_OVER_WIN -> new GameOverWinScreen(this);
-          case GAME_OVER_LOSE -> new GameOverLoseScreen(this);
-          default -> null;
-      };
+    switch (screenType) {
+      case MAIN_MENU:
+        return new MainMenuScreen(this);
+      case MAIN_GAME:
+        return new MainGameScreen(this);
+      case SETTINGS:
+        return new SettingsScreen(this);
+        case COMBAT:
+            return new CombatScreen(this, screen, container, player, enemy);
+        case BOSS_CUTSCENE:
+            return new BossCutsceneScreen(this, screen, container, player, enemy);
+      case ACHIEVEMENTS:
+        return new AchievementsScreen(this);
+      case MINI_GAME_MENU_SCREEN:
+          return new MiniGameMenuScreen(this);
+        case SNAKE_MINI_GAME:
+              return new SnakeScreen(this, screen, container);
+      case LOADING_SCREEN:
+        return new LoadingScreen(this);
+      case ANIMAL_SELECTION:
+        return new AnimalSelectionScreen(this);
+      case GAME_OVER_WIN:
+        return new GameOverWinScreen(this);
+      case GAME_OVER_LOSE:
+        return new GameOverLoseScreen(this);
+
+
+      default:
+        return null;
+    }
   }
 
   /**
@@ -143,7 +163,7 @@ public class GdxGame extends Game {
    */
   public enum ScreenType {
 
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME
 
   }
 
