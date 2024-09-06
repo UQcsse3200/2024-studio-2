@@ -36,7 +36,6 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table settingMenu;
-
     private Table userTable;
     private Table loginRegisterTable;
     private SettingsMenuDisplay settingsMenuDisplay;
