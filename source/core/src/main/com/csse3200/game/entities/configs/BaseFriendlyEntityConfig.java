@@ -10,7 +10,6 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int hunger = 100;
     private int baseAttack = 0;
     private int strength = 0;
-    private int defense = 0;
     private int speed = 1;
     private int experience = 100;
 
@@ -171,7 +170,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
 
     // Getter and setter for defense
     public int getDefense() {
-        return defense;
+        return this.defense;
     }
 
     public void setDefense(int defense) {

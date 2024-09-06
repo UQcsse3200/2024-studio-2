@@ -8,7 +8,6 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     private int hunger;
     private int baseAttack;
     private int strength;
-    private int defense;
     private int speed;
     private int experience;
 

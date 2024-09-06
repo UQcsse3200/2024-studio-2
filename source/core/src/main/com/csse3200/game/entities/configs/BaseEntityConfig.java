@@ -6,6 +6,8 @@ package com.csse3200.game.entities.configs;
 public class BaseEntityConfig {
     protected int isEnemy = 0;
     protected String spritePath;
+    protected int defense = 0;
+
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
     protected BaseEntityConfig() {}
