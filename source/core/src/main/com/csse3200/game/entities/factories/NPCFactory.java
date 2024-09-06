@@ -54,7 +54,7 @@ public class NPCFactory {
    * @param config  the specific configuration object.
    * @return entity
    */
-  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseEntityConfig config) {
+  private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseFriendlyEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
     AnimationRenderComponent animator = init_animator(config);
@@ -83,7 +83,7 @@ public class NPCFactory {
    * Creates a Cow NPC.
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
-    CowConfig config = configs.cow;
+    BaseFriendlyEntityConfig config = configs.cow;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -91,7 +91,7 @@ public class NPCFactory {
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
-    LionConfig config = configs.lion;
+    BaseFriendlyEntityConfig config = configs.lion;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -99,7 +99,7 @@ public class NPCFactory {
    * Creates a Turtle NPC.
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
-    TurtleConfig config = configs.turtle;
+    BaseFriendlyEntityConfig config = configs.turtle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -107,7 +107,7 @@ public class NPCFactory {
    * Creates an Eagle NPC.
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
-    EagleConfig config = configs.eagle;
+    BaseFriendlyEntityConfig config = configs.eagle;
     return createFriendlyNPC(target, enemies, config);
   }
 
@@ -115,11 +115,11 @@ public class NPCFactory {
    * Creates a Snake NPC.
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
-    SnakeConfig config = configs.snake;
+    BaseFriendlyEntityConfig config = configs.snake;
     return createFriendlyNPC(target, enemies, config);
   }
 
-  private static AnimationRenderComponent init_animator(BaseEntityConfig entity_config) {
+  private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
@@ -171,6 +171,7 @@ public class NPCFactory {
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
   }
+
 
     /**
      * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
@@ -286,6 +287,7 @@ public class NPCFactory {
 
 
     private NPCFactory() {
+
     throw new IllegalStateException("Instantiating static util class");
   }
 }

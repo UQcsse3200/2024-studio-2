@@ -188,6 +188,7 @@ public class ForestGameArea extends GameArea {
       spawnEntityOnMap(kangarooBoss);
       kangarooBossSpawned = true;
     }
+
   }
 
   private void spawnChicken() {

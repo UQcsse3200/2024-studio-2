@@ -1,7 +1,5 @@
 package com.csse3200.game.entities.configs;
 
-import java.util.Map;
-
 /**
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
@@ -17,26 +15,11 @@ public class BaseEntityConfig {
     public int baseDefense = 0;
     public String animalName = "";
     public int isEnemy = 0;
-
-    public Map<Integer, String[]> hints = null;
-    public int hintLevel = 0;
-    public int currentHint = 0;
-
-    protected String[] baseHint;
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
     protected BaseEntityConfig() {}
-    public String[] getStringHintLevel() {
-        return hints.get(hintLevel);
-    }
 
-    public void incrementHintLevel() {
-        if (hints != null && hintLevel < (hints.size() - 1)) {
-            hintLevel = hintLevel + 1;
-            restartCurrentHint();
-        }
-    }
 
 
 
@@ -67,43 +50,4 @@ public class BaseEntityConfig {
         return this.soundPath;
     }
 
-    /**
-     * Returns the health value of this entity.
-     *
-     * @return the health value as an int.
-     */
-    public int getHealth() {
-        return this.health;
-    }
-
-    /**
-     * Returns the name of the animal for this entity.
-     *
-     * @return the animal name as a String.
-     */
-    public String getAnimalName() {
-        return this.animalName;
-    }
-
-    /**
-     * Returns the base attack value of this entity.
-     *
-     * @return the base attack value as an int.
-     */
-    public int getBaseAttack() { return this.baseAttack; }
-
-    /**
-     * Returns the base hint messages for this entity.
-     *
-     * @return an array of String containing the base hints.
-     */
-    public String[] getBaseHint() {
-        return baseHint;
-    }
-
-    public void restartCurrentHint() {
-        if (hints != null) {
-            this.currentHint = 0;
-        }
-    }
 }
