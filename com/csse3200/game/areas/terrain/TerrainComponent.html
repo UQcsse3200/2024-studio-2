@@ -192,6 +192,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Fill a chunk with tiles if it is not already loaded.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;com.badlogic.gdx.math.GridPoint2&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getActiveChunks()" class="member-name-link">getActiveChunks</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="TerrainChunk.html" title="class in com.csse3200.game.areas.terrain">TerrainChunk</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getChunk(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getChunk</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLayer()" class="member-name-link">getLayer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -207,6 +213,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the bounds of the terrain map.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;com.badlogic.gdx.math.GridPoint2&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getNewChunks()" class="member-name-link">getNewChunks</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;com.badlogic.gdx.math.GridPoint2&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOldChunks()" class="member-name-link">getOldChunks</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileSize()" class="member-name-link">getTileSize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -222,13 +234,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Load all chunks around the given chunk position.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(int,int)" class="member-name-link">tileToWorldPosition</a><wbr>(int&nbsp;x,
- int&nbsp;y)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#loadChunks(com.badlogic.gdx.math.GridPoint2,int)" class="member-name-link">loadChunks</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos,
+ int&nbsp;r)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Load all chunks in a given radius (a square - not circle) around the given chunk position.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">tileToWorldPosition</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;tilePos)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(int,int)" class="member-name-link">tileToWorldPosition</a><wbr>(int&nbsp;x,
+ int&nbsp;y)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">tileToWorldPosition</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;tilePos)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -325,6 +343,43 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>chunkPos</code> - The position of the chunk to load around</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="loadChunks(com.badlogic.gdx.math.GridPoint2,int)">
+<h3>loadChunks</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadChunks</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos,
+ int&nbsp;r)</span></div>
+<div class="block">Load all chunks in a given radius (a square - not circle) around the given chunk position.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>chunkPos</code> - The position of the chunk to load around</dd>
+<dd><code>r</code> - The number of chunks away to spawn</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getChunk(com.badlogic.gdx.math.GridPoint2)">
+<h3>getChunk</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="TerrainChunk.html" title="class in com.csse3200.game.areas.terrain">TerrainChunk</a></span>&nbsp;<span class="element-name">getChunk</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getNewChunks()">
+<h3>getNewChunks</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;</span>&nbsp;<span class="element-name">getNewChunks</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getOldChunks()">
+<h3>getOldChunks</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;</span>&nbsp;<span class="element-name">getOldChunks</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getActiveChunks()">
+<h3>getActiveChunks</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;</span>&nbsp;<span class="element-name">getActiveChunks</span>()</div>
 </section>
 </li>
 <li>
