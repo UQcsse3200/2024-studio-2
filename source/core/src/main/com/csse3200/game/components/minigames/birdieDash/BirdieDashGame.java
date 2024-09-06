@@ -11,6 +11,8 @@ import java.util.List;
 
 public class BirdieDashGame {
 
+    private final int GAME_WIDTH = 1920;
+    private final int GAME_HEIGHT = 1200;
     // Initial speed of the game
     private final float START_SPEED = 60;
 
@@ -39,7 +41,7 @@ public class BirdieDashGame {
         List<Pipe> pipes = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             // Only need three pipes
-            pipes.add(new Pipe(400 + 300 * i, START_SPEED));
+            pipes.add(new Pipe(960 + 800 * i, START_SPEED));
         }
         return pipes;
     }

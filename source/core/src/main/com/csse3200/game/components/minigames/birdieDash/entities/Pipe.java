@@ -5,18 +5,18 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Random;
 
 public class Pipe{
-    private final int GAME_WIDTH = 800;
-    private final int GAME_HEIGHT = 600;
+    private final int GAME_WIDTH = 1920;
+    private final int GAME_HEIGHT = 1200;
 
     private Vector2 topPosition;
     private Vector2 bottomPosition;
 
     // Set width of pipe
-    private final float width = 150;
+    private final float width = 300;
     private float height;
-    private final float PIPE_GAP = 150;
-    private final float MIN_HEIGHT = 50;
-    private final float MAX_HEIGHT = 300;
+    private final float PIPE_GAP = 300;
+    private final float MIN_HEIGHT = 200;
+    private final float MAX_HEIGHT = 450;
 
     // Game physics
     private final float start_speed;
