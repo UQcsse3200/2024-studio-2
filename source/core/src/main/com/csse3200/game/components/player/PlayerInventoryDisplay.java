@@ -33,6 +33,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
     DialogueBox itemOverlay;
+
     private boolean toggleHotbar = true;
 
 
@@ -83,7 +84,9 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
+
         toggleHotbar();
+
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
@@ -233,8 +236,10 @@ public class PlayerInventoryDisplay extends UIComponent {
             toggleInventory();
 
         }
+
         toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
         toggleHotbar();
+
     }
 
     /**

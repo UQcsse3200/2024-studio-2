@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 
 /**
@@ -23,6 +24,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     private final Table table = new Table();
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
+
     private final int hotBarCapacity;
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
 
@@ -40,16 +42,17 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.inventory = inventory;
         this.hotBarCapacity=hotBarCapacity;
         this.playerInventoryDisplay = playerInventoryDisplay;
+
         this.hotBarSlots = new ImageButton[hotBarCapacity];
         stage = ServiceLocator.getRenderService().getStage();
         createHotbar();
+
     }
 
     /**
      * Toggles the visibility of the hotbar.
      * If the hotbar is currently visible, it will be removed, and vice versa.
      */
-
 
     @Override
     protected void draw(SpriteBatch batch) {
@@ -62,7 +65,9 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     void createHotbar() {
         table.clear();
         table.center().right();
+
         table.setBackground(new TextureRegionDrawable(hotBarTexture));
+
         table.setSize(160, 517);
 
         for (int i = 0; i < hotBarCapacity; i++) {
@@ -83,6 +88,8 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.setPosition(tableX, tableY);
         stage.addActor(table);
     }
+
+
 
     @Override
     public void dispose() {
