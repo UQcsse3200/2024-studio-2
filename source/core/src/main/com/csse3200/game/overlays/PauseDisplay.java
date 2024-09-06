@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -23,13 +24,13 @@ public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     private Table rootTable;
     private static final String BUTTONTEXTURE = "images/PauseOverlay/Button.png";
-    private MainGameScreen mainGameScreen;
+    private PausableScreen screen;
     private GdxGame game;
 
 
-    public PauseDisplay(MainGameScreen mainGameScreen, GdxGame game) {
+    public PauseDisplay(PausableScreen screen, GdxGame game) {
      super();
-     this.mainGameScreen = mainGameScreen;
+     this.screen = screen;
      this.game = game;
     }
 
@@ -110,11 +111,11 @@ public class PauseDisplay extends UIComponent {
     }
 
     private void exitOverlay() {
-        mainGameScreen.removeOverlay();
+        screen.removeOverlay();
     }
 
     private void openQuests() {
-        mainGameScreen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
+        screen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
     }
 
 
