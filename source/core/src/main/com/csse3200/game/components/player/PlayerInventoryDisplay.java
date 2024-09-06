@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.ui.DialogueBox;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +30,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
-    DialogueBox itemOverlay;
-    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));//created by @PratulW5
-    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));//created by @PratulW5
+    //created by @PratulW5:
+    private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
+    private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     PlayerInventoryHotbarDisplay hotbar;
 
     /**
@@ -103,7 +103,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     private void generateWindow() {
         // Create the window (pop-up)
-        window = new Window("Inventory",skininv);
+        window = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(window.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
         window.getTitleLabel().setAlignment(Align.center);
@@ -118,7 +118,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
-                final ImageButton slot = new ImageButton(skinSlots);
+                final ImageButton slot = new ImageButton(slotSkin);
                 // Add the item image to the slot
                 if (item != null) {
                     addSlotListeners(slot, item, index);
@@ -154,14 +154,13 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                disposeItemOverlay();
                 String[] itemText = {item.getDescription() + ". Quantity: "
                         + item.getQuantity() + "/" + item.getLimit()};
-                itemOverlay = new DialogueBox(itemText);
+                ServiceLocator.getEntityChatService().updateText(itemText);
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                disposeItemOverlay();
+                ServiceLocator.getEntityChatService().hideCurrentOverlay();
             }
         });
 
@@ -222,7 +221,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
-        disposeItemOverlay();
+//        disposeItemOverlay();
         super.dispose();
     }
 
@@ -246,16 +245,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             table.clear();
             table.remove();
             table = null;
-        }
-    }
-
-    /**
-     * Disposes of the inventory item overlay pop up.
-     */
-    private void disposeItemOverlay() {
-        if (itemOverlay != null) {
-            itemOverlay.dispose();
-            itemOverlay = null;
         }
     }
 
