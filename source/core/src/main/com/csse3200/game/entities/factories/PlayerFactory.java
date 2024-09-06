@@ -1,6 +1,5 @@
 package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerActions;
@@ -45,10 +44,10 @@ public class PlayerFactory {
 
         Entity player =
                 new Entity()
-                        .addComponent(new TerrainLoaderComponent())
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
-                        .addComponent(new PhysicsComponent())
+                        // Notify terrain component when moving
+                        .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
