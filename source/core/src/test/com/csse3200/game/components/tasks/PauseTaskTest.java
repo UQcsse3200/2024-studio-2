@@ -2,7 +2,6 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
@@ -55,13 +54,12 @@ class PauseTaskTest {
     @Test
     void shouldMoveTowardsTarget() {
         Entity target = new Entity();
-                target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
         NPCConfigs configs =
                 FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
         AITaskComponent ai = new AITaskComponent()
-                .addTask(new PauseTask(target, 10, 10, 5, false))
+                .addTask(new PauseTask(target, 10, 5, 2, false))
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
 
         Entity entity = new Entity()
@@ -89,7 +87,6 @@ class PauseTaskTest {
     @Test
     void shouldChaseOnlyWhenInDistance() {
         Entity target = new Entity();
-        target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
 
         NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");

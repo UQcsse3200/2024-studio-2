@@ -60,7 +60,7 @@ public class PlayerFactory {
           player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
         }
         else {
-          player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+          player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))

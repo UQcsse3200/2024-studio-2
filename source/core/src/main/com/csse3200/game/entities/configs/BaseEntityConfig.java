@@ -4,14 +4,13 @@ package com.csse3200.game.entities.configs;
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseEntityConfig {
-    public int isEnemy = 0;
+    protected int isEnemy = 0;
     protected String spritePath;
+    protected int defense = 0;
+
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
     protected BaseEntityConfig() {}
-
-
-
 
     /**
      * Returns the path to the sprite image for this entity.
@@ -20,6 +19,24 @@ public class BaseEntityConfig {
      */
     public String getSpritePath() {
         return this.spritePath;
+    }
+
+    /**
+     * Checks if the entity is friendly.
+     *
+     * @return true if the entity is friendly (isEnemy == 0), false otherwise.
+     */
+    public boolean isFriendly() {
+        return isEnemy == 0;
+    }
+
+    /**
+     * Sets the entity's friendly status.
+     *
+     * @param friendly true if the entity should be friendly (sets isEnemy to 0), false if the entity should be an enemy (sets isEnemy to 1).
+     */
+    public void setFriendly(boolean friendly) {
+        this.isEnemy = friendly ? 0 : 1;
     }
 
     /**
@@ -39,5 +56,4 @@ public class BaseEntityConfig {
     public String[] getSoundPath() {
         return this.soundPath;
     }
-
 }

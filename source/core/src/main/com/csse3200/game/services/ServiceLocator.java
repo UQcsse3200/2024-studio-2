@@ -1,7 +1,7 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
@@ -25,9 +25,9 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-  private static EntityChatService entityChatService;
+  private static DialogueBoxService entityChatService;
 
-  public static EntityChatService getEntityChatService() {
+  public static DialogueBoxService getEntityChatService() {
     return entityChatService;
   }
 
@@ -60,7 +60,7 @@ public class ServiceLocator {
     entityService = service;
   }
 
-  public static void registerEntityChatService(EntityChatService service) {
+  public static void registerEntityChatService(DialogueBoxService service) {
     logger.debug("Registering entity chat service {}", service);
     entityChatService = service;
   }
