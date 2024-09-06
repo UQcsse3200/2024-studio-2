@@ -27,6 +27,7 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,6 +43,15 @@ import java.util.List;
 public class EnemyFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
+
+  private static final List<CombatMove> moveSet = new ArrayList<>(
+          Arrays.asList(
+                  new AttackMove("Normal Attack", 10),
+                  new GuardMove("Normal Guard", 5),
+                  new CounterMove("Normal Counter", 15),
+                  new SpecialMove("Normal Special", 25)
+          )
+  );
 
   /**
    * types of enemies
@@ -72,7 +82,8 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience()))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -98,7 +109,8 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience()))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -131,7 +143,8 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience()))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
@@ -190,39 +203,13 @@ public class EnemyFactory {
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
-    List<CombatMove> moveSet = new ArrayList<>();
-    moveSet.add(new AttackMove("Punch Out", 10));
-    moveSet.add(new GuardMove("Kangaroo Guard", 5));
-    moveSet.add(new CounterMove("Swift Leap", 15));
-    moveSet.add(new SpecialMove("Boomerang Jab", 25));
-
     kangarooBoss
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience()))
             .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new KangaBossAnimationController());
 
     kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-    kangarooBoss.scaleHeight(3.0f);
-
-    return kangarooBoss;
-  }
-
-  /**
-   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-   * there is no chase task included. This is where abilities components will be added.
-   * loaded.
-   *
-   * @return entity
-   */
-  public static Entity createKangaBossCombatEntity() {
-    Entity kangarooBoss = createCombatBossNPC();
-    BaseEnemyEntityConfig config = configs.kangarooBoss;
-
-    kangarooBoss
-            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
-
     kangarooBoss.scaleHeight(3.0f);
 
     return kangarooBoss;
@@ -251,24 +238,6 @@ public class EnemyFactory {
     return npc;
   }
 
-  /**
-   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-  public static Entity createCombatBossNPC() {
-    Entity npc =
-            new Entity()
-                    .addComponent(new PhysicsComponent())
-                    .addComponent(new PhysicsMovementComponent())
-                    .addComponent(new ColliderComponent())
-                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
-
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
   private EnemyFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }

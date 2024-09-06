@@ -2,6 +2,7 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
@@ -22,6 +23,9 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory to create a player entity.
@@ -52,6 +56,15 @@ public class PlayerFactory {
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
+
+        List<CombatMove> moveSet = new ArrayList<>();
+        moveSet.add(new AttackMove("Punch", 10));
+        moveSet.add(new GuardMove("Guard", 5));
+        moveSet.add(new CounterMove("Leap", 15));
+        moveSet.add(new SpecialMove("Kick", 25));
+
+        player.addComponent(new CombatMoveComponent(moveSet));
+
         if (imagePath.equals("images/dog.png")) {
           player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
         } else if (imagePath.equals("images/croc.png")) {

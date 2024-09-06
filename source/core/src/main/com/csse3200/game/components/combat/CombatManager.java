@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat;
 
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ public class CombatManager extends Component {
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
+    private final CombatMoveComponent playerMove;
+    private final CombatMoveComponent enemyMove;
     private boolean isCombatEnd = false;
 
     public CombatManager(Entity player, Entity enemy) {
@@ -28,6 +31,9 @@ public class CombatManager extends Component {
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
+
+        this.playerMove = player.getComponent(CombatMoveComponent.class);
+        this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
 
         this.currentTurn = Turn.INIT;
 
@@ -45,9 +51,17 @@ public class CombatManager extends Component {
     {
         checkTurn();
         if (currentTurn == Turn.PLAYER) {
-            enemyStats.hit(playerStats);
+            if (playerMove != null) {
+                playerMove.executeMove(CombatMoveComponent.MoveAction.ATTACK, enemy);
+            } else {
+                logger.error("Player does not have a CombatMoveComponent.");
+            }
         } else {
-            playerStats.hit(enemyStats);
+            if (enemyMove != null) {
+                enemyMove.executeMove(CombatMoveComponent.MoveAction.ATTACK, player);
+            } else {
+                logger.error("Enemy does not have a CombatMoveComponent.");
+            }
         }
 
         checkCombatEnd();

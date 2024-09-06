@@ -128,16 +128,6 @@ public class CombatGameArea extends GameArea {
 //    return newPlayer;
 //  }
 
-  /** Spawn a combat enemy. Different to a regular enemy npc */
-  private void spawnCombatEnemy() {
-    // Create entity
-    // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
-    // planned functionality -- callumR
-    Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
-    // Create in the world
-    spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
-  }
-
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
