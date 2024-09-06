@@ -297,7 +297,7 @@ public class ForestGameArea extends GameArea {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
-  public void playMusic() {
+  public static void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
