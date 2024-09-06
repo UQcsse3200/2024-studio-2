@@ -191,10 +191,10 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     List<CombatMove> moveSet = new ArrayList<>();
-    moveSet.add(new AttackMove("Punch Out", 30, 10));
-    moveSet.add(new GuardMove("Kangaroo Guard", 20, 5));
+    moveSet.add(new AttackMove("Punch Out", 10));
+    moveSet.add(new GuardMove("Kangaroo Guard", 5));
     moveSet.add(new CounterMove("Swift Leap", 15));
-    moveSet.add(new SpecialMove("Boomerang Jab", 50, 25));
+    moveSet.add(new SpecialMove("Boomerang Jab", 25));
 
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100))

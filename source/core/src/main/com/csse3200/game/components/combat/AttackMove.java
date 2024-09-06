@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 public class AttackMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(AttackMove.class);
 
-    public AttackMove(String moveName, int damage, int energyCost) {
-        super(moveName, damage, energyCost);
+    public AttackMove(String moveName, int staminaCost) {
+        super(moveName, staminaCost);
     }
 
     @Override
@@ -18,13 +18,21 @@ public class AttackMove extends CombatMove {
         CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
 
         if (attackerStats != null && targetStats != null) {
-            // Apply the attacker's strength and move damage to the target's health
-            int totalDamage = Math.max(0, attackerStats.getStrength() + this.damage - targetStats.getDefense());
+            /*
+            The formula for determining the damage of an attack is as follows:
+                damage = ((m1*m2)/m3) * (A/D)
+            */
+            int m1 = 1; // damage multiplier for user's active buffs or debuffs (1.0 by default)
+            int m2 = 1; // damage multiplier for user's fatigue
+            int m3 = 1; // defense multiplier for opponent's move (0.35 for guard, 0.25 for counter, 0.2 otherwise)
+            int A = attackerStats.getStrength(); // user's strength stat
+            int D = targetStats.getDefense(); // opponent's defense stat
 
-            // Subtract health from the target
-            targetStats.addHealth(-totalDamage);
+            int damage = ((m1*m2)/m3) * (A/D);
 
-            logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, totalDamage);
+            targetStats.addHealth(-damage);
+
+            logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, damage);
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }

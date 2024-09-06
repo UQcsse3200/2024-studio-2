@@ -1,17 +1,14 @@
 package com.csse3200.game.components.combat;
 
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 
 public abstract class CombatMove {
     protected String moveName;
-    protected int damage;
-    protected int energyCost;
+    protected int staminaCost;
 
-    public CombatMove(String moveName, int damage, int energyCost) {
+    public CombatMove(String moveName, int staminaCost) {
         this.moveName = moveName;
-        this.damage = damage;
-        this.energyCost = energyCost;
+        this.staminaCost = staminaCost;
     }
 
     public abstract void execute(Entity attacker, Entity target);
@@ -20,11 +17,7 @@ public abstract class CombatMove {
         return moveName;
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public int getEnergyCost() {
-        return energyCost;
+    public int getStaminaCost() {
+        return staminaCost;
     }
 }
