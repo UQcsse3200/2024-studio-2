@@ -9,8 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -38,9 +37,9 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    private final Texture invbck =new Texture("Inventory/inventory.png");
+
     PlayerInventoryHotbarDisplay hotbar;
-    DialogueBox itemOverlay;
+
 
 
 
