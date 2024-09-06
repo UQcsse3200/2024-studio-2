@@ -35,9 +35,8 @@ public class LoadingDisplay extends UIComponent {
         progress = 0;
         progressBar = new ProgressBar(0, 100, 1, false, skin);
         progressBar.setValue(0);
-        progressBar.setColor(0.2f, 0.7f, 0.3f,1);
         loadingLabel = new Label("Loading..." + progress + "%", skin, "large-white");
-        tipsLabel = new Label("If you're having trobule winning in combat, try getting better at the game.", skin, "default-white");
+        tipsLabel = new Label("Tips: If you're having trobule winning in combat, try getting better at the game.", skin, "default-white");
     }
 
     @Override
@@ -49,9 +48,9 @@ public class LoadingDisplay extends UIComponent {
     private void addActors() {
         table = new Table();
         table.setFillParent(true);
-        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/BackgroundSplashBasic.png"))));
+        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/SplashScreen/SplashTitleNight.png"))));
 
-        table.add(loadingLabel).padTop(300);
+        table.add(loadingLabel).padTop(350);
         table.row();
         table.add(progressBar).width(300).padTop(20);
         table.row();

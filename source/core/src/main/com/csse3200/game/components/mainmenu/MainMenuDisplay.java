@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.DialogueBox;
@@ -35,10 +36,13 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table settingMenu;
+
     private Table userTable;
+    private Table loginRegisterTable;
     private SettingsMenuDisplay settingsMenuDisplay;
+    private LoginRegisterDisplay loginRegisterDisplay;
     private TextButton toggleWindowBtn;
-    private Texture backgroundTexture;
+    private Texture lightBackgroundTexture;
     private Texture settingBackground;
     private Texture userTableBackground;
     private Button muteButton;  // Mute toggle button with texture
@@ -61,9 +65,6 @@ public class MainMenuDisplay extends UIComponent {
         super.create();
         logger.info("Creating MainMenuDisplay");
         loadTextures();  // Load textures for the mute button
-        settingBackground = new Texture("images/SettingBackground.png");
-        backgroundTexture = new Texture("images/BackgroundSplash.png");
-        userTableBackground = new Texture("images/UserTable.png");
         logger.info("Background texture loaded");
         addActors();
         animateAnimals();
@@ -74,6 +75,9 @@ public class MainMenuDisplay extends UIComponent {
      * Load the textures for the mute and unmute button states.
      */
     private void loadTextures() {
+        settingBackground = new Texture("images/SettingBackground.png");
+        lightBackgroundTexture = new Texture("images/BackgroundSplash.png");
+        userTableBackground = new Texture("images/UserTable.png");
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
         dog2Texture = new Texture("images/dog2.png");
@@ -135,6 +139,7 @@ public class MainMenuDisplay extends UIComponent {
 
         settingMenu = new Table();
         userTable = new Table();
+        loginRegisterTable = new Table();
         // Create Image actors for the animals
         //dog2Image = new Image(dog2Texture);
         //crocImage = new Image(crocTexture);
@@ -261,6 +266,7 @@ public class MainMenuDisplay extends UIComponent {
 
         //Adds the user logo to program
         addUserTable();
+        addLoginRegisterTable();
     }
 
     /**
@@ -305,14 +311,14 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Night Mode by changing the background texture to the night version.
      */
     private void applyNightMode() {
-        backgroundTexture = nightBackgroundTexture;  // Set the night mode background.
+        lightBackgroundTexture = nightBackgroundTexture;  // Set the night mode background.
     }
 
     /**
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        backgroundTexture = new Texture("images/BackgroundSplash.png");  // Set the day mode background.
+        lightBackgroundTexture = new Texture("images/BackgroundSplash.png");  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
@@ -324,32 +330,54 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addUserTable() {
-
-        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(userTableBackground));
-
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
         userTable.setSize(122, 522);
 
-        userTable.setBackground(settingDrawable);
         userTable.setVisible(true);
 
         userTable.setPosition(screenWidth - 150, screenHeight - 600);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/UserIcon.png"))));
-        Button mailBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/MailIcon.png"))));
-        Button settingBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingIcon.png"))));
-        Button leaderboardBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/LeaderboardIcon.png"))));
         userTable.add(profileBtn).size(60, 60).top().padTop(30).expandY();
-        userTable.row();
-        userTable.add(mailBtn).size(50, 40).top().padTop(5).expandY();
-        userTable.row();
-        userTable.add(settingBtn).size(50, 50).top().padTop(5).expandY();
-        userTable.row();
-        userTable.add(leaderboardBtn).size(50, 50).top().padTop(5).expandY();
-        userTable.row();
+
+        profileBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                loginRegisterTable.setVisible(true);
+            }
+        });
 
         stage.addActor(userTable);
+    }
+
+    private void addLoginRegisterTable() {
+        loginRegisterDisplay = new LoginRegisterDisplay();
+        loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
+        loginRegisterTable.setVisible(false);
+        loginRegisterTable.setSize(663, 405);
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Center the menu on the screen
+        loginRegisterTable.setPosition(
+                (screenWidth - loginRegisterTable.getWidth()) / 2,
+                (screenHeight - loginRegisterTable.getHeight()) / 2
+        );
+
+        stage.addActor(loginRegisterTable);
+    }
+
+    public void updateLoginRegisterTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Center the menu on the screen
+        loginRegisterTable.setPosition(
+                (screenWidth - loginRegisterTable.getWidth()) / 2,
+                (screenHeight - loginRegisterTable.getHeight()) / 2
+        );
     }
 
     public void updateUserTable() {
@@ -603,7 +631,7 @@ public class MainMenuDisplay extends UIComponent {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        settingMenu.setSize(796, 486);
+        settingMenu.setSize(663, 405);
 
         settingMenu.setBackground(settingDrawable);
         settingMenu.setVisible(false);
@@ -611,13 +639,13 @@ public class MainMenuDisplay extends UIComponent {
         Table topTable = new Table();
         topTable.top().padTop(10);
 
-        Label title = new Label("Settings", skin, "title");
+        Label title = new Label("Settings", skin, "title-white");
 
-        topTable.add(title).expandX().center().padTop(10);
+        topTable.add(title).expandX().center().padTop(5);
         topTable.row();
 
-        TextButton closeButton = new TextButton("X", skin);
-        topTable.add(closeButton).size(40, 40).right().expandX().padRight(30).padTop(-30);
+        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
+        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
         settingsMenuDisplay = new SettingsMenuDisplay();
         Table contentTable = settingsMenuDisplay.makeSettingsTable();
@@ -762,7 +790,7 @@ public class MainMenuDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
