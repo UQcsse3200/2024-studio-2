@@ -87,8 +87,9 @@ public class BirdieDashGame {
     private void updateGamePosition(float dt) {
         changePipePosition(dt);
         bird.update(dt);
-        collisionHandler.checkCollisions();
         // Add all other change positions here e.g. bird, coins etc.
+
+        collisionHandler.checkCollisions();
     }
 
     /**

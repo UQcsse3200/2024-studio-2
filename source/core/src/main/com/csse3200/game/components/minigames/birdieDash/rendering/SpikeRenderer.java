@@ -2,6 +2,7 @@ package com.csse3200.game.components.minigames.birdieDash.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.csse3200.game.components.minigames.MinigameRenderable;
 import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
