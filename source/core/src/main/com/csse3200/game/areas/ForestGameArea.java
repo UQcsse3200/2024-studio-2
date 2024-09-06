@@ -9,16 +9,20 @@ import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
+import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.terrain.TerrainChunk;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.areas.terrain.TerrainLoader;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
@@ -31,6 +35,9 @@ public class ForestGameArea extends GameArea {
   private static final float WALL_WIDTH = 0.1f;
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
+  // private final List<Entity> staticItems;
+  private final Map<Integer, Entity> dynamicItems = new HashMap<>();
+  private int totalItems = 0;
   private Entity player;
 
   private final GdxGame game;
@@ -64,24 +71,63 @@ public class ForestGameArea extends GameArea {
     // Terrain
     spawnTerrain();
 
-    // Obstacles
-    spawnTrees();
-
     // Player
     player = spawnPlayer();
+    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+    TerrainLoader.setChunk(player.getPosition());
+
+    // Obstacles
+    spawnTrees();
 
     //Enemies
     spawnEnemies();
 
     // items
-    spawnItems();
+    handleItems();
 
     //Friendlies
     spawnFriendlyNPCs();
 
     playMusic();
+    player.getEvents().addListener("setPosition", this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
+  }
+
+  private void handleNewChunks(Vector2 playerPos) {
+    if (TerrainLoader.movedChunk(playerPos)) {
+      logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
+      handleItems();
+//     TerrainComponent.loadChunks(playerPos);
+//     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+//     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
+    }
+  }
+
+  private void handleItems() {
+    // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
+    for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
+      spawnItems(TerrainLoader.chunktoWorldPos(pos));
+    }
+
+    // Despawn items on old chunks:
+    // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
+    //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
+    //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
+    //  ONTO THE CHUNK)
+    List<Integer> removals = new ArrayList<>();
+    for (int key : dynamicItems.keySet()) {
+      GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
+      if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+        removals.add(key);
+      }
+    }
+
+    for (int i : removals) {
+      dynamicItems.remove(i);
+    }
   }
 
   /**
@@ -166,16 +212,16 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(entity, randomPos, true, true);
   }
 
-  private void spawnItems() {
+  private void spawnItems(GridPoint2 pos) {
     Supplier<Entity> generator;
 
     // Health Potions
     generator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(generator, config.spawns.NUM_HEALTH_POTIONS);
+    spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
 
     // Apples
     generator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(generator, config.spawns.NUM_APPLES);
+    spawnRandomItem(pos, generator, config.spawns.NUM_APPLES);
   }
 
   private void spawnEnemies() {
@@ -218,14 +264,16 @@ public class ForestGameArea extends GameArea {
     spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
   }
 
-  private void spawnRandomItem(Supplier<Entity> creator, int numItems) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+  private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
+    GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
+    GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
 
     for (int i = 0; i < numItems; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity item = creator.get();
       spawnEntityAt(item, randomPos, true, false);
+      dynamicItems.put(totalItems, item);
+      totalItems++;
     }
   }
 

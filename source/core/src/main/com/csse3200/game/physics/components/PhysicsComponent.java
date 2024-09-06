@@ -21,10 +21,17 @@ public class PhysicsComponent extends Component {
   private static final float GROUND_FRICTION = 5f;
   private final PhysicsEngine physics;
   private final Body body;
+  private boolean notify;
 
   /** Create a physics component with default settings. */
   public PhysicsComponent() {
+    this(false);
+  }
+
+  /** Create a physics component with default settings. */
+  public PhysicsComponent(boolean notify) {
     this(ServiceLocator.getPhysicsService().getPhysics());
+    this.notify = notify;
   }
 
   /**
@@ -83,8 +90,8 @@ public class PhysicsComponent extends Component {
   @Override
   public void earlyUpdate() {
     Vector2 bodyPos = body.getPosition();
-    // Don't notify position changes due to physics
-    entity.setPosition(bodyPos, false);
+    // Don't notify position changes due to physics unless required
+    entity.setPosition(bodyPos, this.notify);
   }
 
   @Override
