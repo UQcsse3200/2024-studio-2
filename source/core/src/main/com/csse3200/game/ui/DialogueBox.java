@@ -228,7 +228,7 @@ public class DialogueBox {
      * Handles the forward button click event to navigate to the next hint.
      * Updates the label text to the next hint in the array and repositions the label.
      */
-    private void handleForwardButtonClick() {
+    public void handleForwardButtonClick() {
 
         currentHint = (currentHint + 1) % hints.length;
         label.setText(hints[currentHint]);
@@ -239,7 +239,7 @@ public class DialogueBox {
      * Handles the backward button click event to navigate to the previous hint.
      * Updates the label text to the previous hint in the array and repositions the label.
      */
-    private void handleBackwardButtonClick() {
+    public void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
         label.setText(hints[currentHint]);
         updateLabelPosition();

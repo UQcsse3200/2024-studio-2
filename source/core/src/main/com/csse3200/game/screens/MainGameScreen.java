@@ -16,7 +16,7 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
@@ -111,7 +111,7 @@ public class MainGameScreen extends PausableScreen {
       gameArea.create();
 
       Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerEntityChatService(new EntityChatService(stage));
+      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
 
     }
 

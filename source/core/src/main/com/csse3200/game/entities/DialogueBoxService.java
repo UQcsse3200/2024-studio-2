@@ -5,23 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EntityChatService {
-    private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
+public class DialogueBoxService {
+    private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[] hints;
 
     /**
      * Create a new chat overlay with the given hint text.
      */
-    public EntityChatService() {
-        currentOverlay = null;
-        hints = null;
-    }
-
-    /**
-     * Create a new chat overlay with the given hint text.
-     */
-    public EntityChatService(Stage stage) {
+    public DialogueBoxService(Stage stage) {
         currentOverlay = new DialogueBox(stage);
         hints = null;
     }

@@ -16,7 +16,7 @@ import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -125,7 +125,7 @@ public class NPCFactory {
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.updateText(hintText);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
@@ -140,7 +140,7 @@ public class NPCFactory {
   }
 
   private static void endDialogue() {
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.hideCurrentOverlay();
   }
 
