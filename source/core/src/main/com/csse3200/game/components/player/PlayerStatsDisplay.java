@@ -175,6 +175,7 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHealthUI(health);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
+
         startHungerDecreaseTimer();
         // Add the table to the stage
         return true;
@@ -227,6 +228,7 @@ public class PlayerStatsDisplay extends UIComponent {
             }
         }, 0, 1); // Run every second
     }
+
 
 
     @Override
