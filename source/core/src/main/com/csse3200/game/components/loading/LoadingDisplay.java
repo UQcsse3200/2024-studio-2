@@ -20,8 +20,8 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class LoadingDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(LoadingDisplay.class);
     private static final float Z_INDEX = 2f;
-    private static final float LOADING_DURATION = 15f;
-    private static final float MESSAGE_INTERVAL = 3f;
+    private static final float LOADING_DURATION = 6f;
+    private static final float MESSAGE_INTERVAL = 2f;
     private Table table;
     public ProgressBar progressBar;
     private Label loadingLabel;
