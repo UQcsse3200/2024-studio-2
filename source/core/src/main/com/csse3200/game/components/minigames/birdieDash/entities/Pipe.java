@@ -80,6 +80,14 @@ public class Pipe{
         return GAME_HEIGHT - height -PIPE_GAP;
     }
 
+    public Rectangle getBottomPipe() {
+        return bottomPipe;
+    }
+
+    public Rectangle getTopPipe() {
+        return topPipe;
+    }
+
     private void setRectangles() {
         this.bottomPipe.setPosition(bottomPosition.x, bottomPosition.y);
         this.bottomPipe.setSize(width, height);

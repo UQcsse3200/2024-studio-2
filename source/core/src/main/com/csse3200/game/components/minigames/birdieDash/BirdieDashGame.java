@@ -2,6 +2,7 @@ package com.csse3200.game.components.minigames.birdieDash;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.birdieDash.collision.CollisionHandler;
 import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
@@ -29,6 +30,7 @@ public class BirdieDashGame {
     private final Spike spike;
     private final MinigameRenderer renderer;
     private final BirdieDashController controller;
+    private final CollisionHandler collisionHandler;
     // Just to test our things are appearing first
     public BirdieDashGame() {
         this.pipes = createPipes();
@@ -36,6 +38,7 @@ public class BirdieDashGame {
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
         this.controller = new BirdieDashController(bird);
+        this.collisionHandler = new CollisionHandler(bird, pipes, spike);
         initRenderers();
     }
 
@@ -84,6 +87,7 @@ public class BirdieDashGame {
     private void updateGamePosition(float dt) {
         changePipePosition(dt);
         bird.update(dt);
+        collisionHandler.checkCollisions();
         // Add all other change positions here e.g. bird, coins etc.
     }
 

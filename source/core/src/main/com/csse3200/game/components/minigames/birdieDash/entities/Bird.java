@@ -13,10 +13,13 @@ public class Bird {
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
     private static final int GAME_HEIGHT = 600;
+    // testing
+    private boolean collidingPipe;
     public Bird(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         boundingBox = new Rectangle(x, y, BIRD_WIDTH, BIRD_HEIGHT);
+        collidingPipe = false;
     }
     public void update(float deltaTime) {
         if (position.y > 0) {
@@ -27,11 +30,29 @@ public class Bird {
         }
         velocity.scl(deltaTime);
         position.add(0, velocity.y);
+        if(collidingPipe) {
+            position.sub(deltaTime * 200, 0);
+        }
         velocity.scl(1 / deltaTime);
         if (position.y + BIRD_HEIGHT > GAME_HEIGHT) {
             position.y = GAME_HEIGHT - BIRD_HEIGHT;
         }
         updateBoundingBox();
+
+    }
+
+    /**
+     * For collisions
+     */
+    public void setCollidingPipe() {
+        collidingPipe = true;
+    }
+
+    /**
+     * For collisions.
+     */
+    public void unsetCollidingPipe() {
+        collidingPipe = false;
     }
     public void flap() {
         velocity.y = FLAP_STRENGTH;
