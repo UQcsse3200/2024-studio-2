@@ -32,10 +32,10 @@ public class CombatManager extends Component {
         this.currentTurn = Turn.INIT;
 
         // Temp stats for testing
-        // this.playerStats.setHealth(100);
-        // this.enemyStats.setHealth(100);
-        // this.playerStats.setStrength(10);
-        // this.enemyStats.setStrength(5);
+         this.playerStats.setHealth(100);
+         this.enemyStats.setHealth(100);
+         this.playerStats.setStrength(10);
+         this.enemyStats.setStrength(5);
     }
 
     /**
@@ -93,13 +93,21 @@ public class CombatManager extends Component {
         return enemy;
     }
 
-    @Override
-    public void render(float delta) {
-
+    public CombatStatsComponent getPlayerStats() {
+        return playerStats;
     }
 
-    @Override
-    public void resize(int width, int height) {
-
+    public CombatStatsComponent getEnemyStats() {
+        return enemyStats;
     }
+
+//    @Override
+//    public void render(float delta) {
+//
+//    }
+//
+//    @Override
+//    public void resize(int width, int height) {
+//
+//    }
 }

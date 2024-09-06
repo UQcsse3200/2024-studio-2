@@ -33,14 +33,4 @@ public class TextureRenderComponent extends RenderComponent {
     Vector2 scale = entity.getScale();
     batch.draw(texture, position.x, position.y, scale.x, scale.y);
   }
-
-  @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
 }

@@ -39,16 +39,6 @@ public class AITaskComponent extends Component implements TaskRunner {
     return currentTask;
   }
 
-  @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
-
   /**
    * On update, run the current highest priority task. If it's a different one, stop the old one and
    * start the new one. If the highest priority task has negative priority, no task will be run.

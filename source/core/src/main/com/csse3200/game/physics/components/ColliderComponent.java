@@ -25,16 +25,6 @@ public class ColliderComponent extends Component {
   }
 
   @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
-
-  @Override
   public void create() {
     if (fixtureDef.shape == null) {
       logger.trace("{} Setting default bounding box", this);

@@ -31,16 +31,6 @@ public class EnterCombatComponent extends Component {
 
 
     @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void create() {
         entity.getEvents().addListener("collisionStart", this::onCollisionStart);
         hitboxComponent = entity.getComponent(HitboxComponent.class);

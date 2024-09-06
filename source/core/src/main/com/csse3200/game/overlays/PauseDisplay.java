@@ -27,17 +27,7 @@ public class PauseDisplay extends UIComponent {
     public PauseDisplay() {
         super();
     }
-
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
+  
     @Override
     public void create() {
         super.create();

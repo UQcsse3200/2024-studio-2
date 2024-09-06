@@ -27,16 +27,6 @@ public class GameAreaDisplay extends UIComponent {
         this.gameAreaName = gameAreaName;
     }
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Initializes the GameAreaDisplay component and calls addactors() to add actors to the stage.
      */
