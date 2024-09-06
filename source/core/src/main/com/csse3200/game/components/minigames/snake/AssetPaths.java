@@ -13,6 +13,9 @@ public class AssetPaths {
 
     public static final String BIRD = "images/foodtextures/apple.png";
     public static final String SNAKE_BODY_BENT_IMAGE = "images/minigames/snakebodybent.png";
+
+    // Bird
+    public static final String SPIKE = "images/minigames/spikes.png";
     public static final String[] IMAGES = {
             APPLE_IMAGE,
             SNAKE_HEAD_IMAGE,

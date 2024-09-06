@@ -4,8 +4,10 @@ import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
+import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
 import com.csse3200.game.components.minigames.birdieDash.rendering.BirdRenderer;
 import com.csse3200.game.components.minigames.birdieDash.rendering.PipeRenderer;
+import com.csse3200.game.components.minigames.birdieDash.rendering.SpikeRenderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -21,12 +23,14 @@ public class BirdieDashGame {
 
     private final List<Pipe> pipes;
     private final Bird bird;
+    private final Spike spike;
     private final MinigameRenderer renderer;
     private final BirdieDashController controller;
     // Just to test our things are appearing first
     public BirdieDashGame() {
         this.pipes = createPipes();
         this.bird = new Bird(920, 600);
+        this.spike = new Spike();
         this.renderer = new MinigameRenderer();
         this.controller = new BirdieDashController(bird);
         initRenderers();
@@ -39,6 +43,7 @@ public class BirdieDashGame {
         ServiceLocator.registerResourceService(new ResourceService());
         renderer.addRenderable(new PipeRenderer(pipes, renderer));
         renderer.addRenderable(new BirdRenderer(bird, renderer));
+        renderer.addRenderable(new SpikeRenderer(spike, renderer));
         // Add all the other ones e.g. bird, coins etc.
     }
     /**
