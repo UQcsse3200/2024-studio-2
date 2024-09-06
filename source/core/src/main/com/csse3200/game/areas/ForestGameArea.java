@@ -209,6 +209,7 @@ public class ForestGameArea extends GameArea {
     private void spawnKangarooBoss() {
         if (!kangarooBossSpawned) {
             Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+            kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
             spawnEntityOnMap(kangarooBoss);
             kangarooBossSpawned = true;
         }
@@ -223,6 +224,7 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity chicken = EnemyFactory.createChicken(player);
+    chicken.setEnemyType(Entity.EnemyType.CHICKEN);
     enemies.add(chicken);
 
     float proximityRange = 0.05f; // Set a suitable proximity range
@@ -239,6 +241,7 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity frog = EnemyFactory.createFrog(player);
+    frog.setEnemyType(Entity.EnemyType.FROG);
     enemies.add(frog);
 
     float proximityRange = 0.05f; // Set a suitable proximity range
@@ -257,6 +260,7 @@ public class ForestGameArea extends GameArea {
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     Entity monkey = EnemyFactory.createMonkey(player);
+    monkey.setEnemyType(Entity.EnemyType.MONKEY);
     enemies.add(monkey);
 
     float proximityRange = 0.05f; // Set a suitable proximity range

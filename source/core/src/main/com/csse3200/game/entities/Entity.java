@@ -36,6 +36,13 @@ public class Entity {
   private Vector2 position = Vector2.Zero.cpy();
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
+  private EnemyType enemyType;
+  public enum EnemyType {
+    KANGAROO,
+    CHICKEN,
+    MONKEY,
+    FROG
+  }
 
 
   public Entity() {
@@ -45,6 +52,17 @@ public class Entity {
 
     components = new IntMap<>(4);
     eventHandler = new EventHandler();
+  }
+
+  // Getter for enemy type
+  public EnemyType getEnemyType() {
+    return enemyType;
+  }
+
+  // Setter for enemy type
+  public Entity setEnemyType(EnemyType enemyType) {
+    this.enemyType = enemyType;
+    return this;
   }
 
   /**

@@ -113,10 +113,19 @@ public class CombatArea extends GameArea {
         displayUI();
         spawnTerrain();
         spawnPlayer();
-        spawnCombatEnemy();
+        if(enemy.getEnemyType() == Entity.EnemyType.MONKEY) { // get the enemy type player collided into for combat and spawn that
+            spawnMonkey();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.FROG) {
+            spawnFrog();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.CHICKEN) {
+            spawnChicken();
+        } else { // Kangaroo Boss
+            spawnCombatEnemy();
+        }
+        /*spawnCombatEnemy();
         spawnChicken();
         spawnFrog();
-        spawnMonkey();
+        spawnMonkey();*/
         playMusic();
     }
 
