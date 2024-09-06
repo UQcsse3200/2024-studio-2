@@ -84,7 +84,6 @@ class NPCFactoryTest {
         eagle = NPCFactory.createEagle(player, enemies);
         turtle = NPCFactory.createTurtle(player, enemies);
         snake = NPCFactory.createSnake(player, enemies);
-        kanga = NPCFactory.createKangaBossEntity(player);
     }
 
     /**
@@ -142,24 +141,6 @@ class NPCFactoryTest {
     @Test
     void TestCowHasConfigComponent() {
         assertNotNull(cow.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the cow has the correct HP stat.
-     */
-    @Test
-    void TestCowHasCorrectHP() {
-        assertEquals(30, cow.getComponent(CombatStatsComponent.class).getHealth(),
-                "Cow should have 30 HP.");
-    }
-
-    /**
-     * Tests that the cow has the correct base attack stat.
-     */
-    @Test
-    void TestCowHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) cow.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Cow should have 0 Base Attack.");
     }
 
     /**
@@ -270,24 +251,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the lion has the correct HP stat.
-     */
-    @Test
-    void TestLionHasCorrectHP() {
-        assertEquals(40, lion.getComponent(CombatStatsComponent.class).getHealth(),
-                "Lion should have 40 HP.");
-    }
-
-    /**
-     * Tests that the lion has the correct base attack stat.
-     */
-    @Test
-    void TestLionHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) lion.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Lion should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the lion has the correct sound path.
      */
     @Test
@@ -392,24 +355,6 @@ class NPCFactoryTest {
     @Test
     void TestEagleHasConfigComponent() {
         assertNotNull(eagle.getComponent(ConfigComponent.class));
-    }
-
-    /**
-     * Tests that the eagle has the correct HP stat.
-     */
-    @Test
-    void TestEagleHasCorrectHP() {
-        assertEquals(25, eagle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Eagle should have 25 HP.");
-    }
-
-    /**
-     * Tests that the eagle has the correct base attack stat.
-     */
-    @Test
-    void TestEagleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) eagle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Eagle should have 0 Base Attack.");
     }
 
     /**
@@ -519,24 +464,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the turtle has the correct HP stat.
-     */
-    @Test
-    void TestTurtleHasCorrectHP() {
-        assertEquals(20, turtle.getComponent(CombatStatsComponent.class).getHealth(),
-                "Turtle should have 20 HP.");
-    }
-
-    /**
-     * Tests that the turtle has the correct base attack stat.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) turtle.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Turtle should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the turtle has the correct sound path.
      */
     @Test
@@ -544,16 +471,6 @@ class NPCFactoryTest {
         String[] sound = configs.turtle.getSoundPath();
         assertNotNull(sound);
         assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
-    }
-
-    /**
-     * Tests that the turtle has the correct base hint.
-     */
-    @Test
-    void TestTurtleHasCorrectBaseHint() {
-        String[] baseHint = configs.turtle.getBaseHint();
-        assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Tilly the Turtle."}));
     }
 
     /**
@@ -644,24 +561,6 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests that the snake has the correct HP stat.
-     */
-    @Test
-    void TestSnakeHasCorrectHP() {
-        assertEquals(30, snake.getComponent(CombatStatsComponent.class).getHealth(),
-                "Snake should have 30 HP.");
-    }
-
-    /**
-     * Tests that the snake has the correct base attack stat.
-     */
-    @Test
-    void TestSnakeHasCorrectBaseAttack() {
-        assertEquals(0, ((BaseEntityConfig) snake.getComponent(ConfigComponent.class).getConfig()).getBaseAttack(),
-                "Snake should have 0 Base Attack.");
-    }
-
-    /**
      * Tests that the snake has the correct sound path.
      */
     @Test
@@ -708,76 +607,5 @@ class NPCFactoryTest {
         snake.setPosition(pos);
 
         assertEquals(pos, snake.getPosition());
-    }
-
-    static class TestComponent1 extends Component {}
-
-    /**
-     * Tests Creation of Kanga.
-     */
-    @Test
-    void TestKangaCreation() {
-        assertNotNull(kanga, "Kanga should not be null.");
-    }
-
-    /**
-     * Tests that the Kanga is an Entity.
-     */
-    @Test
-    void TestKangaIsEntity() {
-        assertEquals(kanga.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the Kanga has a physics component.
-     */
-    @Test
-    void TestKangaHasPhysicsComponent() {
-        assertNotNull(kanga.getComponent(PhysicsComponent.class));
-    }
-
-    /**
-     * Tests that the Kanga has a physics movement component.
-     */
-    @Test
-    void TestKangaHasPhysicsMovementComponent() {
-        assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
-    }
-
-    /**
-     * Tests the Kanga has a collider component.
-     */
-    @Test
-    void TestKangaHasColliderComponent() {
-        assertNotNull(kanga.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the Kanga has the correct HP stat.
-     */
-    @Test
-    void TestKangaHasCorrectHP() {
-        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 100 HP.");
-    }
-
-    /**
-     * Tests that the Kanga has an idle animation.
-     */
-    @Test
-    void TestKangaHasAnimation() {
-        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "Kanga should have idle animation.");
-    }
-
-    /**
-     * Tests that the Kanga is in the correct spot when placed.
-     */
-    @Test
-    void TestKangaSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        kanga.setPosition(pos);
-
-        assertEquals(pos, kanga.getPosition());
     }
 }

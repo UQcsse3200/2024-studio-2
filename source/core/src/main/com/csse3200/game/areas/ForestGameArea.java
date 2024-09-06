@@ -254,7 +254,7 @@ public class ForestGameArea extends GameArea {
 
     private void spawnKangarooBoss() {
         if (!kangarooBossSpawned) {
-            Entity kangarooBoss = NPCFactory.createKangaBossEntity(player);
+            Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
             spawnEntityOnMap(kangarooBoss);
             kangarooBossSpawned = true;
         }
