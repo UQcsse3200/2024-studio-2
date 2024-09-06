@@ -1,49 +1,38 @@
 {
-  "ghost": {
-    "health": 40,
-    "strength": 10,
-    "speed": 10
-  },
-  "chicken": {
-    "health": 10,
-    "baseAttack": 1,
-    "baseDefense": 1,
-    "speed": 3,
-    "isEnemy": 1
-  },
-  "frog": {
-    "health": 100,
-    "baseAttack": 25,
-    "baseDefense": 25,
-    "speed": 0.5,
-    "isEnemy": 1
-  },
-  "monkey": {
-    "health": 100,
-    "baseAttack": 25,
-    "baseDefense": 25,
-    "speed": 1.5,
-    "isEnemy": 1
-  },
   "lion": {
-    "health": 40,
-    "baseAttack": 0
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Lenny the Lion."],
+    "spritePath": "images/lion.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.mp3"],
+    "animalName": "Lion"
   },
   "cow": {
-    "health": 30,
-    "baseAttack": 0
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Charlie the Cow."],
+    "spritePath": "images/Cow.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/mooing-cow.mp3"],
+    "animalName": "Cow"
   },
   "turtle": {
-    "health": 20,
-    "baseAttack": 0
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle.."],
+    "spritePath": "images/turtle.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/turtle-hiss.mp3"],
+    "animalName": "Turtle"
   },
   "eagle": {
-    "health": 25,
-    "baseAttack": 0
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Ethan the Eagle."],
+    "spritePath": "images/eagle.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/eagle-scream.mp3"],
+    "animalName": "Eagle"
   },
   "snake": {
-    "health": 30,
-    "baseAttack": 0
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Sam the Snake."],
+    "spritePath": "images/snake.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/snake-hiss.mp3"],
+    "animalName": "Snake"
   }
 }
 
