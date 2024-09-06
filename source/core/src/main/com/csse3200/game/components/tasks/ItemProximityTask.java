@@ -21,7 +21,6 @@ public class ItemProximityTask extends ProximityTask {
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
     private final AbstractItem item;
     private boolean itemPickedUp = false;
-    private boolean hasApproached;
 
     public ItemProximityTask(Entity target,
                              int priority,
@@ -83,14 +82,6 @@ public class ItemProximityTask extends ProximityTask {
     @Override
     public void handleTargetMovedAway() {
         ServiceLocator.getEntityChatService().hideCurrentOverlay();
-    }
-
-    /**
-     * Checks if the player is near the item using the distance between the item and the player
-     * @return true if the player is within the proximity threshold, false otherwise.
-     */
-    private boolean isPlayerNearItem() {
-        return target.getPosition().dst(owner.getEntity().getPosition()) <= proximityThreshold;
     }
 
     @Override
