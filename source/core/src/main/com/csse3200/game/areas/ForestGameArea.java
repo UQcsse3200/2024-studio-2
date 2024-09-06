@@ -300,8 +300,8 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
     for (int i = 0; i < numEntities; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
