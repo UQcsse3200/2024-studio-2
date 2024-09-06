@@ -43,7 +43,7 @@ import java.util.Map;
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class MainGameScreen extends ScreenAdapter {
+public class MainGameScreen extends PausableScreen {
 
   /**
    * Logger instance for logging debug, info, and warning messages.
@@ -60,21 +60,10 @@ public class MainGameScreen extends ScreenAdapter {
    */
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   /**
-   * Queue of currently enabled overlays in the game screen.
-   */
-  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-  /**
    * Flag indicating whether the game is currently paused.
    */
   private boolean isPaused = false;
-  /**
-   * Flag indicating whether the screen is in a resting state.
-   */
-  private boolean resting = false;
-  /**
-   * Reference to the main game instance.
-   */
-  private final GdxGame game;
+
   /**
    * Renderer for rendering game graphics.
    */
@@ -87,46 +76,42 @@ public class MainGameScreen extends ScreenAdapter {
    * The game area where the main game takes place.
    */
   private final ForestGameArea gameArea;
-  /**
-   * Map of active overlay types and their statuses.
-   */
-  private final Map<OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
 
   /**
    * Constructs a MainGameScreen instance.
    * @param game The main game instance used.
    */
     public MainGameScreen(GdxGame game) {
-    this.game = game;
+      super(game);
 
-    logger.debug("Initialising main game screen services");
-    ServiceLocator.registerTimeSource(new GameTime());
+      logger.debug("Initialising main game screen services");
+      ServiceLocator.registerTimeSource(new GameTime());
 
-    PhysicsService physicsService = new PhysicsService();
-    ServiceLocator.registerPhysicsService(physicsService);
-    physicsEngine = physicsService.getPhysics();
+      PhysicsService physicsService = new PhysicsService();
+      ServiceLocator.registerPhysicsService(physicsService);
+      physicsEngine = physicsService.getPhysics();
 
-    ServiceLocator.registerInputService(new InputService());
-    ServiceLocator.registerResourceService(new ResourceService());
+      ServiceLocator.registerInputService(new InputService());
+      ServiceLocator.registerResourceService(new ResourceService());
 
-    ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
-    //register the EntityChatService
-    ServiceLocator.registerEntityChatService(new EntityChatService());
+      ServiceLocator.registerEntityService(new EntityService());
+      ServiceLocator.registerRenderService(new RenderService());
+      //register the EntityChatService
+      ServiceLocator.registerEntityChatService(new EntityChatService());
 
-    ServiceLocator.registerEntityChatService(new EntityChatService());
+      ServiceLocator.registerEntityChatService(new EntityChatService());
 
-    renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
-    renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
+      renderer = RenderFactory.createRenderer();
+      renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+      renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-    loadAssets();
-    createUI();
-    logger.debug("Initialising main game screen entities");
-    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        this.gameArea = new ForestGameArea(terrainFactory, game);
+      loadAssets();
+      createUI();
+      logger.debug("Initialising main game screen entities");
+      TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
+          this.gameArea = new ForestGameArea(terrainFactory, game);
 
-    gameArea.create();
+      gameArea.create();
   }
 
   /**
@@ -239,78 +224,20 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   /**
-   * Adds an overlay to the screen.
-   * @param overlayType The type of overlay to add.
-   */
-  public void addOverlay(OverlayType overlayType){
-    logger.debug("Attempting to Add {} Overlay", overlayType);
-    if (activeOverlayTypes.get(overlayType)){
-      return;
-    }
-      if (enabledOverlays.isEmpty()) {
-          this.rest();
-      }
-      else {
-        enabledOverlays.getFirst().rest();
-      }
-    switch (overlayType) {
-      case QUEST_OVERLAY:
-        enabledOverlays.addFirst(new QuestOverlay(this));
-        break;
-      case PAUSE_OVERLAY:
-        enabledOverlays.addFirst(new PauseOverlay(this, game));
-        break;
-      default:
-        logger.warn("Unknown Overlay type: {}", overlayType);
-        break;
-    }
-    logger.info("Added {} Overlay", overlayType);
-    activeOverlayTypes.put(overlayType,true);
-  }
-
-  /**
-   * Removes the topmost overlay from the screen.
-   */
-
-  public void removeOverlay(){
-    logger.info("Removing top Overlay");
-
-    if (enabledOverlays.isEmpty()){
-        this.wake();
-        return;
-    }
-    Overlay currentFirst = enabledOverlays.getFirst();
-    activeOverlayTypes.put(currentFirst.overlayType,false);
-    currentFirst.remove();
-    enabledOverlays.removeFirst();
-
-    if (enabledOverlays.isEmpty()){
-        this.wake();
-
-    } else {
-      enabledOverlays.getFirst().wake();
-    }
-  }
-
-  /**
    * Puts the screen into a resting state, pausing music and resting all entities.
    */
   public void rest() {
-    logger.info("Screen is resting");
-    resting = true;
+    super.rest();
     gameArea.pauseMusic();
-    ServiceLocator.getEntityService().restWholeScreen();
   }
 
   /**
    * Wakes the screen from a resting state.
    */
   public void wake() {
-    logger.info("Screen is Awake");
-    resting = false;
+    super.wake();
     KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     gameArea.playMusic();
-    ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }
