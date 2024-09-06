@@ -75,6 +75,8 @@ public class LoginRegisterDisplay extends UIComponent {
                 isLoginMode = !isLoginMode;
                 topTable.clear();
                 contentTable.clear();
+                usernameField.clear();
+                passwordField.clear();
                 updateUI();
             }
         });

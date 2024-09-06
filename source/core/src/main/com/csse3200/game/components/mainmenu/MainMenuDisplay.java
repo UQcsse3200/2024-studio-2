@@ -150,7 +150,7 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdImage);
 
         // Initialises buttons
-        TextButton startBtn = new TextButton("Start", skin);
+        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonSplash1.png"))));
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
         TextButton settingsBtn = new TextButton("Settings", skin);
@@ -160,7 +160,6 @@ public class MainMenuDisplay extends UIComponent {
         Label versionLabel = new Label("Version 1.0", skin);
 
         // Adds UI component (hover over buttons)
-        addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
@@ -230,8 +229,11 @@ public class MainMenuDisplay extends UIComponent {
         // Added the pop up when user trys to exit game
         addExitConfirmation(exitBtn);
 
+        Label startTitle = new Label("Start", skin, "large-white");
         // formats sizes of buttons
-        table.add(startBtn).padTop(15f).height(45f).width(180f);
+        table.add(startBtn).size(220,220).padTop(15f);
+        table.row();
+        table.add(startTitle).padTop(-230);
         table.row();
         table.add(loadBtn).padTop(15f).height(45f).width(180f);
         table.row();
@@ -404,14 +406,12 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void showHelpWindow() {
         final int NUM_SLIDES = 5;
-        final float WINDOW_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
-        final float WINDOW_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
+        final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
+        final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
 
         // Create a Window for the help screen
-        final Window helpWindow = new Window("Help", skin);
+        Table helpWindow = new Table();
         helpWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        helpWindow.setResizable(true);
-        helpWindow.setMovable(true);
 
         // Set the background of the helpWindow using the settingBackground texture
         Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
@@ -441,20 +441,27 @@ public class MainMenuDisplay extends UIComponent {
         navigationTable.add(previousButton).padRight(10);
         navigationTable.add(nextButton);
 
+        Label title = new Label("Help", skin, "title-white");
         // Create a table for the close button
         Table closeButtonTable = new Table();
-        TextButton closeButton = new TextButton("X", skin);
-        closeButtonTable.add(closeButton).size(40, 40).right().pad(10);
+        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
+        closeButtonTable.add(closeButton).size(80, 80).right().expandX().padTop(-10).padRight(-10);
+
+        Table topTable = new Table();
+        topTable.top().padTop(10);
+        topTable.add(title).expandX().center().padTop(20);
+        topTable.row();
+        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
         // Add the close button table to the top-right of the helpWindow
-        helpWindow.add(closeButtonTable).top().right().pad(1).row();
+        helpWindow.add(topTable).expandX().fillX();
         helpWindow.add().row();
 
         // Add the slideTable to the helpWindow and position it to fill the window
         helpWindow.add(slideTable).expand().fill().row();
 
         // Add the navigation table to the bottom of the helpWindow
-        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
+        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(30).row();
 
         final int[] currentSlide = {0};
 
