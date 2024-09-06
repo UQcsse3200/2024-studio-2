@@ -2,15 +2,21 @@ package com.csse3200.game.areas.terrain;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -19,12 +25,15 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class CombatTerrainFactory {
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(30, 30);
+    private static final GridPoint2 MAP_SIZE = new GridPoint2(7000, 7000);
     private static final int TUFT_TILE_COUNT = 30;
     private static final int ROCK_TILE_COUNT = 30;
 
     private final OrthographicCamera camera;
     private final TerrainOrientation orientation;
+    private GridPoint2 mapSize;
+    private final CameraComponent cameraComponent;
+    private Table table;
 
     /**
      * Create a terrain factory with Orthogonal orientation
@@ -44,6 +53,16 @@ public class CombatTerrainFactory {
     public CombatTerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
         this.camera = (OrthographicCamera) cameraComponent.getCamera();
         this.orientation = orientation;
+        this.cameraComponent = cameraComponent;
+    }
+
+    /**
+     * Retrieve the component to which the camera is attached
+     *
+     * @return the camera component
+     */
+    public CameraComponent getCameraComponent() {
+        return this.cameraComponent;
     }
 
     /**
@@ -84,6 +103,149 @@ public class CombatTerrainFactory {
                 return null;
         }
     }
+
+    public TerrainComponent createFullTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize) {
+        this.mapSize = mapSize;
+        float tileWorldSize = 1.f;
+
+        TiledMap tiledMap = new TiledMap();
+        TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 500, 500);
+        tiledMap.getLayers().add(layer);
+
+        TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 500);
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
+    }
+
+    public TerrainComponent createTiledTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize) {
+        // Initialize ResourceService and variables for the terrain
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        TextureRegion grass, tuft, rocks;
+        float tileWorldSize;
+
+        // Determine the textures and scale based on terrain type
+        switch (terrainType) {
+            case FOREST_DEMO:
+                grass = new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
+                tuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
+                rocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+                tileWorldSize = 0.5f; // Assuming tile size, adjust as necessary
+                break;
+            case FOREST_DEMO_ISO:
+                grass = new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
+                tuft = new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
+                rocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
+                tileWorldSize = 1f;
+                break;
+            case FOREST_DEMO_HEX:
+                grass = new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
+                tuft = new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
+                rocks = new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
+                tileWorldSize = 1f;
+                break;
+            default:
+                return null;
+        }
+
+        // Create a TiledMap with layers based on map size
+        this.mapSize = mapSize;
+        TiledMap tiledMap = new TiledMap();
+        int tilePixelWidth = grass.getRegionWidth();  // Assuming all tiles have the same size
+        int tilePixelHeight = grass.getRegionHeight();
+        TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, tilePixelWidth, tilePixelHeight);
+
+        // Fill the layer with terrain tiles
+        for (int x = 0; x < mapSize.x; x++) { // changing to < 1 makes background disappear, keeps kanga boss
+            // mapSize.x
+            for (int y = 0; y < mapSize.y; y++) { // changing to < 1 makes background disappear, keeps kanga boss
+                // Randomly pick a texture for variety (you can adjust logic as needed)
+                TextureRegion region = (x + y) % 3 == 0 ? grass : ((x + y) % 3 == 1 ? tuft : rocks);
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                cell.setTile(new StaticTiledMapTile(region));
+                layer.setCell(x, y, cell);
+            }
+        }
+
+        // Add the layer to the map
+        tiledMap.getLayers().add(layer);
+
+        // Create a renderer for the tiled map
+        TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelWidth);
+
+        // Check and adjust camera settings to ensure correct alignment
+        camera.update();
+        camera.position.set(mapSize.x * tileWorldSize / 2f, mapSize.y * tileWorldSize / 2f, 0);
+
+//        // new code
+//        table = new Table();
+//        table.setFillParent(true);
+//        // Import image.
+//        Texture texture = ServiceLocator.getResourceService().getAsset("images/combat_background_one.png", Texture.class);
+//        Image bg = new Image(texture);
+//        Stage stage = ServiceLocator.getRenderService().getStage();
+//        // Full stage.
+//        bg.setSize(stage.getWidth(), stage.getHeight());
+//        table.add(bg).expand().fill();
+//        stage.addActor(table);
+//        //
+
+        // Return the fully configured TerrainComponent
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
+    }
+
+    public TerrainComponent createBackgroundTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize) {
+        // Initialize ResourceService and load the background texture
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        TextureRegion backgroundTextureRegion;
+        float backgroundWidth, backgroundHeight;
+
+        // Determine the background image based on terrain type
+        switch (terrainType) {
+            case FOREST_DEMO:
+                backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background_one.png", Texture.class));
+                break;
+            default:
+                return null;
+        }
+
+        // Get the size of the background texture
+        backgroundWidth = backgroundTextureRegion.getRegionWidth();
+        backgroundHeight = backgroundTextureRegion.getRegionHeight();
+
+        // Ensure the background texture covers the map size
+        // Create a TiledMap with a single layer and one tile that covers the entire map
+        this.mapSize = mapSize;
+        TiledMap tiledMap = new TiledMap();
+        int tilePixelWidth = backgroundTextureRegion.getRegionWidth();  // Assuming all tiles have the same size
+        int tilePixelHeight = backgroundTextureRegion.getRegionHeight();
+        TiledMapTileLayer layer = new TiledMapTileLayer(mapSize.x, mapSize.y, (int)backgroundWidth, (int)backgroundHeight);
+
+        // Create a single large tile from the background texture
+        TiledMapTile backgroundTile = new StaticTiledMapTile(backgroundTextureRegion);
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        cell.setTile(backgroundTile);
+
+        // Fill the entire layer with the single large tile
+        for (int x = 0; x < 1; x++) {
+            for (int y = 0; y < 1; y++) {
+                layer.setCell(x, y, cell);
+            }
+        }
+
+        // Add the layer to the map
+        tiledMap.getLayers().add(layer);
+
+        // Create a renderer for the tiled map
+        TiledMapRenderer renderer = createRenderer(tiledMap, backgroundWidth / (int)backgroundWidth);
+
+        // Adjust camera settings to fit the background
+        camera.update();
+        camera.position.set(mapSize.x / 2f, mapSize.y / 2f, 0);
+
+        // Return the TerrainComponent with the background image rendering setup
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, backgroundWidth);
+    }
+
+
 
     private TerrainComponent createForestDemoTerrain(
             float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {

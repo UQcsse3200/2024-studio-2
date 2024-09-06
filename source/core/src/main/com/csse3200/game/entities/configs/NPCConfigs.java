@@ -14,5 +14,6 @@ public class NPCConfigs {
   public static FrogConfig frog = new FrogConfig();
   public static MonkeyConfig monkey = new MonkeyConfig();
   public static BaseEntityConfig kangarooBoss = new KangarooBossConfig();
+  public static PlayerConfig player = new PlayerConfig(); // added to allow player NPC to exist for combat
 
 }

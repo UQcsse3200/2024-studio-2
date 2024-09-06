@@ -219,6 +219,70 @@ public class NPCFactory {
         return kangarooBoss;
     }
 
+    /**
+     * Creates chicken enemy as NPC entity for static combat
+     * */
+    public static Entity createChickenCombatEnemy() {
+      Entity chickenEnemy = createCombatBossNPC();
+      BaseEntityConfig config = configs.chicken;
+
+      chickenEnemy
+              .addComponent(new TextureRenderComponent("images/chicken_idle.png"))
+              .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+
+      chickenEnemy.scaleHeight(3.0f);
+
+      return chickenEnemy;
+    }
+
+  /**
+   * Creates monkey enemy as NPC entity for static combat
+   * */
+  public static Entity createMonkeyCombatEnemy() {
+    Entity monkeyEnemy = createCombatBossNPC();
+    BaseEntityConfig config = configs.monkey;
+
+    monkeyEnemy
+            .addComponent(new TextureRenderComponent("images/monkey_idle.png"))
+            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+
+    monkeyEnemy.scaleHeight(2.8f);
+
+    return monkeyEnemy;
+  }
+
+  /**
+   * Creates frog enemy as NPC entity for static combat
+   * */
+  public static Entity createFrogCombatEnemy() {
+    Entity frogEnemy = createCombatBossNPC();
+    BaseEntityConfig config = configs.frog;
+
+    frogEnemy
+            .addComponent(new TextureRenderComponent("images/frog_idle.png"))
+            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+
+    frogEnemy.scaleHeight(3.5f);
+
+    return frogEnemy;
+  }
+
+  // Create a player NPC to spawn in Combat
+
+  public static Entity createCombatPlayer(String imagePath) {
+    Entity combatPlayer = createCombatBossNPC();
+    BaseEntityConfig config = configs.player;
+
+    combatPlayer
+            .addComponent(new TextureRenderComponent(imagePath))
+            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+
+    combatPlayer.scaleHeight(2.8f);
+
+    return combatPlayer;
+  }
+
+
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *
