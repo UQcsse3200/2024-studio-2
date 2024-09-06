@@ -40,14 +40,14 @@ public class PipeRenderer implements MinigameRenderable {
 
     private void loadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
-        rs.loadTextures(new String[]{AssetPaths.SNAKE_BODY_VERTICAL_IMAGE});
+        rs.loadTextures(new String[]{AssetPaths.PIPE});
         ServiceLocator.getResourceService().loadAll();
-        obstacleTexture = rs.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
+        obstacleTexture = rs.getAsset(AssetPaths.PIPE, Texture.class);
     }
 
     private void unloadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
-        rs.unloadAssets(new String[]{AssetPaths.SNAKE_BODY_VERTICAL_IMAGE});
+        rs.unloadAssets(new String[]{AssetPaths.PIPE});
     }
 
     public void dispose() {

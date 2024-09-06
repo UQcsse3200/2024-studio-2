@@ -12,7 +12,7 @@ public class Pipe{
     private Vector2 bottomPosition;
 
     // Set width of pipe
-    private final float width = 300;
+    private final float width = 150;
     private float height;
     private final float PIPE_GAP = 300;
     private final float MIN_HEIGHT = 50;

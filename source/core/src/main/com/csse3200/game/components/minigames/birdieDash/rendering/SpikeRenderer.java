@@ -1,6 +1,7 @@
 package com.csse3200.game.components.minigames.birdieDash.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csse3200.game.components.minigames.MinigameRenderable;
 import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
@@ -13,6 +14,7 @@ public class SpikeRenderer implements MinigameRenderable {
     private final Spike spike;
     private final MinigameRenderer renderer;
     private Texture spikeTexture;
+    private TextureRegion spikeRegion;
     public SpikeRenderer(Spike spike, MinigameRenderer renderer) {
         this.spike = spike;
         this.renderer = renderer;
@@ -20,7 +22,7 @@ public class SpikeRenderer implements MinigameRenderable {
         loadAssets();
     }
     public void render(){
-        renderer.getSb().draw(spikeTexture,
+        renderer.getSb().draw(spikeRegion,
                 spike.getPosition().x,
                 spike.getPosition().y,
                 spike.getWidth(),
@@ -32,6 +34,7 @@ public class SpikeRenderer implements MinigameRenderable {
         rs.loadTextures(new String[]{AssetPaths.SPIKE});
         ServiceLocator.getResourceService().loadAll();
         spikeTexture = rs.getAsset(AssetPaths.SPIKE, Texture.class);
+        spikeRegion = new TextureRegion(spikeTexture, 0, 0, 9, 100);
     }
 
     private void unloadAssets() {
@@ -42,5 +45,6 @@ public class SpikeRenderer implements MinigameRenderable {
     public void dispose() {
         unloadAssets();
         spikeTexture.dispose();
+
     }
 }
