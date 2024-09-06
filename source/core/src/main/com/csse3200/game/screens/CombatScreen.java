@@ -5,13 +5,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.combat.*;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.combat.CombatStatsDisplay;
-import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -42,7 +39,8 @@ import java.util.LinkedList;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/health_bar_x1.png", "images/xp_bar.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
@@ -152,15 +150,30 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
+//    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
+//
+//    // Add individual buttons to the stage
+//    stage.addActor(combatButtons.getAttackButton());
+//    stage.addActor(combatButtons.getBoostButton());
+
+    // Initialise combat manager with instances of player and enemy to be passed into combat actions.
+    CombatManager manager = new CombatManager(player, enemy);
+
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, this.enemy))
+        .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(playerCombatStats)
+        .addComponent(enemyCombatStats)
+        .addComponent(new TerminalDisplay())
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
+
+       // .addComponent(new CombatActions(this.game));
+
 
     ServiceLocator.getEntityService().register(ui);
   }

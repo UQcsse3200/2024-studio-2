@@ -19,7 +19,7 @@ public class AnimalSelectionDisplay {
     private final TextButton backButton;
 
     /**
-     * Constructs a diplay for displaying and managing animal selection UI.
+     * Constructs a display for displaying and managing animal selection UI.
      * Initializes the arrays for animal images and buttons, as well as the select and back buttons.
      * This constructor sets up the stage and skin used for styling UI elements.
      * @param stage The stage where UI elements are added.
