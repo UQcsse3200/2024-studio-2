@@ -27,7 +27,7 @@ public class PauseDisplay extends UIComponent {
     public PauseDisplay() {
         super();
     }
-
+  
     @Override
     public void create() {
         super.create();

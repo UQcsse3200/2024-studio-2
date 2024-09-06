@@ -24,7 +24,6 @@ public class KeyboardTerminalInputComponent extends InputComponent {
     this.terminal = terminal;
   }
 
-
   @Override
   public void create() {
     super.create();

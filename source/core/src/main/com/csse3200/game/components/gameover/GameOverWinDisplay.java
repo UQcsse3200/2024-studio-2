@@ -35,6 +35,7 @@ public class GameOverWinDisplay extends UIComponent {
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
+
     /**
      * Called when the component is created. Initializes the Game Over win UI.
      */

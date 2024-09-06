@@ -21,6 +21,7 @@ public class AchievementDisplay extends UIComponent {
         super();
         this.game = game;
     }
+
     /**
      * Creates and populates the UI with UI elements.
      */

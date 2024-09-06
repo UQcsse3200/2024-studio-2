@@ -25,6 +25,7 @@ public class CombatExitDisplay extends UIComponent {
     this.screen = screen;
     this.container = container;
   }
+
     @Override
   public void create() {
     super.create();

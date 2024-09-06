@@ -13,6 +13,7 @@ public  class Component {
   private static final Logger logger = LoggerFactory.getLogger(Component.class);
   public  Entity entity;
   protected boolean enabled = true;
+
   /**
    * Called when the entity is created and registered. Initial logic such as calls to GetComponent
    * should be made here, not in the constructor which is called before an entity is finished.
