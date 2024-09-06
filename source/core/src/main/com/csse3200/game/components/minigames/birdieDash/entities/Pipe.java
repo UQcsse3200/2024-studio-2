@@ -20,6 +20,10 @@ public class Pipe{
 
     // Game physics
     private final float start_speed;
+
+    // Collision rectangles
+    private Rectangle bottomPipe;
+    private Rectangle topPipe;
     private Random random;
 
     public Pipe(float start, float start_speed){
@@ -28,6 +32,8 @@ public class Pipe{
         this.bottomPosition = new Vector2(start,0);
         this.topPosition=new Vector2(start, height + PIPE_GAP);
         this.start_speed = start_speed;
+        this.bottomPipe = new Rectangle(bottomPosition.x, bottomPosition.y, width, height);
+        this.topPipe = new Rectangle(topPosition.x, topPosition.y, width, getHeightTop());
     }
 
     public void changePosition(float dt){
@@ -43,6 +49,7 @@ public class Pipe{
         height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
         this.bottomPosition = new Vector2(GAME_WIDTH + 960 - width,0);
         this.topPosition=new Vector2(GAME_WIDTH + 960 - width, height + PIPE_GAP);
+        setRectangles();
     }
 
     private boolean pipeOffScreen() {
@@ -71,5 +78,12 @@ public class Pipe{
 
     public float getHeightTop(){
         return GAME_HEIGHT - height -PIPE_GAP;
+    }
+
+    private void setRectangles() {
+        this.bottomPipe.setPosition(bottomPosition.x, bottomPosition.y);
+        this.bottomPipe.setSize(width, height);
+        this.topPipe.setPosition(topPosition.x, topPosition.y);
+        this.topPipe.setSize(width, getHeightTop());
     }
 }
