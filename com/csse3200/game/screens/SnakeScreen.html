@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li>Nested</li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -58,7 +58,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -86,7 +86,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.badlogic.gdx.ScreenAdapter
+<div class="inheritance"><a href="PausableScreen.html" title="class in com.csse3200.game.screens">com.csse3200.game.screens.PausableScreen</a>
 <div class="inheritance">com.csse3200.game.screens.SnakeScreen</div>
+</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
@@ -96,12 +98,21 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SnakeScreen</span>
-<span class="extends-implements">extends com.badlogic.gdx.ScreenAdapter</span></div>
+<span class="extends-implements">extends <a href="PausableScreen.html" title="class in com.csse3200.game.screens">PausableScreen</a></span></div>
 <div class="block">Represents the screen for the Snake game.
  Handles the rendering of the game components.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="inherited-list">
+<h3 id="fields-inherited-from-class-com.csse3200.game.screens.PausableScreen">Fields inherited from class&nbsp;com.csse3200.game.screens.<a href="PausableScreen.html" title="class in com.csse3200.game.screens">PausableScreen</a></h3>
+<code><a href="PausableScreen.html#game">game</a>, <a href="PausableScreen.html#resting">resting</a></code></div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -131,24 +142,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addOverlay(com.csse3200.game.overlays.Overlay.OverlayType)" class="member-name-link">addOverlay</a><wbr>(<a href="../overlays/Overlay.OverlayType.html" title="enum class in com.csse3200.game.overlays">Overlay.OverlayType</a>&nbsp;overlayType)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearBackground()" class="member-name-link">clearBackground</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds the pause overlay</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearBackground()" class="member-name-link">clearBackground</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Clears the screen with a specific background color.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Disposes of resources used by the SnakeScreen.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOverlay()" class="member-name-link">removeOverlay</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Removes the pause overlay</div>
+<div class="block">Disposes of resources used by the SnakeScreen.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(float)" class="member-name-link">render</a><wbr>(float&nbsp;delta)</code></div>
@@ -161,19 +162,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resizes the elements on the screen including game elements, score board and exit button</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rest()" class="member-name-link">rest</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">rests the screen (when paused)</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wake()" class="member-name-link">wake</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Wakes the screen (when unpaused)</div>
 </div>
 </div>
 </div>
-</div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.csse3200.game.screens.PausableScreen">Methods inherited from class&nbsp;com.csse3200.game.screens.<a href="PausableScreen.html" title="class in com.csse3200.game.screens">PausableScreen</a></h3>
+<code><a href="PausableScreen.html#addOverlay(com.csse3200.game.overlays.Overlay.OverlayType)">addOverlay</a>, <a href="PausableScreen.html#removeOverlay()">removeOverlay</a>, <a href="PausableScreen.html#rest()">rest</a>, <a href="PausableScreen.html#wake()">wake</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.badlogic.gdx.ScreenAdapter">Methods inherited from class&nbsp;com.badlogic.gdx.ScreenAdapter</h3>
 <code>hide, pause, resume, show</code></div>
@@ -264,38 +258,6 @@ loadScripts(document, 'script');</script>
 <dt>Overrides:</dt>
 <dd><code>dispose</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addOverlay(com.csse3200.game.overlays.Overlay.OverlayType)">
-<h3>addOverlay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addOverlay</span><wbr><span class="parameters">(<a href="../overlays/Overlay.OverlayType.html" title="enum class in com.csse3200.game.overlays">Overlay.OverlayType</a>&nbsp;overlayType)</span></div>
-<div class="block">Adds the pause overlay</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>overlayType</code> - the overlay type</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="removeOverlay()">
-<h3>removeOverlay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeOverlay</span>()</div>
-<div class="block">Removes the pause overlay</div>
-</section>
-</li>
-<li>
-<section class="detail" id="rest()">
-<h3>rest</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">rest</span>()</div>
-<div class="block">rests the screen (when paused)</div>
-</section>
-</li>
-<li>
-<section class="detail" id="wake()">
-<h3>wake</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">wake</span>()</div>
-<div class="block">Wakes the screen (when unpaused)</div>
 </section>
 </li>
 </ul>
