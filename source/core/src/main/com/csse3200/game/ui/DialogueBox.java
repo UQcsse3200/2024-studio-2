@@ -29,10 +29,14 @@ public class DialogueBox {
     private Image backgroundImage;
     private TextButton forwardButton;
     private TextButton backwardButton;
+    private TextButton option1Button;
+    private TextButton option2Button;
+    private TextButton option3Button;
     private final int screenWidth = Gdx.graphics.getWidth();
 
     private String[][] hints;
     private int currentHint;
+    private int currentHintLine;
 
     /**
      * Creates a new DialogueBox with the given hint messages.
@@ -52,6 +56,7 @@ public class DialogueBox {
     private void screenInit() {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.currentHint = 0;
+        this.currentHintLine = 0;
 
         // Create background image
         float desiredHeight = 700;
@@ -66,7 +71,7 @@ public class DialogueBox {
         stage.addActor(backgroundImage);
 
         // Create label
-        String currentHintText = hints[0][currentHint];
+        String currentHintText = hints[currentHintLine][currentHint];
         if (currentHintText.startsWith("/c")) {
             currentHintText = currentHintText.substring(2);
             String[] options = currentHintText.split("/s");
@@ -142,8 +147,81 @@ public class DialogueBox {
     }
 
     private void handleForwardButtonClick() {
-        currentHint = (currentHint + 1) % (hints[0].length);
-        String currentHintText = hints[0][currentHint];
+        currentHint = (currentHint + 1) % (hints[currentHintLine].length);
+        String currentHintText = hints[currentHintLine][currentHint];
+        if (currentHintText.startsWith("/c")) {
+            currentHintText = currentHintText.substring(2);
+            String[] options = currentHintText.split("/s");
+            currentHintText = options[0];
+
+            float labelWidth = label.getPrefWidth();
+            float labelHeight = label.getPrefHeight();
+            float labelX = backgroundImage.getX() + (backgroundImage.getWidth() - labelWidth) / 2;
+            float labelY = -220 + (backgroundImage.getHeight() - labelHeight) / 2;
+            // Create buttons
+            TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+            buttonStyle.font = SKIN.getFont("button");
+            buttonStyle.fontColor = SKIN.getColor("white");
+            buttonStyle.downFontColor = SKIN.getColor("white");
+            buttonStyle.overFontColor = SKIN.getColor("black");
+            buttonStyle.up = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+            buttonStyle.down = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+            buttonStyle.over = new TextureRegionDrawable(BUTTON_HOVER_TEXTURE);
+
+            this.option1Button = new TextButton(options[1], buttonStyle);
+            this.option2Button = new TextButton(options[2], buttonStyle);
+            this.option3Button = new TextButton(options[3], buttonStyle);
+//            option1Button.padLeft(50f);
+//            option1Button.padTop(50f);
+//            option2Button.padLeft(55f);
+//            option2Button.padTop(50f);
+//            option3Button.padLeft(60f);
+//            option3Button.padTop(50f);
+
+            option1Button.getLabel().setAlignment(Align.center);
+
+            float buttonWidth = option1Button.getWidth();
+            float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
+
+            option1Button.setPosition(centerX + 400, labelY + 100);
+            option2Button.setPosition(centerX + 400, labelY + 50);
+            option3Button.setPosition(centerX + 400, labelY - 0);
+
+            stage.addActor(option1Button);
+            stage.addActor(option2Button);
+            stage.addActor(option3Button);
+
+            // Add input listeners
+            option1Button.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    optionButtonClick(1);
+                    return true;
+                }
+            });
+
+            option2Button.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    optionButtonClick(2);
+                    return true;
+                }
+            });
+
+            option3Button.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    optionButtonClick(3);
+                    return true;
+                }
+            });
+        }
+        label.setText(currentHintText);
+    }
+
+    private void handleBackwardButtonClick() {
+        currentHint = (currentHint - 1 + hints[currentHintLine].length) % hints[currentHintLine].length;
+        String currentHintText = hints[currentHintLine][currentHint];
         if (currentHintText.startsWith("/c")) {
             currentHintText = currentHintText.substring(2);
             String[] options = currentHintText.split("/s");
@@ -152,9 +230,10 @@ public class DialogueBox {
         label.setText(currentHintText);
     }
 
-    private void handleBackwardButtonClick() {
-        currentHint = (currentHint - 1 + hints[0].length) % hints[0].length;
-        String currentHintText = hints[0][currentHint];
+    private void optionButtonClick(int index) {
+        currentHintLine += index % hints.length;
+        currentHint = 0;
+        String currentHintText = hints[currentHintLine][currentHint];
         if (currentHintText.startsWith("/c")) {
             currentHintText = currentHintText.substring(2);
             String[] options = currentHintText.split("/s");
@@ -172,7 +251,7 @@ public class DialogueBox {
 
     public void showDialogueBox(String[][] hints) {
         this.hints = hints;
-        this.label.setText(hints[0][0]);
+        this.label.setText(hints[currentHintLine][0]);
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) label.setVisible(true);
         if (forwardButton != null) forwardButton.setVisible(true);
