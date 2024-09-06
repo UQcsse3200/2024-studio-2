@@ -94,14 +94,16 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("onAttack before");
     // Perform attack logic here, like decreasing health
+
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");
-    // Perform boost logic here, like increasing health
+    // Perform Guard logic here, like increasing health
+
   }
   private void onCounter(Screen screen, ServiceContainer container) {
     logger.info("before Counter");
-    // Perform boost logic here, like increasing health
+    // Perform counter logic here.
   }
   /**
    * Called when the screen is disposed to free resources.
