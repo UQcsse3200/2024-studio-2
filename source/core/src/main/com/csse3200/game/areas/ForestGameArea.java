@@ -33,8 +33,6 @@ public class ForestGameArea extends GameArea {
   private static final int NUM_CHICKENS = 2;
   private static final int NUM_FROGS = 5;
   private static final int NUM_MONKEYS = 2;
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
-  private static final float WALL_WIDTH = 0.1f;
   private static final String[] forestTextures = {
           "images/box_boy_leaf.png",
           "images/tree.png",
