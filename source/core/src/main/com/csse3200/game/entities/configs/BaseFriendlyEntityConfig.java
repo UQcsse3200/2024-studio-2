@@ -194,4 +194,6 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
 }
+

@@ -56,4 +56,6 @@ public class BaseEntityConfig {
     public String[] getSoundPath() {
         return this.soundPath;
     }
+
 }
+
