@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.combat.*;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
@@ -25,6 +26,9 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -187,8 +191,15 @@ public class EnemyFactory {
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
+    List<CombatMove> moveSet = new ArrayList<>();
+    moveSet.add(new AttackMove("Punch Out", 30, 10));
+    moveSet.add(new BlockMove("Kangaroo Guard", 20, 5));
+    moveSet.add(new DodgeMove("Swift Leap", 15));
+    moveSet.add(new SpecialMove("Boomerang Jab", 50, 25));
+
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new KangaBossAnimationController());
 
