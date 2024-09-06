@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +35,14 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     private final int numberOfSlots;
     private final Texture hotBarTexture;
     private boolean toggleHotbar = true;
-
-    public PlayerInventoryHotbarDisplay(int hotBarCapacity, int capacity) {
+    PlayerInventoryDisplay playerInventoryDisplay;
+    public PlayerInventoryHotbarDisplay(int hotBarCapacity, Inventory inventory, PlayerInventoryDisplay playerInventoryDisplay) {
         if (hotBarCapacity < 1) {
             throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
         }
-        this.inventory = new Inventory(capacity);
+        this.inventory = inventory;
         this.hotBarTexture=new Texture("Inventory/hotbar.png");
-
+        this.playerInventoryDisplay=playerInventoryDisplay;
         this.hotBarSlots = new ImageButton[hotBarCapacity];
         this.numberOfSlots = hotBarCapacity;
         this.table = new Table();
@@ -50,34 +51,21 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         createHotbar();
 
     }
-    @Override
-    public void create() {
-        super.create();
-        entity.getEvents().addListener("toggleInventory", this::toggleInventoryhotbar);
-        entity.getEvents().addListener("addItem", this::addItem);
-    }
-    private void toggleInventoryhotbar() {
+
+    void toggleHotbar() {
         if (toggleHotbar) {
             logger.debug("Inventory hotbar toggle off");
-            table.setVisible(false); // hide inventory
+           dispose();
             toggleHotbar = false;
         } else {
             logger.debug("Inventory hotbar toggled on.");
-            table.setVisible(true); // show inventory
-            stage.addActor(table); // ensure it's added to the stage
+            createHotbar();// show inventory
+             // ensure it's added to the stage
             toggleHotbar = true;
         }
     }
-    private void regenerateInventory() {
-        if (toggleHotbar) {
-            toggleInventoryhotbar(); // Hacky way to regenerate inventory without duplicating code
-            toggleInventoryhotbar();
-        }
-    }
-    private void addItem(AbstractItem item) {
 
-        regenerateInventory();
-    }
+
     @Override
     protected void draw(SpriteBatch batch) {
         // handled by stage
@@ -95,7 +83,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.setBackground(backgroundDrawable);
 
 
-// Set the table size based on the full texture size
+        // Set the table size based on the full texture size
         table.setSize(160, 517);
         for (int i = 0; i < numberOfSlots; i++) {
             AbstractItem item = inventory.getAt(i);
@@ -103,7 +91,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             final ImageButton slot = new ImageButton(skinSlots);
 
             if (item != null) {
-                addSlotListeners(slot, item, i);
+                playerInventoryDisplay.addSlotListeners(slot, item, i);
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
                 slot.add(itemImage).center().size(75, 75); // Scale down slot content as well
             }
@@ -122,30 +110,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         stage.addActor(table);
     }
 
-
-
-    private void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
-        slot.addListener(new InputListener() {
-            @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                // Handle mouse moved event
-                return true;
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // Handle exit event
-            }
-        });
-        slot.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Item {} was used", item.getName());
-                inventory.useItemAt(index, null);
-                regenerateInventory();
-            }
-        });
-    }
 
     @Override
     public void dispose() {

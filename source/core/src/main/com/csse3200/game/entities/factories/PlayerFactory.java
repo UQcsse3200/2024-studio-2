@@ -5,7 +5,7 @@ import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.components.player.PlayerInventoryHotbarDisplay;
+
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
@@ -65,7 +65,7 @@ public class PlayerFactory {
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
-              .addComponent(new PlayerInventoryHotbarDisplay(5,45))
+
               .addComponent(inputComponent)
               .addComponent(new PlayerStatsDisplay())
               .addComponent(new QuestManager(player))
