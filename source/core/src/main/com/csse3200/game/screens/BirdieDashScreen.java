@@ -11,12 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BirdieDashScreen implements Screen {
     private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
     private final GdxGame game;
+    private final BirdieDashGame birdGame;
     private SpriteBatch batch;
     private Texture background;
     private Stage stage;
@@ -29,6 +31,8 @@ public class BirdieDashScreen implements Screen {
      */
     public BirdieDashScreen(GdxGame game) {
         this.game = game;
+
+        this.birdGame = new BirdieDashGame();
     }
 
     /**
@@ -71,6 +75,7 @@ public class BirdieDashScreen implements Screen {
         batch.end();
 
         stage.act(delta);
+        birdGame.render(delta);
         stage.draw();
     }
 

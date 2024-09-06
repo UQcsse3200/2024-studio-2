@@ -30,7 +30,7 @@ public class Pipe{
         this.start_speed = start_speed;
     }
 
-    public void setPosition(float dt){
+    public void changePosition(float dt){
         dt = dt * start_speed;
         this.bottomPosition.sub(dt,0);
         this.topPosition.sub(dt,0);
