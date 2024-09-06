@@ -16,7 +16,6 @@ public class CombatManager extends Component {
 
     private enum Turn { INIT, PLAYER, ENEMY }
     private Turn currentTurn;
-    public enum Action { ATTACK, GUARD, COUNTER };
     private final Entity player;
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
@@ -31,6 +30,12 @@ public class CombatManager extends Component {
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
         this.currentTurn = Turn.INIT;
+
+        // Temp stats for testing
+        // this.playerStats.setHealth(100);
+        // this.enemyStats.setHealth(100);
+        // this.playerStats.setStrength(10);
+        // this.enemyStats.setStrength(5);
     }
 
     /**
@@ -39,7 +44,6 @@ public class CombatManager extends Component {
     public void onAttackSelected()
     {
         checkTurn();
-
         if (currentTurn == Turn.PLAYER) {
             enemyStats.hit(playerStats);
         } else {
@@ -47,16 +51,9 @@ public class CombatManager extends Component {
         }
 
         checkCombatEnd();
-
-        switchTurn();
-
-        if (currentTurn == Turn.PLAYER) {
-            enemyStats.hit(playerStats);
-        } else {
-            playerStats.hit(enemyStats);
+        if (!isCombatEnd) {
+            switchTurn();
         }
-
-        checkCombatEnd();
     }
 
     /**
@@ -91,6 +88,7 @@ public class CombatManager extends Component {
     public Entity getPlayer() {
         return player;
     }
+
     public Entity getEnemy() {
         return enemy;
     }
@@ -104,5 +102,4 @@ public class CombatManager extends Component {
     public void resize(int width, int height) {
 
     }
-
 }
