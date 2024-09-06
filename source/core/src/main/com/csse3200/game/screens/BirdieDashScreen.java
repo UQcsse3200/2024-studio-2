@@ -207,6 +207,7 @@ public class BirdieDashScreen extends PausableScreen {
         ui.getEvents().addListener("addOverlay",this::addOverlay);
         ui.getEvents().addListener("removeOverlay",this::removeOverlay);
         ui.getEvents().addListener("restart", this::restartGame);
+
         ui.getEvents().addListener("exit", this::exitGame);
         ServiceLocator.getEntityService().register(ui);
     }

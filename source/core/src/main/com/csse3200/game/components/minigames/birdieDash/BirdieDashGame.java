@@ -1,7 +1,10 @@
 package com.csse3200.game.components.minigames.birdieDash;
 
 import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
+import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
+import com.csse3200.game.components.minigames.birdieDash.rendering.BirdRenderer;
 import com.csse3200.game.components.minigames.birdieDash.rendering.PipeRenderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -14,14 +17,18 @@ public class BirdieDashGame {
     private final int GAME_WIDTH = 1920;
     private final int GAME_HEIGHT = 1200;
     // Initial speed of the game
-    private final float START_SPEED = 60;
+    private final float START_SPEED = 200;
 
     private final List<Pipe> pipes;
+    private final Bird bird;
     private final MinigameRenderer renderer;
+    private final BirdieDashController controller;
     // Just to test our things are appearing first
     public BirdieDashGame() {
         this.pipes = createPipes();
+        this.bird = new Bird(920, 600);
         this.renderer = new MinigameRenderer();
+        this.controller = new BirdieDashController(bird);
         initRenderers();
     }
 
@@ -31,6 +38,7 @@ public class BirdieDashGame {
     private void initRenderers() {
         ServiceLocator.registerResourceService(new ResourceService());
         renderer.addRenderable(new PipeRenderer(pipes, renderer));
+        renderer.addRenderable(new BirdRenderer(bird, renderer));
         // Add all the other ones e.g. bird, coins etc.
     }
     /**
@@ -41,7 +49,7 @@ public class BirdieDashGame {
         List<Pipe> pipes = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             // Only need three pipes
-            pipes.add(new Pipe(960 + 800 * i, START_SPEED));
+            pipes.add(new Pipe(960 + 960 * i, START_SPEED));
         }
         return pipes;
     }
@@ -63,6 +71,7 @@ public class BirdieDashGame {
      */
     private void updateGamePosition(float dt) {
         changePipePosition(dt);
+        bird.update(dt);
         // Add all other change positions here e.g. bird, coins etc.
     }
 

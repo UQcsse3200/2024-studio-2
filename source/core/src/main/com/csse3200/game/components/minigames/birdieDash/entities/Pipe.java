@@ -15,15 +15,15 @@ public class Pipe{
     private final float width = 300;
     private float height;
     private final float PIPE_GAP = 300;
-    private final float MIN_HEIGHT = 200;
-    private final float MAX_HEIGHT = 450;
+    private final float MIN_HEIGHT = 50;
+    private final float MAX_HEIGHT = 850;
 
     // Game physics
     private final float start_speed;
     private Random random;
 
     public Pipe(float start, float start_speed){
-        this.random =new Random();
+        this.random = new Random();
         this.height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
         this.bottomPosition = new Vector2(start,0);
         this.topPosition=new Vector2(start, height + PIPE_GAP);
@@ -34,6 +34,22 @@ public class Pipe{
         dt = dt * start_speed;
         this.bottomPosition.sub(dt,0);
         this.topPosition.sub(dt,0);
+        if(pipeOffScreen()) {
+            respawnPipe();
+        }
+    }
+
+    public void respawnPipe() {
+        height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
+        this.bottomPosition = new Vector2(GAME_WIDTH + 960 - width,0);
+        this.topPosition=new Vector2(GAME_WIDTH + 960 - width, height + PIPE_GAP);
+    }
+
+    private boolean pipeOffScreen() {
+        if(this.bottomPosition.x + 300 < 0) {
+            return true;
+        }
+        return false;
     }
 
     public Vector2 getPositionBottom(){
