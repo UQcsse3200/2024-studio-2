@@ -26,6 +26,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
 import java.util.ArrayList;
@@ -181,10 +182,7 @@ public class NPCFactory {
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
-        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-        long soundId = animalSound.play();
-        animalSound.setVolume(soundId, 0.3f);
-        animalSound.setLooping(soundId, false);
+        AudioManager.playSound(animalSoundPath);
       }
     }
 
