@@ -28,7 +28,6 @@ public class LoadingDisplay extends UIComponent {
         progressBar.setValue(0);
     }
 
-
     @Override
     public void create() {
         super.create();

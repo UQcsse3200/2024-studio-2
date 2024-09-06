@@ -18,7 +18,6 @@ public class CameraComponent extends Component {
     lastPosition = Vector2.Zero.cpy();
   }
 
-
   @Override
   public void update() {
     Vector2 position = entity.getCenterPosition();

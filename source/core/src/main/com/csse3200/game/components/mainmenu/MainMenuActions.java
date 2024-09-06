@@ -19,8 +19,6 @@ public class MainMenuActions extends Component {
     this.game = game;
   }
 
-
-
   @Override
   public void create() {
     entity.getEvents().addListener("start", this::onStart);

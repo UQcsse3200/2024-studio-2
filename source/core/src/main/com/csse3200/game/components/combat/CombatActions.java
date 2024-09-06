@@ -34,7 +34,6 @@ public class CombatActions extends Component {
     this.enemy = enemy;
   }
 
-
   /**
    * Called when the screen is resized.
    *

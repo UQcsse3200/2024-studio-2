@@ -54,5 +54,4 @@ public class InputDecorator extends InputComponent {
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     return inputProcessor.touchUp(screenX, screenY, pointer, button);
   }
-
 }

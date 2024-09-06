@@ -27,7 +27,6 @@ public class GameAreaDisplay extends UIComponent {
         this.gameAreaName = gameAreaName;
     }
 
-
     /**
      * Initializes the GameAreaDisplay component and calls addactors() to add actors to the stage.
      */

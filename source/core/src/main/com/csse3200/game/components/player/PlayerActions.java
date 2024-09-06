@@ -41,7 +41,6 @@ public class PlayerActions extends Component {
     this.player = player;
   }
 
-
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);

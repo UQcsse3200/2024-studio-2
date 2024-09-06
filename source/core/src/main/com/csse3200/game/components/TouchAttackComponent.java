@@ -32,7 +32,6 @@ public class TouchAttackComponent extends Component {
     this.targetLayer = targetLayer;
   }
 
-
   @Override
   public void create() {
     entity.getEvents().addListener("collisionStart", this::onCollisionStart);

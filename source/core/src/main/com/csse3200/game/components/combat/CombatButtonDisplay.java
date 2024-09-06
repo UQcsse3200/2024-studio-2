@@ -44,7 +44,6 @@ public class CombatButtonDisplay extends UIComponent {
         create();
     }
 
-
     @Override
     public void create() {
         super.create();

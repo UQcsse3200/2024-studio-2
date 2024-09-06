@@ -10,7 +10,6 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 public class ChickenAnimationController extends Component {
   AnimationRenderComponent animator;
 
-
   @Override
   public void create() {
     super.create();

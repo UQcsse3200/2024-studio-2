@@ -23,7 +23,6 @@ public class MainGameActions extends Component {
     ServiceLocator.registerEventService(new EventService());
   }
 
-
   @Override
   public void create() {
     ServiceLocator.registerEventService(new EventService());

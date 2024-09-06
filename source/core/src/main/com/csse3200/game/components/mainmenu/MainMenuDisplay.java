@@ -41,7 +41,6 @@ public class MainMenuDisplay extends UIComponent {
     private TextButton toggleWindowBtn;
     private Texture backgroundTexture;
 
-
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
