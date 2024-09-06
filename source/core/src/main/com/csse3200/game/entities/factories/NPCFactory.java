@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.audio.Sound;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -148,6 +149,8 @@ public class NPCFactory {
   // TODO: Fix this so comment this method out if need be
   public static void registerFriendlyNPC(Entity npc) {
     // Register the NPC as a friendly one
+    BaseEntityConfig chicken = NPCConfigs.chicken;
+    createFriendlyNPC(npc, ForestGameArea.enemies, chicken);
     npc.getEvents().trigger("onFriendlyNPCCreated");
     // Need to add additional logic
   }

@@ -45,7 +45,7 @@ public class EntityConverter {
 		// Update animation
 		AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
 		if (animator != null) {
-			TextureAtlas atlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+			//TextureAtlas atlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
 			animator.stopAnimation();
 			animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 			enemy.addComponent(new FriendlyNPCAnimationController());
