@@ -33,10 +33,11 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
     DialogueBox itemOverlay;
+    private boolean toggleHotbar = true;
 
 
-    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));
-    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
+    private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));//created by @PratulW5
+    private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));//created by @PratulW5
 
     PlayerInventoryHotbarDisplay hotbar;
 
@@ -82,7 +83,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
-        hotbar.toggleHotbar();
+        toggleHotbar();
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(window, true); // close inventory
@@ -96,6 +97,11 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
+    public void toggleHotbar() {
+        if (toggleHotbar) hotbar.disposeTable();
+        else hotbar.createHotbar();
+        toggleHotbar = !toggleHotbar;
+    }
     /**
      * Handles drawing of the component. The actual rendering is managed by the stage.
      *
@@ -172,9 +178,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
                 disposeItemOverlay();
-                    String[] itemText = {item.getDescription() + ". Quantity: "
-                            + item.getQuantity() + "/" + item.getLimit()};
-                    itemOverlay = new DialogueBox(itemText);
+                String[] itemText = {item.getDescription() + ". Quantity: "
+                        + item.getQuantity() + "/" + item.getLimit()};
+                itemOverlay = new DialogueBox(itemText);
             }
 
             @Override
@@ -227,8 +233,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             toggleInventory();
 
         }
-        hotbar.toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
-        hotbar.toggleHotbar();
+        toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
+        toggleHotbar();
     }
 
     /**
