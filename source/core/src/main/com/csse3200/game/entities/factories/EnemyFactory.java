@@ -14,7 +14,6 @@ import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -193,8 +192,8 @@ public class EnemyFactory {
 
     List<CombatMove> moveSet = new ArrayList<>();
     moveSet.add(new AttackMove("Punch Out", 30, 10));
-    moveSet.add(new BlockMove("Kangaroo Guard", 20, 5));
-    moveSet.add(new DodgeMove("Swift Leap", 15));
+    moveSet.add(new GuardMove("Kangaroo Guard", 20, 5));
+    moveSet.add(new CounterMove("Swift Leap", 15));
     moveSet.add(new SpecialMove("Boomerang Jab", 50, 25));
 
     kangarooBoss
