@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
+    DialogueBox itemOverlay;
+
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -146,12 +149,17 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                return true;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //double calls when mouse held, to be fixed
+                disposeItemOverlay();
+                    String[] itemText = {item.getDescription() + ". Quantity: "
+                            + item.getQuantity() + "/" + item.getLimit()};
+                    itemOverlay = new DialogueBox(itemText);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                disposeItemOverlay();
             }
         });
 
@@ -208,6 +216,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
+        disposeItemOverlay();
         super.dispose();
     }
 
@@ -231,6 +240,16 @@ public class PlayerInventoryDisplay extends UIComponent {
             table.clear();
             table.remove();
             table = null;
+        }
+    }
+
+    /**
+     * Disposes of the inventory item overlay pop up.
+     */
+    private void disposeItemOverlay() {
+        if (itemOverlay != null) {
+            itemOverlay.dispose();
+            itemOverlay = null;
         }
     }
 
