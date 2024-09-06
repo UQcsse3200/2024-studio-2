@@ -21,7 +21,6 @@ public class ItemProximityTask extends ProximityTask {
     private static final Logger logger = LoggerFactory.getLogger(ItemProximityTask.class);
     private final AbstractItem item;
     private boolean itemPickedUp = false;
-    DialogueBox itemOverlay;
     private boolean hasApproached;
 
     public ItemProximityTask(Entity target,
@@ -33,18 +32,6 @@ public class ItemProximityTask extends ProximityTask {
         this.hasApproached = false;
     }
 
-
-    /**
-     * Creates an overlay that displays item information and prompts the player to pick up the item.
-     * This method is called when the player is near the item.
-     */
-    private void createItemOverlay() {
-        if (this.itemOverlay == null) {
-            String[] itemText = {item.getDescription() + " - press P to pick it up."};
-            itemOverlay = new DialogueBox(itemText);
-        }
-    }
-
     /**
      * Starts the task by adding an event listener for the "pickupItem" event.
      * The event is triggered when the Player presses P.
@@ -53,28 +40,6 @@ public class ItemProximityTask extends ProximityTask {
     public void start() {
         super.start();
         this.target.getEvents().addListener("pickUpItem", this::addToInventory);
-    }
-
-
-    /**
-     * Updates the task each frame. It checks the players proximity to the item and displays
-     * an overlay if the player is near. If the play moves away, the overlay is removed.
-     */
-    @Override
-    public void update() {
-        super.update();
-        if(isPlayerNearItem() && !this.hasApproached) {
-            this.hasApproached = true;
-            String[] itemText = {item.getDescription() + " - press P to pick it up."};
-            ServiceLocator.getEntityChatService().updateText(itemText);
-            ServiceLocator.getEntityChatService().getCurrentOverlay();
-        }
-
-        else if (!isPlayerNearItem() && this.hasApproached) {
-            this.hasApproached = false;
-            ServiceLocator.getEntityChatService().hideCurrentOverlay();
-
-        }
     }
 
     /**
@@ -117,10 +82,7 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedAway() {
-        if (this.itemOverlay != null) {
-                itemOverlay.dispose();
-                itemOverlay = null;
-            }
+        ServiceLocator.getEntityChatService().hideCurrentOverlay();
     }
 
     /**
@@ -133,7 +95,8 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedClose() {
-        createItemOverlay();
+        String[] itemText = {item.getDescription() + " - press P to pick it up."};
+        ServiceLocator.getEntityChatService().updateText(itemText);
     }
 
     /**

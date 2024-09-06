@@ -97,9 +97,6 @@ public class MainGameScreen extends PausableScreen {
       ServiceLocator.registerEntityService(new EntityService());
       ServiceLocator.registerRenderService(new RenderService());
       //register the EntityChatService
-      ServiceLocator.registerEntityChatService(new EntityChatService());
-
-      ServiceLocator.registerEntityChatService(new EntityChatService());
 
       renderer = RenderFactory.createRenderer();
       renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -112,7 +109,11 @@ public class MainGameScreen extends PausableScreen {
           this.gameArea = new ForestGameArea(terrainFactory, game);
 
       gameArea.create();
-  }
+
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerEntityChatService(new EntityChatService(stage));
+
+    }
 
   /**
    * Renders the game screen and updates the physics engine, game entities, and renderer.

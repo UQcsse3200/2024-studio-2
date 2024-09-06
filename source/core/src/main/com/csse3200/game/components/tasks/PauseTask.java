@@ -3,6 +3,7 @@ package com.csse3200.game.components.tasks;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.
@@ -30,8 +31,7 @@ public class PauseTask extends ChaseTask {
     }
 
     /**
-     * Starts the pause behavior by triggering the pause event
-     * and initializing any necessary components.
+     * Starts the pause behavior
      */
     @Override
     public void start() {
@@ -45,14 +45,14 @@ public class PauseTask extends ChaseTask {
      * associated with the entity to provide context for the pause event.
      */
     protected void triggerPauseEvent() {
-        entity = this.owner.getEntity();
+        this.entity = this.owner.getEntity();
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
-        config = configComponent.getConfig();
+        this.config = configComponent.getConfig();
 
 
         if (this.config != null) {
-            String[] hintText = config.getBaseHint();
-            String animalName = config.getAnimalName();
+            String[] hintText = this.config.getBaseHint();
+            String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);
         } else {
@@ -93,12 +93,20 @@ public class PauseTask extends ChaseTask {
             // NPC pauses when close enough to the target
             hasApproached = true;
             movementTask.stop();
-
-        } else if (hasApproached && distanceToTarget > 1f) {
-            // If the player moves out of viewDistance, the NPC stops but does not follow the player
-            this.hasApproached = false;
-            triggerPauseEventEnd();
         }
+    }
+
+    /**
+     * Stops the pause behavior
+     */
+    @Override
+    public void stop() {
+        super.stop();
+        movementTask.start();
+
+        // Ensure the chat box doesn't hang around when its not supposed to
+        this.hasApproached = false;
+        triggerPauseEventEnd();
     }
 
     /**
@@ -127,6 +135,7 @@ public class PauseTask extends ChaseTask {
     protected int getActivePriority() {
         float distance = getDistanceToTarget();
         if (distance > getViewDistance() || !isTargetVisible()) {
+            this.hasApproached = false;
             return -1; // Too far or not visible, stop the task
         }
         return priority;
@@ -142,6 +151,7 @@ public class PauseTask extends ChaseTask {
     @Override
     protected int getInactivePriority() {
         float distance = getDistanceToTarget();
+
         if (distance < getViewDistance() && isTargetVisible()) {
             return priority;
         }

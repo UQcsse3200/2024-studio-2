@@ -11,7 +11,6 @@ public class EntityChatService {
     private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
     private DialogueBox currentOverlay;
     private String[] hints;
-    private boolean isVisible;
 
     /**
      * Create a new chat overlay with the given hint text.
