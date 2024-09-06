@@ -1,31 +1,33 @@
 package com.csse3200.game.areas;
-
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
+import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
+import com.csse3200.game.areas.terrain.TerrainLoader;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.function.Supplier;
+
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
-  private static final int NUM_TREES = 7;
   private static final int NUM_APPLES = 5;
   private static final int NUM_HEALTH_POTIONS = 3;
   private static final int NUM_CHICKENS = 2;
@@ -94,6 +96,8 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestMusic = {BACKGROUND_MUSIC};
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
+  private final Map<Integer, Entity> dynamicItems = new HashMap<>();
+  private int totalItems = 0;
   private Entity player;
   private final GdxGame game;
   private boolean kangarooBossSpawned = false;
@@ -109,9 +113,19 @@ public class ForestGameArea extends GameArea {
   public void create() {
     loadAssets();
     displayUI();
+
+
+    // Terrain
     spawnTerrain();
-    spawnTrees();
+
+    // Player
     player = spawnPlayer();
+    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+    TerrainLoader.setChunk(player.getPosition());
+
+    // Obstacles
+    spawnTrees();
+
 
     // Enemies
     for (int i = 0; i < NUM_CHICKENS; i++) {
@@ -134,12 +148,59 @@ public class ForestGameArea extends GameArea {
     spawnTurtle();
     spawnEagle();
     spawnSnake();
+
+    //Enemies
+    spawnEnemies();
+
+    // items
+    handleItems();
+
+    //Friendlies
+    spawnFriendlyNPCs();
+
+
     playMusic();
+    player.getEvents().addListener("setPosition", this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
   }
 
-  public Entity getPlayer() {
+
+  private void handleNewChunks(Vector2 playerPos) {
+    if (TerrainLoader.movedChunk(playerPos)) {
+      logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
+      handleItems();
+    }
+  }
+
+  private void handleItems() {
+    // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
+    for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
+      spawnItems(TerrainLoader.chunktoWorldPos(pos));
+    }
+
+    // Despawn items on old chunks:
+    // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
+    //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
+    //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
+    //  ONTO THE CHUNK)
+    List<Integer> removals = new ArrayList<>();
+    for (int key : dynamicItems.keySet()) {
+      GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
+      if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+        removals.add(key);
+      }
+    }
+    for (int i : removals) {
+      dynamicItems.remove(i);
+    }
+  }
+
+  /**
+   * gets the player
+   * @return player entity
+   */
+  public Entity getPlayer () {
     return player;
   }
 
@@ -155,6 +216,7 @@ public class ForestGameArea extends GameArea {
     spawnEntity(new Entity().addComponent(terrain));
   }
 
+
   private void updateTerrain(GridPoint2 playerPosition) {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, playerPosition, new GridPoint2(20, 20));
     spawnEntity(new Entity().addComponent(terrain));
@@ -168,7 +230,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < NUM_TREES; i++) {
+    for (int i = 0; i < config.spawns.NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
@@ -188,7 +250,6 @@ public class ForestGameArea extends GameArea {
       spawnEntityOnMap(kangarooBoss);
       kangarooBossSpawned = true;
     }
-
   }
 
   private void spawnChicken() {
@@ -234,15 +295,96 @@ public class ForestGameArea extends GameArea {
     spawnRandomItem(appleGenerator, NUM_APPLES);
   }
 
-  private void spawnRandomItem(Supplier<Entity> creator, int numEntities) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-    for (int i = 0; i < numEntities; i++) {
+  private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
+    GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
+    GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity obstacle = creator.get();
-      spawnEntityAt(obstacle, randomPos, true, false);
+      Entity item = creator.get();
+      spawnEntityAt(item, randomPos, true, false);
+      dynamicItems.put(totalItems, item);
+      totalItems++;
     }
   }
+
+  private void spawnItems(GridPoint2 pos) {
+    Supplier<Entity> generator;
+
+    // Health Potions
+    generator = () -> ItemFactory.createHealthPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
+
+    // Apples
+    generator = () -> ItemFactory.createApple(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_APPLES);
+  }
+
+  private void spawnEnemies() {
+    Supplier<Entity> generator;
+
+    // Chicken
+    generator = () -> EnemyFactory.createChicken(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
+
+    // Monkey
+    generator = () -> EnemyFactory.createMonkey(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+
+    // Frog
+    generator = () -> EnemyFactory.createFrog(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+  }
+
+  private void spawnFriendlyNPCs() {
+    Supplier<Entity> generator;
+
+    // Cow
+    generator = () -> NPCFactory.createCow(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_COWS);
+
+    // Lion
+    generator = () -> NPCFactory.createLion(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_LIONS);
+
+    // Turtle
+    generator = () -> NPCFactory.createTurtle(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_TURTLES);
+
+    // Eagle
+    generator = () -> NPCFactory.createEagle(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_EAGLES);
+
+    // Snake
+    generator = () -> NPCFactory.createSnake(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
+  }
+
+  private void spawnRandomItem(Supplier<Entity> creator, int numItems) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity item = creator.get();
+      spawnEntityAt(item, randomPos, true, false);
+      totalItems++;
+      dynamicItems.put(totalItems, item);
+    }
+  }
+
+  private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+    for (int i = 0; i < numNPCs; i++) {
+
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity npc = creator.get();
+      spawnEntityAt(npc, randomPos, true, false);
+    }
+  }
+
 
   private void spawnEntityOnMap(Entity entity) {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
@@ -272,61 +414,89 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnSnake() {
-    Entity snake = NPCFactory.createSnake(player, this.enemies);
-    spawnEntityOnMap(snake);
+        Entity snake = NPCFactory.createSnake(player, this.enemies);
+        spawnEntityOnMap(snake);
+  }
+
+  private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      spawnEntityAt(enemy, randomPos, true, false);
+      enemies.add(enemy);
+      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+    }
+
   }
 
   public static void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
+            Music.class);
     music.setLooping(true);
     music.setVolume(0.0f);
     music.play();
   }
 
   public static void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
     music.pause();
   }
 
   public void loadAssets() {
-    logger.debug("Loading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(forestTextures);
-    resourceService.loadTextureAtlases(forestTextureAtlases);
-    resourceService.loadSounds(questSounds);
-    resourceService.loadSounds(forestSounds);
-    resourceService.loadSounds(dogSound);
-    resourceService.loadSounds(dogBarkSound);
-    for (String[] sounds : soundArrays) {
-      resourceService.loadSounds(sounds);
-    }
-    resourceService.loadMusic(forestMusic);
-    resourceService.loadMusic(heartbeatSound);
+          logger.debug("LOADING ASSETS");
+          ResourceService resourceService = ServiceLocator.getResourceService();
+          resourceService.loadTextures(forestTextures);
+          resourceService.loadTextureAtlases(forestTextureAtlases);
+          resourceService.loadSounds(questSounds);
+          resourceService.loadSounds(forestSounds);
+          resourceService.loadSounds(dogSound);
+          resourceService.loadSounds(dogBarkSound);
+          for (String[] sounds : soundArrays) {
+            resourceService.loadSounds(sounds);
+          }
+          resourceService.loadMusic(forestMusic);
+          resourceService.loadMusic(heartbeatSound);
 
-    while (!resourceService.loadForMillis(10)) {
-      logger.info("Loading... {}%", resourceService.getProgress());
-    }
-  }
+          while (!resourceService.loadForMillis(10)) {
+            logger.info("Loading... {}%", resourceService.getProgress());
 
-  public void unloadAssets() {
-    logger.debug("Unloading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(forestTextures);
-    resourceService.unloadAssets(forestTextureAtlases);
-    resourceService.unloadAssets(forestSounds);
-    resourceService.unloadAssets(dogSound);
-    resourceService.unloadAssets(dogBarkSound);
-    for (String[] sounds : soundArrays) {
-      resourceService.unloadAssets(sounds);
-    }
-    resourceService.unloadAssets(forestMusic);
-    resourceService.unloadAssets(heartbeatSound);
-  }
+            resourceService.loadTextures(config.textures.forestTextures);
+            resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
+            resourceService.loadSounds(config.sounds.gameSounds);
+            resourceService.loadMusic(config.sounds.gameMusic);
 
-  @Override
-  public void dispose() {
-    super.dispose();
-    ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
-    this.unloadAssets();
+            while (!resourceService.loadForMillis(10)) {
+              // This could be upgraded to a loading screen
+              logger.debug("Loading... {}%", resourceService.getProgress());
+
+            }
+          }
+
+    private void unloadAssets() {
+      logger.debug("Unloading assets");
+//      ResourceService resourceService = ServiceLocator.getResourceService();
+      resourceService.unloadAssets(forestTextures);
+      resourceService.unloadAssets(forestTextureAtlases);
+      resourceService.unloadAssets(forestSounds);
+      resourceService.unloadAssets(questSounds);
+      resourceService.unloadAssets(forestMusic);
+      resourceService.unloadAssets(heartbeatSound);
+      resourceService.unloadAssets(dogSound);
+      resourceService.unloadAssets(dogBarkSound);
+
+      for (String[] soundArray : soundArrays) {
+        resourceService.unloadAssets(soundArray);
+      }
+    }
+
+
+    @Override
+          public void dispose () {
+            super.dispose();
+            ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
+            this.unloadAssets();
+          }
   }
-}

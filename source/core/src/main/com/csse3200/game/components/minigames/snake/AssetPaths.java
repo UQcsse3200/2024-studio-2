@@ -19,6 +19,8 @@ public class AssetPaths {
             SNAKE_BODY_VERTICAL_IMAGE,
             SNAKE_BODY_BENT_IMAGE,
             "images/PauseOverlay/TitleBG.png",
-            "images/PauseOverlay/Button.png"
+            "images/PauseOverlay/Button.png",
+            "images/QuestsOverlay/Quest_BG.png",
+            "images/QuestsOverlay/Quest_SBG.png"
     };
 }

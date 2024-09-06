@@ -14,7 +14,6 @@ import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -44,10 +43,9 @@ import java.util.Objects;
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
  */
-public class SnakeScreen extends ScreenAdapter {
+public class SnakeScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
-    private final GdxGame game;
     private final SnakeGame snakeGame;
     private final SnakeGameRenderer snakeRenderer;
     private final Renderer renderer;
@@ -62,10 +60,6 @@ public class SnakeScreen extends ScreenAdapter {
      */
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
-    /**
-     * Flag indicating whether the screen is in a resting state.
-     */
-    private boolean resting = false;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 
@@ -75,7 +69,7 @@ public class SnakeScreen extends ScreenAdapter {
      * @param game The main game instance that controls the screen.
      */
     public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        this.game = game;
+        super(game);
         this.scale = 1;
         this.exitButtonTable = new Table();
         this.oldScreen = screen;
@@ -87,10 +81,6 @@ public class SnakeScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
-        ServiceLocator.registerEventService(new EventService());
-
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
 
         renderer = RenderFactory.createRenderer();
 
@@ -235,6 +225,8 @@ public class SnakeScreen extends ScreenAdapter {
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
 
+        ui.getEvents().addListener("addOverlay",this::addOverlay);
+        ui.getEvents().addListener("removeOverlay",this::removeOverlay);
         ui.getEvents().addListener("move", this::handleSnakeInput);
         ui.getEvents().addListener("restart", this::restartGame);
         ui.getEvents().addListener("exit", this::exitGame);
@@ -266,66 +258,6 @@ public class SnakeScreen extends ScreenAdapter {
      */
     void exitGame() {
         game.setOldScreen(oldScreen, oldScreenServices);
-    }
-
-    /**
-     * Adds the pause overlay
-     * @param overlayType the overlay type
-     */
-    public void addOverlay(Overlay.OverlayType overlayType){
-        logger.info("Adding Overlay {}", overlayType);
-        if (enabledOverlays.isEmpty()) {
-            this.rest();
-        }
-        else {
-            enabledOverlays.getFirst().rest();
-        }
-        if (Objects.requireNonNull(overlayType) == Overlay.OverlayType.PAUSE_OVERLAY) {
-            enabledOverlays.addFirst(new PauseOverlay());
-        } else {
-            logger.warn("Unknown Overlay type: {}", overlayType);
-        }
-    }
-
-    /**
-     * Removes the pause overlay
-     */
-    public void removeOverlay(){
-        logger.debug("Removing top Overlay");
-
-        if (enabledOverlays.isEmpty()){
-            this.wake();
-            return;
-        }
-
-        enabledOverlays.getFirst().remove();
-
-        enabledOverlays.removeFirst();
-
-        if (enabledOverlays.isEmpty()){
-            this.wake();
-
-        } else {
-            enabledOverlays.getFirst().wake();
-        }
-    }
-
-    /**
-     * rests the screen (when paused)
-     */
-    public void rest() {
-        logger.info("Screen is resting");
-        resting = true;
-        ServiceLocator.getEntityService().restWholeScreen();
-    }
-
-    /**
-     * Wakes the screen (when unpaused)
-     */
-    public void wake() {
-        logger.info("Screen is Awake");
-        resting = false;
-        ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }
 

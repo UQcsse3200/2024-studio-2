@@ -11,9 +11,9 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
@@ -28,7 +28,6 @@ public class PlayerActions extends Component {
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
-  private final EventService eventService = ServiceLocator.getEventService();
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
   private DogSoundPlayer dogSoundPlayer;
@@ -55,7 +54,8 @@ public class PlayerActions extends Component {
       Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
       Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
       dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
-    } //handle cat option here
+    }
+    // Handle other animals (e.g., cat) here
   }
 
   @Override
@@ -80,7 +80,6 @@ public class PlayerActions extends Component {
     this.walkDirection = direction;
     moving = true;
     logger.info("Player started moving in direction: " + direction);
-    eventService.getGlobalEventHandler().trigger("Test Achievement");
     player.getEvents().trigger("steps");
   }
 
@@ -102,12 +101,14 @@ public class PlayerActions extends Component {
 
   private void restMenu() {
     logger.info("Sending Pause");
-    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.PAUSE_OVERLAY);
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.addOverlay(OverlayType.PAUSE_OVERLAY);
   }
 
   private void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
-    eventService.getGlobalEventHandler().trigger("addOverlay", OverlayType.QUEST_OVERLAY);
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);
   }
 
   public void startCombat(Entity enemy) {

@@ -35,7 +35,7 @@ public class KeyboardMiniGameInputComponent extends InputComponent {
                 yield true;
             }
             case Keys.ESCAPE -> {
-                ServiceLocator.getEventService().getGlobalEventHandler().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+                entity.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
                 yield true;
             }
             default -> false;

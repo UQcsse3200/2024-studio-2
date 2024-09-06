@@ -18,15 +18,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import static com.csse3200.game.components.player.PlayerStatsDisplayTester.*;
-
 /**
  * A UI component for displaying player stats, such as health, hunger, and experience.
  * This component handles the creation, updating, and disposing
  * the player's stats on the screen.
  */
-
 public class PlayerStatsDisplay extends UIComponent {
 
     Table table;
@@ -48,7 +44,6 @@ public class PlayerStatsDisplay extends UIComponent {
     public int maxHunger;
     public int maxExperience;
 
-
     /**
      * Initializes and adds actors (UI elements) to the stage.
      * Registers listeners for updating health, experience, and hunger.
@@ -57,14 +52,13 @@ public class PlayerStatsDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-       addActorsTester= addActors();
+        addActorsTester= addActors();
         stage = ServiceLocator.getRenderService().getStage();
 
         entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
         entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("updateHunger", this::updatePlayerHungerUI);
 
-        testCreate(addActorsTester,entity);
         maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
         maxHealth= entity.getComponent(CombatStatsComponent.class).getMaxHealth();
         maxHunger=entity.getComponent(CombatStatsComponent.class).getMaxHunger();
@@ -110,7 +104,7 @@ public class PlayerStatsDisplay extends UIComponent {
             xpBarFrames[i] = textureAtlas[2].findRegion(frameName3);
         }
         xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
-        testInitBarAnimation(textureAtlas, healthBarAnimation, hungerBarAnimation, xpBarAnimation);
+//        testInitBarAnimation(textureAtlas, healthBarAnimation, hungerBarAnimation, xpBarAnimation);
 
     }
 
@@ -181,6 +175,7 @@ public class PlayerStatsDisplay extends UIComponent {
         return true;
     }
 
+
     public void startHungerDecreaseTimer() {
         Timer.schedule(new Timer.Task() {
             @Override
@@ -231,6 +226,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
 
 
+
     @Override
     public void draw(SpriteBatch batch) {
         // handled by stage
@@ -257,18 +253,15 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
-        logger.info("Made it to this updateHealth function");
-        logger.info("{}", health);
+        logger.debug("Made it to this updateHealth function");
+        logger.debug("{}", health);
         healthLabel.setText(text);
         int totalFrames = 11;
-
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health
 
         int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
-        String statName="health";
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        testUpdatePlayerStatsUI( maxHealth, health,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, healthBarAnimation, healthImage);
     }
@@ -280,8 +273,8 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHungerUI(int hunger) {
         CharSequence text = String.format("HGR: %d", hunger);
-        logger.info("Made it to this updateHunger function");
-        logger.info("{}", hunger);
+        logger.debug("Made it to this updateHunger function");
+        logger.debug("{}", hunger);
         hungerLabel.setText(text);
 
         // Debugged and Developed with ChatGPT
@@ -289,8 +282,6 @@ public class PlayerStatsDisplay extends UIComponent {
 
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        String statName="hunger";
-        testUpdatePlayerStatsUI( maxHunger, hunger,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, hungerBarAnimation, hungerImage);
 
@@ -304,16 +295,14 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         experienceLabel.setText(text);
-        logger.info("Made it to this updatePlayerExperienceUI function");
-        logger.info("{}", experience);
+        logger.debug("Made it to this updatePlayerExperienceUI function");
+        logger.debug("{}", experience);
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health as no xp implementation yet
 
 
         int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        String statName="experience";
-        testUpdatePlayerStatsUI( maxExperience, experience,statName );
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, xpBarAnimation, xpImage);
 

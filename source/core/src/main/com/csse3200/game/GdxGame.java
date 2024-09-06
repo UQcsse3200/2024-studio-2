@@ -71,7 +71,6 @@ public class GdxGame extends Game {
     ServiceLocator.registerResourceService(container.getResourceService());
     ServiceLocator.registerEntityService(container.getEntityService());
     ServiceLocator.registerRenderService(container.getRenderService());
-    ServiceLocator.registerEventService(container.getEventService());
     screen.resume();
   }
 
