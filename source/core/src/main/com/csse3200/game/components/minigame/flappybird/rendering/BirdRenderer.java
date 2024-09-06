@@ -20,6 +20,7 @@ public class BirdRenderer implements MinigameRenderable {
         loadAssets();
     }
 
+
     @Override
     public void render() {
 
