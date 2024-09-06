@@ -3,7 +3,6 @@ package com.csse3200.game.components.tasks;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.components.quests.QuestManager;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.

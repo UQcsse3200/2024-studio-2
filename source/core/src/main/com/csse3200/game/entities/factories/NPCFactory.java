@@ -153,7 +153,7 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                    .addTask(new PauseTask(target, 10, 2f, 1f, false));
+                    .addTask(new PauseTask(target, 10, 2f, 1.2f, false));
 
     // Avoid all the enemies on the game
     for (Entity enemy : enemies) {
