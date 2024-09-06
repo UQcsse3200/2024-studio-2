@@ -1,4 +1,5 @@
 package com.csse3200.game.components.player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -31,9 +33,16 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
     DialogueBox itemOverlay;
+    private boolean toggleHotbar = true;
+
+
     private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));//created by @PratulW5
     private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));//created by @PratulW5
+
     PlayerInventoryHotbarDisplay hotbar;
+
+
+
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -51,6 +60,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
+
         this.inventory = new Inventory(capacity);
         this.hotbar= new PlayerInventoryHotbarDisplay(5,inventory,this);
         this.numCols = numCols;
@@ -73,9 +83,9 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
+        toggleHotbar();
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
-            hotbar.createHotbar();
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
             toggle = false;
@@ -83,11 +93,15 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
-            hotbar.disposeTable();
             toggle = true;
         }
     }
 
+    public void toggleHotbar() {
+        if (toggleHotbar) hotbar.disposeTable();
+        else hotbar.createHotbar();
+        toggleHotbar = !toggleHotbar;
+    }
     /**
      * Handles drawing of the component. The actual rendering is managed by the stage.
      *
@@ -112,26 +126,35 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.getTitleLabel().setStyle(titleStyle);
         table = new Table();
         window.getTitleTable().padBottom(20);
+
+
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col;
                 AbstractItem item = inventory.getAt(index);
+
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(skinSlots);
+
+                // final ImageButton slot = new ImageButton(skin, "inventory-slot");
+
                 // Add the item image to the slot
                 if (item != null) {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(80, 80);
                 }
+
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
+
         // Add the table to the window
         window.add(table).expand().fill();
+
         window.pack();
         // Set position in stage top-center
         window.setPosition(
@@ -148,7 +171,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param item  The item in the slot.
      * @param index The index of the slot in the inventory.
      */
-    public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
+    void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
@@ -159,6 +182,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                         + item.getQuantity() + "/" + item.getLimit()};
                 itemOverlay = new DialogueBox(itemText);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 disposeItemOverlay();
@@ -207,11 +231,10 @@ public class PlayerInventoryDisplay extends UIComponent {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();
+
         }
-        else {
-            hotbar.disposeTable();
-            hotbar.createHotbar();
-        }
+        toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
+        toggleHotbar();
     }
 
     /**

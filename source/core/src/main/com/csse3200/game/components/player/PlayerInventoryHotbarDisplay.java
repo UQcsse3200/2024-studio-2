@@ -1,8 +1,10 @@
 package com.csse3200.game.components.player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -16,37 +18,38 @@ import com.csse3200.game.ui.UIComponent;
  */
 public class PlayerInventoryHotbarDisplay extends UIComponent {
 
+
     private final Skin skinSlots = new Skin(Gdx.files.internal("Inventory/skinforslot.json")); //created by @PratulW5
     private final Table table = new Table();
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
-    private final int Capacity;
+    private final int hotBarCapacity;
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
-    private final PlayerInventoryDisplay inventoryUI;
+
+    private final PlayerInventoryDisplay playerInventoryDisplay;
 
     /**
      * Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.
      *
-     * @param Capacity Number of slots in the hotbar
+     * @param hotBarCapacity Number of slots in the hotbar
      * @param inventory      Player's inventory
-     * @param InventoryUI Inventory display manager
+     * @param playerInventoryDisplay Inventory display manager
      */
-    public PlayerInventoryHotbarDisplay(int Capacity, Inventory inventory, PlayerInventoryDisplay InventoryUI) {
-        if (Capacity < 1) throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
+    public PlayerInventoryHotbarDisplay(int hotBarCapacity, Inventory inventory, PlayerInventoryDisplay playerInventoryDisplay) {
+        if (hotBarCapacity < 1) throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
         this.inventory = inventory;
-        if(Capacity >= inventory.getCapacity())throw new IllegalArgumentException("Inventory Hotbar capacity must be less than inventory capacity!");
-        this.Capacity=Capacity;
-        this.inventoryUI = InventoryUI;
-        this.hotBarSlots = new ImageButton[Capacity];
+        this.hotBarCapacity=hotBarCapacity;
+        this.playerInventoryDisplay = playerInventoryDisplay;
+        this.hotBarSlots = new ImageButton[hotBarCapacity];
         stage = ServiceLocator.getRenderService().getStage();
         createHotbar();
-
     }
 
     /**
      * Toggles the visibility of the hotbar.
      * If the hotbar is currently visible, it will be removed, and vice versa.
      */
+
 
     @Override
     protected void draw(SpriteBatch batch) {
@@ -61,11 +64,12 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.center().right();
         table.setBackground(new TextureRegionDrawable(hotBarTexture));
         table.setSize(160, 517);
-        for (int i = 0; i < Capacity; i++) {
+
+        for (int i = 0; i < hotBarCapacity; i++) {
             AbstractItem item = inventory.getAt(i);
             ImageButton slot = new ImageButton(skinSlots);
             if (item != null) {
-                inventoryUI.addSlotListeners(slot, item, i);
+                playerInventoryDisplay.addSlotListeners(slot, item, i);
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
                 slot.add(itemImage).center().size(75, 75);
             }
@@ -73,6 +77,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             table.row();
             hotBarSlots[i] = slot;
         }
+
         float tableX = stage.getWidth() - table.getWidth() - 20;
         float tableY = (stage.getHeight() - table.getHeight()) / 2;
         table.setPosition(tableX, tableY);
