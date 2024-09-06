@@ -48,8 +48,8 @@ public class CombatActions extends Component {
     //container.getEntityService().unregister(enemy);
     //container.getEntityService().update();
     // Set current screen to original MainGameScreen
-//    game.setOldScreen(screen, container);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    game.setOldScreen(screen, container);
+    // game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
   /**
