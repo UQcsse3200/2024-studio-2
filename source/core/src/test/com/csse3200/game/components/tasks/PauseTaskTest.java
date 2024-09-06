@@ -55,7 +55,6 @@ class PauseTaskTest {
     @Test
     void shouldMoveTowardsTarget() {
         Entity target = new Entity();
-                target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
         NPCConfigs configs =
                 FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
@@ -89,7 +88,6 @@ class PauseTaskTest {
     @Test
     void shouldChaseOnlyWhenInDistance() {
         Entity target = new Entity();
-        target.addComponent(new QuestManager(target));
         target.setPosition(2f, 2f);
 
         NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");

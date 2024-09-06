@@ -10,9 +10,6 @@ public class BaseEntityConfig {
     protected String[] soundPath;
     protected BaseEntityConfig() {}
 
-
-
-
     /**
      * Returns the path to the sprite image for this entity.
      *
@@ -39,5 +36,4 @@ public class BaseEntityConfig {
     public String[] getSoundPath() {
         return this.soundPath;
     }
-
 }
