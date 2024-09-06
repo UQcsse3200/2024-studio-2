@@ -112,6 +112,8 @@ public class ForestGameArea extends GameArea {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
+
+
     // Despawn items on old chunks:
     // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
     //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
@@ -219,9 +221,37 @@ public class ForestGameArea extends GameArea {
     generator = () -> ItemFactory.createHealthPotion(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
 
+    // Defense Potions
+    generator = () -> ItemFactory.createDefensePotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_DEFENSE_POTIONS);
+
+    // Attack Potions
+    generator = () -> ItemFactory.createAttackPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_ATTACK_POTIONS);
+
+    // Speed Potions
+    generator = () -> ItemFactory.createSpeedPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_SPEED_POTIONS);
+
     // Apples
     generator = () -> ItemFactory.createApple(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_APPLES);
+
+    // Carrots
+    generator = () -> ItemFactory.createCarrot(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CARROTS);
+
+    // Meat
+    generator = () -> ItemFactory.createMeat(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_MEAT);
+
+    // Chicken Legs
+    generator = () -> ItemFactory.createChickenLeg(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CHICKEN_LEGS);
+
+    // Candy
+    generator = () -> ItemFactory.createCandy(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CANDY);
   }
 
   private void spawnEnemies() {

@@ -1,6 +1,13 @@
 {
   "NUM_TREES" : 7,
   "NUM_APPLES" : 5,
+  "NUM_CARROTS": 5,
+  "NUM_MEAT": 5,
+  "NUM_CHICKEN_LEGS": 5,
+  "NUM_CANDY": 5,
+  "NUM_DEFENSE_POTIONS": 3,
+  "NUM_ATTACK_POTIONS": 3,
+  "NUM_SPEED_POTIONS": 3,
   "NUM_HEALTH_POTIONS" : 3,
   "NUM_CHICKENS" : 2,
   "NUM_FROGS" : 5,
@@ -40,7 +47,14 @@
     "images/croc.png",
     "images/bird.png",
     "images/Healthpotion.png",
-    "images/foodtextures/apple.png"
+    "images/foodtextures/apple.png",
+    "images/foodtextures/candy.png",
+    "images/foodtextures/carrot.png",
+    "images/foodtextures/chicken_leg.png",
+    "images/foodtextures/meat.png",
+    "images/potiontexture/attack.png",
+    "images/potiontexture/defense.png",
+    "images/potiontexture/speed.png"
   ],
   "forestTextureAtlases" : [
     "images/terrain_iso_grass.atlas",
