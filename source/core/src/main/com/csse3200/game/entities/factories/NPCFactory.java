@@ -125,7 +125,9 @@ public class NPCFactory {
   }
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    ServiceLocator.registerEntityChatService(new EntityChatService());
+    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
+    chatOverlayService.updateText(hintText);
+
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
         Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
@@ -135,8 +137,6 @@ public class NPCFactory {
       }
     }
 
-    EntityChatService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
   }
 
   private static void endDialogue() {
