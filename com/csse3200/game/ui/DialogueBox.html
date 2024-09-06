@@ -104,9 +104,13 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String%5B%5D)" class="member-name-link">DialogueBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;labelText)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">DialogueBox</a><wbr>(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new ChatOverlay with the given hint messages.</div>
+<div class="block">Creates a new base DialogueBox with the given hint messages.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String%5B%5D)" class="member-name-link">DialogueBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;labelText)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new DialogueBox with the given hint messages.</div>
 </div>
 </div>
 </section>
@@ -123,34 +127,57 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Disposes of the resources used by the chat overlay, including textures and UI components.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBackwardButton()" class="member-name-link">getBackwardButton</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dialogueBoxInitialisation(boolean)" class="member-name-link">dialogueBoxInitialisation</a><wbr>(boolean&nbsp;hide)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the backward button used for navigating to the previous hint.</div>
+<div class="block">Removes all components of the dialogue box from the stage.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentHint()" class="member-name-link">getCurrentHint</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBackwardButton()" class="member-name-link">getBackwardButton</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the current hint index.</div>
+<div class="block">Returns the TextButton instance used for the "Back" (backward) action.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getForwardButton()" class="member-name-link">getForwardButton</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentHint()" class="member-name-link">getCurrentHint</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the forward button used for navigating to the next hint.</div>
+<div class="block">Returns the index of the current hint being displayed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHints()" class="member-name-link">getHints</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getForwardButton()" class="member-name-link">getForwardButton</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the hints array.</div>
+<div class="block">Returns the TextButton instance used for the "Continue" (forward) action.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Label</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLabel()" class="member-name-link">getLabel</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHints()" class="member-name-link">getHints</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Allows access to the labels text</div>
+<div class="block">Returns the array of hint messages.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Label</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLabel()" class="member-name-link">getLabel</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the Label object used for displaying hints.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handleBackwardButtonClick()" class="member-name-link">handleBackwardButtonClick</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Handles the backward button click event to navigate to the previous hint.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handleForwardButtonClick()" class="member-name-link">handleForwardButtonClick</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Handles the forward button click event to navigate to the next hint.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hideDialogueBox()" class="member-name-link">hideDialogueBox</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#showDialogueBox(java.lang.String%5B%5D)" class="member-name-link">showDialogueBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;hints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Displays the dialogue box with the provided hint messages.</div>
 </div>
 </div>
 </div>
@@ -170,10 +197,17 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.scenes.scene2d.Stage)">
+<h3>DialogueBox</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DialogueBox</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage)</span></div>
+<div class="block">Creates a new base DialogueBox with the given hint messages.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(java.lang.String[])">
 <h3>DialogueBox</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DialogueBox</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;labelText)</span></div>
-<div class="block">Creates a new ChatOverlay with the given hint messages.</div>
+<div class="block">Creates a new DialogueBox with the given hint messages.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>labelText</code> - The array of hint messages to display.</dd>
@@ -189,13 +223,19 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="dialogueBoxInitialisation(boolean)">
+<h3>dialogueBoxInitialisation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dialogueBoxInitialisation</span><wbr><span class="parameters">(boolean&nbsp;hide)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="getHints()">
 <h3>getHints</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getHints</span>()</div>
-<div class="block">Returns the hints array.</div>
+<div class="block">Returns the array of hint messages.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The hints array.</dd>
+<dd>An array of strings containing the hint messages.</dd>
 </dl>
 </section>
 </li>
@@ -203,10 +243,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getCurrentHint()">
 <h3>getCurrentHint</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getCurrentHint</span>()</div>
-<div class="block">Returns the current hint index.</div>
+<div class="block">Returns the index of the current hint being displayed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The current hint index.</dd>
+<dd>The index of the current hint.</dd>
 </dl>
 </section>
 </li>
@@ -214,10 +254,46 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getLabel()">
 <h3>getLabel</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Label</span>&nbsp;<span class="element-name">getLabel</span>()</div>
-<div class="block">Allows access to the labels text</div>
+<div class="block">Returns the Label object used for displaying hints.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the current label on the image</dd>
+<dd>The Label instance for displaying hints.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="handleForwardButtonClick()">
+<h3>handleForwardButtonClick</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleForwardButtonClick</span>()</div>
+<div class="block">Handles the forward button click event to navigate to the next hint.
+ Updates the label text to the next hint in the array and repositions the label.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="handleBackwardButtonClick()">
+<h3>handleBackwardButtonClick</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleBackwardButtonClick</span>()</div>
+<div class="block">Handles the backward button click event to navigate to the previous hint.
+ Updates the label text to the previous hint in the array and repositions the label.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="hideDialogueBox()">
+<h3>hideDialogueBox</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hideDialogueBox</span>()</div>
+<div class="block">Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="showDialogueBox(java.lang.String[])">
+<h3>showDialogueBox</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">showDialogueBox</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;hints)</span></div>
+<div class="block">Displays the dialogue box with the provided hint messages.
+ Sets the first hint message, shows all components (background image, label, and buttons),
+ and resets the current hint index to 0.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>hints</code> - An array of strings containing the hint messages to display.</dd>
 </dl>
 </section>
 </li>
@@ -225,18 +301,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
-<div class="block">Disposes of the resources used by the chat overlay, including textures and UI components.
- Ensures that all resources are properly cleaned up to prevent memory leaks.</div>
+<div class="block">Removes all components of the dialogue box from the stage.
+ This should be called to clean up resources when the dialogue box is no longer needed.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getForwardButton()">
 <h3>getForwardButton</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.TextButton</span>&nbsp;<span class="element-name">getForwardButton</span>()</div>
-<div class="block">Gets the forward button used for navigating to the next hint.</div>
+<div class="block">Returns the TextButton instance used for the "Continue" (forward) action.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the forward TextButton instance.</dd>
+<dd>The TextButton instance for the forward button.</dd>
 </dl>
 </section>
 </li>
@@ -244,10 +320,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getBackwardButton()">
 <h3>getBackwardButton</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.TextButton</span>&nbsp;<span class="element-name">getBackwardButton</span>()</div>
-<div class="block">Gets the backward button used for navigating to the previous hint.</div>
+<div class="block">Returns the TextButton instance used for the "Back" (backward) action.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the backward TextButton instance.</dd>
+<dd>The TextButton instance for the backward button.</dd>
 </dl>
 </section>
 </li>

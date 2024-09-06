@@ -111,15 +111,18 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected float</code></div>
 <div class="col-second even-row-color"><code><a href="#animationSpeed" class="member-name-link">animationSpeed</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#isEnemy" class="member-name-link">isEnemy</a></code></div>
+<div class="col-first odd-row-color"><code>protected int</code></div>
+<div class="col-second odd-row-color"><code><a href="#defense" class="member-name-link">defense</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color"><code><a href="#soundPath" class="member-name-link">soundPath</a></code></div>
+<div class="col-first even-row-color"><code>protected int</code></div>
+<div class="col-second even-row-color"><code><a href="#isEnemy" class="member-name-link">isEnemy</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#spritePath" class="member-name-link">spritePath</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#soundPath" class="member-name-link">soundPath</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#spritePath" class="member-name-link">spritePath</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -164,6 +167,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the path to the sprite image for this entity.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFriendly()" class="member-name-link">isFriendly</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the entity is friendly.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFriendly(boolean)" class="member-name-link">setFriendly</a><wbr>(boolean&nbsp;friendly)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the entity's friendly status.</div>
+</div>
 </div>
 </div>
 </div>
@@ -184,13 +197,19 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="isEnemy">
 <h3>isEnemy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">isEnemy</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">isEnemy</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="spritePath">
 <h3>spritePath</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">spritePath</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="defense">
+<h3>defense</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">defense</span></div>
 </section>
 </li>
 <li>
@@ -235,6 +254,28 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the sprite path as a String.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isFriendly()">
+<h3>isFriendly</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFriendly</span>()</div>
+<div class="block">Checks if the entity is friendly.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the entity is friendly (isEnemy == 0), false otherwise.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setFriendly(boolean)">
+<h3>setFriendly</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFriendly</span><wbr><span class="parameters">(boolean&nbsp;friendly)</span></div>
+<div class="block">Sets the entity's friendly status.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>friendly</code> - true if the entity should be friendly (sets isEnemy to 0), false if the entity should be an enemy (sets isEnemy to 1).</dd>
 </dl>
 </section>
 </li>

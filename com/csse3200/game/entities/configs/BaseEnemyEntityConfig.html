@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li><a href="#field-detail">Field</a></li>
+<li>Field</li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -64,7 +64,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -101,36 +101,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
-<div class="caption"><span>Fields</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Field</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#baseAttack" class="member-name-link">baseAttack</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#defense" class="member-name-link">defense</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#experience" class="member-name-link">experience</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#health" class="member-name-link">health</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#hunger" class="member-name-link">hunger</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>int</code></div>
-<div class="col-second odd-row-color"><code><a href="#speed" class="member-name-link">speed</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#strength" class="member-name-link">strength</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.entities.configs.BaseEntityConfig">Fields inherited from class&nbsp;com.csse3200.game.entities.configs.<a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></h3>
-<code><a href="BaseEntityConfig.html#animationSpeed">animationSpeed</a>, <a href="BaseEntityConfig.html#isEnemy">isEnemy</a>, <a href="BaseEntityConfig.html#soundPath">soundPath</a>, <a href="BaseEntityConfig.html#spritePath">spritePath</a></code></div>
+<code><a href="BaseEntityConfig.html#animationSpeed">animationSpeed</a>, <a href="BaseEntityConfig.html#defense">defense</a>, <a href="BaseEntityConfig.html#isEnemy">isEnemy</a>, <a href="BaseEntityConfig.html#soundPath">soundPath</a>, <a href="BaseEntityConfig.html#spritePath">spritePath</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -163,16 +136,76 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the base attack value of this entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefense()" class="member-name-link">getDefense</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the defense value of this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getExperience()" class="member-name-link">getExperience</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the experience value of this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHealth()" class="member-name-link">getHealth</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the health value of this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHunger()" class="member-name-link">getHunger</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the hunger value of this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the speed value of this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStrength()" class="member-name-link">getStrength</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the strength value of this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBaseAttack(int)" class="member-name-link">setBaseAttack</a><wbr>(int&nbsp;baseAttack)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the base attack value for this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDefense(int)" class="member-name-link">setDefense</a><wbr>(int&nbsp;defense)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the defense value for this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExperience(int)" class="member-name-link">setExperience</a><wbr>(int&nbsp;experience)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the experience value for this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHealth(int)" class="member-name-link">setHealth</a><wbr>(int&nbsp;health)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the health value for this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHunger(int)" class="member-name-link">setHunger</a><wbr>(int&nbsp;hunger)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the hunger value for this entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpeed(int)" class="member-name-link">setSpeed</a><wbr>(int&nbsp;speed)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the speed value for this entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStrength(int)" class="member-name-link">setStrength</a><wbr>(int&nbsp;strength)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the strength value for this entity.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.entities.configs.BaseEntityConfig">Methods inherited from class&nbsp;com.csse3200.game.entities.configs.<a href="BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></h3>
-<code><a href="BaseEntityConfig.html#getAnimationSpeed()">getAnimationSpeed</a>, <a href="BaseEntityConfig.html#getSoundPath()">getSoundPath</a>, <a href="BaseEntityConfig.html#getSpritePath()">getSpritePath</a></code></div>
+<code><a href="BaseEntityConfig.html#getAnimationSpeed()">getAnimationSpeed</a>, <a href="BaseEntityConfig.html#getSoundPath()">getSoundPath</a>, <a href="BaseEntityConfig.html#getSpritePath()">getSpritePath</a>, <a href="BaseEntityConfig.html#isFriendly()">isFriendly</a>, <a href="BaseEntityConfig.html#setFriendly(boolean)">setFriendly</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -182,56 +215,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ============ FIELD DETAIL =========== -->
-<li>
-<section class="field-details" id="field-detail">
-<h2>Field Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="health">
-<h3>health</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">health</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="hunger">
-<h3>hunger</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hunger</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="baseAttack">
-<h3>baseAttack</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">baseAttack</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="strength">
-<h3>strength</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">strength</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="defense">
-<h3>defense</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">defense</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="speed">
-<h3>speed</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">speed</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="experience">
-<h3>experience</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">experience</span></div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -263,6 +246,39 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="setHealth(int)">
+<h3>setHealth</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHealth</span><wbr><span class="parameters">(int&nbsp;health)</span></div>
+<div class="block">Sets the health value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>health</code> - the new health value.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getHunger()">
+<h3>getHunger</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHunger</span>()</div>
+<div class="block">Returns the hunger value of this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the hunger value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setHunger(int)">
+<h3>setHunger</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHunger</span><wbr><span class="parameters">(int&nbsp;hunger)</span></div>
+<div class="block">Sets the hunger value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>hunger</code> - the new hunger value.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getBaseAttack()">
 <h3>getBaseAttack</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getBaseAttack</span>()</div>
@@ -270,6 +286,105 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the base attack value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setBaseAttack(int)">
+<h3>setBaseAttack</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBaseAttack</span><wbr><span class="parameters">(int&nbsp;baseAttack)</span></div>
+<div class="block">Sets the base attack value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>baseAttack</code> - the new base attack value.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getStrength()">
+<h3>getStrength</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getStrength</span>()</div>
+<div class="block">Returns the strength value of this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the strength value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setStrength(int)">
+<h3>setStrength</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStrength</span><wbr><span class="parameters">(int&nbsp;strength)</span></div>
+<div class="block">Sets the strength value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>strength</code> - the new strength value.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getDefense()">
+<h3>getDefense</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getDefense</span>()</div>
+<div class="block">Returns the defense value of this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the defense value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setDefense(int)">
+<h3>setDefense</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDefense</span><wbr><span class="parameters">(int&nbsp;defense)</span></div>
+<div class="block">Sets the defense value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>defense</code> - the new defense value.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getSpeed()">
+<h3>getSpeed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getSpeed</span>()</div>
+<div class="block">Returns the speed value of this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the speed value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setSpeed(int)">
+<h3>setSpeed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSpeed</span><wbr><span class="parameters">(int&nbsp;speed)</span></div>
+<div class="block">Sets the speed value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>speed</code> - the new speed value.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getExperience()">
+<h3>getExperience</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getExperience</span>()</div>
+<div class="block">Returns the experience value of this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the experience value as an int.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setExperience(int)">
+<h3>setExperience</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setExperience</span><wbr><span class="parameters">(int&nbsp;experience)</span></div>
+<div class="block">Sets the experience value for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>experience</code> - the new experience value.</dd>
 </dl>
 </section>
 </li>

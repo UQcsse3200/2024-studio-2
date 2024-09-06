@@ -173,13 +173,22 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Starts the pause behavior by triggering the pause event
- and initializing any necessary components.</div>
+<div class="block">Starts the pause behavior</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops the pause behavior</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triggerPauseEvent()" class="member-name-link">triggerPauseEvent</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Triggers an event to start the pause behavior.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triggerPauseEvent()" class="member-name-link">triggerPauseEvent</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triggerPauseEventEnd()" class="member-name-link">triggerPauseEventEnd</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Triggers an event to start the pause behavior.</div>
+<div class="block">Triggers an event to end the pause behavior.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
@@ -192,7 +201,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.components.tasks.ChaseTask">Methods inherited from class&nbsp;com.csse3200.game.components.tasks.<a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></h3>
-<code><a href="ChaseTask.html#getDistanceToTarget()">getDistanceToTarget</a>, <a href="ChaseTask.html#getViewDistance()">getViewDistance</a>, <a href="ChaseTask.html#isBoss()">isBoss</a>, <a href="ChaseTask.html#isTargetVisible()">isTargetVisible</a>, <a href="ChaseTask.html#stop()">stop</a></code></div>
+<code><a href="ChaseTask.html#getDistanceToTarget()">getDistanceToTarget</a>, <a href="ChaseTask.html#getViewDistance()">getViewDistance</a>, <a href="ChaseTask.html#isBoss()">isBoss</a>, <a href="ChaseTask.html#isTargetVisible()">isTargetVisible</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.ai.tasks.DefaultTask">Methods inherited from class&nbsp;com.csse3200.game.ai.tasks.<a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></h3>
 <code><a href="../../ai/tasks/DefaultTask.html#create(com.csse3200.game.ai.tasks.TaskRunner)">create</a>, <a href="../../ai/tasks/DefaultTask.html#getStatus()">getStatus</a>, <a href="../../ai/tasks/DefaultTask.html#setOwner(com.csse3200.game.ai.tasks.TaskRunner)">setOwner</a></code></div>
@@ -243,8 +252,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
-<div class="block">Starts the pause behavior by triggering the pause event
- and initializing any necessary components.</div>
+<div class="block">Starts the pause behavior</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
@@ -263,6 +271,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="triggerPauseEventEnd()">
+<h3>triggerPauseEventEnd</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerPauseEventEnd</span>()</div>
+<div class="block">Triggers an event to end the pause behavior.
+ If the entity has a config component, it fetches the dialogue or hint text
+ associated with the entity to provide context for the pause event.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
@@ -273,6 +290,19 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../ai/tasks/Task.html#update()">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="ChaseTask.html#update()">update</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="stop()">
+<h3>stop</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
+<div class="block">Stops the pause behavior</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../ai/tasks/Task.html#stop()">stop</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="ChaseTask.html#stop()">stop</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
 </dl>
 </section>
 </li>
