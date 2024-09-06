@@ -445,58 +445,58 @@ public class ForestGameArea extends GameArea {
     music.pause();
   }
 
+
   public void loadAssets() {
-          logger.debug("LOADING ASSETS");
-          ResourceService resourceService = ServiceLocator.getResourceService();
-          resourceService.loadTextures(forestTextures);
-          resourceService.loadTextureAtlases(forestTextureAtlases);
-          resourceService.loadSounds(questSounds);
-          resourceService.loadSounds(forestSounds);
-          resourceService.loadSounds(dogSound);
-          resourceService.loadSounds(dogBarkSound);
-          for (String[] sounds : soundArrays) {
-            resourceService.loadSounds(sounds);
-          }
-          resourceService.loadMusic(forestMusic);
-          resourceService.loadMusic(heartbeatSound);
+    logger.debug("LOADING ASSETS");
+    ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadTextures(forestTextures);
+    resourceService.loadTextureAtlases(forestTextureAtlases);
+    resourceService.loadSounds(questSounds);
+    resourceService.loadSounds(forestSounds);
+    resourceService.loadSounds(dogSound);
+    resourceService.loadSounds(dogBarkSound);
+    for (String[] sounds : soundArrays) {
+      resourceService.loadSounds(sounds);
+    }
+    resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(heartbeatSound);
 
-          while (!resourceService.loadForMillis(10)) {
-            logger.info("Loading... {}%", resourceService.getProgress());
+    while (!resourceService.loadForMillis(10)) {
+      logger.info("Loading... {}%", resourceService.getProgress());
 
-            resourceService.loadTextures(config.textures.forestTextures);
-            resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
-            resourceService.loadSounds(config.sounds.gameSounds);
-            resourceService.loadMusic(config.sounds.gameMusic);
+      resourceService.loadTextures(config.textures.forestTextures);
+      resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
+      resourceService.loadSounds(config.sounds.gameSounds);
+      resourceService.loadMusic(config.sounds.gameMusic);
 
-            while (!resourceService.loadForMillis(10)) {
-              // This could be upgraded to a loading screen
-              logger.debug("Loading... {}%", resourceService.getProgress());
-
-            }
-          }
-
-    private void unloadAssets() {
-      logger.debug("Unloading assets");
-//      ResourceService resourceService = ServiceLocator.getResourceService();
-      resourceService.unloadAssets(forestTextures);
-      resourceService.unloadAssets(forestTextureAtlases);
-      resourceService.unloadAssets(forestSounds);
-      resourceService.unloadAssets(questSounds);
-      resourceService.unloadAssets(forestMusic);
-      resourceService.unloadAssets(heartbeatSound);
-      resourceService.unloadAssets(dogSound);
-      resourceService.unloadAssets(dogBarkSound);
-
-      for (String[] soundArray : soundArrays) {
-        resourceService.unloadAssets(soundArray);
+      while (!resourceService.loadForMillis(10)) {
+        // This could be upgraded to a loading screen
+        logger.debug("Loading... {}%", resourceService.getProgress());
       }
     }
+  }
+
+  private void unloadAssets() {
+    logger.debug("Unloading assets");
+    ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.unloadAssets(forestTextures);
+    resourceService.unloadAssets(forestTextureAtlases);
+    resourceService.unloadAssets(forestSounds);
+    resourceService.unloadAssets(questSounds);
+    resourceService.unloadAssets(forestMusic);
+    resourceService.unloadAssets(heartbeatSound);
+    resourceService.unloadAssets(dogSound);
+    resourceService.unloadAssets(dogBarkSound);
+
+    for (String[] soundArray : soundArrays) {
+      resourceService.unloadAssets(soundArray);
+    }
+  }
 
 
-    @Override
-          public void dispose () {
-            super.dispose();
-            ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
-            this.unloadAssets();
-          }
+  public void dispose() {
+      super.dispose();
+      ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
+      this.unloadAssets();
+    }
   }
