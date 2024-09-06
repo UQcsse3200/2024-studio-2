@@ -33,17 +33,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
     DialogueBox itemOverlay;
-
-    private boolean toggleHotbar = true;
-
-
     private final Skin skininv=new Skin(Gdx.files.internal("Inventory/inventory.json"));//created by @PratulW5
     private final Skin skinSlots=new Skin(Gdx.files.internal("Inventory/skinforslot.json"));//created by @PratulW5
-
     PlayerInventoryHotbarDisplay hotbar;
-
-
-
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -84,11 +76,9 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
-
-        toggleHotbar();
-
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
+            hotbar.createHotbar();
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
             toggle = false;
@@ -96,15 +86,11 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
+            hotbar.disposeTable();
             toggle = true;
         }
     }
 
-    public void toggleHotbar() {
-        if (toggleHotbar) hotbar.disposeTable();
-        else hotbar.createHotbar();
-        toggleHotbar = !toggleHotbar;
-    }
     /**
      * Handles drawing of the component. The actual rendering is managed by the stage.
      *
@@ -174,7 +160,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param item  The item in the slot.
      * @param index The index of the slot in the inventory.
      */
-    void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
+    public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
         slot.addListener(new InputListener() {
             @Override
@@ -236,10 +222,10 @@ public class PlayerInventoryDisplay extends UIComponent {
             toggleInventory();
 
         }
-
-        toggleHotbar(); // Hacky way to regenerate hotbar without duplicating code
-        toggleHotbar();
-
+        else {
+            hotbar.disposeTable();
+            hotbar.createHotbar();
+        }
     }
 
     /**
