@@ -162,7 +162,7 @@ public class CombatScreen extends ScreenAdapter {
 //    stage.addActor(combatButtons.getAttackButton());
 //    stage.addActor(combatButtons.getBoostButton());
 
-    // Initialise combat manager with instances of player and enemy to be passed into combat actions.
+    // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);
 
     Entity ui = new Entity();
@@ -173,8 +173,6 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(playerCombatStats)
-        .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 

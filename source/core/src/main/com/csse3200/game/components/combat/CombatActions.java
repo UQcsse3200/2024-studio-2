@@ -81,6 +81,7 @@ public class CombatActions extends Component {
     // Set current screen to original MainGameScreen
 //    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
 
   /**
@@ -95,6 +96,7 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("Attack selected.");
     manager.onAttackSelected();
+    entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");
@@ -103,6 +105,7 @@ public class CombatActions extends Component {
   }
   private void onCounter(Screen screen, ServiceContainer container) {
     logger.info("before Counter");
+    entity.getEvents().trigger("onCounter", manager.getPlayerStats(), manager.getEnemyStats());
     // Perform counter logic here.
   }
   /**

@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Displays the name of the current game area.
@@ -36,23 +38,19 @@ public class CombatStatsDisplay extends UIComponent {
   private float barImageWidth;
   private float barImageHeight;
   private static final int totalFrames = 11;
-  private int playerMaxHealth;
-  private int enemyMaxHealth;
-  private int maxExperience;
+  private static final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
 
   public CombatStatsDisplay(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
     this.playerStats = playerStats;
     this.enemyStats = enemyStats;
-    playerMaxHealth = playerStats.getMaxHealth();
-    enemyMaxHealth = enemyStats.getMaxHealth();
-    maxExperience = playerStats.getMaxExperience();
   }
   @Override
   public void create() {
     super.create();
     addActors();
-    entity.getEvents().addListener("updateHealth", this::updateHealthUI);
-    entity.getEvents().addListener("updateExperience", this::updatePlayerExperienceUI);
+    entity.getEvents().addListener("onAttack", this::updateHealthUI);
+    entity.getEvents().addListener("onCounter", this::updateHealthUI);
+    entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
   }
 
   /**
@@ -171,7 +169,7 @@ public class CombatStatsDisplay extends UIComponent {
    */
   public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
     // Grab the desired frame at a specified frame rate
-    TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex * 0.066f);
+    TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex);
     // Replace the frame shown on the stage
     statBar.setDrawable(new TextureRegionDrawable(currentFrame));
   }
@@ -204,37 +202,57 @@ public class CombatStatsDisplay extends UIComponent {
     initBarAnimations();
 
     //initialising the character stats
-    updateHealthUI(playerStats.getHealth(), playerMaxHealth, true);
-    updateHealthUI(enemyStats.getHealth(), enemyMaxHealth, false);
-    updatePlayerExperienceUI(playerStats.getExperience());
+    //updateHealthUI(playerStats, enemyStats);
+    //updateHealthUI(playerStats, enemyStats);
+    //updatePlayerExperienceUI(playerStats);
   }
 
   /**
-   * Updates the health animation and label in game to reflect current player/enemy health
-   * including the call to test functions for checking
-   * @param health the current health stat value of the player
+   * Updates the labels and animations associated with the player and enemy's stats
+   * @param playerStats CombatStatsComponent of the player
+   * @param enemyStats CombatStatsComponent of the enemy
    */
-  public void updateHealthUI(int health, int maxHealth, boolean isPlayer) {
-    CharSequence text = String.format("HP: %d", health);
+  public void updateHealthUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+    logger.info("Change in health detected from CombatActions: {}", playerStats.getHealth());
+    int playerCurHealth = playerStats.getHealth();
+    int playerMaxHealth = playerStats.getMaxHealth();
+    int enemyCurHealth = enemyStats.getHealth();
+    int enemyMaxHealth = enemyStats.getMaxHealth();
+    logger.info("PlayerHealth: {}", playerCurHealth);
+    logger.info("PlayerMaxHealth: {}", playerMaxHealth);
+    logger.info("EnemyHealth: {}", enemyCurHealth);
+    logger.info("EnemyMaxHealth: {}", enemyMaxHealth);
 
-    int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
-    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+    CharSequence playerText = String.format("HP: %d", playerCurHealth);
+    CharSequence enemyText = String.format("HP: %d", enemyCurHealth);
 
-    if (isPlayer) {
-      playerHealthLabel.setText(text);
-      setNewFrame(frameIndex, playerHealthBarAnimation, playerHealthImage);
-    } else {
-      enemyHealthLabel.setText(text);
-      setNewFrame(frameIndex, enemyHealthBarAnimation, enemyHealthImage);
-    }
+    // Adjusts position as lists start at index 0
+    int indexAdjustment = totalFrames - 1;
+    int playerFrameIndex = indexAdjustment - (int) ((float) playerCurHealth / playerMaxHealth * (totalFrames - 1));
+    playerFrameIndex = Math.max(0, Math.min(playerFrameIndex, totalFrames - 1));
+    logger.info("PlayerFrameIndex: {}", playerFrameIndex);
+
+    int enemyFrameIndex = indexAdjustment - (int) ((float) enemyCurHealth / enemyMaxHealth * (totalFrames - 1));
+    enemyFrameIndex = Math.max(0, Math.min(enemyFrameIndex, totalFrames - 1));
+    logger.info("EnemyFrameIndex: {}", enemyFrameIndex);
+
+    // Update player stats
+    playerHealthLabel.setText(playerText);
+    setNewFrame(1, playerHealthBarAnimation, playerHealthImage);
+
+    // Update enemy stats
+    enemyHealthLabel.setText(enemyText);
+    setNewFrame(1, enemyHealthBarAnimation, enemyHealthImage);
   }
 
+
   /**
-   * Updates the experience animation and label in game to reflect current player experience
-   *  including the call to test functions for checking
-   * @param experience The current experience stat value of the player
+   * Updates the experience label and bar of the character after defeating a specific enemy
+   * @param playerStats CombatStatsComponent of the player
    */
-  public void updatePlayerExperienceUI(int experience) {
+  public void updatePlayerExperienceUI(CombatStatsComponent playerStats) {
+    int experience = playerStats.getExperience();
+    int maxExperience = playerStats.getMaxExperience();
     CharSequence text = String.format("EXP: %d", experience);
     experienceLabel.setText(text);
 
