@@ -1,6 +1,7 @@
 package com.csse3200.game.inventory.items;
 
 import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceLocator;
 
 
 /**
@@ -30,7 +31,7 @@ public abstract class TimedUseItem extends ConsumableItem {
      * default time of potion effect
      */
     private final long duration;
-    protected GameTime gameTime;
+    protected GameTime gameTime = ServiceLocator.getTimeSource();
     protected long effectStartTime;
 
     /**
@@ -44,7 +45,6 @@ public abstract class TimedUseItem extends ConsumableItem {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
         this.duration = duration;
-        this.gameTime = new GameTime();
     }
 
     /**
