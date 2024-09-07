@@ -30,7 +30,6 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,8 +73,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
-        ServiceLocator.registerEventService(new EventService());
-
         renderer = RenderFactory.createRenderer();
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
@@ -83,8 +80,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         this.transition = false;
         createUI();
 
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay", this::addOverlay);
-        ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay", this::removeOverlay);
         logger.debug("Initialising main game dup screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
         //this.gameArea = new ForestGameArea(terrainFactory, game);
@@ -137,7 +132,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getResourceService().dispose();
-        ServiceLocator.getEventService().dispose();
 
         ServiceLocator.clear();
     }
@@ -225,41 +219,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         stage.addActor(topBar);
         stage.addActor(bottomBar);
         stage.addActor(table);
-    }
-
-    public void addOverlay(Overlay.OverlayType overlayType) {
-        logger.info("Adding Overlay {}", overlayType);
-        if (enabledOverlays.isEmpty()) {
-            this.rest();
-        } else {
-            enabledOverlays.getFirst().rest();
-        }
-        switch (overlayType) {
-            case PAUSE_OVERLAY:
-                enabledOverlays.addFirst(new PauseOverlay());
-                break;
-            default:
-                logger.warn("Unknown Overlay type: {}", overlayType);
-                break;
-        }
-    }
-
-    public void removeOverlay() {
-        logger.debug("Removing top Overlay");
-
-        if (enabledOverlays.isEmpty()) {
-            this.wake();
-            return;
-        }
-
-        enabledOverlays.getFirst().remove();
-        enabledOverlays.removeFirst();
-
-        if (enabledOverlays.isEmpty()) {
-            this.wake();
-        } else {
-            enabledOverlays.getFirst().wake();
-        }
     }
 
     public void rest() {

@@ -42,7 +42,6 @@ public class CombatActions extends Component {
    */
   @Override
   public void create() {
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
@@ -50,14 +49,6 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Counter", this::onCounter);
     //Display.create();
-  }
-
-  /**
-   * Swaps to the Main Menu screen.
-   */
-  private void onExit() {
-    logger.info("Exiting main game screen");
-    game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
 
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {

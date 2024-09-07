@@ -8,7 +8,6 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +26,6 @@ class QuestManagerTest {
 
     @BeforeEach
     void setUp() {
-        EventService eventService = mock(EventService.class);
         eventHandler = mock(EventHandler.class);
         ResourceService resourceService = mock(ResourceService.class);
         player = mock(Entity.class);
@@ -37,7 +35,6 @@ class QuestManagerTest {
 
 
         when(player.getEvents()).thenReturn(eventHandler);
-        ServiceLocator.registerEventService(eventService);
         ServiceLocator.registerResourceService(resourceService);
 
         questManager = new QuestManager(player);
