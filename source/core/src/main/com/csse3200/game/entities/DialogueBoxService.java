@@ -1,20 +1,20 @@
 package com.csse3200.game.entities;
 
 import com.csse3200.game.ui.DialogueBox;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EntityChatService {
-    private static final Logger logger = LoggerFactory.getLogger(EntityChatService.class);
-
+public class DialogueBoxService {
+    private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[] hints;
 
     /**
      * Create a new chat overlay with the given hint text.
      */
-    public EntityChatService() {
-        currentOverlay = null;
+    public DialogueBoxService(Stage stage) {
+        currentOverlay = new DialogueBox(stage);
         hints = null;
     }
 
@@ -50,15 +50,26 @@ public class EntityChatService {
     }
 
     /**
+     * Dispose of the current chat overlay if it exists.
+     */
+    public void hideCurrentOverlay() {
+        if (currentOverlay != null) {
+            currentOverlay.hideDialogueBox();
+            hints = null;
+        }
+    }
+
+    /**
      * Update the current chat overlay if it exists.
      */
     public void updateText(String[] text) {
         hints = text;
-        if (currentOverlay != null) {
-            currentOverlay.dispose();
-            currentOverlay = null;
+        if (currentOverlay == null) {
+            // handling if it ever gets deleted when not supposed to
+            currentOverlay = new DialogueBox(hints);
+        } else {
+            currentOverlay.showDialogueBox(text);
         }
 
-        currentOverlay = new DialogueBox(hints);
     }
 }
