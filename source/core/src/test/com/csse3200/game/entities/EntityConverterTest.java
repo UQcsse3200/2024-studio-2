@@ -1,5 +1,7 @@
 package com.csse3200.game.entities;
 
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.entities.configs.NPCConfigs;
@@ -21,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.csse3200.game.entities.EntityConverter.convertToFriendly;
-import static com.csse3200.game.entities.factories.EnemyFactory.isFRIENDLY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -71,12 +72,19 @@ class EntityConverterTest {
     }
 
     @Test
-    void TestConvertToFriendly() {
-        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
+    void TestRemovalOfCombatStats() {
+        assertNotNull(chicken.getComponent(CombatStatsComponent.class));
         convertToFriendly(chicken);
-        System.out.println(chicken);
-        System.out.println(chicken.getComponent(ChickenAnimationController.class));
-        assertNull(chicken.getComponent(ChickenAnimationController.class),
-                "Chicken should not have an enemy AI controller.");
+        assertNull(chicken.getComponent(CombatStatsComponent.class),
+                "Chicken should not have a combat stats component.");
     }
+
+    @Test
+    void TestRemovalOfTouchAttack() {
+        assertNotNull(chicken.getComponent(TouchAttackComponent.class));
+        convertToFriendly(chicken);
+        assertNull(chicken.getComponent(TouchAttackComponent.class),
+                "Chicken should not have a touch attack component.");
+    }
+    
 }
