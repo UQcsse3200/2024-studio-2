@@ -40,13 +40,17 @@ public abstract class TimedUseItem extends ConsumableItem {
      *
      * potion can apply
      */
-    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount,
-                           GameTime gameTime, long duration) {
+    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, long duration) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
         this.duration = duration;
-        this.gameTime = gameTime;
+        this.gameTime = new GameTime();
     }
+
+    /**
+     * @return the game time object used to check the time this item should be used for.
+     */
+    public GameTime getGameTime() {return this.gameTime;}
 
     /**
      * Checks if the duration of potion usage is expired

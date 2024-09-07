@@ -56,13 +56,12 @@ public class ItemFactory {
      * @return The created health potion entity.
      */
     public static Entity createDefensePotion(Entity target) {
-        GameTime gameTime = new GameTime();
-        return createItem(target, new DefensePotion(1, gameTime));
+        return createItem(target, new DefensePotion(1));
     }
 
     public static Entity createSpeedPotion(Entity target) {
-        GameTime gameTime = new GameTime();
-        return createItem(target, new SpeedPotion(1, gameTime));
+
+        return createItem(target, new SpeedPotion(1));
     }
 
     /**
@@ -72,8 +71,7 @@ public class ItemFactory {
      * @return The created attack potion entity
      */
     public static Entity createAttackPotion(Entity target) {
-        GameTime gameTime = new GameTime();
-        return createItem(target, new AttackPotion(1, gameTime));
+        return createItem(target, new AttackPotion(1));
     }
 
     /**

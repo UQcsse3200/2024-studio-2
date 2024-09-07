@@ -41,9 +41,9 @@ class TimedUseItemTest  {
         healingPotion = new HealingPotion( 3);
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis());
 
-        defensePotion = new DefensePotion( 3, gameTime);
-        attackPotion = new AttackPotion(3, gameTime);
-        speedPotion = new SpeedPotion(3, gameTime);
+        defensePotion = new DefensePotion( 3);
+        attackPotion = new AttackPotion(3);
+        speedPotion = new SpeedPotion(3);
     }
 
     @Test
