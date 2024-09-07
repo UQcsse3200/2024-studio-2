@@ -42,10 +42,6 @@ public class DefensePotion extends TimedUseItem {
         this.setDescription("This is a defense potion");
     }
 
-    public GameTime getGameTime() {
-        return gameTime;
-    }
-
     /**
      * Uses the potion by applying its effects and decreasing its number of uses.
      * If no uses are left, the potion is marked as empty.

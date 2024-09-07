@@ -8,6 +8,8 @@ import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.HealingPotion;
 import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +28,6 @@ class TimedUseItemTest  {
     private GameTime gameTime;
     private static final long DURATION = 120000;
 
-
     private static class TestablePLayer extends ItemUsageContext {
         public TestablePLayer(Entity entity) {
             super(entity);
@@ -38,12 +39,19 @@ class TimedUseItemTest  {
         stat = new CombatStatsComponent(0, 0,0,0,0,0);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         gameTime = Mockito.mock(GameTime.class);
-        healingPotion = new HealingPotion( 3);
-        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis());
+        ServiceLocator.registerTimeSource(gameTime);
 
+        healingPotion = new HealingPotion( 3);
         defensePotion = new DefensePotion( 3);
         attackPotion = new AttackPotion(3);
         speedPotion = new SpeedPotion(3);
+
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis());
+    }
+
+    @AfterEach
+    void tearDown() {
+        ServiceLocator.clear();
     }
 
     @Test
@@ -53,7 +61,6 @@ class TimedUseItemTest  {
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");
         assertEquals(25, healingPotion.getEffectAmount());
         assertEquals(originalHealth + 25, player1.player.getComponent(CombatStatsComponent.class).getHealth(), "Should be 25");
-
 
         healingPotion.useItem(player1);
         assertEquals(1, healingPotion.getQuantity(), "The potion should have 1 use left after two uses.");
@@ -68,6 +75,7 @@ class TimedUseItemTest  {
     void testDefenseApplyEffect() throws InterruptedException {
         int originalDefense = player1.player.getComponent(CombatStatsComponent.class).getDefense();
         defensePotion.useItem(player1);
+
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
         defensePotion.update(player1);
         assertEquals(originalDefense + defensePotion.getEffectAmount(), player1.player.getComponent(CombatStatsComponent.class).getDefense());
