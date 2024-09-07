@@ -147,6 +147,7 @@ public class PlayerStatsDisplay extends UIComponent {
         vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
         vignetteImage.setFillParent(true); // Cover the entire screen
         vignetteImage.setVisible(false); // Initially invisible
+        stage.addActor(vignetteImage);
 
         // Aligning the bars one below the other
         table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
@@ -160,9 +161,7 @@ public class PlayerStatsDisplay extends UIComponent {
         table.add(hungerImage).size(barImageWidth, barImageHeight*2).pad(2).padLeft(170).padTop(-15);
         table.add(hungerLabel).align(Align.left).padTop(-15);
 
-
         stage.addActor(table);
-        stage.addActor(vignetteImage);
 
         //initialising the character stats
         updatePlayerHealthUI(health);
