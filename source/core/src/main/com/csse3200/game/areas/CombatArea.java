@@ -13,6 +13,8 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -22,8 +24,8 @@ import org.slf4j.LoggerFactory;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
-    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 15);
-    private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(22, 15);
+    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(200,  130); // 9, 14...384, 256
+    private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(480, 200); // 20, 20
 
     private static final float WALL_WIDTH = 0.1f;
     private static final String[] forestTextures = {
@@ -68,7 +70,7 @@ public class CombatArea extends GameArea {
             "images/frog_idle.png",
             "images/dog.png",
             "images/croc.png",
-            "images/bird.png"
+            "images/bird.png",
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
@@ -84,7 +86,7 @@ public class CombatArea extends GameArea {
     private CombatTerrainFactory combatTerrainFactory;
     private Entity player;
     private Entity enemy;
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
+    private static final GridPoint2 MAP_SIZE = new GridPoint2(768, 512);
     private static GdxGame game;
 
 
@@ -122,10 +124,6 @@ public class CombatArea extends GameArea {
         } else { // Kangaroo Boss
             spawnCombatEnemy();
         }
-        /*spawnCombatEnemy();
-        spawnChicken();
-        spawnFrog();
-        spawnMonkey();*/
         playMusic();
     }
 
@@ -137,14 +135,12 @@ public class CombatArea extends GameArea {
     }
 
     private void spawnTerrain() {
-        // Background terrain
-        // terrain = combatTerrainFactory.createTerrain(TerrainType.FOREST_DEMO);
-        // terrain = combatTerrainFactory.createFullTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
-        // terrain = combatTerrainFactory.createCombinedTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
-        // terrain = combatTerrainFactory.createBackgroundTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
-        terrain = combatTerrainFactory.createTiledTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE); // most recently working
+        terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
         // spawnEntity(new Entity().addComponent(terrain));
-        spawnEntityAt((new Entity().addComponent(terrain)), new GridPoint2(0, 0), true, true);
+        Entity t = new Entity();
+        // t.addComponent(combatTerrainFactory.getCameraComponent());
+        spawnEntityAt((t.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
+        // spawnEntityAt((new Entity().addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
 
     /** Spawn a static player entity as an NPC for static combat
@@ -155,18 +151,22 @@ public class CombatArea extends GameArea {
      */
     private void spawnPlayer() {
 
+        /** Entity nP is a non-visible entity placed at the centre of the background to
+         * ensure the camera component stays stagnant in the centre of the combat background.
+         * The entity serves no other purpose and is not visible
+         */
+        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
+        Entity nP = NPCFactory.createCombatPlayer(iP);
+        nP.addComponent(combatTerrainFactory.getCameraComponent());
+        nP.setPosition(340, 230);
+
+        /**
+         * The following entity is the real entity of the player to be used for combat,
+         * with health, stats, etc.
+         */
         String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-
         Entity newPlayer = NPCFactory.createCombatPlayer(imagePath);
-        newPlayer.addComponent(combatTerrainFactory.getCameraComponent());
         spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-
-//        Entity newPlayer = PlayerFactory.createPlayer(game);
-//        newPlayer.addComponent(combatTerrainFactory.getCameraComponent());
-//        spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-
-//        spawnEntityAt(player, PLAYER_SPAWN, true, true);
-//        return newPlayer;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
@@ -174,28 +174,19 @@ public class CombatArea extends GameArea {
     private void spawnCombatEnemy() {
         Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
-        //return combatEnemyNPC;
     }
 
     // The following functions spawn chicken, monkey, and frog entities as NPC's for static combat
     private void spawnChicken() {
         Entity combatEnemyNPC = NPCFactory.createChickenCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(10, 10), true, true);
-
-//        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-//        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-//
-//        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-//        Entity chicken = EnemyFactory.createChicken(player);
-//
-//        spawnEntityAt(chicken, new GridPoint2(30, 30), true, true);
+        spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
     /**
      * spawns a frog enemy, with the player entity as its target
      */
     private void spawnFrog() {
         Entity combatEnemyNPC = NPCFactory.createFrogCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(15, 15), true, true);
+        spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
 
     /**
@@ -203,7 +194,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMonkey() {
         Entity combatEnemyNPC = NPCFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(20, 20), true, true);
+        spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
 
     private void playMusic() {

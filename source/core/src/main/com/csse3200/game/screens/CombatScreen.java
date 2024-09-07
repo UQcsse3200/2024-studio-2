@@ -46,18 +46,22 @@ import java.util.LinkedList;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png", "images/combat_background_one.png",
+          "images/dog.png", "images/croc.png", "images/bird.png",
   };
-  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f); //7.5f both
+//  public static Entity player;
+//  public static Entity enemy;
+//  public static GdxGame game;
   private boolean isPaused = false;
   private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
-  private final Entity player;
-  private final Entity enemy;
-  private final CombatArea gameArea;
+   private final Entity player;
+   private final Entity enemy;
+   private final CombatArea gameArea;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
@@ -83,7 +87,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerEventService(new EventService());
     renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+    // renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
@@ -93,10 +97,10 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
-    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
-    this.gameArea = new CombatArea(combatTerrainFactory, player, enemy, game, combatTerrainFactory);
-    gameArea.create();
-    // createUI();
+     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+     this.gameArea = new CombatArea(combatTerrainFactory, player, enemy, game, combatTerrainFactory);
+     gameArea.create();
+     // createUI();
 
   }
 
@@ -168,7 +172,7 @@ public class CombatScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     Entity ui = new Entity();
-    ui.addComponent(new InputDecorator(stage, 10))
+    ui.addComponent(new InputDecorator(stage, 0))
         .addComponent(new CombatActions(this.game, this.enemy))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         // .addComponent(new CombatEnvironmentDisplay())

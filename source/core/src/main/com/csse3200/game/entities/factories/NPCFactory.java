@@ -230,7 +230,7 @@ public class NPCFactory {
               .addComponent(new TextureRenderComponent("images/chicken_idle.png"))
               .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
 
-      chickenEnemy.scaleHeight(3.0f);
+      chickenEnemy.scaleHeight(90.0f);
 
       return chickenEnemy;
     }
@@ -246,7 +246,7 @@ public class NPCFactory {
             .addComponent(new TextureRenderComponent("images/monkey_idle.png"))
             .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
 
-    monkeyEnemy.scaleHeight(2.8f);
+    monkeyEnemy.scaleHeight(90.0f);
 
     return monkeyEnemy;
   }
@@ -262,7 +262,7 @@ public class NPCFactory {
             .addComponent(new TextureRenderComponent("images/frog_idle.png"))
             .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
 
-    frogEnemy.scaleHeight(3.5f);
+    frogEnemy.scaleHeight(90.0f);
 
     return frogEnemy;
   }
@@ -277,7 +277,7 @@ public class NPCFactory {
             .addComponent(new TextureRenderComponent(imagePath))
             .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
 
-    combatPlayer.scaleHeight(2.8f);
+    combatPlayer.scaleHeight(90.0f);
 
     return combatPlayer;
   }
