@@ -23,7 +23,7 @@ import com.badlogic.gdx.Gdx;
 
 @ExtendWith(GameExtension.class)
 public class ItemProximityTaskTest {
-    CombatStatsComponent player = new CombatStatsComponent(20,20,20,20,20,20);
+
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();
