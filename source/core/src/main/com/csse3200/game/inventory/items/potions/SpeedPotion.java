@@ -2,18 +2,20 @@ package com.csse3200.game.inventory.items.potions;
 
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.TimedUseItem;
 import com.csse3200.game.services.GameTime;
 
-public class SpeedPotion extends AbstractPotion{
+public class SpeedPotion extends TimedUseItem {
     private final static String path = "images/potiontexture/speed.png";
+    private final static long duration = 120000;
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
      *
      * @param quantity the number of uses this potion has
      */
-    public SpeedPotion(int quantity, GameTime gameTime) {
-        super("Speed Potion", 2, 3, quantity, 25, gameTime);
+    public SpeedPotion(int quantity) {
+        super("Speed Potion", 52, 3, quantity, 25, duration);
         this.setTexturePath(path);
         this.setDescription("This is a speed potion");
     }

@@ -3,14 +3,14 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.services.GameTime;
+import com.csse3200.game.inventory.items.TimedUseItem;
 
 
 /**
  * The {@code HealingPotion} class represents a specific type of potion that heals a player or game entity.
  *
  * <p>
- * This class extends the {@link AbstractPotion} abstract class and provides an implementation of the
+ * This class extends the {@link TimedUseItem} abstract class and provides an implementation of the
  *  method to apply its healing effects. A healing potion contains one or more
  *  objects that determine how much health is restored when the potion is used.
  * </p>
@@ -27,7 +27,7 @@ import com.csse3200.game.services.GameTime;
  * passed to the constructor.
  * </p>
  *
- * @see AbstractPotion
+ * @see TimedUseItem
  */
 public class HealingPotion extends ConsumableItem {
     private final static String path = "images/Healthpotion.png";
@@ -39,7 +39,7 @@ public class HealingPotion extends ConsumableItem {
      * @param quantity the number of uses this potion has
      */
     public HealingPotion(int quantity) {
-        super("Health Potion", 2, 3, quantity);
+        super("Health Potion", 51, 3, quantity);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
         this.effectAmount = 25;

@@ -1,11 +1,8 @@
-package com.csse3200.game.inventory.items.potions;
+package com.csse3200.game.inventory.items;
 
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.inventory.items.ConsumableItem;
-import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceLocator;
 
-import java.util.List;
 
 /**
  * The {@code AbstractPotion} class serves as abstract base class for all-potion types items in the game
@@ -25,7 +22,7 @@ import java.util.List;
  * @see ConsumableItem
  */
 
-public abstract class AbstractPotion extends ConsumableItem {
+public abstract class TimedUseItem extends ConsumableItem {
     /**
      * A list of possible effects that this potion can apply when used.
      */
@@ -34,7 +31,7 @@ public abstract class AbstractPotion extends ConsumableItem {
      * default time of potion effect
      */
     private final long duration;
-    protected GameTime gameTime;
+    protected GameTime gameTime = ServiceLocator.getTimeSource();
     protected long effectStartTime;
 
     /**
@@ -44,13 +41,16 @@ public abstract class AbstractPotion extends ConsumableItem {
      *
      * potion can apply
      */
-    protected AbstractPotion(String name, int itemCode, int limit, int quantity, int effectAmount, GameTime gameTime) {
+    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, long duration) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
-        this.duration = 120000;
-        this.gameTime = gameTime;
-
+        this.duration = duration;
     }
+
+    /**
+     * @return the game time object used to check the time this item should be used for.
+     */
+    public GameTime getGameTime() {return this.gameTime;}
 
     /**
      * Checks if the duration of potion usage is expired

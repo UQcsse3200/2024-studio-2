@@ -2,29 +2,20 @@ package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
-import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.AbstractPotion;
-import com.csse3200.game.inventory.items.potions.AttackPotion;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
-import com.csse3200.game.inventory.items.potions.SpeedPotion;
-import com.csse3200.game.services.GameTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.csse3200.game.inventory.items.TimedUseItem;
 
 import java.util.Objects;
 
-public class UseItemTask extends DefaultTask implements PriorityTask {
+public class TimedUseItemTask extends DefaultTask implements PriorityTask {
     private final Entity target;
-    private final AbstractPotion potion;
-    private static final Logger logger = LoggerFactory.getLogger(UseItemTask.class);
+    private final TimedUseItem potion;
     private final int priority;
     private final ItemUsageContext context;
 
-    public UseItemTask(Entity target, int priority, AbstractPotion potion, ItemUsageContext context) {
+    public TimedUseItemTask(Entity target, int priority, TimedUseItem potion, ItemUsageContext context) {
         this.target = target;
         this.priority = priority;
         this.potion = potion;

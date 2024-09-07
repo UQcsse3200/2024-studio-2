@@ -150,7 +150,7 @@ public class ForestGameArea extends GameArea {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
-    // // Terrain wall:wqs
+    // // Terrain walls
     // float tileSize = terrain.getTileSize();
     // GridPoint2 tileBounds = terrain.getMapBounds(0);
     // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
