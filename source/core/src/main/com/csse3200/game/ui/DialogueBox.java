@@ -2,6 +2,7 @@ package com.csse3200.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.GdxGame;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -34,6 +36,8 @@ public class DialogueBox {
 
     private String[] hints;
     private int currentHint;
+    private final GdxGame game;
+    private Boolean snakeMinigame;
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -72,7 +76,21 @@ public class DialogueBox {
     public DialogueBox(String[] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.hints = labelText;
+        this.snakeMinigame = false;
         dialogueBoxInitialisation(false);
+    }
+
+    /**
+     * Creates a new DialogueBox with the given hint messages.
+     *
+     * @param labelText The array of hint messages to display.
+     */
+    public DialogueBox(String[] labelText, GdxGame game) {
+        this.stage = ServiceLocator.getRenderService().getStage();
+        this.hints = labelText;
+        this.snakeMinigame = false;
+        dialogueBoxInitialisation(false);
+        this.game = game;
     }
 
     /**
@@ -197,6 +215,24 @@ public class DialogueBox {
         });
     }
 
+    private void replaceForwardButtonWithPlayGame() {
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        forwardButton.setVisible(false); // Hide the forward button
+
+        // Create Play Game button
+        TextButton playGameButton = new TextButton("Play Game", buttonStyle);
+        playGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call method to enter the snake mini-game
+                snakeMinigame = true;
+            }
+        });
+
+        // Add the Play Game button to the dialogue box (layout as per your setup)
+        //this.add(playGameButton).pad(10);  // Adjust padding/layout as needed
+    }
+
     /**
      * Returns the array of hint messages.
      *
@@ -231,6 +267,7 @@ public class DialogueBox {
     public void handleForwardButtonClick() {
 
         currentHint = (currentHint + 1) % hints.length;
+        // Change for snake mini-game
         label.setText(hints[currentHint]);
         updateLabelPosition();
     }
@@ -302,5 +339,23 @@ public class DialogueBox {
      */
     public TextButton getBackwardButton() {
         return backwardButton;
+    }
+
+    public void updateDialogue(String text) {
+        // Check if the text contains the '/m' flag
+        if (text.contains("/m")) {
+            // Replace forward button with 'Play Game' button
+            replaceForwardButtonWithPlayGame();
+        } else {
+            // Show the forward button as usual
+            //showForwardButton();
+        }
+
+        // Update the displayed text without the '/m' flag
+        label.setText(text.replace("/m", ""));
+    }
+
+    public Boolean isSnakeMinigame() {
+        return snakeMinigame;
     }
 }

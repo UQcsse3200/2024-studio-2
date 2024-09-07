@@ -1,5 +1,6 @@
 package com.csse3200.game.entities;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.ui.DialogueBox;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
@@ -9,12 +10,19 @@ public class DialogueBoxService {
     private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[] hints;
+    private final GdxGame game;
+
+    public DialogueBoxService(Stage stage) {
+        currentOverlay = new DialogueBox(stage);
+        hints = null;
+    }
 
     /**
      * Create a new chat overlay with the given hint text.
      */
-    public DialogueBoxService(Stage stage) {
+    public DialogueBoxService(Stage stage, GdxGame game) {
         currentOverlay = new DialogueBox(stage);
+        this.game = game;
         hints = null;
     }
 
@@ -66,10 +74,12 @@ public class DialogueBoxService {
         hints = text;
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
-            currentOverlay = new DialogueBox(hints);
+            currentOverlay = new DialogueBox(hints, game);
         } else {
             currentOverlay.showDialogueBox(text);
         }
 
     }
+
+
 }
