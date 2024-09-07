@@ -30,7 +30,7 @@ public class AttackMove extends CombatMove {
 
             int damage = ((m1*m2)/m3) * (A/D);
 
-            targetStats.addHealth(-damage);
+            targetStats.setHealth(targetStats.getHealth() - damage);
 
             logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, damage);
         } else {

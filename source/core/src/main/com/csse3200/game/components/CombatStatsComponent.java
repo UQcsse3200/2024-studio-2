@@ -20,11 +20,13 @@ public class CombatStatsComponent extends Component {
   private int experience;
   private final int maxHunger;
   private final int maxExperience;
+  private boolean isPlayer;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
       this.maxHealth = health;
       this.maxHunger = hunger;
       this.maxExperience=experience;
+      this.isPlayer = isPlayer;
       setHealth(health);
       setHunger(hunger);
       setStrength(strength);
@@ -64,7 +66,7 @@ public class CombatStatsComponent extends Component {
       this.health = 0;
     }
     if (entity != null) {
-      entity.getEvents().trigger("updateHealth", this.health);
+      entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
     }
   }
 

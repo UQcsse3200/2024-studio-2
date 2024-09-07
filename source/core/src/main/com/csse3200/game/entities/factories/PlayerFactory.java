@@ -66,14 +66,14 @@ public class PlayerFactory {
         player.addComponent(new CombatMoveComponent(moveSet));
 
         if (imagePath.equals("images/dog.png")) {
-          player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
+          player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
         } else if (imagePath.equals("images/croc.png")) {
-          player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100));
+          player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
         } else if (imagePath.equals("images/bird.png")) {
-          player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
+          player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
         }
         else {
-          player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
+          player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), true));
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
