@@ -12,5 +12,10 @@
     "sounds/BGM_03_mp3.mp3",
     "sounds/heartbeat.mp3"
   ],
-  "backgroundMusic" : "sounds/BGM_03_mp3.mp3"
+  "backgroundMusic" : "sounds/BGM_03_mp3.mp3",
+
+  "dogSounds" : [
+    "sounds/animal/panting.mp3",
+    "sounds/animal/bark.mp3"
+  ]
 }

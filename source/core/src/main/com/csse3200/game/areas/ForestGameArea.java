@@ -79,8 +79,6 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String heartbeat = "sounds/heartbeat.mp3";
   private static final String[] heartbeatSound = {heartbeat};
-  private static final String[] dogSound = {"sounds/animal/panting.mp3"};
-  private static final String[] dogBarkSound = {"sounds/animal/bark.mp3"};
 
   private static final List<String[]> soundArrays = List.of(
           new String[] {"sounds/mooing-cow.mp3"},
@@ -451,8 +449,6 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(questSounds);
     resourceService.loadSounds(forestSounds);
-    resourceService.loadSounds(dogSound);
-    resourceService.loadSounds(dogBarkSound);
     for (String[] sounds : soundArrays) {
       resourceService.loadSounds(sounds);
     }
@@ -466,6 +462,7 @@ public class ForestGameArea extends GameArea {
       resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
       resourceService.loadSounds(config.sounds.gameSounds);
       resourceService.loadMusic(config.sounds.gameMusic);
+      resourceService.loadSounds(config.sounds.dogSounds);
 
       while (!resourceService.loadForMillis(10)) {
         // This could be upgraded to a loading screen
@@ -483,8 +480,6 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(questSounds);
     resourceService.unloadAssets(forestMusic);
     resourceService.unloadAssets(heartbeatSound);
-    resourceService.unloadAssets(dogSound);
-    resourceService.unloadAssets(dogBarkSound);
 
     for (String[] soundArray : soundArrays) {
       resourceService.unloadAssets(soundArray);
