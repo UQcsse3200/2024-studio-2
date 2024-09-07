@@ -127,17 +127,17 @@ public class ForestGameArea extends GameArea {
     spawnTrees();
     player = spawnPlayer();
 
-    //Enemies
-//      for (int i = 0;i < NUM_CHICKENS; i++) {
-//        spawnChicken();
-//      }
-//      for (int i = 0; i< NUM_FROGS; i++) {
-//        spawnFrog();
-//
-//      }
-//      for (int i = 0; i< NUM_FROGS; i++) {
-//        spawnMonkey();
-//      }
+//    Enemies
+      for (int i = 0;i < NUM_CHICKENS; i++) {
+        spawnChicken();
+      }
+      for (int i = 0; i< NUM_FROGS; i++) {
+        spawnFrog();
+
+      }
+      for (int i = 0; i< NUM_FROGS; i++) {
+        spawnMonkey();
+      }
 
       // items
     spawnHealthPotions();
