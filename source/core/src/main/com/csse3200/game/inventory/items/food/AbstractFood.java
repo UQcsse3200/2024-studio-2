@@ -42,6 +42,6 @@ public class AbstractFood extends ConsumableItem {
         super.useItem(context);
         context.player.getComponent(CombatStatsComponent.class).addHunger(this.feedingAmount);
         String msg = String.format("Ate food %s and increased by %d", this.getName(), this.feedingAmount);
-        logger.info(msg);
+        logger.debug(msg);
     }
 }
