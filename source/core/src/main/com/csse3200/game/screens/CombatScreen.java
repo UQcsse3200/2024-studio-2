@@ -40,7 +40,7 @@ public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
-          "images/health_bar_x1.png", "images/xp_bar.png"
+          "images/health_bar_x1.png", "images/xp_bar.png", "images/combat/combat_bg_forest.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
