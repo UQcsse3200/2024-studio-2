@@ -52,17 +52,15 @@ public class PlayerFactory {
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
-        if (imagePath.equals("images/dog.png")) {
-            player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
-        } else if (imagePath.equals("images/croc.png")) {
-            player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100));
-        } else if (imagePath.equals("images/bird.png")) {
-            player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
-        }
-        else {
-
-            player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
-
+        switch (imagePath) {
+            case "images/dog.png" ->
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20));
+            case "images/croc.png" ->
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100));
+            case "images/bird.png" ->
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
+            default ->
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))

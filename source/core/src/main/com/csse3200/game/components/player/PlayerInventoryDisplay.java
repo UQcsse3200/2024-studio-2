@@ -232,7 +232,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
-//        disposeItemOverlay();
         super.dispose();
     }
 

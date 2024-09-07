@@ -20,24 +20,30 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     private final Table table = new Table();
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
-    private final int Capacity;
+    private final int capacity;
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
     private final PlayerInventoryDisplay inventoryUI;
 
     /**
      * Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.
      *
-     * @param Capacity Number of slots in the hotbar
+     * @param capacity Number of slots in the hotbar
      * @param inventory      Player's inventory
      * @param InventoryUI Inventory display manager
      */
-    public PlayerInventoryHotbarDisplay(int Capacity, Inventory inventory, PlayerInventoryDisplay InventoryUI) {
-        if (Capacity < 1) throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
+    public PlayerInventoryHotbarDisplay(int capacity, Inventory inventory,
+                                        PlayerInventoryDisplay InventoryUI) {
+        if (capacity < 1) {
+            throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
+        }
+        if(capacity >= inventory.getCapacity()) {
+            throw new IllegalArgumentException(
+                    "Inventory Hotbar capacity must be less than inventory capacity!");
+        }
         this.inventory = inventory;
-        if(Capacity >= inventory.getCapacity())throw new IllegalArgumentException("Inventory Hotbar capacity must be less than inventory capacity!");
-        this.Capacity=Capacity;
+        this.capacity = capacity;
         this.inventoryUI = InventoryUI;
-        this.hotBarSlots = new ImageButton[Capacity];
+        this.hotBarSlots = new ImageButton[capacity];
         stage = ServiceLocator.getRenderService().getStage();
         createHotbar();
 
@@ -47,7 +53,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
      * Toggles the visibility of the hotbar.
      * If the hotbar is currently visible, it will be removed, and vice versa.
      */
-
     @Override
     protected void draw(SpriteBatch batch) {
         // Drawing is handled by the stage
@@ -61,7 +66,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.center().right();
         table.setBackground(new TextureRegionDrawable(hotBarTexture));
         table.setSize(160, 517);
-        for (int i = 0; i < Capacity; i++) {
+        for (int i = 0; i < capacity; i++) {
             AbstractItem item = inventory.getAt(i);
             ImageButton slot = new ImageButton(skinSlots);
             if (item != null) {
