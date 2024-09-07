@@ -160,6 +160,7 @@ public class MainMenuDisplay extends UIComponent {
         Label versionLabel = new Label("Version 1.0", skin);
 
         // Adds UI component (hover over buttons)
+        addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
@@ -718,7 +719,7 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an elevation effect to buttons when hovered.
      */
-    private void addButtonElevationEffect(TextButton button) {
+    private void addButtonElevationEffect(Button button) {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
