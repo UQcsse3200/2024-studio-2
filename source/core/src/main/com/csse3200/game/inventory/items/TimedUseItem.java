@@ -1,7 +1,5 @@
-package com.csse3200.game.inventory.items.potions;
+package com.csse3200.game.inventory.items;
 
-import com.csse3200.game.inventory.items.ConsumableItem;
-import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
 
 
@@ -42,12 +40,12 @@ public abstract class TimedUseItem extends ConsumableItem {
      *
      * potion can apply
      */
-    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, GameTime gameTime) {
+    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount,
+                           GameTime gameTime, long duration) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
-        this.duration = 120000;
+        this.duration = duration;
         this.gameTime = gameTime;
-
     }
 
     /**

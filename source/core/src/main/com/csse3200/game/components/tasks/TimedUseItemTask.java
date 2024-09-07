@@ -5,7 +5,7 @@ import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.TimedUseItem;
+import com.csse3200.game.inventory.items.TimedUseItem;
 
 import java.util.Objects;
 

@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.TimedUseItem;
+import com.csse3200.game.inventory.items.TimedUseItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;

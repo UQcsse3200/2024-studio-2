@@ -3,6 +3,7 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.inventory.items.TimedUseItem;
 
 
 /**

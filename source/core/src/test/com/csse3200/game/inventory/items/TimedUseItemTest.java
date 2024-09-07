@@ -1,9 +1,12 @@
-package com.csse3200.game.inventory.items.potions;
+package com.csse3200.game.inventory.items;
 
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.HealingPotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.GameTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
