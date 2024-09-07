@@ -49,7 +49,9 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Counter", this::onCounter);
-    //Display.create();
+
+    logger.info("Player health start: {}", manager.getPlayer().getComponent(CombatStatsComponent.class).getHealth());
+    logger.info("Enemy health start: {}", manager.getEnemy().getComponent(CombatStatsComponent.class).getHealth());
   }
 
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
@@ -71,6 +73,8 @@ public class CombatActions extends Component {
     //container.getEntityService().update();
     // Set current screen to original MainGameScreen
 //    game.setOldScreen(screen, container);
+    logger.info("Player health now: {}", manager.getPlayer().getComponent(CombatStatsComponent.class).getHealth());
+    logger.info("Enemy health now: {}", manager.getEnemy().getComponent(CombatStatsComponent.class).getHealth());
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
@@ -84,8 +88,9 @@ public class CombatActions extends Component {
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("Attack selected.");
-    manager.onAttackSelected();
+    logger.info("Attack clicked.");
+    manager.onPlayerActionSelected("ATTACK");
+
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");

@@ -15,81 +15,109 @@ import java.util.Objects;
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
-    private enum Turn { INIT, PLAYER, ENEMY }
-    private Turn currentTurn;
+    public enum Action { START_MOVE, ATTACK, GUARD, COUNTER, SPECIAL };
     private final Entity player;
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
+    private final CombatStatsDisplay statsDisplay;
+    private Action playerAction;
+    private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
     private boolean isCombatEnd = false;
 
-    public CombatManager(Entity player, Entity enemy) {
+    public CombatManager(Entity player, Entity enemy, CombatStatsDisplay statsDisplay) {
         this.player = player;
         this.enemy = enemy;
+        this.statsDisplay = statsDisplay;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
+        this.playerAction = null;
+        this.enemyAction = null;
+
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
-
-        this.currentTurn = Turn.INIT;
-
-        // Temp stats for testing
-         this.playerStats.setHealth(100);
-         this.enemyStats.setHealth(100);
-         this.playerStats.setStrength(10);
-         this.enemyStats.setStrength(5);
     }
 
     /**
-     * Player has clicked attack button to select 'attack' as their action.
+     * Both opponents' actions need to be determined before either action is enacted, as the sequencing of the moves
+     * will be dependent on both of the choices.
+     * @param playerActionStr
      */
-    public void onAttackSelected()
+    public void onPlayerActionSelected(String playerActionStr)
     {
-        checkTurn();
-        if (currentTurn == Turn.PLAYER) {
-            if (playerMove != null) {
-                playerMove.executeMove(CombatMoveComponent.MoveAction.ATTACK, enemy);
-            } else {
-                logger.error("Player does not have a CombatMoveComponent.");
-            }
-        } else {
-            if (enemyMove != null) {
-                enemyMove.executeMove(CombatMoveComponent.MoveAction.ATTACK, player);
-            } else {
-                logger.error("Enemy does not have a CombatMoveComponent.");
-            }
+        // Map the string input to the corresponding enum value
+        try {
+            playerAction = Action.valueOf(playerActionStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid player action: {}", playerActionStr);
+            return;
         }
 
-        checkCombatEnd();
-        if (!isCombatEnd) {
-            switchTurn();
-        }
+        enemyAction = selectEnemyMove();
+
+        logger.debug("Player action = {}, enemy action = {}", playerAction, enemyAction);
+
+        processActions();
+
+        statsDisplay.updateHealthUI(25, playerStats.getMaxHealth(), true);
+        //statsDisplay.updateHealthUI(enemyStats.getHealth(), enemyStats.getMaxHealth(), false);
     }
 
-    /**
-     * Sets the current turn to whoever currently has the fastest speed stat.
-     */
-    private void checkTurn() {
+    private Action selectEnemyMove()
+    {
+        Action enemyAction;
+
+        int rand = (int) (Math.random() * 4);
+        switch (rand) {
+            case 0:
+                enemyAction = Action.ATTACK;
+                break;
+            case 1:
+                enemyAction = Action.GUARD;
+                break;
+            case 2:
+                enemyAction = Action.COUNTER;
+                break;
+            case 3:
+                enemyAction = Action.SPECIAL;
+                break;
+            default:
+                enemyAction = null;
+        }
+
+        return enemyAction;
+    }
+
+    private void executeMove(Action playerAction, Action enemyAction) {
+        if (playerMove == null) {
+            logger.error("Player does not have a CombatMoveComponent.");
+            return;
+        }
+        if (enemyMove == null) {
+            logger.error("Enemy does not have a CombatMoveComponent.");
+            return;
+        }
+
         if (playerStats.getSpeed() >= enemyStats.getSpeed()) {
-            this.currentTurn = Turn.PLAYER;
+            playerMove.executeMove(playerAction, enemy);
+            enemyMove.executeMove(enemyAction, player);
         } else {
-            this.currentTurn = Turn.ENEMY;
+            enemyMove.executeMove(enemyAction, player);
+            playerMove.executeMove(playerAction, enemy);
         }
     }
 
-    /**
-     * Switches currentTurn to opposite of current currentTurn.
-     */
-    private void switchTurn() {
-        if (currentTurn == Turn.PLAYER) {
-            currentTurn = Turn.ENEMY;
-        } else {
-            currentTurn = Turn.PLAYER;
+    private void processActions()
+    {
+        if (playerAction == null || enemyAction == null) {
+            logger.error("Both player and enemy actions must be determined.");
+            return;
         }
+        executeMove(playerAction, enemyAction);
     }
 
     private void checkCombatEnd() {
@@ -106,22 +134,4 @@ public class CombatManager extends Component {
     public Entity getEnemy() {
         return enemy;
     }
-
-    public CombatStatsComponent getPlayerStats() {
-        return playerStats;
-    }
-
-    public CombatStatsComponent getEnemyStats() {
-        return enemyStats;
-    }
-
-//    @Override
-//    public void render(float delta) {
-//
-//    }
-//
-//    @Override
-//    public void resize(int width, int height) {
-//
-//    }
 }
