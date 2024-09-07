@@ -1,4 +1,4 @@
-/*package com.csse3200.game.components.minigames.birdieDash.rendering;
+package com.csse3200.game.components.minigames.birdieDash.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,8 +12,8 @@ public class CoinRenderer {
     // The Constructor with default width and height
     public CoinRenderer(Coin coin) {
         this.coin = coin;
-        this.width = 96;  // Set the desired width for the coin
-        this.height = 96; // Set the desired height for the coin
+        this.width = 96;  // Setting the desired width for the coin
+        this.height = 96; // Setting the desired height for the coin
     }
 
     public void render(SpriteBatch batch) {
@@ -25,5 +25,4 @@ public class CoinRenderer {
         coin.dispose();
     }
 }
- */
 
