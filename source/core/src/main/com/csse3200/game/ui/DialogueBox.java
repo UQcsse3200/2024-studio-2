@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.concurrency.JobSystem;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -42,7 +41,6 @@ public class DialogueBox {
      */
     public DialogueBox(String[][] labelText) {
         this.hints = labelText;
-//        JobSystem.launch(this::screenInit);
         screenInit();
     }
 
@@ -194,3 +192,5 @@ public class DialogueBox {
         return backwardButton;
     }
 }
+
+// test commit bc my git is cooked

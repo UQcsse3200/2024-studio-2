@@ -2,6 +2,7 @@ package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.EntityConverter;
@@ -9,6 +10,12 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import static com.csse3200.game.entities.factories.EnemyFactory.FRIENDLY;
+
+
+import static com.csse3200.game.areas.ForestGameArea.enemies;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does something when one of the
@@ -18,10 +25,12 @@ public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
   private final Entity enemy; // Each combat can only have one enemy.
+  private final Entity player;
 
-  public CombatActions(GdxGame game, Entity enemy) {
+  public CombatActions(GdxGame game, Entity enemy, Entity player) {
     this.game = game;
     this.enemy = enemy;
+    this.player = player;
   }
 
   @Override
@@ -62,7 +71,8 @@ public class CombatActions extends Component {
     // Convert defeated enemy to a FriendlyNPC
     
     // TODO: Fix this so comment this out if need be
-    EntityConverter.convertToFriendly(enemy);
+    FRIENDLY = true;
+    EntityConverter.convertToFriendly(enemy, player, enemies);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
