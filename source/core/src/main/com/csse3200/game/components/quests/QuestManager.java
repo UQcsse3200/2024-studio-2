@@ -2,8 +2,10 @@ package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,10 +50,13 @@ public class QuestManager extends Component {
         loadQuests();
     }
 
-    /** Sets up kingdom 1 quests.
-     * Note: limitation on item collection - 1 item collection per kingdom */
+    /** Sets up land kingdom quests.
+     * Note: limitation on item collection - 1 item collection per kingdom
+     *      w completion string "item collection task successful" */
     private void landKingdomSetup() {
-        // Have to
+        // Setup for item collection tasks
+        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
+        inventory.questItemListen("Health Potion", 5);
     }
 
     /**
