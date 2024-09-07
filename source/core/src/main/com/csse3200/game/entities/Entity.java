@@ -56,7 +56,9 @@ public class Entity {
 
   // Getter for enemy type
   public EnemyType getEnemyType() {
-    return enemyType;
+
+    // return enemyType;
+    return this.enemyType;
   }
 
   // Setter for enemy type

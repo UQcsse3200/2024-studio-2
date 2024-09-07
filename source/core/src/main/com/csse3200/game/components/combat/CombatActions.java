@@ -102,6 +102,6 @@ public class CombatActions extends Component {
   @Override
   public void dispose() {
     // Dispose of the stage to free up resources
-    stage.dispose();
+    // stage.dispose(); // commented out because stage was returning null so could not be disposed of
   }
 }

@@ -106,6 +106,7 @@ public class CombatArea extends GameArea {
         this.combatTerrainFactory = terrainFactory;
         this.player = player;
         this.enemy = enemy;
+        System.out.println("THE ENEMY IS:" + enemy.getEnemyType());
     }
 
     /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -156,7 +157,7 @@ public class CombatArea extends GameArea {
          * The entity serves no other purpose and is not visible
          */
         String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
-        Entity nP = NPCFactory.createCombatPlayer(iP);
+        Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         nP.setPosition(340, 230);
 
@@ -165,27 +166,27 @@ public class CombatArea extends GameArea {
          * with health, stats, etc.
          */
         String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-        Entity newPlayer = NPCFactory.createCombatPlayer(imagePath);
+        Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     // Eventually pass a variable to determine which enemy needs to be spawned
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
+        Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
 
     // The following functions spawn chicken, monkey, and frog entities as NPC's for static combat
     private void spawnChicken() {
-        Entity combatEnemyNPC = NPCFactory.createChickenCombatEnemy();
+        Entity combatEnemyNPC = EnemyFactory.createChickenCombatEnemy();
         spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
     /**
      * spawns a frog enemy, with the player entity as its target
      */
     private void spawnFrog() {
-        Entity combatEnemyNPC = NPCFactory.createFrogCombatEnemy();
+        Entity combatEnemyNPC = EnemyFactory.createFrogCombatEnemy();
         spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
 
@@ -193,7 +194,7 @@ public class CombatArea extends GameArea {
      * spawns a monkey enemy, with the player entity as its target
      */
     private void spawnMonkey() {
-        Entity combatEnemyNPC = NPCFactory.createMonkeyCombatEnemy();
+        Entity combatEnemyNPC = EnemyFactory.createMonkeyCombatEnemy();
         spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
     }
 

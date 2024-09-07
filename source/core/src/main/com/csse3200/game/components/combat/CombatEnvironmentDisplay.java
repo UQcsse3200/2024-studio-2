@@ -13,7 +13,9 @@ import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -49,12 +51,12 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private void addActors() {
     table = new Table();
     table.setFillParent(true);
-
-    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-    Entity newPlayer = NPCFactory.createCombatPlayer(imagePath);
-    // newPlayer.setZIndex(1);
-    newPlayer.setPosition(300,300);
-    // newPlayer.addComponent(combatTerrainFactory.getCameraComponent());
+//
+//    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+//    Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
+//    // newPlayer.setZIndex(1);
+//    newPlayer.setPosition(300,300);
+//    // newPlayer.addComponent(combatTerrainFactory.getCameraComponent());
 
     Texture texture = ServiceLocator.getResourceService().getAsset("images/combat_background_one.png", Texture.class);
     Image bg = new Image(texture);
@@ -65,15 +67,10 @@ public class CombatEnvironmentDisplay extends UIComponent {
     player.setZIndex(1);
     player.setPosition(500,500);
 
-    // Stage stage = ServiceLocator.getRenderService().getStage();
     bg.setSize(stage.getWidth(), stage.getHeight());
 
-    // table.add(bg).expand().fill();
     table.add(bg).expand();
     stage.addActor(table);
-    // stage.addActor(player);
-    // stage.addActor(combatTerrainFactory);
-    // stage.addActor(newPlayer);
   }
 
 
