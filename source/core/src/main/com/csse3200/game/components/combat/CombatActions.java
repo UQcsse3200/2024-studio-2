@@ -97,8 +97,9 @@ public class CombatActions extends Component {
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("Attack selected.");
-    manager.onAttackSelected();
+    logger.info("Attack clicked.");
+    manager.onPlayerActionSelected("ATTACK");
+
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");

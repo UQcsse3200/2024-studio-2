@@ -156,15 +156,16 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
+    CombatStatsDisplay statsDisplay = new CombatStatsDisplay(playerCombatStats, enemyCombatStats);
     // Initialise combat manager with instances of player and enemy to be passed into combat actions.
-    CombatManager manager = new CombatManager(player, enemy);
+    CombatManager manager = new CombatManager(player, enemy, statsDisplay);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         .addComponent(new CombatEnvironmentDisplay())
-        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        .addComponent(statsDisplay)
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(playerCombatStats)

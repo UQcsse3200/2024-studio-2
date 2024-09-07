@@ -7,11 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Manages the turn-based combat loop and handles attacks
  */
-public class CombatManager extends Component {
+public class CombatManager {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
     public enum Action { START_MOVE, ATTACK, GUARD, COUNTER };
@@ -19,19 +20,21 @@ public class CombatManager extends Component {
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
-    private Action playerAction;
-    private Action enemyAction;
+    private final CombatStatsDisplay statsDisplay;
+    private String playerAction;
+    private String enemyAction;
     private boolean isCombatEnd = false;
 
-    public CombatManager(Entity player, Entity enemy) {
+    public CombatManager(Entity player, Entity enemy, CombatStatsDisplay statsDisplay) {
         this.player = player;
         this.enemy = enemy;
+        this.statsDisplay = statsDisplay;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
-        this.playerAction = Action.START_MOVE;
-        this.enemyAction = Action.START_MOVE;
+        this.playerAction = "";
+        this.enemyAction = "";
     }
 
     /**
@@ -41,72 +44,83 @@ public class CombatManager extends Component {
      */
     public void onPlayerActionSelected(String playerActionStr)
     {
-        playerAction = Action.valueOf(playerActionStr);
+        playerAction = String.valueOf(playerActionStr);
 
-        selectEnemyMove();
+        enemyAction = selectEnemyMove();
+
+        logger.debug("Player action = {}, enemy action = {}", playerAction, enemyAction);
 
         processActions();
+
+        statsDisplay.updateHealthUI(25, playerStats.getMaxHealth(), true);
+        //statsDisplay.updateHealthUI(enemyStats.getHealth(), enemyStats.getMaxHealth(), false);
     }
 
-    private Action selectEnemyMove()
+    private String selectEnemyMove()
     {
-        Action enemyAction;
+        String enemyAction;
 
         int rand = (int) (Math.random() * 3);
         if (rand == 0) {
-            enemyAction = Action.ATTACK;
+            enemyAction = "ATTACK";
         } else if (rand == 1) {
-            enemyAction = Action.GUARD;
+            enemyAction = "GUARD";
         } else {
-            enemyAction = Action.COUNTER;
+            enemyAction = "COUNTER";
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// THIS IS FOR TESTING, GET RID OF THIS:
+        enemyAction = "ATTACK";
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         return enemyAction;
     }
 
     private void processActions()
     {
-        if (playerAction == Action.ATTACK)
+        if (Objects.equals(playerAction, "ATTACK"))
         {
-            if (enemyAction == Action.ATTACK)
+            if (Objects.equals(enemyAction, "ATTACK"))
             {
                 // Fastest entity moves first.
+                enemyStats.hit(playerStats);
+                //playerStats.hit(enemyStats);
             }
-            else if (enemyAction == Action.GUARD)
+            else if (Objects.equals(enemyAction, "GUARD"))
+            {
+                enemyStats.hit(playerStats);
+            }
+            else if (Objects.equals(enemyAction, "COUNTER"))
+            {
+                enemyStats.hit(playerStats);
+            }
+        }
+        else if (Objects.equals(playerAction, "GUARD"))
+        {
+            if (Objects.equals(enemyAction, "ATTACK"))
             {
 
             }
-            else if (enemyAction == Action.COUNTER)
+            else if (Objects.equals(enemyAction, "GUARD"))
+            {
+
+            }
+            else if (Objects.equals(enemyAction, "COUNTER"))
             {
 
             }
         }
-        else if (playerAction == Action.GUARD)
+        else if (Objects.equals(playerAction, "COUNTER"))
         {
-            if (enemyAction == Action.ATTACK)
+            if (Objects.equals(enemyAction, "ATTACK"))
             {
 
             }
-            else if (enemyAction == Action.GUARD)
+            else if (Objects.equals(enemyAction, "GUARD"))
             {
 
             }
-            else if (enemyAction == Action.COUNTER)
-            {
-
-            }
-        }
-        else if (playerAction == Action.COUNTER)
-        {
-            if (enemyAction == Action.ATTACK)
-            {
-
-            }
-            else if (enemyAction == Action.GUARD)
-            {
-
-            }
-            else if (enemyAction == Action.COUNTER)
+            else if (Objects.equals(enemyAction, "COUNTER"))
             {
 
             }
@@ -123,15 +137,4 @@ public class CombatManager extends Component {
 
     public Entity getPlayer() { return player; }
     public Entity getEnemy() { return enemy; }
-
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
 }
