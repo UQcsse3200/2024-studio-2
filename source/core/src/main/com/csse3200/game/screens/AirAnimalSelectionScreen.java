@@ -23,7 +23,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
 
         display = new AirAnimalSelectionDisplay(stage, skin);
-        actions = new AnimalSelectionActions(display, dialogHelper, game);
+        actions = new AnimalSelectionActions(display, dialogHelper, game); // No error now
 
         actions.resetSelection();
     }
