@@ -203,6 +203,10 @@ public class CombatArea extends GameArea {
         music.setVolume(0.3f);
         music.play();
     }
+    public void pauseMusic() {
+        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        music.pause();
+    }
 
     private void loadAssets() {
         logger.debug("Loading assets");

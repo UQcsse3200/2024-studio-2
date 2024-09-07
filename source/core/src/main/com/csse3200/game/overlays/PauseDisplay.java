@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +22,18 @@ import org.slf4j.LoggerFactory;
  */
 public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
-    EventService eventService = ServiceLocator.getEventService();
     private Table rootTable;
     private static final String BUTTONTEXTURE = "images/PauseOverlay/Button.png";
+    private PausableScreen screen;
+    private GdxGame game;
 
-    public PauseDisplay() {
-        super();
+
+    public PauseDisplay(PausableScreen screen, GdxGame game) {
+     super();
+     this.screen = screen;
+     this.game = game;
     }
-
+  
     @Override
     public void create() {
         super.create();
@@ -84,7 +90,7 @@ public class PauseDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
-                        eventService.getGlobalEventHandler().trigger("exit");
+                        game.setScreen(GdxGame.ScreenType.MAIN_MENU);
                     }
                 });
 
@@ -105,11 +111,11 @@ public class PauseDisplay extends UIComponent {
     }
 
     private void exitOverlay() {
-        eventService.getGlobalEventHandler().trigger("removeOverlay");
+        screen.removeOverlay();
     }
 
     private void openQuests() {
-        eventService.getGlobalEventHandler().trigger("addOverlay",Overlay.OverlayType.QUEST_OVERLAY);
+        screen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
     }
 
 

@@ -266,4 +266,5 @@ public class QuestManager extends Component {
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
+
 }
