@@ -30,7 +30,9 @@ public class DialogueBox {
     private Image backgroundImage;
     private TextButton forwardButton;
     private TextButton backwardButton;
+    private TextButton playButton;
     private final int screenWidth = Gdx.graphics.getWidth();
+    private final int screenHeight = Gdx.graphics.getHeight();
 
     private String[] hints;
     private int currentHint;
@@ -51,6 +53,7 @@ public class DialogueBox {
         this.label = createLabel();
         this.forwardButton = createForwardButton();
         this.backwardButton = createBackwardButton();
+        this.playButton = createPlayButton();
 
         if (hide) {
             hideDialogueBox();
@@ -231,8 +234,48 @@ public class DialogueBox {
     public void handleForwardButtonClick() {
 
         currentHint = (currentHint + 1) % hints.length;
+        minigameCheck();
         label.setText(hints[currentHint]);
         updateLabelPosition();
+    }
+
+    public void minigameCheck() {
+        if (hints[currentHint].startsWith("/m")) {
+            hints[currentHint] = hints[currentHint].substring(2);
+            createCenterButton();
+        } else {
+            if (playButton != null) playButton.remove();
+        }
+    }
+
+    public TextButton createPlayButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton playButton = new TextButton("Play Game", buttonStyle);
+        playButton.padLeft(55f);
+        playButton.getLabel().setAlignment(Align.center);
+        return playButton;
+    }
+    private void createCenterButton() {
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
+        float centerY = (screenHeight - buttonHeight) / 2;
+
+        playButton.setPosition(centerX, centerY);
+
+        // Add the button to the stage
+        stage.addActor(playButton);
+
+        // Add a listener to the button
+        playButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // Dummy action for now
+                System.out.println("Play Game button clicked!");
+                return true;
+            }
+        });
+
     }
 
     /**
@@ -241,6 +284,7 @@ public class DialogueBox {
      */
     public void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
+        minigameCheck();
         label.setText(hints[currentHint]);
         updateLabelPosition();
     }
@@ -284,6 +328,7 @@ public class DialogueBox {
         if (label != null) label.remove();
         if (forwardButton != null) forwardButton.remove();
         if (backwardButton != null) backwardButton.remove();
+        if (playButton != null) playButton.remove();
     }
 
     /**
