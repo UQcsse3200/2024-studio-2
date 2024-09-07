@@ -261,7 +261,7 @@ public class DialogueBox {
         float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
         float centerY = (screenHeight - buttonHeight) / 2;
 
-        playButton.setPosition(centerX, centerY);
+        playButton.setPosition(centerX, centerY - 200);
 
         // Add the button to the stage
         stage.addActor(playButton);
