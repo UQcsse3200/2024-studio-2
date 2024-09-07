@@ -10,6 +10,7 @@ import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.animal.AnimalSelectionDisplay;
 
 /**
  * Handles actions related to animal selection in the game.
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AnimalSelectionActions {
     private static final Logger logger = LoggerFactory.getLogger(AnimalSelectionActions.class);
-    final LandAnimalSelectionDisplay display;
+    final AnimalSelectionDisplay display;
     private final PopUpHelper dialogHelper;
     static Image selectedAnimalImage;
     private final GdxGame game;
@@ -29,7 +30,7 @@ public class AnimalSelectionActions {
      * @param dialogHelper helper for displaying dialogs
      * @param game the game instance to change screens
      */
-    public AnimalSelectionActions(LandAnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
+    public AnimalSelectionActions(AnimalSelectionDisplay display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;
