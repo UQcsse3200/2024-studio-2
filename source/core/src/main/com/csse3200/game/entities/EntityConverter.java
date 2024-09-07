@@ -104,12 +104,12 @@ public class EntityConverter {
 		if (animalSoundPaths != null && animalSoundPaths.length > 0) {
 			String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
 			String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-			enemy.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+			enemy.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
 			enemy.getEvents().addListener(eventPausedEnd, () -> endDialogue());
 		}
 	}
 	
-	private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+	private static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
 		EntityChatService chatService = ServiceLocator.getEntityChatService();
 		for (String soundPath : animalSoundPaths) {
 			// Play sound logic here
