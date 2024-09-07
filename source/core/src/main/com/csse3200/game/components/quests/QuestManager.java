@@ -48,6 +48,12 @@ public class QuestManager extends Component {
         loadQuests();
     }
 
+    /** Sets up kingdom 1 quests.
+     * Note: limitation on item collection - 1 item collection per kingdom */
+    private void landKingdomSetup() {
+        // Have to
+    }
+
     /**
      * Sets up the tasks for the quests and dialogues.
      */

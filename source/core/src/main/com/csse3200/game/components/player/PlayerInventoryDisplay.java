@@ -296,4 +296,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     public float getZIndex() {
         return Z_INDEX;
     }
+
+    /** Returns inventory - for quests. */
+    public Inventory getInventory() {
+        return inventory;
+    }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 import java.util.HashMap;
@@ -81,10 +82,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
+      case Keys.P: // Checks if adding item completes item collection quest task.
+        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
+        if (inventory.itemCollectionSuccessful()) {
+          entity.getEvents().trigger("item collection task successful");
+        }
+        return false;
       default:
         return false;
     }
   }
+
+
+
 
   /**
    * Triggers player events on specific keycodes.

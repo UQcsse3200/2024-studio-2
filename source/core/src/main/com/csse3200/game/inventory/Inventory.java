@@ -25,7 +25,10 @@ public class Inventory implements InventoryInterface {
     private TreeMap<String, TreeSet<Integer>> nameToIndices;
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
-
+    /* Name of an item being searched for - used for quests */
+    private String questItem;
+    /* Name of an item being searched for - used for quests */
+    private int questItemCount;
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -416,5 +419,12 @@ public class Inventory implements InventoryInterface {
         if (index < nextIndex) { // Update the next available index if necessary.
             nextIndex = index;
         }
+    }
+
+    // Quests additions \\\\\\\\\\\//////////
+    // Quests listen - give string name and item quantity
+    // Quests item collection completion - used to send out "items collected"
+    public boolean itemCollectionSuccessful() {
+        return false;
     }
 }
