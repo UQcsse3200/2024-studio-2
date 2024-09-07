@@ -39,7 +39,7 @@ public class HealingPotion extends ConsumableItem {
      * @param quantity the number of uses this potion has
      */
     public HealingPotion(int quantity) {
-        super("Health Potion", 2, 3, quantity);
+        super("Health Potion", 51, 3, quantity);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
         this.effectAmount = 25;

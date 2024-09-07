@@ -15,7 +15,7 @@ public class AttackPotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public AttackPotion(int quantity, GameTime gameTime) {
-        super("Attack Potion", 2, 3, quantity, 25, gameTime, duration);
+        super("Attack Potion", 54, 3, quantity, 25, gameTime, duration);
         this.setTexturePath(path);
         this.setDescription("This is a attack potion");
     }

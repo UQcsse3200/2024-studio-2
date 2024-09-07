@@ -15,7 +15,7 @@ public class SpeedPotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public SpeedPotion(int quantity, GameTime gameTime) {
-        super("Speed Potion", 2, 3, quantity, 25, gameTime, duration);
+        super("Speed Potion", 52, 3, quantity, 25, gameTime, duration);
         this.setTexturePath(path);
         this.setDescription("This is a speed potion");
     }
