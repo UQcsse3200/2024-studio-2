@@ -1,11 +1,9 @@
 package com.csse3200.game.inventory.items.potions;
 
-import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
 
-import java.util.List;
 
 /**
  * The {@code AbstractPotion} class serves as abstract base class for all-potion types items in the game
@@ -25,7 +23,7 @@ import java.util.List;
  * @see ConsumableItem
  */
 
-public abstract class AbstractPotion extends ConsumableItem {
+public abstract class TimedUseItem extends ConsumableItem {
     /**
      * A list of possible effects that this potion can apply when used.
      */
@@ -44,7 +42,7 @@ public abstract class AbstractPotion extends ConsumableItem {
      *
      * potion can apply
      */
-    protected AbstractPotion(String name, int itemCode, int limit, int quantity, int effectAmount, GameTime gameTime) {
+    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, GameTime gameTime) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
         this.duration = 120000;

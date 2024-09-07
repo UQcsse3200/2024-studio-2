@@ -9,7 +9,7 @@ import com.csse3200.game.services.GameTime;
  * player.
  *
  * <p>
- * This class extends the {@link AbstractPotion} abstract class and provides an implementation of the
+ * This class extends the {@link TimedUseItem} abstract class and provides an implementation of the
  *  method to apply its defense effects. A defense potion contains one or more
  *  objects that determine how much defense is increase when the potion is used.
  * </p>
@@ -24,9 +24,9 @@ import com.csse3200.game.services.GameTime;
  * passed to the constructor.
  * </p>
  *
- * @see AbstractPotion
+ * @see TimedUseItem
  */
-public class DefensePotion extends AbstractPotion{
+public class DefensePotion extends TimedUseItem {
     private final static String path = "images/potiontexture/defense.png";
 
     /**

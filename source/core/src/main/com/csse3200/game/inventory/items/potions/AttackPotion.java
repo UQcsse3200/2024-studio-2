@@ -4,7 +4,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
 
-public class AttackPotion extends  AbstractPotion{
+public class AttackPotion extends TimedUseItem {
     private final static String path = "images/potiontexture/attack.png";
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.

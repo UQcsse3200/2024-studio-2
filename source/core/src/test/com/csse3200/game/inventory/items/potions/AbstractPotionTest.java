@@ -1,13 +1,9 @@
 package com.csse3200.game.inventory.items.potions;
 
-
 import com.csse3200.game.components.CombatStatsComponent;
-
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.inventory.items.AbstractFoodTest;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.food.AbstractFood;
 import com.csse3200.game.services.GameTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +13,7 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
-class AbstractPotionTest  {
+class TimedUseItemTest  {
     private HealingPotion healingPotion;
     private DefensePotion defensePotion;
     private AttackPotion attackPotion;

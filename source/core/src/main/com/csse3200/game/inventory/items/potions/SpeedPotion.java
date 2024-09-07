@@ -4,7 +4,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.GameTime;
 
-public class SpeedPotion extends AbstractPotion{
+public class SpeedPotion extends TimedUseItem {
     private final static String path = "images/potiontexture/speed.png";
 
     /**

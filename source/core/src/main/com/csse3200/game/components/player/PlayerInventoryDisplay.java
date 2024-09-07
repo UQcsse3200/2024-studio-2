@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.tasks.UseItemTask;
+import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.AbstractPotion;
+import com.csse3200.game.inventory.items.potions.TimedUseItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -175,8 +175,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                if (item instanceof AbstractPotion) {
-                    aiComponent.addTask(new UseItemTask(entity,23, (AbstractPotion) item, context));
+                if (item instanceof TimedUseItem) {
+                    aiComponent.addTask(new TimedUseItemTask(entity,23, (TimedUseItem) item, context));
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
