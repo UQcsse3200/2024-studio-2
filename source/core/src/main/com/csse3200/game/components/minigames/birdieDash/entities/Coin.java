@@ -1,4 +1,4 @@
-/*package com.csse3200.game.components.minigames.birdieDash.entities;
+package com.csse3200.game.components.minigames.birdieDash.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -41,4 +41,3 @@ public class Coin {
         texture.dispose();
     }
 }
- */
