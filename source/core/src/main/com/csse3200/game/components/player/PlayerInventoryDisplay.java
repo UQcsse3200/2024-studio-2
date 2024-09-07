@@ -1,4 +1,5 @@
 package com.csse3200.game.components.player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,13 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.tasks.ItemProximityTask;
 import com.csse3200.game.components.tasks.UseItemTask;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.AbstractPotion;
 import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -176,7 +176,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                aiComponent.addTask(new UseItemTask(entity,23, item, context));
+                if (item instanceof AbstractPotion) {
+                    aiComponent.addTask(new UseItemTask(entity,23, (AbstractPotion) item, context));
+                }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();

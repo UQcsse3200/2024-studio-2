@@ -19,13 +19,12 @@ import java.util.Objects;
 
 public class UseItemTask extends DefaultTask implements PriorityTask {
     private final Entity target;
-    private AbstractItem potion;
+    private final AbstractPotion potion;
     private static final Logger logger = LoggerFactory.getLogger(UseItemTask.class);
     private final int priority;
-    private ItemUsageContext context;
-    private static final long DURATION = 120000;
+    private final ItemUsageContext context;
 
-    public UseItemTask(Entity target, int priority, AbstractItem potion, ItemUsageContext context) {
+    public UseItemTask(Entity target, int priority, AbstractPotion potion, ItemUsageContext context) {
         this.target = target;
         this.priority = priority;
         this.potion = potion;
@@ -49,19 +48,9 @@ public class UseItemTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         super.update();
-        if(activePotion() && this.potion instanceof DefensePotion) {
-            if (((DefensePotion) this.potion).isExpired(this.context)) { //check if the item is in use
-                ((DefensePotion) this.potion).update(this.context);
-            }
-        }
-        if (activePotion() && this.potion instanceof AttackPotion) {
-            if (((AttackPotion) this.potion).isExpired(this.context)) {
-                ((AttackPotion) this.potion).update(this.context);
-            }
-        }
-        if (activePotion() && this.potion instanceof SpeedPotion) {
-            if (((SpeedPotion) this.potion).isExpired(this.context)) {
-                ((SpeedPotion) this.potion).update(this.context);
+        if(activePotion() && this.potion.isExpired(this.context)) {
+            if (this.potion.isExpired(this.context)) { //check if the item is in use
+                this.potion.update(this.context);
             }
         }
     }

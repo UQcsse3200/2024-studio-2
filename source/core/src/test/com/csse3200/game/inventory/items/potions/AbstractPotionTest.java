@@ -21,6 +21,7 @@ class AbstractPotionTest  {
     private HealingPotion healingPotion;
     private DefensePotion defensePotion;
     private AttackPotion attackPotion;
+    private SpeedPotion speedPotion;
     private CombatStatsComponent stat;
     private TestablePLayer player1;
     private GameTime gameTime;
@@ -43,6 +44,7 @@ class AbstractPotionTest  {
 
         defensePotion = new DefensePotion( 3, gameTime);
         attackPotion = new AttackPotion(3, gameTime);
+        speedPotion = new SpeedPotion(3, gameTime);
     }
 
     @Test
@@ -87,6 +89,19 @@ class AbstractPotionTest  {
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION + 1);
         attackPotion.update(player1);
         assertEquals(originalAttack, player1.player.getComponent(CombatStatsComponent.class).getStrength());
+    }
+
+    @Test
+    void testSpeedApplyEffect() throws InterruptedException {
+        int originalSpeed = player1.player.getComponent(CombatStatsComponent.class).getSpeed();
+        speedPotion.useItem(player1);
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
+        speedPotion.update(player1);
+        assertEquals(originalSpeed + 25, player1.player.getComponent(CombatStatsComponent.class).getSpeed());
+
+        Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION + 1);
+        speedPotion.update(player1);
+        assertEquals(originalSpeed, player1.player.getComponent(CombatStatsComponent.class).getSpeed());
     }
 }
 

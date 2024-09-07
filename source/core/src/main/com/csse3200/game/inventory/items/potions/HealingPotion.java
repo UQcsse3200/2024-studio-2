@@ -1,7 +1,9 @@
 package com.csse3200.game.inventory.items.potions;
 
+import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.services.GameTime;
 
 
 /**
@@ -27,8 +29,9 @@ import com.csse3200.game.components.CombatStatsComponent;
  *
  * @see AbstractPotion
  */
-public class HealingPotion extends AbstractPotion{
+public class HealingPotion extends ConsumableItem {
     private final static String path = "images/Healthpotion.png";
+    private final int effectAmount;
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -36,9 +39,18 @@ public class HealingPotion extends AbstractPotion{
      * @param quantity the number of uses this potion has
      */
     public HealingPotion(int quantity) {
-        super("Health Potion", 2, 3, quantity, 25);
+        super("Health Potion", 2, 3, quantity);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
+        this.effectAmount = 25;
+    }
+
+    /**
+     * Returns the effect amount of health potion
+     * @return the effect amount
+     */
+    public int getEffectAmount() {
+        return this.effectAmount;
     }
 
     /**

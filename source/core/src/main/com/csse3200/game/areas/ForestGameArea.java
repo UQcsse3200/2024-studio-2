@@ -150,7 +150,7 @@ public class ForestGameArea extends GameArea {
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
-    // // Terrain walls
+    // // Terrain wall:wqs
     // float tileSize = terrain.getTileSize();
     // GridPoint2 tileBounds = terrain.getMapBounds(0);
     // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
@@ -219,9 +219,37 @@ public class ForestGameArea extends GameArea {
     generator = () -> ItemFactory.createHealthPotion(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
 
+    // Defense Potions
+    generator = () -> ItemFactory.createDefensePotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_DEFENSE_POTIONS);
+
+  // Attack potions
+    generator = () -> ItemFactory.createAttackPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_ATTACK_POTIONS);
+
+    // Speed potions
+    generator = () -> ItemFactory.createSpeedPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_SPEED_POTIONS);
+
     // Apples
     generator = () -> ItemFactory.createApple(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_APPLES);
+
+    // Carrots
+    generator = () -> ItemFactory.createCarrot(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CARROTS);
+
+    // Meat
+    generator = () -> ItemFactory.createMeat(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_MEAT);
+
+    // Chicken legs
+    generator = () -> ItemFactory.createChickenLeg(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CHICKEN_LEGS);
+
+    // Candy
+    generator = () -> ItemFactory.createCandy(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CANDY);
   }
 
   private void spawnEnemies() {
