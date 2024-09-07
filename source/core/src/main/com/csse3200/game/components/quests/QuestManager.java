@@ -69,6 +69,28 @@ public class QuestManager extends Component {
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
 
+        //new tasks
+        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
+        Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", " complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
+        Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 5, 0, false, false);
+
+        //add new tasks to a quest
+        List<Task> landKingdomTasks = List.of(talkToGuide, followCowsTeachings, collectPotions);
+        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", landKingdomTasks, false, null, null, false, false, 0);
+        addQuest(guideQuest);
+
+        //dialogue for new quests
+        String[] cowInitialDialogue = new String[]{"Moo there, adventurer! Welcome to the kingdom.", "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."};
+        String[] cowAdviceDialogue = new String[]{"Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."};
+        String[] potionDialogue = new String[]{"I need five potions! They’re scattered around. Keep your eyes peeled.\" "};
+
+        Map<DialogueKey, String[]> dialogueMap = new HashMap<>();
+        dialogueMap.put(new DialogueKey("Cow", 1), cowInitialDialogue);
+        dialogueMap.put(new DialogueKey("Cow", 2), cowAdviceDialogue);
+        dialogueMap.put(new DialogueKey("Cow", 3), potionDialogue);
+
+        GameState.quests.quests.add(guideQuest);
+
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
         QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,null,null, false, false, 0);
@@ -96,6 +118,7 @@ public class QuestManager extends Component {
 
         GameState.quests.quests.add(finalQuest);
     }
+
 
     /**
      * Subscribes to event notifications for tasks quest.
