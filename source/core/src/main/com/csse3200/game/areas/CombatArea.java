@@ -152,14 +152,16 @@ public class CombatArea extends GameArea {
      */
     private void spawnPlayer() {
 
-        /** Entity nP is a non-visible entity placed at the centre of the background to
-         * ensure the camera component stays stagnant in the centre of the combat background.
-         * The entity serves no other purpose and is not visible
-         */
-        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
-        Entity nP = PlayerFactory.createCombatPlayer(iP);
-        nP.addComponent(combatTerrainFactory.getCameraComponent());
-        nP.setPosition(340, 230);
+//        /** Entity nP is a non-visible entity placed at the centre of the background to
+//         * ensure the camera component stays stagnant in the centre of the combat background.
+//         * The entity serves no other purpose and is not visible
+//         */
+//        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
+//        Entity nP = PlayerFactory.createCombatPlayer(iP);
+//        nP.addComponent(combatTerrainFactory.getCameraComponent());
+//        nP.setPosition(340, 230);
+
+        spawnCameraInvisibleEnity();
 
         /**
          * The following entity is the real entity of the player to be used for combat,
@@ -168,6 +170,21 @@ public class CombatArea extends GameArea {
         String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    }
+
+    /** Spawns an invisible entity to set the camera at the centre of the screen without having to
+     * attach the camera to the real player entity. This entity should be ignored and it's health/stats etc.
+     * are NOT to be used for combat logic or anywehre else
+     */
+    private void spawnCameraInvisibleEnity(){
+        /** Entity nP is a non-visible entity placed at the centre of the background to
+         * ensure the camera component stays stagnant in the centre of the combat background.
+         * The entity serves no other purpose and is not visible
+         */
+        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
+        Entity nP = PlayerFactory.createCombatPlayer(iP);
+        nP.addComponent(combatTerrainFactory.getCameraComponent());
+        nP.setPosition(340, 230);
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
