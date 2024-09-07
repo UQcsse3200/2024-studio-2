@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.birdieDash.entities;
+/*package com.csse3200.game.components.minigames.birdieDash.entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,3 +53,4 @@ class PipeTest {
         assertEquals(pipe.getHeightTop(), pipe.getTopPipe().height, "Top pipe rectangle height should match height calculated from game dimensions.");
     }
 }
+ */

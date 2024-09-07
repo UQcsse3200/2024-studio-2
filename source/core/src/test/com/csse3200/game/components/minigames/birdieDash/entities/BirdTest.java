@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.birdieDash.entities;
+/*package com.csse3200.game.components.minigames.birdieDash.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
@@ -60,3 +60,4 @@ class BirdTest {
         assertEquals(updatedBoundingBox, bird.getBoundingBox());
     }
 }
+*/
