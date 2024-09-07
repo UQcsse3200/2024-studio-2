@@ -1,9 +1,8 @@
 package com.csse3200.game.components.minigames.birdieDash;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.collision.CollisionHandler;
-import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
+//import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
@@ -11,7 +10,6 @@ import com.csse3200.game.components.minigames.birdieDash.rendering.BackgroundRen
 import com.csse3200.game.components.minigames.birdieDash.rendering.BirdRenderer;
 import com.csse3200.game.components.minigames.birdieDash.rendering.PipeRenderer;
 import com.csse3200.game.components.minigames.birdieDash.rendering.SpikeRenderer;
-import com.csse3200.game.components.minigames.snake.AssetPaths;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -29,15 +27,15 @@ public class BirdieDashGame {
     private final Bird bird;
     private final Spike spike;
     private final MinigameRenderer renderer;
-    private final BirdieDashController controller;
+   // private final BirdieDashController controller;
     private final CollisionHandler collisionHandler;
-    // Just to test our things are appearing first
+
     public BirdieDashGame() {
         this.pipes = createPipes();
         this.bird = new Bird(920, 600);
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
-        this.controller = new BirdieDashController(bird);
+      //  this.controller = new BirdieDashController();
         this.collisionHandler = new CollisionHandler(bird, pipes, spike);
         initRenderers();
     }
@@ -55,7 +53,6 @@ public class BirdieDashGame {
         // Add all the other ones e.g. bird, coins etc.
     }
 
-
     /**
      * Private method to create pipes for the start of the game
      * @return a list containing all the pipe objects to be used.
@@ -70,7 +67,7 @@ public class BirdieDashGame {
     }
 
     /**
-     * Private method to change all the pipe's positions based of the change in
+     * Private method to change all the pipe's positions based on the change in
      * game time
      * @param dt the change in game time
      */
@@ -81,7 +78,7 @@ public class BirdieDashGame {
     }
 
     /**
-     * Private method to update all positions of entites in the game
+     * Private method to update all positions of entities in the game
      * @param dt the change in game time
      */
     private void updateGamePosition(float dt) {
@@ -93,11 +90,18 @@ public class BirdieDashGame {
     }
 
     /**
-     * public method to render the game objects
+     * Public method to render the game objects
      * @param dt change in time
      */
     public void render(float dt) {
         updateGamePosition(dt);
         renderer.render();
+    }
+
+    /**
+     * Public method to trigger the bird's flap action
+     */
+    public void flapBird() {
+        bird.flapp();
     }
 }

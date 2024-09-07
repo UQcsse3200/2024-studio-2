@@ -9,7 +9,7 @@ public class Bird {
     private Vector2 velocity;
     private Rectangle boundingBox;
     private static final float GRAVITY = -15f;
-    private static final float FLAP_STRENGTH = 300f;
+    private static final float FLAP_STRENGTH = 300;
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
     private static final int GAME_HEIGHT = 600;
@@ -54,7 +54,8 @@ public class Bird {
     public void unsetCollidingPipe() {
         collidingPipe = false;
     }
-    public void flap() {
+    public void flapp() {
+
         velocity.y = FLAP_STRENGTH;
     }
     public Vector2 getPosition() {
