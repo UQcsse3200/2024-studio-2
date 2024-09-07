@@ -10,7 +10,7 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     public int baseAttack;
     public int strength;
     public int defense;
-    public int speed;
+    public float speed;
     public int experience;
 
     /**

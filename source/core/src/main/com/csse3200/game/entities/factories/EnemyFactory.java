@@ -69,7 +69,7 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 2), 0, 0, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -95,7 +95,7 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 5) - 2, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -128,7 +128,7 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 2) - 1, 0, 0, 0))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
@@ -149,11 +149,17 @@ public class EnemyFactory {
   private static Entity createBaseEnemy(Entity target, EnemyType type) {
     AITaskComponent aiComponent = new AITaskComponent();
 
+    BaseEnemyEntityConfig configStats = switch (type) {
+      case FROG -> configs.frog;
+      case CHICKEN -> configs.chicken;
+      case MONKEY -> configs.monkey;
+    };
+
     if (type == EnemyType.MONKEY) {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
     } else {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
     }
 
