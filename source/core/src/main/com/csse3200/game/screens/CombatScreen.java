@@ -40,7 +40,8 @@ import java.util.LinkedList;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/health_bar_x1.png", "images/xp_bar.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
@@ -155,12 +156,6 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-//    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
-//
-//    // Add individual buttons to the stage
-//    stage.addActor(combatButtons.getAttackButton());
-//    stage.addActor(combatButtons.getBoostButton());
-
     // Initialise combat manager with instances of player and enemy to be passed into combat actions.
     CombatManager manager = new CombatManager(player, enemy);
 
@@ -172,11 +167,10 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
+        .addComponent(playerCombatStats)
+        .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
-        .addComponent(new CombatButtonDisplay( oldScreen, oldScreenServices));
-
-       // .addComponent(new CombatActions(this.game));
-
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 
     ServiceLocator.getEntityService().register(ui);
   }

@@ -48,16 +48,6 @@ public class PlayerStatsDisplay extends UIComponent {
     public int maxExperience;
 
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
     /**
      * Initializes and adds actors (UI elements) to the stage.
      * Registers listeners for updating health, experience, and hunger.

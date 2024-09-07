@@ -42,16 +42,6 @@ public class PlayerActions extends Component {
   }
 
   @Override
-  public void render(float delta) {
-
-  }
-
-  @Override
-  public void resize(int width, int height) {
-
-  }
-
-  @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
