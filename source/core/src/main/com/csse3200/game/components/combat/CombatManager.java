@@ -122,7 +122,7 @@ public class CombatManager extends Component {
                      * Stamina decreases for both.
                      */
                         // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
-                        // playerMove.executeMove(playerAction, enemyStats); //////////////////////////////////////////////// NEEDS boolean targetIsGuarded OVERLOAD IN COMBATMOVECOMPONENT *cry emoji*
+                        playerMove.executeMove(playerAction, enemyStats, true);
                         // checkCombatEnd()
                         break;
                     case Action.SLEEP:
