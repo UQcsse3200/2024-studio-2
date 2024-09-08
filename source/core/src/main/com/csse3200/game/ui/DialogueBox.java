@@ -69,6 +69,9 @@ public class DialogueBox {
         stage.addActor(backwardButton);
 
         addButtonListeners();
+
+        createCenterButton();
+        playButton.setVisible(false);
     }
 
     /**
@@ -245,10 +248,10 @@ public class DialogueBox {
 
     public void minigameCheck() {
         if (hints[currentHint].startsWith("/m")) {
-            hints[currentHint] = hints[currentHint].substring(2);
-            createCenterButton();
+            //hints[currentHint] = hints[currentHint].substring(2);
+            playButton.setVisible(true);
         } else {
-            if (playButton != null) playButton.remove();
+            playButton.setVisible((false));
         }
     }
 
@@ -267,19 +270,23 @@ public class DialogueBox {
 
         playButton.setPosition(centerX, centerY - 200);
 
+        if (playButton != null) playButton.setVisible((true));
+
         // Add the button to the stage
         stage.addActor(playButton);
 
-        // Add event listener
-        playButton.addListener(new ClickListener() {
+        playButton.addListener(new InputListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // Dummy action for now
                 System.out.println("Play Game button clicked!");
+                hideDialogueBox();
+                if (playButton != null) playButton.setVisible((false));
                 GdxGame gdxGame = GdxGameManager.getInstance();
                 gdxGame.enterSnakeScreen();
+                return true;
             }
         });
-
     }
 
     /**

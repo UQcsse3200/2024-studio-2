@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -141,6 +142,14 @@ public class NPCFactory {
 
   private static void endDialogue() {
     DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+
+    // Needs to make a new chatOverley when the player walks away from the snake after playing a mini-game
+    // (otherwise the chatOverlayService is null)
+    if (chatOverlayService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+    }
+    chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.hideCurrentOverlay();
   }
 
