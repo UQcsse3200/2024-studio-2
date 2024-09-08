@@ -108,11 +108,18 @@ public class CombatManager extends Component {
                      * Animal with the highest speed stat attacks first.
                      * Stamina decreases for both.
                      */
-                        Entity faster = getFasterEntity();
-                        Entity slower = getSlowerEntity();
-                        // faster.attack()
-                        // checkCombatEnd()
-                        // slower.attack()
+                        if (getFasterEntity() == player) {
+                            playerMove.executeMove(playerAction, enemyStats);
+                        } else {
+                            enemyMove.executeMove(enemyAction, enemyStats);
+                        }
+                        checkCombatEnd();
+                        if (getSlowerEntity() == player) {
+                            playerMove.executeMove(playerAction, enemyStats);
+                        } else {
+                            enemyMove.executeMove(enemyAction, enemyStats);
+                        }
+                        checkCombatEnd();
                         break;
                     case Action.GUARD:
                     /* ATTACK - GUARD
