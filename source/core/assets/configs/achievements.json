@@ -1,0 +1,59 @@
+[
+{
+  "questName": "AppleAdvancement",
+  "questDescription": "Collect your first apple!",
+  "completed": false,
+  "seen": false,
+  "type": "ITEM"
+},
+  {
+    "questName": "Attack PotionAdvancement",
+    "questDescription": "Collect your first Attack Potion!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "Defense PotionAdvancement",
+    "questDescription": "Collect your first Defense Potion!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "Health PotionAdvancement",
+    "questDescription": "Collect your first Healing Potion!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "Speed PotionAdvancement",
+    "questDescription": "Collect your first Speed Potion!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "Chicken_LegAdvancement",
+    "questDescription": "Collect your first Chicken Leg!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "MeatAdvancement",
+    "questDescription": "Collect your first Meat!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
+  {
+    "questName": "CandyAdvancement",
+    "questDescription": "Collect your first Candy!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  }
+
+]
