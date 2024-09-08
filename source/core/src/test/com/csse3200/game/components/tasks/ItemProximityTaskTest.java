@@ -38,7 +38,7 @@ public class ItemProximityTaskTest {
 
         Stage stage = ServiceLocator.getRenderService().getStage();
         DialogueBoxService entityChatService = new DialogueBoxService(stage);
-        ServiceLocator.registerEntityChatService(entityChatService);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
 
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);

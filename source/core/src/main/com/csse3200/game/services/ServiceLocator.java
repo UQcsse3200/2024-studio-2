@@ -60,7 +60,7 @@ public class ServiceLocator {
     entityService = service;
   }
 
-  public static void registerEntityChatService(DialogueBoxService service) {
+  public static void registerDialogueBoxService(DialogueBoxService service) {
     logger.debug("Registering entity chat service {}", service);
     dialogueBoxService = service;
   }

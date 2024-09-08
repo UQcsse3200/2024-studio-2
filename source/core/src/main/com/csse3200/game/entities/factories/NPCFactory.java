@@ -132,7 +132,7 @@ public class NPCFactory {
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
   }
 
-  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+  public static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
     DialogueBoxService chatOverlayService = ServiceLocator.getDialogueBoxService();
     chatOverlayService.updateText(hintText);
 
@@ -147,7 +147,7 @@ public class NPCFactory {
 
   }
 
-  private static void endDialogue() {
+  public static void endDialogue() {
     DialogueBoxService chatOverlayService = ServiceLocator.getDialogueBoxService();
     chatOverlayService.hideCurrentOverlay();
   }
