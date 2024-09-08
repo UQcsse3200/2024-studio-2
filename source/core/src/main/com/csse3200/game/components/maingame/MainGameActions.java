@@ -1,12 +1,9 @@
 package com.csse3200.game.components.maingame;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,21 +17,18 @@ public class MainGameActions extends Component {
 
   public MainGameActions(GdxGame game) {
     this.game = game;
-    ServiceLocator.registerEventService(new EventService());
   }
 
 
   @Override
   public void create() {
-    ServiceLocator.registerEventService(new EventService());
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
   }
 
   /**
    * Swaps to the Main Menu screen.
    */
-  private void onExit() {
+  public void onExit() {
     logger.info("Exiting main game screen");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }

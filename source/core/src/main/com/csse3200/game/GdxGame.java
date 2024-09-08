@@ -71,7 +71,6 @@ public class GdxGame extends Game {
     ServiceLocator.registerResourceService(container.getResourceService());
     ServiceLocator.registerEntityService(container.getEntityService());
     ServiceLocator.registerRenderService(container.getRenderService());
-    ServiceLocator.registerEventService(container.getEventService());
     screen.resume();
   }
 
@@ -85,6 +84,10 @@ public class GdxGame extends Game {
 
   public void enterCombatScreen(Entity player, Entity enemy) {
     addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
+  }
+
+  public void enterSnakeScreen() {
+    addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
   }
 
   /**
@@ -138,6 +141,8 @@ public class GdxGame extends Game {
         return new AchievementsScreen(this);
       case MINI_GAME_MENU_SCREEN:
           return new MiniGameMenuScreen(this);
+        case SNAKE_MINI_GAME:
+              return new SnakeScreen(this, screen, container);
       case LOADING_SCREEN:
         return new LoadingScreen(this);
       case ANIMAL_SELECTION:
@@ -158,7 +163,7 @@ public class GdxGame extends Game {
    */
   public enum ScreenType {
 
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME
 
   }
 

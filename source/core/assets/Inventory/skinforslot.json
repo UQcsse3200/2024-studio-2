@@ -1,0 +1,16 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: hotbarskinup
+		down: hotbarskindown
+		over: hotbarskinhover
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		imageUp: hotbarskinup
+		imageDown: hotbarskindown
+		imageOver: hotbarskinhover
+	}
+}
+}
