@@ -29,7 +29,9 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
+
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
+
 
     /**
      * Create a player entity.
@@ -48,6 +50,7 @@ public class PlayerFactory {
                         .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
             case "images/dog.png" ->

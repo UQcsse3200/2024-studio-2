@@ -6,9 +6,13 @@ import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
-import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.HealingPotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
+import com.csse3200.game.services.GameTime;
 
 /**
  * A factory class for creating various item entities in the game.
@@ -16,7 +20,6 @@ import com.csse3200.game.rendering.TextureRenderComponent;
  * with specific behaviours such proximity detection using AI tasks and physics components
  */
 public class ItemFactory {
-
 
     /**
      * Creates an item entity with the specified target and item.
@@ -47,11 +50,57 @@ public class ItemFactory {
     }
 
     /**
+     * Creates a defense potion entity that interacts with the specified target.
+     *
+     * @param target The entity the defense potion will interact with
+     * @return The created health potion entity.
+     */
+    public static Entity createDefensePotion(Entity target) {
+        return createItem(target, new DefensePotion(1));
+    }
+
+    public static Entity createSpeedPotion(Entity target) {
+
+        return createItem(target, new SpeedPotion(1));
+    }
+
+    /**
+     * Creates an attack potion entity that interacts with the specified target.
+     *
+     * @param target The entity the attack potion will interact with
+     * @return The created attack potion entity
+     */
+    public static Entity createAttackPotion(Entity target) {
+        return createItem(target, new AttackPotion(1));
+    }
+
+    /**
      * Creates an apple entity that interacts with the specified target.
      * @param target The entity the apple with interact with
      * @return The created apple entity.
      */
     public static Entity createApple(Entity target) {
         return createItem(target, new Foods.Apple(1));
+    }
+
+    /**
+     * Creates a carrot entity that interacts with the specifc target
+     * @param target The entity the apple with interact with
+     * @return the created carrot entity
+     */
+    public static Entity createCarrot(Entity target) {
+        return createItem(target, new Foods.Carrot(1));
+    }
+
+    public static Entity createCandy(Entity target) {
+        return createItem(target, new Foods.Candy(1));
+    }
+
+    public static Entity createChickenLeg(Entity target) {
+        return createItem(target, new Foods.ChickenLeg(1));
+    }
+
+    public static Entity createMeat(Entity target) {
+        return createItem(target, new Foods.Meat(1));
     }
 }
