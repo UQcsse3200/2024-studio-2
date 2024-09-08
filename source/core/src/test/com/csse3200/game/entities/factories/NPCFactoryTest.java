@@ -38,7 +38,9 @@ class NPCFactoryTest {
     private Entity eagle;
     private Entity turtle;
     private Entity snake;
+    private Entity fish;
     private Entity kanga;
+
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -48,6 +50,7 @@ class NPCFactoryTest {
             "images/snake.png",
             "images/eagle.png",
             "images/turtle.png",
+            "images/Fish.png",
             "images/final_boss_kangaroo.png"
     };
 
@@ -57,10 +60,9 @@ class NPCFactoryTest {
             "images/snake.atlas",
             "images/eagle.atlas",
             "images/turtle.atlas",
+            "images/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
-
-
 
     @BeforeEach
     void setup() {
@@ -84,6 +86,113 @@ class NPCFactoryTest {
         eagle = NPCFactory.createEagle(player, enemies);
         turtle = NPCFactory.createTurtle(player, enemies);
         snake = NPCFactory.createSnake(player, enemies);
+        fish = NPCFactory.createSnake(player, enemies);
+    }
+
+    /**
+     * Tests Creation of a fish.
+     */
+    @Test
+    void TestFishCreation() {
+        assertNotNull(fish, "Fish should not be null.");
+    }
+
+    /**
+     * Tests that the Fish has the correct name.
+     */
+    @Test
+    void TestFishName() {
+        String name = configs.fish.getAnimalName();
+        assertEquals("Fish", name);
+    }
+
+    /**
+     * Tests that the fish is an Entity.
+     */
+    @Test
+    void TestFishIsEntity() {
+        assertEquals(fish.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the fish has a physics component.
+     */
+    @Test
+    void TestFishHasPhysicsComponent() {
+        assertNotNull(fish.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the fish has a physics movement component.
+     */
+    @Test
+    void TestFishHasPhysicsMovementComponent() {
+        assertNotNull(fish.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the fish has a collider component.
+     */
+    @Test
+    void TestFishHasColliderComponent() {
+        assertNotNull(fish.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the fish has stat config component.
+     */
+    @Test
+    void TestFishHasConfigComponent() {
+        assertNotNull(fish.getComponent(ConfigComponent.class));
+    }
+
+    /**
+     * Tests that the fish has the correct sound path.
+     */
+    @Test
+    void TestFishHasCorrectSoundPath() {
+        String[] sound = configs.fish.getSoundPath();
+        assertNotNull(sound);
+        assert(Arrays.equals(sound, new String[]{"sounds/FishBubble.mp3"}));
+    }
+
+    /**
+     * Tests that the fish has the correct base hint.
+     */
+    @Test
+    void TestFishHasCorrectBaseHint() {
+        String[] baseHint = configs.fish.getBaseHint();
+        assertNotNull(baseHint);
+        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Finny the Fish."}));
+    }
+
+    /**
+     * Tests that the fish has an idle animation.
+     */
+    @Test
+    void TestFishHasAnimation() {
+        assertTrue(fish.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "Fish should have idle animation.");
+    }
+
+    /**
+     * Tests that the fish is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestFishIsFriendly() {
+        assertNotNull(fish.getComponent(FriendlyNPCAnimationController.class),
+                "Fish should have a friendly AI controller.");
+    }
+
+    /**
+     * Tests that the fish is in the correct spot when placed.
+     */
+    @Test
+    void TestFishSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        fish.setPosition(pos);
+
+        assertEquals(pos, fish.getPosition());
     }
 
     /**

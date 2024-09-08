@@ -14,7 +14,7 @@
     "animalName": "Cow"
   },
   "turtle": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle.."],
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle."],
     "spritePath": "images/turtle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/turtle-hiss.mp3"],
@@ -33,6 +33,12 @@
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.mp3"],
     "animalName": "Snake"
+  },
+  "fish": {
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Finny the Fish."],
+    "spritePath": "images/Fish.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/FishBubble.mp3"],
+    "animalName": "Fish"
   }
 }
-

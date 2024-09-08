@@ -87,6 +87,14 @@ public class NPCFactory {
   }
 
   /**
+   * Creates a Fish NPC.
+   */
+  public static Entity createFish(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.fish;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
+  /**
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
