@@ -55,7 +55,7 @@ public class Coin {
     }
 
     public void respawnCoin() {
-        position = new Vector2(GAME_WIDTH + 960 - WIDTH/2, random.nextFloat(MIN_Y, MAX_Y));
+        position = new Vector2(this.position.x + GAME_WIDTH + 960, random.nextFloat(MIN_Y, MAX_Y));
         setBoundary();
     }
 
