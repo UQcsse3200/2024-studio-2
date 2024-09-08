@@ -38,7 +38,6 @@ public class CombatStatsDisplay extends UIComponent {
   private float barImageWidth;
   private float barImageHeight;
   private static final int totalFrames = 11;
-  private static final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
 
   public CombatStatsDisplay(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
     this.playerStats = playerStats;
@@ -145,8 +144,6 @@ public class CombatStatsDisplay extends UIComponent {
     for (int i = 0; i < healthBarFrames.length; i++) {
       String healthFrameNames = (100 - i * 10) + "%_health";
       healthBarFrames[i] = textureAtlas[0].findRegion(healthFrameNames);
-      logger.info("This is the health percentage: {}", healthFrameNames);
-      logger.info("This is the found health frame: {}", healthBarFrames[i]);
     }
     playerHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
     enemyHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
@@ -173,9 +170,6 @@ public class CombatStatsDisplay extends UIComponent {
     // Grab the desired frame at a specified frame rate
     TextureRegion[] keyFrames = statBarAnimation.getKeyFrames();
     TextureRegion currentFrame = keyFrames[frameIndex];
-    logger.info("Current SB is {}", statBarAnimation);
-    logger.info("Current frameIndex is {}", frameIndex);
-    logger.info("Current frame is {}", currentFrame);
     // Replace the frame shown on the stage
     statBar.setDrawable(new TextureRegionDrawable(currentFrame));
   }
@@ -208,11 +202,9 @@ public class CombatStatsDisplay extends UIComponent {
     int indexAdjustment = totalFrames - 1;
     int playerFrameIndex = indexAdjustment - (int) ((float) playerCurHealth / playerMaxHealth * (totalFrames - 1));
     playerFrameIndex = Math.max(0, Math.min(playerFrameIndex, totalFrames - 1));
-    logger.info("PlayerFrameIndex: {}", playerFrameIndex);
 
     int enemyFrameIndex = indexAdjustment - (int) ((float) enemyCurHealth / enemyMaxHealth * (totalFrames - 1));
     enemyFrameIndex = Math.max(0, Math.min(enemyFrameIndex, totalFrames - 1));
-    logger.info("EnemyFrameIndex: {}", enemyFrameIndex);
 
     // Update player stats
     playerHealthLabel.setText(playerText);
