@@ -11,7 +11,12 @@ public abstract class CombatMove {
         this.staminaCost = staminaCost;
     }
 
-    public abstract void execute(CombatStatsComponent attacker, CombatStatsComponent target);
+    public abstract void execute(CombatStatsComponent attacker);
+
+    public abstract void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats);
+
+    public abstract void execute(
+            CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded);
 
     public String getMoveName() {
         return moveName;

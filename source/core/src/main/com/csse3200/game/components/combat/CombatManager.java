@@ -18,16 +18,20 @@ public class CombatManager extends Component {
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
-    private final CombatStatsDisplay statsDisplay;
     private Action playerAction;
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
 
-    public CombatManager(Entity player, Entity enemy, CombatStatsDisplay statsDisplay) {
+    /**
+     * A combat manager which handles enemy move selection, player and enemy move combinations, move sequencing,
+     * combat logic, and checking whether the combat sequence is over.
+     * @param player player entity involved in combat.
+     * @param enemy enemy entity involved in combat.
+     */
+    public CombatManager(Entity player, Entity enemy) {
         this.player = player;
         this.enemy = enemy;
-        this.statsDisplay = statsDisplay;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
@@ -56,7 +60,7 @@ public class CombatManager extends Component {
 
         enemyAction = selectEnemyMove();
 
-        logger.debug("Player action = {}, enemy action = {}", playerAction, enemyAction);
+        logger.info("Player action = {}, enemy action = {}", playerAction, enemyAction);
 
         executeMoveCombination(playerAction, enemyAction);
     }
@@ -66,22 +70,13 @@ public class CombatManager extends Component {
         Action enemyAction;
 
         int rand = (int) (Math.random() * 4);
-        switch (rand) {
-            case 0:
-                enemyAction = Action.ATTACK;
-                break;
-            case 1:
-                enemyAction = Action.GUARD;
-                break;
-            case 2:
-                enemyAction = Action.SLEEP;
-                break;
-            case 3:
-                enemyAction = Action.SPECIAL;
-                break;
-            default:
-                enemyAction = null;
-        }
+        enemyAction = switch (rand) {
+            case 0 -> Action.ATTACK;
+            case 1 -> Action.GUARD;
+            case 2 -> Action.SLEEP;
+            case 3 -> Action.SPECIAL;
+            default -> null;
+        };
 
         return enemyAction;
     }
@@ -127,7 +122,7 @@ public class CombatManager extends Component {
                      * Stamina decreases for both.
                      */
                         // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
-                        // player.attack(bool guarded = true)
+                        playerMove.executeMove(playerAction, enemyStats, true);
                         // checkCombatEnd()
                         break;
                     case Action.SLEEP:
@@ -268,9 +263,13 @@ public class CombatManager extends Component {
     }
 
     private void checkCombatEnd() {
-        if (playerStats.getHealth() <= 0 || enemyStats.getHealth() <= 0) {
-            // End combat
-            logger.info("Combat ended");
+        logger.info("Checking combat end: player health = {}, enemy health = {}", playerStats.getHealth(), enemyStats.getHealth());
+        if (playerStats.getHealth() <= 0) {
+            entity.getEvents().trigger("combatLoss");
+            logger.info("Combat lost in manager.");
+        } else if (enemyStats.getHealth() <= 0) {
+            entity.getEvents().trigger("combatWin");
+            logger.info("Combat won in manager.");
         }
     }
 
