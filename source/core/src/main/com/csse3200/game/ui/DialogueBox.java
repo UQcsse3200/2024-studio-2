@@ -125,6 +125,9 @@ public class DialogueBox {
         return label;
     }
 
+    /**
+     * Moves the labels position ot fit the dialogue box
+     */
     private void updateLabelPosition() {
         float middle = stage.getWidth();
         float labelWidth = label.getPrefWidth();
@@ -209,7 +212,7 @@ public class DialogueBox {
     }
 
     /**
-     * Adds listeners to the forward and backward buttons.
+     * Adds listeners to the forward, backward and play buttons.
      */
     private void addButtonListeners() {
         forwardButton.addListener(new InputListener() {
@@ -228,12 +231,14 @@ public class DialogueBox {
             }
         });
 
+        // Listener for the playButtton, will boot up a specific mini-game
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                hideDialogueBox();
+                hideDialogueBox(); // hides dialogue when player returns to the screen
                 if (playButton != null) playButton.setVisible((false));
                 GdxGame gdxGame = GdxGameManager.getInstance();
+                // Could potentially override snake hints here for post game messages
                 if (currentMinigame == SNAKE) {
                     gdxGame.enterSnakeScreen();
                 } else if (currentMinigame == BIRD) {
@@ -299,6 +304,35 @@ public class DialogueBox {
     }
 
     /**
+     * Checks if the current text on the label contains either of the following flags at the
+     * beginning of the string. This then shows the playButton and assigns the corresponding
+     * mini-game to be played.
+     *  /ms: minigame snake
+     *  /mb: minigame birdie dash
+     *  /mu: underwater maze
+     * @param text the label text to be shown in the dialogue.
+     * @return the altered text without the flag to be shown in the dialogue box.
+     */
+    public String minigameCheck(String text) {
+        if (hints[currentHint].startsWith("/ms")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = SNAKE;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mb")){
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = BIRD;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mu")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = MAZE;
+            return text.substring(3);
+        } else {
+            if (playButton != null) playButton.setVisible((false));
+            return text;
+        }
+    }
+
+    /**
      * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
      */
     public void hideDialogueBox() {
@@ -327,25 +361,6 @@ public class DialogueBox {
         }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);
-    }
-
-    public String minigameCheck(String text) {
-        if (hints[currentHint].startsWith("/ms")) {
-            playButton.setVisible(true);
-            currentMinigame = SNAKE;
-            return text.substring(3);
-        } else if (hints[currentHint].startsWith("/mb")){
-            playButton.setVisible(true);
-            currentMinigame = BIRD;
-            return text.substring(3);
-        } else if (hints[currentHint].startsWith("/mu")) {
-            playButton.setVisible(true);
-            currentMinigame = MAZE;
-            return text.substring(3);
-        } else {
-            playButton.setVisible((false));
-            return text;
-        }
     }
 
     /**
