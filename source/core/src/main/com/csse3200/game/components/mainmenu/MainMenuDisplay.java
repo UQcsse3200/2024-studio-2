@@ -56,7 +56,7 @@ public class MainMenuDisplay extends UIComponent {
     private Image birdImage;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
-    private Sound clickSound;
+    private Sound clickSound; // Loaded click sound file for buttons
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -85,7 +85,7 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
-        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3"));
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
     }
 
     /**
@@ -177,7 +177,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Start button clicked");
                 entity.getEvents().trigger("start");
-                clickSound.play();
+                clickSound.play(); // This will cause a click sound to play when the button is clicked.
             }
         });
 
