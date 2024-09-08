@@ -62,7 +62,7 @@ public class CombatButtonDisplay extends UIComponent {
 
     private void addActors() {
         table = new Table();
-        table.center().left();
+        table.bottom();
         table.setFillParent(true);
 
         AttackButton = new TextButton("Attack", skin);
@@ -92,11 +92,15 @@ public class CombatButtonDisplay extends UIComponent {
                     }
                 });
 
-        table.add(AttackButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(GuardButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(CounterButton).padBottom(10f).padLeft(10f);
+
+//        table.add(GuardButton).padBottom(10f).padLeft(10f);
+//        table.row();
+//        table.add(CounterButton).padBottom(10f).padLeft(10f);
+
+        // Position the button on the central bottom part and make them a lil bigger
+        table.add(AttackButton).padBottom(10).width(300).height(60).padLeft(10f);
+        table.add(GuardButton).padBottom(10).width(300).height(60).padLeft(10f);
+        table.add(CounterButton).padBottom(10).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
     }
