@@ -2,6 +2,7 @@ package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
@@ -36,6 +37,8 @@ public class ItemProximityTaskTest {
         ServiceLocator.registerRenderService(renderService);
 
         Stage stage = ServiceLocator.getRenderService().getStage();
+        DialogueBoxService entityChatService = new DialogueBoxService(stage);
+        ServiceLocator.registerEntityChatService(entityChatService);
 
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
@@ -82,8 +85,10 @@ public class ItemProximityTaskTest {
         task.start();
         task.update();
 
+
+
         // Check that the overlay was created
-        Assertions.assertNotNull(task.itemOverlay);
+        Assertions.assertTrue(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
     }
 
     @Test
@@ -102,6 +107,6 @@ public class ItemProximityTaskTest {
         task.update();
 
         // Check that the overlay was created
-        Assertions.assertNull(task.itemOverlay);
+        Assertions.assertFalse(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
     }
 }

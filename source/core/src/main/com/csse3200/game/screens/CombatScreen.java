@@ -6,9 +6,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
+import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
+import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
+import com.csse3200.game.components.combat.CombatExitDisplay;
+import com.csse3200.game.components.combat.CombatStatsDisplay;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -40,6 +47,8 @@ import java.util.LinkedList;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png", "images/combat_background_one.png",
+          "images/dog.png", "images/croc.png", "images/bird.png",
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/health_bar_x1.png", "images/xp_bar.png"
   };
@@ -50,8 +59,9 @@ public class CombatScreen extends ScreenAdapter {
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
-  private final Entity player;
-  private final Entity enemy;
+   private final Entity player;
+   private final Entity enemy;
+   private final CombatArea gameArea;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
@@ -77,16 +87,21 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerEventService(new EventService());
     renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+    // renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
 
     createUI();
 
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
+     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+     this.gameArea = new CombatArea(combatTerrainFactory, player, enemy, game, combatTerrainFactory);
+     gameArea.create();
+     // createUI();
+
   }
 
   @Override
@@ -128,8 +143,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    ServiceLocator.getEventService().dispose();
-
+    //ServiceLocator.getEventService().dispose();
     ServiceLocator.clear();
   }
 
@@ -169,10 +183,12 @@ public class CombatScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
-        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        // .addComponent(new CombatEnvironmentDisplay())
+        //.addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
+        .addComponent(playerCombatStats)
+        .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 

@@ -1,16 +1,19 @@
 package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.terrain.TerrainLoaderComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
+
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.input.InputComponent;
@@ -19,6 +22,7 @@ import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
@@ -45,10 +49,10 @@ public class PlayerFactory {
 
         Entity player =
                 new Entity()
-                        .addComponent(new TerrainLoaderComponent())
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
-                        .addComponent(new PhysicsComponent())
+                        // Notify terrain component when moving
+                        .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player));
@@ -60,10 +64,11 @@ public class PlayerFactory {
           player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100));
         }
         else {
-          player.addComponent(new CombatStatsComponent(stats.health, stats.hunger, stats.strength, stats.defense, stats.speed, stats.experience));
+          player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
         }
 
-        player.addComponent(new PlayerInventoryDisplay(36, 9))
+        player.addComponent(new PlayerInventoryDisplay(45, 9))
+
               .addComponent(inputComponent)
               .addComponent(new PlayerStatsDisplay())
               .addComponent(new QuestManager(player))
@@ -80,8 +85,43 @@ public class PlayerFactory {
     return player;
   }
 
+    // Create a player NPC to spawn in Combat
+
+    public static Entity createCombatPlayer(String imagePath) {
+        Entity combatPlayer = createCombatPlayerStatic();
+        // BaseEntityConfig config = configs.player;
+        // PlayerConfig config = configs.player;
+        // BaseEntityConfig config = configs.player;
+
+        combatPlayer
+                .addComponent(new TextureRenderComponent(imagePath))
+                // .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+                // .addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100));
+
+        combatPlayer.scaleHeight(90.0f);
+
+        return combatPlayer;
+    }
+
+    /**
+     * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+     *
+     * @return entity
+     */
+    public static Entity createCombatPlayerStatic() {
+        Entity npc =
+                new Entity()
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new PhysicsMovementComponent())
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                        .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
 
 
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        return npc;
+    }
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");

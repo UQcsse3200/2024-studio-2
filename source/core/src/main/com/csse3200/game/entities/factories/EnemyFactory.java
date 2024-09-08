@@ -8,9 +8,11 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
@@ -21,6 +23,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
@@ -34,8 +37,8 @@ import com.csse3200.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class EnemyFactory {
-  //private static final NPCConfigs configs =
-    //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+  private static final NPCConfigs configs =
+      FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
   /**
    * types of enemies
@@ -54,9 +57,10 @@ public class EnemyFactory {
    */
   public static Entity createChicken(Entity target) {
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-    BaseEntityConfig config = NPCConfigs.chicken;
+    BaseEnemyEntityConfig config = configs.chicken;
+    chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
-    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset("images/chicken.atlas", TextureAtlas.class);
+    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
     AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
 
@@ -66,11 +70,11 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return chicken;
   }
@@ -83,21 +87,22 @@ public class EnemyFactory {
    */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
-    BaseEntityConfig config = NPCConfigs.frog;
+    BaseEnemyEntityConfig config = configs.frog;
+    frog.setEnemyType(Entity.EnemyType.FROG);
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
-    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return frog;
   }
@@ -110,11 +115,12 @@ public class EnemyFactory {
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
-    BaseEntityConfig config = NPCConfigs.monkey;
+    BaseEnemyEntityConfig config = configs.monkey;
+    monkey.setEnemyType(Entity.EnemyType.MONKEY);
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/monkey.atlas", TextureAtlas.class));
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("run_down", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_up", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_left", 0.1f, Animation.PlayMode.LOOP);
@@ -125,12 +131,12 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
     monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
-    monkey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    monkey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return monkey;
   }
@@ -165,6 +171,150 @@ public class EnemyFactory {
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
+  }
+
+
+  /**
+   * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
+  public static Entity createKangaBossEntity(Entity target) {
+    Entity kangarooBoss = createBossNPC(target);
+    BaseEnemyEntityConfig config = configs.kangarooBoss;
+    kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    kangarooBoss
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100))
+            .addComponent(animator)
+            .addComponent(new KangaBossAnimationController());
+
+    kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    kangarooBoss.scaleHeight(3.0f);
+
+    return kangarooBoss;
+  }
+
+  /**
+   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
+   * there is no chase task included. This is where abilities components will be added.
+   * loaded.
+   *
+   * @return entity
+   */
+  public static Entity createKangaBossCombatEntity() {
+    Entity kangarooBoss = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.kangarooBoss;
+    kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
+
+    kangarooBoss
+            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+
+    kangarooBoss.scaleHeight(3.0f);
+
+    return kangarooBoss;
+  }
+
+  /**
+   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  public static Entity createBossNPC(Entity target) {
+    AITaskComponent aiComponent =
+            new AITaskComponent()
+                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
+                    .addTask(new ChaseTask(target, 10, 6f, 8f, true));
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+  /**
+   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+  public static Entity createCombatBossNPC() {
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
+
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+
+  /**
+   * Creates chicken enemy as NPC entity for static combat
+   * */
+  public static Entity createChickenCombatEnemy() {
+    Entity chickenEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.chicken;
+    chickenEnemy.setEnemyType(Entity.EnemyType.CHICKEN);
+
+    chickenEnemy
+            .addComponent(new TextureRenderComponent("images/chicken_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+
+    chickenEnemy.scaleHeight(90.0f);
+
+    return chickenEnemy;
+  }
+
+  /**
+   * Creates monkey enemy as NPC entity for static combat
+   * */
+  public static Entity createMonkeyCombatEnemy() {
+    Entity monkeyEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.monkey;
+    monkeyEnemy.setEnemyType(Entity.EnemyType.MONKEY);
+
+    monkeyEnemy
+            .addComponent(new TextureRenderComponent("images/monkey_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+
+    monkeyEnemy.scaleHeight(90.0f);
+
+    return monkeyEnemy;
+  }
+
+  /**
+   * Creates frog enemy as NPC entity for static combat
+   * */
+  public static Entity createFrogCombatEnemy() {
+    Entity frogEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.frog;
+    frogEnemy.setEnemyType(Entity.EnemyType.FROG);
+
+    frogEnemy
+            .addComponent(new TextureRenderComponent("images/frog_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+
+    frogEnemy.scaleHeight(90.0f);
+
+    return frogEnemy;
   }
 
   private EnemyFactory() {
