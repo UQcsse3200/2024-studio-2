@@ -70,10 +70,10 @@ public class TerrainFactory {
     float tileWorldSize = 1.f;
 
     TiledMap tiledMap = new TiledMap();
-    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 500, 500);
+    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
     tiledMap.getLayers().add(layer);
 
-    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 500);
+    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 1000);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
   }
 
