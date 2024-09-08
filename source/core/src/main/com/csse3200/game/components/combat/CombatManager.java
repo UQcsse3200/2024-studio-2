@@ -30,12 +30,6 @@ public class CombatManager extends Component {
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
         this.currentTurn = Turn.INIT;
-
-        // Temp stats for testing
-         this.playerStats.setHealth(100);
-         this.enemyStats.setHealth(100);
-         this.playerStats.setStrength(10);
-         this.enemyStats.setStrength(5);
     }
 
     /**
