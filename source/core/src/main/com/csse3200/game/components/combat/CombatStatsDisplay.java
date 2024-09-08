@@ -208,11 +208,6 @@ public class CombatStatsDisplay extends UIComponent {
     stage.addActor(enemyTable);
 
     initBarAnimations();
-
-    //initialising the character stats
-    //updateHealthUI(playerStats, enemyStats);
-    //updateHealthUI(playerStats, enemyStats);
-    //updatePlayerExperienceUI(playerStats);
   }
 
   /**
