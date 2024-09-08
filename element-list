@@ -38,13 +38,9 @@ com.csse3200.game.gamestate.data
 com.csse3200.game.input
 com.csse3200.game.inventory
 com.csse3200.game.inventory.items
-com.csse3200.game.inventory.items.effects
-com.csse3200.game.inventory.items.effects.feeding
-com.csse3200.game.inventory.items.effects.healing
 com.csse3200.game.inventory.items.exceptions
 com.csse3200.game.inventory.items.food
 com.csse3200.game.inventory.items.potions
-com.csse3200.game.inventory.items.potions.healingpotion
 com.csse3200.game.overlays
 com.csse3200.game.physics
 com.csse3200.game.physics.components

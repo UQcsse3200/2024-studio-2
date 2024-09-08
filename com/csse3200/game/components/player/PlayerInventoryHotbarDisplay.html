@@ -101,10 +101,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PlayerInventoryHotbarDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">PlayerInventoryHotbarDisplay is a UI component that displays players quick selection panel for
- better user interaction during gameplay
- It creates a table of first n inventory slots that can display items, handle item usage,
- and update dynamically when the inventory changes.</div>
+<div class="block">UI component for displaying the player's quick-selection hotbar.
+ It manages a table with a fixed number of inventory slots that display items,
+ handle item usage, and update dynamically based on inventory changes.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -128,10 +127,12 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,com.csse3200.game.inventory.Inventory,com.csse3200.game.components.player.PlayerInventoryDisplay)" class="member-name-link">PlayerInventoryHotbarDisplay</a><wbr>(int&nbsp;hotBarCapacity,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,com.csse3200.game.inventory.Inventory,com.csse3200.game.components.player.PlayerInventoryDisplay)" class="member-name-link">PlayerInventoryHotbarDisplay</a><wbr>(int&nbsp;capacity,
  <a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
- <a href="PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a>&nbsp;playerInventoryDisplay)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+ <a href="PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a>&nbsp;InventoryUI)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.</div>
+</div>
 </div>
 </section>
 </li>
@@ -147,21 +148,26 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">To initialise the stage</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Called when the component is disposed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draw the renderable.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Drawing is handled by the super class</div>
 </div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.ui.UIComponent">Methods inherited from class&nbsp;com.csse3200.game.ui.<a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></h3>
-<code><a href="../../ui/UIComponent.html#create()">create</a>, <a href="../../ui/UIComponent.html#getLayer()">getLayer</a>, <a href="../../ui/UIComponent.html#getZIndex()">getZIndex</a>, <a href="../../ui/UIComponent.html#setStage(com.badlogic.gdx.scenes.scene2d.Stage)">setStage</a></code></div>
+<code><a href="../../ui/UIComponent.html#getLayer()">getLayer</a>, <a href="../../ui/UIComponent.html#getZIndex()">getZIndex</a>, <a href="../../ui/UIComponent.html#setStage(com.badlogic.gdx.scenes.scene2d.Stage)">setStage</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.rendering.RenderComponent">Methods inherited from class&nbsp;com.csse3200.game.rendering.<a href="../../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></h3>
 <code><a href="../../rendering/RenderComponent.html#compareTo(com.csse3200.game.rendering.Renderable)">compareTo</a>, <a href="../../rendering/RenderComponent.html#render(com.badlogic.gdx.graphics.g2d.SpriteBatch)">render</a></code></div>
@@ -191,9 +197,16 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(int,com.csse3200.game.inventory.Inventory,com.csse3200.game.components.player.PlayerInventoryDisplay)">
 <h3>PlayerInventoryHotbarDisplay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayerInventoryHotbarDisplay</span><wbr><span class="parameters">(int&nbsp;hotBarCapacity,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayerInventoryHotbarDisplay</span><wbr><span class="parameters">(int&nbsp;capacity,
  <a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
- <a href="PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a>&nbsp;playerInventoryDisplay)</span></div>
+ <a href="PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a>&nbsp;InventoryUI)</span></div>
+<div class="block">Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>capacity</code> - Number of slots in the hotbar</dd>
+<dd><code>inventory</code> - Player's inventory</dd>
+<dd><code>InventoryUI</code> - Inventory display manager</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -205,11 +218,21 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="create()">
+<h3>create</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
+<div class="block">To initialise the stage</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../../ui/UIComponent.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">RenderComponent</a></code></span></div>
-<div class="block">Draw the renderable. Should be called only by the renderer, not manually.</div>
+<div class="block">Drawing is handled by the super class</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">draw</a></code>&nbsp;in class&nbsp;<code><a href="../../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></code></dd>

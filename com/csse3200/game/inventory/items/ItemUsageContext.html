@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li>Nested</li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -58,13 +58,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -96,6 +96,21 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color"><code><a href="#player" class="member-name-link">player</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -107,6 +122,10 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ItemUsageContext</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Empty context (used for items which require no inputs).</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.entities.Entity)" class="member-name-link">ItemUsageContext</a><wbr>(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Context used for using an item on a player</div>
 </div>
 </div>
 </section>
@@ -139,6 +158,20 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="player">
+<h3>player</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">player</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -149,6 +182,17 @@ loadScripts(document, 'script');</script>
 <h3>ItemUsageContext</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ItemUsageContext</span>()</div>
 <div class="block">Empty context (used for items which require no inputs).</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.csse3200.game.entities.Entity)">
+<h3>ItemUsageContext</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ItemUsageContext</span><wbr><span class="parameters">(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player)</span></div>
+<div class="block">Context used for using an item on a player</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>player</code> - the player to use the item on.</dd>
+</dl>
 </section>
 </li>
 </ul>
