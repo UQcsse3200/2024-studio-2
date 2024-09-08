@@ -181,26 +181,6 @@ public class CombatStatsDisplay extends UIComponent {
   }
 
   private void addActors() {
-    // Combat Table
-    Label title = new Label("Combat Stats", skin, "title");
-    title.setFontScale(1.2f);
-    Label playerHealthLabelTable = new Label("Player Health: " + playerStats.getHealth(), skin, "large");
-    Label playerAttackLabel = new Label("Player Attack: " + playerStats.getStrength(), skin, "large");
-    Label enemyHealthLabelTable = new Label("Enemy Health: " + enemyStats.getHealth(), skin, "large");
-    logger.info("Enemy curHealth is: {}", enemyStats.getHealth());
-    logger.info("Enemy maxHealth is: {}", enemyStats.getMaxHealth());
-    Label enemyAttackLabel = new Label("Enemy Attack: " + enemyStats.getStrength(), skin, "large");
-    statsTable = new Table();
-    statsTable.setFillParent(true);
-    statsTable.setDebug(true);
-    float paddingTop = 28f;
-    statsTable.add(title).center().padTop(paddingTop).row();
-    statsTable.add(playerHealthLabelTable).padTop(paddingTop ).row();
-    statsTable.add(playerAttackLabel).padTop(paddingTop).row();
-    statsTable.add(enemyHealthLabelTable).padTop(paddingTop).row();
-    statsTable.add(enemyAttackLabel).padTop(paddingTop);
-    stage.addActor(statsTable);
-
     Table playerTable = initialisePlayerStatBars();
     Table enemyTable = initialiseEnemyStatBars();
 
@@ -278,7 +258,5 @@ public class CombatStatsDisplay extends UIComponent {
     playerHealthLabel.remove();
     enemyHealthLabel.remove();
     experienceLabel.remove();
-    //title.remove();
-    statsTable.remove();
   }
 }
