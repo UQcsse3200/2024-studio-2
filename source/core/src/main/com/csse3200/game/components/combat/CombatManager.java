@@ -7,15 +7,13 @@ import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 /**
  * Manages the turn-based combat loop and handles attacks
  */
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
-    public enum Action { START_MOVE, ATTACK, GUARD, COUNTER, SPECIAL };
+    public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
     private final Entity player;
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
@@ -25,7 +23,6 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-    private boolean isCombatEnd = false;
 
     public CombatManager(Entity player, Entity enemy, CombatStatsDisplay statsDisplay) {
         this.player = player;
@@ -45,7 +42,7 @@ public class CombatManager extends Component {
     /**
      * Both opponents' actions need to be determined before either action is enacted, as the sequencing of the moves
      * will be dependent on both of the choices.
-     * @param playerActionStr
+     * @param playerActionStr selected move as per button press (from CombatActions).
      */
     public void onPlayerActionSelected(String playerActionStr)
     {
@@ -61,10 +58,7 @@ public class CombatManager extends Component {
 
         logger.debug("Player action = {}, enemy action = {}", playerAction, enemyAction);
 
-        processActions();
-
-        statsDisplay.updateHealthUI(25, playerStats.getMaxHealth(), true);
-        //statsDisplay.updateHealthUI(enemyStats.getHealth(), enemyStats.getMaxHealth(), false);
+        executeMoveCombination(playerAction, enemyAction);
     }
 
     private Action selectEnemyMove()
@@ -80,7 +74,7 @@ public class CombatManager extends Component {
                 enemyAction = Action.GUARD;
                 break;
             case 2:
-                enemyAction = Action.COUNTER;
+                enemyAction = Action.SLEEP;
                 break;
             case 3:
                 enemyAction = Action.SPECIAL;
@@ -92,7 +86,11 @@ public class CombatManager extends Component {
         return enemyAction;
     }
 
-    private void executeMove(Action playerAction, Action enemyAction) {
+    private void executeMoveCombination(Action playerAction, Action enemyAction) {
+        if (playerAction == null || enemyAction == null) {
+            logger.error("Both player and enemy actions must be determined.");
+            return;
+        }
         if (playerMove == null) {
             logger.error("Player does not have a CombatMoveComponent.");
             return;
@@ -102,27 +100,177 @@ public class CombatManager extends Component {
             return;
         }
 
-        if (playerStats.getSpeed() >= enemyStats.getSpeed()) {
-            playerMove.executeMove(playerAction, enemy);
-            enemyMove.executeMove(enemyAction, player);
-        } else {
-            enemyMove.executeMove(enemyAction, player);
-            playerMove.executeMove(playerAction, enemy);
+        if (playerAction == Action.ATTACK)
+        {
+            if (enemyAction == Action.ATTACK)
+            {
+                /* ATTACK - ATTACK
+                 * Animal with the highest speed stat attacks first.
+                 * Stamina decreases for both.
+                 */
+                Entity faster = getFasterEntity();
+                Entity slower = getSlowerEntity();
+                // faster.attack()
+                // checkCombatEnd()
+                // slower.attack()
+            }
+            else if (enemyAction == Action.GUARD)
+            {
+                /* ATTACK - GUARD
+                 * Enemy guards first, and player's attack damage is reduced by 50%.
+                 * Stamina decreases for both.
+                 */
+                // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
+                // player.attack(bool guarded = true)
+                // checkCombatEnd()
+            }
+            else if (enemyAction == Action.SLEEP)
+            {
+                /* ATTACK - SLEEP
+                 * Enemy falls asleep, raising its stamina & health.
+                 * Player performs multi-hit attack.
+                 * Player stamina decreases.
+                 */
+                // enemy.sleep()
+                // player.multiHitAttack()
+                // checkCombatEnd()
+            }
+            else if (enemyAction == Action.SPECIAL)
+            {
+                /* ATTACK - SPECIAL
+                 * Enemy's special is activated.
+                 * Player performs attack.
+                 * Player stamina decreases.
+                 */
+                // enemy.special()
+                // player.attack()
+                // checkCombatEnd()
+            }
+        }
+        else if (playerAction == Action.GUARD)
+        {
+            if (enemyAction == Action.ATTACK)
+            {
+                /* GUARD - ATTACK
+                 * Player guards first, and enemy’s attack damage is reduced by 50%.
+                 * Stamina decreases for both.
+                 */
+                // player.guard() - Guard move should probably not actually do anything except reduce stamina.
+                // enemy.attack(bool guarded = true)
+                // checkCombatEnd()
+            }
+            else if (enemyAction == Action.GUARD)
+            {
+                /* GUARD - GUARD
+                 * Both animals guard but nothing happens.
+                 * Stamina decreases for both.
+                 */
+                Entity faster = getFasterEntity();
+                Entity slower = getSlowerEntity();
+                // faster.guard() - Guard move should probably not actually do anything except reduce stamina.
+                // slower.guard() - Guard move should probably not actually do anything except reduce stamina.
+            }
+            else if (enemyAction == Action.SLEEP)
+            {
+                /* GUARD - SLEEP
+                 *
+                 */
+            }
+            else if (enemyAction == Action.SPECIAL)
+            {
+                /* GUARD - SPECIAL
+                 * Enemy’s special is activated.
+                 * Negative specials are blocked by guard.
+                 * Player stamina decreases.
+                 */
+                // player.guard() - Guard move should probably not actually do anything except reduce stamina.
+                // enemy.special(bool guarded = true)
+            }
+        }
+        else if (playerAction == Action.SLEEP)
+        {
+            if (enemyAction == Action.ATTACK)
+            {
+                /* SLEEP - ATTACK
+                 * Player falls asleep, raising stamina & health.
+                 * Enemy performs multi-hit attack.
+                 * Enemy stamina decreases.
+                 */
+                // player.sleep()
+                // enemy.multiHitAttack()
+                // checkCombatEnd()
+            }
+            else if (enemyAction == Action.GUARD)
+            {
+                /* SLEEP - GUARD
+                 * Player falls asleep, raising stamina & health.
+                 * Enemy stamina decreases.
+                 */
+                // player.sleep()
+                // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
+            }
+            else if (enemyAction == Action.SLEEP)
+            {
+                /* SLEEP - SLEEP
+                 * Both animals fall asleep, raising stamina & health.
+                 */
+                Entity faster = getFasterEntity();
+                Entity slower = getSlowerEntity();
+                // faster.sleep()
+                // slower.sleep()
+            }
+            else if (enemyAction == Action.SPECIAL)
+            {
+                /* SLEEP - SPECIAL
+                 * Player falls asleep, raising stamina & health.
+                 * Enemy’s special is activated.
+                 */
+                // player.sleep()
+                // enemy.special()
+            }
+        }
+        else if (playerAction == Action.ITEM)
+        {
+            // Always goes first.
+            // player.useItem()
+            // enemy.executeAction(enemyAction)
+            // checkCombatEnd()
         }
     }
 
-    private void processActions()
-    {
-        if (playerAction == null || enemyAction == null) {
-            logger.error("Both player and enemy actions must be determined.");
-            return;
+    /**
+     * @return a pointer to the faster entity between the player and the enemy.
+     */
+    private Entity getFasterEntity() {
+        Entity faster;
+
+        if (playerStats.getSpeed() >= enemyStats.getSpeed()) {
+            faster = player;
+        } else {
+            faster = enemy;
         }
-        executeMove(playerAction, enemyAction);
+
+        return faster;
+    }
+
+    /**
+     * @return a pointer to the slower entity between the player and the enemy.
+     */
+    private Entity getSlowerEntity() {
+        Entity slower;
+
+        if (playerStats.getSpeed() < enemyStats.getSpeed()) {
+            slower = player;
+        } else {
+            slower = enemy;
+        }
+
+        return slower;
     }
 
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0 || enemyStats.getHealth() <= 0) {
-            isCombatEnd = true;
+            // End combat
             logger.info("Combat ended");
         }
     }
