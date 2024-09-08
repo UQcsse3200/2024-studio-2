@@ -127,6 +127,13 @@ public class NPCFactory {
 
   private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
     DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (chatOverlayService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+      chatOverlayService = ServiceLocator.getEntityChatService();
+    }
     chatOverlayService.updateText(hintText);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {

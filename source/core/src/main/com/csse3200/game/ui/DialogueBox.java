@@ -14,6 +14,9 @@ import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.GdxGameManager;
+import com.csse3200.game.components.minigames.MiniGameNames;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.*;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -38,6 +41,7 @@ public class DialogueBox {
 
     private String[] hints;
     private int currentHint;
+    private MiniGameNames currentMinigame;
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -50,6 +54,7 @@ public class DialogueBox {
     public void dialogueBoxInitialisation(boolean hide) {
         this.hints = new String[]{};
         this.currentHint = 0;
+        this.currentMinigame = SNAKE;
 
         this.backgroundImage = createBackgroundImage();
         this.label = createLabel();
@@ -168,7 +173,8 @@ public class DialogueBox {
 
     /**
      * Creates the playButton for booting up mini-games
-     * @return the initialised play button
+     *
+     * @return the playButton instance.
      */
     public TextButton createPlayButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
@@ -228,7 +234,13 @@ public class DialogueBox {
                 hideDialogueBox();
                 if (playButton != null) playButton.setVisible((false));
                 GdxGame gdxGame = GdxGameManager.getInstance();
-                gdxGame.enterSnakeScreen();
+                if (currentMinigame == SNAKE) {
+                    gdxGame.enterSnakeScreen();
+                } else if (currentMinigame == BIRD) {
+                    // TODO: Implement bird game (sprint 3)
+                } else if (currentMinigame == MAZE) {
+                    // TODO: Implement underwater maze (sprint 4)
+                }
                 return true;
             }
         });
@@ -320,6 +332,15 @@ public class DialogueBox {
     public String minigameCheck(String text) {
         if (hints[currentHint].startsWith("/ms")) {
             playButton.setVisible(true);
+            currentMinigame = SNAKE;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mb")){
+            playButton.setVisible(true);
+            currentMinigame = BIRD;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mu")) {
+            playButton.setVisible(true);
+            currentMinigame = MAZE;
             return text.substring(3);
         } else {
             playButton.setVisible((false));
