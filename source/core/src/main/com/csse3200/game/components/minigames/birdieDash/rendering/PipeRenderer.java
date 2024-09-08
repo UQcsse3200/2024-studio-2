@@ -25,13 +25,13 @@ public class PipeRenderer implements MinigameRenderable {
     public void render(){
         for (Pipe pipe : this.pipes) {
             renderer.getSb().draw(obstacleTexture,
-                    pipe.getPositionBottom().x,
+                    pipe.getPositionBottom().x - pipe.getWidth()/2,
                     pipe.getPositionBottom().y,
                     pipe.getWidth(),
                     pipe.getHeightBottom());
 
             renderer.getSb().draw(obstacleTexture,
-                    pipe.getPositionTop().x,
+                    pipe.getPositionTop().x - pipe.getWidth()/2,
                     pipe.getPositionTop().y,
                     pipe.getWidth(),
                     pipe.getHeightTop());

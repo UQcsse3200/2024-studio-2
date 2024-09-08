@@ -28,8 +28,8 @@ public class CoinRenderer implements MinigameRenderable {
     public void render(){
         for (Coin coin : this.coins) {
             renderer.getSb().draw(coinRegion,
-                    coin.getPosition().x,
-                    coin.getPosition().y,
+                    coin.getPosition().x - coin.getWidth()/2,
+                    coin.getPosition().y - coin.getWidth()/2,
                     coin.getWidth(),
                     coin.getHeight());
         }

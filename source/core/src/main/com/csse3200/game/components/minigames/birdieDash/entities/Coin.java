@@ -13,8 +13,8 @@ public class Coin {
     private Rectangle boundary;
     private final float MIN_Y = 100;
     private final float MAX_Y = 1100;
-    private final float WIDTH = 100;
-    private final float HEIGHT = 100;
+    private final float WIDTH = 80;
+    private final float HEIGHT = 80;
     private final float GAME_WIDTH = 1920;
     private float speed;
     private final Random random;
@@ -55,12 +55,12 @@ public class Coin {
     }
 
     public void respawnCoin() {
-        position = new Vector2(GAME_WIDTH + 960, random.nextFloat(MIN_Y, MAX_Y));
+        position = new Vector2(GAME_WIDTH + 960 - WIDTH/2, random.nextFloat(MIN_Y, MAX_Y));
         setBoundary();
     }
 
     private boolean coinOffScreen() {
-        if(this.position.x + 100 < 0) {
+        if(this.position.x + WIDTH/2 < 0) {
             return true;
         }
         return false;

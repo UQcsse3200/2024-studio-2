@@ -32,11 +32,16 @@ public class CollisionHandler {
 
     /**
      * Check collisions via overlap, then do something
+     * Need to change as currently bird gets pushed back even if hits top of pipe.
      */
     private void checkPipes() {
         for (Pipe pipe : pipes) {
-
+            if(bird.getBoundingBox().overlaps(pipe.getBottomPipe()) || bird.getBoundingBox().overlaps(pipe.getTopPipe())) {
+                bird.setCollidingPipe();
+                return;
+            }
         }
+        bird.unsetCollidingPipe();
     }
 
     /**

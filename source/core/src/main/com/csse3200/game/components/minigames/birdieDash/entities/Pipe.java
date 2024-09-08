@@ -48,13 +48,13 @@ public class Pipe{
 
     public void respawnPipe() {
         height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
-        this.bottomPosition = new Vector2(GAME_WIDTH + 960,0);
-        this.topPosition=new Vector2(GAME_WIDTH + 960, height + PIPE_GAP);
+        this.bottomPosition = new Vector2(GAME_WIDTH - width/2 + 960, 0);
+        this.topPosition=new Vector2(GAME_WIDTH - width/2 + 960, height + PIPE_GAP);
         setRectangles();
     }
 
     private boolean pipeOffScreen() {
-        if(this.bottomPosition.x + 300 < 0) {
+        if(this.bottomPosition.x + width/2 < 0) {
             return true;
         }
         return false;
