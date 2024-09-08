@@ -530,6 +530,8 @@ public class MainMenuDisplay extends UIComponent {
                 (stage.getHeight() - helpWindow.getHeight()) / 2
         );
 
+        // Set focus to the help window to ensure it receives key events
+        stage.setKeyboardFocus(helpWindow);
         // Add an InputListener to handle keyboard input
         helpWindow.addListener(new InputListener() {
             @Override
