@@ -38,10 +38,13 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.Capacity=Capacity;
         this.inventoryUI = InventoryUI;
         this.hotBarSlots = new ImageButton[Capacity];
-        stage = ServiceLocator.getRenderService().getStage();
+        create();
         createHotbar();
 
+
     }
+    @Override
+    public void create() {super.create();}
 
     /**
      * Toggles the visibility of the hotbar.
