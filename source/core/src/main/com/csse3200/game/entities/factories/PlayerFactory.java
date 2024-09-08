@@ -31,32 +31,34 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
 public class PlayerFactory {
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
+    /**
+     * Create a player entity.
+     * @return entity
+     */
     public static Entity createPlayer(GdxGame game) {
         String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-        Entity player = new Entity()
-                .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CameraZoomComponent())
-                .addComponent(new PhysicsComponent())
-                .addComponent(new ColliderComponent())
-                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
-
+        Entity player =
+                new Entity()
+                        .addComponent(new TextureRenderComponent(imagePath))
+                        .addComponent(new CameraZoomComponent())
+                        // Notify terrain component when moving
+                        .addComponent(new PhysicsComponent(true))
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
         player.addComponent(new PlayerActions(game, player, imagePath));
-
         switch (imagePath) {
-            case "images/dog.png" -> player.addComponent(new CombatStatsComponent(80, 100, 60, 60, 80, 0, true));
-            case "images/croc.png" -> player.addComponent(new CombatStatsComponent(100, 100, 80, 30, 40, 0, true));
-            case "images/bird.png" -> player.addComponent(new CombatStatsComponent(60, 100, 40, 80, 100, 0, true));
-            default -> player.addComponent(new CombatStatsComponent(
-                    stats.getHealth(),
-                    stats.getHunger(),
-                    stats.getStrength(),
-                    stats.getDefense(),
-                    stats.getSpeed(),
-                    stats.getExperience(),
-                    stats.isPlayer()
-            ));
+            case "images/dog.png" ->
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
+            case "images/croc.png" ->
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
+            case "images/bird.png" ->
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
+            default ->
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
+
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
