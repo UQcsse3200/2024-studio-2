@@ -28,11 +28,6 @@ public class ForestGameArea extends GameArea {
   private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
   private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
-  private static final int NUM_APPLES = 5;
-  private static final int NUM_HEALTH_POTIONS = 3;
-  private static final int NUM_CHICKENS = 2;
-  private static final int NUM_FROGS = 5;
-  private static final int NUM_MONKEYS = 2;
   private static final String[] forestTextures = {
           "images/box_boy_leaf.png",
           "images/tree.png",
@@ -123,20 +118,6 @@ public class ForestGameArea extends GameArea {
     spawnTrees();
 
 
-    // Enemies
-    for (int i = 0; i < NUM_CHICKENS; i++) {
-      spawnChicken();
-    }
-    for (int i = 0; i < NUM_FROGS; i++) {
-      spawnFrog();
-    }
-    for (int i = 0; i < NUM_MONKEYS; i++) {
-      spawnMonkey();
-    }
-
-    // Items
-    spawnHealthPotions();
-    spawnApples();
 
     // Friendlies
     spawnCow();
@@ -279,16 +260,6 @@ public class ForestGameArea extends GameArea {
     float proximityRange = 0.05f;
     monkey.addComponent(new ProximityComponent(player, proximityRange));
     spawnEntityAt(monkey, randomPos, true, true);
-  }
-
-  private void spawnHealthPotions() {
-    Supplier<Entity> healthPotionGenerator = () -> ItemFactory.createHealthPotion(player);
-    spawnRandomItem(healthPotionGenerator, NUM_HEALTH_POTIONS);
-  }
-
-  private void spawnApples() {
-    Supplier<Entity> appleGenerator = () -> ItemFactory.createApple(player);
-    spawnRandomItem(appleGenerator, NUM_APPLES);
   }
 
   private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
