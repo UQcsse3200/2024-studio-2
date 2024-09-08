@@ -145,6 +145,8 @@ public class CombatStatsDisplay extends UIComponent {
     for (int i = 0; i < healthBarFrames.length; i++) {
       String healthFrameNames = (100 - i * 10) + "%_health";
       healthBarFrames[i] = textureAtlas[0].findRegion(healthFrameNames);
+      logger.info("This is the health percentage: {}", healthFrameNames);
+      logger.info("This is the found health frame: {}", healthBarFrames[i]);
     }
     playerHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
     enemyHealthBarAnimation = new Animation<>(animationFrameRate, healthBarFrames);
@@ -157,7 +159,7 @@ public class CombatStatsDisplay extends UIComponent {
       String xpFrameNames = (100 - (i * 10)) + "%_xp";
       xpBarFrames[i] = textureAtlas[1].findRegion(xpFrameNames);
     }
-    xpBarAnimation = new Animation<>(0.066f, xpBarFrames);
+    xpBarAnimation = new Animation<>(animationFrameRate, xpBarFrames);
   }
 
   /**
@@ -169,7 +171,11 @@ public class CombatStatsDisplay extends UIComponent {
    */
   public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
     // Grab the desired frame at a specified frame rate
-    TextureRegion currentFrame = statBarAnimation.getKeyFrame(frameIndex);
+    TextureRegion[] keyFrames = statBarAnimation.getKeyFrames();
+    TextureRegion currentFrame = keyFrames[frameIndex];
+    logger.info("Current SB is {}", statBarAnimation);
+    logger.info("Current frameIndex is {}", frameIndex);
+    logger.info("Current frame is {}", currentFrame);
     // Replace the frame shown on the stage
     statBar.setDrawable(new TextureRegionDrawable(currentFrame));
   }
@@ -181,6 +187,8 @@ public class CombatStatsDisplay extends UIComponent {
     Label playerHealthLabelTable = new Label("Player Health: " + playerStats.getHealth(), skin, "large");
     Label playerAttackLabel = new Label("Player Attack: " + playerStats.getStrength(), skin, "large");
     Label enemyHealthLabelTable = new Label("Enemy Health: " + enemyStats.getHealth(), skin, "large");
+    logger.info("Enemy curHealth is: {}", enemyStats.getHealth());
+    logger.info("Enemy maxHealth is: {}", enemyStats.getMaxHealth());
     Label enemyAttackLabel = new Label("Enemy Attack: " + enemyStats.getStrength(), skin, "large");
     statsTable = new Table();
     statsTable.setFillParent(true);
@@ -213,15 +221,10 @@ public class CombatStatsDisplay extends UIComponent {
    * @param enemyStats CombatStatsComponent of the enemy
    */
   public void updateHealthUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
-    logger.info("Change in health detected from CombatActions: {}", playerStats.getHealth());
     int playerCurHealth = playerStats.getHealth();
     int playerMaxHealth = playerStats.getMaxHealth();
     int enemyCurHealth = enemyStats.getHealth();
     int enemyMaxHealth = enemyStats.getMaxHealth();
-    logger.info("PlayerHealth: {}", playerCurHealth);
-    logger.info("PlayerMaxHealth: {}", playerMaxHealth);
-    logger.info("EnemyHealth: {}", enemyCurHealth);
-    logger.info("EnemyMaxHealth: {}", enemyMaxHealth);
 
     CharSequence playerText = String.format("HP: %d", playerCurHealth);
     CharSequence enemyText = String.format("HP: %d", enemyCurHealth);
@@ -238,11 +241,11 @@ public class CombatStatsDisplay extends UIComponent {
 
     // Update player stats
     playerHealthLabel.setText(playerText);
-    setNewFrame(1, playerHealthBarAnimation, playerHealthImage);
+    setNewFrame(playerFrameIndex, playerHealthBarAnimation, playerHealthImage);
 
     // Update enemy stats
     enemyHealthLabel.setText(enemyText);
-    setNewFrame(1, enemyHealthBarAnimation, enemyHealthImage);
+    setNewFrame(enemyFrameIndex, enemyHealthBarAnimation, enemyHealthImage);
   }
 
 
