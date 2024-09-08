@@ -153,7 +153,7 @@ class NPCFactoryTest {
     void TestFishHasCorrectSoundPath() {
         String[] sound = configs.fish.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/FishBubble.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/FishBubble.wav"}));
     }
 
     /**
@@ -259,7 +259,7 @@ class NPCFactoryTest {
     void TestCowHasCorrectSoundPath() {
         String[] sound = configs.cow.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.wav"}));
     }
 
     /**
@@ -366,7 +366,7 @@ class NPCFactoryTest {
     void TestLionHasCorrectSoundPath() {
         String[] sound = configs.lion.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.wav"}));
     }
 
     /**
@@ -473,7 +473,7 @@ class NPCFactoryTest {
     void TestEagleHasCorrectSoundPath() {
         String[] sound = configs.eagle.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.wav"}));
     }
 
     /**
@@ -579,7 +579,7 @@ class NPCFactoryTest {
     void TestTurtleHasCorrectSoundPath() {
         String[] sound = configs.turtle.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.wav"}));
     }
 
     /**
@@ -676,7 +676,7 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectSoundPath() {
         String[] sound = configs.snake.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.wav"}));
     }
 
     /**
