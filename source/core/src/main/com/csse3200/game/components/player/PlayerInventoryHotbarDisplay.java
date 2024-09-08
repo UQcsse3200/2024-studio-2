@@ -50,8 +50,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     }
 
     /**
-     * Toggles the visibility of the hotbar.
-     * If the hotbar is currently visible, it will be removed, and vice versa.
+     * Drawing is handled by the super class
      */
     @Override
     protected void draw(SpriteBatch batch) {
