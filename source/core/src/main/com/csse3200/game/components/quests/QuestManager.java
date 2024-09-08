@@ -10,11 +10,7 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -26,7 +22,7 @@ public class QuestManager extends Component {
     private final HashMap<String, QuestBasic> quests;
      /** Map to store achievements. */
      private final HashMap<String, QuestHidden> achievements;
-    /** Event service to handle global events. */
+
     /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
@@ -69,7 +65,7 @@ public class QuestManager extends Component {
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
 
-        //new tasks
+        //create new tasks
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", " complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
         Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 5, 0, false, false);
@@ -80,16 +76,26 @@ public class QuestManager extends Component {
         addQuest(guideQuest);
 
         //dialogue for new quests
-        String[] cowInitialDialogue = new String[]{"Moo there, adventurer! Welcome to the kingdom.", "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."};
-        String[] cowAdviceDialogue = new String[]{"Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."};
-        String[] potionDialogue = new String[]{"I need five potions! They’re scattered around. Keep your eyes peeled.\" "};
+        String[] cowInitialDialogue = new String[]{
+                "Moo there, adventurer! Welcome to the kingdom.",
+                "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
+        };
+        String[] cowAdviceDialogue = new String[]{
+                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+        };
+        String[] potionDialogue = new String[]{
+                "I need five potions! They’re scattered around.," +
+                        " Keep your eyes peeled.\" "};
 
-        Map<DialogueKey, String[]> dialogueMap = new HashMap<>();
-        dialogueMap.put(new DialogueKey("Cow", 1), cowInitialDialogue);
-        dialogueMap.put(new DialogueKey("Cow", 2), cowAdviceDialogue);
-        dialogueMap.put(new DialogueKey("Cow", 3), potionDialogue);
+        //set dialogue for new quests
+        Map<DialogueKey, String[]> guideQuestDialogues = new HashMap<>();
+        guideQuestDialogues.put(new DialogueKey("Cow", 1), cowInitialDialogue);
+        guideQuestDialogues.put(new DialogueKey("Cow", 2), cowAdviceDialogue );
+        guideQuestDialogues.put(new DialogueKey("Cow", 3), potionDialogue );
 
+        quests.put(guideQuest.getQuestName(), guideQuest);
         GameState.quests.quests.add(guideQuest);
+
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
@@ -109,13 +115,11 @@ public class QuestManager extends Component {
         String[] test2StepCompletionTriggers = new String[]{"","spawnKangaBoss"};
         List<Task> tasks1 = List.of(stepsTask, attackTask);
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, test2TaskQuestDialogue,test2StepCompletionTriggers, false, false, 0);
-
         GameState.quests.quests.add(twoTaskQuest);
 
         // Creates test quest that requires completion of 2 task quest
         List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
         QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,null,null, false, false, 0);
-
         GameState.quests.quests.add(finalQuest);
     }
 
@@ -276,14 +280,24 @@ public class QuestManager extends Component {
      * */
     public String[] getDialogue(String npcName) {
         String[] npcRelevantQuests = relevantQuests.get(npcName);
-        //retrieve NPC dialogue
-        if (npcRelevantQuests != null) {
-            String singleRelevantQuest = npcRelevantQuests[0];
-            QuestBasic quest = quests.get(singleRelevantQuest);
-            if (quest != null) {
-                return quest.getDialogue(npcName);
+
+        if (npcRelevantQuests != null && npcRelevantQuests.length > 0) {
+            List<String> allDialogues = new ArrayList<>();
+
+            for (String questName : npcRelevantQuests) {
+                QuestBasic quest = quests.get(questName);
+
+                if (quest != null) {
+                    String[] dialogue = quest.getDialogue(npcName);
+                    if (dialogue != null) {
+                        allDialogues.addAll(Arrays.asList(dialogue));
+                    }
+                }
             }
+
+            return allDialogues.toArray(new String[0]);
         }
+
         return new String[]{};
     }
 
