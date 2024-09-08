@@ -1,5 +1,6 @@
 package com.csse3200.game.components.minigames.birdieDash.collision;
 
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
@@ -14,6 +15,7 @@ public class CollisionHandler {
     private final Spike spike;
     private int score;  // To keep track of the player's score
     final float epsilon = 5f;
+    private Vector2 previousPosition;
 
     public CollisionHandler(Bird bird, List<Pipe> pipes, List<Coin> coins, Spike spike) {
         this.bird = bird;
@@ -42,6 +44,37 @@ public class CollisionHandler {
         }
         bird.unsetCollidingPipe();
         bird.unsetCollidingTopPipe();
+    }
+
+    private void checkPipes(float deltaTime) {
+        for (Pipe pipe : pipes) {
+            // Check collision with bottom or top pipe
+            if (bird.getBoundingBox().overlaps(pipe.getBottomPipe()) || bird.getBoundingBox().overlaps(pipe.getTopPipe())) {
+
+                // Get the top of the bottom pipe and bird's current and previous y-positions
+                float pipeTopY = pipe.getPositionBottom().y + pipe.getBottomPipe().height;
+                float birdCurrentY = bird.getPosition().y;
+                float birdPreviousY = previousPosition.y;
+
+                // Check if the bird has crossed the top of the pipe
+                if (birdPreviousY >= pipeTopY && birdCurrentY < pipeTopY) {
+                    // The bird has crossed the top of the pipe, treat it as a collision
+                    bird.setCollidingTopPipe();
+                    return;
+                }
+
+                // If no top collision but still colliding
+                bird.setCollidingPipe();
+                return;
+            }
+        }
+
+        // No collisions
+        bird.unsetCollidingPipe();
+        bird.unsetCollidingTopPipe();
+
+        // Update the bird's previous position after checking
+        previousPosition.set(bird.getPosition());
     }
 
     private void checkCoin() {

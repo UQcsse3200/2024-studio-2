@@ -16,16 +16,20 @@ public class Bird {
     // testing
     private boolean collidingPipe;
     private boolean top;
+    private boolean isFlapping;
     public Bird(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         boundingBox = new Rectangle(x, y, BIRD_WIDTH, BIRD_HEIGHT);
         collidingPipe = false;
+        isFlapping = false;
     }
     public void update(float deltaTime) {
         if (position.y > 0) {
             if(top) {
-                velocity.y = 0;
+                if(velocity.y != 0) {
+                    velocity.y = 0;
+                }
             } else {
                 velocity.add(0, GRAVITY);
             }
@@ -33,8 +37,17 @@ public class Bird {
             position.y = 0;
             velocity.y = 0;
         }
+        if(isFlapping) {
+            isFlapping = false;
+            velocity.y = FLAP_STRENGTH;
+        }
+        if(position.x < 960 && !collidingPipe) {
+            velocity.x = 50;
+        } else {
+            velocity.x = 0;
+        }
         velocity.scl(deltaTime);
-        position.add(0, velocity.y);
+        position.add(velocity);
         if(collidingPipe) {
             position.sub(deltaTime * 200, 0);
         }
@@ -67,8 +80,7 @@ public class Bird {
         collidingPipe = false;
     }
     public void flapp() {
-
-        velocity.y = FLAP_STRENGTH;
+        isFlapping = true;
     }
     public Vector2 getPosition() {
         return position;
