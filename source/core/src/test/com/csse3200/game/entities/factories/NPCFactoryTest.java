@@ -580,7 +580,7 @@ class NPCFactoryTest {
         assert(Arrays.equals(baseHint, new String[]{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
                 "You look very tasty and I am very hungry",
                 "Go play a game and collect me some apples...",
-                "/mOr I will eat you whole!"}));
+                "/msOr I will eat you whole!"}));
     }
 
     /**

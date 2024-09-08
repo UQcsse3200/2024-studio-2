@@ -241,17 +241,19 @@ public class DialogueBox {
     public void handleForwardButtonClick() {
 
         currentHint = (currentHint + 1) % hints.length;
-        minigameCheck();
-        label.setText(hints[currentHint]);
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
         updateLabelPosition();
     }
 
-    public void minigameCheck() {
-        if (hints[currentHint].startsWith("/m")) {
-            //hints[currentHint] = hints[currentHint].substring(2);
+    public String minigameCheck(String text) {
+        if (hints[currentHint].startsWith("/ms")) {
             playButton.setVisible(true);
+            return text.substring(3);
         } else {
             playButton.setVisible((false));
+            return text;
         }
     }
 
@@ -295,8 +297,9 @@ public class DialogueBox {
      */
     public void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
-        minigameCheck();
-        label.setText(hints[currentHint]);
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
         updateLabelPosition();
     }
 
