@@ -68,7 +68,7 @@ public class QuestManager extends Component {
         //create new tasks
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", " complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
-        Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 5, 0, false, false);
+        Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
 
         //add new tasks to a quest
         List<Task> landKingdomTasks = List.of(talkToGuide, followCowsTeachings, collectPotions);
@@ -121,6 +121,11 @@ public class QuestManager extends Component {
         List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
         QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,null,null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
+    }
+
+    private void setupPotionsTask() {
+        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
+        inventory.questItemListen("Defense Potion", 5);
     }
 
 
@@ -220,6 +225,10 @@ public class QuestManager extends Component {
         QuestBasic quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
+        }
+
+        if (taskName.equals("Guide's Introduction")) {
+            setupPotionsTask();
         }
 
         Task currentTask = quest.getTasks().get(quest.getProgression());

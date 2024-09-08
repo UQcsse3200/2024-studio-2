@@ -437,7 +437,7 @@ public class Inventory implements InventoryInterface {
         int count = 0;
         for (int item = 0; item < this.nextIndex; item++) {
             if (memoryView[item].getName().equals(this.questItem)) {
-                count++;
+                count += memoryView[item].getQuantity();
             }
         }
         if (count > 0) {
