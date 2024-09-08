@@ -44,10 +44,15 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.capacity = capacity;
         this.inventoryUI = InventoryUI;
         this.hotBarSlots = new ImageButton[capacity];
-        stage = ServiceLocator.getRenderService().getStage();
+        create();
         createHotbar();
 
     }
+
+    /**
+     * To initialise the stage
+     */
+    public void create() {super.create();}
 
     /**
      * Drawing is handled by the super class
