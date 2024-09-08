@@ -113,10 +113,18 @@ public class Slides {
     public static class StorylineSlide extends Table {
         public StorylineSlide(Skin skin) {
             Label titleLabel = new Label("Storyline Overview", skin, "title");
-            Label contentLabel = new Label("Here's the storyline of the game...", skin);
+            Label contentLabel = new Label("Attack on Animals thrusts you into a riveting real-time strategy adventure\n"+
+                                           "where you control a diverse array of animals, each with unique abilities\n" +
+                                           "to reclaim kingdoms and restore harmony. As you explore vibrant ecosystems\n" +
+                                           "you'll gather resources, craft essential tools, and face formidable foes\n" +
+                                           "including the ultimate challenge the last of the humans.\n" +
+                                           "Master probability-based combat and strategic planning to unite the \n "+
+                                           "animal kingdoms and emerge victorious in this epic quest for dominance."
+                    , skin);
 
             add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
+            add(contentLabel).padTop(20f).padLeft(30f).expandX().left().row();
+            padBottom(-200f);
         }
     }
 
@@ -125,11 +133,20 @@ public class Slides {
      */
     public static class MinigamesSlide extends Table {
         public MinigamesSlide(Skin skin) {
-            Label titleLabel = new Label("Minigames", skin, "title");
-            Label contentLabel = new Label("Here are some details about the minigames...", skin);
+            Label titleLabel = new Label("Snake Minigame", skin, "title");
+            Label keysLabel = new Label("Arrow Keys: Move your snake in any direction:up, down, left, or right \n" +
+                    "W, A, S, D: Alternative movement controls for pros! \n\n" +
+                    "Objective: Gobble up as many apples as you can!\n" +
+                    "Each apple adds +1 point to your score.\n" +
+                    "Keep an eye on your score displayed onscreen. How high can you go?\n\n" +
+                    "Medals:\n" +
+                    "Bronze Medal: A solid start:get the basics down.\n" +
+                    "Silver Medal: You have got skill! But can you go further?\n" +
+                    "Gold Medal: Legendary! Only the best can claim this title.",skin);
+            add(titleLabel).padTop(10f).expandX().center().row();
+            add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
+            padBottom(-200f);
 
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
         }
     }
 
