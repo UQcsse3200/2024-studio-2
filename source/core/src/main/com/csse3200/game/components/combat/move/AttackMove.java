@@ -37,7 +37,7 @@ public class AttackMove extends CombatMove {
 
             targetStats.setHealth(targetStats.getHealth() - damage);
 
-            attackerStats.addStamina(-(this.staminaCost));
+            attackerStats.addStamina(-(this.getStaminaCost()));
 
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
