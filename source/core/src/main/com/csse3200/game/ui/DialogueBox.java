@@ -1,7 +1,9 @@
 package com.csse3200.game.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,7 +16,6 @@ import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.GdxGameManager;
-import com.csse3200.game.screens.SnakeScreen;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -269,15 +270,13 @@ public class DialogueBox {
         // Add the button to the stage
         stage.addActor(playButton);
 
-        // Add a listener to the button
-        playButton.addListener(new InputListener() {
+        // Add event listener
+        playButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                // Dummy action for now
+            public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Play Game button clicked!");
                 GdxGame gdxGame = GdxGameManager.getInstance();
-                //gdxGame.setScreen(new SnakeScreen(gdxGame));
-                return true;
+                gdxGame.enterSnakeScreen();
             }
         });
 
