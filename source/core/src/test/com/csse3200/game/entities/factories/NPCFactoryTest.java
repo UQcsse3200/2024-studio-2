@@ -577,7 +577,10 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectBaseHint() {
         String[] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Sam the Snake."}));
+        assert(Arrays.equals(baseHint, new String[]{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+                "You look very tasty and I am very hungry",
+                "Go play a game and collect me some apples...",
+                "/msOr I will eat you whole!"}));
     }
 
     /**

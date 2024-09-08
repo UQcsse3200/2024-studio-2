@@ -28,7 +28,10 @@
     "animalName": "Eagle"
   },
   "snake": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Sam the Snake."],
+    "baseHint": [ "HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+                  "You look very tasty and I am very hungry",
+                  "Go play a game and collect me some apples...",
+                  "/msOr I will eat you whole!" ],
     "spritePath": "images/snake.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.mp3"],
