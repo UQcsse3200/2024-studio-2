@@ -18,14 +18,17 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
+  private int stamina;
+  private final int maxStamina;
   private final int maxHunger;
   private final int maxExperience;
-  private boolean isPlayer;
+  private final boolean isPlayer;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer) {
       this.maxHealth = health;
       this.maxHunger = hunger;
       this.maxExperience=experience;
+      this.maxStamina = stamina;
       this.isPlayer = isPlayer;
       setHealth(health);
       setHunger(hunger);
@@ -33,7 +36,7 @@ public class CombatStatsComponent extends Component {
       setDefense(defense);
       setSpeed(speed);
       setExperience(experience);
-
+      setStamina(stamina);
   }
 
   /**
@@ -256,4 +259,32 @@ public class CombatStatsComponent extends Component {
   }
   public int getMaxExperience(){return maxExperience;}
 
+  /**
+   * @return current stamina of the entity.
+   */
+  public int getStamina() {
+    return stamina;
+  }
+
+  /**
+   * Sets new stamina value.
+   * @param stamina to be changed to.
+   */
+  public void setStamina(int stamina) {
+    if (stamina >= 0) {
+      this.stamina = stamina;
+    } else {
+      logger.error("Cannot set stamina to a negative value");
+    }
+  }
+
+  /**
+   * Adds to the player's stamina. The amount added can be negative.
+   * @param change to the current stamina (positive or negative).
+   */
+  public void addStamina(int change) {
+    int newStamina = Math.min(maxStamina, this.stamina + change);
+    newStamina = Math.max(0, newStamina);
+    setHunger(newStamina);
+  }
 }

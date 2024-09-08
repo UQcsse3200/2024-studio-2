@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat.move;
 
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.CombatManager;
 import com.csse3200.game.entities.Entity;
@@ -14,10 +15,10 @@ public class CombatMoveComponent extends Component {
     }
 
     // Execute the move based on MoveAction enum
-    public void executeMove(CombatManager.Action action, Entity target) {
+    public void executeMove(CombatManager.Action action, CombatStatsComponent target) {
         CombatMove move = getMoveAction(action);
         if (move != null) {
-            move.execute(entity, target); // entity is the attacker
+            move.execute(entity.getComponent(CombatStatsComponent.class), target); // entity is the attacker
         }
     }
 
