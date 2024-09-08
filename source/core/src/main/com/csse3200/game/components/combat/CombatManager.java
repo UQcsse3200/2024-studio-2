@@ -100,141 +100,133 @@ public class CombatManager extends Component {
             return;
         }
 
-        if (playerAction == Action.ATTACK)
-        {
-            if (enemyAction == Action.ATTACK)
-            {
-                /* ATTACK - ATTACK
-                 * Animal with the highest speed stat attacks first.
-                 * Stamina decreases for both.
-                 */
-                Entity faster = getFasterEntity();
-                Entity slower = getSlowerEntity();
-                // faster.attack()
+        switch (playerAction) {
+            case Action.ATTACK:
+                switch(enemyAction) {
+                    case Action.ATTACK:
+                    /* ATTACK - ATTACK
+                     * Animal with the highest speed stat attacks first.
+                     * Stamina decreases for both.
+                     */
+                        Entity faster = getFasterEntity();
+                        Entity slower = getSlowerEntity();
+                        // faster.attack()
+                        // checkCombatEnd()
+                        // slower.attack()
+                        break;
+                    case Action.GUARD:
+                    /* ATTACK - GUARD
+                     * Enemy guards first, and player's attack damage is reduced by 50%.
+                     * Stamina decreases for both.
+                     */
+                        // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        // player.attack(bool guarded = true)
+                        // checkCombatEnd()
+                        break;
+                    case Action.SLEEP:
+                    /* ATTACK - SLEEP
+                     * Enemy falls asleep, raising its stamina & health.
+                     * Player performs multi-hit attack.
+                     * Player stamina decreases.
+                     */
+                        // enemy.sleep()
+                        // player.multiHitAttack()
+                        // checkCombatEnd()
+                        break;
+                    case Action.SPECIAL:
+                    /* ATTACK - SPECIAL
+                     * Enemy's special is activated.
+                     * Player performs attack.
+                     * Player stamina decreases.
+                         */
+                        // enemy.special()
+                        // player.attack()
+                        // checkCombatEnd()
+                        break;
+                }
+
+            case Action.GUARD:
+                switch(enemyAction) {
+                    case Action.ATTACK:
+                    /* GUARD - ATTACK
+                     * Player guards first, and enemy’s attack damage is reduced by 50%.
+                     * Stamina decreases for both.
+                     */
+                        // player.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        // enemy.attack(bool guarded = true)
+                        // checkCombatEnd()
+                        break;
+                    case Action.GUARD:
+                    /* GUARD - GUARD
+                     * Both animals guard but nothing happens.
+                     * Stamina decreases for both.
+                     */
+                        Entity faster = getFasterEntity();
+                        Entity slower = getSlowerEntity();
+                        // faster.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        // slower.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        break;
+                    case Action.SLEEP:
+                    /* GUARD - SLEEP
+                     *
+                     */
+                        break;
+                    case Action.SPECIAL:
+                    /* GUARD - SPECIAL
+                     * Enemy’s special is activated.
+                     * Negative specials are blocked by guard.
+                     * Player stamina decreases.
+                     */
+                        // player.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        // enemy.special(bool guarded = true)
+                        break;
+                }
+
+            case Action.SLEEP:
+                switch(enemyAction) {
+                    case Action.ATTACK:
+                    /* SLEEP - ATTACK
+                     * Player falls asleep, raising stamina & health.
+                     * Enemy performs multi-hit attack.
+                     * Enemy stamina decreases.
+                     */
+                        // player.sleep()
+                        // enemy.multiHitAttack()
+                        // checkCombatEnd()
+                        break;
+                    case Action.GUARD:
+                    /* SLEEP - GUARD
+                     * Player falls asleep, raising stamina & health.
+                     * Enemy stamina decreases.
+                     */
+                        // player.sleep()
+                        // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
+                        break;
+                    case Action.SLEEP:
+                    /* SLEEP - SLEEP
+                     * Both animals fall asleep, raising stamina & health.
+                     */
+                        Entity faster = getFasterEntity();
+                        Entity slower = getSlowerEntity();
+                        // faster.sleep()
+                        // slower.sleep()
+                        break;
+                    case Action.SPECIAL:
+                    /* SLEEP - SPECIAL
+                     * Player falls asleep, raising stamina & health.
+                     * Enemy’s special is activated.
+                     */
+                        // player.sleep()
+                        // enemy.special()
+                        break;
+                }
+
+            case Action.ITEM:
+                // Always goes first.
+                // player.useItem()
+                // enemy.executeAction(enemyAction)
                 // checkCombatEnd()
-                // slower.attack()
-            }
-            else if (enemyAction == Action.GUARD)
-            {
-                /* ATTACK - GUARD
-                 * Enemy guards first, and player's attack damage is reduced by 50%.
-                 * Stamina decreases for both.
-                 */
-                // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
-                // player.attack(bool guarded = true)
-                // checkCombatEnd()
-            }
-            else if (enemyAction == Action.SLEEP)
-            {
-                /* ATTACK - SLEEP
-                 * Enemy falls asleep, raising its stamina & health.
-                 * Player performs multi-hit attack.
-                 * Player stamina decreases.
-                 */
-                // enemy.sleep()
-                // player.multiHitAttack()
-                // checkCombatEnd()
-            }
-            else if (enemyAction == Action.SPECIAL)
-            {
-                /* ATTACK - SPECIAL
-                 * Enemy's special is activated.
-                 * Player performs attack.
-                 * Player stamina decreases.
-                 */
-                // enemy.special()
-                // player.attack()
-                // checkCombatEnd()
-            }
-        }
-        else if (playerAction == Action.GUARD)
-        {
-            if (enemyAction == Action.ATTACK)
-            {
-                /* GUARD - ATTACK
-                 * Player guards first, and enemy’s attack damage is reduced by 50%.
-                 * Stamina decreases for both.
-                 */
-                // player.guard() - Guard move should probably not actually do anything except reduce stamina.
-                // enemy.attack(bool guarded = true)
-                // checkCombatEnd()
-            }
-            else if (enemyAction == Action.GUARD)
-            {
-                /* GUARD - GUARD
-                 * Both animals guard but nothing happens.
-                 * Stamina decreases for both.
-                 */
-                Entity faster = getFasterEntity();
-                Entity slower = getSlowerEntity();
-                // faster.guard() - Guard move should probably not actually do anything except reduce stamina.
-                // slower.guard() - Guard move should probably not actually do anything except reduce stamina.
-            }
-            else if (enemyAction == Action.SLEEP)
-            {
-                /* GUARD - SLEEP
-                 *
-                 */
-            }
-            else if (enemyAction == Action.SPECIAL)
-            {
-                /* GUARD - SPECIAL
-                 * Enemy’s special is activated.
-                 * Negative specials are blocked by guard.
-                 * Player stamina decreases.
-                 */
-                // player.guard() - Guard move should probably not actually do anything except reduce stamina.
-                // enemy.special(bool guarded = true)
-            }
-        }
-        else if (playerAction == Action.SLEEP)
-        {
-            if (enemyAction == Action.ATTACK)
-            {
-                /* SLEEP - ATTACK
-                 * Player falls asleep, raising stamina & health.
-                 * Enemy performs multi-hit attack.
-                 * Enemy stamina decreases.
-                 */
-                // player.sleep()
-                // enemy.multiHitAttack()
-                // checkCombatEnd()
-            }
-            else if (enemyAction == Action.GUARD)
-            {
-                /* SLEEP - GUARD
-                 * Player falls asleep, raising stamina & health.
-                 * Enemy stamina decreases.
-                 */
-                // player.sleep()
-                // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
-            }
-            else if (enemyAction == Action.SLEEP)
-            {
-                /* SLEEP - SLEEP
-                 * Both animals fall asleep, raising stamina & health.
-                 */
-                Entity faster = getFasterEntity();
-                Entity slower = getSlowerEntity();
-                // faster.sleep()
-                // slower.sleep()
-            }
-            else if (enemyAction == Action.SPECIAL)
-            {
-                /* SLEEP - SPECIAL
-                 * Player falls asleep, raising stamina & health.
-                 * Enemy’s special is activated.
-                 */
-                // player.sleep()
-                // enemy.special()
-            }
-        }
-        else if (playerAction == Action.ITEM)
-        {
-            // Always goes first.
-            // player.useItem()
-            // enemy.executeAction(enemyAction)
-            // checkCombatEnd()
+                break;
         }
     }
 

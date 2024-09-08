@@ -23,7 +23,6 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class EnemyFactory {
           Arrays.asList(
                   new AttackMove("Normal Attack", 10),
                   new GuardMove("Normal Guard", 5),
-                  new CounterMove("Normal Counter", 15),
+                  new SleepMove("Normal Counter", 15),
                   new SpecialMove("Normal Special", 25)
           )
   );

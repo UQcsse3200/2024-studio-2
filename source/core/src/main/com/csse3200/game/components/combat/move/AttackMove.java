@@ -13,9 +13,7 @@ public class AttackMove extends CombatMove {
     }
 
     @Override
-    public void execute(Entity attacker, Entity target) {
-        CombatStatsComponent attackerStats = attacker.getComponent(CombatStatsComponent.class);
-        CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
 
         if (attackerStats != null && targetStats != null) {
             /*
@@ -32,7 +30,7 @@ public class AttackMove extends CombatMove {
 
             targetStats.setHealth(targetStats.getHealth() - damage);
 
-            logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, damage);
+            //logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, damage);
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
