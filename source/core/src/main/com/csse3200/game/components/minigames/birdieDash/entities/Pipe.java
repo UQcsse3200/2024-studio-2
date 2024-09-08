@@ -40,6 +40,7 @@ public class Pipe{
         dt = dt * start_speed;
         this.bottomPosition.sub(dt,0);
         this.topPosition.sub(dt,0);
+        setRectangles();
         if(pipeOffScreen()) {
             respawnPipe();
         }
@@ -47,8 +48,8 @@ public class Pipe{
 
     public void respawnPipe() {
         height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
-        this.bottomPosition = new Vector2(GAME_WIDTH + 960 - width,0);
-        this.topPosition=new Vector2(GAME_WIDTH + 960 - width, height + PIPE_GAP);
+        this.bottomPosition = new Vector2(GAME_WIDTH + 960,0);
+        this.topPosition=new Vector2(GAME_WIDTH + 960, height + PIPE_GAP);
         setRectangles();
     }
 

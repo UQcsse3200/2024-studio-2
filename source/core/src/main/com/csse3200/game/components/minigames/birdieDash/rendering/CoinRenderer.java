@@ -1,28 +1,62 @@
 package com.csse3200.game.components.minigames.birdieDash.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.csse3200.game.components.minigames.MinigameRenderable;
+import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
+import com.csse3200.game.components.minigames.snake.AssetPaths;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 
-public class CoinRenderer {
-    private final Coin coin;
-    private final float width;
-    private final float height;
+import java.util.List;
+
+public class CoinRenderer implements MinigameRenderable {
+    private final List<Coin> coins;
+    private final MinigameRenderer renderer;
+    private Texture coinTexture;
+    private TextureRegion coinRegion;
 
     // The Constructor with default width and height
-    public CoinRenderer(Coin coin) {
-        this.coin = coin;
-        this.width = 96;  // Setting the desired width for the coin
-        this.height = 96; // Setting the desired height for the coin
+    public CoinRenderer(List<Coin> coins, MinigameRenderer renderer) {
+        this.coins = coins;
+        this.renderer = renderer;
+        renderer.addRenderable(this);
+        loadAssets();
     }
 
-    public void render(SpriteBatch batch) {
-        Texture texture = coin.getTexture();
-        batch.draw(texture, coin.getX(), coin.getY(), width, height);
+    public void render(){
+        for (Coin coin : this.coins) {
+            renderer.getSb().draw(coinRegion,
+                    coin.getPosition().x,
+                    coin.getPosition().y,
+                    coin.getWidth(),
+                    coin.getHeight());
+        }
+    }
+
+    private void loadAssets() {
+        ResourceService rs = ServiceLocator.getResourceService();
+        rs.loadTextures(new String[]{AssetPaths.COIN});
+        ServiceLocator.getResourceService().loadAll();
+        coinTexture = rs.getAsset(AssetPaths.COIN, Texture.class);
+        int centerX = coinTexture.getWidth() / 2;
+        int centerY = coinTexture.getHeight() / 2;
+        int regionWidth = 400;
+        int regionHeight = 480;
+        int x = centerX - regionWidth / 2;
+        int y = centerY - regionHeight / 2;
+        coinRegion = new TextureRegion(coinTexture, x, y, regionWidth, regionHeight);
+    }
+
+    private void unloadAssets() {
+        ResourceService rs = ServiceLocator.getResourceService();
+        rs.unloadAssets(new String[]{AssetPaths.COIN});
     }
 
     public void dispose() {
-        coin.dispose();
+        unloadAssets();
+        coinTexture.dispose();
     }
 }
 

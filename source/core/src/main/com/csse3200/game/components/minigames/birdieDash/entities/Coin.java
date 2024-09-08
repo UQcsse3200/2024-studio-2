@@ -2,79 +2,72 @@ package com.csse3200.game.components.minigames.birdieDash.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.Random;
 
 public class Coin {
     // x and y coordinates for the coin
-    private float x;
-    private float y;
+    private Vector2 position;
+    private Rectangle boundary;
+    private final float MIN_Y = 100;
+    private final float MAX_Y = 1100;
+    private final float WIDTH = 100;
+    private final float HEIGHT = 100;
+    private final float GAME_WIDTH = 1920;
+    private float speed;
+    private final Random random;
 
-    // image for the coin
-    private final Texture texture;
 
     /**
      * Constructors to create a coin.
      * Coin will spawn randomly between pipes, both horizontally and vertically.
      *
-     * @param pipeWidth  width of the pipes, used to keep the coin between the pipes
-     * @param minX       minimum x-coordinate for the coin (left side of the pipe)
-     * @param maxX       maximum x-coordinate for the coin (right side of the pipe)
-     * @param gapY       y-coordinate for the gap between pipes where the coin can spawn vertically
-     * @param gapHeight  height of the gap between pipes to ensure the coin appears within the gap
      */
-    public Coin(float pipeWidth, float minX, float maxX, float gapY, float gapHeight) {
-        // Randomise x-coordinate to place the coin between the pipes
-        this.x = MathUtils.random(minX + pipeWidth, maxX - pipeWidth);
 
-        // Randomise y-coordinate to place the coin within the vertical gap between the pipes
-        this.y = MathUtils.random(gapY, gapY + gapHeight);
-
-        this.texture = new Texture("images/minigames/coin.png");
+    public Coin(float start, float speed) {
+        this.random = new Random();
+        this.position = new Vector2(start, random.nextFloat(MIN_Y, MAX_Y));
+        this.speed = speed;
+        this.boundary = new Rectangle(position.x, position.y, WIDTH, HEIGHT);
     }
 
-    /**
-     * Gets x-coordinate of the coin.
-     * @return x-coordinate
-     */
-    public float getX() {
-        return x;
+    public Vector2 getPosition() {
+        return position;
     }
 
-    /**
-     * Sets x-coordinate for the coin.
-     * @param x the new x-coordinate
-     */
-    public void setX(float x) {
-        this.x = x;
+    public float getWidth() {
+        return WIDTH;
     }
 
-    /**
-     * Gets y-coordinate for the coin.
-     * @return y-coordinate
-     */
-    public float getY() {
-        return y;
+    public float getHeight() {
+        return HEIGHT;
     }
 
-    /**
-     * Sets y-coordinate for the coin.
-     * @param y the new y-coordinate
-     */
-    public void setY(float y) {
-        this.y = y;
+    public void changePosition(float dt){
+        dt = dt * speed;
+        this.position.sub(dt,0);
+        setBoundary();
+        if(coinOffScreen()) {
+            respawnCoin();
+        }
     }
 
-    /**
-     * Gets texture used for the coin.
-     * @return the coin's texture
-     */
-    public Texture getTexture() {
-        return texture;
+    public void respawnCoin() {
+        position = new Vector2(GAME_WIDTH + 960, random.nextFloat(MIN_Y, MAX_Y));
+        setBoundary();
     }
 
-    /**
-     * Dispose the coin's texture to free up the resources. It should be called when the coin is no longer needed.
-     */
-    public void dispose() {
-        texture.dispose();
+    private boolean coinOffScreen() {
+        if(this.position.x + 100 < 0) {
+            return true;
+        }
+        return false;
     }
+
+    private void setBoundary() {
+        boundary.setPosition(position.x, position.y);
+    }
+
 }

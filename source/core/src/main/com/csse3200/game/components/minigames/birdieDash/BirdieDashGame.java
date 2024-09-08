@@ -4,12 +4,10 @@ import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.collision.CollisionHandler;
 //import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
+import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
-import com.csse3200.game.components.minigames.birdieDash.rendering.BackgroundRenderer;
-import com.csse3200.game.components.minigames.birdieDash.rendering.BirdRenderer;
-import com.csse3200.game.components.minigames.birdieDash.rendering.PipeRenderer;
-import com.csse3200.game.components.minigames.birdieDash.rendering.SpikeRenderer;
+import com.csse3200.game.components.minigames.birdieDash.rendering.*;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -24,6 +22,7 @@ public class BirdieDashGame {
     private final float START_SPEED = 200;
 
     private final List<Pipe> pipes;
+    private final List<Coin> coins;
     private final Bird bird;
     private final Spike spike;
     private final MinigameRenderer renderer;
@@ -32,6 +31,7 @@ public class BirdieDashGame {
 
     public BirdieDashGame() {
         this.pipes = createPipes();
+        this.coins = createCoins();
         this.bird = new Bird(920, 600);
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
@@ -47,12 +47,31 @@ public class BirdieDashGame {
         ServiceLocator.registerResourceService(new ResourceService());
         renderer.addRenderable(new BackgroundRenderer(renderer));
         renderer.addRenderable(new PipeRenderer(pipes, renderer));
+        renderer.addRenderable(new CoinRenderer(coins, renderer));
         renderer.addRenderable(new BirdRenderer(bird, renderer));
         renderer.addRenderable(new SpikeRenderer(spike, renderer));
+
 
         // Add all the other ones e.g. bird, coins etc.
     }
 
+    /**
+     * Private method to create a list of coins
+     * @return the list of coins
+     */
+    private List<Coin> createCoins() {
+        List<Coin> coins = new ArrayList<>();
+        for(int i= 0; i < 3; i++) {
+            coins.add(new Coin(1440 + 960 * i, START_SPEED));
+        }
+        return coins;
+    }
+
+    private void changeCoinPosition(float dt) {
+        for(Coin coin : coins) {
+            coin.changePosition(dt);
+        }
+    }
     /**
      * Private method to create pipes for the start of the game
      * @return a list containing all the pipe objects to be used.
@@ -83,6 +102,7 @@ public class BirdieDashGame {
      */
     private void updateGamePosition(float dt) {
         changePipePosition(dt);
+        changeCoinPosition(dt);
         bird.update(dt);
         // Add all other change positions here e.g. bird, coins etc.
 
