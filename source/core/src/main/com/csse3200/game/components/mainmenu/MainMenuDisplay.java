@@ -2,6 +2,7 @@ package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -55,6 +56,7 @@ public class MainMenuDisplay extends UIComponent {
     private Image birdImage;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
+    private Sound clickSound;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -83,6 +85,7 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3"));
     }
 
     /**
@@ -174,6 +177,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Start button clicked");
                 entity.getEvents().trigger("start");
+                clickSound.play();
             }
         });
 
@@ -183,6 +187,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Load button clicked");
                 entity.getEvents().trigger("load");
+                clickSound.play();
             }
         });
 
@@ -194,6 +199,7 @@ public class MainMenuDisplay extends UIComponent {
 
                         logger.debug("SnakeGame button clicked");
                         entity.getEvents().trigger("SnakeGame");
+                        clickSound.play();
                     }
                 });
 
@@ -204,6 +210,7 @@ public class MainMenuDisplay extends UIComponent {
                 logger.info("Settings button clicked");
                 settingMenu.setVisible(true);
                 table.setTouchable(Touchable.disabled);
+                clickSound.play();
             }
         });
 
@@ -213,6 +220,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Achievements button clicked");
                 entity.getEvents().trigger("achievements");
+                clickSound.play();
             }
         });
 
@@ -223,6 +231,7 @@ public class MainMenuDisplay extends UIComponent {
                 logger.info("Help button clicked");
                 entity.getEvents().trigger("help");
                 showHelpWindow();
+                clickSound.play();
             }
 
         });
@@ -813,5 +822,6 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture.dispose();
         birdTexture.dispose();
         super.dispose();
+        clickSound.dispose();
     }
 }
