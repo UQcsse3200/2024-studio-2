@@ -7,7 +7,7 @@ import com.csse3200.game.entities.Entity;
 import java.util.List;
 
 public class CombatMoveComponent extends Component {
-    private List<CombatMove> moveSet;
+    private final List<CombatMove> moveSet;
 
     public CombatMoveComponent(List<CombatMove> moveSet) {
         this.moveSet = moveSet;
@@ -22,18 +22,13 @@ public class CombatMoveComponent extends Component {
     }
 
     private CombatMove getMoveAction(CombatManager.Action action) {
-        switch (action) {
-            case ATTACK:
-                return moveSet.get(0);
-            case GUARD:
-                return moveSet.get(1);
-            case COUNTER:
-                return moveSet.get(2);
-            case SPECIAL:
-                return moveSet.get(3);
-            default:
-                return null;
-        }
+        return switch (action) {
+            case ATTACK -> moveSet.get(0);
+            case GUARD -> moveSet.get(1);
+            case SLEEP -> moveSet.get(2);
+            case SPECIAL -> moveSet.get(3);
+            default -> null;
+        };
     }
 
     public List<CombatMove> getMoveSet() {
