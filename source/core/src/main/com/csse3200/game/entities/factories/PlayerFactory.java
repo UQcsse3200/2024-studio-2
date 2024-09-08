@@ -36,7 +36,6 @@ public class PlayerFactory {
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player = new Entity()
-//                .addComponent(new TerrainLoaderComponent())
                 .addComponent(new TextureRenderComponent(imagePath))
                 .addComponent(new CameraZoomComponent())
                 .addComponent(new PhysicsComponent())
@@ -45,17 +44,11 @@ public class PlayerFactory {
 
         player.addComponent(new PlayerActions(game, player, imagePath));
 
-        if (imagePath.equals("images/dog.png")) {
-            player.addComponent(new CombatStatsComponent(80, 100, 60, 60, 80, 0, true));
-        }
-        else if (imagePath.equals("images/croc.png")) {
-            player.addComponent(new CombatStatsComponent(100, 100, 80, 30, 40, 0, true));
-        }
-        else if (imagePath.equals("images/bird.png")) {
-            player.addComponent(new CombatStatsComponent(60, 100, 40, 80, 100, 0, true));
-        }
-        else {
-            player.addComponent(new CombatStatsComponent(
+        switch (imagePath) {
+            case "images/dog.png" -> player.addComponent(new CombatStatsComponent(80, 100, 60, 60, 80, 0, true));
+            case "images/croc.png" -> player.addComponent(new CombatStatsComponent(100, 100, 80, 30, 40, 0, true));
+            case "images/bird.png" -> player.addComponent(new CombatStatsComponent(60, 100, 40, 80, 100, 0, true));
+            default -> player.addComponent(new CombatStatsComponent(
                     stats.getHealth(),
                     stats.getHunger(),
                     stats.getStrength(),

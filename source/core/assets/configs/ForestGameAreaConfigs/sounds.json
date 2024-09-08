@@ -14,7 +14,7 @@
   ],
   "backgroundMusic" : "sounds/BGM_03_mp3.mp3",
 
-  "dogSounds" : [
+  "characterSounds" : [
     "sounds/animal/panting.mp3",
     "sounds/animal/bark.mp3"
   ]
