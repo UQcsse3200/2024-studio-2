@@ -90,13 +90,13 @@ public class PlayerActions extends Component {
   private void initializeCombatStats() {
     switch (selectedAnimal.toLowerCase()) {
       case "crocodile":
-        combatStats.setSpeed(1);
+        combatStats.setSpeed(40); // Example value; adjust as needed
         break;
       case "bird":
-        combatStats.setSpeed(1000);
+        combatStats.setSpeed(100); // Example value; adjust as needed
         break;
       case "dog":
-        combatStats.setSpeed(80);
+        combatStats.setSpeed(80); // Example value; adjust as needed
         break;
       default:
         logger.warn("Unknown animal selected. Using default speed.");
@@ -133,8 +133,7 @@ public class PlayerActions extends Component {
     Vector2 velocity = body.getLinearVelocity();
 
     // Convert combatStats speed to meters per second
-    // Adjust the scaling factor as necessary based on your game's physics
-    float speedFactor = 0.1f; // Example scaling factor
+    float speedFactor = 0.01f; // Adjust scaling factor as necessary
     float animalSpeed = combatStats.getSpeed() * speedFactor;
 
     Vector2 desiredVelocity = walkDirection.cpy().scl(animalSpeed);
@@ -149,7 +148,7 @@ public class PlayerActions extends Component {
    * @param direction The direction vector from WASD input.
    */
   void walk(Vector2 direction) {
-    this.walkDirection = direction;
+    this.walkDirection = direction.nor(); // Ensure direction is normalized
     this.moving = true;
     logger.info("Player started moving in direction: {}", direction);
     player.getEvents().trigger("steps");
@@ -219,4 +218,3 @@ public class PlayerActions extends Component {
     }
   }
 }
-
