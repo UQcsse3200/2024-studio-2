@@ -9,10 +9,10 @@ public class Bird {
     private Vector2 velocity;
     private Rectangle boundingBox;
     private static final float GRAVITY = -15f;
-    private static final float FLAP_STRENGTH = 300;
+    private static final float FLAP_STRENGTH = 500;
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
-    private static final int GAME_HEIGHT = 600;
+    private static final int GAME_HEIGHT = 1200;
     // testing
     private boolean collidingPipe;
     private boolean top;

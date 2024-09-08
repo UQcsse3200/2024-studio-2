@@ -145,16 +145,16 @@ public class BirdieDashScreen extends PausableScreen {
                 .addComponent(inputComponent)
          .addComponent(new KeyboardMiniGameInputComponent());
 
-       // ui.getEvents().addListener("flap", this::flap);
+        ui.getEvents().addListener("flap", this::flap);
         ui.getEvents().addListener("addOverlay", this::addOverlay);
         ui.getEvents().addListener("removeOverlay", this::removeOverlay);
         ui.getEvents().addListener("restart", this::restartGame);
-       ui.getEvents().addListener("exit", this::exitGame);
+        ui.getEvents().addListener("exit", this::exitGame);
 
         ServiceLocator.getEntityService().register(ui);
     }
 
- private void flap(Direction direction) {
+ private void flap() {
         // Trigger the flap action in BirdieDashGame
         birdGame.flapBird();
     }
