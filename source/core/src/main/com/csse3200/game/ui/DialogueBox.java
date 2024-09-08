@@ -1,9 +1,7 @@
 package com.csse3200.game.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -67,10 +65,10 @@ public class DialogueBox {
         stage.addActor(label);
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
+        stage.addActor(playButton);
 
         addButtonListeners();
 
-        createCenterButton();
         playButton.setVisible(false);
     }
 
@@ -169,6 +167,24 @@ public class DialogueBox {
     }
 
     /**
+     * Creates the playButton for booting up mini-games
+     * @return the initialised play button
+     */
+    public TextButton createPlayButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton playButton = new TextButton("Play Game", buttonStyle);
+        playButton.padLeft(55f);
+        playButton.getLabel().setAlignment(Align.center);
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
+        float centerY = (screenHeight - buttonHeight) / 2;
+
+        playButton.setPosition(centerX, centerY - 200);
+        return playButton;
+    }
+
+    /**
      * Creates a style for the buttons.
      *
      * @return The TextButtonStyle instance.
@@ -202,6 +218,17 @@ public class DialogueBox {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 handleBackwardButtonClick();
+                return true;
+            }
+        });
+
+        playButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                hideDialogueBox();
+                if (playButton != null) playButton.setVisible((false));
+                GdxGame gdxGame = GdxGameManager.getInstance();
+                gdxGame.enterSnakeScreen();
                 return true;
             }
         });
@@ -247,50 +274,6 @@ public class DialogueBox {
         updateLabelPosition();
     }
 
-    public String minigameCheck(String text) {
-        if (hints[currentHint].startsWith("/ms")) {
-            playButton.setVisible(true);
-            return text.substring(3);
-        } else {
-            playButton.setVisible((false));
-            return text;
-        }
-    }
-
-    public TextButton createPlayButton() {
-        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        TextButton playButton = new TextButton("Play Game", buttonStyle);
-        playButton.padLeft(55f);
-        playButton.getLabel().setAlignment(Align.center);
-        return playButton;
-    }
-    private void createCenterButton() {
-        float buttonWidth = playButton.getWidth();
-        float buttonHeight = playButton.getHeight();
-        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
-        float centerY = (screenHeight - buttonHeight) / 2;
-
-        playButton.setPosition(centerX, centerY - 200);
-
-        if (playButton != null) playButton.setVisible((true));
-
-        // Add the button to the stage
-        stage.addActor(playButton);
-
-        playButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                // Dummy action for now
-                System.out.println("Play Game button clicked!");
-                hideDialogueBox();
-                if (playButton != null) playButton.setVisible((false));
-                GdxGame gdxGame = GdxGameManager.getInstance();
-                gdxGame.enterSnakeScreen();
-                return true;
-            }
-        });
-    }
-
     /**
      * Handles the backward button click event to navigate to the previous hint.
      * Updates the label text to the previous hint in the array and repositions the label.
@@ -311,6 +294,7 @@ public class DialogueBox {
         if (label != null) label.setVisible(false);
         if (forwardButton != null) forwardButton.setVisible(false);
         if (backwardButton != null) backwardButton.setVisible(false);
+        if (playButton != null) playButton.setVisible(false);
     }
 
     /**
@@ -331,6 +315,16 @@ public class DialogueBox {
         }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);
+    }
+
+    public String minigameCheck(String text) {
+        if (hints[currentHint].startsWith("/ms")) {
+            playButton.setVisible(true);
+            return text.substring(3);
+        } else {
+            playButton.setVisible((false));
+            return text;
+        }
     }
 
     /**

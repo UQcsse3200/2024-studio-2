@@ -137,19 +137,17 @@ public class NPCFactory {
         animalSound.setLooping(soundId, false);
       }
     }
-
   }
 
   private static void endDialogue() {
     DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
 
-    // Needs to make a new chatOverley when the player walks away from the snake after playing a mini-game
-    // (otherwise the chatOverlayService is null)
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
     if (chatOverlayService == null) {
       Stage stage = ServiceLocator.getRenderService().getStage();
       ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+      chatOverlayService = ServiceLocator.getEntityChatService();
     }
-    chatOverlayService = ServiceLocator.getEntityChatService();
     chatOverlayService.hideCurrentOverlay();
   }
 
