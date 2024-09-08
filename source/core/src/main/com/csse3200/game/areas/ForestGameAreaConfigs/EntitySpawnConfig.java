@@ -6,7 +6,14 @@ public class EntitySpawnConfig {
 
     // Items
     public int NUM_APPLES;
+    public int NUM_CARROTS;
+    public int NUM_CHICKEN_LEGS;
+    public int NUM_MEAT;
+    public int NUM_CANDY;
     public int NUM_HEALTH_POTIONS;
+    public int NUM_DEFENSE_POTIONS;
+    public int NUM_ATTACK_POTIONS;
+    public int NUM_SPEED_POTIONS;
 
     // Enemies
     public int NUM_CHICKENS;
