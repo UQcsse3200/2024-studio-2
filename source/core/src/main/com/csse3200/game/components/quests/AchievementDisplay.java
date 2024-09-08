@@ -122,8 +122,7 @@ public class AchievementDisplay extends UIComponent {
 
 
     private Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
-        Table tabButtonTable = new Table();
-        tabButtonTable.debug();
+        Table tabButtonTable = new Table().padLeft(50);
 
         Image itemBG = new Image(
                 ServiceLocator.getResourceService()
@@ -188,14 +187,23 @@ public class AchievementDisplay extends UIComponent {
      * @return The Table showing achievements.
      */
     private Table makeLogbookTable(Achievement.AchievementType type) {
-        Table table = new Table();
+        Table table = new Table().left().top().padLeft(50);
+        Integer advancementCounter = 0;
         for (Achievement achievement : achievements) {
             if (achievement.isCompleted() && achievement.getType() == type) {
                 Action newAnimation = Actions.forever(Actions.sequence(
                         Actions.color(Color.YELLOW, 0.5f),
                         Actions.color(Color.GOLD, 0.5f)
                 ));
-                TextButton achievementButton = new TextButton(achievement.getQuestName(), skin);
+
+                Image button = new Image(
+                        ServiceLocator.getResourceService()
+                                .getAsset("images/logbook/lb-yellow-btn.png", Texture.class));
+                Image buttonPressed = new Image(
+                        ServiceLocator.getResourceService()
+                                .getAsset("images/logbook/lb-yellow-btn-pressed.png", Texture.class));
+                ImageButton achievementButton = new ImageButton(button.getDrawable(),buttonPressed.getDrawable());
+                advancementCounter ++;
                 achievementButton.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -216,7 +224,10 @@ public class AchievementDisplay extends UIComponent {
 
                 addButtonElevationEffect(achievementButton);
                 table.add(achievementButton);
-                table.row();
+                if(advancementCounter == 6){
+                    table.row();
+                    advancementCounter = 0;
+                }
             }
         }
         return table;
