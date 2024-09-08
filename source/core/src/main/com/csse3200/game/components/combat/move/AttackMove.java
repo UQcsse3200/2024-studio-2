@@ -11,24 +11,34 @@ public class AttackMove extends CombatMove {
         super(moveName, staminaCost);
     }
 
+    @Override
+    public void execute(CombatStatsComponent attackerStats) {
+        logger.error("Attack move needs more arguments.");
+    }
+
+    @Override
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        execute(attackerStats, targetStats, false);
+    }
+
     /**
      * The attacker damages the target with an attack move. Stamina is used in doing so.
+     * Attack damage dependent on target's stats and whether they used a Guard move.
      *
      * @param attackerStats combat stats of the attacker.
      * @param targetStats combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded)
+    {
         if (attackerStats != null && targetStats != null) {
 
-            int damage = calculateDamage(attackerStats, targetStats);
+            int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded);
 
             targetStats.setHealth(targetStats.getHealth() - damage);
 
             attackerStats.addStamina(-(this.staminaCost));
 
-            //logger.info("{} uses {} on {} dealing {} damage.", attacker, moveName, target, damage);
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
@@ -44,12 +54,15 @@ public class AttackMove extends CombatMove {
      * @param targetStats combat stats of the target.
      * @return the damage to be inflicted on the target.
      */
-    private int calculateDamage(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+    private int calculateDamage(
+            CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded
+    )
+    {
         int damage;
 
         double m1 = calculateStatusMultiplier();
         double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
-        double m3 = calculateGuardMultiplier(false); ///////////////////////////////////////////////////// REFACTOR execute() TO PASS IN boolean targetIsGuarded
+        double m3 = calculateGuardMultiplier(targetIsGuarded); ///////////////////////////////////////////////////// REFACTOR execute() TO PASS IN boolean targetIsGuarded
         double m4 = calculateMultiHitMultiplier(1);
         int L = 1; // Level of the user.
         int A = attackerStats.getStrength(); // user's strength stat

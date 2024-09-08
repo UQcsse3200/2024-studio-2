@@ -9,6 +9,16 @@ public class GuardMove extends CombatMove {
     }
 
     @Override
+    public void execute(CombatStatsComponent attacker) {
+    }
+
+    @Override
     public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        execute(attackerStats);
+    }
+
+    @Override
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        execute(attackerStats);
     }
 }

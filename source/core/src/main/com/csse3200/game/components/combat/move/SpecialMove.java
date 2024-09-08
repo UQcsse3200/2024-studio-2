@@ -9,6 +9,14 @@ public class SpecialMove extends CombatMove {
     }
 
     @Override
+    public void execute(CombatStatsComponent attackerStats) {
+    }
+
+    @Override
     public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+    }
+
+    @Override
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
     }
 }
