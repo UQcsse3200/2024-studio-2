@@ -82,12 +82,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      case Keys.P: // Checks if adding item completes item collection quest task.
-        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
-        if (inventory.itemCollectionSuccessful()) {
-          entity.getEvents().trigger("item collection task successful");
-        }
-        return false;
       default:
         return false;
     }
@@ -132,6 +126,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.P:
         entity.getEvents().trigger("pickUpItem");
+        // Checks if adding item completes item collection quest task.
+        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
+        if (inventory.itemCollectionSuccessful()) {
+          entity.getEvents().trigger("item collection task successful");
+        }
         return true;
       default:
         return false;
