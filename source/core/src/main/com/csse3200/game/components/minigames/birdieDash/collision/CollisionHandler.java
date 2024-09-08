@@ -10,6 +10,8 @@ public class CollisionHandler {
     private final Bird bird;
     private List<Pipe> pipes;
     private final Spike spike;
+    final float epsilon = 5f;
+
 
     /**
      * Class to check and handle collisions.
@@ -37,12 +39,23 @@ public class CollisionHandler {
     private void checkPipes() {
         for (Pipe pipe : pipes) {
             if(bird.getBoundingBox().overlaps(pipe.getBottomPipe()) || bird.getBoundingBox().overlaps(pipe.getTopPipe())) {
+                if(isApproximatelyEqual(bird.getPosition().y,
+                        pipe.getPositionBottom().y+pipe.getBottomPipe().height, epsilon)) {
+                    bird.setCollidingTopPipe();
+                    return;
+                }
                 bird.setCollidingPipe();
                 return;
             }
         }
         bird.unsetCollidingPipe();
+        bird.unsetCollidingTopPipe();
     }
+
+    boolean isApproximatelyEqual(float a, float b, float epsilon) {
+        return Math.abs(a - b) < epsilon;
+    }
+
 
     /**
      * Check collision for coin via overlap, then do something

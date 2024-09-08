@@ -67,7 +67,7 @@ public class Coin {
     }
 
     private void setBoundary() {
-        boundary.setPosition(position.x, position.y);
+        boundary.setCenter(position.x, position.y);
     }
 
 }

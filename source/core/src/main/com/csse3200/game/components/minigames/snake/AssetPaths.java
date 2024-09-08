@@ -11,10 +11,11 @@ public class AssetPaths {
     public static final String SNAKE_BODY_HORIZONTAL_IMAGE = "images/minigames/snakebodyhorizontal.png";
     public static final String SNAKE_BODY_VERTICAL_IMAGE = "images/minigames/snakebodyvertical.png";
 
-    public static final String BIRD = "images/foodtextures/apple.png";
+
     public static final String SNAKE_BODY_BENT_IMAGE = "images/minigames/snakebodybent.png";
 
     // Bird
+    public static final String BIRD = "images/minigames/bird.png";
     public static final String SPIKE = "images/minigames/spikes.png";
     public static final String PIPE = "images/minigames/pipe.png";
     public static final String BACKGROUND = "images/BackgroundSplashBasic.png";

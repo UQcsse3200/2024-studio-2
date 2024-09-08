@@ -90,9 +90,9 @@ public class Pipe{
     }
 
     private void setRectangles() {
-        this.bottomPipe.setPosition(bottomPosition.x, bottomPosition.y);
+        this.bottomPipe.setPosition(bottomPosition.x -width/2, bottomPosition.y);
         this.bottomPipe.setSize(width, height);
-        this.topPipe.setPosition(topPosition.x, topPosition.y);
+        this.topPipe.setPosition(topPosition.x - width/2, topPosition.y);
         this.topPipe.setSize(width, getHeightTop());
     }
 }

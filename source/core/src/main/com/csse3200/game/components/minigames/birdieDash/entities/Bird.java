@@ -15,6 +15,7 @@ public class Bird {
     private static final int GAME_HEIGHT = 600;
     // testing
     private boolean collidingPipe;
+    private boolean top;
     public Bird(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
@@ -23,7 +24,11 @@ public class Bird {
     }
     public void update(float deltaTime) {
         if (position.y > 0) {
-            velocity.add(0, GRAVITY);
+            if(top) {
+                velocity.y = 0;
+            } else {
+                velocity.add(0, GRAVITY);
+            }
         } else {
             position.y = 0;
             velocity.y = 0;
@@ -41,6 +46,13 @@ public class Bird {
 
     }
 
+    public void setCollidingTopPipe() {
+        top = true;
+    }
+
+    public void unsetCollidingTopPipe() {
+        top = false;
+    }
     /**
      * For collisions
      */
@@ -65,6 +77,6 @@ public class Bird {
         return boundingBox;
     }
     private void updateBoundingBox() {
-        boundingBox.setPosition(position.x, position.y);
+        boundingBox.setPosition(position);
     }
 }
