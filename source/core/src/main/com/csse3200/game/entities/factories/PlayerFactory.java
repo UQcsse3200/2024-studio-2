@@ -60,7 +60,7 @@ public class PlayerFactory {
         List<CombatMove> moveSet = new ArrayList<>();
         moveSet.add(new AttackMove("Punch", 10));
         moveSet.add(new GuardMove("Guard", 5));
-        moveSet.add(new SleepMove("Leap", 15));
+        moveSet.add(new SleepMove("Sleep", 0));
         moveSet.add(new SpecialMove("Kick", 25));
 
         player.addComponent(new CombatMoveComponent(moveSet));

@@ -47,7 +47,7 @@ public class EnemyFactory {
           Arrays.asList(
                   new AttackMove("Normal Attack", 10),
                   new GuardMove("Normal Guard", 5),
-                  new SleepMove("Normal Counter", 15),
+                  new SleepMove("Normal Sleep", 0),
                   new SpecialMove("Normal Special", 25)
           )
   );
