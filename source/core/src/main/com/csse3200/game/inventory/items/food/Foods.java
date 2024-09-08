@@ -27,7 +27,7 @@ public class Foods {
          * Constructs a ChickenLeg class with while assigning fields with set values.
          */
         public ChickenLeg(int quantity) {
-            super("Chicken_Leg", 12, 1, quantity, 7);
+            super("Chicken Leg", 12, 1, quantity, 7);
             this.setTexturePath(path);
             this.setDescription("This is a chicken leg");
         }
