@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -27,9 +25,6 @@ import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * The game screen containing the combat feature.
@@ -51,8 +46,8 @@ public class CombatScreen extends ScreenAdapter {
   private final ServiceContainer oldScreenServices;
   private final Entity player;
   private final Entity enemy;
-  private CombatStatsComponent playerCombatStats;
-  private CombatStatsComponent enemyCombatStats;
+  private final CombatStatsComponent playerCombatStats;
+  private final CombatStatsComponent enemyCombatStats;
 
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
@@ -151,14 +146,14 @@ public class CombatScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     CombatStatsDisplay statsDisplay = new CombatStatsDisplay(playerCombatStats, enemyCombatStats);
-    // Initialise combat manager with instances of player and enemy to be passed into combat actions.
-    CombatManager manager = new CombatManager(player, enemy, statsDisplay);
+    // Initialise combat manager with instances of player and enemy, to be passed into combat actions.
+    CombatManager manager = new CombatManager(player, enemy);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, manager))
-        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
+        .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
+        //.addComponent(new CombatEnvironmentDisplay())
+        .addComponent(new CombatExitDisplay())
         .addComponent(statsDisplay)
         .addComponent(new Terminal())
         .addComponent(inputComponent)

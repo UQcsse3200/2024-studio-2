@@ -34,6 +34,7 @@ public class AttackMove extends CombatMove {
         if (attackerStats != null && targetStats != null) {
 
             int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded);
+            logger.info("Attacker is inflicting {} damage", damage);
 
             targetStats.setHealth(targetStats.getHealth() - damage);
 
@@ -62,7 +63,7 @@ public class AttackMove extends CombatMove {
 
         double m1 = calculateStatusMultiplier();
         double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
-        double m3 = calculateGuardMultiplier(targetIsGuarded); ///////////////////////////////////////////////////// REFACTOR execute() TO PASS IN boolean targetIsGuarded
+        double m3 = calculateGuardMultiplier(targetIsGuarded);
         double m4 = calculateMultiHitMultiplier(1);
         int L = 1; // Level of the user.
         int A = attackerStats.getStrength(); // user's strength stat
