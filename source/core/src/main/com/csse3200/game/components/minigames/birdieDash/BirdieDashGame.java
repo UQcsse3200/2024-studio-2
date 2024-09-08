@@ -36,7 +36,7 @@ public class BirdieDashGame {
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
       //  this.controller = new BirdieDashController();
-        this.collisionHandler = new CollisionHandler(bird, pipes, spike);
+        this.collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
         initRenderers();
     }
 

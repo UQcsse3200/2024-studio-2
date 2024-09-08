@@ -70,4 +70,8 @@ public class Coin {
         boundary.setCenter(position.x, position.y);
     }
 
+    public Rectangle getBoundary() {
+        return boundary;
+    }
+
 }
