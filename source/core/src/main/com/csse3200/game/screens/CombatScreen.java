@@ -30,7 +30,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
+//import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -48,9 +48,7 @@ public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png", "images/combat_background_one.png",
-          "images/dog.png", "images/croc.png", "images/bird.png",
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
-          "images/health_bar_x1.png", "images/xp_bar.png"
+          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
@@ -59,11 +57,11 @@ public class CombatScreen extends ScreenAdapter {
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
-   private final Entity player;
-   private final Entity enemy;
-   private final CombatArea gameArea;
+  private final Entity player;
+  private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
+  private final CombatArea gameArea;
   private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
@@ -85,7 +83,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-    ServiceLocator.registerEventService(new EventService());
+    //ServiceLocator.registerEventService(new EventService());
     renderer = RenderFactory.createRenderer();
     // renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
@@ -184,7 +182,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
         // .addComponent(new CombatEnvironmentDisplay())
-        //.addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(playerCombatStats)
@@ -198,23 +196,23 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void addOverlay(Overlay.OverlayType overlayType){
-    logger.info("Adding Overlay {}", overlayType);
-    if (enabledOverlays.isEmpty()) {
-      this.rest();
-    }
-    else {
-      enabledOverlays.getFirst().rest();
-    }
-    switch (overlayType) {
-      case PAUSE_OVERLAY:
-        enabledOverlays.addFirst(new PauseOverlay());
-        break;
-      default:
-        logger.warn("Unknown Overlay type: {}", overlayType);
-        break;
-    }
-  }
+//  public void addOverlay(Overlay.OverlayType overlayType){
+//    logger.info("Adding Overlay {}", overlayType);
+//    if (enabledOverlays.isEmpty()) {
+//      this.rest();
+//    }
+//    else {
+//      enabledOverlays.getFirst().rest();
+//    }
+//    switch (overlayType) {
+//      case PAUSE_OVERLAY:
+//        enabledOverlays.addFirst(new PauseOverlay());
+//        break;
+//      default:
+//        logger.warn("Unknown Overlay type: {}", overlayType);
+//        break;
+//    }
+//  }
 
   public void removeOverlay(){
     logger.debug("Removing top Overlay");
