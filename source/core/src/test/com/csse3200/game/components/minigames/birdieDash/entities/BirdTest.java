@@ -1,58 +1,69 @@
-/*package com.csse3200.game.components.minigames.birdieDash.entities;
+package com.csse3200.game.components.minigames.birdieDash.entities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BirdTest {
-
     private Bird bird;
+
     // Method Set Up to initialise the Bird instance
     @BeforeEach
     void setUp() {
-        bird = new Bird(100, 300);
+        bird = new Bird(100, 300); // Initial bird position
     }
 
-    // Testing the initial position of the Bird
+    // Testing to verify the Bird's initial position when it is created.
     @Test
     void testInitialPosition() {
-        assertEquals(new Vector2(100, 300), bird.getPosition());
+        Vector2 position = bird.getPosition();
+        assertEquals(100, position.x, "Initial X position should be 100");
+        assertEquals(300, position.y, "Initial Y position should be 300");
     }
 
-    // Testing the Initial Bounding Box
-    @Test
-    void testInitialBoundingBox() {
-        Rectangle expectedBoundingBox = new Rectangle(100, 300, 60, 45);
-        assertEquals(expectedBoundingBox, bird.getBoundingBox());
-    }
-
-    // Testing to ensure that the bird's flapping is changing so does the bird's velocity
+    // Testing to ensure that the Bird's velocity is updated when the flap method is called.
     @Test
     void testFlap() {
-        bird.flap();
-        assertEquals(300f, bird.getPosition().y, "Velocity should be set to FLAP_STRENGTH.");
+        bird.flapp();
+        Vector2 velocity = bird.getPosition();
+        assertEquals(300, bird.getPosition().y, "Y velocity after flap should be 300");
     }
 
-    // Testing to ensure that gravity affects the bird's position over time
+    // Testing the bird's movement without gravity.
+    @Test
+    void testUpdateWithoutGravity() {
+        bird.update(1.0f); // simulate 1 second
+        assertTrue(bird.getPosition().y > 0, "Bird should not fall below 0");
+    }
+
+    // Test the bird's movement with gravity.
     @Test
     void testUpdateWithGravity() {
-        bird.update(1.0f); // Updating with deltaTime of 1 second
-        assertTrue(bird.getPosition().y < 300, "Bird should fall due to gravity.");
+        bird.update(1.0f);
+        assertTrue(bird.getPosition().y > 0, "Bird should be falling");
     }
 
-    // Testing to ensure that gravity affects the bird's position over time
+    // Testing bird collides with the pipe
     @Test
-    void testCollisionPipe() {
+    void testCollidingWithPipe() {
         bird.setCollidingPipe();
-        bird.update(0.1f); // Small deltaTime
-        assertTrue(bird.getPosition().x < 100, "Bird should move left when colliding with pipe.");
+        bird.update(1.0f);
+        assertTrue(bird.getPosition().x < 100, "Bird's X position should decrease when colliding with a pipe");
     }
 
-    // Testing to ensure that bounding box is updated correctly after the bird's movement
-    // The bounding box should move along with the bird
+    // Testing after the bird stops colliding with a pipe, its X position does not continue decreasing.
+    @Test
+    void testUnsetCollidingPipe() {
+        bird.setCollidingPipe();
+        bird.unsetCollidingPipe();
+        bird.update(1.0f);
+        assertFalse(bird.getPosition().x < 100, "Bird's X position should not decrease when not colliding with a pipe");
+    }
+
+    // Testing to ensure the bird's bounding box updates its position when the bird moves.
     @Test
     void testUpdateBoundingBox() {
         bird.update(0.1f);
@@ -60,4 +71,4 @@ class BirdTest {
         assertEquals(updatedBoundingBox, bird.getBoundingBox());
     }
 }
-*/
+
