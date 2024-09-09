@@ -4,56 +4,71 @@
   "questDescription": "Collect your first apple!",
   "completed": false,
   "seen": false,
-  "type": "ITEM"
+  "type": "ITEM",
+  "iconPath": "images/foodtextures/apple.png"
 },
   {
     "questName": "Attack PotionAdvancement",
     "questDescription": "Collect your first Attack Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/attack.png"
   },
   {
     "questName": "Defense PotionAdvancement",
     "questDescription": "Collect your first Defense Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/defense.png"
   },
   {
     "questName": "Health PotionAdvancement",
     "questDescription": "Collect your first Healing Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/Healthpotion.png"
   },
   {
     "questName": "Speed PotionAdvancement",
     "questDescription": "Collect your first Speed Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/speed.png"
   },
   {
     "questName": "Chicken LegAdvancement",
     "questDescription": "Collect your first Chicken Leg!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/chicken_leg.png"
   },
   {
     "questName": "MeatAdvancement",
     "questDescription": "Collect your first Meat!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/meat.png"
   },
   {
     "questName": "CandyAdvancement",
     "questDescription": "Collect your first Candy!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/candy.png"
+  },
+  {
+    "questName": "CarrotAdvancement",
+    "questDescription": "Collect your first Carrot!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/carrot.png"
   }
-
 ]

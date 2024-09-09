@@ -13,15 +13,17 @@ public class Achievement implements Json.Serializable {
     private boolean completed;
     private boolean seen;
     private AchievementType type;
+    private String iconPath;
 
     public Achievement(){}
 
-    public Achievement(String questName, String questDescription, Boolean completed, Boolean seen, AchievementType type) {
+    public Achievement(String questName, String questDescription, Boolean completed, Boolean seen, AchievementType type, String iconPath) {
         this.questName = questName;
         this.questDescription = questDescription;
         this.completed = completed;
         this.seen = seen;
         this.type = type;
+        this.iconPath = iconPath;
     }
 
     /**
@@ -78,6 +80,10 @@ public class Achievement implements Json.Serializable {
         return this.type;
     }
 
+    public String getPath() {
+        return this.iconPath;
+    }
+
     @Override
     public void write(Json json) {
         json.writeValue("questName", questName);
@@ -85,6 +91,7 @@ public class Achievement implements Json.Serializable {
         json.writeValue("completed", completed);
         json.writeValue("seen", seen);
         json.writeValue("type", type.name());
+        json.writeValue("iconPath", iconPath);
     }
 
     @Override
@@ -94,6 +101,7 @@ public class Achievement implements Json.Serializable {
         this.completed = jsonData.getBoolean("completed");
         this.seen = jsonData.getBoolean("seen");
         this.type = AchievementType.valueOf(jsonData.getString("type"));
+        this.iconPath = jsonData.getString("iconPath");
     }
     @Override
     public String toString() {
@@ -103,6 +111,7 @@ public class Achievement implements Json.Serializable {
                 ", completed=" + completed +
                 ", seen=" + seen +
                 ", type=" + type +
+                ", iconPath=" + iconPath +
                 '}';
     }
 }

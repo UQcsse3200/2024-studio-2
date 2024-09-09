@@ -29,7 +29,7 @@ public class AchievementDisplay extends UIComponent {
     private Table rootTable;
     /** Array to store achievements. */
     private final Array<Achievement> achievements;
-    final ImageButton[] lastPressedButton = {null};
+    final tabButton[] lastPressedButton = {null};
     private Float originalY;
 
     /**
@@ -107,7 +107,7 @@ public class AchievementDisplay extends UIComponent {
         stage.addActor(rootTable);
     }
 
-    void updateHoverEffect(ImageButton newButton) {
+    void updateHoverEffect(tabButton newButton) {
 
         // Hover effect actions
         Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
@@ -130,21 +130,21 @@ public class AchievementDisplay extends UIComponent {
     private Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
-        Image itemBG = new Image(
+        Texture itemBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-yellow-tab.png", Texture.class));
-        Image enemyBG = new Image(
+                        .getAsset("images/logbook/lb-yellow-tab.png", Texture.class);
+        Texture enemyBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-red-tab.png", Texture.class));
-        Image achievementBG = new Image(
+                        .getAsset("images/logbook/lb-red-tab.png", Texture.class);
+        Texture achievementBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-blue-tab.png", Texture.class));
+                        .getAsset("images/logbook/lb-blue-tab.png", Texture.class);
 
         Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
 
-        ImageButton itemButton = new ImageButton(itemBG.getDrawable());
-        ImageButton enemyButton = new ImageButton(enemyBG.getDrawable());
-        ImageButton achievementButton = new ImageButton(achievementBG.getDrawable());
+        tabButton itemButton = new tabButton("Items", skin, itemBG);
+        tabButton enemyButton = new tabButton("Enemy", skin, enemyBG);
+        tabButton achievementButton = new tabButton("Achievements", skin, achievementBG);
 
         addButtonElevationEffect(itemButton);
         addButtonElevationEffect(enemyButton);
@@ -200,7 +200,7 @@ public class AchievementDisplay extends UIComponent {
      */
     private Table makeLogbookTable(Achievement.AchievementType type) {
         Table table = new Table().left().top().padLeft(50);
-        Integer advancementCounter = 0;
+        int advancementCounter = 0;
         for (Achievement achievement : achievements) {
             if (achievement.isCompleted() && achievement.getType() == type) {
                 Action newAnimation = Actions.forever(Actions.sequence(
@@ -208,21 +208,26 @@ public class AchievementDisplay extends UIComponent {
                         Actions.color(Color.GOLD, 0.5f)
                 ));
                 Sound buttonSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_004.ogg", Sound.class);
-                Image button = new Image(
+                Texture button =
                         ServiceLocator.getResourceService()
-                                .getAsset("images/logbook/lb-yellow-btn.png", Texture.class));
-                Image buttonPressed = new Image(
+                                .getAsset("images/logbook/lb-yellow-btn.png", Texture.class);
+                Texture buttonPressed =
                         ServiceLocator.getResourceService()
-                                .getAsset("images/logbook/lb-yellow-btn-pressed.png", Texture.class));
-                ImageButton logButton = new ImageButton(button.getDrawable(),buttonPressed.getDrawable());
+                                .getAsset("images/logbook/lb-yellow-btn-pressed.png", Texture.class);
+
+                ServiceLocator.getResourceService().loadAsset(achievement.getPath(), Texture.class);
+                ServiceLocator.getResourceService().loadAll();
+                Texture icon = ServiceLocator.getResourceService().getAsset(achievement.getPath(), Texture.class);
+
+                LogButton entry = new LogButton(button, buttonPressed, icon);
                 advancementCounter ++;
-                logButton.addListener(new ChangeListener() {
+                entry.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         buttonSound.play();
                         achievement.setSeen();
                         if (achievement.isSeen()) {
-                            logButton.removeAction(newAnimation);
+                            entry.removeAction(newAnimation);
                         }
                     }
                 });
@@ -230,11 +235,11 @@ public class AchievementDisplay extends UIComponent {
                 // Add glowing effect for unseen achievements
                 if (!achievement.isSeen()) {
                     // Create a pulsing effect
-                    logButton.addAction(newAnimation);
+                    entry.addAction(newAnimation);
                 }
 
-                addButtonElevationEffect(logButton);
-                table.add(logButton);
+                addButtonElevationEffect(entry);
+                table.add(entry);
                 if(advancementCounter == 6){
                     table.row();
                     advancementCounter = 0;
@@ -291,6 +296,7 @@ public class AchievementDisplay extends UIComponent {
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);
+        ServiceLocator.getResourceService().clearAllAssets();
         super.dispose();
     }
 
