@@ -79,7 +79,9 @@ public class CombatStatsComponent extends Component {
    * @param health health to add
    */
   public void addHealth(int health) {
-    setHealth(this.health + health);
+    int newHealth = Math.min(maxHealth, this.health + health);
+    newHealth = Math.max(0, newHealth);
+    setHealth(newHealth);
   }
 
   /**
@@ -257,7 +259,8 @@ public class CombatStatsComponent extends Component {
   public int getMaxHunger() {
     return maxHunger;
   }
-  public int getMaxExperience(){return maxExperience;}
+  public int getMaxExperience(){ return maxExperience; }
+  public int getMaxStamina() { return maxStamina; }
 
   /**
    * @return current stamina of the entity.
@@ -285,6 +288,6 @@ public class CombatStatsComponent extends Component {
   public void addStamina(int change) {
     int newStamina = Math.min(maxStamina, this.stamina + change);
     newStamina = Math.max(0, newStamina);
-    setHunger(newStamina);
+    setStamina(newStamina);
   }
 }
