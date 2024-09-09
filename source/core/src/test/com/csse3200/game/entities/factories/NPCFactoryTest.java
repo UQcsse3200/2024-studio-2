@@ -138,12 +138,12 @@ class NPCFactoryTest {
     /**
      * Tests that the fish has the correct base hint.
      */
-//    @Test
-//    void TestFishHasCorrectBaseHint() {
-//        String[][] baseHint = configs.fish.getBaseHint();
-//        assertNotNull(baseHint);
-//        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Finny the Fish."}}, baseHint);
-//    }
+    @Test
+    void TestFishHasCorrectBaseHint() {
+        String[][] baseHint = configs.fish.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Finny the Fish."}}, baseHint);
+    }
 
     /**
      * Tests that the fish has an idle animation.
@@ -216,17 +216,17 @@ class NPCFactoryTest {
     /**
      * Tests that the cow has the correct base hint.
      */
-//    @Test
-//    void TestCowHasCorrectBaseHint() {
-//        String[][] baseHint = configs.cow.getBaseHint();
-//        assertNotNull(baseHint);
-//        assert(Arrays.equals(baseHint, new String[][]{
-//                {"Welcome to Animal Kingdom!", "I am Charlie the Cow.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
-//                {"Potions heals you by (n) HP!", "I hope this helped."},
-//                {"Final boss?? That Kangaroo??", "idk"},
-//                {"Good luck!"}
-//        }));
-//    }
+    @Test
+    void TestCowHasCorrectBaseHint() {
+        String[][] baseHint = configs.cow.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Charlie the Cow.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
+    }
 
     /**
      * Tests that the cow has an idle animation.
@@ -299,17 +299,17 @@ class NPCFactoryTest {
     /**
      * Tests that the lion has the correct base hint.
      */
-//    @Test
-//    void TestLionHasCorrectBaseHint() {
-//        String[][] baseHint = configs.lion.getBaseHint();
-//        assertNotNull(baseHint);
-//        assert(Arrays.equals(baseHint, new String[][]{
-//                {"Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
-//                {"Potions heals you by (n) HP!", "I hope this helped."},
-//                {"Final boss?? That Kangaroo??", "idk"},
-//                {"Good luck!"}
-//        }));
-//    }
+    @Test
+    void TestLionHasCorrectBaseHint() {
+        String[][] baseHint = configs.lion.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
+    }
 
     /**
      * Tests that the lion has an idle animation.
@@ -382,17 +382,17 @@ class NPCFactoryTest {
     /**
      * Tests that the eagle has the correct base hint.
      */
-//    @Test
-//    void TestEagleHasCorrectBaseHint() {
-//        String[][] baseHint = configs.eagle.getBaseHint();
-//        assertNotNull(baseHint);
-//        assert(Arrays.equals(baseHint, new String[][]{
-//                {"Welcome to Animal Kingdom!", "I am Ethan the Eagle.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
-//                {"Potions heals you by (n) HP!", "I hope this helped."},
-//                {"Final boss?? That Kangaroo??", "idk"},
-//                {"Good luck!"}
-//        }));
-//    }
+    @Test
+    void TestEagleHasCorrectBaseHint() {
+        String[][] baseHint = configs.eagle.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Ethan the Eagle.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
+    }
 
     /**
      * Tests that the eagle has an idle animation.
@@ -533,15 +533,15 @@ class NPCFactoryTest {
     /**
      * Tests that the snake has the correct base hint.
      */
-//    @Test
-//    void TestSnakeHasCorrectBaseHint() {
-//        String[][] baseHint = configs.snake.getBaseHint();
-//        assertNotNull(baseHint);
-//        assert(Arrays.equals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-//                "You look very tasty and I am very hungry",
-//                "Go play a game and collect me some apples...",
-//                "/msOr I will eat you whole!"}}));
-//    }
+    @Test
+    void TestSnakeHasCorrectBaseHint() {
+        String[][] baseHint = configs.snake.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+                "You look very tasty and I am very hungry",
+                "Go play a game and collect me some apples...",
+                "/msOr I will eat you whole!"}});
+    }
 
     /**
      * Tests that the snake has an idle animation.
