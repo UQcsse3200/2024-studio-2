@@ -3,14 +3,11 @@ package com.csse3200.game.combat;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.NPCFactory;
-import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test to make sure combat screen switches back to main screen after exiting.
@@ -30,7 +27,7 @@ public class CombatScreenTest {
         this.oldScreen = new MainMenuScreen(game);
         this.container = new ServiceContainer();
         //this.player = PlayerFactory.createPlayer(game);
-        this.enemy = NPCFactory.createKangaBossEntity(player);
+        this.enemy = EnemyFactory.createKangaBossEntity(player);
         this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy);
     }
 

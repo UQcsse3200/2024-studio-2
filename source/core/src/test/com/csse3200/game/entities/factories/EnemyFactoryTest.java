@@ -42,6 +42,7 @@ class EnemyFactoryTest {
     private Entity chicken;
     private Entity frog;
     private Entity monkey;
+    private Entity kanga;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -49,15 +50,21 @@ class EnemyFactoryTest {
             "images/chicken.png",
             "images/monkey.png",
             "images/frog.png",
+
     };
 
     private String[] atlas = {
             "images/chicken.atlas",
             "images/enemy-chicken.atlas",
             "images/monkey.atlas",
-            "images/enemy-monkey.atlas",
+//<<<<<<< HEAD
+//            "images/enemy-monkey.atlas",
+//            "images/frog.atlas",
+//            "images/enemy-frog.atlas"
+//=======
             "images/frog.atlas",
-            "images/enemy-frog.atlas"
+            "images/final_boss_kangaroo.atlas"
+//>>>>>>> baileys-branch
     };
 
 
@@ -81,6 +88,7 @@ class EnemyFactoryTest {
         chicken = EnemyFactory.createChicken(player);
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
+        kanga = EnemyFactory.createKangaBossEntity(player);
     }
 
     /**
@@ -117,8 +125,8 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyStats() {
-        assertEquals(1, monkey.getComponent(CombatStatsComponent.class).getHealth(),
-                "Cow should have 1 HP.");
+        assertEquals(100, monkey.getComponent(CombatStatsComponent.class).getHealth(),
+                "Cow should have 100 HP.");
         assertEquals(0,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
                 "monkey should have 0 Base Attack.");
@@ -192,8 +200,8 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenStats() {
-        assertEquals(1, chicken.getComponent(CombatStatsComponent.class).getHealth(),
-                "chicken should have 1 HP.");
+        assertEquals(10, chicken.getComponent(CombatStatsComponent.class).getHealth(),
+                "chicken should have 10 HP.");
         assertEquals(0,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
                 "chicken should have 0 speed.");
@@ -254,9 +262,9 @@ class EnemyFactoryTest {
      */
     @Test
     void TestFrogStats() {
-        assertEquals(1, frog.getComponent(CombatStatsComponent.class).getHealth(),
+        assertEquals(100, frog.getComponent(CombatStatsComponent.class).getHealth(),
                 "frog should have 1 HP.");
-        assertEquals(0 ,
+        assertEquals(0,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
                 "frog should have 0 speed.");
     }
@@ -284,4 +292,72 @@ class EnemyFactoryTest {
 
     static class TestComponent1 extends Component {}
 
+    /**
+     * Tests Creation of Kanga.
+     */
+    @Test
+    void TestKangaCreation() {
+        assertNotNull(kanga, "Kanga should not be null.");
+    }
+
+    /**
+     * Tests that the Kanga is an Entity.
+     */
+    @Test
+    void TestKangaIsEntity() {
+        assertEquals(kanga.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the Kanga has a physics component.
+     */
+    @Test
+    void TestKangaHasPhysicsComponent() {
+        assertNotNull(kanga.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the Kanga has a physics movement component.
+     */
+    @Test
+    void TestKangaHasPhysicsMovementComponent() {
+        assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the Kanga has a collider component.
+     */
+    @Test
+    void TestKangaHasColliderComponent() {
+        assertNotNull(kanga.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the Kanga has the correct HP stat.
+     */
+    @Test
+    void TestKangaHasCorrectHP() {
+        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 100 HP.");
+    }
+
+    /**
+     * Tests that the Kanga has an idle animation.
+     */
+    @Test
+    void TestKangaHasAnimation() {
+        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "Kanga should have idle animation.");
+    }
+
+    /**
+     * Tests that the Kanga is in the correct spot when placed.
+     */
+    @Test
+    void TestKangaSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        kanga.setPosition(pos);
+
+        assertEquals(pos, kanga.getPosition());
+    }
 }

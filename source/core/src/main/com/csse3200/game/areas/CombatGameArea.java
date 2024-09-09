@@ -8,6 +8,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
@@ -132,7 +133,7 @@ public class CombatGameArea extends GameArea {
     // Create entity
     // for now, I have just manually initialised a boss Entity see CombatGameArea() for my
     // planned functionality -- callumR
-    Entity combatEnemyNPC = NPCFactory.createKangaBossCombatEntity();
+    Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
     // Create in the world
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }

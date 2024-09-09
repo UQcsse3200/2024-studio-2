@@ -11,6 +11,7 @@ import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -18,52 +19,48 @@ import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
 
 public class EntityConverter {
+	private static final NPCConfigs configs =
+			FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 	
 	public static void convertToFriendly(Entity enemy, Entity player, List<Entity> enemies) {
-		// Remove enemy-specific components
-		enemy.removeComponent(TouchAttackComponent.class);
-		enemy.removeComponent(CombatStatsComponent.class);
-		
-		// Ensure the entity has an AnimationRenderComponent
 		AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
 		if (animator == null) {
-			System.err.println("Error: Entity does not have an AnimationRenderComponent. Cannot convert to friendly.");
-			return;
+			throw new IllegalStateException("Entity does not have an AnimationRenderComponent. Cannot convert to friendly.");
 		}
 		
-		// Determine the config based on the enemy's current animation
 		BaseEntityConfig config = determineConfig(animator);
+		config.setFriendly(true);  // Ensure the config is set to friendly
 		
-		// Update AI behavior
+		removeEnemyComponents(enemy);
 		updateAIBehavior(enemy, player, enemies);
-		
-		// Update animation
 		updateAnimation(animator, config);
-		
-		// Update components
 		updateComponents(enemy, config);
-		
-		// Adjust movement speed
 		adjustMovementSpeed(enemy);
-		
-		// Add sound effects
 		addSoundEffects(enemy, config);
 		
-		// Trigger conversion event
 		enemy.getEvents().trigger("onConvertToFriendly");
 	}
 	
 	private static BaseEntityConfig determineConfig(AnimationRenderComponent animator) {
 		String currentAnimation = animator.getCurrentAnimation();
-		if (currentAnimation != null && currentAnimation.contains("chicken")) {
-			return NPCConfigs.chicken;
-		} else if (currentAnimation != null && currentAnimation.contains("frog")) {
-			return NPCConfigs.frog;
-		} else if (currentAnimation != null && currentAnimation.contains("monkey")) {
-			return NPCConfigs.monkey;
-		} else {
-			return NPCConfigs.chicken; // Default to chicken if type can't be determined
+		if (currentAnimation == null) {
+			return configs.chicken; // Default to chicken if no animation is set
 		}
+		
+		if (currentAnimation.contains("chicken")) {
+			return configs.chicken;
+		} else if (currentAnimation.contains("frog")) {
+			return configs.frog;
+		} else if (currentAnimation.contains("monkey")) {
+			return configs.monkey;
+		} else {
+			return configs.chicken; // Default to chicken if type can't be determined
+		}
+	}
+	
+	private static void removeEnemyComponents(Entity enemy) {
+		enemy.removeComponent(TouchAttackComponent.class);
+		enemy.removeComponent(CombatStatsComponent.class);
 	}
 	
 	private static void updateAIBehavior(Entity enemy, Entity player, List<Entity> enemies) {
@@ -88,37 +85,41 @@ public class EntityConverter {
 	}
 	
 	private static void updateComponents(Entity enemy, BaseEntityConfig config) {
-		enemy.addComponent(new CombatStatsComponent(config.health, 0, 0, 0, 0, 0))
+		// Note: We don't have direct access to health in BaseEntityConfig
+		// You may need to add a getHealth() method to BaseEntityConfig or handle this differently
+		int defaultHealth = 10; // Using a default value; adjust as needed
+		enemy.addComponent(new CombatStatsComponent(defaultHealth, 0, 0, 0, 0, 0))
 				.addComponent(new FriendlyNPCAnimationController());
 	}
 	
 	private static void adjustMovementSpeed(Entity enemy) {
 		PhysicsMovementComponent movement = enemy.getComponent(PhysicsMovementComponent.class);
 		if (movement != null) {
-			movement.changeMaxSpeed(new Vector2(2f, 2f)); // Set to a friendlier, slower speed
+			movement.changeMaxSpeed(new Vector2(2f, 2f));
 		}
 	}
 	
 	private static void addSoundEffects(Entity enemy, BaseEntityConfig config) {
 		String[] animalSoundPaths = config.getSoundPath();
 		if (animalSoundPaths != null && animalSoundPaths.length > 0) {
-			String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
-			String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-			enemy.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
-			enemy.getEvents().addListener(eventPausedEnd, () -> endDialogue());
+			String eventPausedStart = "PauseStart"; // Using a generic event name
+			String eventPausedEnd = "PauseEnd";     // Using a generic event name
+			enemy.getEvents().addListener(eventPausedStart, () -> initiateDialogue(animalSoundPaths));
+			enemy.getEvents().addListener(eventPausedEnd, EntityConverter::endDialogue);
 		}
 	}
 	
-	private static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
-		EntityChatService chatService = ServiceLocator.getEntityChatService();
+	private static void initiateDialogue(String[] animalSoundPaths) {
+		DialogueBoxService chatService = ServiceLocator.getDialogueBoxService();
 		for (String soundPath : animalSoundPaths) {
 			// Play sound logic here
 		}
-		chatService.updateText(hintText);
+		// Note: We don't have access to hintText here. You may need to adjust this.
+		chatService.updateText(new String[]{"Friendly animal sound!"});
 	}
 	
 	private static void endDialogue() {
-		EntityChatService chatService = ServiceLocator.getEntityChatService();
-		chatService.disposeCurrentOverlay();
+		DialogueBoxService chatService = ServiceLocator.getDialogueBoxService();
+		chatService.hideCurrentOverlay();
 	}
 }

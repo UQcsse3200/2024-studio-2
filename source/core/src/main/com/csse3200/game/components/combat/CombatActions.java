@@ -3,19 +3,14 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import static com.csse3200.game.entities.factories.EnemyFactory.FRIENDLY;
-
-
-import static com.csse3200.game.areas.ForestGameArea.enemies;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does something when one of the
@@ -35,18 +30,9 @@ public class CombatActions extends Component {
 
   @Override
   public void create() {
-    ServiceLocator.getEventService().getGlobalEventHandler().addListener("exit", this::onExit);
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
-  }
-
-  /**
-   * Swaps to the Main Menu screen.
-   */
-  private void onExit() {
-    logger.info("Exiting main game screen");
-    game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
 
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
@@ -72,7 +58,7 @@ public class CombatActions extends Component {
     
     // TODO: Fix this so comment this out if need be
     FRIENDLY = true;
-    EntityConverter.convertToFriendly(enemy, player, enemies);
+    EntityConverter.convertToFriendly(enemy, player, ForestGameArea.enemies);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 

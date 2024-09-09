@@ -13,7 +13,7 @@ public class PauseTask extends ChaseTask {
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
-    private BaseEntityConfig config;
+    private BaseFriendlyEntityConfig config;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -46,12 +46,12 @@ public class PauseTask extends ChaseTask {
      */
     protected void triggerPauseEvent() {
         this.entity = this.owner.getEntity();
-        ConfigComponent<BaseEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
+        ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
 
         if (this.config != null) {
-            String[][] hintText = this.config.getBaseHint();
+            String[] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);
