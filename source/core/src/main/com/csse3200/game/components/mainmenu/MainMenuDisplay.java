@@ -344,7 +344,7 @@ public class MainMenuDisplay extends UIComponent {
         userTable.setVisible(true);
 
         userTable.setPosition(screenWidth - 150, screenHeight - 600);
-        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/UserIcon.png"))));
+        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
         userTable.add(profileBtn).size(60, 60).top().padTop(30).expandY();
 
         profileBtn.addListener(new ChangeListener() {
