@@ -8,7 +8,8 @@ public class GuardMove extends CombatMove {
     }
 
     @Override
-    public void execute(CombatStatsComponent attacker) {
+    public void execute(CombatStatsComponent attackerStats) {
+        attackerStats.addStamina(-(this.getStaminaCost()));
     }
 
     @Override
