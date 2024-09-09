@@ -8,6 +8,8 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.entities.DialogueBoxService;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,9 @@ public class QuestManager extends Component {
 
     private final Entity player;
 
+    private final DialogueBoxService dialogueBoxService;
+
+
 
 
     /**Constructs questManager instance */
@@ -44,6 +49,7 @@ public class QuestManager extends Component {
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
+        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
         if(GameState.quests.quests.isEmpty()) {
             testQuests();
         }
