@@ -1,10 +1,12 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.extensions.GameExtension;
@@ -21,53 +23,55 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
 
 @ExtendWith(GameExtension.class)
 class NPCFactoryTest {
-
-    private Entity lion;
-    private Entity cow;
-    private Entity eagle;
-    private Entity turtle;
-    private Entity snake;
-    private Entity magpie;
+    private static Entity lion;
+    private static Entity cow;
+    private static Entity eagle;
+    private static Entity turtle;
+    private static Entity snake;
+    private static Entity fish;
+    private static Entity magpie;
     private Entity kanga;
+
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
-    private String[] textures = {
+    private static String[] textures = {
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
             "images/eagle.png",
             "images/turtle.png",
             "images/magpie.png",
+            "images/Fish.png",
             "images/final_boss_kangaroo.png"
     };
 
-    private String[] atlas = {
+    private static String[] atlas = {
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",
             "images/eagle.atlas",
             "images/turtle.atlas",
             "images/magpie.atlas",
+            "images/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
-
-
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
@@ -89,6 +93,113 @@ class NPCFactoryTest {
         turtle = NPCFactory.createTurtle(player, enemies);
         snake = NPCFactory.createSnake(player, enemies);
         magpie = NPCFactory.createMagpie(player, enemies);
+        fish = NPCFactory.createFish(player, enemies);
+    }
+
+    /**
+     * Tests Creation of a fish.
+     */
+    @Test
+    void TestFishCreation() {
+        Assertions.assertNotNull(fish, "Fish should not be null.");
+    }
+
+    /**
+     * Tests that the Fish has the correct name.
+     */
+    @Test
+    void TestFishName() {
+        String name = configs.fish.getAnimalName();
+        Assertions.assertEquals("Fish", name);
+    }
+
+    /**
+     * Tests that the fish is an Entity.
+     */
+    @Test
+    void TestFishIsEntity() {
+        Assertions.assertEquals(fish.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the fish has a physics component.
+     */
+    @Test
+    void TestFishHasPhysicsComponent() {
+        Assertions.assertNotNull(fish.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the fish has a physics movement component.
+     */
+    @Test
+    void TestFishHasPhysicsMovementComponent() {
+        Assertions.assertNotNull(fish.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the fish has a collider component.
+     */
+    @Test
+    void TestFishHasColliderComponent() {
+        Assertions.assertNotNull(fish.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the fish has stat config component.
+     */
+    @Test
+    void TestFishHasConfigComponent() {
+        assertNotNull(fish.getComponent(ConfigComponent.class));
+    }
+
+    /**
+     * Tests that the fish has the correct sound path.
+     */
+    @Test
+    void TestFishHasCorrectSoundPath() {
+        String[] sound = configs.fish.getSoundPath();
+        Assertions.assertNotNull(sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/FishBubble.wav"}, sound);
+    }
+
+    /**
+     * Tests that the fish has the correct base hint.
+     */
+    @Test
+    void TestFishHasCorrectBaseHint() {
+        String[] baseHint = configs.fish.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Finny the Fish."}, baseHint);
+    }
+
+    /**
+     * Tests that the fish has an idle animation.
+     */
+    @Test
+    void TestFishHasAnimation() {
+        Assertions.assertTrue(fish.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "Fish should have idle animation.");
+    }
+
+    /**
+     * Tests that the fish is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestFishIsFriendly() {
+        Assertions.assertNotNull(fish.getComponent(FriendlyNPCAnimationController.class),
+                "Fish should have a friendly AI controller.");
+    }
+
+    /**
+     * Tests that the fish is in the correct spot when placed.
+     */
+    @Test
+    void TestFishSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        fish.setPosition(pos);
+
+        Assertions.assertEquals(pos, fish.getPosition());
     }
 
     /**
@@ -155,7 +266,7 @@ class NPCFactoryTest {
     void TestCowHasCorrectSoundPath() {
         String[] sound = configs.cow.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/mooing-cow.wav"}));
     }
 
     /**
@@ -262,7 +373,7 @@ class NPCFactoryTest {
     void TestLionHasCorrectSoundPath() {
         String[] sound = configs.lion.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/tiger-roar.wav"}));
     }
 
     /**
@@ -369,7 +480,7 @@ class NPCFactoryTest {
     void TestEagleHasCorrectSoundPath() {
         String[] sound = configs.eagle.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/eagle-scream.wav"}));
     }
 
     /**
@@ -475,7 +586,7 @@ class NPCFactoryTest {
     void TestTurtleHasCorrectSoundPath() {
         String[] sound = configs.turtle.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.wav"}));
     }
 
     /**
@@ -572,7 +683,7 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectSoundPath() {
         String[] sound = configs.snake.getSoundPath();
         assertNotNull(sound);
-        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.mp3"}));
+        assert(Arrays.equals(sound, new String[]{"sounds/snake-hiss.wav"}));
     }
 
     /**
@@ -618,6 +729,7 @@ class NPCFactoryTest {
     }
 
     /**
+<<<<<<< HEAD
      * Tests Creation of a magpie.
      */
     @Test
@@ -721,5 +833,67 @@ class NPCFactoryTest {
         magpie.setPosition(pos);
 
         Assertions.assertEquals(pos, magpie.getPosition());
+    }
+
+    /**
+    * Test the initiate and end dialogue boxes
+    */
+    @Test
+    void testInitiateDialogueWithSound() {
+        // Initialise mocks
+        DialogueBoxService chatOverlayService = mock(DialogueBoxService.class);
+        ResourceService resourceService = mock(ResourceService.class);
+
+        // Set up ServiceLocator to return mocks
+        ServiceLocator.registerDialogueBoxService(chatOverlayService);
+        ServiceLocator.registerResourceService(resourceService);
+
+        // Given
+        String[] animalSoundPaths = {"sound1.wav", "sound2.wav"};
+        String[] hintText = {"Hint 1", "Hint 2"};
+
+        Sound sound1 = mock(Sound.class);
+        Sound sound2 = mock(Sound.class);
+
+        when(resourceService.getAsset("sound1.wav", Sound.class)).thenReturn(sound1);
+        when(resourceService.getAsset("sound2.wav", Sound.class)).thenReturn(sound2);
+
+        // When
+        NPCFactory.initiateDialogue(animalSoundPaths, hintText);
+
+        // Then
+        verify(chatOverlayService).updateText(hintText);
+
+        ArgumentCaptor<Long> soundIdCaptor = ArgumentCaptor.forClass(Long.class);
+
+        // Verify interactions with sound1
+        verify(sound1, times(1)).play();
+        verify(sound1).setVolume(soundIdCaptor.capture(), eq(0.3f));
+        verify(sound1).setLooping(soundIdCaptor.capture(), eq(false));
+
+        // Verify interactions with sound2
+        verify(sound2, times(1)).play();
+        verify(sound2).setVolume(soundIdCaptor.capture(), eq(0.3f));
+        verify(sound2).setLooping(soundIdCaptor.capture(), eq(false));
+    }
+
+    /**
+     * Test end Dialgoue works appropriately
+     */
+    @Test
+    void testEndDialogue() {
+        // Initialise mocks
+        DialogueBoxService chatOverlayService = mock(DialogueBoxService.class);
+        ResourceService resourceService = mock(ResourceService.class);
+
+        // Set up ServiceLocator to return mocks
+        ServiceLocator.registerDialogueBoxService(chatOverlayService);
+        ServiceLocator.registerResourceService(resourceService);
+
+        // When
+        NPCFactory.endDialogue();
+
+        // Then
+        verify(chatOverlayService).hideCurrentOverlay();
     }
 }
