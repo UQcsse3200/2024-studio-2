@@ -10,6 +10,7 @@ public class NPCConfigs {
   public BaseFriendlyEntityConfig turtle = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig eagle = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig snake = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig magpie = new BaseFriendlyEntityConfig();
   public BaseEnemyEntityConfig chicken = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig frog = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig monkey = new BaseEnemyEntityConfig();

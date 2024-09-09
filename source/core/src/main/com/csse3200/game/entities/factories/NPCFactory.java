@@ -119,6 +119,11 @@ public class NPCFactory {
     return createFriendlyNPC(target, enemies, config);
   }
 
+  public static Entity createMagpie(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.magpie;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
   private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()

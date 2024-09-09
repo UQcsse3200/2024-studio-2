@@ -290,6 +290,10 @@ public class ForestGameArea extends GameArea {
     // Snake
     generator = () -> NPCFactory.createSnake(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
+
+    // Magpie
+    generator = () -> NPCFactory.createMagpie(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
   }
 
   private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
