@@ -86,7 +86,7 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedClose() {
-        String[] itemText = {item.getDescription() + " - press P to pick it up."};
+        String[][] itemText = {{item.getDescription() + " - press P to pick it up."}};
         ServiceLocator.getDialogueBoxService().updateText(itemText);
     }
 
