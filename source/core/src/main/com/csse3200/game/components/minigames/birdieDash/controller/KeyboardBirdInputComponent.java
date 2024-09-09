@@ -19,7 +19,7 @@ public class KeyboardBirdInputComponent extends InputComponent {
             return false;
         }
         return switch (keycode) {
-            case Keys.SPACE -> {
+            case Keys.SPACE, Keys.W, Keys.UP -> {
                 entity.getEvents().trigger("flap");
                 yield true;
             }
