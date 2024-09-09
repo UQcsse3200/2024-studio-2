@@ -1,11 +1,12 @@
 package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.inventory.items.potions.healingpotion.HealingPotion;
+import com.csse3200.game.inventory.items.potions.HealingPotion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.Gdx;
 
 @ExtendWith(GameExtension.class)
 public class ItemProximityTaskTest {
+
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();

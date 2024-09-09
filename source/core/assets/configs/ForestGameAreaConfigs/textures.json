@@ -34,7 +34,14 @@
     "images/croc.png",
     "images/bird.png",
     "images/Healthpotion.png",
-    "images/foodtextures/apple.png"
+    "images/foodtextures/apple.png",
+    "images/foodtextures/carrot.png",
+    "images/foodtextures/chicken_leg.png",
+    "images/foodtextures/meat.png",
+    "images/foodtextures/candy.png",
+    "images/potiontexture/speed.png",
+    "images/potiontexture/defense.png",
+    "images/potiontexture/attack.png"
   ],
   "forestTextureAtlases" : [
     "images/terrain_iso_grass.atlas",
