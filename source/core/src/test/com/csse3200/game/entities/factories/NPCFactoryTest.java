@@ -22,7 +22,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
@@ -36,18 +36,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(GameExtension.class)
 class NPCFactoryTest {
 
-    private Entity lion;
-    private Entity cow;
-    private Entity eagle;
-    private Entity turtle;
-    private Entity snake;
-    private Entity fish;
+    private static Entity lion;
+    private static Entity cow;
+    private static Entity eagle;
+    private static Entity turtle;
+    private static Entity snake;
+    private static Entity fish;
     private Entity kanga;
 
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
-    private String[] textures = {
+    private static String[] textures = {
             "images/Cow.png",
             "images/Lion-Spritesheet.png",
             "images/snake.png",
@@ -57,7 +57,7 @@ class NPCFactoryTest {
             "images/final_boss_kangaroo.png"
     };
 
-    private String[] atlas = {
+    private static String[] atlas = {
             "images/Cow.atlas",
             "images/lion.atlas",
             "images/snake.atlas",
@@ -67,8 +67,8 @@ class NPCFactoryTest {
             "images/final_boss_kangaroo.atlas"
     };
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
