@@ -40,7 +40,7 @@ public class ItemProximityTaskTest {
 
         Stage stage = ServiceLocator.getRenderService().getStage();
         DialogueBoxService entityChatService = new DialogueBoxService(stage);
-        ServiceLocator.registerEntityChatService(entityChatService);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
 
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
@@ -90,7 +90,7 @@ public class ItemProximityTaskTest {
 
 
         // Check that the overlay was created
-        Assertions.assertTrue(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().isVisible());
     }
 
     @Test
@@ -109,6 +109,6 @@ public class ItemProximityTaskTest {
         task.update();
 
         // Check that the overlay was created
-        Assertions.assertFalse(ServiceLocator.getEntityChatService().getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertFalse(ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().isVisible());
     }
 }
