@@ -3,10 +3,12 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.ServiceLocator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +33,8 @@ public class QuestManager extends Component {
     private final Map<String, String[]> relevantQuests;
 
     private final Entity player;
+
+
 
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
@@ -65,15 +69,19 @@ public class QuestManager extends Component {
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
 
-        //create new tasks
+        //create land kingdom tasks
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", " complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
         Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
+        Task listenAdvice = new Task("ListenToGuide", "Visit cow again", "", 1, 0, false, false);
+        Task exploreWild = new Task("Exploration", "Explore and ask around", "Ask other aninmals about Kanga!", 1, 1, false , false);
+        Task retrieveWeapon = new Task("RetrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
 
         //add new tasks to a quest
-        List<Task> landKingdomTasks = List.of(talkToGuide, followCowsTeachings, collectPotions);
+        List<Task> landKingdomTasks = List.of(talkToGuide, followCowsTeachings, collectPotions, listenAdvice, exploreWild, retrieveWeapon);
         QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", landKingdomTasks, false, null, null, false, false, 0);
         addQuest(guideQuest);
+
 
         //dialogue for new quests
         String[] cowInitialDialogue = new String[]{
@@ -86,12 +94,22 @@ public class QuestManager extends Component {
         String[] potionDialogue = new String[]{
                 "I need five potions! They’re scattered around.," +
                         " Keep your eyes peeled.\" "};
+        String[] listenDialogue = new String[]{
+                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+        };
+        String[] exploreDialogue = new String[] {
+                "Oh the Kanga? Yeah, he was once a sweet little joey”, “Hard to imagine he’d go to the dark side.",
+                "Word on the street is he snapped after his wife and daughter died in the flood.",
+                "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
+                "That peacock? The first animal Kanga defeated.”, “After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him"
+        };
 
         //set dialogue for new quests
         Map<DialogueKey, String[]> guideQuestDialogues = new HashMap<>();
         guideQuestDialogues.put(new DialogueKey("Cow", 1), cowInitialDialogue);
         guideQuestDialogues.put(new DialogueKey("Cow", 2), cowAdviceDialogue );
         guideQuestDialogues.put(new DialogueKey("Cow", 3), potionDialogue );
+        guideQuestDialogues.put(new DialogueKey("Cow", 3), listenDialogue );
 
         quests.put(guideQuest.getQuestName(), guideQuest);
         GameState.quests.quests.add(guideQuest);
