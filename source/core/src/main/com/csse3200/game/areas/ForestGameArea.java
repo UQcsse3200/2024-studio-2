@@ -84,7 +84,7 @@ public class ForestGameArea extends GameArea {
     // Player
     player = spawnPlayer();
     logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setChunk(player.getPosition());
+    TerrainLoader.setInitials(player.getPosition(), terrain);
 
     // Obstacles
     spawnTrees();
@@ -118,7 +118,7 @@ public class ForestGameArea extends GameArea {
 
   private void handleItems() {
     // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
-    for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
+    for (GridPoint2 pos : terrain.getNewChunks()) {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
@@ -130,7 +130,7 @@ public class ForestGameArea extends GameArea {
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
-      if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+      if (!terrain.getActiveChunks().contains(chunkPos)) {
         removals.add(key);
       }
     }
@@ -157,7 +157,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
     // // Terrain walls
@@ -229,9 +229,37 @@ public class ForestGameArea extends GameArea {
     generator = () -> ItemFactory.createHealthPotion(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
 
+    // Defense Potions
+    generator = () -> ItemFactory.createDefensePotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_DEFENSE_POTIONS);
+
+  // Attack potions
+    generator = () -> ItemFactory.createAttackPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_ATTACK_POTIONS);
+
+    // Speed potions
+    generator = () -> ItemFactory.createSpeedPotion(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_SPEED_POTIONS);
+
     // Apples
     generator = () -> ItemFactory.createApple(player);
     spawnRandomItem(pos, generator, config.spawns.NUM_APPLES);
+
+    // Carrots
+    generator = () -> ItemFactory.createCarrot(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CARROTS);
+
+    // Meat
+    generator = () -> ItemFactory.createMeat(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_MEAT);
+
+    // Chicken legs
+    generator = () -> ItemFactory.createChickenLeg(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CHICKEN_LEGS);
+
+    // Candy
+    generator = () -> ItemFactory.createCandy(player);
+    spawnRandomItem(pos, generator, config.spawns.NUM_CANDY);
   }
 
   private void spawnEnemies() {
@@ -257,6 +285,10 @@ public class ForestGameArea extends GameArea {
     generator = () -> NPCFactory.createCow(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_COWS);
 
+    // Fish
+    generator = () -> NPCFactory.createFish(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_FISH);
+
     // Lion
     generator = () -> NPCFactory.createLion(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_LIONS);
@@ -272,6 +304,10 @@ public class ForestGameArea extends GameArea {
     // Snake
     generator = () -> NPCFactory.createSnake(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
+
+    // Magpie
+    generator = () -> NPCFactory.createMagpie(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
   }
 
   private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {

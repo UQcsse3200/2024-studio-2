@@ -52,4 +52,13 @@ class CombatStatsComponentTest {
     combat.setStrength(-50);
     assertEquals(150, combat.getStrength());
   }
+
+  @Test
+  void shouldAddHunger() {
+    CombatStatsComponent combat = new CombatStatsComponent(100, 50, 20, 0, 0, 0);
+    combat.addHunger(-500);
+    assertEquals(0, combat.getHunger());
+    combat.addHunger(10);
+    assertEquals(10, combat.getHunger());
+  }
 }

@@ -1,18 +1,16 @@
-package com.csse3200.game.inventory.items.potions.healingpotion;
+package com.csse3200.game.inventory.items.potions;
 
-import com.csse3200.game.inventory.items.effects.AbstractEffect;
-import com.csse3200.game.inventory.items.effects.healing.HealEffect;
-import com.csse3200.game.inventory.items.potions.AbstractPotion;
-
-import java.util.List;
-
+import com.csse3200.game.inventory.items.ConsumableItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.inventory.items.TimedUseItem;
 
 
 /**
  * The {@code HealingPotion} class represents a specific type of potion that heals a player or game entity.
  *
  * <p>
- * This class extends the {@link AbstractPotion} abstract class and provides an implementation of the
+ * This class extends the {@link TimedUseItem} abstract class and provides an implementation of the
  *  method to apply its healing effects. A healing potion contains one or more
  *  objects that determine how much health is restored when the potion is used.
  * </p>
@@ -29,11 +27,11 @@ import java.util.List;
  * passed to the constructor.
  * </p>
  *
- * @see AbstractPotion
+ * @see TimedUseItem
  */
-
-public class HealingPotion extends AbstractPotion{
+public class HealingPotion extends ConsumableItem {
     private final static String path = "images/Healthpotion.png";
+    private final int effectAmount;
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -41,20 +39,28 @@ public class HealingPotion extends AbstractPotion{
      * @param quantity the number of uses this potion has
      */
     public HealingPotion(int quantity) {
-        super("Health Potion", 2, 3, quantity, List.of(new HealEffect (50)));
+        super("Health Potion", 51, 3, quantity);
         this.setTexturePath(path);
         this.setDescription("This is a health potion");
+        this.effectAmount = 25;
     }
 
     /**
-     * Applies the effects of the healing potion by iterating through the list of effects
-     * and invoking their {@link AbstractEffect#apply()} method. This method is called each time
-     * the potion is used, reducing the number of uses remaining.
+     * Returns the effect amount of health potion
+     * @return the effect amount
+     */
+    public int getEffectAmount() {
+        return this.effectAmount;
+    }
+
+    /**
+     * Uses the potion by healing the player a certain amount.
+     *
+     * @param context the context in which the item is used (contains a player entity)
      */
     @Override
-    public void applyEffect() {
-        for (AbstractEffect effect : possibleEffects) {
-            effect.apply(); // Apply each effect in the list
-        }
+    public void useItem(ItemUsageContext context) {
+        super.useItem(context);
+        context.player.getComponent(CombatStatsComponent.class).addHealth(this.effectAmount);
     }
 }

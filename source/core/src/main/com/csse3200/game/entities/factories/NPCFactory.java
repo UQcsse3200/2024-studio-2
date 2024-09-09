@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -88,6 +89,14 @@ public class NPCFactory {
   }
 
   /**
+   * Creates a Fish NPC.
+   */
+  public static Entity createFish(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.fish;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
+  /**
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
@@ -119,28 +128,65 @@ public class NPCFactory {
     return createFriendlyNPC(target, enemies, config);
   }
 
+  /**
+   * Creates a Magpie NPC.
+   */
+  public static Entity createMagpie(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.magpie;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
   private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
   }
 
-  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
+  /**
+   * Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.
+   * If the dialogue box service is not available, it creates a new instance.
+   *
+   * @param animalSoundPaths An array of sound asset paths to play. If null or empty, no sounds are played.
+   * @param hintText An array of strings to display in the dialogue box.
+   */
+  public static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+    DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (dialogueBoxService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+      dialogueBoxService = ServiceLocator.getDialogueBoxService();
+    }
+
+    dialogueBoxService.updateText(hintText);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
+        // Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        //  long soundId = animalSound.play();
+        //  animalSound.setVolume(soundId, 0.3f);
+        //  animalSound.setLooping(soundId, false);
         AudioManager.playSound(animalSoundPath);
       }
     }
-
   }
 
-  private static void endDialogue() {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.hideCurrentOverlay();
+  /**
+   * Ends a dialogue and takes it off the screen
+   */
+  public static void endDialogue () {
+    DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (dialogueBoxService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+    } else {
+      dialogueBoxService.hideCurrentOverlay();
+    }
   }
+
 
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
@@ -168,6 +214,7 @@ public class NPCFactory {
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
   }
+
   private NPCFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
