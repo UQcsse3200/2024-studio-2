@@ -148,6 +148,9 @@ public class DialogueBox {
 
     private void handleForwardButtonClick() {
         currentHint = (currentHint + 1) % (hints[currentHintLine].length);
+        if (currentHint == 0) {
+            currentHintLine = 0;
+        }
         String currentHintText = hints[currentHintLine][currentHint];
         if (currentHintText.startsWith("/c")) {
             currentHintText = currentHintText.substring(2);
