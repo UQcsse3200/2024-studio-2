@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.screens.LoadingScreen;
@@ -16,22 +17,22 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 
 /**
- * This class listens to events relevant to the Main Game Screen and does something when one of the
+ * This class listens to events relevant to the combat screen and does something when one of the
  * events is triggered.
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
-  private Entity enemy; // Each combat can only have one enemy.
+  private final CombatManager manager;
   private Stage stage;
   private CombatButtonDisplay Display;
   private Screen screen;
   private ServiceContainer container;
 
 
-  public CombatActions(GdxGame game, Entity enemy) {
+  public CombatActions(GdxGame game, CombatManager manager) {
     this.game = game;
-    this.enemy = enemy;
+    this.manager = manager;
   }
 
   /**
@@ -71,6 +72,7 @@ public class CombatActions extends Component {
     // Set current screen to original MainGameScreen
 //    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
 
   /**
@@ -83,9 +85,9 @@ public class CombatActions extends Component {
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("onAttack before");
-    // Perform attack logic here, like decreasing health
-
+    logger.info("Attack selected.");
+    manager.onAttackSelected();
+    entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("onGuard before");
@@ -94,6 +96,7 @@ public class CombatActions extends Component {
   }
   private void onCounter(Screen screen, ServiceContainer container) {
     logger.info("before Counter");
+    entity.getEvents().trigger("onCounter", manager.getPlayerStats(), manager.getEnemyStats());
     // Perform counter logic here.
   }
   /**
@@ -102,6 +105,6 @@ public class CombatActions extends Component {
   @Override
   public void dispose() {
     // Dispose of the stage to free up resources
-    stage.dispose();
+    // stage.dispose(); // commented out because stage was returning null so could not be disposed of
   }
 }

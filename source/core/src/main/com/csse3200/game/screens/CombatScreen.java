@@ -6,9 +6,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
+import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
+import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
+import com.csse3200.game.components.combat.CombatExitDisplay;
+import com.csse3200.game.components.combat.CombatStatsDisplay;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -23,6 +30,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+//import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -40,7 +48,8 @@ public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
-          "images/health_bar_x1.png", "images/xp_bar.png"
+          "images/combat_background_one.png", "images/hunger_bar.png",
+          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
@@ -53,7 +62,8 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-
+  private final CombatArea gameArea;
+  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -74,14 +84,23 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
+    //ServiceLocator.registerEventService(new EventService());
     renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+    // renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
 
     createUI();
+
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
+    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
+     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+     this.gameArea = new CombatArea(combatTerrainFactory, player, enemy, game, combatTerrainFactory);
+     gameArea.create();
+     // createUI();
+
   }
 
   @Override
@@ -123,7 +142,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-
+    //ServiceLocator.getEventService().dispose();
     ServiceLocator.clear();
   }
 
@@ -150,11 +169,20 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
+//    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
+//
+//    // Add individual buttons to the stage
+//    stage.addActor(combatButtons.getAttackButton());
+//    stage.addActor(combatButtons.getBoostButton());
+
+    // Initialise combat manager with instances of player and enemy to be passed into combat actions
+    CombatManager manager = new CombatManager(player, enemy);
+
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, this.enemy))
+        .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
+        // .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
@@ -165,7 +193,46 @@ public class CombatScreen extends ScreenAdapter {
 
        // .addComponent(new CombatActions(this.game));
 
+
     ServiceLocator.getEntityService().register(ui);
+  }
+
+//  public void addOverlay(Overlay.OverlayType overlayType){
+//    logger.info("Adding Overlay {}", overlayType);
+//    if (enabledOverlays.isEmpty()) {
+//      this.rest();
+//    }
+//    else {
+//      enabledOverlays.getFirst().rest();
+//    }
+//    switch (overlayType) {
+//      case PAUSE_OVERLAY:
+//        enabledOverlays.addFirst(new PauseOverlay());
+//        break;
+//      default:
+//        logger.warn("Unknown Overlay type: {}", overlayType);
+//        break;
+//    }
+//  }
+
+  public void removeOverlay(){
+    logger.debug("Removing top Overlay");
+
+    if (enabledOverlays.isEmpty()){
+      this.wake();
+      return;
+    }
+
+    enabledOverlays.getFirst().remove();
+
+    enabledOverlays.removeFirst();
+
+    if (enabledOverlays.isEmpty()){
+      this.wake();
+
+    } else {
+      enabledOverlays.getFirst().wake();
+    }
   }
 
   public void rest() {
