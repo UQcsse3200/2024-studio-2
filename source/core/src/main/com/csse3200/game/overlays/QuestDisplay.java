@@ -10,7 +10,7 @@ import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
-import com.csse3200.game.screens.MainGameScreen;
+
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -60,7 +60,7 @@ public class QuestDisplay extends UIComponent {
         }
     };
 
-    private static final int questsperpage = 3;
+    private static final int questsperpage = 4;
     private int currpage = 0;
     private List<QuestBasic> questList = new ArrayList<>();
 
@@ -126,6 +126,7 @@ public class QuestDisplay extends UIComponent {
         Color questShownActive = determineQuestColor(quest);
 
         Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
+        questTitle.setFontScaleX(0.8f);
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
         CheckBox questCheckbox = new CheckBox("", skin);
@@ -163,16 +164,21 @@ public class QuestDisplay extends UIComponent {
     private void addQuestInfo(Table table, AbstractQuest quest) {
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
+        descLabel.setFontScale(0.75f);
 
-        table.add(descLabel).expandX().fillX().colspan(3);
-        table.row().padTop(5f);
+
+        table.add(descLabel).expandX().fillX().colspan(10);
+        table.row().padTop(1f);
+
+
 
         for (Task task : quest.getTasks()) {
             Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
             hintLabel.setColor(Color.GRAY);
+            hintLabel.setFontScale(0.75f);
 
-            table.add(hintLabel).expandX().fillX().colspan(3);
-            table.row().padTop(5f);
+            table.add(hintLabel).expandX().fillX().colspan(10);
+            table.row().padTop(1f);
         }
     }
 

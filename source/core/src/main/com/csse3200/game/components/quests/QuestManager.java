@@ -3,7 +3,7 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.entities.DialogueBoxService;
+
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
@@ -62,84 +62,102 @@ public class QuestManager extends Component {
     /**
      * Sets up the tasks for the quests and dialogues.
      */
-    private void testQuests() {
 
-        //creates test tasks
+
+    private void testQuests() {
+        // Create land kingdom tasks
+        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
+        Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", "Complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
+        Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
+        Task listenAdvice = new Task("listenToGuide", "Visit cow again", "Go visit the cow!", 1, 0, false, false);
+        Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
+        Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
+
+        // Add new tasks to a quest
+        List<Task> talkingQuest = new ArrayList<>(List.of(talkToGuide));
+        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", talkingQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest);
+
+        List<Task> followQuest = new ArrayList<>(List.of(followCowsTeachings));
+        QuestBasic guideQuest2 = new QuestBasic("Teachings", "Follow the cow's teachings and complete further quests.", followQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest2);
+
+        List<Task> potionQuest = new ArrayList<>(List.of(collectPotions));
+        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 potions scattered around the kingdom.", potionQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest3);
+
+        List<Task> listenQuest = new ArrayList<>(List.of(listenAdvice));
+        QuestBasic guideQuest4 = new QuestBasic("Guide's Advice", "Listen to the guide's advice to progress further.", listenQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest4);
+
+        List<Task> exploreQuest = new ArrayList<>(List.of(exploreWild));
+        QuestBasic guideQuest5 = new QuestBasic("Exploration", "Explore the kingdom and gather information about Kanga.", exploreQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest5);
+
+        List<Task> retrieveQuest = new ArrayList<>(List.of(retrieveWeapon));
+        QuestBasic guideQuest6 = new QuestBasic("Weapon Retrieval", "Retrieve a weapon by completing the snake minigame.", retrieveQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest6);
+
+        // Dialogue for new quests
+        String[] cowInitialDialogue = {
+                "Moo there, adventurer! Welcome to the kingdom.",
+                "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
+        };
+        String[] cowAdviceDialogue = {
+                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+        };
+        String[] potionDialogue = {
+                "I need five potions! They’re scattered around. Keep your eyes peeled."
+        };
+        String[] listenDialogue = {
+                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+        };
+        String[] exploreDialogue = {
+                "Oh the Kanga? Yeah, he was once a sweet little joey. Hard to imagine he’d go to the dark side.",
+                "Word on the street is he snapped after his wife and daughter died in the flood.",
+                "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
+                "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
+        };
+
+        Map<DialogueKey, String[]> guideQuestDialogues = Map.of(
+                new DialogueKey("Cow", 1), cowInitialDialogue,
+                new DialogueKey("Cow", 2), cowAdviceDialogue
+        );
+
+        // Add quests to GameState
+        quests.put(guideQuest.getQuestName(), guideQuest);
+        GameState.quests.quests.add(guideQuest);
+
+        // Create test tasks
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
 
-        //create land kingdom tasks
-        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
-        Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", " complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
-        Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
-        Task listenAdvice = new Task("ListenToGuide", "Visit cow again", "", 1, 0, false, false);
-        Task exploreWild = new Task("Exploration", "Explore and ask around", "Ask other aninmals about Kanga!", 1, 1, false , false);
-        Task retrieveWeapon = new Task("RetrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
-
-        //add new tasks to a quest
-        List<Task> landKingdomTasks = List.of(talkToGuide, followCowsTeachings, collectPotions, listenAdvice, exploreWild, retrieveWeapon);
-        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", landKingdomTasks, false, null, null, false, false, 0);
-        addQuest(guideQuest);
-
-
-        //dialogue for new quests
-        String[] cowInitialDialogue = new String[]{
-                "Moo there, adventurer! Welcome to the kingdom.",
-                "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
-        };
-        String[] cowAdviceDialogue = new String[]{
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] potionDialogue = new String[]{
-                "I need five potions! They’re scattered around.," +
-                        " Keep your eyes peeled.\" "};
-        String[] listenDialogue = new String[]{
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] exploreDialogue = new String[] {
-                "Oh the Kanga? Yeah, he was once a sweet little joey”, “Hard to imagine he’d go to the dark side.",
-                "Word on the street is he snapped after his wife and daughter died in the flood.",
-                "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
-                "That peacock? The first animal Kanga defeated.”, “After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him"
-        };
-
-        //set dialogue for new quests
-        Map<DialogueKey, String[]> guideQuestDialogues = new HashMap<>();
-        guideQuestDialogues.put(new DialogueKey("Cow", 1), cowInitialDialogue);
-        guideQuestDialogues.put(new DialogueKey("Cow", 2), cowAdviceDialogue );
-        guideQuestDialogues.put(new DialogueKey("Cow", 3), potionDialogue );
-        guideQuestDialogues.put(new DialogueKey("Cow", 3), listenDialogue );
-
-        quests.put(guideQuest.getQuestName(), guideQuest);
-        GameState.quests.quests.add(guideQuest);
-
-
-        //creates single task quest
-        List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,null,null, false, false, 0);
-
+        // Create single task quest
+        List<Task> firstStepsTasks = new ArrayList<>(List.of(stepsTask));
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps", "Take your first steps in this world!", firstStepsTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(firstStepsQuest);
 
-        //creates 2 task quest
-        String[] test2StepTextProg1 = new String[]{"Welcome to Animal Kingdom!", "Here let me help with your quest...","Press Spacebar!"};
-        String[] test2StepTextProg2 = new String[]{"Yippeee!", "You completed your Quest!"};
+        // Create 2 task quest
+        String[] test2StepTextProg1 = {"Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"};
+        String[] test2StepTextProg2 = {"Yippeee!", "You completed your Quest!"};
 
         Map<DialogueKey, String[]> test2TaskQuestDialogue = Map.of(
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
 
-        String[] test2StepCompletionTriggers = new String[]{"","spawnKangaBoss"};
-        List<Task> tasks1 = List.of(stepsTask, attackTask);
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", tasks1, false, test2TaskQuestDialogue,test2StepCompletionTriggers, false, false, 0);
+        String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
+        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(stepsTask, attackTask));
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogue, test2StepCompletionTriggers, false, false, 0);
         GameState.quests.quests.add(twoTaskQuest);
 
-        // Creates test quest that requires completion of 2 task quest
-        List<Task> tasks3 = List.of(testKangaTask,stepsTask, attackTask);
-        QuestBasic finalQuest = new QuestBasic("Final Boss","Complete quest 1 and 2 to summon the boss", tasks3, false,null,null, false, false, 0);
+        // Create test quest that requires completion of 2 task quest
+        List<Task> finalQuestTasks = new ArrayList<>(List.of(testKangaTask, stepsTask, attackTask));
+        QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
     }
+
 
     private void setupPotionsTask() {
         Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
