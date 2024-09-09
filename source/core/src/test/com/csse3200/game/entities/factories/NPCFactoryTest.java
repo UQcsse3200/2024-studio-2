@@ -19,6 +19,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,7 @@ class NPCFactoryTest {
     private Entity eagle;
     private Entity turtle;
     private Entity snake;
+    private Entity magpie;
     private Entity kanga;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
@@ -48,6 +50,7 @@ class NPCFactoryTest {
             "images/snake.png",
             "images/eagle.png",
             "images/turtle.png",
+            "images/magpie.png",
             "images/final_boss_kangaroo.png"
     };
 
@@ -57,6 +60,7 @@ class NPCFactoryTest {
             "images/snake.atlas",
             "images/eagle.atlas",
             "images/turtle.atlas",
+            "images/magpie.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
@@ -84,6 +88,7 @@ class NPCFactoryTest {
         eagle = NPCFactory.createEagle(player, enemies);
         turtle = NPCFactory.createTurtle(player, enemies);
         snake = NPCFactory.createSnake(player, enemies);
+        magpie = NPCFactory.createMagpie(player, enemies);
     }
 
     /**
@@ -610,5 +615,111 @@ class NPCFactoryTest {
         snake.setPosition(pos);
 
         assertEquals(pos, snake.getPosition());
+    }
+
+    /**
+     * Tests Creation of a magpie.
+     */
+    @Test
+    void TestMagpieCreation() {
+        Assertions.assertNotNull(magpie, "magpie should not be null.");
+    }
+
+    /**
+     * Tests that the magpie has the correct name.
+     */
+    @Test
+    void TestMagpieName() {
+        String name = configs.magpie.getAnimalName();
+        Assertions.assertEquals("Magpie", name);
+    }
+    
+    /**
+     * Tests that the magpie is an Entity.
+     */
+    @Test
+    void TestMagpieIsEntity() {
+        Assertions.assertEquals(magpie.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the magpie has a physics component.
+     */
+    @Test
+    void TestMagpieHasPhysicsComponent() {
+        Assertions.assertNotNull(magpie.getComponent(PhysicsComponent.class));
+    }
+
+    /**
+     * Tests that the magpie has a physics movement component.
+     */
+    @Test
+    void TestMagpieHasPhysicsMovementComponent() {
+        Assertions.assertNotNull(magpie.getComponent(PhysicsMovementComponent.class));
+    }
+
+    /**
+     * Tests the magpie has a collider component.
+     */
+    @Test
+    void TestMagpieHasColliderComponent() {
+        Assertions.assertNotNull(magpie.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the magpie has stat config component.
+     */
+    @Test
+    void TestMagpieHasConfigComponent() {
+        assertNotNull(magpie.getComponent(ConfigComponent.class));
+    }
+
+    /**
+     * Tests that the magpie has the correct sound path.
+     */
+    @Test
+    void TestMagpieHasCorrectSoundPath() {
+        String[] sound = configs.magpie.getSoundPath();
+        Assertions.assertNotNull(sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/aus-magpie.wav"}, sound);
+    }
+
+    /**
+     * Tests that the magpie has the correct base hint.
+     */
+    @Test
+    void TestMagpieHasCorrectBaseHint() {
+        String[] baseHint = configs.magpie.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Maggie the Magpie."}, baseHint);
+    }
+
+    /**
+     * Tests that the magpie has an idle animation.
+     */
+    @Test
+    void TestMagpieHasAnimation() {
+        Assertions.assertTrue(magpie.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "magpie should have idle animation.");
+    }
+
+    /**
+     * Tests that the magpie is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestMagpieIsFriendly() {
+        Assertions.assertNotNull(magpie.getComponent(FriendlyNPCAnimationController.class),
+                "magpie should have a friendly AI controller.");
+    }
+
+    /**
+     * Tests that the magpie is in the correct spot when placed.
+     */
+    @Test
+    void TestMagpieSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        magpie.setPosition(pos);
+
+        Assertions.assertEquals(pos, magpie.getPosition());
     }
 }
