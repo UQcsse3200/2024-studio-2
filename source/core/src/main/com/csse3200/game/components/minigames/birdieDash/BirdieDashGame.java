@@ -107,7 +107,7 @@ public class BirdieDashGame {
         collisionHandler.checkCollisions();
         changePipePosition(dt * speedMultiplier);
         changeCoinPosition(dt * speedMultiplier);
-        bird.update(dt * speedMultiplier);
+        bird.update(dt, speedMultiplier);
         // Add all other change positions here e.g. bird, coins etc.
 
 

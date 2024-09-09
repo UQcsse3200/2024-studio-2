@@ -27,7 +27,7 @@ public class Bird {
         collideBottomOfPipe = false;
         isFlapping = false;
     }
-    public void update(float deltaTime) {
+    public void update(float deltaTime, float multiplier) {
         if (position.y > 0) {
             if(collideTopOfPipe) {
                 if(velocity.y != 0) {
@@ -52,7 +52,7 @@ public class Bird {
         velocity.scl(deltaTime);
         position.add(velocity);
         if(collidingPipe) {
-            position.sub(deltaTime * 200, 0);
+            position.sub(deltaTime * multiplier * 200, 0);
         }
         velocity.scl(1 / deltaTime);
         if (position.y + BIRD_HEIGHT > GAME_HEIGHT) {
