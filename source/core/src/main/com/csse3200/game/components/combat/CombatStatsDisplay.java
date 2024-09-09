@@ -255,6 +255,23 @@ public class CombatStatsDisplay extends UIComponent {
     setNewFrame(frameIndex, xpBarAnimation, xpImage);
   }
 
+  /**
+   * Updates hte hunger bar animation of the player
+   * @param playerStats The CombatStatsComponent of the player
+   */
+  public void updatePlayerHungerUI(CombatStatsComponent playerStats) {
+    int hunger = playerStats.getHunger();
+    int maxHunger = playerStats.getMaxHunger();
+    CharSequence text = String.format("HGR: %d", hunger);
+    playerHungerLabel.setText(text);
+
+    int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
+    frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
+    // Set the current frame of the health bar animation
+    setNewFrame(frameIndex, playerHungerBarAnimation, playerHungerImage);
+
+  }
+
   @Override
   public void draw(SpriteBatch batch)  {
     int screenHeight = Gdx.graphics.getHeight();
