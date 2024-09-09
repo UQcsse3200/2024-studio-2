@@ -206,8 +206,8 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHealthUI(int health) {
         CharSequence text = String.format("HP: %d", health);
-        logger.info("Made it to this updateHealth function");
-        logger.info("{}", health);
+        // logger.info("Made it to this updateHealth function");
+        //logger.info("{}", health);
         healthLabel.setText(text);
         int totalFrames = 11;
 
@@ -229,8 +229,8 @@ public class PlayerStatsDisplay extends UIComponent {
      */
     public void updatePlayerHungerUI(int hunger) {
         CharSequence text = String.format("HGR: %d", hunger);
-        logger.info("Made it to this updateHunger function");
-        logger.info("{}", hunger);
+       // logger.info("Made it to this updateHunger function");
+        //logger.info("{}", hunger);
         hungerLabel.setText(text);
 
         // Debugged and Developed with ChatGPT
@@ -253,8 +253,8 @@ public class PlayerStatsDisplay extends UIComponent {
     public void updatePlayerExperienceUI(int experience) {
         CharSequence text = String.format("EXP: %d", experience);
         experienceLabel.setText(text);
-        logger.info("Made it to this updatePlayerExperienceUI function");
-        logger.info("{}", experience);
+        //logger.info("Made it to this updatePlayerExperienceUI function");
+       // logger.info("{}", experience);
         // Debugged and Developed with ChatGPT
         // Calculate the frame index based on the current health as no xp implementation yet
 

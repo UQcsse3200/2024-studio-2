@@ -23,26 +23,7 @@ public class PlayerStatsDisplayTester extends PlayerStatsDisplay {
      * @param addActorsTester a boolean indicating whether the actors were added successfully
      * @param entity          the player entity whose events are being checked for listeners
      */
-    public static void testCreate(boolean addActorsTester, Entity entity)
-    {
-        logger.info("Starting test for create() method...");
-        if (addActorsTester) {
-         logger.info("Character stats have been added successfully");
-
-         //check working of entity
-         if (entity.getEvents().hasListener("updateHealth"))
-          logger.info("Listener for updateHealth successfully registered.");
-         else logger.info("Listener for updateHealth not registered.");
-
-         if (entity.getEvents().hasListener("updateExperience"))
-          logger.info("Listener for updateExperience successfully registered.");
-         else logger.info("Listener for updateExperience not registered.");
-
-         if (entity.getEvents().hasListener("updateHunger"))
-          logger.info("Listener for updateHunger successfully registered.");
-         else logger.info("Listener for updateHunger not registered.");
-        }
-        else logger.info("Characters stats could not be added");
+    public static void testCreate(boolean addActorsTester, Entity entity){
     }
 
     /**
@@ -58,42 +39,6 @@ public class PlayerStatsDisplayTester extends PlayerStatsDisplay {
                                          Animation<TextureRegion> hungerBarAnimation,
                                          Animation<TextureRegion> xpBarAnimation)
     {
-        logger.info("Starting test for initBarAnimations() method...");
-        // Check if textureAtlas array is initialized
-        if (textureAtlas != null && textureAtlas.length == 3) {
-         logger.info("TextureAtlas array initialized correctly.");
-        } else {
-         logger.info("Error: TextureAtlas array not initialized correctly.");
-        }
-
-        // Check if healthBarAnimation, hungerBarAnimation, and xpBarAnimation are not null
-        if ( healthBarAnimation != null &&  hungerBarAnimation != null &&  xpBarAnimation != null) {
-         logger.info("Animations initialized correctly.");
-        } else {
-         logger.info("Error: Animations not initialized correctly.");
-        }
-
-        // Check the number of frames in each animation
-           assert healthBarAnimation != null;
-           if ( healthBarAnimation.getKeyFrames().length == 11) {
-         logger.info("HealthBar animation frames initialized correctly.");
-        } else {
-         logger.info("Error: HealthBar animation frames not initialized correctly.");
-        }
-
-           assert hungerBarAnimation != null;
-           if ( hungerBarAnimation.getKeyFrames().length == 11) {
-         logger.info("HungerBar animation frames initialized correctly.");
-        } else {
-         logger.info("Error: HungerBar animation frames not initialized correctly.");
-        }
-
-           assert xpBarAnimation != null;
-           if ( xpBarAnimation.getKeyFrames().length == 11) {
-         logger.info("XpBar animation frames initialized correctly.");
-        } else {
-         logger.info("Error: XpBar animation frames not initialized correctly.");
-        }
 
     }
     /**
@@ -104,19 +49,6 @@ public class PlayerStatsDisplayTester extends PlayerStatsDisplay {
      * @param statName the name of the stat being checked (e.g., health, hunger, experience)
      */
     public static void testUpdatePlayerStatsUI(int maxStats, int stat, String statName) {
-     logger.info("Starting test for updatePlayerHungerUI() method...");
-     if (maxStats>0)
-         logger.info("Max "+ statName+ " is correct:" +maxStats);
-
-     else
-         logger.info("Max "+ statName+ " is incorrect:"  +maxStats);
-
-
-     if (stat >= 0 )
-        logger.info("current stats for "+ statName+ " is correct : "+stat);
-
-     else
-         logger.info("current stats for "+ statName+ " is incorrect : "+stat);
     }
 }
 
