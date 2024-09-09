@@ -36,6 +36,7 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private Table menuButtonTable;
     private Table settingMenu;
     private Table userTable;
     private Table loginRegisterTable;
@@ -58,6 +59,23 @@ public class MainMenuDisplay extends UIComponent {
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
 
+
+    private Button startBtn;
+    private Button loadBtn;
+    private Button minigamesBtn;
+    private Button settingsBtn;
+    private TextButton achievementsBtn;
+    private Button helpBtn;
+    private Button exitBtn;
+    private Label versionLabel;
+    private final float windowButtonWidth = 180;
+    private final float windowButtonHeight = 45;
+    private final float windowButtonSpacing = 15;
+
+    private final float fullScreenButtonWidth = 360;
+    private final float fullScreenuttonHeight = 90;
+    private final float fullScreenButtonSpacing = 45;
+
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -77,7 +95,7 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void loadTextures() {
         settingBackground = new Texture("images/SettingBackground.png");
-        lightBackgroundTexture = new Texture("images/BackgroundSplash.png");
+        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");
         userTableBackground = new Texture("images/UserTable.png");
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
@@ -137,6 +155,7 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void addActors() {
         table = new Table();
+        menuButtonTable = new Table();
         table.setFillParent(true);
 
         settingMenu = new Table();
@@ -153,14 +172,14 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdImage);
 
         // Initialises buttons
-        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Start1.png"))));
-        Button loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
-        Button minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
-        Button settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
-        TextButton achievementsBtn = new TextButton("Achievements", skin);
-        Button helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
-        Button exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
-        Label versionLabel = new Label("Version 1.0", skin);
+        startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Start1.png"))));
+        loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
+        minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
+        settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
+        achievementsBtn = new TextButton("Achievements", skin);
+        helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
+        exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
+
 
         // Adds UI component (hover over buttons)
         addButtonElevationEffect(startBtn);
@@ -192,16 +211,15 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Added handles for when clicked
-        minigamesBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        minigamesBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
 
-                        logger.debug("SnakeGame button clicked");
-                        entity.getEvents().trigger("SnakeGame");
-                        clickSound.play();
-                    }
-                });
+                logger.debug("SnakeGame button clicked");
+                entity.getEvents().trigger("SnakeGame");
+                clickSound.play();
+            }
+        });
 
         // Added handles for when clicked
         settingsBtn.addListener(new ChangeListener() {
@@ -239,26 +257,14 @@ public class MainMenuDisplay extends UIComponent {
         // Added the pop up when user trys to exit game
         addExitConfirmation(exitBtn);
 
-        // formats sizes of buttons
-        table.add(startBtn).size(180,45).padTop(50f);
-        table.row();
-        table.add(loadBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
-        table.row();
-        table.add(settingsBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(helpBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(exitBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(versionLabel).padTop(140f);
 
-        // Enables tables use
-        stage.addActor(table);
+        // formats sizes of buttons
+
+        updateButtonSize();
+        table.add(menuButtonTable);
 
         // Formats height of buttons on screen
-        sizeTable();
+        //sizeTable();
 
         addTopLeftToggle();
 
@@ -273,6 +279,40 @@ public class MainMenuDisplay extends UIComponent {
         //Adds the user logo to program
         addUserTable();
         addLoginRegisterTable();
+    }
+
+    public void updateButtonSize() {
+        float buttonWidth;
+        float buttonHeight;
+        float buttonSpacing;
+        float padTopSpacing;
+        if (Gdx.graphics.isFullscreen()) {
+            buttonWidth = fullScreenButtonWidth;
+            buttonHeight = fullScreenuttonHeight;
+            buttonSpacing = fullScreenButtonSpacing;
+            padTopSpacing = 700;
+            versionLabel = new Label("Version 1.0", skin, "large-white");
+        } else {
+            buttonWidth = windowButtonWidth;
+            buttonHeight = windowButtonHeight;
+            buttonSpacing = windowButtonSpacing;
+            padTopSpacing = 350;
+            versionLabel = new Label("Version 1.0", skin, "default-white");
+        }
+        menuButtonTable.clear();
+        menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
+        menuButtonTable.row();
+        menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(versionLabel).padTop(buttonSpacing);
     }
 
     /**
@@ -394,7 +434,7 @@ public class MainMenuDisplay extends UIComponent {
 
     /**
      * Adjusts the size of the table based on screen mode (fullscreen or windowed).
-     */
+
     private void sizeTable() {
         // Checks if the table is full screen
         if (Gdx.graphics.isFullscreen()) {
@@ -402,9 +442,11 @@ public class MainMenuDisplay extends UIComponent {
             table.setBounds(0,-215,200,1000);
         } else {
             // Small screen sizing
-            table.setBounds(0,-230,200,1000);
+            table.setBounds(0,-100,200,1000);
         }
     }
+
+     */
 
     /**
      * Displays the help window with slides for game instructions.
@@ -600,7 +642,7 @@ public class MainMenuDisplay extends UIComponent {
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
                 logger.info("Fullscreen toggled: " + !isFullscreen);
-                sizeTable();
+                //sizeTable();
             }
         });
 

@@ -55,6 +55,7 @@ public class MainMenuScreen extends ScreenAdapter {
     mainMenuDisplay.updateUserTable();
     mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
+    mainMenuDisplay.updateButtonSize();
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
