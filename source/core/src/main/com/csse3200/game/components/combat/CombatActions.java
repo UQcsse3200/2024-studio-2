@@ -48,8 +48,8 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
-    entity.getEvents().addListener("Counter", this::onCounter);
-    //Display.create();
+    entity.getEvents().addListener("Sleep", this::onSleep);
+    entity.getEvents().addListener("Items", this::onItems);
   }
 
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
@@ -84,17 +84,21 @@ public class CombatActions extends Component {
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("onAttack before");
+    logger.info("before Attack");
     // Perform attack logic here, like decreasing health
 
   }
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("onGuard before");
+    logger.info("before Guard");
     // Perform Guard logic here, like increasing health
 
   }
-  private void onCounter(Screen screen, ServiceContainer container) {
-    logger.info("before Counter");
+  private void onSleep (Screen screen, ServiceContainer container) {
+    logger.info("before Sleep");
+    // Perform counter logic here.
+  }
+  private void onItems(Screen screen, ServiceContainer container) {
+    logger.info("before Items");
     // Perform counter logic here.
   }
   /**
