@@ -204,7 +204,7 @@ public class AchievementDisplay extends UIComponent {
         for (Achievement achievement : achievements) {
             if (achievement.isCompleted() && achievement.getType() == type) {
                 Action newAnimation = Actions.forever(Actions.sequence(
-                        Actions.color(Color.YELLOW, 0.5f),
+                        Actions.color(Color.WHITE, 0.5f),
                         Actions.color(Color.GOLD, 0.5f)
                 ));
                 Sound buttonSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_004.ogg", Sound.class);
@@ -221,6 +221,13 @@ public class AchievementDisplay extends UIComponent {
 
                 LogButton entry = new LogButton(button, buttonPressed, icon);
                 advancementCounter ++;
+
+                if (!achievement.isSeen()) {
+                    entry.addAction(newAnimation);
+                }
+
+                addButtonElevationEffect(entry);
+                table.add(entry);
                 entry.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -228,18 +235,10 @@ public class AchievementDisplay extends UIComponent {
                         achievement.setSeen();
                         if (achievement.isSeen()) {
                             entry.removeAction(newAnimation);
+                            entry.setColor(Color.WHITE);
                         }
                     }
                 });
-
-                // Add glowing effect for unseen achievements
-                if (!achievement.isSeen()) {
-                    // Create a pulsing effect
-                    entry.addAction(newAnimation);
-                }
-
-                addButtonElevationEffect(entry);
-                table.add(entry);
                 if(advancementCounter == 6){
                     table.row();
                     advancementCounter = 0;
