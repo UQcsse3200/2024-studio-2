@@ -72,7 +72,7 @@ public class NPCFactory {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-      npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
@@ -140,7 +140,7 @@ public class NPCFactory {
    * @param animalSoundPaths An array of sound asset paths to play. If null or empty, no sounds are played.
    * @param hintText An array of strings to display in the dialogue box.
    */
-  public static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+  public static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
     DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
 
     // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
