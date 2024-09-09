@@ -353,6 +353,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
     resourceService.loadSounds(config.sounds.gameSounds);
     resourceService.loadMusic(config.sounds.gameMusic);
+    resourceService.loadSounds(config.sounds.characterSounds);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
