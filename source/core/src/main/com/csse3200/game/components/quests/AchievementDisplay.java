@@ -1,6 +1,7 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,13 +30,16 @@ public class AchievementDisplay extends UIComponent {
     /** Array to store achievements. */
     private final Array<Achievement> achievements;
     final ImageButton[] lastPressedButton = {null};
+    private Float originalY;
 
     /**
      * Array of texture paths used in the Achievements game screen.
      */
-    private static final String[] AchievementTextures = {"images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
+    private static final String[] logbookTextures = {"images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
             "images/logbook/lb-blue-tab.png", "images/logbook/lb-red-tab.png", "images/logbook/lb-blue-btn.png",
             "images/logbook/lb-red-btn.png", "images/logbook/lb-yellow-btn.png", "images/logbook/lb-blue-btn-pressed.png", "images/logbook/lb-red-btn-pressed.png", "images/logbook/lb-yellow-btn-pressed.png"};
+
+    private static final String[] logbookSounds = {"sounds/logbook/select_005.ogg","sounds/logbook/select_004.ogg"};
 
 
     public AchievementDisplay(GdxGame game) {
@@ -50,7 +54,8 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void create() {
-        ServiceLocator.getResourceService().loadTextures(AchievementTextures);
+        ServiceLocator.getResourceService().loadTextures(logbookTextures);
+        ServiceLocator.getResourceService().loadSounds(logbookSounds);
         ServiceLocator.getResourceService().loadAll();
         super.create();
         addActors();
@@ -103,6 +108,7 @@ public class AchievementDisplay extends UIComponent {
     }
 
     void updateHoverEffect(ImageButton newButton) {
+
         // Hover effect actions
         Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
         Action hoverOut = Actions.moveBy(0, -5, 0.3f); // Move down
@@ -112,7 +118,7 @@ public class AchievementDisplay extends UIComponent {
 
         if (lastPressedButton[0] != null) {
             lastPressedButton[0].clearActions();
-            lastPressedButton[0].setPosition(lastPressedButton[0].getX(), lastPressedButton[0].getY() - 5); // Reset Y position
+            lastPressedButton[0].setY(originalY); // Reset Y position
             lastPressedButton[0].setScale(1f);
         }
 
@@ -134,6 +140,8 @@ public class AchievementDisplay extends UIComponent {
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/lb-blue-tab.png", Texture.class));
 
+        Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
+
         ImageButton itemButton = new ImageButton(itemBG.getDrawable());
         ImageButton enemyButton = new ImageButton(enemyBG.getDrawable());
         ImageButton achievementButton = new ImageButton(achievementBG.getDrawable());
@@ -152,6 +160,7 @@ public class AchievementDisplay extends UIComponent {
                 itemsTable.setVisible(true);
                 enemiesTable.setVisible(false);
                 achievementsTable.setVisible(false);
+                tabSound.play();
                 updateHoverEffect(itemButton);
             }
         });
@@ -162,6 +171,7 @@ public class AchievementDisplay extends UIComponent {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(true);
                 achievementsTable.setVisible(false);
+                tabSound.play();
                 updateHoverEffect(enemyButton);
             }
         });
@@ -172,9 +182,11 @@ public class AchievementDisplay extends UIComponent {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(false);
                 achievementsTable.setVisible(true);
+                tabSound.play();
                 updateHoverEffect(achievementButton);
             }
         });
+        this.originalY = itemButton.getY();
         updateHoverEffect(itemButton);
         return tabButtonTable;
     }
@@ -195,23 +207,22 @@ public class AchievementDisplay extends UIComponent {
                         Actions.color(Color.YELLOW, 0.5f),
                         Actions.color(Color.GOLD, 0.5f)
                 ));
-
+                Sound buttonSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_004.ogg", Sound.class);
                 Image button = new Image(
                         ServiceLocator.getResourceService()
                                 .getAsset("images/logbook/lb-yellow-btn.png", Texture.class));
                 Image buttonPressed = new Image(
                         ServiceLocator.getResourceService()
                                 .getAsset("images/logbook/lb-yellow-btn-pressed.png", Texture.class));
-                ImageButton achievementButton = new ImageButton(button.getDrawable(),buttonPressed.getDrawable());
+                ImageButton logButton = new ImageButton(button.getDrawable(),buttonPressed.getDrawable());
                 advancementCounter ++;
-                achievementButton.addListener(new ChangeListener() {
+                logButton.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Help button clicked");
+                        buttonSound.play();
                         achievement.setSeen();
                         if (achievement.isSeen()) {
-                            achievementButton.removeAction(newAnimation);
-                            achievementButton.setColor(Color.GREEN);
+                            logButton.removeAction(newAnimation);
                         }
                     }
                 });
@@ -219,11 +230,11 @@ public class AchievementDisplay extends UIComponent {
                 // Add glowing effect for unseen achievements
                 if (!achievement.isSeen()) {
                     // Create a pulsing effect
-                    achievementButton.addAction(newAnimation);
+                    logButton.addAction(newAnimation);
                 }
 
-                addButtonElevationEffect(achievementButton);
-                table.add(achievementButton);
+                addButtonElevationEffect(logButton);
+                table.add(logButton);
                 if(advancementCounter == 6){
                     table.row();
                     advancementCounter = 0;
@@ -278,7 +289,8 @@ public class AchievementDisplay extends UIComponent {
     public void dispose() {
         saveAchievements(achievements);
         rootTable.clear();
-        ServiceLocator.getResourceService().unloadAssets(AchievementTextures);
+        ServiceLocator.getResourceService().unloadAssets(logbookTextures);
+        ServiceLocator.getResourceService().unloadAssets(logbookSounds);
         super.dispose();
     }
 
