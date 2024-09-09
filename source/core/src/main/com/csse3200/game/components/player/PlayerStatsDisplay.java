@@ -97,7 +97,7 @@ public class PlayerStatsDisplay extends UIComponent {
         table = new Table();
         table.top().left();
         table.setFillParent(true);
-        table.padTop(45f).padLeft(5f);
+        table.padTop(15f).padLeft(5f);
 
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
