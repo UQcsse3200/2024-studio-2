@@ -10,6 +10,7 @@ import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
+import com.csse3200.game.components.npc.BearAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -46,7 +47,8 @@ public class EnemyFactory {
   private enum EnemyType {
     FROG,
     CHICKEN,
-    MONKEY;
+    MONKEY,
+    BEAR;
   }
 
   /**
@@ -76,6 +78,35 @@ public class EnemyFactory {
     chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
 
     return chicken;
+  }
+
+  /**
+   * Creates a bear enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy bear entity
+   */
+  public static Entity createBear(Entity target) {
+    Entity bear = createBaseEnemy(target, EnemyType.BEAR);
+    BaseEnemyEntityConfig config = configs.bear;
+
+    TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
+
+    animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+
+    bear
+            .addComponent(animator)
+            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new BearAnimationController());
+
+
+    bear.getComponent(AnimationRenderComponent.class).scaleEntity();
+    bear.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+
+    return bear;
   }
 
   /**
@@ -153,6 +184,7 @@ public class EnemyFactory {
       case FROG -> configs.frog;
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
+      case BEAR -> configs.bear;
     };
 
     if (type == EnemyType.MONKEY) {

@@ -1,0 +1,89 @@
+bear.png
+size: 621, 380
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+float
+  rotate: false
+  xy: 104, 11
+  size: 78, 53
+  orig: 78, 53
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 187, 11
+  size: 79, 53
+  orig: 79, 53
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy: 273, 12
+  size: 78, 52
+  orig: 78, 52
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 355, 12
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 3
+float
+  rotate: false
+  xy: 440, 12
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 4
+chase
+  rotate: false
+  xy: 20, 81
+  size: 77, 52
+  orig: 77, 52
+  offset: 0, 0
+  index: 0
+chase
+  rotate: false
+  xy: 103, 82
+  size: 79, 51
+  orig: 79, 51
+  offset: 0, 0
+  index: 1
+chase
+  rotate: false
+  xy: 187, 80
+  size: 78, 53
+  orig: 78, 53
+  offset: 0, 0
+  index: 2
+chase
+  rotate: false
+  xy: 272, 80
+  size: 81, 52
+  orig: 81, 52
+  offset: 0, 0
+  index: 3
+chase
+  rotate: false
+  xy: 359, 82
+  size: 83, 51
+  orig: 83, 51
+  offset: 0, 0
+  index: 4
+chase
+  rotate: false
+  xy: 449, 81
+  size: 78, 52
+  orig: 78, 52
+  offset: 0, 0
+  index: 5
+default
+  rotate: false
+  xy: 20, 11
+  size: 77, 53
+  orig: 77, 53
+  offset: 0, 0
+  index: 0

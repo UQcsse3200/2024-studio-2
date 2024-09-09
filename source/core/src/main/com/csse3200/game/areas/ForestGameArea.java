@@ -29,6 +29,7 @@ public class ForestGameArea extends GameArea {
   private  static final int NUM_APPLES = 5;
   private  static final int NUM_HEALTH_POTIONS = 3;
   private static final int NUM_CHICKENS = 2;
+  private static final int NUM_BEARS = 1;
   private static final int NUM_FROGS = 5;
   private static final int NUM_MONKEYS = 2;
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
@@ -73,7 +74,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
           "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-          "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
+          "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas", "images/bear.atlas"
   };
   private static final String[] questSounds = {"sounds/QuestComplete.wav"};
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -134,9 +135,13 @@ public class ForestGameArea extends GameArea {
         spawnFrog();
 
       }
-      for (int i = 0; i< NUM_FROGS; i++) {
+      for (int i = 0; i< NUM_MONKEYS; i++) {
         spawnMonkey();
       }
+      for (int i = 0; i< NUM_BEARS; i++) {
+        spawnBear();
+      }
+
 
       // items
     spawnHealthPotions();
@@ -254,6 +259,24 @@ public class ForestGameArea extends GameArea {
 
     spawnEntityAt(chicken, randomPos, true, true);
   }
+
+  /**
+   * Spawns a bear enemy, with the player entity as its target
+   */
+  private void spawnBear() {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 10);
+
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    Entity bear = EnemyFactory.createBear(player);
+    enemies.add(bear);
+
+    float proximityRange = 0.05f; // Set a suitable proximity range
+    bear.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+
+    spawnEntityAt(bear, randomPos, true, true);
+  }
+
   /**
    * spawns a frog enemy, with the player entity as its target
    */
