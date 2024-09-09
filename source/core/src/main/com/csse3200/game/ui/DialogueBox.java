@@ -36,11 +36,13 @@ public class DialogueBox {
     private TextButton forwardButton;
     private TextButton backwardButton;
     private TextButton playButton;
+    private TextButton[] optionButtons;
     private final int screenWidth = Gdx.graphics.getWidth();
     private final int screenHeight = Gdx.graphics.getHeight();
 
-    private String[] hints;
+    private String[][] hints;
     private int currentHint;
+    private int currentHintLine;
     private MiniGameNames currentMinigame;
 
     /**
@@ -52,8 +54,9 @@ public class DialogueBox {
     }
 
     public void dialogueBoxInitialisation(boolean hide) {
-        this.hints = new String[]{};
+        this.hints = new String[][]{};
         this.currentHint = 0;
+        this.currentHintLine = 0;
         this.currentMinigame = SNAKE;
 
         this.backgroundImage = createBackgroundImage();
@@ -61,6 +64,8 @@ public class DialogueBox {
         this.forwardButton = createForwardButton();
         this.backwardButton = createBackwardButton();
         this.playButton = createPlayButton();
+        this.optionButtons = new TextButton[]{createOptionButton(0), createOptionButton(1), createOptionButton(2),
+                createOptionButton(3), createOptionButton(4)};
 
         if (hide) {
             hideDialogueBox();
@@ -71,10 +76,16 @@ public class DialogueBox {
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
         stage.addActor(playButton);
+        for (TextButton button : optionButtons) {
+            stage.addActor(button);
+        }
 
         addButtonListeners();
 
         playButton.setVisible(false);
+        for (TextButton button : optionButtons) {
+            button.setVisible(false);
+        }
     }
 
     /**
@@ -82,7 +93,7 @@ public class DialogueBox {
      *
      * @param labelText The array of hint messages to display.
      */
-    public DialogueBox(String[] labelText) {
+    public DialogueBox(String[][] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.hints = labelText;
         dialogueBoxInitialisation(false);
@@ -114,7 +125,7 @@ public class DialogueBox {
      */
     private Label createLabel() {
         if (hints.length > 0) {
-            label = new Label(hints[currentHint], SKIN, "default-white");
+            label = new Label(hints[currentHintLine][currentHint], SKIN, "default-white");
         } else {
             label = new Label("", SKIN, "default-white");
         }
@@ -145,13 +156,12 @@ public class DialogueBox {
     private TextButton createForwardButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
         TextButton forwardButton = new TextButton("Continue", buttonStyle);
-        forwardButton.padLeft(55f);
         forwardButton.getLabel().setAlignment(Align.center);
 
         float buttonWidth = forwardButton.getWidth();
         float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
-        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 290);
+        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 100);
 
         return forwardButton;
     }
@@ -164,12 +174,12 @@ public class DialogueBox {
     private TextButton createBackwardButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
         TextButton backwardButton = new TextButton("Back", buttonStyle);
-        backwardButton.padLeft(50f);
+        backwardButton.getLabel().setAlignment(Align.center);
 
         float buttonWidth = backwardButton.getWidth();
         float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
-        backwardButton.setPosition(centerX, label.getY() - 290);
+        backwardButton.setPosition(centerX, label.getY() - 100);
 
         return backwardButton;
     }
@@ -186,11 +196,30 @@ public class DialogueBox {
         playButton.getLabel().setAlignment(Align.center);
         float buttonWidth = playButton.getWidth();
         float buttonHeight = playButton.getHeight();
-        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
+        float centerX = (screenWidth - buttonWidth) / 2;
         float centerY = (screenHeight - buttonHeight) / 2;
 
-        playButton.setPosition(centerX, centerY - 200);
+        playButton.setPosition(centerX, centerY + 0);
         return playButton;
+    }
+
+    /**
+     * Creates the optionButton.
+     *
+     * @return the optionButton instance.
+     */
+    public TextButton createOptionButton(int index) {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton optionButton = new TextButton("Option" + Integer.toString(index), buttonStyle);
+        optionButton.getLabel().setAlignment(Align.center);
+        optionButton.setWidth(400);
+        float buttonWidth = optionButton.getWidth();
+        float buttonHeight = optionButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2 + 400;
+        float centerY = (screenHeight - buttonHeight - index * 75) / 2 - 200;
+
+        optionButton.setPosition(centerX, centerY);
+        return optionButton;
     }
 
     /**
@@ -249,6 +278,42 @@ public class DialogueBox {
                 return true;
             }
         });
+
+        optionButtons[0].addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleOptionButtonClick(0);
+                return true;
+            }
+        });
+        optionButtons[1].addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleOptionButtonClick(1);
+                return true;
+            }
+        });
+        optionButtons[2].addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleOptionButtonClick(2);
+                return true;
+            }
+        });
+        optionButtons[3].addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleOptionButtonClick(3);
+                return true;
+            }
+        });
+        optionButtons[4].addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handleOptionButtonClick(4);
+                return true;
+            }
+        });
     }
 
     /**
@@ -256,7 +321,7 @@ public class DialogueBox {
      *
      * @return An array of strings containing the hint messages.
      */
-    public String[] getHints() {
+    public String[][] getHints() {
         return this.hints;
     }
 
@@ -267,6 +332,15 @@ public class DialogueBox {
      */
     public int getCurrentHint() {
         return this.currentHint;
+    }
+
+    /**
+     * Returns the index of the current hint line being displayed.
+     *
+     * @return The index of the current hint line.
+     */
+    public int getCurrentHintLine() {
+        return this.currentHintLine;
     }
 
     /**
@@ -283,10 +357,13 @@ public class DialogueBox {
      * Updates the label text to the next hint in the array and repositions the label.
      */
     public void handleForwardButtonClick() {
-
-        currentHint = (currentHint + 1) % hints.length;
-        String text = hints[currentHint];
+        for (TextButton button : optionButtons) {
+            if (button != null) button.setVisible(false);
+        }
+        currentHint = (currentHint + 1) % hints[currentHintLine].length;
+        String text = hints[currentHintLine][currentHint];
         text = minigameCheck(text);
+        text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
     }
@@ -296,9 +373,30 @@ public class DialogueBox {
      * Updates the label text to the previous hint in the array and repositions the label.
      */
     public void handleBackwardButtonClick() {
-        currentHint = (currentHint - 1 + hints.length) % hints.length;
-        String text = hints[currentHint];
+        for (TextButton button : optionButtons) {
+            if (button != null) button.setVisible(false);
+        }
+        currentHint = (currentHint - 1 + hints[currentHintLine].length) % hints[currentHintLine].length;
+        String text = hints[currentHintLine][currentHint];
         text = minigameCheck(text);
+        text = optionsCheck(text);
+        label.setText(text);
+        updateLabelPosition();
+    }
+
+    /**
+     * Handles the option button click event to navigate to the specific hint.
+     * Updates the label text to the certain hint in the array and repositions the label.
+     */
+    public void handleOptionButtonClick(int index) {
+        for (TextButton button : optionButtons) {
+            if (button != null) button.setVisible(false);
+        }
+        currentHintLine = (currentHintLine + index + 1) % hints.length;
+        currentHint = 0;
+        String text = hints[currentHintLine][currentHint];
+        text = minigameCheck(text);
+        text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
     }
@@ -314,18 +412,41 @@ public class DialogueBox {
      * @return the altered text without the flag to be shown in the dialogue box.
      */
     public String minigameCheck(String text) {
-        if (hints[currentHint].startsWith("/ms")) {
+        if (hints[currentHintLine][currentHint].startsWith("/ms")) {
             if (playButton != null) playButton.setVisible((true));
             currentMinigame = SNAKE;
             return text.substring(3);
-        } else if (hints[currentHint].startsWith("/mb")){
+        } else if (hints[currentHintLine][currentHint].startsWith("/mb")){
             if (playButton != null) playButton.setVisible((true));
             currentMinigame = BIRD;
             return text.substring(3);
-        } else if (hints[currentHint].startsWith("/mu")) {
+        } else if (hints[currentHintLine][currentHint].startsWith("/mu")) {
             if (playButton != null) playButton.setVisible((true));
             currentMinigame = MAZE;
             return text.substring(3);
+        } else {
+            if (playButton != null) playButton.setVisible((false));
+            return text;
+        }
+    }
+
+    /**
+     * Checks if the current text on the label contains either of the following flags at the
+     * beginning of the string. This then shows the option buttons.
+     *  /c: indicates that this is a dialogue with options
+     *  /s00: string after this is one of the options user can choose. The number is replaced with what index the
+     *      option takes the user to
+     * @param text the label text to be shown in the dialogue.
+     * @return the altered text without the flag to be shown in the dialogue box.
+     */
+    public String optionsCheck(String text) {
+        if (hints[currentHintLine][currentHint].startsWith("/c")) {
+            String[] options = text.split("/s");
+            for (int i = 1; i < options.length; i++) {
+                optionButtons[i - 1].setText(options[i].substring(2));
+                optionButtons[i - 1].setVisible(true);
+            }
+            return options[0].substring(2);
         } else {
             if (playButton != null) playButton.setVisible((false));
             return text;
@@ -341,6 +462,9 @@ public class DialogueBox {
         if (forwardButton != null) forwardButton.setVisible(false);
         if (backwardButton != null) backwardButton.setVisible(false);
         if (playButton != null) playButton.setVisible(false);
+        for (TextButton button : optionButtons) {
+            if (button != null) button.setVisible(false);
+        }
     }
 
     /**
@@ -350,12 +474,13 @@ public class DialogueBox {
      *
      * @param hints An array of strings containing the hint messages to display.
      */
-    public void showDialogueBox(String[] hints) {
+    public void showDialogueBox(String[][] hints) {
         this.hints = hints;
         this.currentHint = 0; // Reset to the first hint
-        this.label.setText(hints[currentHint]);
+        this.currentHintLine = 0; // Reset to the first hint
+        this.label.setText(hints[currentHintLine][currentHint]);
         updateLabelPosition(); // Update position after setting text
-        if (hints.length > 1) {
+        if (hints[currentHintLine].length > 1) {
             if (forwardButton != null) forwardButton.setVisible(true);
             if (backwardButton != null) backwardButton.setVisible(true);
         } else {
