@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.BitSet;
 import java.util.Arrays;
 
-/** 
- * A chunk of terrain in the game world. 
+/**
+ * A chunk of terrain in the game world.
  * This class is responsible for generating and rendering the terrain.
  * */
 public class TerrainChunk {
@@ -85,7 +85,7 @@ public class TerrainChunk {
    * @param terrainResource The terrain resource to use for generating the terrain
    */
   public void generateTiles(GridPoint2 chunkPos, Map<GridPoint2, TerrainChunk> loadedChunks,
-      TerrainResource terrainResource) {
+                            TerrainResource terrainResource) {
     int cPosX = chunkPos.x * CHUNK_SIZE;
     int cPosY = chunkPos.y * CHUNK_SIZE;
 
@@ -118,10 +118,10 @@ public class TerrainChunk {
         int randomIndex = (int) (Math.random() * numTrueBits);
         randomTrueBitIndex = grid.get(randomTile).nextSetBit(0);
         for (int i = 0; i < randomIndex; i++)
-            randomTrueBitIndex = grid.get(randomTile).nextSetBit(randomTrueBitIndex + 1);
+          randomTrueBitIndex = grid.get(randomTile).nextSetBit(randomTrueBitIndex + 1);
       }
 
-      // clear all bit of the picked cell as filled tile 
+      // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
 
 
@@ -175,7 +175,7 @@ public class TerrainChunk {
    * @return The updated bitset for this cell
    */
   private BitSet analyseTile(BitSet up, BitSet down, BitSet left, BitSet right,
-      BitSet currentBitCell) {
+                             BitSet currentBitCell) {
     BitSet gridCell = currentBitCell;
     if (up != null)
       currentBitCell.and(up);
@@ -185,7 +185,7 @@ public class TerrainChunk {
 
     if (left != null)
       currentBitCell.and(left);
-    
+
     if (right != null)
       currentBitCell.and(right);
 
@@ -212,7 +212,7 @@ public class TerrainChunk {
       this.possibleLeft = new BitSet(TerrainResource.TILE_SIZE);
       this.possibleRight = new BitSet(TerrainResource.TILE_SIZE);
       this.isCollapsed = false;
-      
+
       this.options = new BitSet(TerrainResource.TILE_SIZE);
       this.options.set(0, TerrainResource.TILE_SIZE, true);
     }

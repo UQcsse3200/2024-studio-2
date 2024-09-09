@@ -1,5 +1,4 @@
 package com.csse3200.game.areas.terrain;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -40,11 +39,11 @@ public class TerrainComponent extends RenderComponent {
   private static TerrainResource terrainResource;
 
   public TerrainComponent(
-      OrthographicCamera camera,
-      TiledMap map,
-      TiledMapRenderer renderer,
-      TerrainOrientation orientation,
-      float tileSize) {
+          OrthographicCamera camera,
+          TiledMap map,
+          TiledMapRenderer renderer,
+          TerrainOrientation orientation,
+          float tileSize) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -88,8 +87,8 @@ public class TerrainComponent extends RenderComponent {
     TerrainChunk chunk = new TerrainChunk(chunkPos, tiledMap);
 
     if ((chunkPos.x < 0 || chunkPos.y < 0) ||
-        (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
-            chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
+            (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
+                    chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
       return;
 
     chunk.generateTiles(chunkPos, loadedChunks, terrainResource);
@@ -201,7 +200,7 @@ public class TerrainComponent extends RenderComponent {
     private Tile grassTL, grassTM, grassTR, grassML, grassMM, grassMR, grassBL, grassBM, grassBR;
     private Tile fullSand;
     private ArrayList<Tile> tiles;
-    
+
     // total number of tiles
     public static final int TILE_SIZE = 9;
 
@@ -214,31 +213,31 @@ public class TerrainComponent extends RenderComponent {
       // A: sand, B: grass, C: water
       // =======================
       this.grassTL = new Tile("grassTL", new TextureRegion(resourceService.getAsset("images/top_left_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("AAA", "ABB", "ABB", "AAA")));
+              new ArrayList<String>(Arrays.asList("AAA", "ABB", "ABB", "AAA")));
 
       this.grassTM = new Tile("grassTM", new TextureRegion(resourceService.getAsset("images/top_middle_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("AAA", "ABB", "BBB", "ABB")));
+              new ArrayList<String>(Arrays.asList("AAA", "ABB", "BBB", "ABB")));
 
       this.grassTR = new Tile("grassTR", new TextureRegion(resourceService.getAsset("images/top_right_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("AAA", "AAA", "BBA", "ABB")));
+              new ArrayList<String>(Arrays.asList("AAA", "AAA", "BBA", "ABB")));
 
       this.grassML = new Tile("grassML", new TextureRegion(resourceService.getAsset("images/middle_left_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("ABB", "BBB", "ABB", "AAA")));
+              new ArrayList<String>(Arrays.asList("ABB", "BBB", "ABB", "AAA")));
 
       this.grassMM = new Tile("grassMM", new TextureRegion(resourceService.getAsset("images/middle_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("BBB", "BBB", "BBB", "BBB")));
+              new ArrayList<String>(Arrays.asList("BBB", "BBB", "BBB", "BBB")));
 
       this.grassMR = new Tile("grassMR", new TextureRegion(resourceService.getAsset("images/middle_right_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("BBA", "AAA", "BBA", "BBB")));
+              new ArrayList<String>(Arrays.asList("BBA", "AAA", "BBA", "BBB")));
 
       this.grassBL = new Tile("grassBL", new TextureRegion(resourceService.getAsset("images/lower_left_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("ABB", "BBA", "AAA", "AAA")));
+              new ArrayList<String>(Arrays.asList("ABB", "BBA", "AAA", "AAA")));
 
       this.grassBM = new Tile("grassBM", new TextureRegion(resourceService.getAsset("images/lower_middle_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("BBB", "BBA", "AAA", "BBA")));
+              new ArrayList<String>(Arrays.asList("BBB", "BBA", "AAA", "BBA")));
 
       this.grassBR = new Tile("grassBR", new TextureRegion(resourceService.getAsset("images/lower_right_grass.png", Texture.class)),
-          new ArrayList<String>(Arrays.asList("BBA", "AAA", "AAA", "BBA")));
+              new ArrayList<String>(Arrays.asList("BBA", "AAA", "AAA", "BBA")));
 
       tiles.add(this.grassTL);
       tiles.add(this.grassTM);
@@ -281,7 +280,7 @@ public class TerrainComponent extends RenderComponent {
 
     /**
      * Set possible tiles for right direction.
-     * @param tile The tile to set possible tiles 
+     * @param tile The tile to set possible tiles
      */
     public void setPossibleRight(Tile tile) {
       BitSet right = new BitSet(TILE_SIZE);
@@ -309,7 +308,7 @@ public class TerrainComponent extends RenderComponent {
 
     /**
      * Set possible tiles for left direction.
-     * @param tile The tile to set possible tiles 
+     * @param tile The tile to set possible tiles
      */
     public void setPossibleLeft(Tile tile) {
       BitSet left = new BitSet(TILE_SIZE);
@@ -456,7 +455,7 @@ public class TerrainComponent extends RenderComponent {
     private BitSet right = new BitSet(TerrainResource.TILE_SIZE);
     private BitSet down = new BitSet(TerrainResource.TILE_SIZE);
     private BitSet left = new BitSet(TerrainResource.TILE_SIZE);
-    
+
     public boolean collapsed = false;
 
     public Tile(String name, TextureRegion texture, ArrayList<String> edgeTiles) {
