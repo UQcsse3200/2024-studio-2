@@ -153,7 +153,7 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdImage);
 
         // Initialises buttons
-        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonSplash1.png"))));
+        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load2.png"))));
         TextButton loadBtn = new TextButton("Load", skin);
         TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
         TextButton settingsBtn = new TextButton("Settings", skin);
