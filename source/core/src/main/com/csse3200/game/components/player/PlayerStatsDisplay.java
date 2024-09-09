@@ -112,8 +112,8 @@ public class PlayerStatsDisplay extends UIComponent {
         hungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png", Texture.class));
 
         // Get the original width and height of the image
-        float barImageWidth = (float) (heartImage.getWidth() * 0.8);
-        float barImageHeight = (float) (heartImage.getHeight() * 0.5);
+        float barImageWidth = (float) (heartImage.getWidth() * 0.7);
+        float barImageHeight = (float) (heartImage.getHeight() * 0.4);
 
         // Experience text
         CharSequence xpText = String.format("EXP: %d", 100);
@@ -126,11 +126,11 @@ public class PlayerStatsDisplay extends UIComponent {
         // Aligning the bars one below the other
         table.add(heartImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
         table.add(healthLabel).align(Align.left);
-        table.row().padTop(10);
+        table.row().padTop(0);
 
-        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.25)).pad(2).padLeft(170);
+        table.add(xpImage).size(barImageWidth, (float) (barImageHeight * 1.15)).pad(2).padLeft(170);
         table.add(xpLabel).align(Align.left);
-        table.row().padTop(10);
+        table.row().padTop(30);
 
         table.add(hungerImage).size(barImageWidth, barImageHeight * 2).pad(2).padLeft(170).padTop(-15);
         table.add(hungerLabel).align(Align.left).padTop(-15);
