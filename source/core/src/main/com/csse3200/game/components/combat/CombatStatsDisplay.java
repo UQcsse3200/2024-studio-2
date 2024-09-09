@@ -26,14 +26,17 @@ public class CombatStatsDisplay extends UIComponent {
   private CombatStatsComponent enemyStats;
   private Table statsTable;
   private Image playerHealthImage;
+  private Image playerHungerImage;
   private Image enemyHealthImage;
   private  Image xpImage;
   private Label playerHealthLabel;
+  private Label playerHungerLabel;
   private Label enemyHealthLabel;
   private Label experienceLabel;
   private TextureAtlas[] textureAtlas;
   private static Animation<TextureRegion> playerHealthBarAnimation;
   private static Animation<TextureRegion> enemyHealthBarAnimation;
+  private static Animation<TextureRegion> playerHungerBarAnimation;
   private static Animation<TextureRegion> xpBarAnimation;
   private float barImageWidth;
   private float barImageHeight;
