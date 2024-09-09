@@ -1,47 +1,52 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.entities.Entity;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class listens to events relevant to the Main Game Screen and does something when one of the
+ * This class listens to events relevant to the combat screen and does something when one of the
  * events is triggered.
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
-  private final Entity enemy; // Each combat can only have one enemy.
+  private final CombatManager manager;
+  private final Screen previousScreen;
+  private final ServiceContainer previousServices;
+  private Stage stage;
 
-  public CombatActions(GdxGame game, Entity enemy) {
+  public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
-    this.enemy = enemy;
+    this.manager = manager;
+    this.previousScreen = previousScreen;
+    this.previousServices = previousServices;
   }
 
   @Override
   public void create() {
-    entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
-  }
+    entity.getEvents().addListener("Attack", this::onAttack);
+    entity.getEvents().addListener("Guard", this::onGuard);
+    entity.getEvents().addListener("Counter", this::onCounter);
 
-  private void onReturnToMainGame(Screen screen, ServiceContainer container) {
-    logger.info("Returning to main game screen");
-    // change to new GDXgame function
-    game.setOldScreen(screen, container);
+    logger.info("Player health start: {}", manager.getPlayer().getComponent(CombatStatsComponent.class).getHealth());
+    logger.info("Enemy health start: {}", manager.getEnemy().getComponent(CombatStatsComponent.class).getHealth());
   }
 
   /**
    * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
    * 'Kills' enemy entity on return to combat screen.
    */
-  private void onCombatWin(Screen screen, ServiceContainer container) {
+  private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
+<<<<<<< HEAD
     // Kill enemy.
     //this.enemy.dispose();
     //this.enemy.update();
@@ -50,6 +55,10 @@ public class CombatActions extends Component {
     // Set current screen to original MainGameScreen
     game.setOldScreen(screen, container);
     // game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+=======
+    // Reset player's stamina.
+    game.setOldScreen(previousScreen, previousServices);
+>>>>>>> 9-boss-abilities
   }
 
   /**
@@ -57,8 +66,29 @@ public class CombatActions extends Component {
    */
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");
-    // Set current screen to original MainGameScreen
-//    game.setOldScreen(screen, container);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    game.setOldScreen(previousScreen, previousServices);
+  }
+
+  private void onAttack(Screen screen, ServiceContainer container) {
+    logger.info("Attack clicked.");
+    manager.onPlayerActionSelected("ATTACK");
+
+  }
+  private void onGuard(Screen screen, ServiceContainer container) {
+    logger.info("onGuard before");
+    // Perform Guard logic here, like increasing health
+
+  }
+  private void onCounter(Screen screen, ServiceContainer container) {
+    logger.info("before Counter");
+    // Perform counter logic here.
+  }
+  /**
+   * Called when the screen is disposed to free resources.
+   */
+  @Override
+  public void dispose() {
+    // Dispose of the stage to free up resources
+    stage.dispose();
   }
 }
