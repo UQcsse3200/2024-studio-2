@@ -15,18 +15,21 @@ public class Bird {
     private static final int GAME_HEIGHT = 1200;
     // testing
     private boolean collidingPipe;
-    private boolean top;
+    private boolean collideTopOfPipe;
+    private boolean collideBottomOfPipe;
     private boolean isFlapping;
     public Bird(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         boundingBox = new Rectangle(x, y, BIRD_WIDTH, BIRD_HEIGHT);
         collidingPipe = false;
+        collideTopOfPipe = false;
+        collideBottomOfPipe = false;
         isFlapping = false;
     }
     public void update(float deltaTime) {
         if (position.y > 0) {
-            if(top) {
+            if(collideTopOfPipe) {
                 if(velocity.y != 0) {
                     velocity.y = 0;
                 }
@@ -54,23 +57,39 @@ public class Bird {
         velocity.scl(1 / deltaTime);
         if (position.y + BIRD_HEIGHT > GAME_HEIGHT) {
             position.y = GAME_HEIGHT - BIRD_HEIGHT;
+            velocity.set(0,0);
         }
         updateBoundingBox();
 
     }
 
-    public void setCollidingTopPipe() {
-        top = true;
+    public void setCollidingTopPipe(float y) {
+        collideTopOfPipe = true;
+        position.set(position.x, y);
     }
 
     public void unsetCollidingTopPipe() {
-        top = false;
+        collideTopOfPipe = false;
+    }
+
+    public void setCollidingBottomPipe(float y) {
+        collideBottomOfPipe = true;
+        position.set(position.x, y - getBirdHeight());
+        velocity.set(0,0);
+    }
+
+    public void unsetCollidingBottomPipe() {
+        collideBottomOfPipe = false;
     }
     /**
      * For collisions
      */
     public void setCollidingPipe() {
         collidingPipe = true;
+    }
+
+    public float getBirdHeight() {
+        return BIRD_HEIGHT;
     }
 
     /**

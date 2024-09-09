@@ -28,6 +28,8 @@ public class BirdieDashGame {
     private final MinigameRenderer renderer;
    // private final BirdieDashController controller;
     private final CollisionHandler collisionHandler;
+    private float speedMultiplier = 1.0f;
+    private float accelerationRate = 0.05f;
 
     public BirdieDashGame() {
         this.pipes = createPipes();
@@ -101,12 +103,14 @@ public class BirdieDashGame {
      * @param dt the change in game time
      */
     private void updateGamePosition(float dt) {
-        changePipePosition(dt);
-        changeCoinPosition(dt);
-        bird.update(dt);
+        speedMultiplier += accelerationRate * dt;
+        collisionHandler.checkCollisions();
+        changePipePosition(dt * speedMultiplier);
+        changeCoinPosition(dt * speedMultiplier);
+        bird.update(dt * speedMultiplier);
         // Add all other change positions here e.g. bird, coins etc.
 
-        collisionHandler.checkCollisions();
+
     }
 
     /**

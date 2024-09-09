@@ -14,8 +14,9 @@ public class CollisionHandler {
     private List<Coin> coins;
     private final Spike spike;
     private int score;  // To keep track of the player's score
-    final float epsilon = 5f;
-    private Vector2 previousPosition;
+    final float epsilon = 15f;
+    private boolean collisionDetected;
+    private boolean overlapping;
 
     public CollisionHandler(Bird bird, List<Pipe> pipes, List<Coin> coins, Spike spike) {
         this.bird = bird;
@@ -23,6 +24,8 @@ public class CollisionHandler {
         this.coins = coins;
         this.spike = spike;
         this.score = 0; // Initialize the score
+        this.collisionDetected = false;
+        this.overlapping = false;
     }
 
     public void checkCollisions() {
@@ -32,50 +35,37 @@ public class CollisionHandler {
     }
 
     private void checkPipes() {
+        overlapping = false;
         for (Pipe pipe : pipes) {
             if (bird.getBoundingBox().overlaps(pipe.getBottomPipe()) || bird.getBoundingBox().overlaps(pipe.getTopPipe())) {
-                if (isApproximatelyEqual(bird.getPosition().y, pipe.getPositionBottom().y + pipe.getBottomPipe().height, epsilon)) {
-                    bird.setCollidingTopPipe();
+                overlapping = true;
+                if(!collisionDetected) {
+                    float bottomPipeY = pipe.getPositionBottom().y + pipe.getBottomPipe().height;
+                    float topPipeY = pipe.getPositionTop().y;
+                    if (isApproximatelyEqual(bird.getPosition().y, bottomPipeY, epsilon)) {
+                        bird.setCollidingTopPipe(bottomPipeY);
+                        collisionDetected = true;
+                        return;
+                    } else if (isApproximatelyEqual(bird.getPosition().y + bird.getBirdHeight(),
+                            topPipeY, epsilon)) {
+                        bird.setCollidingBottomPipe(topPipeY);
+                        collisionDetected = true;
+                        return;
+                    }
+                    collisionDetected = true;
+                    bird.setCollidingPipe();
                     return;
                 }
-                bird.setCollidingPipe();
-                return;
             }
         }
-        bird.unsetCollidingPipe();
-        bird.unsetCollidingTopPipe();
-    }
-
-    private void checkPipes(float deltaTime) {
-        for (Pipe pipe : pipes) {
-            // Check collision with bottom or top pipe
-            if (bird.getBoundingBox().overlaps(pipe.getBottomPipe()) || bird.getBoundingBox().overlaps(pipe.getTopPipe())) {
-
-                // Get the top of the bottom pipe and bird's current and previous y-positions
-                float pipeTopY = pipe.getPositionBottom().y + pipe.getBottomPipe().height;
-                float birdCurrentY = bird.getPosition().y;
-                float birdPreviousY = previousPosition.y;
-
-                // Check if the bird has crossed the top of the pipe
-                if (birdPreviousY >= pipeTopY && birdCurrentY < pipeTopY) {
-                    // The bird has crossed the top of the pipe, treat it as a collision
-                    bird.setCollidingTopPipe();
-                    return;
-                }
-
-                // If no top collision but still colliding
-                bird.setCollidingPipe();
-                return;
-            }
+        if (!overlapping) {
+            collisionDetected = false;
+            bird.unsetCollidingPipe();
+            bird.unsetCollidingTopPipe();
+            bird.unsetCollidingBottomPipe();
         }
-
-        // No collisions
-        bird.unsetCollidingPipe();
-        bird.unsetCollidingTopPipe();
-
-        // Update the bird's previous position after checking
-        previousPosition.set(bird.getPosition());
     }
+
 
     private void checkCoin() {
         for (Coin coin : coins) {
