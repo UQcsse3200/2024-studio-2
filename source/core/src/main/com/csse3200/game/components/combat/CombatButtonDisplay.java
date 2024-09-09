@@ -23,7 +23,7 @@ public class CombatButtonDisplay extends UIComponent {
     private int iHealthCheck =-100;
     TextButton AttackButton ;
     TextButton GuardButton ;
-    TextButton CounterButton;
+    TextButton SleepButton;
     private boolean AttackStatus=true;
     private boolean GuardStatus=true;
 
@@ -66,7 +66,7 @@ public class CombatButtonDisplay extends UIComponent {
 
         AttackButton = new TextButton("Attack", skin);
         GuardButton = new TextButton("Guard", skin);
-        CounterButton = new TextButton("Counter", skin);
+        SleepButton = new TextButton("Sleep", skin);
 
         AttackButton.addListener(
                 new ChangeListener() {
@@ -83,11 +83,11 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Guard", screen, container);
                     }
                 });
-        CounterButton.addListener(
+        SleepButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        entity.getEvents().trigger("Counter", screen, container);
+                        entity.getEvents().trigger("Sleep", screen, container);
                     }
                 });
 
@@ -95,7 +95,7 @@ public class CombatButtonDisplay extends UIComponent {
         table.row();
         table.add(GuardButton).padBottom(10f).padLeft(10f);
         table.row();
-        table.add(CounterButton).padBottom(10f).padLeft(10f);
+        table.add(SleepButton).padBottom(10f).padLeft(10f);
 
         stage.addActor(table);
     }

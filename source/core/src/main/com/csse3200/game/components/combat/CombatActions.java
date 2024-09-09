@@ -34,7 +34,7 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
-    entity.getEvents().addListener("Counter", this::onCounter);
+    entity.getEvents().addListener("Sleep", this::onSleep);
 
     logger.info("Player health start: {}", manager.getPlayer().getComponent(CombatStatsComponent.class).getHealth());
     logger.info("Enemy health start: {}", manager.getEnemy().getComponent(CombatStatsComponent.class).getHealth());
@@ -61,16 +61,14 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("Attack clicked.");
     manager.onPlayerActionSelected("ATTACK");
-
   }
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("onGuard before");
-    // Perform Guard logic here, like increasing health
-
+    logger.info("Guard clicked.");
+    manager.onPlayerActionSelected("GUARD");
   }
-  private void onCounter(Screen screen, ServiceContainer container) {
-    logger.info("before Counter");
-    // Perform counter logic here.
+  private void onSleep(Screen screen, ServiceContainer container) {
+    logger.info("Sleep clicked.");
+    manager.onPlayerActionSelected("SLEEP");
   }
   /**
    * Called when the screen is disposed to free resources.
