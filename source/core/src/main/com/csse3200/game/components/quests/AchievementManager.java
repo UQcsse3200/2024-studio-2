@@ -23,7 +23,8 @@ public class AchievementManager {
         if (!saveFile.exists() || saveFile.length() == 0) {
             // Copy config achievements to save file
             saveFile.writeString(json.prettyPrint(configAchievements), false);
-        } else {
+        }
+
             // Load achievements from save
             achievements = json.fromJson(Array.class, Achievement.class, saveFile);
 
@@ -36,7 +37,7 @@ public class AchievementManager {
 
             // Save the updated achievements back to the save file
             saveFile.writeString(json.prettyPrint(achievements), false);
-        }
+
     }
 
     private boolean containsAchievement(Array<Achievement> achievements, String name) {
