@@ -472,7 +472,9 @@ public class DialogueBox {
             }
             return options[0].substring(2);
         } else {
-            if (playButton != null) playButton.setVisible((false));
+            for (TextButton button : optionButtons) {
+                if (button != null) button.setVisible(false);
+            }
             return text;
         }
     }
