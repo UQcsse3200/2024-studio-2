@@ -566,16 +566,23 @@ public class MainMenuDisplay extends UIComponent {
      * Adds a minimize button and mute button to the top-right corner of the screen.
      */
     private void addTopRightButtons() {
-        // Create a table to hold both buttons
+
+        Texture minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png")); // Replace with your minimize icon
+        Texture maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png")); // Replace with your maximize icon
+
+        Drawable minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
+        Drawable maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
+
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
 
-        // Initialize the minimize button
+        // Adding Icon for the minimax button
+        ImageButton toggleWindowBtn;
         if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
+            toggleWindowBtn = new ImageButton(minimizeDrawable);
         } else {
-            toggleWindowBtn = new TextButton("+", skin); // Start with the plus (maximize) icon
+            toggleWindowBtn = new ImageButton(maximizeDrawable);
         }
 
         // Listener for minimizing/maximizing window
@@ -584,19 +591,19 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
-                    // Switch to windowed mode
+                    // Mini-screen mode
                     Gdx.graphics.setWindowedMode(1200, 750);
+                    toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
-                    // Switch to fullscreen mode
+                    // Fullscreen mode
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                    toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
-                updateToggleWindowButtonText(); // Update button text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
                 sizeTable();
             }
         });
 
-        // Create the mute button
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
         muteButton = new Button(buttonStyle);
@@ -619,18 +626,6 @@ public class MainMenuDisplay extends UIComponent {
 
         // Add the table to the stage
         stage.addActor(topRightTable);
-    }
-
-    /**
-     * Updates the text of the minimize button based on screen mode.
-     */
-    private void updateToggleWindowButtonText() {
-        boolean isFullscreen = Gdx.graphics.isFullscreen();
-        if (isFullscreen) {
-            toggleWindowBtn.setText("-"); // Show minus for minimizing
-        } else {
-            toggleWindowBtn.setText("+"); // Show plus for maximizing
-        }
     }
 
 
