@@ -275,6 +275,10 @@ public class ForestGameArea extends GameArea {
     generator = () -> NPCFactory.createCow(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_COWS);
 
+    // Fish
+    generator = () -> NPCFactory.createFish(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_FISH);
+
     // Lion
     generator = () -> NPCFactory.createLion(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_LIONS);

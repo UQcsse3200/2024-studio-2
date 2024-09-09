@@ -54,7 +54,7 @@ public class ItemProximityTask extends ProximityTask {
                 itemPickedUp = true; // Set flag to prevent further triggering
                 owner.getEntity().dispose();
                 logger.debug("I WAS DISPOSED OF!");
-                ServiceLocator.getEntityChatService().hideCurrentOverlay();
+                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
@@ -81,13 +81,13 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedAway() {
-        ServiceLocator.getEntityChatService().hideCurrentOverlay();
+        ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
     }
 
     @Override
     public void handleTargetMovedClose() {
         String[] itemText = {item.getDescription() + " - press P to pick it up."};
-        ServiceLocator.getEntityChatService().updateText(itemText);
+        ServiceLocator.getDialogueBoxService().updateText(itemText);
     }
 
     /**
