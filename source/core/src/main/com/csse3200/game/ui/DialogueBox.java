@@ -192,14 +192,13 @@ public class DialogueBox {
     public TextButton createPlayButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
         TextButton playButton = new TextButton("Play Game", buttonStyle);
-        playButton.padLeft(55f);
         playButton.getLabel().setAlignment(Align.center);
         float buttonWidth = playButton.getWidth();
         float buttonHeight = playButton.getHeight();
         float centerX = (screenWidth - buttonWidth) / 2;
         float centerY = (screenHeight - buttonHeight) / 2;
 
-        playButton.setPosition(centerX, centerY + 0);
+        playButton.setPosition(centerX, centerY - 300);
         return playButton;
     }
 
@@ -265,7 +264,7 @@ public class DialogueBox {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 hideDialogueBox(); // hides dialogue when player returns to the screen
-                if (playButton != null) playButton.setVisible((false));
+                if (playButton != null) playButton.setVisible(false);
                 GdxGame gdxGame = GdxGameManager.getInstance();
                 // Could potentially override snake hints here for post game messages
                 if (currentMinigame == SNAKE) {
@@ -413,19 +412,19 @@ public class DialogueBox {
      */
     public String minigameCheck(String text) {
         if (hints[currentHintLine][currentHint].startsWith("/ms")) {
-            if (playButton != null) playButton.setVisible((true));
+            if (playButton != null) playButton.setVisible(true);
             currentMinigame = SNAKE;
             return text.substring(3);
         } else if (hints[currentHintLine][currentHint].startsWith("/mb")){
-            if (playButton != null) playButton.setVisible((true));
+            if (playButton != null) playButton.setVisible(true);
             currentMinigame = BIRD;
             return text.substring(3);
         } else if (hints[currentHintLine][currentHint].startsWith("/mu")) {
-            if (playButton != null) playButton.setVisible((true));
+            if (playButton != null) playButton.setVisible(true);
             currentMinigame = MAZE;
             return text.substring(3);
         } else {
-            if (playButton != null) playButton.setVisible((false));
+            if (playButton != null) playButton.setVisible(false);
             return text;
         }
     }
@@ -448,7 +447,9 @@ public class DialogueBox {
             }
             return options[0].substring(2);
         } else {
-            if (playButton != null) playButton.setVisible((false));
+            for (TextButton button : optionButtons) {
+                if (button != null) button.setVisible(false);
+            }
             return text;
         }
     }
