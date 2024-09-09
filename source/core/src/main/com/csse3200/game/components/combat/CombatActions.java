@@ -48,7 +48,8 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
-    entity.getEvents().addListener("Counter", this::onCounter);
+    entity.getEvents().addListener("Sleep", this::onSleep);
+    entity.getEvents().addListener("Items", this::onItems);
     //Display.create();
   }
 
@@ -90,14 +91,19 @@ public class CombatActions extends Component {
     entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("onGuard before");
+    logger.info("before Guard");
     // Perform Guard logic here, like increasing health
 
   }
-  private void onCounter(Screen screen, ServiceContainer container) {
-    logger.info("before Counter");
-    entity.getEvents().trigger("onCounter", manager.getPlayerStats(), manager.getEnemyStats());
+  private void onSleep(Screen screen, ServiceContainer container) {
+    logger.info("before Sleep");
+    entity.getEvents().trigger("onSleep", manager.getPlayerStats(), manager.getEnemyStats());
     // Perform counter logic here.
+  }
+  private void onItems(Screen screen, ServiceContainer container) {
+    logger.info("before Items");
+    // Perform Guard logic here, like increasing health
+
   }
   /**
    * Called when the screen is disposed to free resources.
@@ -105,6 +111,6 @@ public class CombatActions extends Component {
   @Override
   public void dispose() {
     // Dispose of the stage to free up resources
-    // stage.dispose(); // commented out because stage was returning null so could not be disposed of
+    //stage.dispose(); // commented out because stage was returning null so could not be disposed of
   }
 }

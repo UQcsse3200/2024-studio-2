@@ -20,53 +20,35 @@ public class CombatButtonDisplay extends UIComponent {
     private Table table;
     private Screen screen;
     private ServiceContainer container;
-    private int iHealthCheck =-100;
     TextButton AttackButton ;
     TextButton GuardButton ;
-    TextButton CounterButton;
-    private boolean AttackStatus=true;
-    private boolean GuardStatus=true;
+    TextButton SleepButton;
+    TextButton ItemsButton;
+
 
 
     public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
         this.screen = screen;
         this.container = container;
     }
-
-
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean GuardStatus ) {
-        this.iHealthCheck = iHealthCheck;
-        logger.info("iHealthCheck: {}", iHealthCheck);
-        this.AttackStatus = AttackStatus;
-        this.GuardStatus = GuardStatus;
-        //ChangeActors(iHealthCheck, AttackStatus, BoostStatus);
-        logger.info("CombatButtonStagDisplay in const for change actor");
-        create();
-    }
-
     @Override
     public void create() {
         super.create();
-        if(iHealthCheck== -100)
-        {
-            logger.info("CombatButtonStagDisplay::Create() , before calling addActors");
+            logger.info("CombatButtonDisplay::Create() , before calling addActors");
             addActors();
-        }
-        else {
-            logger.info("CombatButtonStagDisplay::Create() , before calling ChangeActors");
-            ChangeActors(iHealthCheck , AttackStatus, GuardStatus);
-        }
 
     }
 
+
     private void addActors() {
         table = new Table();
-        table.center().left();
+        table.bottom();
         table.setFillParent(true);
 
         AttackButton = new TextButton("Attack", skin);
         GuardButton = new TextButton("Guard", skin);
-        CounterButton = new TextButton("Counter", skin);
+        SleepButton = new TextButton("Sleep", skin);
+        ItemsButton = new TextButton("Items", skin);
 
         AttackButton.addListener(
                 new ChangeListener() {
@@ -83,24 +65,32 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Guard", screen, container);
                     }
                 });
-        CounterButton.addListener(
+        SleepButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        entity.getEvents().trigger("Counter", screen, container);
+                        entity.getEvents().trigger("Sleep", screen, container);
+                    }
+                });
+        ItemsButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        entity.getEvents().trigger("Items", screen, container);
                     }
                 });
 
-        table.add(AttackButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(GuardButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(CounterButton).padBottom(10f).padLeft(10f);
+
+        // Position the button on the central bottom part and make them a lil bigger
+        table.add(AttackButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(GuardButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(SleepButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(ItemsButton).padBottom(50).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
     }
     private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus){
-        logger.info("CombatButtonStagDisplay::ChangeActors::entering");
+        logger.info("CombatButtonDisplay::ChangeActors::entering");
         //Button enabling status logic
     }
 
