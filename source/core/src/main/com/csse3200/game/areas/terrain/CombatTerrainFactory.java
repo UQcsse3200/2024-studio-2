@@ -26,7 +26,7 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class CombatTerrainFactory {
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(768, 512);
+    private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
     private static final int TUFT_TILE_COUNT = 30;
     private static final int ROCK_TILE_COUNT = 30;
 
@@ -75,7 +75,7 @@ public class CombatTerrainFactory {
         // Determine the background image based on terrain type
         switch (terrainType) {
             case FOREST_DEMO:
-                backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background_one.png", Texture.class));
+                backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
                 break;
             default:
                 return null; // Return null for unsupported terrain types
@@ -86,9 +86,14 @@ public class CombatTerrainFactory {
         backgroundHeight = backgroundTextureRegion.getRegionHeight();
 
         // Calculate the scale to fit the image to the screen size
+//        float scaleX = screenSize.x / backgroundWidth;
+//        float scaleY = screenSize.y / backgroundHeight;
+//        float scale = Math.min(scaleX, scaleY); // Choose the smaller scale to ensure the image fits within the screen
+
+        // Calculate the scale to fill the image to the screen size
         float scaleX = screenSize.x / backgroundWidth;
         float scaleY = screenSize.y / backgroundHeight;
-        float scale = Math.min(scaleX, scaleY); // Choose the smaller scale to ensure the image fits within the screen
+        float scale = Math.max(scaleX, scaleY); // Choose the larger scale to ensure the image covers the screen
 
         // Calculate scaled dimensions
         int scaledWidth = (int) (backgroundWidth * scale);
@@ -126,17 +131,6 @@ public class CombatTerrainFactory {
 
         // Return the TerrainComponent with the background image rendering setup
         return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f); // 1f scale used for background
-    }
-
-
-
-
-    private TerrainComponent createForestDemoTerrain(
-            float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
-        GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-        TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks);
-        TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
-        return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
     }
 
     private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {

@@ -218,7 +218,7 @@ public class EnemyFactory {
             .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
             .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
 
-    kangarooBoss.scaleHeight(3.0f);
+    kangarooBoss.scaleHeight(120.0f);
 
     return kangarooBoss;
   }
@@ -312,7 +312,7 @@ public class EnemyFactory {
             .addComponent(new TextureRenderComponent("images/frog_idle.png"))
             .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
 
-    frogEnemy.scaleHeight(90.0f);
+    frogEnemy.scaleHeight(150.0f);
 
     return frogEnemy;
   }
