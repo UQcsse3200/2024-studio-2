@@ -11,6 +11,10 @@ public class PopUpHelper {
     private final Skin skin;
     private final Stage stage;
 
+    private int[] speedStats = {100, 40, 80}; // Speed stats for bird, croc, dog
+    private int[] defenseStats = {80, 30, 60}; // Defense stats for bird, croc, dog
+    private int[] strengthStats = {40, 80, 60}; // Strength stats for bird, croc, dog
+
     /**
      * Constructs a new PopUpHelper.
      *
@@ -30,9 +34,20 @@ public class PopUpHelper {
      * @param animalImagePath Path to the image of the animal to be displayed.
      * @param width           The width of the dialog box.
      * @param height          The height of the dialog box.
+     * @param animalIndex     The index of the selected animal (0 for bird, 1 for croc, 2 for dog).
      */
-    public void displayDialog(String title, String content, String animalImagePath, float width, float height) {
-        PopupDialogBox dialogBox = new PopupDialogBox(new String[]{title}, new String[]{content}, animalImagePath, skin, width, height);
+    public void displayDialog(String title, String content, String animalImagePath, float width, float height, int animalIndex) {
+        PopupDialogBox dialogBox = new PopupDialogBox(
+                new String[]{title},
+                new String[]{content},
+                animalImagePath,
+                skin,
+                width,
+                height,
+                speedStats,
+                defenseStats,
+                strengthStats
+        );
         dialogBox.display(stage);
     }
 }

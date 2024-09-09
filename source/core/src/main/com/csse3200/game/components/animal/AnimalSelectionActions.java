@@ -161,7 +161,7 @@ public class AnimalSelectionActions {
                     "It possesses special abilities.";
         };
 
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f,animalIndex);
     }
 
     /**
