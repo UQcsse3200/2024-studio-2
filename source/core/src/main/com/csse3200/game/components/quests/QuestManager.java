@@ -245,7 +245,7 @@ public class QuestManager extends Component {
             return;
         }
 
-        if (taskName.equals("Guide's Introduction")) {
+        if (questName.equals("Guide's Introduction")) {
             setupPotionsTask();
         }
 
