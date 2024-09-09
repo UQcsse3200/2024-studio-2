@@ -2,7 +2,6 @@ package com.csse3200.game.inventory.items.lootbox.rarities;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.lootbox.LootBox;
-import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
 
 /**

@@ -24,7 +24,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(GameExtension.class)
 class LootBoxTest {
     private Entity player;
-    private PlayerInventoryDisplay mockInventoryDisplay;
 
     @BeforeEach
     void beforeEach() {
@@ -40,7 +39,7 @@ class LootBoxTest {
         ServiceLocator.registerInputService(inputService);
 
         // Mock PlayerInventoryDisplay
-        mockInventoryDisplay = mock(PlayerInventoryDisplay.class);
+        PlayerInventoryDisplay mockInventoryDisplay = mock(PlayerInventoryDisplay.class);
 
         // Initialize the player entity and add the mocked inventory display
         player = new Entity();

@@ -3,15 +3,12 @@ package com.csse3200.game.components.lootboxview;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.List;
 
@@ -140,7 +137,4 @@ public class LootBoxOverlayComponent extends UIComponent {
         // Drawing is handled by the stage
     }
 
-    public Window getOverlayWindow() {
-        return overlayWindow;
-    }
 }
