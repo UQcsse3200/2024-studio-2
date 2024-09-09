@@ -83,16 +83,26 @@ public class CombatStatsDisplay extends UIComponent {
     CharSequence experienceText = String.format("EXP: %d", experience);
     experienceLabel = new Label(experienceText, skin, "large");
 
+    // Hunger text
+    int hunger = playerStats.getHunger();
+    CharSequence hungerText = String.format("HP: %d", hunger);
+    playerHungerLabel = new Label(hungerText, skin, "large");
+
     // Health/XP images
     playerHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png",
             Texture.class));
     xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
+    playerHungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png",
+            Texture.class));
     barImageWidth = (float) (playerHealthImage.getWidth() * barWidthScaling);
     barImageHeight = (float) (playerHealthImage.getHeight() * barHeightScaling);
 
     // Aligning the bars one below the other and adding them to table
     playerTable.add(playerHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap);
     playerTable.add(playerHealthLabel).align(Align.left);
+    playerTable.row();
+    playerTable.add(playerHungerImage).size(barImageWidth, barImageHeight * barLabelGap).pad(barLabelGap);
+    playerTable.add(playerHungerLabel).align(Align.left);
     playerTable.row();
     playerTable.add(xpImage).size(barImageWidth, (float) (barImageHeight * xpHeightScaling)).pad(barLabelGap);
     playerTable.add(experienceLabel).align(Align.left);
