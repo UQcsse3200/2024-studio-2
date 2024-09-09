@@ -131,7 +131,6 @@ public class CombatArea extends GameArea {
 
     private void displayUI() {
         Entity ui = new Entity();
-        ui.addComponent(new GameAreaDisplay("Box Forest"));
         spawnEntity(ui);
     }
 
