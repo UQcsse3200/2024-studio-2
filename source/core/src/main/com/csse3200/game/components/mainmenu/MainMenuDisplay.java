@@ -84,7 +84,7 @@ public class MainMenuDisplay extends UIComponent {
         dog2Texture = new Texture("images/dog2.png");
         crocTexture = new Texture("images/croc.png");
         birdTexture = new Texture("images/bird.png");
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
     }
 
@@ -153,13 +153,13 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdImage);
 
         // Initialises buttons
-        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonSplash1.png"))));
-        TextButton loadBtn = new TextButton("Load", skin);
-        TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
-        TextButton settingsBtn = new TextButton("Settings", skin);
+        Button startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Start1.png"))));
+        Button loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
+        Button minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
+        Button settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
         TextButton achievementsBtn = new TextButton("Achievements", skin);
-        TextButton helpBtn = new TextButton("Help", skin);
-        TextButton exitBtn = new TextButton("Exit", skin);
+        Button helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
+        Button exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
         Label versionLabel = new Label("Version 1.0", skin);
 
         // Adds UI component (hover over buttons)
@@ -239,15 +239,10 @@ public class MainMenuDisplay extends UIComponent {
         // Added the pop up when user trys to exit game
         addExitConfirmation(exitBtn);
 
-        Label startTitle = new Label("Start", skin, "large-white");
         // formats sizes of buttons
-        table.add(startBtn).size(220,220).padTop(15f);
-        table.row();
-        table.add(startTitle).padTop(-230);
+        table.add(startBtn).size(180,45).padTop(50f);
         table.row();
         table.add(loadBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
         table.row();
         table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
         table.row();
@@ -329,7 +324,7 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        lightBackgroundTexture = new Texture("images/BackgroundSplash.png");  // Set the day mode background.
+        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
@@ -754,7 +749,7 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
-    private void addExitConfirmation(TextButton exitBtn) {
+    private void addExitConfirmation(Button exitBtn) {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
