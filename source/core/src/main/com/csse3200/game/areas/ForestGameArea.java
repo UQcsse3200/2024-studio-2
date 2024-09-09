@@ -74,7 +74,7 @@ public class ForestGameArea extends GameArea {
     // Player
     player = spawnPlayer();
     logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setChunk(player.getPosition());
+    TerrainLoader.setInitials(player.getPosition(), terrain);
 
     // Obstacles
     spawnTrees();
@@ -108,7 +108,7 @@ public class ForestGameArea extends GameArea {
 
   private void handleItems() {
     // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
-    for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
+    for (GridPoint2 pos : terrain.getNewChunks()) {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
@@ -120,7 +120,7 @@ public class ForestGameArea extends GameArea {
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
-      if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+      if (!terrain.getActiveChunks().contains(chunkPos)) {
         removals.add(key);
       }
     }
@@ -147,7 +147,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
 
     // // Terrain walls
@@ -274,6 +274,10 @@ public class ForestGameArea extends GameArea {
     // Cow
     generator = () -> NPCFactory.createCow(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_COWS);
+
+    // Fish
+    generator = () -> NPCFactory.createFish(player, this.enemies);
+    spawnRandomNPC(generator, config.spawns.NUM_FISH);
 
     // Lion
     generator = () -> NPCFactory.createLion(player, this.enemies);

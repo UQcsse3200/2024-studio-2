@@ -111,7 +111,7 @@ public class MainGameScreen extends PausableScreen {
       gameArea.create();
 
       Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
     }
 
