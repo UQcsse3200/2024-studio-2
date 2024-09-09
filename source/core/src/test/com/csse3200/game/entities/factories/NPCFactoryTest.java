@@ -616,9 +616,9 @@ class NPCFactoryTest {
      */
     @Test
     void TestMagpieHasCorrectBaseHint() {
-        String[] baseHint = configs.magpie.getBaseHint();
+        String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Maggie the Magpie."}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Maggie the Magpie."}}, baseHint);
     }
 
     /**

@@ -58,7 +58,9 @@
   },
 
   "magpie": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Maggie the Magpie."],
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Maggie the Magpie."]
+    ],
     "spritePath": "images/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
