@@ -84,7 +84,7 @@ public class MainMenuDisplay extends UIComponent {
         dog2Texture = new Texture("images/dog2.png");
         crocTexture = new Texture("images/croc.png");
         birdTexture = new Texture("images/bird.png");
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
     }
 
@@ -240,11 +240,9 @@ public class MainMenuDisplay extends UIComponent {
         addExitConfirmation(exitBtn);
 
         // formats sizes of buttons
-        table.add(startBtn).size(180,45).padTop(15f);
+        table.add(startBtn).size(180,45).padTop(50f);
         table.row();
         table.add(loadBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
         table.row();
         table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
         table.row();
@@ -326,7 +324,7 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        lightBackgroundTexture = new Texture("images/BackgroundSplash.png");  // Set the day mode background.
+        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
