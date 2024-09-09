@@ -729,7 +729,6 @@ class NPCFactoryTest {
     }
 
     /**
-<<<<<<< HEAD
      * Tests Creation of a magpie.
      */
     @Test
