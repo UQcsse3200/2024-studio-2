@@ -65,10 +65,6 @@ public class DialogueBoxService {
     public void updateText(String[] text) {
         hints = text;
         if (currentOverlay == null) {
-//<<<<<<< HEAD:source/core/src/main/com/csse3200/game/entities/EntityChatService.java
-//=======
-            // handling if it ever gets deleted when not supposed to
-//>>>>>>> baileys-branch:source/core/src/main/com/csse3200/game/entities/DialogueBoxService.java
             currentOverlay = new DialogueBox(hints);
         } else {
             currentOverlay.showDialogueBox(text);

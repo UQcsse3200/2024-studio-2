@@ -41,42 +41,6 @@ public class ItemProximityTask extends ProximityTask {
 //        this.target.getEvents().addListener("pickUpItem", this::addToInventory);
 //    }
 //
-//    /**
-//<<<<<<< HEAD
-//     * Updates the task each frame. It checks the players proximity to the item and displays
-//     * an overlay if the player is near. If the play moves away, the overlay is removed.
-//     */
-//    @Override
-//    public void update() {
-//        super.update();
-//        if(isPlayerNearItem() && !this.hasApproached) {
-//            this.hasApproached = true;
-//            createItemOverlay();
-//        }
-//        else if (!isPlayerNearItem() && this.hasApproached) {
-//            this.hasApproached = false;
-//            if (this.itemOverlay != null) {
-//                itemOverlay.dispose();
-//                itemOverlay = null;
-//            }
-//
-//        }
-//    }
-//
-//    /**
-//     * Creates an overlay that displays item information and prompts the player to pick up the item.
-//     * This method is called when the player is near the item.
-//     */
-//    private void createItemOverlay() {
-//        if (this.itemOverlay == null) {
-//            String[][] itemText = { {item.getDescription() + " - press P to pick it up."} };
-//            itemOverlay = new DialogueBox(itemText);
-//        }
-//    }
-//
-//    /**
-//=======
-//>>>>>>> baileys-branch
     /**
      *Adds the item to the players' inventory if they are near the item and haven't picked it up
      * Disposes of the item entity once it has been picked up and logs the event

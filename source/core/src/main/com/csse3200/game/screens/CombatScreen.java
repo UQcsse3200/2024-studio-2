@@ -56,12 +56,6 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-//<<<<<<< HEAD
-//  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-//  List<Entity> Enemies;
-//=======
-
-//>>>>>>> baileys-branch
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;

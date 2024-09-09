@@ -37,15 +37,10 @@ import com.csse3200.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class EnemyFactory {
-//<<<<<<< HEAD
-//  //private static final NPCConfigs configs =
-//    //  FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
   public static boolean FRIENDLY = false;
-//=======
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
-//>>>>>>> baileys-branch
   /**
    * types of enemies
    */
@@ -62,31 +57,6 @@ public class EnemyFactory {
    * @return enemy chicken entity
    */
   public static Entity createChicken(Entity target) {
-//<<<<<<< HEAD
-//	  Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
-//	  BaseEntityConfig config = NPCConfigs.chicken;
-//
-//    TextureAtlas chickenAtlas;
-//                chickenAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-chicken.atlas", TextureAtlas.class);
-//
-//	  // TODO: Need to implement handling of the EnemyNPC becoming a FriendlyNPC (Shubh)
-//
-//	  AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-//
-//	  animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
-//	  animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-//
-//
-//	  chicken
-//			  .addComponent(animator)
-//			  .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
-//			  .addComponent(new ChickenAnimationController());
-//
-//	  chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-//	  chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
-//
-//	  return chicken;
-//=======
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
     BaseEnemyEntityConfig config = configs.chicken;
 
@@ -107,7 +77,6 @@ public class EnemyFactory {
     chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return chicken;
-//>>>>>>> baileys-branch
   }
 
   /**
@@ -119,23 +88,9 @@ public class EnemyFactory {
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
     BaseEnemyEntityConfig config = configs.frog;
-
-//<<<<<<< HEAD
-//    TextureAtlas frogAtlas;
-//    if (!FRIENDLY) {
-//        frogAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-frog.atlas", TextureAtlas.class);
-//    } else {
-//        frogAtlas = ServiceLocator.getResourceService().getAsset("images/frog.atlas", TextureAtlas.class);
-//
-//    }
-//
-//    AnimationRenderComponent animator = new AnimationRenderComponent(frogAtlas);
-//
-//=======
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-//>>>>>>> baileys-branch
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
@@ -159,22 +114,9 @@ public class EnemyFactory {
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
     BaseEnemyEntityConfig config = configs.monkey;
-
-//<<<<<<< HEAD
-//    TextureAtlas monkeyAtlas;
-//    if (!FRIENDLY) {
-//      monkeyAtlas = ServiceLocator.getResourceService().getAsset("images/enemy-monkey.atlas", TextureAtlas.class);
-//    } else {
-//      monkeyAtlas = ServiceLocator.getResourceService().getAsset("images/monkey.atlas", TextureAtlas.class);
-//
-//    }
-//
-//    AnimationRenderComponent animator = new AnimationRenderComponent(monkeyAtlas);
-//=======
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-//>>>>>>> baileys-branch
     animator.addAnimation("run_down", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_up", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_left", 0.1f, Animation.PlayMode.LOOP);
