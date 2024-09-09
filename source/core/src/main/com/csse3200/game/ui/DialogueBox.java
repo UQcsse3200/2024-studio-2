@@ -455,6 +455,29 @@ public class DialogueBox {
     }
 
     /**
+     * Checks if the current text on the label contains either of the following flags at the
+     * beginning of the string. This then shows the option buttons.
+     *  /c: indicates that this is a dialogue with options
+     *  /s00: string after this is one of the options user can choose. The number is replaced with what index the
+     *      option takes the user to
+     * @param text the label text to be shown in the dialogue.
+     * @return the altered text without the flag to be shown in the dialogue box.
+     */
+    public String optionsCheck(String text) {
+        if (hints[currentHintLine][currentHint].startsWith("/c")) {
+            String[] options = text.split("/s");
+            for (int i = 1; i < options.length; i++) {
+                optionButtons[i - 1].setText(options[i].substring(2));
+                optionButtons[i - 1].setVisible(true);
+            }
+            return options[0].substring(2);
+        } else {
+            if (playButton != null) playButton.setVisible((false));
+            return text;
+        }
+    }
+
+    /**
      * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
      */
     public void hideDialogueBox() {
