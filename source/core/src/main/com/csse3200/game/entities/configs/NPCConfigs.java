@@ -6,6 +6,7 @@ package com.csse3200.game.entities.configs;
 public class NPCConfigs {
   public BaseEntityConfig base = new BaseEntityConfig();
   public BaseFriendlyEntityConfig cow = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig fish = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig lion = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig turtle = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig eagle = new BaseFriendlyEntityConfig();

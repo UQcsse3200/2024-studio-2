@@ -3,36 +3,45 @@
     "baseHint": ["Welcome to Animal Kingdom!", "I am Lenny the Lion."],
     "spritePath": "images/lion.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/tiger-roar.mp3"],
+    "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Lion"
   },
   "cow": {
     "baseHint": ["Welcome to Animal Kingdom!", "I am Charlie the Cow."],
     "spritePath": "images/Cow.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/mooing-cow.mp3"],
+    "soundPath": ["sounds/mooing-cow.wav"],
     "animalName": "Cow"
   },
   "turtle": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle.."],
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle."],
     "spritePath": "images/turtle.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/turtle-hiss.mp3"],
+    "soundPath": ["sounds/turtle-hiss.wav"],
     "animalName": "Turtle"
   },
   "eagle": {
     "baseHint": ["Welcome to Animal Kingdom!", "I am Ethan the Eagle."],
     "spritePath": "images/eagle.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/eagle-scream.mp3"],
+    "soundPath": ["sounds/eagle-scream.wav"],
     "animalName": "Eagle"
   },
   "snake": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Sam the Snake."],
+    "baseHint": [ "HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+                  "You look very tasty and I am very hungry",
+                  "Go play a game and collect me some apples...",
+                  "/msOr I will eat you whole!" ],
     "spritePath": "images/snake.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/snake-hiss.mp3"],
+    "soundPath": ["sounds/snake-hiss.wav"],
     "animalName": "Snake"
+  },
+  "fish": {
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Finny the Fish."],
+    "spritePath": "images/Fish.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/FishBubble.wav"],
+    "animalName": "Fish"
   }
 }
-
