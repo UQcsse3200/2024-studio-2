@@ -38,6 +38,14 @@
     "defense": 100,
     "speed": 20,
     "isEnemy": 1
+  },
+  "banana": {
+    "spritePath": "images/banana.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 20,
+    "isEnemy": 1
   }
 }
 

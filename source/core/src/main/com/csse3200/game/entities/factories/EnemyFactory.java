@@ -157,6 +157,7 @@ public class EnemyFactory {
     animator.addAnimation("run_right_down", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_left_up", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
             .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 2) - 1, 0, 0, 0))
@@ -190,6 +191,7 @@ public class EnemyFactory {
     if (type == EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
+      aiComponent.addTask(new ShootTask(1000, target, 4f));
     } else {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));

@@ -9,8 +9,10 @@ import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -21,9 +23,9 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
- * Factory to create non-playable character (NPC) entities with predefined components.
+ * Factory to create non-playable projectile entity with predefined components.
  *
- * <p>Each NPC entity type should have a creation method that returns a corresponding entity.
+ * <p>Each Projectile entity type should have a creation method that returns a corresponding entity.
  * Predefined entity properties can be loaded from configs stored as json files which are defined in
  * "NPCConfigs".
  *
@@ -31,20 +33,23 @@ import com.csse3200.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class ProjectileFactory {
+
+  private static final NPCConfigs configs =
+          FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
+
   /**
-   * types of enemies
+   * types of projectiles
    */
 
   /**
-   * Creates a chicken enemy.
+   * Creates a banana projectile.
    *
    * @param target entity to chase (player in most cases, but does not have to be)
    * @return enemy chicken entity
    */
   public static Entity createBanana(Entity target) {
-    System.out.println("creating banana in factory");
     Entity banana = createBaseProjectile(target);
-    BaseEntityConfig config = NPCConfigs.banana;
+    BaseEnemyEntityConfig config = configs.banana;
 
     AITaskComponent aiTaskComponent = new AITaskComponent();
     aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
