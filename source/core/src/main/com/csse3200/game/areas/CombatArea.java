@@ -100,9 +100,8 @@ public class CombatArea extends GameArea {
      */
     // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
     // Then this enemy can be spawned within this class in some function spawn_enemy()
-    public CombatArea(CombatTerrainFactory combatTerrainFactory, Entity player, Entity enemy, GdxGame game, CombatTerrainFactory terrainFactory) {
+    public CombatArea(Entity player, Entity enemy, GdxGame game, CombatTerrainFactory terrainFactory) {
         super();
-        this.combatTerrainFactory = combatTerrainFactory;
         this.game = game;
         this.combatTerrainFactory = terrainFactory;
         this.player = player;
@@ -210,7 +209,7 @@ public class CombatArea extends GameArea {
         spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
     }
 
-    private void playMusic() {
+    public void playMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);

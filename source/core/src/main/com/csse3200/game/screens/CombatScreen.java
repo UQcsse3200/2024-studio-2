@@ -84,22 +84,19 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-    //ServiceLocator.registerEventService(new EventService());
     renderer = RenderFactory.createRenderer();
-    // renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
-
     createUI();
 
     //ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
     //ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
-     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
-     this.gameArea = new CombatArea(combatTerrainFactory, player, enemy, game, combatTerrainFactory);
-     gameArea.create();
-     // createUI();
+    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory);
+    gameArea.create();
+
 
   }
 
@@ -142,7 +139,6 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    //ServiceLocator.getEventService().dispose();
     ServiceLocator.clear();
   }
 
@@ -169,11 +165,10 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-//    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
-//
-//    // Add individual buttons to the stage
-//    stage.addActor(combatButtons.getAttackButton());
-//    stage.addActor(combatButtons.getBoostButton());
+    //    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
+    //    // Add individual buttons to the stage
+    //    stage.addActor(combatButtons.getAttackButton());
+    //    stage.addActor(combatButtons.getBoostButton());
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);
@@ -182,7 +177,6 @@ public class CombatScreen extends ScreenAdapter {
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        // .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
@@ -191,29 +185,8 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new TerminalDisplay())
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 
-       // .addComponent(new CombatActions(this.game));
-
-
     ServiceLocator.getEntityService().register(ui);
   }
-
-//  public void addOverlay(Overlay.OverlayType overlayType){
-//    logger.info("Adding Overlay {}", overlayType);
-//    if (enabledOverlays.isEmpty()) {
-//      this.rest();
-//    }
-//    else {
-//      enabledOverlays.getFirst().rest();
-//    }
-//    switch (overlayType) {
-//      case PAUSE_OVERLAY:
-//        enabledOverlays.addFirst(new PauseOverlay());
-//        break;
-//      default:
-//        logger.warn("Unknown Overlay type: {}", overlayType);
-//        break;
-//    }
-//  }
 
   public void removeOverlay(){
     logger.debug("Removing top Overlay");
@@ -237,13 +210,13 @@ public class CombatScreen extends ScreenAdapter {
 
   public void rest() {
     logger.info("Screen is resting");
-    //gameArea.pauseMusic();
+    gameArea.pauseMusic();
     ServiceLocator.getEntityService().restWholeScreen();
   }
 
   public void wake() {
     logger.info("Screen is Awake");
-    //gameArea.playMusic();
+    gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }
