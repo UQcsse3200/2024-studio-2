@@ -15,6 +15,7 @@ import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
 
+
+
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
         if (q1.isActive() && !q2.isActive()) {
@@ -56,6 +59,10 @@ public class QuestDisplay extends UIComponent {
             return 0;
         }
     };
+
+    private static final int questsperpage = 3;
+    private int currpage = 0;
+    private List<QuestBasic> questList = new ArrayList<>();
 
     public QuestDisplay(PausableScreen screen) {
         super();
@@ -79,10 +86,16 @@ public class QuestDisplay extends UIComponent {
         addQuestsCompletedLabel(table);
 
         if (questManager != null) {
-            List<QuestBasic> questList = questManager.getAllQuests();
+            questList = questManager.getAllQuests();
             questList.sort(questComparator);
 
-            for (AbstractQuest quest : questList) {
+            int start = currpage * questsperpage;
+            int end = Math.min(start + questsperpage, questList.size());
+            List<QuestBasic> questDisplay = questList.subList(start, end);
+
+
+
+            for (AbstractQuest quest : questDisplay) {
                 if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
@@ -199,6 +212,26 @@ public class QuestDisplay extends UIComponent {
             }
         });
 
+        nextPage.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if ((currpage + 1) * questsperpage < questList.size()) {
+                    currpage++;
+                    refreshUI();
+                }
+            }
+        });
+
+        prevPage.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (currpage > 0) {
+                    currpage--;
+                    refreshUI();
+                }
+            }
+        });
+
 
         Table table = new Table();
         table.add(prevPage).expandX().left().padRight(10f);
@@ -209,6 +242,30 @@ public class QuestDisplay extends UIComponent {
 
         return table;
     }
+
+    private void refreshUI() {
+        rootTable.clearChildren();
+
+        Label title = new Label("QUESTS", skin, "title");
+        title.setColor(Color.RED);
+        title.setFontScale(1.2f);
+
+        float paddingTop = 28f;
+        rootTable.add(title).center().padTop(paddingTop).row();
+
+        Table questsTable = makeSliders();
+        if (questsTable.hasChildren()) {
+            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f).padTop(paddingTop).row();
+        }
+
+        Table menuBtns = makeMenuBtns();
+        rootTable.add(menuBtns).center().padTop(10f);
+
+        stage.addActor(rootTable);
+    }
+
+
+
 
     /**
      * Handles exiting the quest menu
@@ -235,29 +292,19 @@ public class QuestDisplay extends UIComponent {
         background.add(questsBackGround).center();
         stage.addActor(background);
 
-        Table menuBtns = makeMenuBtns();
-        Table questsTable = makeSliders();
+        //Table menuBtns = makeMenuBtns();
+        //Table questsTable = makeSliders();
 
         rootTable = new Table();
         rootTable.setSize(background.getWidth(), background.getHeight());
         rootTable.setFillParent(true);
 
-
-        float paddingTop = 28f;
-
-        rootTable.add(title).center().padTop(paddingTop);
+        refreshUI();
 
 
-        if (questsTable.hasChildren()) {
-            rootTable.row();
-            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f).padTop(paddingTop);
-        }
 
 
-        rootTable.row();
-        rootTable.add(menuBtns).center().padTop(10f);
 
-        stage.addActor(rootTable);
     }
 
     /**
