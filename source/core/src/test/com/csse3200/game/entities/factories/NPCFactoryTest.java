@@ -97,60 +97,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of a fish.
+     * Tests the initialization of a fish by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestFishCreation() {
+    void testFishInitialisation() {
+        // Test creation of the fish
         Assertions.assertNotNull(fish, "Fish should not be null.");
-    }
 
-    /**
-     * Tests that the Fish has the correct name.
-     */
-    @Test
-    void TestFishName() {
+        // Test that the fish has the correct name
         String name = configs.fish.getAnimalName();
         Assertions.assertEquals("Fish", name);
-    }
 
-    /**
-     * Tests that the fish is an Entity.
-     */
-    @Test
-    void TestFishIsEntity() {
-        Assertions.assertEquals(fish.getClass(), Entity.class);
-    }
+        // Test that the fish is an Entity
+        Assertions.assertEquals(Entity.class, fish.getClass());
 
-    /**
-     * Tests that the fish has a physics component.
-     */
-    @Test
-    void TestFishHasPhysicsComponent() {
+        // Test that the fish has a PhysicsComponent
         Assertions.assertNotNull(fish.getComponent(PhysicsComponent.class));
-    }
 
-    /**
-     * Tests that the fish has a physics movement component.
-     */
-    @Test
-    void TestFishHasPhysicsMovementComponent() {
+        // Test that the fish has a PhysicsMovementComponent
         Assertions.assertNotNull(fish.getComponent(PhysicsMovementComponent.class));
-    }
 
-    /**
-     * Tests the fish has a collider component.
-     */
-    @Test
-    void TestFishHasColliderComponent() {
+        // Test that the fish has a ColliderComponent
         Assertions.assertNotNull(fish.getComponent(ColliderComponent.class));
-    }
 
-    /**
-     * Tests that the fish has stat config component.
-     */
-    @Test
-    void TestFishHasConfigComponent() {
-        assertNotNull(fish.getComponent(ConfigComponent.class));
+        // Test that the fish has a ConfigComponent
+        Assertions.assertNotNull(fish.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -203,60 +175,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of a cow.
+     * Tests the initialization of a cow by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestCowCreation() {
-        assertNotNull(cow, "Cow should not be null.");
-    }
+    void testCowInitialisation() {
+        // Test creation of the cow
+        Assertions.assertNotNull(cow, "Cow should not be null.");
 
-    /**
-     * Tests that the Cow has the correct name.
-     */
-    @Test
-    void TestCowName() {
+        // Test that the cow has the correct name
         String name = configs.cow.getAnimalName();
-        assertEquals("Cow", name);
-    }
+        Assertions.assertEquals("Cow", name);
 
-    /**
-     * Tests that the cow is an Entity.
-     */
-    @Test
-    void TestCowIsEntity() {
-        assertEquals(cow.getClass(), Entity.class);
-    }
+        // Test that the cow is an Entity
+        Assertions.assertEquals(Entity.class, cow.getClass());
 
-    /**
-     * Tests that the cow has a physics component.
-     */
-    @Test
-    void TestCowHasPhysicsComponent() {
-        assertNotNull(cow.getComponent(PhysicsComponent.class));
-    }
+        // Test that the cow has a PhysicsComponent
+        Assertions.assertNotNull(cow.getComponent(PhysicsComponent.class));
 
-    /**
-     * Tests that the cow has a physics movement component.
-     */
-    @Test
-    void TestCowHasPhysicsMovementComponent() {
-        assertNotNull(cow.getComponent(PhysicsMovementComponent.class));
-    }
+        // Test that the cow has a PhysicsMovementComponent
+        Assertions.assertNotNull(cow.getComponent(PhysicsMovementComponent.class));
 
-    /**
-     * Tests the cow has a collider component.
-     */
-    @Test
-    void TestCowHasColliderComponent() {
-        assertNotNull(cow.getComponent(ColliderComponent.class));
-    }
+        // Test that the cow has a ColliderComponent
+        Assertions.assertNotNull(cow.getComponent(ColliderComponent.class));
 
-    /**
-     * Tests that the cow has stat config component.
-     */
-    @Test
-    void TestCowHasConfigComponent() {
-        assertNotNull(cow.getComponent(ConfigComponent.class));
+        // Test that the cow has a ConfigComponent
+        Assertions.assertNotNull(cow.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -309,61 +253,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of a lion.
+     * Tests the initialization of a lion by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestLionCreation() {
-        assertNotNull(lion, "Lion should not be null.");
-    }
+    void testLionInitialisation() {
+        // Test creation of the lion
+        Assertions.assertNotNull(lion, "Lion should not be null.");
 
-    /**
-     * Tests that the lion has the correct name.
-     */
-    @Test
-    void TestLionName() {
+        // Test that the lion has the correct name
         String name = configs.lion.getAnimalName();
-        assertEquals("Lion", name);
-    }
+        Assertions.assertEquals("Lion", name);
 
-    /**
-     * Tests that the lion is an Entity.
-     */
-    @Test
-    void TestLionIsEntity() {
-        assertEquals(lion.getClass(), Entity.class);
-    }
+        // Test that the lion is an Entity
+        Assertions.assertEquals(Entity.class, lion.getClass());
 
-    /**
-     * Tests that the lion has a physics component.
-     */
-    @Test
-    void TestLionHasPhysicsComponent() {
-        assertNotNull(lion.getComponent(PhysicsComponent.class));
-    }
+        // Test that the lion has a PhysicsComponent
+        Assertions.assertNotNull(lion.getComponent(PhysicsComponent.class));
 
-    /**
-     * Tests that the lion has a physics movement component.
-     */
-    @Test
-    void TestLionHasPhysicsMovementComponent() {
-        assertNotNull(lion.getComponent(PhysicsMovementComponent.class));
-    }
+        // Test that the lion has a PhysicsMovementComponent
+        Assertions.assertNotNull(lion.getComponent(PhysicsMovementComponent.class));
 
-    /**
-     * Tests the lion has a collider component.
-     */
-    @Test
-    void TestLionHasColliderComponent() {
-        assertNotNull(lion.getComponent(ColliderComponent.class));
-    }
+        // Test that the lion has a ColliderComponent
+        Assertions.assertNotNull(lion.getComponent(ColliderComponent.class));
 
-    /**
-     * Tests that the lion has stat config component.
-     */
-
-    @Test
-    void TestLionHasConfigComponent() {
-        assertNotNull(lion.getComponent(ConfigComponent.class));
+        // Test that the lion has a ConfigComponent
+        Assertions.assertNotNull(lion.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -416,61 +331,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of an eagle.
+     * Tests the initialization of an eagle by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestEagleCreation() {
-        assertNotNull(eagle, "Eagle should not be null.");
-    }
+    void testEagleInitialisation() {
+        // Test creation of the eagle
+        Assertions.assertNotNull(eagle, "Eagle should not be null.");
 
-    /**
-     * Tests that the eagle's name is correct.
-     */
-    @Test
-    void TestEagleName() {
+        // Test that the eagle has the correct name
         String name = configs.eagle.getAnimalName();
-        assertEquals("Eagle", name);
-    }
+        Assertions.assertEquals("Eagle", name);
 
-    /**
-     * Tests that the eagle is an Entity.
-     */
-    @Test
-    void TestEagleIsEntity() {
-        assertEquals(eagle.getClass(), Entity.class);
-    }
+        // Test that the eagle is an Entity
+        Assertions.assertEquals(Entity.class, eagle.getClass());
 
-    /**
-     * Tests that the eagle has a physics component.
-     */
-    @Test
-    void TestEagleHasPhysicsComponent() {
-        assertNotNull(eagle.getComponent(PhysicsComponent.class));
-    }
+        // Test that the eagle has a PhysicsComponent
+        Assertions.assertNotNull(eagle.getComponent(PhysicsComponent.class));
 
-    /**
-     * Tests that the eagle has a physics movement component.
-     */
-    @Test
-    void TestEagleHasPhysicsMovementComponent() {
-        assertNotNull(eagle.getComponent(PhysicsMovementComponent.class));
-    }
+        // Test that the eagle has a PhysicsMovementComponent
+        Assertions.assertNotNull(eagle.getComponent(PhysicsMovementComponent.class));
 
-    /**
-     * Tests the eagle has a collider component.
-     */
-    @Test
-    void TestEagleHasColliderComponent() {
-        assertNotNull(eagle.getComponent(ColliderComponent.class));
-    }
+        // Test that the eagle has a ColliderComponent
+        Assertions.assertNotNull(eagle.getComponent(ColliderComponent.class));
 
-    /**
-     * Tests that the eagle has stat config component.
-     */
-
-    @Test
-    void TestEagleHasConfigComponent() {
-        assertNotNull(eagle.getComponent(ConfigComponent.class));
+        // Test that the eagle has a ConfigComponent
+        Assertions.assertNotNull(eagle.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -523,60 +409,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of a turtle.
+     * Tests the initialization of a cow by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestTurtleCreation() {
-        assertNotNull(turtle, "Turtle should not be null.");
-    }
+    void testTurtleInitialisation() {
+        // Test creation of the turtle
+        Assertions.assertNotNull(turtle, "Turtle should not be null.");
 
-    /**
-     * Tests that the turtle has the correct name.
-     */
-    @Test
-    void TestTurtleName() {
+        // Test that the turtle has the correct name
         String name = configs.turtle.getAnimalName();
-        assertEquals("Turtle", name);
-    }
+        Assertions.assertEquals("Turtle", name);
 
-    /**
-     * Tests that the turtle is an Entity.
-     */
-    @Test
-    void TestTurtleIsEntity() {
-        assertEquals(turtle.getClass(), Entity.class);
-    }
+        // Test that the turtle is an Entity
+        Assertions.assertEquals(Entity.class, turtle.getClass());
 
-    /**
-     * Tests that the turtle has a physics component.
-     */
-    @Test
-    void TestTurtleHasPhysicsComponent() {
-        assertNotNull(turtle.getComponent(PhysicsComponent.class));
-    }
+        // Test that the turtle has a PhysicsComponent
+        Assertions.assertNotNull(turtle.getComponent(PhysicsComponent.class));
 
-    /**
-     * Tests that the turtle has a physics movement component.
-     */
-    @Test
-    void TestTurtleHasPhysicsMovementComponent() {
-        assertNotNull(turtle.getComponent(PhysicsMovementComponent.class));
-    }
+        // Test that the turtle has a PhysicsMovementComponent
+        Assertions.assertNotNull(turtle.getComponent(PhysicsMovementComponent.class));
 
-    /**
-     * Tests the turtle has a collider component.
-     */
-    @Test
-    void TestTurtleHasColliderComponent() {
-        assertNotNull(turtle.getComponent(ColliderComponent.class));
-    }
+        // Test that the turtle has a ColliderComponent
+        Assertions.assertNotNull(turtle.getComponent(ColliderComponent.class));
 
-    /**
-     * Tests that the turtle has stat config component.
-     */
-    @Test
-    void TestTurtleHasConfigComponent() {
-        assertNotNull(turtle.getComponent(ConfigComponent.class));
+        // Test that the turtle has a ConfigComponent
+        Assertions.assertNotNull(turtle.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -618,62 +476,33 @@ class NPCFactoryTest {
         assertEquals(pos, turtle.getPosition());
     }
 
-
     /**
-     * Tests Creation of a snake.
+     * Tests the initialization of a snake by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestSnakeCreation() {
-        assertNotNull(snake, "Snake should not be null.");
-    }
+    void testSnakeInitialisation() {
+        // Test creation of the snake
+        Assertions.assertNotNull(snake, "Snake should not be null.");
 
-    /**
-     * Tests that the snake has the correct name.
-     */
-    @Test
-    void TestSnakeName() {
+        // Test that the snake has the correct name
         String name = configs.snake.getAnimalName();
-        assertEquals("Snake", name);
-    }
+        Assertions.assertEquals("Snake", name);
 
-    /**
-     * Tests that the snake is an Entity.
-     */
-    @Test
-    void TestSnakeIsEntity() {
-        assertEquals(snake.getClass(), Entity.class);
-    }
+        // Test that the snake is an Entity
+        Assertions.assertEquals(Entity.class, snake.getClass());
 
-    /**
-     * Tests that the snake has a physics component.
-     */
-    @Test
-    void TestSnakeHasPhysicsComponent() {
-        assertNotNull(snake.getComponent(PhysicsComponent.class));
-    }
+        // Test that the snake has a PhysicsComponent
+        Assertions.assertNotNull(snake.getComponent(PhysicsComponent.class));
 
-    /**
-     * Tests that the snake has a physics movement component.
-     */
-    @Test
-    void TestSnakeHasPhysicsMovementComponent() {
-        assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
-    }
+        // Test that the snake has a PhysicsMovementComponent
+        Assertions.assertNotNull(snake.getComponent(PhysicsMovementComponent.class));
 
-    /**
-     * Tests the snake has a collider component.
-     */
-    @Test
-    void TestSnakeHasColliderComponent() {
-        assertNotNull(snake.getComponent(ColliderComponent.class));
-    }
+        // Test that the snake has a ColliderComponent
+        Assertions.assertNotNull(snake.getComponent(ColliderComponent.class));
 
-    /**
-     * Tests that the snake has stat config component.
-     */
-    @Test
-    void TestSnakeHasConfigComponent() {
-        assertNotNull(snake.getComponent(ConfigComponent.class));
+        // Test that the snake has a ConfigComponent
+        Assertions.assertNotNull(snake.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -729,60 +558,32 @@ class NPCFactoryTest {
     }
 
     /**
-     * Tests Creation of a magpie.
+     * Tests the initialization of a magpie by checking its creation, name, type,
+     * and the presence of necessary components.
      */
     @Test
-    void TestMagpieCreation() {
-        Assertions.assertNotNull(magpie, "magpie should not be null.");
-    }
+    void testMagpieInitialisation() {
+        // Test creation of the magpie
+        Assertions.assertNotNull(magpie, "Magpie should not be null.");
 
-    /**
-     * Tests that the magpie has the correct name.
-     */
-    @Test
-    void TestMagpieName() {
+        // Test that the magpie has the correct name
         String name = configs.magpie.getAnimalName();
         Assertions.assertEquals("Magpie", name);
-    }
-    
-    /**
-     * Tests that the magpie is an Entity.
-     */
-    @Test
-    void TestMagpieIsEntity() {
-        Assertions.assertEquals(magpie.getClass(), Entity.class);
-    }
 
-    /**
-     * Tests that the magpie has a physics component.
-     */
-    @Test
-    void TestMagpieHasPhysicsComponent() {
+        // Test that the magpie is an Entity
+        Assertions.assertEquals(Entity.class, magpie.getClass());
+
+        // Test that the magpie has a PhysicsComponent
         Assertions.assertNotNull(magpie.getComponent(PhysicsComponent.class));
-    }
 
-    /**
-     * Tests that the magpie has a physics movement component.
-     */
-    @Test
-    void TestMagpieHasPhysicsMovementComponent() {
+        // Test that the magpie has a PhysicsMovementComponent
         Assertions.assertNotNull(magpie.getComponent(PhysicsMovementComponent.class));
-    }
 
-    /**
-     * Tests the magpie has a collider component.
-     */
-    @Test
-    void TestMagpieHasColliderComponent() {
+        // Test that the magpie has a ColliderComponent
         Assertions.assertNotNull(magpie.getComponent(ColliderComponent.class));
-    }
 
-    /**
-     * Tests that the magpie has stat config component.
-     */
-    @Test
-    void TestMagpieHasConfigComponent() {
-        assertNotNull(magpie.getComponent(ConfigComponent.class));
+        // Test that the magpie has a ConfigComponent
+        Assertions.assertNotNull(magpie.getComponent(ConfigComponent.class));
     }
 
     /**
@@ -877,7 +678,7 @@ class NPCFactoryTest {
     }
 
     /**
-     * Test end Dialgoue works appropriately
+     * Test end Dialogue works appropriately
      */
     @Test
     void testEndDialogue() {
