@@ -146,7 +146,7 @@ public class CombatStatsDisplay extends UIComponent {
    */
   public void initBarAnimations() {
     float animationFrameRate = 0.66f;
-    int numberOfAtlases = 2;
+    int numberOfAtlases = 3;
 
     // Initialise textureAtlas for 2 bars
     textureAtlas = new TextureAtlas[numberOfAtlases];
@@ -170,6 +170,16 @@ public class CombatStatsDisplay extends UIComponent {
       xpBarFrames[i] = textureAtlas[1].findRegion(xpFrameNames);
     }
     xpBarAnimation = new Animation<>(animationFrameRate, xpBarFrames);
+
+    // hungerBar initialisation
+    textureAtlas[2] = new TextureAtlas("images/hungerbar.atlas");
+    TextureRegion[] hungerBarFrames = new TextureRegion[totalFrames];
+    // Names each frame and locates associated frame in txt file
+    for (int i = 0; i < hungerBarFrames.length; i++) {
+      String hungerFrameNames = (100 - i * 10) + "%_hunger";
+      hungerBarFrames[i] = textureAtlas[2].findRegion(hungerFrameNames);
+    }
+    playerHungerBarAnimation = new Animation<>(animationFrameRate, hungerBarFrames);
   }
 
   /**
