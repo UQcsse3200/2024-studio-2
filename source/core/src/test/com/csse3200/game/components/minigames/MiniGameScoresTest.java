@@ -18,15 +18,8 @@ public class MiniGameScoresTest {
     @BeforeEach
     public void setUp() {
         mockGame = mock(GdxGame.class);
-        try (MockedStatic<PlayerFactory> mockPlayerFactory = mockStatic(PlayerFactory.class)) {
-            // Create a basic mock player entity
-            Entity mockPlayer = mock(Entity.class);
 
-            // Mock PlayerFactory.createPlayer to return the mock player
-            mockPlayerFactory.when(() -> PlayerFactory.createPlayer(any())).thenReturn(mockPlayer);
-        }
-
-        miniGamesScores = new MiniGamesScores(mockPlayer);
+        miniGamesScores = new MiniGamesScores();
     }
 
     /**
