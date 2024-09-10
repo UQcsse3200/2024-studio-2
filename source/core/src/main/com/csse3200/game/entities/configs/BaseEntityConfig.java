@@ -4,10 +4,15 @@ package com.csse3200.game.entities.configs;
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseEntityConfig {
-    protected int isEnemy = 0;
-    protected String spritePath;
-    protected int defense = 0;
 
+    public int health = 100;
+    public int hunger = 100;
+    public int defense = 0;
+    public int speed = 1;
+    public int experience = 10;
+    public boolean isPlayer = false;
+    public int isEnemy = 0;
+    protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
     protected BaseEntityConfig() {}
