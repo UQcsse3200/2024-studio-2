@@ -7,13 +7,14 @@ import org.slf4j.LoggerFactory;
 
 // Handles when setting a new chunk
 public class TerrainLoader {
+    private static TerrainComponent terrainComponent;
     private static final Logger logger = LoggerFactory.getLogger(TerrainLoader.class);
     public static GridPoint2 currentChunk;
 
     public static boolean movedChunk(Vector2 position) {
         GridPoint2 chunk = posToChunk(position);
         if (!chunk.equals(currentChunk)) {
-            TerrainComponent.loadChunks(chunk);
+            terrainComponent.loadChunks(chunk);
             currentChunk = chunk;
             return true;
         }
@@ -21,10 +22,11 @@ public class TerrainLoader {
     }
 
     // ONLY INTENDED TO BE SET AT START OF GAME OR DURING MAP SWITCHES ETC.
-    public static void setChunk(Vector2 position) {
+    public static void setInitials(Vector2 position, TerrainComponent component) {
+        terrainComponent = component;
         currentChunk = posToChunk(position);
         logger.debug("Setting chunks at ({}, {})", currentChunk.x, currentChunk.y);
-        TerrainComponent.loadChunks(posToChunk(position));
+        terrainComponent.loadChunks(posToChunk(position));
     }
 
     public static GridPoint2 chunktoWorldPos(GridPoint2 pos) {

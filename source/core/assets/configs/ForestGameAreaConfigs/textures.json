@@ -9,6 +9,7 @@
     "images/eagle.png",
     "images/lion.png",
     "images/turtle.png",
+    "images/magpie.png",
     "images/ghost_1.png",
     "images/grass_1.png",
     "images/grass_2.png",
@@ -49,10 +50,12 @@
     "images/frog.atlas",
     "images/monkey.atlas",
     "images/Cow.atlas",
+    "images/Fish.atlas",
     "images/snake.atlas",
     "images/lion.atlas",
     "images/eagle.atlas",
     "images/turtle.atlas",
+    "images/magpie.atlas",
     "images/final_boss_kangaroo.atlas"
   ]
 }

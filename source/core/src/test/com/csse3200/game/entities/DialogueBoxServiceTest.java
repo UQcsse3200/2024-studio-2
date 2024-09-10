@@ -47,7 +47,7 @@ class DialogueBoxServiceTest {
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
         entityChatService = new DialogueBoxService(stage);
-        ServiceLocator.registerEntityChatService(entityChatService);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
         this.stage = stage;
     }
 
