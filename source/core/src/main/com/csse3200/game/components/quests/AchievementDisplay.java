@@ -35,7 +35,7 @@ public class AchievementDisplay extends UIComponent {
     /**
      * Array of texture paths used in the Achievements game screen.
      */
-    private static final String[] logbookTextures = {"images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
+    private static final String[] logbookTextures = {"images/logbook/icons/first-steps.png","images/logbook/lb-exit.png","images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
             "images/logbook/lb-blue-tab.png", "images/logbook/lb-red-tab.png", "images/logbook/lb-blue-btn.png",
             "images/logbook/lb-red-btn.png", "images/logbook/lb-yellow-btn.png", "images/logbook/lb-blue-btn-pressed.png", "images/logbook/lb-red-btn-pressed.png", "images/logbook/lb-yellow-btn-pressed.png"};
 
@@ -85,10 +85,8 @@ public class AchievementDisplay extends UIComponent {
         Table itemsTable = makeLogbookTable(Achievement.AchievementType.ITEM);
 
         Table enemiesTable = makeLogbookTable(Achievement.AchievementType.ENEMY);
-        enemiesTable.add(new Label("Content for Tab 2", skin));
 
         Table achievementsTable = makeLogbookTable(Achievement.AchievementType.ADVANCEMENT);
-        achievementsTable.add(new Label("Content for Tab 3", skin));
 
         Table tabs = makeTabs(itemsTable, enemiesTable, achievementsTable);
 
@@ -100,10 +98,9 @@ public class AchievementDisplay extends UIComponent {
         itemsTable.setVisible(true);
         enemiesTable.setVisible(false);
         achievementsTable.setVisible(false);
-
         rootTable.add(tabs).fillX().row();
-        rootTable.add(tabContentStack).expand().fill();
-        rootTable.add(menuBtns).fillX().row();
+        rootTable.add(tabContentStack).expand().fill().row();
+        rootTable.add(menuBtns.left().bottom()).left().bottom();
         stage.addActor(rootTable);
     }
 
@@ -253,19 +250,25 @@ public class AchievementDisplay extends UIComponent {
      * @return The Table showing the exit button.
      */
     private Table makeMenuBtns() {
-        TextButton exitBtn = new TextButton("Exit", skin);
+        Image exit = new Image(
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/lb-exit.png", Texture.class));
 
+        ImageButton exitBtn = new ImageButton(exit.getDrawable());
+        addButtonElevationEffect(exitBtn);
+        Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
         exitBtn.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
+                        tabSound.play();
                         exitMenu();
                     }
                 });
 
 
-        Table table = new Table();
+        Table table = new Table().padLeft(25);
         table.add(exitBtn);
         return table;
     }
