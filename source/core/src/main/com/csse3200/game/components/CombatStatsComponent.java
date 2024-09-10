@@ -90,7 +90,9 @@ public class CombatStatsComponent extends Component {
    * @param health health to add
    */
   public void addHealth(int health) {
-    setHealth(this.health + health);
+    int newHealth = Math.min(maxHealth, this.health + health);
+    newHealth = Math.max(0, newHealth);
+    setHealth(newHealth);
   }
 
   /**
@@ -268,6 +270,10 @@ public class CombatStatsComponent extends Component {
 
   public int getMaxExperience(){
     return maxExperience;
+  }
+
+  public int getMaxStamina() {
+      return maxStamina;
   }
 
   /**

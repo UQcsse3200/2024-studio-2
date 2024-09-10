@@ -61,15 +61,15 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("Attack clicked.");
     manager.onPlayerActionSelected("ATTACK");
-
   }
+
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("Guard clicked");
+    logger.info("Guard clicked.");
     manager.onPlayerActionSelected("GUARD");
   }
 
   private void onSleep(Screen screen, ServiceContainer container) {
-    logger.info("Sleep clicked");
+    logger.info("Sleep clicked.");
     manager.onPlayerActionSelected("SLEEP");
   }
 

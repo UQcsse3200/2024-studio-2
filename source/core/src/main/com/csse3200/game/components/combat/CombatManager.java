@@ -121,7 +121,6 @@ public class CombatManager extends Component {
                      * Enemy guards first, and player's attack damage is reduced by 50%.
                      * Stamina decreases for both.
                      */
-                        // Guard move should probably not actually do anything except reduce stamina.
                         enemyMove.executeMove(enemyAction);
                         playerMove.executeMove(playerAction, enemyStats, true);
                         checkCombatEnd();
@@ -132,19 +131,19 @@ public class CombatManager extends Component {
                      * Player performs multi-hit attack.
                      * Player stamina decreases.
                      */
-                        // enemy.sleep()
+                        enemyMove.executeMove(enemyAction);
                         // player.multiHitAttack()
-                        // checkCombatEnd()
+                        checkCombatEnd();
                         break;
                     case Action.SPECIAL:
                     /* ATTACK - SPECIAL
                      * Enemy's special is activated.
                      * Player performs attack.
                      * Player stamina decreases.
-                         */
+                     */
                         // enemy.special()
-                        // player.attack()
-                        // checkCombatEnd()
+                        playerMove.executeMove(playerAction, enemyStats);
+                        checkCombatEnd();
                         break;
                 }
 
@@ -156,8 +155,8 @@ public class CombatManager extends Component {
                      * Stamina decreases for both.
                      */
                         playerMove.executeMove(playerAction);
-                        // enemy.attack(bool guarded = true)
-                        // checkCombatEnd()
+                        enemyMove.executeMove(enemyAction, playerStats, true);
+                        checkCombatEnd();
                         break;
                     case Action.GUARD:
                     /* GUARD - GUARD
@@ -169,9 +168,11 @@ public class CombatManager extends Component {
                         break;
                     case Action.SLEEP:
                     /* GUARD - SLEEP
-                     *
+                     * Player guards reducing stamina.
+                     * Enemy sleeps increasing stamina and health.
                      */
                         playerMove.executeMove(playerAction);
+                        enemyMove.executeMove(enemyAction);
                         break;
                     case Action.SPECIAL:
                     /* GUARD - SPECIAL
@@ -181,6 +182,7 @@ public class CombatManager extends Component {
                      */
                         playerMove.executeMove(playerAction);
                         // enemy.special(bool guarded = true)
+                        checkCombatEnd();
                         break;
                 }
 
@@ -192,34 +194,33 @@ public class CombatManager extends Component {
                      * Enemy performs multi-hit attack.
                      * Enemy stamina decreases.
                      */
-                        // player.sleep()
+                        playerMove.executeMove(playerAction);
                         // enemy.multiHitAttack()
-                        // checkCombatEnd()
+                        checkCombatEnd();
                         break;
                     case Action.GUARD:
                     /* SLEEP - GUARD
                      * Player falls asleep, raising stamina & health.
                      * Enemy stamina decreases.
                      */
-                        // player.sleep()
+                        playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction);
                         break;
                     case Action.SLEEP:
                     /* SLEEP - SLEEP
                      * Both animals fall asleep, raising stamina & health.
                      */
-                        Entity faster = getFasterEntity();
-                        Entity slower = getSlowerEntity();
-                        // faster.sleep()
-                        // slower.sleep()
+                        playerMove.executeMove(playerAction);
+                        enemyMove.executeMove(enemyAction);
                         break;
                     case Action.SPECIAL:
                     /* SLEEP - SPECIAL
                      * Player falls asleep, raising stamina & health.
                      * Enemy’s special is activated.
                      */
-                        // player.sleep()
+                        playerMove.executeMove(playerAction);
                         // enemy.special()
+                        checkCombatEnd();
                         break;
                 }
 
@@ -230,6 +231,8 @@ public class CombatManager extends Component {
                 // checkCombatEnd()
                 break;
         }
+        logger.info("PLAYER health {} stamina {}", playerStats.getHealth(), playerStats.getStamina());
+        logger.info("ENEMY health {} stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
     }
 
     /**
