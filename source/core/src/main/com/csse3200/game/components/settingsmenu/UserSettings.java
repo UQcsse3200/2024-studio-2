@@ -92,7 +92,7 @@ public class UserSettings {
             AudioManager.setSoundVolume(lastSoundVolume);
         }
     }
-    public static void setDisplayMode(boolean status) {
+    public static void setFullScreenMode(boolean status) {
         isFullScreen = status;
         applyDisplayMode();
     }
