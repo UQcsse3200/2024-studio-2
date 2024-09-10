@@ -11,7 +11,6 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
-import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
@@ -33,8 +32,10 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
 
+/**
+ * Class for Birdie Dash Game Screen
+ */
 public class BirdieDashScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
@@ -46,7 +47,6 @@ public class BirdieDashScreen extends PausableScreen {
     private final Table exitButtonTable;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
-
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 
@@ -80,6 +80,10 @@ public class BirdieDashScreen extends PausableScreen {
         createUI();
     }
 
+    /**
+     * Renders the game
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         if (!resting) {
@@ -101,11 +105,19 @@ public class BirdieDashScreen extends PausableScreen {
         stage.draw();       // Draw the UI (pause overlay)
     }
 
+    /**
+     * Clears the screen background
+     */
     public void clearBackground() {
         Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Resizes the game based on screen size.
+     * @param width new screen width
+     * @param height new screen height
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -115,9 +127,12 @@ public class BirdieDashScreen extends PausableScreen {
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
         setupExitButton();
-        scoreBoard.resize(width, height);
+        scoreBoard.resize();
     }
 
+    /**
+     * Dispose of assets
+     */
     @Override
     public void dispose() {
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
@@ -133,6 +148,9 @@ public class BirdieDashScreen extends PausableScreen {
         stage.dispose();
     }
 
+    /**
+     * Set up the exit button in the top right
+     */
     private void setupExitButton() {
         exitButtonTable.clear();
         TextButton exitButton = new TextButton("Exit", skin);
@@ -152,6 +170,9 @@ public class BirdieDashScreen extends PausableScreen {
         stage.addActor(exitButtonTable);
     }
 
+    /**
+     * set up ui for key inputs
+     */
     private void createUI() {
         logger.debug("Creating birdie dash ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
@@ -173,17 +194,26 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getEntityService().register(ui);
     }
 
-     private void flap() {
+    /**
+    * Called from event key press to trigger bird propulsion
+    */
+    private void flap() {
             // Trigger the flap action in BirdieDashGame
             birdGame.flapBird();
-        }
+    }
 
-        void restartGame() {
-            dispose();
-            game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
-        }
+    /**
+     * Called from event to restart the game
+     */
+    void restartGame() {
+       dispose();
+       game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+    }
 
-        void exitGame() {
-            game.setOldScreen(oldScreen, oldScreenServices);
-        }
+    /**
+     * Called from event to exit the game back to the previous screen
+     */
+    void exitGame() {
+        game.setOldScreen(oldScreen, oldScreenServices);
+    }
 }

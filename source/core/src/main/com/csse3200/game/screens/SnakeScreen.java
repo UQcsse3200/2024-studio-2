@@ -12,13 +12,10 @@ import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.input.InputDecorator;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
@@ -35,10 +32,6 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.csse3200.game.components.minigames.MiniGameNames;
-
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * Represents the screen for the Snake game.

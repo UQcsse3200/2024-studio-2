@@ -15,7 +15,7 @@ import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
 import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
 
 /**
- * UI component for displaying the scoreboard in the Snake mini-game.
+ * UI component for displaying the scoreboard in all mini-games.
  * Manages score and medal display with dynamic scaling based on screen size.
  */
 public class ScoreBoard {
@@ -27,10 +27,7 @@ public class ScoreBoard {
     private Label medalLabel;
     private Table table;
     private final MiniGameNames gameName;
-    private int bronzeThreshold;
-    private int silverThreshold;
-    private int goldThreshold;
-    private int initialScore;
+    private final int initialScore;
     private double scale; // scale relative to the game
 
     /**
@@ -48,6 +45,9 @@ public class ScoreBoard {
     private void scoreBoardSetUp () {
 
         // Assign thresholds depending on game
+        int bronzeThreshold;
+        int silverThreshold;
+        int goldThreshold;
         if (gameName == SNAKE) {
             this.scale = 1;
             bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
@@ -64,22 +64,21 @@ public class ScoreBoard {
             silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
         }
+
         Stage stage = ServiceLocator.getRenderService().getStage();
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        // Create score label
+        // Create labels
         scoreLabel = new Label("Score: " + initialScore, skin, "default-white");
         scoreLabel.setFontScale((float) (2.0f * scale));
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create medal title
         medalLabel = new Label("Medals", skin, "default-white");
         medalLabel.setFontScale((float) (2.0f * scale));
         medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create labels for bronze, silver, gold
         bronzeLabel = new Label("Bronze: " + bronzeThreshold, skin, "default-white");
         bronzeLabel.setFontScale((float) (1.5f * scale));
         bronzeLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
@@ -125,7 +124,7 @@ public class ScoreBoard {
     /**
      * Adjusts the scoreboard's size and position based on screen size.
      */
-    public void resize(int width, int height) {
+    public void resize() {
         updateTableSizeAndPosition();
     }
 
