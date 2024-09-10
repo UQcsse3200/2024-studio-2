@@ -6,7 +6,9 @@ import com.csse3200.game.components.minigames.snake.AssetPaths;
 import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.minigames.SnakeScoreBoard;
+import com.csse3200.game.ui.minigames.ScoreBoard;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
 import static com.csse3200.game.components.minigames.snake.AssetPaths.IMAGES;
 
 /**
@@ -14,7 +16,7 @@ import static com.csse3200.game.components.minigames.snake.AssetPaths.IMAGES;
  */
 public class SnakeGameRenderer {
 
-    private final SnakeScoreBoard scoreBoard;
+    private final ScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture;
 
@@ -36,7 +38,7 @@ public class SnakeGameRenderer {
         renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
                 snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture, snakeBodyBentTexture, renderer));
-        this.scoreBoard = new SnakeScoreBoard(0);
+        this.scoreBoard = new ScoreBoard(0, SNAKE);
     }
 
     /**
@@ -63,7 +65,6 @@ public class SnakeGameRenderer {
      * Loads the textures and other assets required for rendering.
      */
     private void loadAssets() {
-
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadTextures(AssetPaths.IMAGES);
         ServiceLocator.getResourceService().loadAll();

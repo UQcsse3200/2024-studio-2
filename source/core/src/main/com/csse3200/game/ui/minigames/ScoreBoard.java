@@ -7,59 +7,90 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.minigames.MiniGameConstants;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
 
 /**
  * UI component for displaying the scoreboard in the Snake mini-game.
  * Manages score and medal display with dynamic scaling based on screen size.
  */
-public class SnakeScoreBoard {
+public class ScoreBoard {
 
-    private final Label scoreLabel;
-    private final Label bronzeLabel;
-    private final Label silverLabel;
-    private final Label goldLabel;
-    private final Label medalLabel;
-    private final Table table;
+    private Label scoreLabel;
+    private Label bronzeLabel;
+    private Label silverLabel;
+    private Label goldLabel;
+    private Label medalLabel;
+    private Table table;
+    private final MiniGameNames gameName;
+    private int bronzeThreshold;
+    private int silverThreshold;
+    private int goldThreshold;
+    private int initialScore;
 
     /**
      * Creates a new SnakeScoreBoard with the initial score.
      *
      * @param initialScore The starting score to display.
      */
-    public SnakeScoreBoard(int initialScore) {
+    public ScoreBoard(int initialScore, MiniGameNames gameName) {
+        this.initialScore = initialScore;
+        this.gameName = gameName;
+
+        scoreBoardSetUp();
+    }
+
+    private void scoreBoardSetUp () {
+
+        // Assign thresholds depending on game
+        if (gameName == SNAKE) {
+            bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
+            silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
+            goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
+        } else if (gameName == BIRD) {
+            bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+            silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+            goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
+        } else { // MAZE
+            bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
+            silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
+            goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
+        }
         Stage stage = ServiceLocator.getRenderService().getStage();
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        // Create and configure the score label
+        // Create score label
         scoreLabel = new Label("Score: " + initialScore, skin, "default-white");
         scoreLabel.setFontScale(2.0f);
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create Medal Title
+        // Create medal title
         medalLabel = new Label("Medals", skin, "default-white");
         medalLabel.setFontScale(2.0f);
         medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create labels for Bronze, Silver, Gold
-        bronzeLabel = new Label("Bronze: " + MiniGameConstants.SNAKE_BRONZE_THRESHOLD, skin, "default-white");
+        // Create labels for bronze, silver, gold
+        bronzeLabel = new Label("Bronze: " + bronzeThreshold, skin, "default-white");
         bronzeLabel.setFontScale(1.5f);
         bronzeLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        silverLabel = new Label("Silver: " + MiniGameConstants.SNAKE_SILVER_THRESHOLD, skin, "default-white");
+        silverLabel = new Label("Silver: " + silverThreshold, skin, "default-white");
         silverLabel.setFontScale(1.5f);
         silverLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        goldLabel = new Label("Gold: " + MiniGameConstants.SNAKE_GOLD_THRESHOLD, skin, "default-white");
+        goldLabel = new Label("Gold: " + goldThreshold, skin, "default-white");
         goldLabel.setFontScale(1.5f);
         goldLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create a table for better alignment and background color
+        // Create a table
         table = new Table();
-        table.top().right(); // Align the table to the top-right corner
+        table.top().right();
 
         table.add(scoreLabel).center().padTop(120).padBottom(40).expandX().fillX().padLeft(120);
         table.row();
@@ -67,7 +98,6 @@ public class SnakeScoreBoard {
         table.add(medalLabel).center().padTop(80).padBottom(20).expandX().fillX().padLeft(120);
         table.row();
 
-        // Add the Bronze, Silver, Gold labels to the table with increased padding
         table.add(bronzeLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
         table.row();
         table.add(silverLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
@@ -77,10 +107,7 @@ public class SnakeScoreBoard {
         // Set the background image
         table.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("images/minigames/scoreboard.png"))));
 
-        // Add the table to the stage; position will be relative to the screen size
         stage.addActor(table);
-
-        // Set the table's size and position dynamically based on screen size
         updateTableSizeAndPosition();
     }
 

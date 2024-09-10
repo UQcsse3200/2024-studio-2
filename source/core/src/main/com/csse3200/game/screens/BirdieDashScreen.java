@@ -16,6 +16,7 @@ import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
@@ -31,6 +32,9 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
+import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
+
 public class BirdieDashScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
@@ -41,6 +45,7 @@ public class BirdieDashScreen extends PausableScreen {
     private float scale;
     private final Table exitButtonTable;
     private final BirdieDashGame birdGame;
+    private final ScoreBoard scoreBoard;
 
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
@@ -66,7 +71,8 @@ public class BirdieDashScreen extends PausableScreen {
         font.getData().setScale(5.0f);
 
         this.stage = ServiceLocator.getRenderService().getStage();
-      //  Gdx.input.setInputProcessor(stage);
+
+        this.scoreBoard = new ScoreBoard(0, BIRD);
 
         logger.debug("Initialising birdie dash entities");
 
@@ -86,8 +92,10 @@ public class BirdieDashScreen extends PausableScreen {
         birdGame.render(delta);
         if (birdGame.getIsGameOver()) {
             dispose();
-            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), MiniGameNames.BIRD, oldScreen, oldScreenServices));
+            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
         }
+
+        scoreBoard.updateScore(birdGame.getScore());
 
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
