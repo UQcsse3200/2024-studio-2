@@ -152,6 +152,7 @@ public class CombatScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
+        .addComponent(manager)
         //.addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatExitDisplay())
         .addComponent(statsDisplay)
