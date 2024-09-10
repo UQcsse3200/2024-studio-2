@@ -1,11 +1,18 @@
 [
 {
-  "questName": "AppleAdvancement",
-  "questDescription": "Collect your first apple!",
+  "questName": "steps",
+  "questDescription": "These boots have seen everything",
   "completed": false,
   "seen": false,
   "type": "ITEM"
 },
+  {
+    "questName": "AppleAdvancement",
+    "questDescription": "Collect your first apple!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM"
+  },
   {
     "questName": "Attack PotionAdvancement",
     "questDescription": "Collect your first Attack Potion!",

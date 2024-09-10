@@ -8,6 +8,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.quests.AchievementPopup;
 import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
@@ -64,12 +65,12 @@ public class PlayerFactory {
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
-
                 .addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup());
         player.addComponent((new StatManager()));
+        player.addComponent(new AchievementPopup());
 
 
 
