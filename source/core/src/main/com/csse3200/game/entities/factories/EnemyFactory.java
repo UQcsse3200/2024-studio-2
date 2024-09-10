@@ -26,6 +26,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
  *
@@ -65,6 +66,7 @@ public class EnemyFactory {
 
     animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
     animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("alert",1.0f, Animation.PlayMode.NORMAL);
 
 
     chicken
@@ -173,6 +175,7 @@ public class EnemyFactory {
             .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+
     return npc;
   }
 

@@ -30,6 +30,7 @@ public class ChickenAnimationController extends Component {
   private void animateAlert() {
     animator.startAnimation("alert");
   }
+
   private void animateChaseLeft() {
     animator.setFlipX(true);
     animator.startAnimation("walk");
