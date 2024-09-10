@@ -116,14 +116,12 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     @Override
     public void pause() {
         isPaused = true;
-        //gameArea.pauseMusic();
         logger.info("Game paused");
     }
 
     @Override
     public void resume() {
         isPaused = false;
-        //gameArea.playMusic();
         logger.info("Game resumed");
     }
 
@@ -148,13 +146,34 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         logger.debug("Creating cutscene UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
 
-        AnimationRenderComponent animator = enemy.getComponent(AnimationRenderComponent.class);
+        Texture enemyImageTexture;
+        BitmapFont defaultFont = new BitmapFont();
+        defaultFont.getData().setScale(2.0f);
+
+        // Create label style with the font
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = defaultFont;
+        labelStyle.fontColor = Color.BLACK;
+
+        Label enemyNameLabel;
+
+        if(enemy.getEnemyType() == Entity.EnemyType.CHICKEN) {
+            enemyImageTexture = new Texture("images/chicken.png");
+            enemyNameLabel = new Label("Chicken", labelStyle);
+        } else if (enemy.getEnemyType() == Entity.EnemyType.FROG) {
+            enemyImageTexture = new Texture("images/frog.png");
+            enemyNameLabel = new Label("Frog", labelStyle);
+        }  else if (enemy.getEnemyType() == Entity.EnemyType.MONKEY) {
+            enemyImageTexture = new Texture("images/monkey.png");
+            enemyNameLabel = new Label("Monkey", labelStyle);
+        } else {
+            enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
+            enemyNameLabel = new Label("Kanga", labelStyle);
+        }
 
         // Create black bars
         Texture topBarTexture = new Texture("images/black_bar.png");
         Texture bottomBarTexture = new Texture("images/black_bar.png");
-        // Load texture for chicken enemy NPCs
-        Texture enemyImageTexture = new Texture(animator.getAtlas().findRegion("walk").getTexture().getTextureData());
 
         Image topBar = new Image(topBarTexture);
         Image bottomBar = new Image(bottomBarTexture);
@@ -165,15 +184,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
         bottomBar.setPosition(0, 0);
 
-        BitmapFont defaultFont = new BitmapFont();
-        defaultFont.getData().setScale(2.0f);
-
-        // Create label style with the font
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = defaultFont;
-        labelStyle.fontColor = Color.BLACK;
-
-        Label enemyNameLabel = new Label("Kanga", labelStyle);
         enemyNameLabel.setAlignment(Align.center);
 
         Image enemyImage = new Image(enemyImageTexture);

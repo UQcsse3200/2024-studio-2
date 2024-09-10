@@ -25,6 +25,7 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.entities.factories.EnemyFactory.EnemyType;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -43,7 +44,7 @@ public class EnemyFactory {
   /**
    * types of enemies
    */
-  private enum EnemyType {
+  public enum EnemyType {
     FROG,
     CHICKEN,
     MONKEY;
@@ -57,6 +58,7 @@ public class EnemyFactory {
    */
   public static Entity createChicken(Entity target) {
     Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
+    chicken.setEnemyType(Entity.EnemyType.CHICKEN);
     BaseEnemyEntityConfig config = configs.chicken;
 
     TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
@@ -86,6 +88,7 @@ public class EnemyFactory {
    */
   public static Entity createFrog(Entity target) {
     Entity frog = createBaseEnemy(target, EnemyType.FROG);
+    frog.setEnemyType(Entity.EnemyType.FROG);
     BaseEnemyEntityConfig config = configs.frog;
 
     AnimationRenderComponent animator =
@@ -113,6 +116,7 @@ public class EnemyFactory {
    */
   public static Entity createMonkey(Entity target) {
     Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
+    monkey.setEnemyType(Entity.EnemyType.MONKEY);
     BaseEnemyEntityConfig config = configs.monkey;
 
     AnimationRenderComponent animator =
