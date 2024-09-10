@@ -92,13 +92,9 @@ public class GdxGame extends Game {
         enemy.dispose();
     }
 
-    public void addCombatScreen(Entity enemy) {
-        addScreen(ScreenType.COMBAT, getScreen(), null, enemy);
-    }
-
-    public void addBossCutsceneScreen(Entity player, Entity enemy) {
-        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
-    }
+  public void addBossCutsceneScreen(Entity player, Entity enemy) {
+   addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
+  }
 
     public void enterCombatScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
@@ -108,17 +104,22 @@ public class GdxGame extends Game {
         addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
     }
 
-    /**
-     * Overloaded to add new combat screen
-     * Changes to a new screen, does NOT dispose of old screen
-     *
-     * @param screenType screen type
-     * @param screen Old screen if we want to remember/ return to it.
-     */
-    public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
-        logger.info("Add combat Screen: {}", screenType);
-        screen.pause();
-        ServiceContainer container = new ServiceContainer();
+  public void enterEndGameStatsScreen(Entity player) {
+    addScreen(ScreenType.END_GAME_STATS, getScreen(), player, null);
+  }
+
+
+  /**
+   * Overloaded to add new screen
+   * Changes to a new screen, does NOT dispose of old screen
+   *
+   * @param screenType screen type
+   * @param screen Old screen if we want to remember/ return to it.
+   */
+  public void addScreen (ScreenType screenType, Screen screen, Entity player, Entity enemy) {
+    logger.info("Add Screen: {}", screenType);
+    screen.pause();
+    ServiceContainer container = new ServiceContainer();
 
         ServiceLocator.clear();
         setScreen(newScreen(screenType, screen, container, player, enemy));
@@ -165,8 +166,8 @@ public class GdxGame extends Game {
                 return new LoadingScreen(this);
             case ANIMAL_SELECTION:
                 return new AnimalSelectionScreen(this);
-            case GAME_OVER_WIN:
-                return new GameOverWinScreen(this);
+            case END_GAME_STATS:
+                return new EndGameStatsScreen(this, player);
             case GAME_OVER_LOSE:
                 return new GameOverLoseScreen(this);
 
@@ -181,7 +182,7 @@ public class GdxGame extends Game {
      */
     public enum ScreenType {
 
-        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME
+      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, END_GAME_STATS, GAME_OVER_LOSE, SNAKE_MINI_GAME
 
     }
 

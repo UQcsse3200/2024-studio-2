@@ -174,7 +174,7 @@ public class QuestManager extends Component {
 
 
     /**
-     * Progresses the  quest based on completion and updates the quest status..
+     * Progresses the quest based on completion and updates the quest status.
      * @param questName The name of the quest.
      * @param taskName  The name of the task.
      */

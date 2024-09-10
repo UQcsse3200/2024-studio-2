@@ -51,7 +51,7 @@ public class MainGameActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Set current screen to original MainGameScreen
     // game.setOldScreen(screen, container);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    //game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
   /**

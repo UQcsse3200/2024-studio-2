@@ -29,7 +29,6 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
-
   private final GdxGame game;
 
   public PlayerActions(GdxGame game, Entity player) {

@@ -11,7 +11,8 @@ import java.util.HashMap;
  */
 public class StatManager extends Component {
 
-    /** Data structure for all stats, the string is the value returned by Stat.getStatName()
+    /**
+     * Data structure for all stats, the string is the value returned by Stat.getStatName()
      */
     private final HashMap<String, Stat> stats;
     private static final Logger logger = LoggerFactory.getLogger(StatManager.class);
@@ -34,6 +35,10 @@ public class StatManager extends Component {
      */
     public Stat getStat(String statName) {
         return stats.get(statName);
+    }
+
+    public HashMap<String, Stat> getAllStats() {
+        return stats;
     }
 
     /** Handler for event triggering an update of the a stat

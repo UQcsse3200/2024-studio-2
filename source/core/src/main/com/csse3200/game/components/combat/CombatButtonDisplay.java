@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
 public class CombatButtonDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(CombatButtonDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
     private Screen screen;
