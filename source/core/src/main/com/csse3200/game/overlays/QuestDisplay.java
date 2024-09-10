@@ -65,13 +65,13 @@ public class QuestDisplay extends UIComponent {
         }
     };
 
-    /** */
+    /** Creates a new quest display and sets the screen that can be paused. */
     public QuestDisplay(PausableScreen screen) {
         super();
         this.screen = screen;
     }
 
-    /** */
+    /**Creates the display */
     @Override
     public void create() {
         super.create();
@@ -225,7 +225,7 @@ public class QuestDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 if ((currPage + 1) * numOfQuestsPerPage < listOfQuests.size()) {
                     currPage++;
-                    refreshUI();
+                    refreshTheUI();
                 }
             }
         });
@@ -236,7 +236,7 @@ public class QuestDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 if (currPage > 0) {
                     currPage--;
-                    refreshUI();
+                    refreshTheUI();
                 }
             }
         });
@@ -252,8 +252,8 @@ public class QuestDisplay extends UIComponent {
         return table;
     }
 
-    /** */
-    private void refreshUI() {
+    /** Refreshes the UI so quest display components display properly without collision*/
+    private void refreshTheUI() {
         rootTable.clearChildren();
 
         Label title = new Label("QUESTS", skin, "title");
@@ -306,7 +306,7 @@ public class QuestDisplay extends UIComponent {
         rootTable.setSize(background.getWidth(), background.getHeight());
         rootTable.setFillParent(true);
 
-        refreshUI();
+        refreshTheUI();
 
     }
 
