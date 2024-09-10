@@ -14,7 +14,7 @@ public class CollisionHandler {
     private List<Coin> coins;
     private final Spike spike;
     private int score;  // To keep track of the player's score
-    final float epsilon = 15f;
+    final float epsilon = 5f;
     private boolean collisionDetected;
     private boolean overlapping;
 

@@ -118,7 +118,9 @@ public class BirdieDashGame {
      * @param dt change in time
      */
     public void render(float dt) {
-        updateGamePosition(dt);
+        for (int i = 0; i < 20; i++) {
+            updateGamePosition(dt / 20);
+        }
         renderer.render();
     }
 

@@ -8,8 +8,8 @@ public class Bird {
     private Vector2 position;
     private Vector2 velocity;
     private Rectangle boundingBox;
-    private static final float GRAVITY = -15f;
-    private static final float FLAP_STRENGTH = 500;
+    private static final float GRAVITY = -1000f;
+    private static final float FLAP_STRENGTH = 800;
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
     private static final int GAME_HEIGHT = 1200;
@@ -28,22 +28,24 @@ public class Bird {
         isFlapping = false;
     }
     public void update(float deltaTime, float multiplier) {
+        if(isFlapping) {
+            isFlapping = false;
+            velocity.y = FLAP_STRENGTH;
+        }
+
         if (position.y > 0) {
             if(collideTopOfPipe) {
-                if(velocity.y != 0) {
+                if (velocity.y != 0) {
                     velocity.y = 0;
                 }
             } else {
-                velocity.add(0, GRAVITY);
+                velocity.add(0, GRAVITY * deltaTime);
             }
         } else {
             position.y = 0;
             velocity.y = 0;
         }
-        if(isFlapping) {
-            isFlapping = false;
-            velocity.y = FLAP_STRENGTH;
-        }
+
         if(position.x < 960 && !collidingPipe) {
             velocity.x = 50;
         } else {
@@ -65,7 +67,7 @@ public class Bird {
 
     public void setCollidingTopPipe(float y) {
         collideTopOfPipe = true;
-        position.set(position.x, y);
+        position.set(position.x, y + 1);
     }
 
     public void unsetCollidingTopPipe() {
@@ -74,7 +76,7 @@ public class Bird {
 
     public void setCollidingBottomPipe(float y) {
         collideBottomOfPipe = true;
-        position.set(position.x, y - getBirdHeight());
+        position.set(position.x, y - getBirdHeight() - 1);
         velocity.set(0,0);
     }
 
