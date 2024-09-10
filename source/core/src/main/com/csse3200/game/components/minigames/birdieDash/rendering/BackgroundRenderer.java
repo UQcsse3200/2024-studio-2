@@ -8,6 +8,9 @@ import com.csse3200.game.components.minigames.snake.AssetPaths;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
+/**
+ * Rendering for the background of birdie dash mini-game
+ */
 public class BackgroundRenderer implements MinigameRenderable {
 
     private Texture backGroundTexture;
@@ -21,6 +24,9 @@ public class BackgroundRenderer implements MinigameRenderable {
         loadAssets();
     }
 
+    /**
+     * render the background
+     */
     public void render() {
         renderer.getSb().draw(backgroundRegion,
                 0,
@@ -29,6 +35,9 @@ public class BackgroundRenderer implements MinigameRenderable {
                 GAME_HEIGHT);
     }
 
+    /**
+     * Loads assets
+     */
     private void loadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.loadTextures(new String[]{AssetPaths.BACKGROUND});
@@ -44,11 +53,17 @@ public class BackgroundRenderer implements MinigameRenderable {
                 420);
     }
 
+    /**
+     * unload assets
+     */
     private void unloadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.unloadAssets(new String[]{AssetPaths.BACKGROUND});
     }
 
+    /**
+     * dispose assets
+     */
     public void dispose() {
         unloadAssets();
         backGroundTexture.dispose();

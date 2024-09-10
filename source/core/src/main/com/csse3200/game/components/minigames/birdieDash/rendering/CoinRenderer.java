@@ -11,6 +11,9 @@ import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
 
+/**
+ * Renderer for the coins in the birdie dash mini-game
+ */
 public class CoinRenderer implements MinigameRenderable {
     private final List<Coin> coins;
     private final MinigameRenderer renderer;
@@ -25,6 +28,9 @@ public class CoinRenderer implements MinigameRenderable {
         loadAssets();
     }
 
+    /**
+     * renders the coin
+     */
     public void render(){
         for (Coin coin : this.coins) {
             renderer.getSb().draw(coinRegion,
@@ -35,6 +41,9 @@ public class CoinRenderer implements MinigameRenderable {
         }
     }
 
+    /**
+     * Loads the asse
+     */
     private void loadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.loadTextures(new String[]{AssetPaths.COIN});
@@ -49,11 +58,17 @@ public class CoinRenderer implements MinigameRenderable {
         coinRegion = new TextureRegion(coinTexture, x, y, regionWidth, regionHeight);
     }
 
+    /**
+     * unloads assets
+     */
     private void unloadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.unloadAssets(new String[]{AssetPaths.COIN});
     }
 
+    /**
+     * dispose
+     */
     public void dispose() {
         unloadAssets();
         coinTexture.dispose();
