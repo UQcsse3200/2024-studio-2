@@ -10,7 +10,9 @@ import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
 
-// very rough class for now. will refactor later
+/**
+ * Pipe render for birdie dash mini-game
+ */
 public class PipeRenderer implements MinigameRenderable {
 
     private Texture obstacleTexture;
@@ -22,6 +24,10 @@ public class PipeRenderer implements MinigameRenderable {
         this.renderer.addRenderable(this);
         loadAssets();
     }
+
+    /**
+     * Render pipes
+     */
     public void render(){
         for (Pipe pipe : this.pipes) {
             renderer.getSb().draw(obstacleTexture,
@@ -38,6 +44,9 @@ public class PipeRenderer implements MinigameRenderable {
         }
     }
 
+    /**
+     * load assets
+     */
     private void loadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.loadTextures(new String[]{AssetPaths.PIPE});
@@ -45,11 +54,17 @@ public class PipeRenderer implements MinigameRenderable {
         obstacleTexture = rs.getAsset(AssetPaths.PIPE, Texture.class);
     }
 
+    /**
+     * unload assets
+     */
     private void unloadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
         rs.unloadAssets(new String[]{AssetPaths.PIPE});
     }
 
+    /**
+     * dispose
+     */
     public void dispose() {
         unloadAssets();
         obstacleTexture.dispose();
