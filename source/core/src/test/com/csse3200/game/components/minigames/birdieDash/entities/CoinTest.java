@@ -107,6 +107,12 @@ class CoinTest {
     // NEEDS TO BE DONE
     @Test
     void testBoundaryUpdateOnChangePosition() {
+        coin.changePosition(1);
+        Rectangle expectedBoundary = new Rectangle(400 - coin.getWidth() / 2,
+                coin.getPosition().y - coin.getHeight() / 2,
+                coin.getWidth(),
+                coin.getHeight());
+        assertEquals(expectedBoundary, coin.getBoundary());
     }
 }
 
