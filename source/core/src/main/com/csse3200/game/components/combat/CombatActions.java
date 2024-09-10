@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,14 @@ public class CombatActions extends Component {
   private final Screen previousScreen;
   private final ServiceContainer previousServices;
   private Stage stage;
+  private Entity enemy;
 
-  public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
+  public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices, Entity enemy) {
     this.game = game;
     this.manager = manager;
     this.previousScreen = previousScreen;
     this.previousServices = previousServices;
+    this.enemy = enemy;
   }
 
   @Override
@@ -46,19 +49,8 @@ public class CombatActions extends Component {
    */
   private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
-<<<<<<< HEAD
-    // Kill enemy.
-    //this.enemy.dispose();
-    //this.enemy.update();
-    //container.getEntityService().unregister(enemy);
-    //container.getEntityService().update();
-    // Set current screen to original MainGameScreen
-    game.setOldScreen(screen, container);
-    // game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-=======
     // Reset player's stamina.
-    game.setOldScreen(previousScreen, previousServices);
->>>>>>> 9-boss-abilities
+    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**

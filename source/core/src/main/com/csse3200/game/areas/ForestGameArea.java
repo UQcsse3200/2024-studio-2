@@ -371,4 +371,8 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
   }
+
+  public List<Entity> getEnemies() {
+    return enemies;
+  }
 }
