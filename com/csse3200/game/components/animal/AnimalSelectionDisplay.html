@@ -88,12 +88,15 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">com.csse3200.game.components.animal.AnimalSelectionDisplay</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="AirAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AirAnimalSelectionDisplay</a></code>, <code><a href="LandAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">LandAnimalSelectionDisplay</a></code>, <code><a href="WaterAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">WaterAnimalSelectionDisplay</a></code></dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AnimalSelectionDisplay</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AnimalSelectionDisplay</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Represents the display for selecting animals in the game.
- The class manages the UI components related to
- animal selection, including images, buttons, and their layout on the stage.</div>
+<div class="block">Base class that represents the common functionality for animal selection screens.
+ Manages the UI components for all types of animal selection.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -108,7 +111,7 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage,com.badlogic.gdx.scenes.scene2d.ui.Skin)" class="member-name-link">AnimalSelectionDisplay</a><wbr>(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructs a diplay for displaying and managing animal selection UI.</div>
+<div class="block">Constructor for AnimalSelectionDisplay to initialize UI components and layout.</div>
 </div>
 </div>
 </section>
@@ -118,7 +121,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -127,12 +130,22 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalButtons()" class="member-name-link">getAnimalButtons</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Image[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalImages()" class="member-name-link">getAnimalImages</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBackButton()" class="member-name-link">getBackButton</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAnimalImagePaths()" class="member-name-link">getAnimalImagePaths</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Abstract method to provide the animal image paths for the screen.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Image[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalImages()" class="member-name-link">getAnimalImages</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBackButton()" class="member-name-link">getBackButton</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getBackgroundImagePath()" class="member-name-link">getBackgroundImagePath</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Abstract method that must be implemented to provide the background image path for the screen.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSelectButton()" class="member-name-link">getSelectButton</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -164,9 +177,7 @@ loadScripts(document, 'script');</script>
 <h3>AnimalSelectionDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AnimalSelectionDisplay</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin)</span></div>
-<div class="block">Constructs a diplay for displaying and managing animal selection UI.
- Initializes the arrays for animal images and buttons, as well as the select and back buttons.
- This constructor sets up the stage and skin used for styling UI elements.</div>
+<div class="block">Constructor for AnimalSelectionDisplay to initialize UI components and layout.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>stage</code> - The stage where UI elements are added.</dd>
@@ -182,6 +193,28 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="getBackgroundImagePath()">
+<h3>getBackgroundImagePath</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getBackgroundImagePath</span>()</div>
+<div class="block">Abstract method that must be implemented to provide the background image path for the screen.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The background image path.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAnimalImagePaths()">
+<h3>getAnimalImagePaths</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getAnimalImagePaths</span>()</div>
+<div class="block">Abstract method to provide the animal image paths for the screen.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Array of animal image paths.</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="getAnimalImages()">
 <h3>getAnimalImages</h3>

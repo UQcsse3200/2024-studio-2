@@ -6,6 +6,7 @@ com.csse3200.game.areas.ForestGameAreaConfigs
 com.csse3200.game.areas.terrain
 com.csse3200.game.components
 com.csse3200.game.components.animal
+com.csse3200.game.components.audio
 com.csse3200.game.components.combat
 com.csse3200.game.components.gamearea
 com.csse3200.game.components.gameover
