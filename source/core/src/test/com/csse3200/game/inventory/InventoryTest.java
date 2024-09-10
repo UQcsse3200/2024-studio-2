@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -50,6 +52,7 @@ class InventoryTest {
         }
 
         context = new ItemUsageContext();
+        GameState.inventory.inventoryContent = new AbstractItem[0];
     }
 
     @Test

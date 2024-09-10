@@ -1,5 +1,7 @@
 package com.csse3200.game.inventory;
 
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 
@@ -8,6 +10,8 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
@@ -26,6 +30,8 @@ public class Inventory implements InventoryInterface {
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
 
+    private Logger logger = LoggerFactory.getLogger(Inventory.class);
+
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -43,7 +49,17 @@ public class Inventory implements InventoryInterface {
         this.codeToIndices = new TreeMap<>();
         this.nameToIndices = new TreeMap<>();
         this.memoryView = new AbstractItem[capacity];
+
     }
+
+    public void loadInventoryFromSave() {
+        if(GameState.inventory.inventoryContent.length != 0) {
+            this.memoryView = GameState.inventory.inventoryContent;
+        } else {
+            GameState.inventory.inventoryContent = this.memoryView;
+        }
+    }
+
 
     /**
      * @return the total capacity of the inventory.

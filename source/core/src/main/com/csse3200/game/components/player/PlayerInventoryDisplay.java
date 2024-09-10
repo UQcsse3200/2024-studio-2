@@ -299,4 +299,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     public float getZIndex() {
         return Z_INDEX;
     }
+
+    public void loadInventoryFromSave() {
+        inventory.loadInventoryFromSave();
+    }
 }

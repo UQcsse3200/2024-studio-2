@@ -2,15 +2,14 @@ package com.csse3200.game.gamestate.data;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
 
 import java.util.*;
 
-public class Quests implements Json.Serializable {
-    public ArrayList<QuestBasic> quests = new ArrayList<>();
+public class QuestSave implements Json.Serializable {
+    public List<QuestBasic> quests = new ArrayList<>();
 
     @Override
     public void write(Json json) {
