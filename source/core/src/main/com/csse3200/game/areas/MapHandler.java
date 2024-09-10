@@ -17,19 +17,25 @@ public class MapHandler {
   private static WaterGameArea waterGameArea;
 
   private static boolean isSavedPrevioud;
-  //private static GameArea savedPrevioud;
+  // private static GameArea savedPrevioud;
 
   private MapHandler() {
     isSavedPrevioud = false;
   }
 
   /**
+   * Switch to a NEW map
    *
-   * Set disposePrevious to false will remember the previous map state, which can
+   * Set saveState to true will remember the previous map state, which can
    * be restored later.
    *
+   * @param mapType map type
+   * @param renderer renderer
+   * @param game game
+   * @param saveState save state
    */
   public static void switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
+    // TODO: save state
     if (saveState && currentMap != MapType.NONE) {
       // currentMap.saveState();
       isSavedPrevioud = true;
@@ -50,16 +56,8 @@ public class MapHandler {
       waterGameArea.create();
     }
 
-    // if map exist, switch to it
-
     previousMap = currentMap;
     currentMap = mapType;
-  }
-
-  public static void swapMap() {
-    if (isSavedPrevioud) {
-
-    }
   }
 
   /**
@@ -87,7 +85,6 @@ public class MapHandler {
         return waterGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
-      // case WATER:
     }
   }
 

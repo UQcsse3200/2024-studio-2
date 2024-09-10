@@ -43,7 +43,9 @@ import java.util.Map;
 /**
  * The game screen containing the main game.
  *
- * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
+ * <p>
+ * Details on libGDX screens:
+ * https://happycoding.io/tutorials/libgdx/game-screens
  */
 public class MainGameScreen extends PausableScreen {
 
@@ -54,9 +56,10 @@ public class MainGameScreen extends PausableScreen {
   /**
    * Array of texture paths used in the main game screen.
    */
-  private static final String[] mainGameTextures = {"images/health_bar_x1.png",
-          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png", "images/vignette.png",
-          "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
+  private static final String[] mainGameTextures = { "images/health_bar_x1.png",
+      AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png", "images/vignette.png",
+      "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png",
+      "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png" };
   /**
    * Initial position of the camera in game.
    */
@@ -77,61 +80,68 @@ public class MainGameScreen extends PausableScreen {
 
   /**
    * Constructs a MainGameScreen instance.
+   * 
    * @param game The main game instance used.
    */
-    public MainGameScreen(GdxGame game) {
-      super(game);
+  public MainGameScreen(GdxGame game) {
+    super(game);
 
-      logger.debug("Initialising main game screen services");
-      ServiceLocator.registerTimeSource(new GameTime());
+    logger.debug("Initialising main game screen services");
+    ServiceLocator.registerTimeSource(new GameTime());
 
-      PhysicsService physicsService = new PhysicsService();
-      ServiceLocator.registerPhysicsService(physicsService);
-      physicsEngine = physicsService.getPhysics();
+    PhysicsService physicsService = new PhysicsService();
+    ServiceLocator.registerPhysicsService(physicsService);
+    physicsEngine = physicsService.getPhysics();
 
-      ServiceLocator.registerInputService(new InputService());
-      ServiceLocator.registerResourceService(new ResourceService());
+    ServiceLocator.registerInputService(new InputService());
+    ServiceLocator.registerResourceService(new ResourceService());
 
-      ServiceLocator.registerEntityService(new EntityService());
-      ServiceLocator.registerRenderService(new RenderService());
-      //register the EntityChatService
+    ServiceLocator.registerEntityService(new EntityService());
+    ServiceLocator.registerRenderService(new RenderService());
 
-      renderer = RenderFactory.createRenderer();
-      renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
-      renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
+    // register the EntityChatService
+    renderer = RenderFactory.createRenderer();
+    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+    renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-      loadAssets();
-      createUI();
-      logger.debug("Initialising main game screen entities");
-      
-      setMap(MapHandler.MapType.FOREST);
-      //MapHandler.switchMapTo(MapHandler.MapType.FOREST, getRenderer(), game, false);
+    loadAssets();
+    createUI();
+    logger.debug("Initialising main game screen entities");
 
-      Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+    setMap(MapHandler.MapType.FOREST);
 
-    }
+    Stage stage = ServiceLocator.getRenderService().getStage();
+    ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
-    public void setMap(MapHandler.MapType mapType) {
-      MapHandler.switchMapTo(mapType, renderer, game, true);
-    }
+  }
 
   /**
-   * Renders the game screen and updates the physics engine, game entities, and renderer.
+   * Sets the beginning map of the game.
+   * 
+   * @param mapType The map type to set the map to.
+   */
+  public void setMap(MapHandler.MapType mapType) {
+    MapHandler.switchMapTo(mapType, renderer, game, true);
+  }
+
+  /**
+   * Renders the game screen and updates the physics engine, game entities, and
+   * renderer.
+   * 
    * @param delta The time elapsed since the last render call.
    */
   @Override
   public void render(float delta) {
-    if (!isPaused){
+    if (!isPaused) {
       physicsEngine.update();
       ServiceLocator.getEntityService().update();
       renderer.render();
     }
   }
 
-
   /**
    * Resizes the renderer to fit dimensions.
+   * 
    * @param width  width of the screen.
    * @param height height of the screen.
    */
@@ -151,14 +161,14 @@ public class MainGameScreen extends PausableScreen {
     logger.info("Game paused");
   }
 
-
   /**
    * Resumes the game and restarts music if not in resting state.
    */
   @Override
   public void resume() {
     isPaused = false;
-    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer()
+        .getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     if (!resting) {
       MapHandler.getCurrentMap().playMusic();
@@ -203,14 +213,14 @@ public class MainGameScreen extends PausableScreen {
   }
 
   /**
-   * Creates the main game's ui including components for rendering ui elements to the screen and
+   * Creates the main game's ui including components for rendering ui elements to
+   * the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForTerminal();
+    InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     Entity ui = new Entity();
 
@@ -239,7 +249,8 @@ public class MainGameScreen extends PausableScreen {
    */
   public void wake() {
     super.wake();
-    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer()
+        .getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     MapHandler.getCurrentMap().playMusic();
   }

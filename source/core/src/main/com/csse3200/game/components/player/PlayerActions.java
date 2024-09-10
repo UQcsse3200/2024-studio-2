@@ -51,14 +51,18 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("stoF", this::stof);
   }
 
+  /**
+   * Switches to the forest map.
+   */
   private void stof() {
-    System.out.println("================Switching map");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.setMap(MapHandler.MapType.FOREST);
   }
 
+  /**
+   * Switches to the water map.
+   */
   private void switchMap() {
-    System.out.println("===============Switching map");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.setMap(MapHandler.MapType.WATER);
   }

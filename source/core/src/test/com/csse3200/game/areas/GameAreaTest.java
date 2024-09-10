@@ -8,6 +8,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,23 @@ class GameAreaTest {
         new GameArea() {
           @Override
           public void create() {}
+
+          @Override
+          public void playMusic() {}
+
+          @Override
+          public Entity getPlayer() {
+            return null;
+          }
+
+          @Override
+          public void unloadAssets() {
+          }
+
+          @Override
+          public void pauseMusic() {
+          }
+
         };
 
     ServiceLocator.registerEntityService(new EntityService());

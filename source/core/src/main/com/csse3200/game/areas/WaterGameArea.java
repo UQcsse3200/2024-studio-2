@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.function.Supplier;
 
+/////////////////// This is the temporary game area to test map switching //////////////////////
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class WaterGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(WaterGameArea.class);
@@ -71,7 +72,7 @@ public class WaterGameArea extends GameArea {
     // Player
     player = spawnPlayer();
     //logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setChunk(player.getPosition());
+    TerrainLoader.setInitials(player.getPosition(), terrain);
 
     // Obstacles
     spawnTrees();
@@ -100,14 +101,14 @@ public class WaterGameArea extends GameArea {
 
   private void handleItems() {
     // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
-    for (GridPoint2 pos : TerrainComponent.getNewChunks()) {
+    for (GridPoint2 pos : terrain.getNewChunks()) {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
-      if (!TerrainComponent.getActiveChunks().contains(chunkPos)) {
+      if (!terrain.getActiveChunks().contains(chunkPos)) {
         removals.add(key);
       }
     }
@@ -293,6 +294,9 @@ public class WaterGameArea extends GameArea {
     }
   }
 
+  /**
+   * Static method to play background music
+   */
   public static void pMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
             Music.class);
@@ -301,6 +305,9 @@ public class WaterGameArea extends GameArea {
     music.play();
   }
 
+  /**
+   * Static method to pause background music
+   */
   public static void puMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
     music.pause();

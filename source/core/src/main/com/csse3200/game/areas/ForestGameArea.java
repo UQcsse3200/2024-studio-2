@@ -338,6 +338,9 @@ public class ForestGameArea extends GameArea {
     }
   }
 
+  /**
+   * Static method to play the background music
+   */
   public static void pMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
             Music.class);
@@ -346,6 +349,9 @@ public class ForestGameArea extends GameArea {
     music.play();
   }
 
+  /**
+   * Static method to pause the background music 
+   */
   public static void puMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
     music.pause();
