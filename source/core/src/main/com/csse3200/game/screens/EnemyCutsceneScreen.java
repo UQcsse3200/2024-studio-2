@@ -153,7 +153,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Create black bars
         Texture topBarTexture = new Texture("images/black_bar.png");
         Texture bottomBarTexture = new Texture("images/black_bar.png");
-        // For monkey
+        // Load texture for chicken enemy NPCs
         Texture enemyImageTexture = new Texture(animator.getAtlas().findRegion("walk").getTexture().getTextureData());
 
         Image topBar = new Image(topBarTexture);
