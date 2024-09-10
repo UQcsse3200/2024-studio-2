@@ -9,12 +9,19 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 
 /**
- * Manages the turn-based combat loop and handles attacks
+ * The CombatManager class is responsible for managing the turn-based combat loop between two entities (player and enemy).
+ * It handles the selection of moves, the sequence in which they are performed, and applies the effects of moves such as
+ * attacks, guards, and special actions. The class also checks for any status effects (like confusion or bleeding) and determines
+ * when combat has ended based on the health of the player and the enemy.
  */
 public class CombatManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatManager.class);
 
+    /**
+     * Enum representing the possible actions in combat: ATTACK, GUARD, SLEEP, SPECIAL, or ITEM.
+     */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
+
     private final Entity player;
     private final Entity enemy;
     private final CombatStatsComponent playerStats;
@@ -25,10 +32,11 @@ public class CombatManager extends Component {
     private final CombatMoveComponent enemyMove;
 
     /**
-     * A combat manager which handles enemy move selection, player and enemy move combinations, move sequencing,
-     * combat logic, and checking whether the combat sequence is over.
-     * @param player player entity involved in combat.
-     * @param enemy enemy entity involved in combat.
+     * Creates a CombatManager that handles the combat sequence between the player and enemy.
+     * It initializes player and enemy stats, their moves, and actions.
+     *
+     * @param player the player entity involved in combat.
+     * @param enemy the enemy entity involved in combat.
      */
     public CombatManager(Entity player, Entity enemy) {
         this.player = player;
@@ -45,13 +53,12 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Both opponents' actions need to be determined before either action is enacted, as the sequencing of the moves
-     * will be dependent on both of the choices.
-     * @param playerActionStr selected move as per button press (from CombatActions).
+     * Sets the player's action based on input and triggers enemy action selection.
+     * The move combination is then executed, and status effects are processed at the end of the turn.
+     *
+     * @param playerActionStr the action chosen by the player as a string.
      */
-    public void onPlayerActionSelected(String playerActionStr)
-    {
-        // Map the string input to the corresponding enum value
+    public void onPlayerActionSelected(String playerActionStr) {
         try {
             playerAction = Action.valueOf(playerActionStr.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -59,26 +66,28 @@ public class CombatManager extends Component {
             return;
         }
 
-        // The effect of confusion is applied at the start of the round after the player has selected their move.
+        // Apply confusion effect if it exists.
         checkForConfusion(playerStats);
 
         enemyAction = selectEnemyMove();
-
         logger.info("Player action = {}, enemy action = {}", playerAction, enemyAction);
 
+        // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
 
-        // The effect of any status ailments that afflict the player/enemy are applied at the end of each round.
+        // Process any status effects after the actions are taken.
         processStatusEffects(playerStats);
         processStatusEffects(enemyStats);
     }
 
     /**
-     * Check if the player has a CONFUSION status effect, which will cause them to use a random move instead
+     * Checks if the player is confused and randomly selects a new action for them if they are.
+     *
+     * @param playerStats the player's combat statistics, which include status effects.
      */
     public void checkForConfusion(CombatStatsComponent playerStats) {
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
-            logger.info("Entity is confused and will use a random move.");
+            logger.info("Player is confused and will use a random move.");
 
             int rand = (int) (Math.random() * 3);
             playerAction = switch (rand) {
@@ -91,7 +100,9 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Processes active status effects (to be called at the end of each turn).
+     * Processes status effects such as BLEEDING, which inflicts damage each round.
+     *
+     * @param entityStats the combat statistics of the entity to process status effects on.
      */
     public void processStatusEffects(CombatStatsComponent entityStats) {
         if (entityStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
@@ -100,8 +111,12 @@ public class CombatManager extends Component {
         }
     }
 
-    private Action selectEnemyMove()
-    {
+    /**
+     * Randomly selects an enemy move from ATTACK, GUARD, SLEEP, or SPECIAL.
+     *
+     * @return the selected action for the enemy.
+     */
+    private Action selectEnemyMove() {
         Action enemyAction;
 
         int rand = (int) (Math.random() * 4);
@@ -116,6 +131,13 @@ public class CombatManager extends Component {
         return enemyAction;
     }
 
+    /**
+     * Executes the player's and enemy's selected moves in combination based on their respective actions.
+     * This method handles different move interactions and applies combat logic accordingly.
+     *
+     * @param playerAction the player's selected action.
+     * @param enemyAction the enemy's selected action.
+     */
     private void executeMoveCombination(Action playerAction, Action enemyAction) {
         if (playerAction == null || enemyAction == null) {
             logger.error("Both player and enemy actions must be determined.");
@@ -131,13 +153,9 @@ public class CombatManager extends Component {
         }
 
         switch (playerAction) {
-            case Action.ATTACK:
-                switch(enemyAction) {
-                    case Action.ATTACK:
-                    /* ATTACK - ATTACK
-                     * Animal with the highest speed stat attacks first.
-                     * Stamina decreases for both.
-                     */
+            case ATTACK -> {
+                switch (enemyAction) {
+                    case ATTACK -> {
                         if (getFasterEntity() == player) {
                             playerMove.executeMove(playerAction, enemyStats);
                         } else {
@@ -150,156 +168,86 @@ public class CombatManager extends Component {
                             enemyMove.executeMove(enemyAction, enemyStats);
                         }
                         checkCombatEnd();
-                        break;
-                    case Action.GUARD:
-                    /* ATTACK - GUARD
-                     * Enemy guards first, and player's attack damage is reduced by 50%.
-                     * Stamina decreases for both.
-                     */
+                    }
+                    case GUARD -> {
                         enemyMove.executeMove(enemyAction);
                         playerMove.executeMove(playerAction, enemyStats, true);
                         checkCombatEnd();
-                        break;
-                    case Action.SLEEP:
-                    /* ATTACK - SLEEP
-                     * Enemy falls asleep, raising its stamina & health.
-                     * Player performs multi-hit attack.
-                     * Player stamina decreases.
-                     */
+                    }
+                    case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
                         // player.multiHitAttack()
                         checkCombatEnd();
-                        break;
-                    case Action.SPECIAL:
-                    /* ATTACK - SPECIAL
-                     * Enemy's special is activated.
-                     * Player performs attack.
-                     * Player stamina decreases.
-                     */
+                    }
+                    case SPECIAL -> {
                         // enemy.special()
                         playerMove.executeMove(playerAction, enemyStats);
                         checkCombatEnd();
-                        break;
+                    }
                 }
-
-            case Action.GUARD:
+            }
+            case GUARD -> {
                 switch(enemyAction) {
-                    case Action.ATTACK:
-                    /* GUARD - ATTACK
-                     * Player guards first, and enemy’s attack damage is reduced by 50%.
-                     * Stamina decreases for both.
-                     */
+                    case ATTACK, SPECIAL -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction, playerStats, true);
                         checkCombatEnd();
-                        break;
-                    case Action.GUARD:
-                    /* GUARD - GUARD
-                     * Both animals guard but nothing happens.
-                     * Stamina decreases for both.
-                     */
+                    }
+                    case GUARD, SLEEP -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction);
-                        break;
-                    case Action.SLEEP:
-                    /* GUARD - SLEEP
-                     * Player guards reducing stamina.
-                     * Enemy sleeps increasing stamina and health.
-                     */
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
-                        break;
-                    case Action.SPECIAL:
-                    /* GUARD - SPECIAL
-                     * Enemy’s special is activated.
-                     * Negative specials are blocked by guard.
-                     * Player stamina decreases.
-                     */
-                        playerMove.executeMove(playerAction);
-                        // enemy.special(bool guarded = true)
-                        checkCombatEnd();
-                        break;
+                    }
                 }
-
-            case Action.SLEEP:
+            }
+            case SLEEP -> {
                 switch(enemyAction) {
-                    case Action.ATTACK:
-                    /* SLEEP - ATTACK
-                     * Player falls asleep, raising stamina & health.
-                     * Enemy performs multi-hit attack.
-                     * Enemy stamina decreases.
-                     */
+                    case ATTACK -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
                         checkCombatEnd();
-                        break;
-                    case Action.GUARD:
-                    /* SLEEP - GUARD
-                     * Player falls asleep, raising stamina & health.
-                     * Enemy stamina decreases.
-                     */
+                    }
+                    case GUARD, SLEEP -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction);
-                        break;
-                    case Action.SLEEP:
-                    /* SLEEP - SLEEP
-                     * Both animals fall asleep, raising stamina & health.
-                     */
+                    }
+                    case SPECIAL -> {
                         playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
-                        break;
-                    case Action.SPECIAL:
-                    /* SLEEP - SPECIAL
-                     * Player falls asleep, raising stamina & health.
-                     * Enemy’s special is activated.
-                     */
-                        playerMove.executeMove(playerAction);
-                        // enemy.special()
+                        enemyMove.executeMove(enemyAction, playerStats, false, 1);
                         checkCombatEnd();
-                        break;
+                    }
                 }
+            }
+            case ITEM -> {
 
-            case Action.ITEM:
-                // Always goes first.
-                // player.useItem()
-                // enemy.executeAction(enemyAction)
-                // checkCombatEnd()
-                break;
+            }
         }
+
         logger.info("PLAYER health {} stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("ENEMY health {} stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
     }
 
     /**
-     * @return a pointer to the faster entity between the player and the enemy.
+     * Determines the faster entity based on their speed stat.
+     *
+     * @return the entity with the higher speed stat.
      */
     private Entity getFasterEntity() {
-        Entity faster;
-
-        if (playerStats.getSpeed() >= enemyStats.getSpeed()) {
-            faster = player;
-        } else {
-            faster = enemy;
-        }
-
-        return faster;
+        return playerStats.getSpeed() >= enemyStats.getSpeed() ? player : enemy;
     }
 
     /**
-     * @return a pointer to the slower entity between the player and the enemy.
+     * Determines the slower entity based on their speed stat.
+     *
+     * @return the entity with the lower speed stat.
      */
     private Entity getSlowerEntity() {
-        Entity slower;
-
-        if (playerStats.getSpeed() < enemyStats.getSpeed()) {
-            slower = player;
-        } else {
-            slower = enemy;
-        }
-
-        return slower;
+        return playerStats.getSpeed() < enemyStats.getSpeed() ? player : enemy;
     }
 
+    /**
+     * Checks if combat has ended by evaluating the health of both the player and the enemy.
+     * Triggers events based on whether the player has won or lost the combat.
+     */
     private void checkCombatEnd() {
         logger.info("Checking combat end: player health = {}, enemy health = {}", playerStats.getHealth(), enemyStats.getHealth());
         if (playerStats.getHealth() <= 0) {
@@ -314,9 +262,10 @@ public class CombatManager extends Component {
     final Random random = new Random();
 
     /**
-     * @return the number of successful hits in an enemy multi-hit attack (4 rolls).
-     * The probability of success for each roll is exp(enemySpeed / 250) - 0.5
-     * and each roll is simulated using a Bernoulli distribution
+     * Simulates a multi-hit attack by the enemy.
+     * The number of hits is based on the enemy's speed and is calculated using a Bernoulli distribution.
+     *
+     * @return the number of successful hits landed by the enemy in a multi-hit attack.
      */
     private int getEnemyMultiHitsLanded() {
         double successProbability = Math.exp(enemyStats.getSpeed() / 250.0) - 0.5;
@@ -327,10 +276,16 @@ public class CombatManager extends Component {
         return successfulHits;
     }
 
+    /**
+     * @return the player entity.
+     */
     public Entity getPlayer() {
         return player;
     }
 
+    /**
+     * @return the enemy entity.
+     */
     public Entity getEnemy() {
         return enemy;
     }
