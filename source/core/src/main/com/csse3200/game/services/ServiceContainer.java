@@ -4,7 +4,6 @@ import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,6 @@ public class ServiceContainer {
     private GameTime timeSource;
     private InputService inputService;
     private ResourceService resourceService;
-    private EventService eventService;
 
     public ServiceContainer() {
         this.entityService = ServiceLocator.getEntityService();
@@ -29,7 +27,6 @@ public class ServiceContainer {
         this.timeSource = ServiceLocator.getTimeSource();
         this.inputService = ServiceLocator.getInputService();
         this.resourceService = ServiceLocator.getResourceService();
-        this.eventService = ServiceLocator.getEventService();
         logger.debug("Services stored");
     }
 
@@ -63,11 +60,6 @@ public class ServiceContainer {
      * @return the ResourceService stored in this container
      */
     public ResourceService getResourceService() {return resourceService;}
-    /**
-     * Gets the EventService stored in this container
-     * @return the EventService stored in this container
-     */
-    public EventService getEventService() {return eventService;}
     /**
      * Gets the EntityService stored in this container
      * @return the EntityService stored in this container

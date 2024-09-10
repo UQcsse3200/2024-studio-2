@@ -23,8 +23,24 @@
     "speed": 1.5,
     "isEnemy": 1
   },
+  "bear": {
+    "spritePath": "images/bear.atlas",
+    "health": 15,
+    "baseAttack": 10,
+    "defense": 15,
+    "speed": 1,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 20,
+    "isEnemy": 1
+  },
+  "banana": {
+    "spritePath": "images/banana.atlas",
     "health": 100,
     "baseAttack": 100,
     "defense": 100,

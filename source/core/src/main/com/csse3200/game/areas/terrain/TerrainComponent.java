@@ -12,12 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-//import com.badlogic.gdx.utils.Array;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.*;
 
 
 /**
@@ -27,17 +24,25 @@ import java.util.BitSet;
  * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
+  private static final Logger logger = LoggerFactory.getLogger(TerrainComponent.class);
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
-  private static TiledMap tiledMap;
+  private TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
 
-  private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
-  private static TerrainResource terrainResource;
+  // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
+  //  TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
+  private Set<GridPoint2> activeChunks = new HashSet<>();
+  private Set<GridPoint2> previouslyActive = new HashSet<>();
+  private Set<GridPoint2> newChunks = new HashSet<>();
+  private Set<GridPoint2> oldChunks = new HashSet<>();
+
+  private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
+  private TerrainResource terrainResource;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -79,8 +84,7 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to fill
    */
-  public static void fillChunk(GridPoint2 chunkPos) {
-
+  public void fillChunk(GridPoint2 chunkPos) {
     // Check if the chunk is within the bounds of the map
     if (loadedChunks.containsKey(chunkPos))
       return;
@@ -101,42 +105,60 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to load around
    */
-  public static void loadChunks(GridPoint2 chunkPos) {
+  public void loadChunks(GridPoint2 chunkPos) {
+    loadChunks(chunkPos, 3);
+  }
 
-    // top left
-    GridPoint2 tl = new GridPoint2(chunkPos.x - 1, chunkPos.y + 1);
-    fillChunk(tl);
+  /**
+   * Load all chunks in a given radius (a square - not circle) around the given chunk position.
+   *
+   * @param chunkPos The position of the chunk to load around
+   * @param r The number of chunks away to spawn
+   */
+  public void loadChunks(GridPoint2 chunkPos, int r) {
+    // Reset active chunk status
+    previouslyActive.clear();
+    previouslyActive.addAll(activeChunks);
+    activeChunks.clear();
 
-    // top
-    GridPoint2 t = new GridPoint2(chunkPos.x, chunkPos.y + 1);
-    fillChunk(t);
+    // Iterate over all chunks in a square of radius r around the player and spawn them in.
+    int[] moves = java.util.stream.IntStream.rangeClosed(-r, r).toArray();
+    for (int dx : moves) {
+      for (int dy : moves) {
+        GridPoint2 pos = new GridPoint2(chunkPos.x + dx, chunkPos.y + dy);
+        logger.debug("Loading Chunk at {}, {}", pos.x, pos.y);
+        fillChunk(pos);
+        activeChunks.add(pos);
+      }
+    }
 
-    // top right
-    GridPoint2 tr = new GridPoint2(chunkPos.x + 1, chunkPos.y + 1);
-    fillChunk(tr);
+    updateChunkStatus();
+  }
 
-    // left
-    GridPoint2 l = new GridPoint2(chunkPos.x - 1, chunkPos.y);
-    fillChunk(l);
+  private void updateChunkStatus() {
+    newChunks.clear();
+    newChunks.addAll(activeChunks);
+    newChunks.removeAll(previouslyActive);
 
-    // player position
-    fillChunk(chunkPos);
+    oldChunks.clear();
+    oldChunks.addAll(previouslyActive);
+    oldChunks.removeAll(activeChunks);
+  }
 
-    // right
-    GridPoint2 r = new GridPoint2(chunkPos.x + 1, chunkPos.y);
-    fillChunk(r);
+  public TerrainChunk getChunk(GridPoint2 chunkPos) {
+    return loadedChunks.get(chunkPos);
+  }
 
-    // bottom left
-    GridPoint2 bl = new GridPoint2(chunkPos.x - 1, chunkPos.y - 1);
-    fillChunk(bl);
+  public Set<GridPoint2> getNewChunks() {
+    return newChunks;
+  }
 
-    // bottom
-    GridPoint2 b = new GridPoint2(chunkPos.x, chunkPos.y - 1);
-    fillChunk(b);
+  public Set<GridPoint2> getOldChunks() {
+    return oldChunks;
+  }
 
-    // bottom right
-    GridPoint2 br = new GridPoint2(chunkPos.x + 1, chunkPos.y - 1);
-    fillChunk(br);
+  public Set<GridPoint2> getActiveChunks() {
+    return activeChunks;
   }
 
   /**

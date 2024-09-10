@@ -5,6 +5,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.npc.BearAnimationController;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
@@ -43,6 +44,7 @@ class EnemyFactoryTest {
     private Entity frog;
     private Entity monkey;
     private Entity kanga;
+    private Entity bear;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -50,13 +52,15 @@ class EnemyFactoryTest {
             "images/chicken3.png",
             "images/monkey.png",
             "images/frog.png",
-
+            "images/bear.png"
     };
 
     private String[] atlas = {
             "images/chicken.atlas",
+            "images/enemy-chicken.atlas",
             "images/monkey.atlas",
             "images/frog.atlas",
+            "images/bear.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
@@ -81,6 +85,7 @@ class EnemyFactoryTest {
         chicken = EnemyFactory.createChicken(player);
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
+        bear = EnemyFactory.createBear(player);
         kanga = EnemyFactory.createKangaBossEntity(player);
     }
 
@@ -282,6 +287,72 @@ class EnemyFactoryTest {
         frog.setPosition(pos);
         assertEquals(pos, frog.getPosition());
     }
+
+    /**
+     * Tests Creation of a chicken.
+     */
+    @Test
+    void TestBearCreation() {
+        assertNotNull(bear, "Bear should not be null.");
+    }
+
+    /**
+     * Tests that the chicken is an Entity.
+     */
+    @Test
+    void TestBearIsEntity() {
+        assertEquals(bear.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the chicken has the correct components.
+     */
+    @Test
+    void TestBearHasComponents() {
+        assertNotNull(bear.getComponent(PhysicsComponent.class));
+        assertNotNull(bear.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(bear.getComponent(BearAnimationController.class));
+        assertNotNull(bear.getComponent(CombatStatsComponent.class));
+        assertNotNull(bear.getComponent(HitboxComponent.class));
+        assertNotNull(bear.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the chicken has the correct stats.
+     */
+    /*
+    @Test
+    void TestBearStats() {
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 12) && (bear.getComponent(CombatStatsComponent.class).getHealth() < 18),
+                "bear should have between 13 and 17 HP.");
+        assertEquals(0,
+                bear.getComponent(CombatStatsComponent.class).getSpeed(),
+                "bear should have 0 speed.");
+    }
+
+     */
+
+    /**
+     * Tests that the chicken has correct animations.
+     */
+    @Test
+    void TestBearAnimation() {
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "bear should have chase animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bear should have float animation.");
+    }
+
+    /**
+     * Tests that the chicken is in the correct spot when placed.
+     */
+    @Test
+    void TestBearSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        bear.setPosition(pos);
+        assertEquals(pos, bear.getPosition());
+    }
+
 
     static class TestComponent1 extends Component {}
 

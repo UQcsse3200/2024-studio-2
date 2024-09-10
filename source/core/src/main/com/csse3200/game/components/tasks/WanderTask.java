@@ -63,7 +63,6 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         currentTask = movementTask;
 
         this.owner.getEntity().getEvents().trigger("kangaWanderStart");
-
       } else if(!isSpawned) {
           logger.debug("Triggering spawn event");
           this.owner.getEntity().getEvents().trigger("spawnStart");

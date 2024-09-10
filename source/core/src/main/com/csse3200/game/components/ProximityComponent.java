@@ -10,7 +10,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
  */
 public class ProximityComponent extends Component {
     private final Entity target;
-    private final float proximityRange;
+    private final double proximityRange;
 
 
     /**
@@ -18,7 +18,7 @@ public class ProximityComponent extends Component {
      * @param proximityRange the range in which the player will cause the entity to
      *                       trigger the spawn animation and become enabled.
      */
-    public ProximityComponent(Entity target, float proximityRange) {
+    public ProximityComponent(Entity target, double proximityRange) {
         this.target = target;
         this.proximityRange = proximityRange;
     }

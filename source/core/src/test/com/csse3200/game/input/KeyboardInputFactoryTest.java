@@ -2,8 +2,6 @@ package com.csse3200.game.input;
 
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.eventservice.EventService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -13,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class KeyboardInputFactoryTest {
   @Test
   void shouldReturnKeyboardPlayerInput() {
-    ServiceLocator.registerEventService(new EventService());
     KeyboardInputFactory keyboardInputFactory = new KeyboardInputFactory();
     assertTrue(keyboardInputFactory.createForPlayer() instanceof KeyboardPlayerInputComponent);
   }
