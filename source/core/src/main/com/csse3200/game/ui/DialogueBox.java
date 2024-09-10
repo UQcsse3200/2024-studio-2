@@ -278,41 +278,16 @@ public class DialogueBox {
             }
         });
 
-        optionButtons[0].addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleOptionButtonClick(0);
-                return true;
-            }
-        });
-        optionButtons[1].addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleOptionButtonClick(1);
-                return true;
-            }
-        });
-        optionButtons[2].addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleOptionButtonClick(2);
-                return true;
-            }
-        });
-        optionButtons[3].addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleOptionButtonClick(3);
-                return true;
-            }
-        });
-        optionButtons[4].addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleOptionButtonClick(4);
-                return true;
-            }
-        });
+        for (int i = 0; i <= optionButtons.length - 1; i++) {
+            final int iteration = i;
+            optionButtons[iteration].addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    handleOptionButtonClick(iteration);
+                    return true;
+                }
+            });
+        }
     }
 
     /**
