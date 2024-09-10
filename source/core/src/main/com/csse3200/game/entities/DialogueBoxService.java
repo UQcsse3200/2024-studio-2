@@ -63,13 +63,13 @@ public class DialogueBoxService {
      * Update the current chat overlay if it exists.
      */
     public void updateText(String[] text) {
-        hints = text;
-        hideCurrentOverlay();
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
+            hints = text;
         } else {
             currentOverlay.hideDialogueBox();
+            hints = text;
             currentOverlay.showDialogueBox(text);
         }
 
