@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
@@ -46,6 +47,20 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("startCombat", this::startCombat);
+    entity.getEvents().addListener("switchMap", this::switchMap);
+    entity.getEvents().addListener("stoF", this::stof);
+  }
+
+  private void stof() {
+    System.out.println("================Switching map");
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.FOREST);
+  }
+
+  private void switchMap() {
+    System.out.println("===============Switching map");
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.WATER);
   }
 
   @Override

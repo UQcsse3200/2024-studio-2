@@ -11,6 +11,8 @@ import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -72,10 +74,6 @@ public class MainGameScreen extends PausableScreen {
    * Physics engine for handling physics simulations in the game.
    */
   private final PhysicsEngine physicsEngine;
-  /**
-   * The game area where the main game takes place.
-   */
-  private final ForestGameArea gameArea;
 
   /**
    * Constructs a MainGameScreen instance.
@@ -105,14 +103,17 @@ public class MainGameScreen extends PausableScreen {
       loadAssets();
       createUI();
       logger.debug("Initialising main game screen entities");
-      TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-          this.gameArea = new ForestGameArea(terrainFactory, game);
-
-      gameArea.create();
+      
+      setMap(MapHandler.MapType.FOREST);
+      //MapHandler.switchMapTo(MapHandler.MapType.FOREST, getRenderer(), game, false);
 
       Stage stage = ServiceLocator.getRenderService().getStage();
       ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
 
+    }
+
+    public void setMap(MapHandler.MapType mapType) {
+      MapHandler.switchMapTo(mapType, renderer, game, true);
     }
 
   /**
@@ -127,6 +128,7 @@ public class MainGameScreen extends PausableScreen {
       renderer.render();
     }
   }
+
 
   /**
    * Resizes the renderer to fit dimensions.
@@ -145,7 +147,7 @@ public class MainGameScreen extends PausableScreen {
   @Override
   public void pause() {
     isPaused = true;
-    gameArea.pauseMusic();
+    MapHandler.getCurrentMap().pauseMusic();
     logger.info("Game paused");
   }
 
@@ -156,10 +158,10 @@ public class MainGameScreen extends PausableScreen {
   @Override
   public void resume() {
     isPaused = false;
-    KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer().getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     if (!resting) {
-      gameArea.playMusic();
+      MapHandler.getCurrentMap().playMusic();
     }
     logger.info("Game resumed");
   }
@@ -229,7 +231,7 @@ public class MainGameScreen extends PausableScreen {
    */
   public void rest() {
     super.rest();
-    gameArea.pauseMusic();
+    MapHandler.getCurrentMap().pauseMusic();
   }
 
   /**
@@ -237,8 +239,8 @@ public class MainGameScreen extends PausableScreen {
    */
   public void wake() {
     super.wake();
-    KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer().getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
-    gameArea.playMusic();
+    MapHandler.getCurrentMap().playMusic();
   }
 }

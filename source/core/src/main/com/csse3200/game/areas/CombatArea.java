@@ -40,12 +40,20 @@ public class CombatArea extends GameArea {
         ui.addComponent(new GameAreaDisplay("Combat"));
     }
 
+    @Override
     public void playMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
     }
+
+    @Override
+    public Entity getPlayer() {
+        return player;
+    }
+
+    @Override
     public void pauseMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.pause();

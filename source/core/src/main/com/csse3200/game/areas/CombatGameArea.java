@@ -138,15 +138,23 @@ public class CombatGameArea extends GameArea {
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }
 
-
-  private void playMusic() {
+  @Override
+  public void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
   }
 
-  private void loadAssets() {
+  @Override
+  public void pauseMusic() {}
+
+  @Override
+  public Entity getPlayer() {
+    return player;
+  }
+
+  public void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(forestTextures);
@@ -160,7 +168,8 @@ public class CombatGameArea extends GameArea {
     }
   }
 
-  private void unloadAssets() {
+  @Override
+  public void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);

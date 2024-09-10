@@ -26,16 +26,13 @@ import java.util.*;
 import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
-public class ForestGameArea extends GameArea {
-  private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+public class WaterGameArea extends GameArea {
+  private static final Logger logger = LoggerFactory.getLogger(WaterGameArea.class);
   private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
-  private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
-  private static final float WALL_WIDTH = 0.1f;
+  private static final GridPoint2 MAP_SIZE = new GridPoint2(100, 100);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2, 2);
   private final TerrainFactory terrainFactory;
   private final List<Entity> enemies;
-  // private final List<Entity> staticItems;
   private final Map<Integer, Entity> dynamicItems = new HashMap<>();
   private int totalItems = 0;
   private Entity player;
@@ -51,7 +48,7 @@ public class ForestGameArea extends GameArea {
    * @param game GdxGame needed for creating the player
    * @requires terrainFactory != null
    */
-  public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
+  public WaterGameArea(TerrainFactory terrainFactory, GdxGame game) {
     super();
     this.enemies = new ArrayList<>();
     this.terrainFactory = terrainFactory;
@@ -73,7 +70,7 @@ public class ForestGameArea extends GameArea {
 
     // Player
     player = spawnPlayer();
-    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+    //logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
     TerrainLoader.setChunk(player.getPosition());
 
     // Obstacles
@@ -86,10 +83,10 @@ public class ForestGameArea extends GameArea {
     handleItems();
 
     //Friendlies
-    spawnFriendlyNPCs();
+    //spawnFriendlyNPCs();
 
-    playMusic();
-    player.getEvents().addListener("setPosition", this::handleNewChunks);
+    //playMusic();
+    //player.getEvents().addListener("setPosition", this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
     kangarooBossSpawned = false;
   }
@@ -98,11 +95,6 @@ public class ForestGameArea extends GameArea {
     if (TerrainLoader.movedChunk(playerPos)) {
       logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
       handleItems();
-//     TerrainComponent.loadChunks(playerPos);
-//     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
     }
   }
 
@@ -112,11 +104,6 @@ public class ForestGameArea extends GameArea {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
-    // Despawn items on old chunks:
-    // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
-    //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
-    //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
-    //  ONTO THE CHUNK)
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
@@ -150,30 +137,6 @@ public class ForestGameArea extends GameArea {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
-
-    // // Terrain walls
-    // float tileSize = terrain.getTileSize();
-    // GridPoint2 tileBounds = terrain.getMapBounds(0);
-    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    //  // Left
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    //  // Right
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //      new GridPoint2(tileBounds.x, 0),
-    //      false,
-    //      false);
-    //  // Top
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //      new GridPoint2(0, tileBounds.y),
-    //      false,
-    //      false);
-    //  // Bottom
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void spawnTrees() {
@@ -372,7 +335,6 @@ public class ForestGameArea extends GameArea {
     }
   }
 
-  @Override
   public void unloadAssets() {
     logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
