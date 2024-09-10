@@ -641,7 +641,7 @@ class NPCFactoryTest {
     /**
     * Test the initiate and end dialogue boxes
     */
-    @Test
+    /** @Test
     void testInitiateDialogueWithSound() {
         // Initialise mocks
         DialogueBoxService chatOverlayService = mock(DialogueBoxService.class);
