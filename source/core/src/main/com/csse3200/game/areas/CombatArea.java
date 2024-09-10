@@ -5,19 +5,12 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
-import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
-import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.input.InputDecorator;
-import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +18,7 @@ import org.slf4j.LoggerFactory;
 public class CombatArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
     private static GridPoint2 PLAYER_SPAWN = new GridPoint2(290,  335); // 9, 14...384, 256
-    private static final GridPoint2 ENEMY_COMBAT_SPAWN = new GridPoint2(800, 320); // 20, 20
 
-    private static final float WALL_WIDTH = 0.1f;
     private static final String[] forestTextures = {
             "images/box_boy_leaf.png",
             "images/tree.png",

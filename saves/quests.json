@@ -44,8 +44,8 @@ quests: [
 					description: Swing your first sword
 					hint: Just Attack!
 					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
+					triggerCount: 1
+					completed: true
 					failed: false
 				}
 			]
@@ -63,7 +63,7 @@ quests: [
 				You completed your Quest!
 			]
 		}
-		currentTaskIndex: 0
+		currentTaskIndex: 2
 		isFailed: false
 		isActive: false
 		taskCompletionTriggers: [
@@ -82,8 +82,8 @@ quests: [
 					description: He is Coming...
 					hint: RUN
 					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
+					triggerCount: 1
+					completed: true
 					failed: false
 				}
 				{
@@ -100,15 +100,15 @@ quests: [
 					description: Swing your first sword
 					hint: Just Attack!
 					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
+					triggerCount: 1
+					completed: true
 					failed: false
 				}
 			]
 		}
 		isSecretQuest: false
 		questDialogue: null
-		currentTaskIndex: 0
+		currentTaskIndex: 3
 		isFailed: false
 		isActive: false
 		taskCompletionTriggers: null

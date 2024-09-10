@@ -2,7 +2,6 @@ package com.csse3200.game.areas.terrain;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,9 +13,6 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
@@ -32,9 +28,7 @@ public class CombatTerrainFactory {
 
     private final OrthographicCamera camera;
     private final TerrainOrientation orientation;
-    private GridPoint2 mapSize;
     private final CameraComponent cameraComponent;
-    private Table table;
 
     /**
      * Create a terrain factory with Orthogonal orientation
@@ -84,11 +78,6 @@ public class CombatTerrainFactory {
         // Get the size of the background texture
         backgroundWidth = backgroundTextureRegion.getRegionWidth();
         backgroundHeight = backgroundTextureRegion.getRegionHeight();
-
-        // Calculate the scale to fit the image to the screen size
-//        float scaleX = screenSize.x / backgroundWidth;
-//        float scaleY = screenSize.y / backgroundHeight;
-//        float scale = Math.min(scaleX, scaleY); // Choose the smaller scale to ensure the image fits within the screen
 
         // Calculate the scale to fill the image to the screen size
         float scaleX = screenSize.x / backgroundWidth;

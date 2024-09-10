@@ -2,17 +2,13 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
 import com.csse3200.game.areas.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
-import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.combat.CombatStatsDisplay;
 import com.csse3200.game.components.combat.CombatActions;
@@ -30,7 +26,6 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-//import com.csse3200.game.services.eventservice.EventService;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -46,12 +41,11 @@ import java.util.LinkedList;
  */
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-  private static final String[] mainGameTextures = {
+  private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
           "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
   };
-  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private final GdxGame game;
   private final Renderer renderer;
@@ -90,8 +84,6 @@ public class CombatScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
-    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("addOverlay",this::addOverlay);
-    //ServiceLocator.getEventService().getGlobalEventHandler().addListener("removeOverlay",this::removeOverlay);
     logger.debug("Initialising main game dup screen entities");
     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
     this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory);
@@ -145,14 +137,14 @@ public class CombatScreen extends ScreenAdapter {
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(mainGameTextures);
+    resourceService.loadTextures(combatTextures);
     ServiceLocator.getResourceService().loadAll();
   }
 
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(mainGameTextures);
+    resourceService.unloadAssets(combatTextures);
   }
 
   /**
@@ -164,11 +156,6 @@ public class CombatScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
-    //    CombatButtons combatButtons = new CombatButtons(this.game, this.enemy, stage);
-    //    // Add individual buttons to the stage
-    //    stage.addActor(combatButtons.getAttackButton());
-    //    stage.addActor(combatButtons.getBoostButton());
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);

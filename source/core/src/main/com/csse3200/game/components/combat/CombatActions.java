@@ -24,23 +24,12 @@ public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
   private final CombatManager manager;
-  private Stage stage;
-  private CombatButtonDisplay Display;
-  private Screen screen;
-  private ServiceContainer container;
-
 
   public CombatActions(GdxGame game, CombatManager manager) {
     this.game = game;
     this.manager = manager;
   }
 
-  /**
-   * Called when the screen is resized.
-   *
-   * @param width  The new width of the screen.
-   * @param height The new height of the screen.
-   */
   @Override
   public void create() {
     entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
@@ -50,7 +39,6 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    //Display.create();
   }
 
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
@@ -65,13 +53,6 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
-    // Kill enemy.
-    //this.enemy.dispose();
-    //this.enemy.update();
-    //container.getEntityService().unregister(enemy);
-    //container.getEntityService().update();
-    // Set current screen to original MainGameScreen
-//    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
@@ -82,7 +63,6 @@ public class CombatActions extends Component {
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");
     // Set current screen to original MainGameScreen
-//    game.setOldScreen(screen, container);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
   private void onAttack(Screen screen, ServiceContainer container) {

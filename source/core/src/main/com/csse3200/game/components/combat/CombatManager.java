@@ -6,7 +6,6 @@ import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 
 /**
  * Manages the turn-based combat loop and handles attacks
@@ -94,14 +93,4 @@ public class CombatManager extends Component {
     public CombatStatsComponent getEnemyStats() {
         return enemyStats;
     }
-
-//    @Override
-//    public void render(float delta) {
-//
-//    }
-//
-//    @Override
-//    public void resize(int width, int height) {
-//
-//    }
 }

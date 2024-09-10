@@ -89,14 +89,8 @@ public class PlayerFactory {
 
     public static Entity createCombatPlayer(String imagePath) {
         Entity combatPlayer = createCombatPlayerStatic();
-        // BaseEntityConfig config = configs.player;
-        // PlayerConfig config = configs.player;
-        // BaseEntityConfig config = configs.player;
-
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                // .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
-                // .addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience()));
                 .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100));
 
         combatPlayer.scaleHeight(90.0f);
