@@ -3,8 +3,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AchievementManager {
     private static final String CONFIG_PATH = "configs/achievements.json";
@@ -23,7 +21,8 @@ public class AchievementManager {
         if (!saveFile.exists() || saveFile.length() == 0) {
             // Copy config achievements to save file
             saveFile.writeString(json.prettyPrint(configAchievements), false);
-        } else {
+        }
+
             // Load achievements from save
             achievements = json.fromJson(Array.class, Achievement.class, saveFile);
 
@@ -36,7 +35,7 @@ public class AchievementManager {
 
             // Save the updated achievements back to the save file
             saveFile.writeString(json.prettyPrint(achievements), false);
-        }
+
     }
 
     private boolean containsAchievement(Array<Achievement> achievements, String name) {
