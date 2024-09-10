@@ -72,37 +72,15 @@ public class QuestManager extends Component {
 
     private void testQuests() {
         // Create land kingdom tasks
+        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
+        Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
+        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", "Complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
         Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
         Task listenAdvice = new Task("listenToGuide", "Visit cow again", "Go visit the cow!", 1, 0, false, false);
         Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
         Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
-
-        // Add new tasks to a quest
-        List<Task> talkingQuest = new ArrayList<>(List.of(talkToGuide));
-        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", talkingQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest);
-
-        List<Task> followQuest = new ArrayList<>(List.of(followCowsTeachings));
-        QuestBasic guideQuest2 = new QuestBasic("Teachings", "Follow the cow's teachings and complete further quests.", followQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest2);
-
-        List<Task> potionQuest = new ArrayList<>(List.of(collectPotions));
-        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 potions scattered around the kingdom.", potionQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest3);
-
-        List<Task> listenQuest = new ArrayList<>(List.of(listenAdvice));
-        QuestBasic guideQuest4 = new QuestBasic("Guide's Advice", "Listen to the guide's advice to progress further.", listenQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest4);
-
-        List<Task> exploreQuest = new ArrayList<>(List.of(exploreWild));
-        QuestBasic guideQuest5 = new QuestBasic("Exploration", "Explore the kingdom and gather information about Kanga.", exploreQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest5);
-
-        List<Task> retrieveQuest = new ArrayList<>(List.of(retrieveWeapon));
-        QuestBasic guideQuest6 = new QuestBasic("Weapon Retrieval", "Retrieve a weapon by completing the snake minigame.", retrieveQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest6);
 
         // Dialogue for new quests
         String[] cowInitialDialogue = {
@@ -127,41 +105,62 @@ public class QuestManager extends Component {
 
         Map<DialogueKey, String[]> guideQuestDialogues = Map.of(
                 new DialogueKey("Cow", 1), cowInitialDialogue,
-                new DialogueKey("Cow", 2), cowAdviceDialogue
+                new DialogueKey("Cow", 2), cowAdviceDialogue,
+                new DialogueKey("Cow", 3), potionDialogue,
+                new DialogueKey("Cow", 4), listenDialogue
         );
 
-        // Add quests to GameState
-        quests.put(guideQuest.getQuestName(), guideQuest);
-        GameState.quests.quests.add(guideQuest);
-
-        // Create test tasks
-        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
-        Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
-        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
-
-        // Create single task quest
+        // Add new tasks to a quest
         List<Task> firstStepsTasks = new ArrayList<>(List.of(stepsTask));
         QuestBasic firstStepsQuest = new QuestBasic("First Steps", "Take your first steps in this world!", firstStepsTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(firstStepsQuest);
 
-        // Create 2 task quest
+        List<Task> talkingQuest = new ArrayList<>(List.of(talkToGuide));
+        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", talkingQuest, false, guideQuestDialogues, null, false, false, 0);
+        addQuest(guideQuest);
+        GameState.quests.quests.add(guideQuest);
+
+        List<Task> followQuest = new ArrayList<>(List.of(followCowsTeachings));
+        QuestBasic guideQuest2 = new QuestBasic("Teachings", "Follow the cow's teachings and complete further quests.", followQuest, false, guideQuestDialogues, null, false, false, 0);
+        addQuest(guideQuest2);
+        GameState.quests.quests.add(guideQuest2);
+
+        List<Task> potionQuest = new ArrayList<>(List.of(collectPotions));
+        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
+        addQuest(guideQuest3);
+        GameState.quests.quests.add(guideQuest3);
+
+        List<Task> listenQuest = new ArrayList<>(List.of(listenAdvice));
+        QuestBasic guideQuest4 = new QuestBasic("Guide's Advice", "Listen to the guide's advice to progress further.", listenQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest4);
+        GameState.quests.quests.add(guideQuest4);
+
+        List<Task> exploreQuest = new ArrayList<>(List.of(exploreWild));
+        QuestBasic guideQuest5 = new QuestBasic("Exploration", "Explore the kingdom and gather information about Kanga.", exploreQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest5);
+        GameState.quests.quests.add(guideQuest5);
+
+        List<Task> retrieveQuest = new ArrayList<>(List.of(retrieveWeapon));
+        QuestBasic guideQuest6 = new QuestBasic("Weapon Retrieval", "Retrieve a weapon by completing the snake minigame.", retrieveQuest, false, null, null, false, false, 0);
+        addQuest(guideQuest6);
+        GameState.quests.quests.add(guideQuest6);
+
+        String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
         String[] test2StepTextProg1 = {"Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"};
         String[] test2StepTextProg2 = {"Yippeee!", "You completed your Quest!"};
-
-        Map<DialogueKey, String[]> test2TaskQuestDialogue = Map.of(
+        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(stepsTask, attackTask));
+        Map<DialogueKey, String[]> test2TaskQuestDialogues = Map.of(
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
-
-        String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
-        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(stepsTask, attackTask));
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogue, test2StepCompletionTriggers, false, false, 0);
+        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogues, test2StepCompletionTriggers, false, false, 0);
         GameState.quests.quests.add(twoTaskQuest);
 
         // Create test quest that requires completion of 2 task quest
         List<Task> finalQuestTasks = new ArrayList<>(List.of(testKangaTask, stepsTask, attackTask));
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
+
     }
 
 

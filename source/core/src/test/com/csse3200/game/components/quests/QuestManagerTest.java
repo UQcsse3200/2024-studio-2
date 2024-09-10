@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -189,10 +188,5 @@ class QuestManagerTest {
         assertTrue(updatedQuest.getTasks().get(1).isCompleted());
         assertTrue(updatedQuest.isQuestCompleted());
     }
-
-
-
-
-
 
 }
