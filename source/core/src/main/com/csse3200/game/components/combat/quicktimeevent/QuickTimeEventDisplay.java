@@ -1,9 +1,10 @@
-package com.csse3200.game.components.combat.quicktimeevents;
+package com.csse3200.game.components.combat.quicktimeevent;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,7 +29,7 @@ public class QuickTimeEventDisplay extends UIComponent {
     private void addActors() {
         table = new Table(skin);
         Texture tableTexture = new Texture(
-                Gdx.files.internal("images/quicktimeevents/white_background.png")
+                Gdx.files.internal("images/quicktimeevent/white_background.png")
         );
         table.setBackground(new TextureRegionDrawable(tableTexture));
         table.setFillParent(true);
@@ -54,17 +55,32 @@ public class QuickTimeEventDisplay extends UIComponent {
             }
         });
 
+        Texture pawTexture = new Texture(
+                Gdx.files.internal("images/quicktimeevent/dog_paw.png")
+        );
+
         // first row
         table.add().width(160f);
         table.add().width(160f);
-        counter = new Label(new StringBuffer(), skin);
-        counter.setFontScale(3.0f);
-        counter.setAlignment(Align.center);
-        table.add(counter).width(500f).expand();
+        //Image paw = new Image(pawTexture);
+        //ScaleToAction action = new ScaleToAction();
+        //action.setDuration(10);
+        //action.setScale(0.5f);
+        //paw.addAction(action);
+        table.add().size(300f,300f).expand();
         table.add().width(160f);
         table.add().width(160f);
 
         // second row
+        table.row();
+        addRowFill(2);
+        counter = new Label(new StringBuffer(), skin);
+        counter.setFontScale(3.0f);
+        counter.setAlignment(Align.center);
+        table.add(counter).width(500f);
+        addRowFill(2);
+
+        // third row
         table.row();
         addRowFill(3);
         addButtonToTable(startButton);

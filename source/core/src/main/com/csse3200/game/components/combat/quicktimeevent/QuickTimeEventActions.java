@@ -1,8 +1,9 @@
-package com.csse3200.game.components.combat.quicktimeevents;
+package com.csse3200.game.components.combat.quicktimeevent;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -33,7 +34,12 @@ public class QuickTimeEventActions extends Component {
         if (count != 0 && gameTime.getTimeSince(lastUpdate) > 1000) {
             // 1 second has passed - update counter
             count -= 1;
-            counter.setText(count);
+            if (count != 0) {
+                counter.setText(count);
+            } else {
+                counter.setText("");
+                // Trigger a listener in QuickTimeEventHandler
+            }
             lastUpdate = gameTime.getTime();
         }
     }
