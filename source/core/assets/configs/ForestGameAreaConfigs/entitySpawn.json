@@ -17,5 +17,6 @@
   "NUM_LIONS" : 1,
   "NUM_TURTLES" : 2,
   "NUM_EAGLES" : 1,
-  "NUM_SNAKES" : 2
+  "NUM_SNAKES" : 2,
+  "NUM_MAGPIES": 1
 }
