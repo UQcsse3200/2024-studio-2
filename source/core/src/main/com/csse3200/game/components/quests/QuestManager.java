@@ -1,9 +1,11 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
+
 
 /**
  * Manages, tracks and updates the quests within the game.
@@ -22,8 +26,8 @@ import java.util.Objects;
 public class QuestManager extends Component {
     /** Map to store quests. */
     private final HashMap<String, QuestBasic> quests;
-     /** Map to store achievements. */
-     private final HashMap<String, QuestHidden> achievements;
+     /** Array to store achievements. */
+     private final Array<Achievement> achievements;
     /** Event service to handle global events. */
     /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
@@ -37,7 +41,6 @@ public class QuestManager extends Component {
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
         this.quests = new HashMap<>();
-        this.achievements = new HashMap<>();
         this.player = player;
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
@@ -46,6 +49,10 @@ public class QuestManager extends Component {
             testQuests();
         }
         loadQuests();
+        AchievementManager achievementManager = new AchievementManager();
+        this.achievements =  achievementManager.getAchievements();
+        setupAchievements();
+
     }
 
     /**
@@ -57,6 +64,7 @@ public class QuestManager extends Component {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
+
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
@@ -86,6 +94,21 @@ public class QuestManager extends Component {
         GameState.quests.quests.add(finalQuest);
     }
 
+    private void setupAchievements(){
+        // Init logbook listeners and handlers
+        player.getEvents().addListener("addItem",this::handleAdvancement);
+        for (Achievement achievement : achievements) {
+            subscribeToAchievementEvents(achievement);
+        }
+    }
+
+    /**
+     * Subscribes to item triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleAdvancement(AbstractItem item){
+        player.getEvents().trigger(item.getName() + "Advancement");
+    }
+
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -101,9 +124,10 @@ public class QuestManager extends Component {
      * Adds a listener for the achievement, which completes the achievement when triggered.
      * @param achievement The achievement being listened to.
      */
-    private void subscribeToAchievementEvents(QuestHidden achievement) {
-        player.getEvents().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
+    private void subscribeToAchievementEvents(Achievement achievement) {
+        player.getEvents().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement));
     }
+
     /**
      * Adds a new quest to the manager.
      * @param quest The quest to be added.
@@ -112,15 +136,6 @@ public class QuestManager extends Component {
     public void addQuest(QuestBasic quest) {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
-    }
-
-    /**
-     * Add a achievement to the overall list of achievements.
-     * @param achievement The achievement being added.
-     */
-    public void addAchievement(QuestHidden achievement) {
-        achievements.put(achievement.getQuestName(), achievement);
-        subscribeToAchievementEvents(achievement);
     }
 
     /**
@@ -149,15 +164,6 @@ public class QuestManager extends Component {
 
     public QuestBasic getQuest(String questName) {
         return quests.get(questName);
-    }
-
-    /**
-     * Get the class representation of an achievement.
-     * @param achievementName The name of the achievement being got.
-     * @return The class representation of the achievement.
-     */
-    public QuestHidden getAchievement(String achievementName) {
-        return achievements.get(achievementName);
     }
 
     /**
@@ -255,16 +261,21 @@ public class QuestManager extends Component {
 
     /**
      * Completes the achievement by changing the state of the achievement and triggering an achievement popup
-     * @param achievementName The name of the achievement being completed
+     * @param achievement The achievement being completed
      */
-    public void completeAchievement(String achievementName) {
-        QuestHidden achievement = achievements.get(achievementName);
+    public void completeAchievement(Achievement achievement) {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
             questComplete.play();
             player.getEvents().trigger("achievementCompleted");
             logger.info("{} Completed!", achievement.getQuestName());
         }
+    }
+
+    @Override
+    public void dispose() {
+        saveAchievements(achievements);
+        super.dispose();
     }
 
 }

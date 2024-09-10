@@ -44,14 +44,18 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.capacity = capacity;
         this.inventoryUI = InventoryUI;
         this.hotBarSlots = new ImageButton[capacity];
-        stage = ServiceLocator.getRenderService().getStage();
+        create();
         createHotbar();
 
     }
 
     /**
-     * Toggles the visibility of the hotbar.
-     * If the hotbar is currently visible, it will be removed, and vice versa.
+     * To initialise the stage
+     */
+    public void create() {super.create();}
+
+    /**
+     * Drawing is handled by the super class
      */
     @Override
     protected void draw(SpriteBatch batch) {

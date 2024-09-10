@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
+    private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
     AITaskComponent aiComponent = new AITaskComponent();
@@ -176,7 +177,8 @@ public class PlayerInventoryDisplay extends UIComponent {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
                 if (item instanceof TimedUseItem) {
-                    aiComponent.addTask(new TimedUseItemTask(entity,23, (TimedUseItem) item, context));
+                    aiComponent.addTask(
+                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
