@@ -28,6 +28,7 @@ public class UserSettings {
     private static float lastMusicVolume = 1f;
     private static float lastSoundVolume = 1f;
     private static boolean isMuted = false;
+    private static boolean isFullScreen = false;
 
 
     /**
@@ -91,6 +92,18 @@ public class UserSettings {
             AudioManager.setSoundVolume(lastSoundVolume);
         }
     }
+    public static void setDisplayMode(boolean status) {
+        isFullScreen = status;
+        applyDisplayMode();
+    }
+
+    public static void applyDisplayMode() {
+        if (isFullScreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(1280, 800);
+        }
+    }
 
     /**
      * Mutes the audio globally, storing the current volume settings and setting them to 0.
@@ -132,6 +145,7 @@ public class UserSettings {
             muteAudio();
         }
     }
+
 
     private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
