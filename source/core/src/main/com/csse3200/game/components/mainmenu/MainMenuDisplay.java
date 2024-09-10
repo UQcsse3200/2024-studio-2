@@ -385,7 +385,7 @@ public class MainMenuDisplay extends UIComponent {
 
         userTable.setPosition(screenWidth - 150, screenHeight - 600);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        userTable.add(profileBtn).size(60, 60).top().padTop(30).expandY();
+        userTable.add(profileBtn).size(100, 100).top().padTop(30).expandY();
 
         profileBtn.addListener(new ChangeListener() {
             @Override
@@ -669,8 +669,8 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Add the minimize/maximize button and mute button to the table
-        topRightTable.add(muteButton).size(40, 40).pad(10);  // Add mute button first
-        topRightTable.add(toggleWindowBtn).size(40, 40).pad(10);  // Add minimize/maximize button
+        topRightTable.add(muteButton).size(60, 60).pad(10);  // Add mute button first
+        topRightTable.add(toggleWindowBtn).size(60, 60).pad(10);  // Add minimize/maximize button
 
         // Add the table to the stage
         stage.addActor(topRightTable);
