@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.stats.Stat;
+import com.csse3200.game.screens.EndGameStatsScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,19 +48,8 @@ public class CombatActions extends Component {
    */
   private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
-<<<<<<< HEAD
-    // Kill enemy.
-    //this.enemy.dispose();
-    //this.enemy.update();
-    //container.getEntityService().unregister(enemy);
-    //container.getEntityService().update();
-    // Set current screen to original MainGameScreen
-    game.setOldScreen(screen, container);
-    // game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-=======
     // Reset player's stamina.
     game.setOldScreen(previousScreen, previousServices);
->>>>>>> 9-boss-abilities
   }
 
   /**

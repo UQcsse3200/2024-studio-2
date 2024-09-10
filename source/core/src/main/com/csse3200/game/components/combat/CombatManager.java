@@ -96,9 +96,9 @@ public class CombatManager extends Component {
         }
 
         switch (playerAction) {
-            case Action.ATTACK:
+            case ATTACK:
                 switch(enemyAction) {
-                    case Action.ATTACK:
+                    case ATTACK:
                     /* ATTACK - ATTACK
                      * Animal with the highest speed stat attacks first.
                      * Stamina decreases for both.
@@ -116,7 +116,7 @@ public class CombatManager extends Component {
                         }
                         checkCombatEnd();
                         break;
-                    case Action.GUARD:
+                    case GUARD:
                     /* ATTACK - GUARD
                      * Enemy guards first, and player's attack damage is reduced by 50%.
                      * Stamina decreases for both.
@@ -125,7 +125,7 @@ public class CombatManager extends Component {
                         playerMove.executeMove(playerAction, enemyStats, true);
                         // checkCombatEnd()
                         break;
-                    case Action.SLEEP:
+                    case SLEEP:
                     /* ATTACK - SLEEP
                      * Enemy falls asleep, raising its stamina & health.
                      * Player performs multi-hit attack.
@@ -135,7 +135,7 @@ public class CombatManager extends Component {
                         // player.multiHitAttack()
                         // checkCombatEnd()
                         break;
-                    case Action.SPECIAL:
+                    case SPECIAL:
                     /* ATTACK - SPECIAL
                      * Enemy's special is activated.
                      * Player performs attack.
@@ -147,9 +147,9 @@ public class CombatManager extends Component {
                         break;
                 }
 
-            case Action.GUARD:
+            case GUARD:
                 switch(enemyAction) {
-                    case Action.ATTACK:
+                    case ATTACK:
                     /* GUARD - ATTACK
                      * Player guards first, and enemy’s attack damage is reduced by 50%.
                      * Stamina decreases for both.
@@ -158,7 +158,7 @@ public class CombatManager extends Component {
                         // enemy.attack(bool guarded = true)
                         // checkCombatEnd()
                         break;
-                    case Action.GUARD:
+                    case GUARD:
                     /* GUARD - GUARD
                      * Both animals guard but nothing happens.
                      * Stamina decreases for both.
@@ -168,12 +168,12 @@ public class CombatManager extends Component {
                         // faster.guard() - Guard move should probably not actually do anything except reduce stamina.
                         // slower.guard() - Guard move should probably not actually do anything except reduce stamina.
                         break;
-                    case Action.SLEEP:
+                    case SLEEP:
                     /* GUARD - SLEEP
                      *
                      */
                         break;
-                    case Action.SPECIAL:
+                    case SPECIAL:
                     /* GUARD - SPECIAL
                      * Enemy’s special is activated.
                      * Negative specials are blocked by guard.
@@ -184,9 +184,9 @@ public class CombatManager extends Component {
                         break;
                 }
 
-            case Action.SLEEP:
+            case SLEEP:
                 switch(enemyAction) {
-                    case Action.ATTACK:
+                    case ATTACK:
                     /* SLEEP - ATTACK
                      * Player falls asleep, raising stamina & health.
                      * Enemy performs multi-hit attack.
@@ -196,7 +196,7 @@ public class CombatManager extends Component {
                         // enemy.multiHitAttack()
                         // checkCombatEnd()
                         break;
-                    case Action.GUARD:
+                    case GUARD:
                     /* SLEEP - GUARD
                      * Player falls asleep, raising stamina & health.
                      * Enemy stamina decreases.
@@ -204,7 +204,7 @@ public class CombatManager extends Component {
                         // player.sleep()
                         // enemy.guard() - Guard move should probably not actually do anything except reduce stamina.
                         break;
-                    case Action.SLEEP:
+                    case SLEEP:
                     /* SLEEP - SLEEP
                      * Both animals fall asleep, raising stamina & health.
                      */
@@ -213,7 +213,7 @@ public class CombatManager extends Component {
                         // faster.sleep()
                         // slower.sleep()
                         break;
-                    case Action.SPECIAL:
+                    case SPECIAL:
                     /* SLEEP - SPECIAL
                      * Player falls asleep, raising stamina & health.
                      * Enemy’s special is activated.
@@ -223,7 +223,7 @@ public class CombatManager extends Component {
                         break;
                 }
 
-            case Action.ITEM:
+            case ITEM:
                 // Always goes first.
                 // player.useItem()
                 // enemy.executeAction(enemyAction)

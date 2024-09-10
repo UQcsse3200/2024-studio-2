@@ -83,18 +83,13 @@ public class PlayerFactory {
                 .addComponent(new QuestPopup());
         player.addComponent((new StatManager()));
 
-
-
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
+        player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
         return player;
     }
-
-
-
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
