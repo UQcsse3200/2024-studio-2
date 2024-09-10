@@ -12,6 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.GdxGameManager;
+import com.csse3200.game.components.minigames.MiniGameNames;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.*;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -25,15 +30,18 @@ public class DialogueBox {
     private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
     private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
-    private Stage stage;
+    private final Stage stage;
     private Label label;
     private Image backgroundImage;
     private TextButton forwardButton;
     private TextButton backwardButton;
+    private TextButton playButton;
     private final int screenWidth = Gdx.graphics.getWidth();
+    private final int screenHeight = Gdx.graphics.getHeight();
 
     private String[] hints;
     private int currentHint;
+    private MiniGameNames currentMinigame;
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -46,11 +54,13 @@ public class DialogueBox {
     public void dialogueBoxInitialisation(boolean hide) {
         this.hints = new String[]{};
         this.currentHint = 0;
+        this.currentMinigame = SNAKE;
 
         this.backgroundImage = createBackgroundImage();
         this.label = createLabel();
         this.forwardButton = createForwardButton();
         this.backwardButton = createBackwardButton();
+        this.playButton = createPlayButton();
 
         if (hide) {
             hideDialogueBox();
@@ -60,8 +70,11 @@ public class DialogueBox {
         stage.addActor(label);
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
+        stage.addActor(playButton);
 
         addButtonListeners();
+
+        playButton.setVisible(false);
     }
 
     /**
@@ -112,6 +125,9 @@ public class DialogueBox {
         return label;
     }
 
+    /**
+     * Moves the labels position ot fit the dialogue box
+     */
     private void updateLabelPosition() {
         float middle = stage.getWidth();
         float labelWidth = label.getPrefWidth();
@@ -159,6 +175,25 @@ public class DialogueBox {
     }
 
     /**
+     * Creates the playButton for booting up mini-games
+     *
+     * @return the playButton instance.
+     */
+    public TextButton createPlayButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton playButton = new TextButton("Play Game", buttonStyle);
+        playButton.padLeft(55f);
+        playButton.getLabel().setAlignment(Align.center);
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
+        float centerY = (screenHeight - buttonHeight) / 2;
+
+        playButton.setPosition(centerX, centerY - 200);
+        return playButton;
+    }
+
+    /**
      * Creates a style for the buttons.
      *
      * @return The TextButtonStyle instance.
@@ -177,7 +212,7 @@ public class DialogueBox {
     }
 
     /**
-     * Adds listeners to the forward and backward buttons.
+     * Adds listeners to the forward, backward and play buttons.
      */
     private void addButtonListeners() {
         forwardButton.addListener(new InputListener() {
@@ -192,6 +227,25 @@ public class DialogueBox {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 handleBackwardButtonClick();
+                return true;
+            }
+        });
+
+        // Listener for the playButtton, will boot up a specific mini-game
+        playButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                hideDialogueBox(); // hides dialogue when player returns to the screen
+                if (playButton != null) playButton.setVisible((false));
+                GdxGame gdxGame = GdxGameManager.getInstance();
+                // Could potentially override snake hints here for post game messages
+                if (currentMinigame == SNAKE) {
+                    gdxGame.enterSnakeScreen();
+                } else if (currentMinigame == BIRD) {
+                    // TODO: Implement bird game (sprint 3)
+                } else if (currentMinigame == MAZE) {
+                    // TODO: Implement underwater maze (sprint 4)
+                }
                 return true;
             }
         });
@@ -231,7 +285,9 @@ public class DialogueBox {
     public void handleForwardButtonClick() {
 
         currentHint = (currentHint + 1) % hints.length;
-        label.setText(hints[currentHint]);
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
         updateLabelPosition();
     }
 
@@ -241,8 +297,39 @@ public class DialogueBox {
      */
     public void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
-        label.setText(hints[currentHint]);
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
         updateLabelPosition();
+    }
+
+    /**
+     * Checks if the current text on the label contains either of the following flags at the
+     * beginning of the string. This then shows the playButton and assigns the corresponding
+     * mini-game to be played.
+     *  /ms: minigame snake
+     *  /mb: minigame birdie dash
+     *  /mu: underwater maze
+     * @param text the label text to be shown in the dialogue.
+     * @return the altered text without the flag to be shown in the dialogue box.
+     */
+    public String minigameCheck(String text) {
+        if (hints[currentHint].startsWith("/ms")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = SNAKE;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mb")){
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = BIRD;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mu")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = MAZE;
+            return text.substring(3);
+        } else {
+            if (playButton != null) playButton.setVisible((false));
+            return text;
+        }
     }
 
     /**
@@ -253,6 +340,7 @@ public class DialogueBox {
         if (label != null) label.setVisible(false);
         if (forwardButton != null) forwardButton.setVisible(false);
         if (backwardButton != null) backwardButton.setVisible(false);
+        if (playButton != null) playButton.setVisible(false);
     }
 
     /**
@@ -270,6 +358,9 @@ public class DialogueBox {
         if (hints.length > 1) {
             if (forwardButton != null) forwardButton.setVisible(true);
             if (backwardButton != null) backwardButton.setVisible(true);
+        } else {
+            if (forwardButton != null) forwardButton.setVisible(false);
+            if (backwardButton != null) backwardButton.setVisible(false);
         }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);
@@ -284,6 +375,7 @@ public class DialogueBox {
         if (label != null) label.remove();
         if (forwardButton != null) forwardButton.remove();
         if (backwardButton != null) backwardButton.remove();
+        if (playButton != null) playButton.remove();
     }
 
     /**

@@ -11,20 +11,22 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
-  private final int maxHealth;
+  private int maxHealth;
   private int health;
   private int hunger;
   private int strength;
   private int defense;
   private int speed;
   private int experience;
+  private boolean isPlayer;
   private final int maxHunger;
-  private final int maxExperience;
+  private int maxExperience;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
       this.maxHealth = health;
       this.maxHunger = hunger;
-      this.maxExperience=experience;
+      this.maxExperience=100;
+      this.isPlayer = isPlayer;
       setHealth(health);
       setHunger(hunger);
       setStrength(strength);
@@ -59,7 +61,12 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      this.health = health;
+      if (health >= this.maxHealth) {
+        this.health = this.maxHealth;
+      }
+      else {
+        this.health = health;
+      }
     } else {
       this.health = 0;
     }
@@ -71,10 +78,12 @@ public class CombatStatsComponent extends Component {
   /**
    * Adds to the player's health. The amount added can be negative.
    *
-   * @param health health to add
+   * @param change the health to add
    */
-  public void addHealth(int health) {
-    setHealth(this.health + health);
+  public void addHealth(int change) {
+    int newHealth = Math.min(maxHealth, this.health + change);
+    newHealth = Math.max(0, newHealth);
+    setHealth(newHealth);
   }
 
   /**
@@ -93,7 +102,12 @@ public class CombatStatsComponent extends Component {
    */
   public void setHunger(int hunger) {
     if (hunger >= 0) {
-      this.hunger = hunger;
+      if (hunger >= this.maxHunger) {
+        this.hunger = this.maxHunger;
+      }
+      else {
+        this.hunger = hunger;
+      }
     } else {
       this.hunger = 0;
     }
@@ -105,10 +119,12 @@ public class CombatStatsComponent extends Component {
   /**
    * Adds to the player's hunger. The amount added can be negative.
    *
-   * @param hunger hunger to add
+   * @param change hunger to add
    */
-  public void addHunger(int hunger) {
-    setHunger(this.hunger + hunger);
+  public void addHunger(int change) {
+    int newHunger = Math.min(maxHunger, this.hunger + change);
+    newHunger = Math.max(0, newHunger);
+    setHunger(newHunger);
   }
 
 
@@ -133,7 +149,7 @@ public class CombatStatsComponent extends Component {
     if (strength >= 0) {
       this.strength = strength;
     } else {
-      logger.error("Cannot set strength to a negative value");
+      this.strength = 0;
     }
   }
 
@@ -164,7 +180,7 @@ public class CombatStatsComponent extends Component {
     if (defense >= 0) {
       this.defense = defense;
     } else {
-      logger.error("Cannot set defense to a negative value");
+      this.defense = 0;
     }
   }
 
@@ -196,7 +212,7 @@ public class CombatStatsComponent extends Component {
     if (speed >= 0) {
       this.speed = speed;
     } else {
-      logger.error("Cannot set speed to a negative value");
+      this.speed = 0;
     }
   }
 
@@ -224,7 +240,27 @@ public class CombatStatsComponent extends Component {
     if (experience >= 0) {
       this.experience = experience;
     } else {
-      logger.error("Cannot set experience to a negative value");
+      this.experience = 0;
+    }
+
+    if (experience >= this.maxExperience && isPlayer) {
+
+      int experienceDiff = this.experience - this.maxExperience;
+
+      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+      setExperience(experienceDiff);
+
+      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
+      this.maxHealth = this.maxHealth + healthDiff;
+      addHealth(healthDiff);
+      addStrength((int) Math.ceil(this.strength * 0.02));
+      addDefense((int) Math.ceil(this.defense * 0.02));
+      addSpeed((int) Math.ceil(this.speed * 0.02));
+
+    }
+
+    if (experience >= this.maxExperience && !isPlayer) {
+      this.experience = this.maxExperience;
     }
   }
 
@@ -234,7 +270,9 @@ public class CombatStatsComponent extends Component {
    * @param experience experience to add
    */
   public void addExperience(int experience) {
+
     setExperience(this.experience + experience);
+
   }
 
 
