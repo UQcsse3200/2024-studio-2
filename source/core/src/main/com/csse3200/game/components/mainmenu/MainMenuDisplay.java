@@ -65,6 +65,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button minigamesBtn;
     private Button settingsBtn;
     private TextButton achievementsBtn;
+    private TextButton qteBtn;
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
@@ -177,6 +178,7 @@ public class MainMenuDisplay extends UIComponent {
         minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
         settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
         achievementsBtn = new TextButton("Achievements", skin);
+        qteBtn = new TextButton("QT Events", skin);
         helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
         exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
 
@@ -187,6 +189,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(achievementsBtn);
+        addButtonElevationEffect(qteBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
 
@@ -238,6 +241,17 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Achievements button clicked");
                 entity.getEvents().trigger("achievements");
+                clickSound.play();
+            }
+        });
+
+        // Added handles for when clicked
+        qteBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+
+                logger.debug("Quick-time event button clicked");
+                entity.getEvents().trigger("quickTimeEvent");
                 clickSound.play();
             }
         });
@@ -307,6 +321,8 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
         menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(qteBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();

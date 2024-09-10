@@ -27,6 +27,7 @@ public class MainMenuActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("achievements", this::onAchievements);
     entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
+    entity.getEvents().addListener("quickTimeEvent", this::onQuickTimeEvent);
   }
 
   /**
@@ -77,6 +78,11 @@ public class MainMenuActions extends Component {
   private void onSnakeMiniGame() {
     logger.info("Launching settings screen");
     game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
+  }
+
+  private void onQuickTimeEvent() {
+    logger.info("Launching quick-time event screen");
+    game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
   }
 
 
