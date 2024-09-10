@@ -63,7 +63,7 @@ public class UserSettings {
     public static void applySettings(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings) {
         Gdx.graphics.setForegroundFPS(settings.fps);
 
-        if (settings.fullscreen) {
+        if (isFullScreen) {
             DisplayMode displayMode = findMatching(settings.displayMode);
             if (displayMode == null) {
                 displayMode = Gdx.graphics.getDisplayMode();
@@ -170,7 +170,7 @@ public class UserSettings {
          * FPS cap of the game. Independant of screen FPS.
          */
         public int fps = 60;
-        public boolean fullscreen = true;
+        public boolean fullscreen = false;
         /**
          * ui Scale. Currently unused, but can be implemented.
          */
