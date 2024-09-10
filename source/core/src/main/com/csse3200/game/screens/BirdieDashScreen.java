@@ -68,6 +68,7 @@ public class BirdieDashScreen extends PausableScreen {
         font.getData().setScale(5.0f);
 
         this.stage = ServiceLocator.getRenderService().getStage();
+        Gdx.input.setInputProcessor(stage);
 
         logger.debug("Initialising birdie dash entities");
 
