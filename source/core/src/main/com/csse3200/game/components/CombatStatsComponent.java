@@ -321,19 +321,4 @@ public class CombatStatsComponent extends Component {
   public boolean hasStatusEffect(StatusEffect effect) {
     return statusEffects.contains(effect);
   }
-
-  /**
-   * Processes active status effects (to be called at the start of each turn).
-   */
-  public void processStatusEffects() {
-    if (hasStatusEffect(StatusEffect.CONFUSION)) {
-      logger.info("Entity is confused and may act unpredictably.");
-      // Implement confusion logic here
-    }
-
-    if (hasStatusEffect(StatusEffect.BLEEDING)) {
-      logger.info("Entity is bleeding and takes damage.");
-      // Implement bleeding logic here
-    }
-  }
 }

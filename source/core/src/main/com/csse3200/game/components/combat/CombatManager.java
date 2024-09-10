@@ -58,11 +58,45 @@ public class CombatManager extends Component {
             return;
         }
 
+        // The effect of confusion is applied at the start of the round after the player has selected their move.
+        checkForConfusion(playerStats);
+
         enemyAction = selectEnemyMove();
 
         logger.info("Player action = {}, enemy action = {}", playerAction, enemyAction);
 
         executeMoveCombination(playerAction, enemyAction);
+
+        // The effect of any status ailments that afflict the player/enemy are applied at the end of each round.
+        processStatusEffects(playerStats);
+        processStatusEffects(enemyStats);
+    }
+
+    /**
+     * Check if the player has a CONFUSION status effect, which will cause them to use a random move instead
+     */
+    public void checkForConfusion(CombatStatsComponent playerStats) {
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
+            logger.info("Entity is confused and will use a random move.");
+
+            int rand = (int) (Math.random() * 3);
+            playerAction = switch (rand) {
+                case 0 -> Action.ATTACK;
+                case 1 -> Action.GUARD;
+                case 2 -> Action.SLEEP;
+                default -> null;
+            };
+        }
+    }
+
+    /**
+     * Processes active status effects (to be called at the end of each turn).
+     */
+    public void processStatusEffects(CombatStatsComponent entityStats) {
+        if (entityStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
+            logger.info("Entity is bleeding and takes damage.");
+            entityStats.setHealth(entityStats.getHealth() - 5);
+        }
     }
 
     private Action selectEnemyMove()
