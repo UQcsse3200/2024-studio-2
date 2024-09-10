@@ -163,7 +163,7 @@ public class QuestManager extends Component {
 
     }
 
-
+    /** Setup potion collection task listener */
     private void setupPotionsTask() {
         Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
         inventory.questItemListen("Defense Potion", 5);
