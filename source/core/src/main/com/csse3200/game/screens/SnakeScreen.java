@@ -11,6 +11,7 @@ import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.services.ServiceContainer;
@@ -213,8 +214,11 @@ public class SnakeScreen extends PausableScreen {
         InputComponent inputComponent =
                 new KeyboardSnakeInputComponent();
 
+        Stage stage = ServiceLocator.getRenderService().getStage();
+
         Entity ui = new Entity();
         ui
+                .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
