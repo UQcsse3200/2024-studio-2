@@ -40,7 +40,6 @@ public class QuestManager extends Component {
 
 
 
-
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
         this.quests = new HashMap<>();
@@ -69,9 +68,7 @@ public class QuestManager extends Component {
      * Sets up the tasks for the quests and dialogues.
      */
 
-
-    private void testQuests() {
-        // Create land kingdom tasks
+    private Task[] createTasks() {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
         Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
@@ -82,7 +79,15 @@ public class QuestManager extends Component {
         Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
         Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
 
-        // Dialogue for new quests
+        return new Task[] {
+                stepsTask, attackTask, testKangaTask, talkToGuide, followCowsTeachings,
+                collectPotions, listenAdvice, exploreWild, retrieveWeapon
+        };
+    }
+
+    /**Sets up the dialogue for quests. */
+    private Map<DialogueKey, String[]> createQuestDialogues() {
+
         String[] cowInitialDialogue = {
                 "Moo there, adventurer! Welcome to the kingdom.",
                 "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
@@ -103,44 +108,52 @@ public class QuestManager extends Component {
                 "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
         };
 
-        Map<DialogueKey, String[]> guideQuestDialogues = Map.of(
-                new DialogueKey("Cow", 1), cowInitialDialogue,
+        return Map.of(new DialogueKey("Cow", 1), cowInitialDialogue,
                 new DialogueKey("Cow", 2), cowAdviceDialogue,
                 new DialogueKey("Cow", 3), potionDialogue,
                 new DialogueKey("Cow", 4), listenDialogue
         );
 
+    }
+
+    /**
+     * Adds quests to the game's quest list by creating new `QuestBasic` instances.
+     * @param tasks An array of objects that represent the tasks to be added to the quest.
+     * @param guideQuestDialogues A map where the keys instance and the values
+     *                             are arrays of strings representing the dialogues associated with the quest.
+     */
+    private void addQuests(Task[] tasks, Map<DialogueKey, String[]> guideQuestDialogues) {
         // Add new tasks to a quest
-        List<Task> firstStepsTasks = new ArrayList<>(List.of(stepsTask));
+        List<Task> firstStepsTasks = new ArrayList<>(List.of(tasks[0]));
         QuestBasic firstStepsQuest = new QuestBasic("First Steps", "Take your first steps in this world!", firstStepsTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(firstStepsQuest);
 
-        List<Task> talkingQuest = new ArrayList<>(List.of(talkToGuide));
+        List<Task> talkingQuest = new ArrayList<>(List.of(tasks[3]));
         QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", talkingQuest, false, guideQuestDialogues, null, false, false, 0);
         addQuest(guideQuest);
         GameState.quests.quests.add(guideQuest);
 
-        List<Task> followQuest = new ArrayList<>(List.of(followCowsTeachings));
+        List<Task> followQuest = new ArrayList<>(List.of(tasks[4]));
         QuestBasic guideQuest2 = new QuestBasic("Teachings", "Follow the cow's teachings and complete further quests.", followQuest, false, guideQuestDialogues, null, false, false, 0);
         addQuest(guideQuest2);
         GameState.quests.quests.add(guideQuest2);
 
-        List<Task> potionQuest = new ArrayList<>(List.of(collectPotions));
+        List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
         QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
-        List<Task> listenQuest = new ArrayList<>(List.of(listenAdvice));
+        List<Task> listenQuest = new ArrayList<>(List.of(tasks[6]));
         QuestBasic guideQuest4 = new QuestBasic("Guide's Advice", "Listen to the guide's advice to progress further.", listenQuest, false, null, null, false, false, 0);
         addQuest(guideQuest4);
         GameState.quests.quests.add(guideQuest4);
 
-        List<Task> exploreQuest = new ArrayList<>(List.of(exploreWild));
+        List<Task> exploreQuest = new ArrayList<>(List.of(tasks[7]));
         QuestBasic guideQuest5 = new QuestBasic("Exploration", "Explore the kingdom and gather information about Kanga.", exploreQuest, false, null, null, false, false, 0);
         addQuest(guideQuest5);
         GameState.quests.quests.add(guideQuest5);
 
-        List<Task> retrieveQuest = new ArrayList<>(List.of(retrieveWeapon));
+        List<Task> retrieveQuest = new ArrayList<>(List.of(tasks[8]));
         QuestBasic guideQuest6 = new QuestBasic("Weapon Retrieval", "Retrieve a weapon by completing the snake minigame.", retrieveQuest, false, null, null, false, false, 0);
         addQuest(guideQuest6);
         GameState.quests.quests.add(guideQuest6);
@@ -148,7 +161,7 @@ public class QuestManager extends Component {
         String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
         String[] test2StepTextProg1 = {"Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"};
         String[] test2StepTextProg2 = {"Yippeee!", "You completed your Quest!"};
-        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(stepsTask, attackTask));
+        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(tasks[0], tasks[1]));
         Map<DialogueKey, String[]> test2TaskQuestDialogues = Map.of(
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
@@ -156,10 +169,23 @@ public class QuestManager extends Component {
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogues, test2StepCompletionTriggers, false, false, 0);
         GameState.quests.quests.add(twoTaskQuest);
 
-        // Create test quest that requires completion of 2 task quest
-        List<Task> finalQuestTasks = new ArrayList<>(List.of(testKangaTask, stepsTask, attackTask));
+        // Create 2 task quest
+        //2 0 1
+        List<Task> finalQuestTasks = new ArrayList<>(List.of(tasks[2], tasks[0], tasks[1]));
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
+
+
+    }
+
+
+    /** Creates all tests for quests and dialoues*/
+    private void testQuests() {
+
+        Task[] tasks = createTasks();
+        Map<DialogueKey, String[]> questDialogues = createQuestDialogues();
+
+        addQuests(tasks, questDialogues);
 
     }
 
@@ -324,32 +350,7 @@ public class QuestManager extends Component {
         }
     }
 
-    /** Returns all the dialogue for all quests for the given npc
-     * In sprint 2 will return a struct containing all dialogue for (String questName : npcRelevantQuests)
-     * Need to have null checks for npcName being in npcRelevantQuests
-     * */
-    public String[] getDialogue(String npcName) {
-        String[] npcRelevantQuests = relevantQuests.get(npcName);
 
-        if (npcRelevantQuests != null && npcRelevantQuests.length > 0) {
-            List<String> allDialogues = new ArrayList<>();
-
-            for (String questName : npcRelevantQuests) {
-                QuestBasic quest = quests.get(questName);
-
-                if (quest != null) {
-                    String[] dialogue = quest.getDialogue(npcName);
-                    if (dialogue != null) {
-                        allDialogues.addAll(Arrays.asList(dialogue));
-                    }
-                }
-            }
-
-            return allDialogues.toArray(new String[0]);
-        }
-
-        return new String[]{};
-    }
 
     /**
      * Completes the achievement by changing the state of the achievement and triggering an achievement popup
@@ -364,4 +365,6 @@ public class QuestManager extends Component {
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
+
+
 }
