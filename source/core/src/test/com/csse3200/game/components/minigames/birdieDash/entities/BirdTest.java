@@ -42,13 +42,6 @@ class BirdTest {
         assertEquals(300, bird.getPosition().y, "Y velocity after flap should be 300");
     }
 
-    // Testing the bird's movement without gravity.
-    // NEEDS TO BE DONE
-    @Test
-    public void testUpdateWithoutGravity() {
-    }
-
-
     // Testing the bird's movement with gravity.
     @Test
     void testUpdateWithGravity() {
