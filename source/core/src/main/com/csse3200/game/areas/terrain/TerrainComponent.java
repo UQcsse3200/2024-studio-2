@@ -15,11 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
-
 import java.util.BitSet;
 //import com.badlogic.gdx.utils.Array;
 
@@ -30,64 +25,32 @@ import java.util.BitSet;
  * shows the 'ground' in the game. Enabling/disabling this component will
  * show/hide the terrain.
  */
-public class TerrainComponent extends RenderComponent
-{
-  private final OrthographicCamera camera;
-  private static TiledMap tiledMap = null;
-  private final TiledMapRenderer renderer;
-  private final TerrainOrientation orientation;
-  private final float tileWorldSize;
-
-
-  public OrthographicCamera getCamera()
-  {
-    return camera;
-  }
-
-  public TiledMap getTiledMap()
-  {
-    return tiledMap;
-  }
-
-  public TiledMapRenderer getRenderer()
-  {
-    return renderer;
-  }
-
-  public TerrainOrientation getOrientation()
-  {
-    return orientation;
-  }
-
-  public float getTileWorldSize()
-  {
-    return tileWorldSize;
-  }
-
+public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
+
   private static final int TERRAIN_LAYER = 0;
+  private static TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
+  private OrthographicCamera camera;
+  private TerrainOrientation orientation;
   private float tileSize;
 
   private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private static TerrainResource terrainResource;
 
-  public TerrainComponent(OrthographicCamera camera, TiledMap tiledMap, TiledMapRenderer renderer, TerrainOrientation orientation, float tileWorldSize) {
+  public TerrainComponent(
+          OrthographicCamera camera,
+          TiledMap map,
+          TiledMapRenderer renderer,
+          TerrainOrientation orientation,
+          float tileSize) {
     this.camera = camera;
-    this.tiledMap = tiledMap;
-    this.renderer = renderer;
+    this.tiledMap = map;
     this.orientation = orientation;
-    this.tileWorldSize = tileWorldSize;
+    this.tileSize = tileSize;
+    this.tiledMapRenderer = renderer;
 
     this.terrainResource = new TerrainResource();
-  }
-
-  public TerrainComponent(OrthographicCamera camera, TiledMap tiledMap, TiledMapRenderer renderer, TerrainFactory.TerrainOrientation orientation, float tileWorldSize, OrthographicCamera camera1, TiledMapRenderer renderer1, TerrainOrientation orientation1, float tileWorldSize1) {
-    super();
-      this.camera = camera1;
-      this.renderer = renderer1;
-      this.orientation = orientation1;
-      this.tileWorldSize = tileWorldSize1;
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
