@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
@@ -45,7 +46,7 @@ import java.util.LinkedList;
  * Handles initialization, rendering, and disposal of cutscene elements.
  */
 public class EnemyCutsceneScreen extends ScreenAdapter {
-    private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
+    private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
     private float timeElapsed = 0;
     private boolean transition;
 
@@ -196,15 +197,15 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Select enemy image and name based on enemy type
         switch (enemy.getEnemyType()) {
             case CHICKEN:
-                enemyImageTexture = new Texture("images/chicken.png");
+                enemyImageTexture = new Texture("images/chicken_idle.png");
                 enemyNameLabel = new Label("Chicken", labelStyle);
                 break;
             case FROG:
-                enemyImageTexture = new Texture("images/frog.png");
+                enemyImageTexture = new Texture("images/frog_idle.png");
                 enemyNameLabel = new Label("Frog", labelStyle);
                 break;
             case MONKEY:
-                enemyImageTexture = new Texture("images/monkey.png");
+                enemyImageTexture = new Texture("images/monkey_idle.png");
                 enemyNameLabel = new Label("Monkey", labelStyle);
                 break;
             default:
@@ -228,6 +229,17 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         enemyNameLabel.setAlignment(Align.center);
 
+        // Access enemy's CombatStatsComponent
+        CombatStatsComponent stats = enemy.getComponent(CombatStatsComponent.class);
+
+        // Create labels for stats
+        Label healthLabel = new Label("Health: " + stats.getHealth() + "/" + stats.getMaxHealth(), labelStyle);
+        Label hungerLabel = new Label("Hunger: " + stats.getHunger() + "/" + stats.getMaxHunger(), labelStyle);
+        Label strengthLabel = new Label("Strength: " + stats.getStrength(), labelStyle);
+        Label defenseLabel = new Label("Defense: " + stats.getDefense(), labelStyle);
+        Label speedLabel = new Label("Speed: " + stats.getSpeed(), labelStyle);
+        Label experienceLabel = new Label("Experience: " + stats.getExperience() + "/" + stats.getMaxExperience(), labelStyle);
+
         Image enemyImage = new Image(enemyImageTexture);
 
         // Animate enemy name label (flash effect)
@@ -246,11 +258,11 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         // Centered positions
         float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
-        float centerY = (Gdx.graphics.getHeight() - 500) / 2f;
+        float centerY = (Gdx.graphics.getHeight() - 150) / 2f;
 
         // Initial positions for sliding animations
         enemyImage.setPosition(0, centerY); // Start from off-screen left
-        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
+        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 3000); // Start from off-screen right
 
         // Animate enemy image (slide-in effect)
         enemyImage.addAction(
@@ -270,9 +282,24 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(enemyImage).width(500).height(500);
+
+        // Add elements to the table with spacing
+        table.add(enemyImage).width(500).height(500).padBottom(20); // Pad bottom for spacing
         table.row();
-        table.add(enemyNameLabel);
+        table.add(enemyNameLabel).padBottom(10);
+        table.row();
+        table.add(healthLabel).padBottom(5); // Pad bottom for spacing
+        table.row();
+        table.add(hungerLabel).padBottom(5); // Pad bottom for spacing
+        table.row();
+        table.add(strengthLabel).padBottom(5); // Pad bottom for spacing
+        table.row();
+        table.add(defenseLabel).padBottom(5); // Pad bottom for spacing
+        table.row();
+        table.add(speedLabel).padBottom(5); // Pad bottom for spacing
+        table.row();
+        table.add(experienceLabel).padBottom(5);;
+
 
         // Add actors to stage
         stage.addActor(topBar);
