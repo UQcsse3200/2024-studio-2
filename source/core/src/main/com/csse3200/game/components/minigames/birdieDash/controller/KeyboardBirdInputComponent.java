@@ -1,11 +1,11 @@
 package com.csse3200.game.components.minigames.birdieDash.controller;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
-import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.input.InputComponent;
 
-
+/**
+ * CLass for keyboard inputs for birdie dash
+ */
 public class KeyboardBirdInputComponent extends InputComponent {
 
 
@@ -13,6 +13,11 @@ public class KeyboardBirdInputComponent extends InputComponent {
         super(5);
     }
 
+    /**
+     * Define keys for events
+     * @param keycode one of the constants in Input.Keys
+     * @return true if key pressed
+     */
     @Override
     public boolean keyDown(int keycode) {
         if(!this.enabled){

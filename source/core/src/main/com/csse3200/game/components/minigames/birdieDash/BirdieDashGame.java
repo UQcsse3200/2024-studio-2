@@ -13,6 +13,9 @@ import com.csse3200.game.services.ServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for the birdie dash game mechanics
+ */
 public class BirdieDashGame {
 
     private final int GAME_WIDTH = 1920;
@@ -28,7 +31,7 @@ public class BirdieDashGame {
    // private final BirdieDashController controller;
     private final CollisionHandler collisionHandler;
     private float speedMultiplier = 1.0f;
-    private float accelerationRate = 0.05f;
+    private final float accelerationRate = 0.05f;
     private Boolean isGameOver;
 
     public BirdieDashGame() {
@@ -72,11 +75,16 @@ public class BirdieDashGame {
         return coins;
     }
 
+    /**
+     * Change the coins position
+     * @param dt time since last coin position
+     */
     private void changeCoinPosition(float dt) {
         for(Coin coin : coins) {
             coin.changePosition(dt);
         }
     }
+
     /**
      * Private method to create pipes for the start of the game
      * @return a list containing all the pipe objects to be used.

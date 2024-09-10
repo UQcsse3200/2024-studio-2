@@ -4,10 +4,13 @@ package com.csse3200.game.components.minigames.birdieDash.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Class for the bird in the mini-game birdie dash
+ */
 public class Bird {
-    private Vector2 position;
-    private Vector2 velocity;
-    private Rectangle boundingBox;
+    private final Vector2 position;
+    private final Vector2 velocity;
+    private final Rectangle boundingBox;
     private static final float GRAVITY = -2600f;
     private static final float FLAP_STRENGTH = 1200;
     private static final float BIRD_WIDTH = 60f;
@@ -18,6 +21,7 @@ public class Bird {
     private boolean collideTopOfPipe;
     private boolean collideBottomOfPipe;
     private boolean isFlapping;
+
     public Bird(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
@@ -27,7 +31,14 @@ public class Bird {
         collideBottomOfPipe = false;
         isFlapping = false;
     }
+
+    /**
+     * Updates the birds position
+     * @param deltaTime the time from the last position update
+     * @param multiplier Used to speed up the game
+     */
     public void update(float deltaTime, float multiplier) {
+
         if(isFlapping) {
             isFlapping = false;
             velocity.y = FLAP_STRENGTH;
@@ -41,7 +52,7 @@ public class Bird {
             } else {
                 velocity.add(0, GRAVITY * deltaTime);
             }
-        } else {
+        } else { // Ensure bird doesn't fly below screen
             position.y = position.x = 0;
         }
         if(position.x < 960 && !collidingPipe) {
@@ -55,32 +66,46 @@ public class Bird {
             position.sub(deltaTime * multiplier * 200, 0);
         }
         velocity.scl(1 / deltaTime);
-        if (position.y + BIRD_HEIGHT > GAME_HEIGHT) {
+        if (position.y + BIRD_HEIGHT > GAME_HEIGHT) { // Ensure bird doesn't fly above screen
             position.y = GAME_HEIGHT - BIRD_HEIGHT;
             velocity.set(0,0);
         }
         updateBoundingBox();
-
     }
 
+    /**
+     * Method to set that the bird is colliding with the top of a pipe
+     * @param y the y position
+     */
     public void setCollidingTopPipe(float y) {
         collideTopOfPipe = true;
         position.set(position.x, y + 1);
     }
 
+    /**
+     * Method to unset the bird is colliding with a pipe
+     */
     public void unsetCollidingTopPipe() {
         collideTopOfPipe = false;
     }
 
+    /**
+     * Method to set that the bird is colliding with the bottom of a pipe
+     * @param y the y position
+     */
     public void setCollidingBottomPipe(float y) {
         collideBottomOfPipe = true;
         position.set(position.x, y - getBirdHeight() - 1);
         velocity.set(0,0);
     }
 
+    /**
+     * Method to unset the bird is colliding with a pipe
+     */
     public void unsetCollidingBottomPipe() {
         collideBottomOfPipe = false;
     }
+
     /**
      * For collisions
      */
@@ -88,6 +113,10 @@ public class Bird {
         collidingPipe = true;
     }
 
+    /**
+     * Gets the birds height
+     * @return the birds height
+     */
     public float getBirdHeight() {
         return BIRD_HEIGHT;
     }
@@ -98,15 +127,33 @@ public class Bird {
     public void unsetCollidingPipe() {
         collidingPipe = false;
     }
+
+    /**
+     * Flag to move bird
+     */
     public void flap() {
         isFlapping = true;
     }
+
+    /**
+     * Returns the birds position
+     * @return the birds position
+     */
     public Vector2 getPosition() {
         return position;
     }
+
+    /**
+     * Returns the birds bounding box
+     * @return the birds bounding box
+     */
     public Rectangle getBoundingBox() {
         return boundingBox;
     }
+
+    /**
+     * Update the birds boundary box position
+     */
     private void updateBoundingBox() {
         boundingBox.setPosition(position);
     }

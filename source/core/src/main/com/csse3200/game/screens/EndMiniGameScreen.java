@@ -319,10 +319,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 bronzeMedalThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
                 silverMedalThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
                 goldMedalThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
-                failMessage = "Bird message FAIL";
-                bronzeMessage = "Bird message BRONZE";
-                silverMessage = "Bird message SILVER";
-                goldMessage = "Bird message GOLD";
+                failMessage = "You're broke, maybe talk to Centerlink?";
+                bronzeMessage = "Almost middle class";
+                silverMessage = "Damn she rich";
+                goldMessage = "Donate to a poor software engineering student? Please :)";
             }
             case MAZE -> {
                 bronzeMedalThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;

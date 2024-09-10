@@ -61,7 +61,6 @@ public class CollisionHandler{
             collisionDetected = false;
             bird.unsetCollidingPipe();
             bird.unsetCollidingTopPipe();
-            bird.unsetCollidingBottomPipe();
         }
     }
 
