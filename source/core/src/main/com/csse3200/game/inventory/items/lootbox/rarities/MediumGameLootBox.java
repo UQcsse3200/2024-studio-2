@@ -23,7 +23,7 @@ public class MediumGameLootBox extends LootBox {
     public MediumGameLootBox(MediumGameLootTable lootTable, int rolls, Entity player) {
         super(lootTable, rolls, player );
         this.setTexturePath(path);
-        this.setDescription("MediumGame LootBox");
+        this.setDescription("This is an MediumGameLootBox, Open it Up for Goodies!!!!");
     }
 
 

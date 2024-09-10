@@ -25,8 +25,7 @@ public class EarlyGameLootBox extends LootBox {
     public EarlyGameLootBox(EarlyGameLootTable lootTable, int rolls, Entity player) {
         super(lootTable, rolls, player );
         this.setTexturePath(path);
-        this.setDescription("EarlyGame LootBox");
-
+        this.setDescription("This is an EarlyGameLootBox, Open it Up for Goodies!!!!");
     }
 
 

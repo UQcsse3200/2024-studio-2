@@ -10,7 +10,6 @@ public class EarlyGameLootTable extends BaseLootTable {
 
     // Constructor to populate the loot table with default items
     public EarlyGameLootTable() {
-
         addItem(HealingPotion.class, 100.0, new Class<?>[]{int.class}, new Object[]{1});
         addItem(Foods.Apple.class, 10.0, new Class<?>[]{int.class}, new Object[]{1});
         addItem(Foods.Carrot.class, 20.0, new Class<?>[]{int.class}, new Object[]{1});

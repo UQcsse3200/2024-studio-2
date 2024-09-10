@@ -29,7 +29,6 @@ public class LootItemConfig {
         this.weight = weight;
         this.parameterTypes = parameterTypes;
         this.parameters = parameters;
-
     }
 
     /**

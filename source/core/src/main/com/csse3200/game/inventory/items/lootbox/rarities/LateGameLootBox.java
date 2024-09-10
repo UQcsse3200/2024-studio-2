@@ -22,9 +22,8 @@ public class LateGameLootBox extends LootBox {
      */
     public LateGameLootBox(LateGameLootTable lootTable, int rolls, Entity player) {
         super(lootTable, rolls, player );
-
         this.setTexturePath(path);
-        this.setDescription("LateGame LootBox");
+        this.setDescription("This is an LateGameLootBox, Open it Up for Goodies!!!!");
     }
 
 }
