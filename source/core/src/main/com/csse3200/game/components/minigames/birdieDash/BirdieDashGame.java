@@ -109,8 +109,6 @@ public class BirdieDashGame {
         changeCoinPosition(dt * speedMultiplier);
         bird.update(dt, speedMultiplier);
         // Add all other change positions here e.g. bird, coins etc.
-
-
     }
 
     /**
@@ -129,5 +127,13 @@ public class BirdieDashGame {
      */
     public void flapBird() {
         bird.flapp();
+    }
+
+    /**
+     * Gets the game score
+     * @return the game score
+     */
+    public int getScore() {
+        return collisionHandler.getScore();
     }
 }

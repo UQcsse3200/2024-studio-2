@@ -1,6 +1,5 @@
 package com.csse3200.game.components.minigames.birdieDash.collision;
 
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
@@ -10,8 +9,8 @@ import java.util.List;
 
 public class CollisionHandler {
     private final Bird bird;
-    private List<Pipe> pipes;
-    private List<Coin> coins;
+    private final List<Pipe> pipes;
+    private final List<Coin> coins;
     private final Spike spike;
     private int score;  // To keep track of the player's score
     final float epsilon = 5f;
@@ -88,6 +87,10 @@ public class CollisionHandler {
         return Math.abs(a - b) < epsilon;
     }
 
+    /**
+     * Gets the current game score
+     * @return the score
+     */
     public int getScore() {
         return score;
     }

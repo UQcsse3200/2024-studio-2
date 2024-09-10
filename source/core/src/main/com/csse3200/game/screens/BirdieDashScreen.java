@@ -154,20 +154,18 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getEntityService().register(ui);
     }
 
- private void flap() {
-        // Trigger the flap action in BirdieDashGame
-        birdGame.flapBird();
-    }
+    // TODO: Why is this it's own function?
+     private void flap() {
+            // Trigger the flap action in BirdieDashGame
+            birdGame.flapBird();
+        }
 
-        //
+        void restartGame() {
+            dispose();
+            game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+        }
 
-
-    void restartGame() {
-        dispose();
-        game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
-    }
-
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
-    }
+        void exitGame() {
+            game.setOldScreen(oldScreen, oldScreenServices);
+        }
 }
