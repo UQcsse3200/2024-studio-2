@@ -62,7 +62,8 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(animator)
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, false))
+            .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
 

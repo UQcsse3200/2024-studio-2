@@ -4,13 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
-
 /**
- * Represents the display for selecting animals in the game.
- * The class manages the UI components related to
- * animal selection, including images, buttons, and their layout on the stage.
+ * Base class that represents the common functionality for animal selection screens.
+ * Manages the UI components for all types of animal selection.
  */
-public class AnimalSelectionDisplay {
+public abstract class AnimalSelectionDisplay {
     private final Stage stage;
     private final Skin skin;
     private final Image[] animalImages;
@@ -19,9 +17,7 @@ public class AnimalSelectionDisplay {
     private final TextButton backButton;
 
     /**
-     * Constructs a diplay for displaying and managing animal selection UI.
-     * Initializes the arrays for animal images and buttons, as well as the select and back buttons.
-     * This constructor sets up the stage and skin used for styling UI elements.
+     * Constructor for AnimalSelectionDisplay to initialize UI components and layout.
      * @param stage The stage where UI elements are added.
      * @param skin  The skin for styling UI elements.
      */
@@ -42,52 +38,57 @@ public class AnimalSelectionDisplay {
     }
 
     /**
+     * Abstract method that must be implemented to provide the background image path for the screen.
+     * @return The background image path.
+     */
+    protected abstract String getBackgroundImagePath();
+
+    /**
+     * Abstract method to provide the animal image paths for the screen.
+     * @return Array of animal image paths.
+     */
+    protected abstract String[] getAnimalImagePaths();
+
+    /**
      * Initializes the display by setting up the layout of images and buttons on the stage.
      */
     private void initializeDisplay() {
+        // Add the background image to the stage
+        BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
+        stage.addActor(backgroundImage);
+
         // Create the main table layout for positioning UI elements
         Table mainTable = new Table();
-        mainTable.setFillParent(true); // Make the table fill the entire stage
-        mainTable.top().padTop(80); // Align the table to the top with some padding
-        stage.addActor(mainTable); // Add the table to the stage
-
-        // Paths to the images of the animals
-        String[] animalImagePaths = {
-                "images/dog.png",
-                "images/croc.png",
-                "images/bird.png"
-        };
+        mainTable.setFillParent(true);
+        mainTable.top().padTop(80);
+        stage.addActor(mainTable);
 
         // Add images and buttons for each animal
+        String[] animalImagePaths = getAnimalImagePaths();
         for (int i = 0; i < 3; i++) {
-            animalImages[i] = new Image(new Texture(animalImagePaths[i])); // Load the animal image
-            animalButtons[i] = new TextButton("Animal " + (i + 1), skin); // Create a button for the animal
+            animalImages[i] = new Image(new Texture(animalImagePaths[i]));
+            animalButtons[i] = new TextButton("Animal " + (i + 1), skin);
 
-            // Create a table for each animal's image and button
             Table animalTable = new Table();
-            animalTable.add(animalImages[i]).pad(20).padLeft(180); // Position the image with padding
-            animalTable.row(); // Move to the next row in the table
-            animalTable.add(animalButtons[i]).pad(10).padLeft(180); // Position the button with padding
+            animalTable.add(animalImages[i]).pad(20).padLeft(180);
+            animalTable.row();
+            animalTable.add(animalButtons[i]).pad(10).padLeft(180);
 
-            // Add the animal table to the main table
             mainTable.add(animalTable).pad(10).expandX();
         }
 
-        // Add space between the animal selection and buttons
         mainTable.row();
         mainTable.add().expandY();
 
         // Create a table for the select and back buttons
         Table buttonTable = new Table();
-        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250); // Position the select button
-        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380); // Position the back button
+        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250);
+        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380);
 
-        // Add the button table to the main table
         mainTable.add(buttonTable).center().padBottom(60).colspan(60).bottom();
     }
 
     // Getters for accessing the UI elements
-
     public Image[] getAnimalImages() {
         return animalImages;
     }
