@@ -358,6 +358,9 @@ public class DialogueBox {
         if (hints.length > 1) {
             if (forwardButton != null) forwardButton.setVisible(true);
             if (backwardButton != null) backwardButton.setVisible(true);
+        } else {
+            if (forwardButton != null) forwardButton.setVisible(false);
+            if (backwardButton != null) backwardButton.setVisible(false);
         }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);
