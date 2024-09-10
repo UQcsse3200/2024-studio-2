@@ -28,6 +28,7 @@ public class UserSettings {
     private static float lastMusicVolume = 1f;
     private static float lastSoundVolume = 1f;
     private static boolean isMuted = false;
+    private static boolean isFullScreen = false;
 
 
     /**
@@ -62,7 +63,7 @@ public class UserSettings {
     public static void applySettings(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings) {
         Gdx.graphics.setForegroundFPS(settings.fps);
 
-        if (settings.fullscreen) {
+        if (isFullScreen) {
             DisplayMode displayMode = findMatching(settings.displayMode);
             if (displayMode == null) {
                 displayMode = Gdx.graphics.getDisplayMode();
@@ -89,6 +90,18 @@ public class UserSettings {
 
             AudioManager.setMusicVolume(lastMusicVolume);
             AudioManager.setSoundVolume(lastSoundVolume);
+        }
+    }
+    public static void setFullScreenMode(boolean status) {
+        isFullScreen = status;
+        applyDisplayMode();
+    }
+
+    public static void applyDisplayMode() {
+        if (isFullScreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(1280, 800);
         }
     }
 
@@ -133,6 +146,7 @@ public class UserSettings {
         }
     }
 
+
     private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
             return null;
@@ -156,7 +170,7 @@ public class UserSettings {
          * FPS cap of the game. Independant of screen FPS.
          */
         public int fps = 60;
-        public boolean fullscreen = true;
+        public boolean fullscreen = false;
         /**
          * ui Scale. Currently unused, but can be implemented.
          */
