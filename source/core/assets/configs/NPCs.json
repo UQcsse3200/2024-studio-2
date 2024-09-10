@@ -37,6 +37,15 @@
     "soundPath": ["sounds/snake-hiss.wav"],
     "animalName": "Snake"
   },
+
+  "magpie": {
+    "baseHint": ["Welcome to Animal Kingdom!", "I am Maggie the Magpie."],
+    "spritePath": "images/magpie.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/aus-magpie.wav"],
+    "animalName": "Magpie"
+    },
+
   "fish": {
     "baseHint": ["Welcome to Animal Kingdom!", "I am Finny the Fish."],
     "spritePath": "images/Fish.atlas",

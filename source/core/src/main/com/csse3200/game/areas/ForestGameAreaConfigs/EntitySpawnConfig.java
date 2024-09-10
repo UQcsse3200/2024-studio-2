@@ -27,4 +27,5 @@ public class EntitySpawnConfig {
     public int NUM_TURTLES;
     public int NUM_EAGLES;
     public int NUM_SNAKES;
+    public int NUM_MAGPIES;
 }
