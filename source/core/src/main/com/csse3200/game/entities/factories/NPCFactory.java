@@ -27,6 +27,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -61,7 +62,8 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(animator)
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, false))
+            .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
 
@@ -127,6 +129,14 @@ public class NPCFactory {
     return createFriendlyNPC(target, enemies, config);
   }
 
+  /**
+   * Creates a Magpie NPC.
+   */
+  public static Entity createMagpie(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.magpie;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
   private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
@@ -154,10 +164,11 @@ public class NPCFactory {
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
-        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-          long soundId = animalSound.play();
-          animalSound.setVolume(soundId, 0.3f);
-          animalSound.setLooping(soundId, false);
+        // Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        //  long soundId = animalSound.play();
+        //  animalSound.setVolume(soundId, 0.3f);
+        //  animalSound.setLooping(soundId, false);
+        AudioManager.playSound(animalSoundPath);
       }
     }
   }

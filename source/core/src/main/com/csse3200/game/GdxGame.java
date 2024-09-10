@@ -3,8 +3,8 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.files.UserSettings;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
@@ -73,6 +73,7 @@ public class GdxGame extends Game {
     ServiceLocator.registerResourceService(container.getResourceService());
     ServiceLocator.registerEntityService(container.getEntityService());
     ServiceLocator.registerRenderService(container.getRenderService());
+    ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
     screen.resume();
   }
 
@@ -128,36 +129,34 @@ public class GdxGame extends Game {
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    switch (screenType) {
-      case MAIN_MENU:
-        return new MainMenuScreen(this);
-      case MAIN_GAME:
-        return new MainGameScreen(this);
-      case SETTINGS:
-        return new SettingsScreen(this);
-        case COMBAT:
-            return new CombatScreen(this, screen, container, player, enemy);
-        case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, player, enemy);
-      case ACHIEVEMENTS:
-        return new AchievementsScreen(this);
-      case MINI_GAME_MENU_SCREEN:
-          return new MiniGameMenuScreen(this);
-        case SNAKE_MINI_GAME:
+      switch (screenType) {
+          case MAIN_MENU:
+              return new MainMenuScreen(this);
+          case MAIN_GAME:
+              return new MainGameScreen(this);
+          case COMBAT:
+              return new CombatScreen(this, screen, container, player, enemy);
+          case BOSS_CUTSCENE:
+              return new BossCutsceneScreen(this, screen, container, player, enemy);
+          case ACHIEVEMENTS:
+              return new AchievementsScreen(this);
+          case MINI_GAME_MENU_SCREEN:
+              return new MiniGameMenuScreen(this);
+          case SNAKE_MINI_GAME:
               return new SnakeScreen(this, screen, container);
-      case LOADING_SCREEN:
-        return new LoadingScreen(this);
-      case ANIMAL_SELECTION:
-        return new AnimalSelectionScreen(this);
-      case GAME_OVER_WIN:
-        return new GameOverWinScreen(this);
-      case GAME_OVER_LOSE:
-        return new GameOverLoseScreen(this);
+          case LOADING_SCREEN:
+              return new LoadingScreen(this);
+          case ANIMAL_SELECTION:
+              return new LandAnimalSelectionScreen(this);
+          case GAME_OVER_WIN:
+              return new GameOverWinScreen(this);
+          case GAME_OVER_LOSE:
+              return new GameOverLoseScreen(this);
 
 
-      default:
-        return null;
-    }
+          default:
+              return null;
+      }
   }
 
   /**
@@ -165,7 +164,7 @@ public class GdxGame extends Game {
    */
   public enum ScreenType {
 
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME
+      MAIN_MENU, MAIN_GAME, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME
 
   }
 

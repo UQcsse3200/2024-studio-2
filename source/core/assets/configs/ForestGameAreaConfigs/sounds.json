@@ -1,5 +1,6 @@
 {
   "gameSounds" : [
+    "sounds/aus-magpie.wav",
     "sounds/mooing-cow.wav",
     "sounds/tiger-roar.wav",
     "sounds/turtle-hiss.wav",
@@ -13,5 +14,11 @@
     "sounds/BGM_03_mp3.mp3",
     "sounds/heartbeat.mp3"
   ],
-  "backgroundMusic" : "sounds/BGM_03_mp3.mp3"
+  "backgroundMusic" : "sounds/BGM_03_mp3.mp3",
+
+  "characterSounds" : [
+    "sounds/animal/panting.mp3",
+    "sounds/animal/bark.mp3",
+    "sounds/animal/catgrowl.mp3"
+  ]
 }
