@@ -61,29 +61,30 @@ spawn
   index: 3
 alert
   rotate: false
-  xy: 85,82
+  xy: 16,32
   size:17,27
   orig:16,25
   offset:0,0
   index:0
 alert
   rotate: false
-  xy: 102,82
+  xy: 32,32
   size:16,25
   orig:16,25
   offset:0,0
   index:1
 alert
   rotate: false
-  xy: 118,82
-  size:17,25
-  orig:17,25
+  xy: 48,32
+  size:16,25
+  orig:16,25
   offset:0,0
   index:2
 alert
   rotate: false
-  xy: 134,82
+  xy: 64,32
   size:16,25
   orig:16,25
   offset:0,0
   index:3
+
