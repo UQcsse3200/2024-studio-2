@@ -266,6 +266,10 @@ public class ForestGameArea extends GameArea {
     // Frog
     generator = () -> EnemyFactory.createFrog(player);
     spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+
+    //Bear
+    generator = () -> EnemyFactory.createBear(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
   }
 
   private void spawnFriendlyNPCs() {
