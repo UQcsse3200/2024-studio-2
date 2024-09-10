@@ -16,10 +16,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.minigames.MiniGameConstants;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
+import com.csse3200.game.inventory.items.lootbox.rarities.LateGameLootBox;
+import com.csse3200.game.inventory.items.lootbox.rarities.MediumGameLootBox;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
 import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
@@ -29,6 +43,7 @@ import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
  * Displays the stats and add buttons to exit and restart.
  */
 public class EndMiniGameScreen extends ScreenAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(EndMiniGameScreen.class);
     private final GdxGame game;
     private final int score;
     private final MiniGameNames gameName;
@@ -42,6 +57,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final BitmapFont font32;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+
+    private Entity player;
+    private PlayerInventoryDisplay display;
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -57,7 +75,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-        
+
+        if (oldScreen instanceof MainGameScreen) {
+            MainGameScreen forestGameArea = (MainGameScreen) oldScreen;
+            this.player = forestGameArea.getGameArea().getPlayer();
+            if (player != null) {
+                logger.info("Adding loot box to player's inventory.");
+                this.display = player.getComponent(PlayerInventoryDisplay.class);
+            }
+        } else {
+            this.player = null;
+            this.display = null;
+
+        }
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
@@ -78,6 +108,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                switch(getMedal(score)) {
+                    case MiniGameMedals.BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
+                            new EarlyGameLootTable(),3 , player));
+                    case MiniGameMedals.SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
+                            new MediumGameLootTable(),3 , player));
+                    case MiniGameMedals.GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
+                            new LateGameLootTable(),3 , player));
+                }
                 game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
@@ -356,7 +394,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font26.dispose();
         font32.dispose();
         stage.dispose();
-        skin.dispose(); 
+        skin.dispose();
     }
 
     /**
