@@ -263,6 +263,7 @@ public class MainMenuDisplay extends UIComponent {
         updateButtonSize();
         table.add(menuButtonTable);
 
+        stage.addActor(table);
         // Formats height of buttons on screen
         //sizeTable();
 
@@ -271,7 +272,6 @@ public class MainMenuDisplay extends UIComponent {
         // Add the minimize button to the top-right corner
         addTopRightButtons();
         updateMuteButtonIcon();
-        stage.addActor(table);
 
         // Adds the setting menu to program
         addSettingMenu();
@@ -279,6 +279,7 @@ public class MainMenuDisplay extends UIComponent {
         //Adds the user logo to program
         addUserTable();
         addLoginRegisterTable();
+
     }
 
     public void updateButtonSize() {
@@ -732,8 +733,6 @@ public class MainMenuDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         settingMenu.setVisible(false);
-                        addTopRightButtons();
-                        addTopLeftToggle();
                         table.setTouchable(Touchable.enabled);
                     }
                 });
@@ -746,8 +745,6 @@ public class MainMenuDisplay extends UIComponent {
                         logger.info("Apply button clicked");
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
-                        addTopRightButtons();
-                        addTopLeftToggle();
                         table.setTouchable(Touchable.enabled);
                         updateMuteButtonIcon();
                     }
