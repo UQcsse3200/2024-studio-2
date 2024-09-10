@@ -27,22 +27,21 @@ public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
-  private static TiledMap tiledMap;
+  private TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
 
-  // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO
-  // BE CONVERTED
-  // TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
-  private static Set<GridPoint2> activeChunks = new HashSet<>();
-  private static Set<GridPoint2> previouslyActive = new HashSet<>();
-  private static Set<GridPoint2> newChunks = new HashSet<>();
-  private static Set<GridPoint2> oldChunks = new HashSet<>();
+  // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
+  //  TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
+  private Set<GridPoint2> activeChunks = new HashSet<>();
+  private Set<GridPoint2> previouslyActive = new HashSet<>();
+  private Set<GridPoint2> newChunks = new HashSet<>();
+  private Set<GridPoint2> oldChunks = new HashSet<>();
 
-  private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
-  private static TerrainResource terrainResource;
+  private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
+  private TerrainResource terrainResource;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -83,7 +82,7 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to fill
    */
-  public static void fillChunk(GridPoint2 chunkPos) {
+  public void fillChunk(GridPoint2 chunkPos) {
     // Check if the chunk is within the bounds of the map
     if (loadedChunks.containsKey(chunkPos))
       return;
@@ -104,7 +103,7 @@ public class TerrainComponent extends RenderComponent {
    *
    * @param chunkPos The position of the chunk to load around
    */
-  public static void loadChunks(GridPoint2 chunkPos) {
+  public void loadChunks(GridPoint2 chunkPos) {
     loadChunks(chunkPos, 3);
   }
 
@@ -115,7 +114,7 @@ public class TerrainComponent extends RenderComponent {
    * @param chunkPos The position of the chunk to load around
    * @param r        The number of chunks away to spawn
    */
-  public static void loadChunks(GridPoint2 chunkPos, int r) {
+  public void loadChunks(GridPoint2 chunkPos, int r) {
     // Reset active chunk status
     previouslyActive.clear();
     previouslyActive.addAll(activeChunks);
@@ -138,7 +137,7 @@ public class TerrainComponent extends RenderComponent {
     updateChunkStatus();
   }
 
-  private static void updateChunkStatus() {
+  private void updateChunkStatus() {
     newChunks.clear();
     newChunks.addAll(activeChunks);
     newChunks.removeAll(previouslyActive);
@@ -148,19 +147,19 @@ public class TerrainComponent extends RenderComponent {
     oldChunks.removeAll(activeChunks);
   }
 
-  public static TerrainChunk getChunk(GridPoint2 chunkPos) {
+  public TerrainChunk getChunk(GridPoint2 chunkPos) {
     return loadedChunks.get(chunkPos);
   }
 
-  public static Set<GridPoint2> getNewChunks() {
+  public Set<GridPoint2> getNewChunks() {
     return newChunks;
   }
 
-  public static Set<GridPoint2> getOldChunks() {
+  public Set<GridPoint2> getOldChunks() {
     return oldChunks;
   }
 
-  public static Set<GridPoint2> getActiveChunks() {
+  public Set<GridPoint2> getActiveChunks() {
     return activeChunks;
   }
 

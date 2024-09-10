@@ -108,7 +108,7 @@ public class MainGameScreen extends PausableScreen {
       //MapHandler.switchMapTo(MapHandler.MapType.FOREST, getRenderer(), game, false);
 
       Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerEntityChatService(new DialogueBoxService(stage));
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
     }
 

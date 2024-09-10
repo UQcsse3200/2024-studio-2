@@ -22,8 +22,10 @@ public class EntitySpawnConfig {
 
     // NPCs
     public int NUM_COWS;
+    public int NUM_FISH;
     public int NUM_LIONS;
     public int NUM_TURTLES;
     public int NUM_EAGLES;
     public int NUM_SNAKES;
+    public int NUM_MAGPIES;
 }

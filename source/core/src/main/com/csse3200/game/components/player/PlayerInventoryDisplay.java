@@ -163,11 +163,11 @@ public class PlayerInventoryDisplay extends UIComponent {
                 //double calls when mouse held, to be fixed
                 String[] itemText = {item.getDescription() + ". Quantity: "
                         + item.getQuantity() + "/" + item.getLimit()};
-                ServiceLocator.getEntityChatService().updateText(itemText);
+                ServiceLocator.getDialogueBoxService().updateText(itemText);
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                ServiceLocator.getEntityChatService().hideCurrentOverlay();
+                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
             }
         });
 
