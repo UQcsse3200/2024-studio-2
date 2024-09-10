@@ -8,6 +8,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.mainmenu.MainMenuActions;
+import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
@@ -112,7 +113,7 @@ public class ForestGameArea extends GameArea {
 
     if(MainMenuActions.getGameLoaded()) {
         SaveHandler.load(GameState.class, "saves");
-
+//        player.getComponent(InventoryComponent.class).getInventory().loadInventoryFromSave();
     }
     player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
     player.getComponent(QuestManager.class).loadQuests();
