@@ -11,6 +11,7 @@ com.csse3200.game.components.combat
 com.csse3200.game.components.gamearea
 com.csse3200.game.components.gameover
 com.csse3200.game.components.loading
+com.csse3200.game.components.login
 com.csse3200.game.components.maingame
 com.csse3200.game.components.mainmenu
 com.csse3200.game.components.minigames

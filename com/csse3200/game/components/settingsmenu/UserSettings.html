@@ -139,10 +139,25 @@ loadScripts(document, 'script');</script>
 <div class="block">Get the stored user settings</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#set(com.csse3200.game.components.settingsmenu.UserSettings.Settings,boolean)" class="member-name-link">set</a><wbr>(<a href="UserSettings.Settings.html" title="class in com.csse3200.game.components.settingsmenu">UserSettings.Settings</a>&nbsp;settings,
- boolean&nbsp;applyImmediate)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#muteAudio()" class="member-name-link">muteAudio</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Mutes the audio globally, storing the current volume settings and setting them to 0.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#set(com.csse3200.game.components.settingsmenu.UserSettings.Settings,boolean)" class="member-name-link">set</a><wbr>(<a href="UserSettings.Settings.html" title="class in com.csse3200.game.components.settingsmenu">UserSettings.Settings</a>&nbsp;settings,
+ boolean&nbsp;applyImmediate)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Set the stored user settings</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleMute()" class="member-name-link">toggleMute</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Toggles between mute and unmute.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unmuteAudio()" class="member-name-link">unmuteAudio</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Unmutes the audio globally, restoring the last saved volume levels.</div>
 </div>
 </div>
 </div>
@@ -194,6 +209,27 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>settings</code> - Settings to apply</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="muteAudio()">
+<h3>muteAudio</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">muteAudio</span>()</div>
+<div class="block">Mutes the audio globally, storing the current volume settings and setting them to 0.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="unmuteAudio()">
+<h3>unmuteAudio</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unmuteAudio</span>()</div>
+<div class="block">Unmutes the audio globally, restoring the last saved volume levels.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="toggleMute()">
+<h3>toggleMute</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">toggleMute</span>()</div>
+<div class="block">Toggles between mute and unmute.</div>
 </section>
 </li>
 </ul>
