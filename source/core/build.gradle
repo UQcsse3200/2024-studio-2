@@ -5,6 +5,10 @@ sourceSets.test.java.srcDirs = [ "src/test/" ]
 
 eclipse.project.name = appName + "-core"
 
+testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+testImplementation 'org.mockito:mockito-core:4.0.0'
+
+
 test {
     useJUnitPlatform()
     workingDir = new File("../core/assets")
@@ -30,3 +34,4 @@ javadoc {
         tags = ['require', 'requires', 'ensure', 'ensures']
     }
 }
+

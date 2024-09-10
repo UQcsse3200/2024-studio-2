@@ -16,6 +16,7 @@ import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class TerrainFactory {
   }
 
 
-  private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
+  TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
     switch (orientation) {
       case ORTHOGONAL:
         return new OrthogonalTiledMapRenderer(tiledMap, tileScale);
@@ -102,4 +103,11 @@ public class TerrainFactory {
     FOREST_DEMO_ISO,
     FOREST_DEMO_HEX
   }
+
+  public enum TerrainOrientation {
+    ORTHOGONAL,
+    ISOMETRIC,
+    HEXAGONAL
+  }
+
 }
