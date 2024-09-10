@@ -634,7 +634,7 @@ public class MainMenuDisplay extends UIComponent {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
                     // Mini-screen mode
-                    Gdx.graphics.setWindowedMode(1200, 750);
+                    Gdx.graphics.setWindowedMode(1280, 800);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
                     // Fullscreen mode
@@ -726,6 +726,8 @@ public class MainMenuDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         settingMenu.setVisible(false);
+                        addTopRightButtons();
+                        addTopLeftToggle();
                         table.setTouchable(Touchable.enabled);
                     }
                 });
@@ -738,6 +740,8 @@ public class MainMenuDisplay extends UIComponent {
                         logger.info("Apply button clicked");
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
+                        addTopRightButtons();
+                        addTopLeftToggle();
                         table.setTouchable(Touchable.enabled);
                         updateMuteButtonIcon();
                     }
