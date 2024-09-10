@@ -88,7 +88,6 @@ public class MainMenuDisplay extends UIComponent {
         addActors();
         animateAnimals();
         applyUserSettings();
-        applyDisplayMode();
     }
 
     /**
@@ -107,9 +106,6 @@ public class MainMenuDisplay extends UIComponent {
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
     }
 
-    private void applyDisplayMode() {
-        UserSettings.applyDisplayMode();
-    }
     /**
      * Applies user settings to the game.
      */
@@ -638,11 +634,17 @@ public class MainMenuDisplay extends UIComponent {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
                     // Mini-screen mode
-                    UserSettings.setFullScreenMode(false);
+                    UserSettings.Settings settings = UserSettings.get();
+                    settings.fullscreen = false;
+                    UserSettings.applyDisplayMode(settings);
+                    UserSettings.set(settings, true);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
                     // Fullscreen mode
-                    UserSettings.setFullScreenMode(true);
+                    UserSettings.Settings settings = UserSettings.get();
+                    settings.fullscreen = true;
+                    UserSettings.applyDisplayMode(settings);
+                    UserSettings.set(settings, true);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
                 logger.info("Fullscreen toggled: " + !isFullscreen);
