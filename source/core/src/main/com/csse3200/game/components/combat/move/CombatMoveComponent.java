@@ -39,13 +39,33 @@ public class CombatMoveComponent extends Component {
     }
 
     private CombatMove getMoveAction(CombatManager.Action action) {
-        return switch (action) {
-            case ATTACK -> moveSet.get(0);
-            case GUARD -> moveSet.get(1);
-            case SLEEP -> moveSet.get(2);
-            case SPECIAL -> moveSet.get(3);
-            default -> null;
-        };
+        for (CombatMove move : moveSet) {
+            switch (action) {
+                case ATTACK:
+                    if (move instanceof AttackMove) {
+                        return move;
+                    }
+                    break;
+                case GUARD:
+                    if (move instanceof GuardMove) {
+                        return move;
+                    }
+                    break;
+                case SLEEP:
+                    if (move instanceof SleepMove) {
+                        return move;
+                    }
+                    break;
+                case SPECIAL:
+                    if (move instanceof SpecialMove) {
+                        return move;
+                    }
+                    break;
+                default:
+                    return null;
+            }
+        }
+        return null;
     }
 
     public List<CombatMove> getMoveSet() {
