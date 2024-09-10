@@ -101,6 +101,7 @@ public class ForestGameArea extends GameArea {
     playMusic();
     player.getEvents().addListener("setPosition", this::handleNewChunks);
     player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+    player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
     kangarooBossSpawned = false;
   }
 
@@ -220,6 +221,48 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     spawnEntityAt(entity, randomPos, true, true);
+  }
+
+/**
+ * Spawns an entity near the player within a specified radius, ensuring the entity
+ * is placed within the correct chunk boundaries and loaded areas of the game map.
+ *
+ * This function calculates a valid spawn position near the player's current location,
+ * considering the player's world position and current chunk. It ensures that the entity
+ * is spawned within the boundaries of the current chunk to avoid positioning the entity
+ * in an unloaded or inaccessible area.
+ *
+ * @param entity The entity to be spawned near the player.
+ * @param radius The radius around the player's position within which the entity will be spawned.
+ *               The spawn position is randomly selected within this radius but is constrained
+ *               to be within the current chunk boundaries.
+ *
+ */
+private void spawnEntityNearPlayer(Entity entity, int radius) {
+    // Get the player's current position in the world
+    Vector2 playerWorldPos = player.getPosition();
+
+    // Convert player's position to chunk coordinates
+    GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
+
+    // Calculate potential spawn positions within the specified radius
+    GridPoint2 minPos = new GridPoint2(
+            Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
+            Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
+    );
+
+    GridPoint2 maxPos = new GridPoint2(
+            Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
+            Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
+    );
+
+    // Randomly select a position within the radius
+    GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+    // Spawn the entity at the calculated position
+    spawnEntityAt(entity, spawnPos, true, true);
+    logger.info("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+            entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
   }
 
   private void spawnItems(GridPoint2 pos) {
