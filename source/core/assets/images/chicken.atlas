@@ -1,90 +1,90 @@
 chicken.png
-size: 240,160
+size: 64, 32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 default
   rotate: false
-  xy: 86,48
-  size: 16, 17
-  orig: 16, 17
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 0
 walk
   rotate: false
-  xy: 102, 48
-  size: 16, 17
-  orig: 16, 17
+  xy: 16, 0
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 1
 walk
   rotate: false
-  xy: 118, 48
-  size: 17, 17
-  orig: 17, 17
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 2
 walk
   rotate: false
-  xy: 134, 48
-  size: 16, 17
-  orig: 16, 17
+  xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 3
 spawn
   rotate: false
-  xy: 86, 65
-  size: 17, 17
-  orig: 17, 17
+  xy: 0, 16
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 0
 spawn
   rotate: false
-  xy: 101, 65
-  size: 17, 17
-  orig: 17, 17
+  xy: 16, 16
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 1
 spawn
   rotate: false
-  xy: 118, 65
-  size: 17, 17
-  orig: 17, 17
+  xy: 32, 16
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 2
 spawn
   rotate: false
-  xy: 134, 65
-  size: 17, 17
-  orig: 17, 17
+  xy: 48, 16
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: 3
 alert
   rotate: false
-  xy: 16,32
-  size:17,27
-  orig:16,25
+  xy: 0,32
+  size:16,16
+  orig:16,16
   offset:0,0
   index:0
 alert
   rotate: false
-  xy: 32,32
-  size:16,25
-  orig:16,25
+  xy: 16,32
+  size:16,16
+  orig:16,16
   offset:0,0
   index:1
 alert
   rotate: false
-  xy: 48,32
-  size:16,25
-  orig:16,25
+  xy: 32,32
+  size:16,16
+  orig:16,16
   offset:0,0
   index:2
 alert
   rotate: false
-  xy: 64,32
-  size:16,25
-  orig:16,25
+  xy: 48,32
+  size:16,16
+  orig:16,16
   offset:0,0
   index:3
 

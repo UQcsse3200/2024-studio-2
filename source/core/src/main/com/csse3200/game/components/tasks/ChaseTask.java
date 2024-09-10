@@ -12,7 +12,6 @@ import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
@@ -77,8 +76,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
           this.owner.getEntity().getEvents().trigger("chaseLeft");
       } else {
           this.owner.getEntity().getEvents().trigger("chaseRight");
-
-    }
+      }
 
       this.owner.getEntity().getEvents().trigger("chaseStart");
   }
@@ -122,8 +120,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     } else {
       this.owner.getEntity().getEvents().trigger("chaseRight");
     }
-
-//    owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("alert");
 
   }
 
