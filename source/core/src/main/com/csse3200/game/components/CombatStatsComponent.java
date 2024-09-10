@@ -2,6 +2,8 @@ package com.csse3200.game.components;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Component used to store information related to combat such as health, attack, etc. Any entities
@@ -11,6 +13,15 @@ import org.slf4j.LoggerFactory;
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+
+  // Enum for status effects
+  public enum StatusEffect {
+    CONFUSION, BLEEDING
+  }
+
+  // Set to hold active status effects
+  private Set<StatusEffect> statusEffects = new HashSet<>();
+
   private final int maxHealth;
   private int health;
   private int hunger;
@@ -116,14 +127,11 @@ public class CombatStatsComponent extends Component {
     setHunger(this.hunger + hunger);
   }
 
-
   /**
-
    * Returns the entity's strength.
    *
    * @return entity's strength
    */
-
   public int getStrength() {
     return strength;
   }
@@ -133,7 +141,6 @@ public class CombatStatsComponent extends Component {
    *
    * @param strength Strength
    */
-
   public void setStrength(int strength) {
     if (strength >= 0) {
       this.strength = strength;
@@ -206,9 +213,9 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Adds to the player's defense. The amount added can be negative.
+   * Adds to the player's speed. The amount added can be negative.
    *
-   * //@param defense defense to add
+   * @param speed speed to add
    */
   public void addSpeed(int speed) {
     setSpeed(this.speed + speed);
@@ -254,10 +261,14 @@ public class CombatStatsComponent extends Component {
   public int getMaxHealth() {
     return maxHealth;
   }
+
   public int getMaxHunger() {
     return maxHunger;
   }
-  public int getMaxExperience(){return maxExperience;}
+
+  public int getMaxExperience(){
+    return maxExperience;
+  }
 
   /**
    * @return current stamina of the entity.
@@ -285,6 +296,38 @@ public class CombatStatsComponent extends Component {
   public void addStamina(int change) {
     int newStamina = Math.min(maxStamina, this.stamina + change);
     newStamina = Math.max(0, newStamina);
-    setHunger(newStamina);
+    setStamina(newStamina);
+  }
+
+  // Status Effects
+  public void addStatusEffect(StatusEffect effect) {
+    statusEffects.add(effect);
+    logger.info("Added status effect: {}", effect);
+  }
+
+  public void removeStatusEffect(StatusEffect effect) {
+    if (statusEffects.contains(effect)) {
+      statusEffects.remove(effect);
+      logger.info("Removed status effect: {}", effect);
+    }
+  }
+
+  public boolean hasStatusEffect(StatusEffect effect) {
+    return statusEffects.contains(effect);
+  }
+
+  /**
+   * Processes active status effects (to be called at the start of each turn).
+   */
+  public void processStatusEffects() {
+    if (hasStatusEffect(StatusEffect.CONFUSION)) {
+      logger.info("Entity is confused and may act unpredictably.");
+      // Implement confusion logic here
+    }
+
+    if (hasStatusEffect(StatusEffect.BLEEDING)) {
+      logger.info("Entity is bleeding and takes damage.");
+      // Implement bleeding logic here
+    }
   }
 }

@@ -47,8 +47,7 @@ public class EnemyFactory {
           Arrays.asList(
                   new AttackMove("Normal Attack", 10),
                   new GuardMove("Normal Guard", 5),
-                  new SleepMove("Normal Sleep", 0),
-                  new SpecialMove("Normal Special", 25)
+                  new SleepMove("Normal Sleep", 0)
           )
   );
 
@@ -201,6 +200,15 @@ public class EnemyFactory {
                     ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    List<CombatMove> moveSet = new ArrayList<>(
+            Arrays.asList(
+                    new AttackMove("Kanga Punch", 10),
+                    new GuardMove("Kanga Guard", 5),
+                    new SleepMove("Kanga Sleep", 0),
+                    new SpecialKangaMove("Ultimate Kanga Drop Kick", 25)
+            )
+    );
 
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), config.getStamina(), false))
