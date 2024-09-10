@@ -47,7 +47,8 @@ public class CombatActions extends Component {
   private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
-    game.setOldScreen(previousScreen, previousServices);
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
   }
 
   /**
@@ -55,7 +56,7 @@ public class CombatActions extends Component {
    */
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");
-    game.setOldScreen(previousScreen, previousServices);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
 
   private void onAttack(Screen screen, ServiceContainer container) {
