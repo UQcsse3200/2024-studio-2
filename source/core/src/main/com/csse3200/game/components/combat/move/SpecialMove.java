@@ -21,6 +21,12 @@ public abstract class SpecialMove extends CombatMove {
         execute(attackerStats, targetStats, false);
     }
 
+    @Override
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuard,
+                        int numHitsLanded) {
+        execute(attackerStats, targetStats, false);
+    }
+
     /**
      * Executes the special Kanga move. Buffs Kanga's strength and defense, confuses the player,
      * and applies a bleeding status effect to the player.

@@ -18,6 +18,10 @@ public abstract class CombatMove {
     public abstract void execute(
             CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded);
 
+    public abstract void execute(
+            CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+            int numHitsLanded);
+
     public String getMoveName() {
         return moveName;
     }

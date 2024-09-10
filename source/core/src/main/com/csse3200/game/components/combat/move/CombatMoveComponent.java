@@ -38,6 +38,15 @@ public class CombatMoveComponent extends Component {
         }
     }
 
+    // Execute the move based on MoveAction enum
+    public void executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded,
+                            int numHitsLanded) {
+        CombatMove move = getMoveAction(action);
+        if (move != null) {
+            move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded, numHitsLanded); // entity is the attacker
+        }
+    }
+
     private CombatMove getMoveAction(CombatManager.Action action) {
         for (CombatMove move : moveSet) {
             switch (action) {

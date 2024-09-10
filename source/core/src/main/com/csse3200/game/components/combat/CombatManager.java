@@ -6,6 +6,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Random;
 
 /**
  * Manages the turn-based combat loop and handles attacks
@@ -229,7 +230,7 @@ public class CombatManager extends Component {
                      * Enemy stamina decreases.
                      */
                         playerMove.executeMove(playerAction);
-                        // enemy.multiHitAttack()
+                        enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
                         checkCombatEnd();
                         break;
                     case Action.GUARD:
@@ -308,6 +309,22 @@ public class CombatManager extends Component {
             entity.getEvents().trigger("combatWin");
             logger.info("Combat won in manager.");
         }
+    }
+
+    final Random random = new Random();
+
+    /**
+     * @return the number of successful hits in an enemy multi-hit attack (4 rolls).
+     * The probability of success for each roll is exp(enemySpeed / 250) - 0.5
+     * and each roll is simulated using a Bernoulli distribution
+     */
+    private int getEnemyMultiHitsLanded() {
+        double successProbability = Math.exp(enemyStats.getSpeed() / 250.0) - 0.5;
+        int successfulHits = 0;
+        for (int i = 0; i < 4; i++) {
+            successfulHits += (random.nextDouble() < successProbability) ? 1 : 0;
+        }
+        return successfulHits;
     }
 
     public Entity getPlayer() {
