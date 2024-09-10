@@ -1,0 +1,40 @@
+Dog2.png
+size: 913, 28
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Attack
+  rotate: false
+  xy: 281, 1
+  size: 186, 26
+  orig: 192, 48
+  offset: 5, 0
+  index: -1
+Death
+  rotate: false
+  xy: 469, 1
+  size: 185, 26
+  orig: 192, 48
+  offset: 5, 0
+  index: -1
+Hurt
+  rotate: false
+  xy: 834, 1
+  size: 78, 26
+  orig: 96, 48
+  offset: 5, 0
+  index: -1
+Idle
+  rotate: false
+  xy: 656, 1
+  size: 176, 26
+  orig: 192, 48
+  offset: 5, 0
+  index: -1
+Walk
+  rotate: false
+  xy: 1, 1
+  size: 278, 26
+  orig: 288, 48
+  offset: 2, 0
+  index: -1
