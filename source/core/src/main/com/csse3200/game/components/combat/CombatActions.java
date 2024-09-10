@@ -1,16 +1,9 @@
 package com.csse3200.game.components.combat;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

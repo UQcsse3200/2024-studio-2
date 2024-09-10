@@ -19,7 +19,7 @@ public class CombatArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
     private static GridPoint2 PLAYER_SPAWN = new GridPoint2(290,  335); // 9, 14...384, 256
 
-    private static final String[] forestTextures = {
+    private static final String[] combatTexture = {
             "images/box_boy_leaf.png",
             "images/tree.png",
             "images/ghost_king.png",
@@ -29,7 +29,6 @@ public class CombatArea extends GameArea {
             "images/eagle.png",
             "images/lion.png",
             "images/turtle.png",
-            "images/ghost_1.png",
             "images/grass_1.png",
             "images/grass_2.png",
             "images/grass_3.png",
@@ -214,7 +213,7 @@ public class CombatArea extends GameArea {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(forestTextures);
+        resourceService.loadTextures(combatTexture);
         resourceService.loadTextureAtlases(forestTextureAtlases);
         resourceService.loadSounds(forestSounds);
         resourceService.loadMusic(forestMusic);
@@ -229,7 +228,7 @@ public class CombatArea extends GameArea {
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(forestTextures);
+        resourceService.unloadAssets(combatTexture);
         resourceService.unloadAssets(forestTextureAtlases);
         resourceService.unloadAssets(forestSounds);
         resourceService.unloadAssets(forestMusic);

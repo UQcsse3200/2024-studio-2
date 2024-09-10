@@ -1,12 +1,10 @@
 package com.csse3200.game.components.animal;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class AnimalSelectionActionsTest {
 
-    private AnimalSelectionDisplay mockDisplay;
+    private LandAnimalSelectionDisplay mockDisplay;
     private PopUpHelper mockDialogHelper;
     private GdxGame mockGame;
     private AnimalSelectionActions actions;
@@ -36,7 +34,7 @@ public class AnimalSelectionActionsTest {
     @Before
     public void setUp() {
         // Mock dependencies
-        mockDisplay = mock(AnimalSelectionDisplay.class);
+        mockDisplay = mock(LandAnimalSelectionDisplay.class);
         mockDialogHelper = mock(PopUpHelper.class);
         mockGame = mock(GdxGame.class);
 
@@ -86,25 +84,23 @@ public class AnimalSelectionActionsTest {
         verify(mockGame, times(1)).setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
+
+
     @Test
     public void testShowAnimalDialog() {
-        int animalIndex = 1; // Example animal index
+        // Test for Dog
+        int animalIndex = 0;
         String expectedTitle = "Animal " + (animalIndex + 1);
-        String expectedContent = "You've selected Animal " + (animalIndex + 1) + ".\n" +
-                "This animal has unique characteristics.\n" +
-                "It possesses special abilities.";
+        String expectedContent = "You've selected a Dog. This animal is loyal, brave, and agile. It excels in combat with its speed and determination.";
 
-        // Call the method under test
         actions.showAnimalDialog(animalIndex, "images/animal" + animalIndex + ".png");
 
-        // Capture the arguments passed to dialogHelper.displayDialog
         ArgumentCaptor<String> titleCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> contentCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> imagePathCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Float> widthCaptor = ArgumentCaptor.forClass(Float.class);
         ArgumentCaptor<Float> heightCaptor = ArgumentCaptor.forClass(Float.class);
 
-        // Verify that displayDialog was called with the expected arguments
         verify(mockDialogHelper).displayDialog(
                 titleCaptor.capture(),
                 contentCaptor.capture(),
@@ -113,11 +109,14 @@ public class AnimalSelectionActionsTest {
                 heightCaptor.capture()
         );
 
-        // Assert that the captured values match the expected values
         assertEquals(expectedTitle, titleCaptor.getValue());
         assertEquals(expectedContent, contentCaptor.getValue());
         assertEquals("images/animal" + animalIndex + ".png", imagePathCaptor.getValue());
         assertEquals(900f, widthCaptor.getValue(), 0.01);
-        assertEquals(400f, heightCaptor.getValue(), 0.01);
+        assertEquals(500f, heightCaptor.getValue(), 0.01);
     }
+
+// Similar tests for Bird and Crocodile
+
+
 }
