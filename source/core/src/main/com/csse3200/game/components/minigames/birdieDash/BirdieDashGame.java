@@ -1,19 +1,14 @@
 package com.csse3200.game.components.minigames.birdieDash;
 
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.collision.CollisionHandler;
-//import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
 import com.csse3200.game.components.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
 import com.csse3200.game.components.minigames.birdieDash.rendering.*;
-import com.csse3200.game.screens.EndMiniGameScreen;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.GdxGameManager;
 
 import java.util.ArrayList;
 import java.util.List;
