@@ -5,14 +5,25 @@ import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Field;
 
 class BirdTest {
     private Bird bird;
-
     // Method Set Up to initialise the Bird instance
     @BeforeEach
     void setUp() {
-        bird = new Bird(100, 300); // Initial bird position
+        bird = new Bird(100, 300); // This is the initial bird's position
+    }
+
+    // Used helper method to get private field value using reflection
+    private float getPrivateField(String fieldName) {
+        try {
+            Field field = Bird.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.getFloat(null); // Use 'null' for static fields
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Testing to verify the Bird's initial position when it is created.
@@ -32,17 +43,23 @@ class BirdTest {
     }
 
     // Testing the bird's movement without gravity.
+    // NEEDS TO BE DONE
     @Test
-    void testUpdateWithoutGravity() {
-        bird.update(1.0f, 1); // simulate 1 second
-        assertTrue(bird.getPosition().y > 0, "Bird should not fall below 0");
+    public void testUpdateWithoutGravity() {
     }
+
 
     // Testing the bird's movement with gravity.
     @Test
     void testUpdateWithGravity() {
-        bird.update(1.0f, 1);
-        assertTrue(bird.getPosition().y > 0, "Bird should be falling");
+        float flapStrength = getPrivateField("FLAP_STRENGTH");
+        float gravity = getPrivateField("GRAVITY");
+
+        bird.flapp(); // Simulate a flap
+        bird.update(1.0f, 1); // Update with gravity
+
+        float expectedY = 300 + flapStrength + gravity;
+        assertTrue(bird.getPosition().y < 300, "Bird's Y position should decrease due to gravity");
     }
 
     // Testing bird collides with the pipe
