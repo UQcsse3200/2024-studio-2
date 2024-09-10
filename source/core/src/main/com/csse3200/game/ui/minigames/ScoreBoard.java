@@ -31,6 +31,7 @@ public class ScoreBoard {
     private int silverThreshold;
     private int goldThreshold;
     private int initialScore;
+    private double scale; // scale relative to the game
 
     /**
      * Creates a new SnakeScoreBoard with the initial score.
@@ -48,14 +49,17 @@ public class ScoreBoard {
 
         // Assign thresholds depending on game
         if (gameName == SNAKE) {
+            this.scale = 1;
             bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
         } else if (gameName == BIRD) {
+            this.scale = 0.6;
             bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
         } else { // MAZE
+            this.scale = 1;
             bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
@@ -65,39 +69,36 @@ public class ScoreBoard {
 
         // Create score label
         scoreLabel = new Label("Score: " + initialScore, skin, "default-white");
-        scoreLabel.setFontScale(2.0f);
+        scoreLabel.setFontScale((float) (2.0f * scale));
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create medal title
         medalLabel = new Label("Medals", skin, "default-white");
-        medalLabel.setFontScale(2.0f);
+        medalLabel.setFontScale((float) (2.0f * scale));
         medalLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         medalLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         // Create labels for bronze, silver, gold
         bronzeLabel = new Label("Bronze: " + bronzeThreshold, skin, "default-white");
-        bronzeLabel.setFontScale(1.5f);
+        bronzeLabel.setFontScale((float) (1.5f * scale));
         bronzeLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         silverLabel = new Label("Silver: " + silverThreshold, skin, "default-white");
-        silverLabel.setFontScale(1.5f);
+        silverLabel.setFontScale((float) (1.5f * scale));
         silverLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         goldLabel = new Label("Gold: " + goldThreshold, skin, "default-white");
-        goldLabel.setFontScale(1.5f);
+        goldLabel.setFontScale((float) (1.5f * scale));
         goldLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        // Create a table
         table = new Table();
         table.top().right();
 
         table.add(scoreLabel).center().padTop(120).padBottom(40).expandX().fillX().padLeft(120);
         table.row();
-
         table.add(medalLabel).center().padTop(80).padBottom(20).expandX().fillX().padLeft(120);
         table.row();
-
         table.add(bronzeLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
         table.row();
         table.add(silverLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
@@ -132,21 +133,11 @@ public class ScoreBoard {
      * Disposes of the scoreboard resources.
      */
     public void dispose() {
-        if (table != null) {
-            table.remove();
-        }
-        if (scoreLabel != null) {
-            scoreLabel.remove();
-        }
-        if (bronzeLabel != null) {
-            bronzeLabel.remove();
-        }
-        if (silverLabel != null) {
-            silverLabel.remove();
-        }
-        if (goldLabel != null) {
-            goldLabel.remove();
-        }
+        if (table != null) table.remove();
+        if (scoreLabel != null) scoreLabel.remove();
+        if (bronzeLabel != null) bronzeLabel.remove();
+        if (silverLabel != null) silverLabel.remove();
+        if (goldLabel != null) goldLabel.remove();
     }
 
     /**
@@ -157,27 +148,27 @@ public class ScoreBoard {
         float screenHeight = Gdx.graphics.getHeight();
 
         // Define a base width and height for scaling
-        float baseWidth = 1920f;
-        float baseHeight = 1200f;
+        float baseWidth = (float) (1920f * (1/scale));
+        float baseHeight = (float) (1200f * (1/scale));
 
         // Calculate the scale factor based on screen size
-        float scaleFactorX = screenWidth / baseWidth;
+        float scaleFactorX = screenWidth / baseWidth; // Scale relative to screen size
         float scaleFactorY = screenHeight / baseHeight;
         float scaleFactor = Math.min(scaleFactorX, scaleFactorY);
 
         // Scale the table's size and position based on screen dimensions
-        table.setSize(screenWidth * 0.22f, screenHeight * 0.5f);
-        table.setPosition(screenWidth - table.getWidth() - 20 * scaleFactor,
-                screenHeight - table.getHeight() - 20 * scaleFactor);
+        table.setSize((float) (screenWidth * 0.22f * scale), ((float) (screenHeight * 0.5f * scale)));
+        //table.setPosition(0, screenHeight - table.getHeight() - 15); // top right of screen
+        table.setPosition(screenWidth - table.getWidth() - 20,
+                screenHeight - table.getHeight() - 25);
 
-        // Scale the font sizes and paddings
+        // Adjust padding and font sizes within the table for the scaling factor
         scoreLabel.setFontScale(2.0f * scaleFactor);
         medalLabel.setFontScale(2.0f * scaleFactor);
         bronzeLabel.setFontScale(1.5f * scaleFactor);
         silverLabel.setFontScale(1.5f * scaleFactor);
         goldLabel.setFontScale(1.5f * scaleFactor);
 
-        // Adjust padding within the table
         table.clear();
         table.add(scoreLabel).center().padTop(120 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
         table.row();

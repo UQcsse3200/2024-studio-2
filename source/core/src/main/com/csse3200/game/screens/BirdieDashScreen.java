@@ -115,6 +115,7 @@ public class BirdieDashScreen extends PausableScreen {
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
         setupExitButton();
+        scoreBoard.resize(width, height);
     }
 
     @Override
