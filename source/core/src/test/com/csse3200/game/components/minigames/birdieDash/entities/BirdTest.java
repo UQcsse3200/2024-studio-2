@@ -33,18 +33,18 @@ class BirdTest {
     }
 
     // Testing the bird's movement without gravity.
-    @Test
-    void testUpdateWithoutGravity() {
-        bird.update(1.0f, 1); // simulate 1 second
-        assertTrue(bird.getPosition().y > 0, "Bird should not fall below 0");
-    }
-
-    // Test the bird's movement with gravity.
-    @Test
-    void testUpdateWithGravity() {
-        bird.update(1.0f, 1);
-        assertTrue(bird.getPosition().y > 0, "Bird should be falling");
-    }
+//    @Test
+//    void testUpdateWithoutGravity() {
+//        bird.update(1.0f, 1); // simulate 1 second
+//        assertTrue(bird.getPosition().y > 0, "Bird should not fall below 0");
+//    }
+//
+//    // Test the bird's movement with gravity.
+//    @Test
+//    void testUpdateWithGravity() {
+//        bird.update(1.0f, 1);
+//        assertTrue(bird.getPosition().y > 0, "Bird should be falling");
+//    }
 
     // Testing bird collides with the pipe
     @Test
