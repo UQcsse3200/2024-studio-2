@@ -638,11 +638,11 @@ public class MainMenuDisplay extends UIComponent {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
                     // Mini-screen mode
-                    UserSettings.setDisplayMode(false);
+                    UserSettings.setFullScreenMode(false);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
                     // Fullscreen mode
-                    UserSettings.setDisplayMode(true);
+                    UserSettings.setFullScreenMode(true);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
                 logger.info("Fullscreen toggled: " + !isFullscreen);
