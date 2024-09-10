@@ -39,7 +39,7 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
     /** Keeps track of number of quests per page */
-    private static final int numOfQuestsPerPage = 4;
+    private static final int numOfQuestsPerPage = 3;
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */

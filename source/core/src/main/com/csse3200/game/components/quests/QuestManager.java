@@ -120,7 +120,7 @@ public class QuestManager extends Component {
         GameState.quests.quests.add(firstStepsQuest);
 
         List<Task> talkingQuest = new ArrayList<>(List.of(tasks[3]));
-        QuestBasic guideQuest = new QuestBasic("Guide's Introduction", "Follow the guide's teachings to start your journey.", talkingQuest, false, guideQuestDialogues, null, false, false, 0);
+        QuestBasic guideQuest = new QuestBasic("Guide's Intro", "Follow the guide's teachings to start your journey.", talkingQuest, false, guideQuestDialogues, null, false, false, 0);
         addQuest(guideQuest);
         GameState.quests.quests.add(guideQuest);
 
@@ -169,13 +169,10 @@ public class QuestManager extends Component {
 
     }
 
-
     /** Creates all tests for quests and dialoues*/
     private void testQuests() {
-
         Task[] tasks = createTasks();
         Map<DialogueKey, String[]> questDialogues = createQuestDialogues();
-
         addQuests(tasks, questDialogues);
 
     }
