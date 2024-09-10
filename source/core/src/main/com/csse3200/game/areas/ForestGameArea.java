@@ -8,7 +8,12 @@ import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.entities.factories.ObstacleFactory;
+import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainChunk;
@@ -22,6 +27,11 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.ArrayList;
+import com.csse3200.game.entities.factories.ItemFactory;
+
+import java.util.Objects;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -323,6 +333,26 @@ public class ForestGameArea extends GameArea {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
+  public static void playMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.setLooping(true);
+//    music.setVolume(0.5f);
+//    music.play();
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
+    }
+  }
+  public static void pauseMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.pause();
+    AudioManager.stopMusic();  // Stop the music
+  }
 
   private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
@@ -337,28 +367,16 @@ public class ForestGameArea extends GameArea {
     }
   }
 
-  public static void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
-            Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
-  }
-
-  public static void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
-    music.pause();
-  }
-
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
+    //resourceService.loadMusic(forestMusic);
+
     resourceService.loadTextures(config.textures.forestTextures);
     resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
     resourceService.loadSounds(config.sounds.gameSounds);
     resourceService.loadMusic(config.sounds.gameMusic);
-    resourceService.loadSounds(config.sounds.characterSounds);
-
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
       logger.debug("Loading... {}%", resourceService.getProgress());
