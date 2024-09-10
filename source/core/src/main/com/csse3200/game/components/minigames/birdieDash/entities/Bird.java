@@ -16,10 +16,9 @@ public class Bird {
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
     private static final int GAME_HEIGHT = 1200;
-    // testing
+
     private boolean collidingPipe;
     private boolean collideTopOfPipe;
-    private boolean collideBottomOfPipe;
     private boolean isFlapping;
 
     public Bird(float x, float y) {
@@ -28,7 +27,6 @@ public class Bird {
         boundingBox = new Rectangle(x, y, BIRD_WIDTH, BIRD_HEIGHT);
         collidingPipe = false;
         collideTopOfPipe = false;
-        collideBottomOfPipe = false;
         isFlapping = false;
     }
 
@@ -94,17 +92,10 @@ public class Bird {
      * @param y the y position
      */
     public void setCollidingBottomPipe(float y) {
-        collideBottomOfPipe = true;
         position.set(position.x, y - getBirdHeight() - 1);
         velocity.set(0,0);
     }
 
-    /**
-     * Method to unset the bird is colliding with a pipe
-     */
-    public void unsetCollidingBottomPipe() {
-        collideBottomOfPipe = false;
-    }
 
     /**
      * For collisions
