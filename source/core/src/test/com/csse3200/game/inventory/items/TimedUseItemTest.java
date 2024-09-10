@@ -36,7 +36,7 @@ class TimedUseItemTest  {
 
     @BeforeEach
     void setUp() {
-        stat = new CombatStatsComponent(0, 0,0,0,0,0);
+        stat = new CombatStatsComponent(75, 0,0,0,0,0, 0, true);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         gameTime = Mockito.mock(GameTime.class);
         ServiceLocator.registerTimeSource(gameTime);
@@ -56,6 +56,7 @@ class TimedUseItemTest  {
 
     @Test
     void testHealingApplyEffect() {
+        player1.player.getComponent(CombatStatsComponent.class).addHealth(-75);
         int originalHealth = player1.player.getComponent(CombatStatsComponent.class).getHealth();
         healingPotion.useItem(player1);
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");

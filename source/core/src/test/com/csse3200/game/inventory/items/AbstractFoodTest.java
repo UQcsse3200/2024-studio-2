@@ -37,13 +37,14 @@ public class AbstractFoodTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        stat = new CombatStatsComponent(50, 50,50,50,50,50);
+        stat = new CombatStatsComponent(50, 80,50,50,50,50, 50, true);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         food = new TestableItem("test", 3, 10, 3, 10);
     }
 
     @Test
     public void testApplyEffect() {
+        player1.player.getComponent(CombatStatsComponent.class).addHunger(-30);
         food.useItem(player1);
         assertEquals(2, food.getQuantity(), "The food should have 2 uses left after one use.");
         assertEquals(60, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 60");
