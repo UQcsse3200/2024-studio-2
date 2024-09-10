@@ -55,15 +55,6 @@ public class QuestManager extends Component {
         loadQuests();
     }
 
-    /** Sets up land kingdom quests.
-     * Note: limitation on item collection - 1 item collection per kingdom
-     *      w completion string "item collection task successful" */
-    private void landKingdomSetup() {
-        // Setup for item collection tasks
-        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
-        inventory.questItemListen("Health Potion", 5);
-    }
-
     /**
      * Sets up the tasks for the quests and dialogues.
      */
@@ -189,7 +180,9 @@ public class QuestManager extends Component {
 
     }
 
-    /** Setup potion collection task listener */
+    /** Setup potion collection task listener.
+     * Note: limitation on item collection - 1 item collection per kingdom
+     *      w completion string "item collection task successful"  */
     private void setupPotionsTask() {
         Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
         inventory.questItemListen("Defense Potion", 5);
