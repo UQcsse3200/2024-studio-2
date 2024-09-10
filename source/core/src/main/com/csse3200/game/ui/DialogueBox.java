@@ -12,6 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.GdxGameManager;
+import com.csse3200.game.components.minigames.MiniGameNames;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.*;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages
@@ -19,134 +24,197 @@ import com.badlogic.gdx.utils.Align;
  */
 public class DialogueBox {
 
+    // Static resources
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+    private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
+    private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
+    private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
+
     private final Stage stage;
-    private final Skin skin;
-    private Texture backgroundTexture;
+    private Label label;
     private Image backgroundImage;
-    private final Label label;
     private TextButton forwardButton;
     private TextButton backwardButton;
+    private TextButton playButton;
     private final int screenWidth = Gdx.graphics.getWidth();
+    private final int screenHeight = Gdx.graphics.getHeight();
 
-    private final String[] hints;
+    private String[] hints;
     private int currentHint;
+    private MiniGameNames currentMinigame;
 
     /**
-     * Creates a new ChatOverlay with the given hint messages.
+     * Creates a new base DialogueBox with the given hint messages.
+     */
+    public DialogueBox(Stage stage) {
+        this.stage = stage;
+        dialogueBoxInitialisation(true);
+    }
+
+    public void dialogueBoxInitialisation(boolean hide) {
+        this.hints = new String[]{};
+        this.currentHint = 0;
+        this.currentMinigame = SNAKE;
+
+        this.backgroundImage = createBackgroundImage();
+        this.label = createLabel();
+        this.forwardButton = createForwardButton();
+        this.backwardButton = createBackwardButton();
+        this.playButton = createPlayButton();
+
+        if (hide) {
+            hideDialogueBox();
+        }
+
+        stage.addActor(backgroundImage);
+        stage.addActor(label);
+        stage.addActor(forwardButton);
+        stage.addActor(backwardButton);
+        stage.addActor(playButton);
+
+        addButtonListeners();
+
+        playButton.setVisible(false);
+    }
+
+    /**
+     * Creates a new DialogueBox with the given hint messages.
      *
      * @param labelText The array of hint messages to display.
      */
     public DialogueBox(String[] labelText) {
         this.stage = ServiceLocator.getRenderService().getStage();
-        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
         this.hints = labelText;
-        this.currentHint = 0;
-
-        createBackgroundImage("images/blue-bar.png", 700);
-
-        this.label = new Label(hints[currentHint], skin, "default-white");
-        this.label.setFontScale(1.5f);
-
-        float labelWidth = label.getPrefWidth();
-        float labelHeight = label.getPrefHeight();
-        float labelX = backgroundImage.getX() + (backgroundImage.getWidth() - labelWidth) / 2;
-        float labelY = -220 + (backgroundImage.getHeight() - labelHeight) / 2;
-
-        label.setPosition(labelX, labelY);
-        stage.addActor(label);
-
-        createButtons(labelY);
+        dialogueBoxInitialisation(false);
     }
 
     /**
-     * Returns the hints array.
+     * Creates the background image.
      *
-     * @return The hints array.
+     * @return The Image instance.
      */
-    public String[] getHints() {
-        return this.hints;
-    }
-
-    /**
-     * Returns the current hint index.
-     *
-     * @return The current hint index.
-     */
-    public int getCurrentHint() {
-        return this.currentHint;
-    }
-
-    /**
-     * Allows access to the labels text
-     *
-     * @return the current label on the image
-     */
-    public Label getLabel() {
-        return this.label;
-    }
-
-    /**
-     * Creates a background image for the chat overlay with the specified image path and height.
-     *
-     * @param backgroundPath The file path of the background image.
-     * @param desiredHeight The desired height for the background image.
-     */
-    private void createBackgroundImage(String backgroundPath, float desiredHeight) {
-        this.backgroundTexture = new Texture(Gdx.files.internal(backgroundPath));
-
-        float imageWidth = this.backgroundTexture.getWidth();
-        float imageHeight = this.backgroundTexture.getHeight();
+    private Image createBackgroundImage() {
+        float desiredHeight = 700;
+        float imageWidth = BACKGROUND_TEXTURE.getWidth();
+        float imageHeight = BACKGROUND_TEXTURE.getHeight();
         float ratio = imageWidth / imageHeight;
         float newWidth = desiredHeight * ratio;
 
-        this.backgroundImage = new Image(new TextureRegionDrawable(backgroundTexture));
+        Image backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
         backgroundImage.setSize(newWidth, desiredHeight);
         backgroundImage.setPosition((screenWidth - newWidth) / 2, -125);
 
-        this.stage.addActor(backgroundImage);
+        return backgroundImage;
     }
 
     /**
-     * Creates forward and backward navigation buttons for cycling through hint messages.
+     * Creates the label for displaying hints.
      *
-     * @param labelY The y-coordinate for button positioning relative to the label.
+     * @return The Label instance.
      */
-    private void createButtons(float labelY) {
-        // Load button images
-        Texture buttonImageTexture = new Texture(Gdx.files.internal("images/blue-button.png"));
-        Texture buttonHoverTexture = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
+    private Label createLabel() {
+        if (hints.length > 0) {
+            label = new Label(hints[currentHint], SKIN, "default-white");
+        } else {
+            label = new Label("", SKIN, "default-white");
+        }
+        label.setFontScale(1.5f);
 
-        TextureRegionDrawable buttonImageDrawable = new TextureRegionDrawable(buttonImageTexture);
-        TextureRegionDrawable buttonHoverDrawable = new TextureRegionDrawable(buttonHoverTexture);
+        updateLabelPosition();
 
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = skin.getFont("button");
-        buttonStyle.fontColor = skin.getColor("white");
-        buttonStyle.downFontColor = skin.getColor("white");
-        buttonStyle.overFontColor = skin.getColor("black");
+        return label;
+    }
 
-        buttonStyle.up = buttonImageDrawable;
-        buttonStyle.down = buttonImageDrawable;
-        buttonStyle.over = buttonHoverDrawable;
+    /**
+     * Moves the labels position ot fit the dialogue box
+     */
+    private void updateLabelPosition() {
+        float middle = stage.getWidth();
+        float labelWidth = label.getPrefWidth();
+        float labelHeight = label.getPrefHeight();
+        float labelX = (middle - labelWidth) / 2;
+        float labelY = -210 + (backgroundImage.getHeight() - labelHeight) / 2;
+        label.setPosition(labelX, labelY, Align.center);
+    }
 
-        backwardButton = new TextButton("Back", buttonStyle);
-        forwardButton = new TextButton("Continue", buttonStyle);
-        backwardButton.padLeft(50f); // Align text in button
-        forwardButton.padLeft(55f); // Align text in button
-
+    /**
+     * Creates the forward button for navigating to the next hint.
+     *
+     * @return The TextButton instance.
+     */
+    private TextButton createForwardButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton forwardButton = new TextButton("Continue", buttonStyle);
+        forwardButton.padLeft(55f);
         forwardButton.getLabel().setAlignment(Align.center);
 
         float buttonWidth = forwardButton.getWidth();
         float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
 
-        forwardButton.setPosition(centerX + buttonWidth + 20, labelY - 275);
-        backwardButton.setPosition(centerX, labelY - 275);
+        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 290);
 
-        stage.addActor(forwardButton);
-        stage.addActor(backwardButton);
+        return forwardButton;
+    }
 
-        // Add input listeners to the buttons for navigation
+    /**
+     * Creates the backward button for navigating to the previous hint.
+     *
+     * @return The TextButton instance.
+     */
+    private TextButton createBackwardButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton backwardButton = new TextButton("Back", buttonStyle);
+        backwardButton.padLeft(50f);
+
+        float buttonWidth = backwardButton.getWidth();
+        float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
+
+        backwardButton.setPosition(centerX, label.getY() - 290);
+
+        return backwardButton;
+    }
+
+    /**
+     * Creates the playButton for booting up mini-games
+     *
+     * @return the playButton instance.
+     */
+    public TextButton createPlayButton() {
+        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
+        TextButton playButton = new TextButton("Play Game", buttonStyle);
+        playButton.padLeft(55f);
+        playButton.getLabel().setAlignment(Align.center);
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2; // 35 is spacing between buttons
+        float centerY = (screenHeight - buttonHeight) / 2;
+
+        playButton.setPosition(centerX, centerY - 200);
+        return playButton;
+    }
+
+    /**
+     * Creates a style for the buttons.
+     *
+     * @return The TextButtonStyle instance.
+     */
+    private TextButton.TextButtonStyle createButtonStyle() {
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = SKIN.getFont("button");
+        buttonStyle.fontColor = SKIN.getColor("white");
+        buttonStyle.downFontColor = SKIN.getColor("white");
+        buttonStyle.overFontColor = SKIN.getColor("black");
+        buttonStyle.up = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+        buttonStyle.down = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
+        buttonStyle.over = new TextureRegionDrawable(BUTTON_HOVER_TEXTURE);
+
+        return buttonStyle;
+    }
+
+    /**
+     * Adds listeners to the forward, backward and play buttons.
+     */
+    private void addButtonListeners() {
         forwardButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -162,65 +230,164 @@ public class DialogueBox {
                 return true;
             }
         });
+
+        // Listener for the playButtton, will boot up a specific mini-game
+        playButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                hideDialogueBox(); // hides dialogue when player returns to the screen
+                if (playButton != null) playButton.setVisible((false));
+                GdxGame gdxGame = GdxGameManager.getInstance();
+                // Could potentially override snake hints here for post game messages
+                if (currentMinigame == SNAKE) {
+                    gdxGame.enterSnakeScreen();
+                } else if (currentMinigame == BIRD) {
+                    // TODO: Implement bird game (sprint 3)
+                } else if (currentMinigame == MAZE) {
+                    // TODO: Implement underwater maze (sprint 4)
+                }
+                return true;
+            }
+        });
     }
 
     /**
-     * Handles the forward button click event to show the next hint message.
-     * Cycles back to the first hint after reaching the end.
+     * Returns the array of hint messages.
+     *
+     * @return An array of strings containing the hint messages.
      */
-    private void handleForwardButtonClick() {
-        currentHint = (currentHint + 1) % (hints.length);
-        label.setText(hints[currentHint]);
+    public String[] getHints() {
+        return this.hints;
     }
 
     /**
-     * Handles the backward button click event to show the previous hint message.
-     * Cycles back to the last hint after reaching the beginning.
+     * Returns the index of the current hint being displayed.
+     *
+     * @return The index of the current hint.
      */
-    private void handleBackwardButtonClick() {
+    public int getCurrentHint() {
+        return this.currentHint;
+    }
+
+    /**
+     * Returns the Label object used for displaying hints.
+     *
+     * @return The Label instance for displaying hints.
+     */
+    public Label getLabel() {
+        return this.label;
+    }
+
+    /**
+     * Handles the forward button click event to navigate to the next hint.
+     * Updates the label text to the next hint in the array and repositions the label.
+     */
+    public void handleForwardButtonClick() {
+
+        currentHint = (currentHint + 1) % hints.length;
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
+        updateLabelPosition();
+    }
+
+    /**
+     * Handles the backward button click event to navigate to the previous hint.
+     * Updates the label text to the previous hint in the array and repositions the label.
+     */
+    public void handleBackwardButtonClick() {
         currentHint = (currentHint - 1 + hints.length) % hints.length;
-        label.setText(hints[currentHint]);
+        String text = hints[currentHint];
+        text = minigameCheck(text);
+        label.setText(text);
+        updateLabelPosition();
     }
 
     /**
-     * Disposes of the resources used by the chat overlay, including textures and UI components.
-     * Ensures that all resources are properly cleaned up to prevent memory leaks.
+     * Checks if the current text on the label contains either of the following flags at the
+     * beginning of the string. This then shows the playButton and assigns the corresponding
+     * mini-game to be played.
+     *  /ms: minigame snake
+     *  /mb: minigame birdie dash
+     *  /mu: underwater maze
+     * @param text the label text to be shown in the dialogue.
+     * @return the altered text without the flag to be shown in the dialogue box.
+     */
+    public String minigameCheck(String text) {
+        if (hints[currentHint].startsWith("/ms")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = SNAKE;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mb")){
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = BIRD;
+            return text.substring(3);
+        } else if (hints[currentHint].startsWith("/mu")) {
+            if (playButton != null) playButton.setVisible((true));
+            currentMinigame = MAZE;
+            return text.substring(3);
+        } else {
+            if (playButton != null) playButton.setVisible((false));
+            return text;
+        }
+    }
+
+    /**
+     * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
+     */
+    public void hideDialogueBox() {
+        if (backgroundImage != null) backgroundImage.setVisible(false);
+        if (label != null) label.setVisible(false);
+        if (forwardButton != null) forwardButton.setVisible(false);
+        if (backwardButton != null) backwardButton.setVisible(false);
+        if (playButton != null) playButton.setVisible(false);
+    }
+
+    /**
+     * Displays the dialogue box with the provided hint messages.
+     * Sets the first hint message, shows all components (background image, label, and buttons),
+     * and resets the current hint index to 0.
+     *
+     * @param hints An array of strings containing the hint messages to display.
+     */
+    public void showDialogueBox(String[] hints) {
+        this.hints = hints;
+        this.currentHint = 0; // Reset to the first hint
+        this.label.setText(hints[currentHint]);
+        updateLabelPosition(); // Update position after setting text
+        if (hints.length > 1) {
+            if (forwardButton != null) forwardButton.setVisible(true);
+            if (backwardButton != null) backwardButton.setVisible(true);
+        }
+        if (backgroundImage != null) backgroundImage.setVisible(true);
+        if (label != null) this.label.setVisible(true);
+    }
+
+    /**
+     * Removes all components of the dialogue box from the stage.
+     * This should be called to clean up resources when the dialogue box is no longer needed.
      */
     public void dispose() {
-        if (backgroundImage != null) {
-            backgroundImage.remove();
-        }
-
-        if (label != null) {
-            label.remove();
-        }
-
-        if (forwardButton != null) {
-            forwardButton.remove();
-        }
-
-        if (backwardButton != null) {
-            backwardButton.remove();
-        }
-
-        if (backgroundTexture != null) {
-            backgroundTexture.dispose();
-        }
+        if (backgroundImage != null) backgroundImage.remove();
+        if (label != null) label.remove();
+        if (forwardButton != null) forwardButton.remove();
+        if (backwardButton != null) backwardButton.remove();
+        if (playButton != null) playButton.remove();
     }
 
     /**
-     * Gets the forward button used for navigating to the next hint.
+     * Returns the TextButton instance used for the "Continue" (forward) action.
      *
-     * @return the forward TextButton instance.
+     * @return The TextButton instance for the forward button.
      */
     public TextButton getForwardButton() {
         return forwardButton;
     }
 
     /**
-     * Gets the backward button used for navigating to the previous hint.
+     * Returns the TextButton instance used for the "Back" (backward) action.
      *
-     * @return the backward TextButton instance.
+     * @return The TextButton instance for the backward button.
      */
     public TextButton getBackwardButton() {
         return backwardButton;

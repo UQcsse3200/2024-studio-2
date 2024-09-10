@@ -14,7 +14,6 @@ import com.csse3200.game.components.npc.BearAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -71,11 +70,12 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 2), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return chicken;
   }
@@ -99,12 +99,13 @@ public class EnemyFactory {
 
     bear
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health, 0, config.baseAttack, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
             .addComponent(new BearAnimationController());
 
 
     bear.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bear.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    bear.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return bear;
   }
@@ -126,12 +127,13 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     frog
-            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 5) - 2, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
-    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return frog;
   }
@@ -160,12 +162,13 @@ public class EnemyFactory {
     animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2) - 1, 0, config.baseAttack + (int)(Math.random() * 2) - 1, 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
     monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
-    monkey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    monkey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return monkey;
   }
@@ -189,11 +192,11 @@ public class EnemyFactory {
     };
 
     if (type == EnemyType.MONKEY) {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 4f));
     } else {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.speed, configStats.speed), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
     }
 
@@ -228,7 +231,7 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     kangarooBoss
-            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100))
             .addComponent(animator)
             .addComponent(new KangaBossAnimationController());
 
@@ -251,7 +254,7 @@ public class EnemyFactory {
 
     kangarooBoss
             .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100));
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
 
     kangarooBoss.scaleHeight(3.0f);
 

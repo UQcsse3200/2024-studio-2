@@ -57,6 +57,7 @@ class EnemyFactoryTest {
 
     private String[] atlas = {
             "images/chicken.atlas",
+            "images/enemy-chicken.atlas",
             "images/monkey.atlas",
             "images/frog.atlas",
             "images/bear.atlas",

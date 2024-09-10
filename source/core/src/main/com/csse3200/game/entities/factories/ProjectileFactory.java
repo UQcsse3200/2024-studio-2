@@ -64,11 +64,12 @@ public class ProjectileFactory {
 
     banana
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.health + (int)(Math.random() * 2), 0, config.baseAttack, 0, config.speed, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2), 0,
+                    config.getBaseAttack(), 0, config.getSpeed(), 0))
             .addComponent(new BananaAnimationController());
 
     banana.getComponent(AnimationRenderComponent.class).scaleEntity();
-    banana.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.speed, config.speed));
+    banana.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return banana;
   }

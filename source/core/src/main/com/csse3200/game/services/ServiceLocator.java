@@ -1,12 +1,11 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.csse3200.game.entities.EntityChatService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.eventservice.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +25,10 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-  private static EventService eventService;
-  private static EntityChatService entityChatService;
+  private static DialogueBoxService dialogueBoxService;
 
-  public static EntityChatService getEntityChatService() {
-    return entityChatService;
+  public static DialogueBoxService getDialogueBoxService() {
+    return dialogueBoxService;
   }
 
   public static EntityService getEntityService() {
@@ -57,16 +55,14 @@ public class ServiceLocator {
     return resourceService;
   }
 
-  public static EventService getEventService() {return eventService;}
-
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
   }
 
-  public static void registerEntityChatService(EntityChatService service) {
+  public static void registerDialogueBoxService(DialogueBoxService service) {
     logger.debug("Registering entity chat service {}", service);
-    entityChatService = service;
+    dialogueBoxService = service;
   }
 
   public static void registerRenderService(RenderService service) {
@@ -95,11 +91,6 @@ public class ServiceLocator {
     resourceService = source;
   }
 
-  public static void registerEventService(EventService source) {
-    logger.debug("Registering event service {}", source);
-    eventService = source;
-  }
-
   public static void clear() {
     entityService = null;
     renderService = null;
@@ -107,8 +98,7 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
-    eventService = null;
-    entityChatService = null;
+    dialogueBoxService = null;
   }
 
   private ServiceLocator() {
