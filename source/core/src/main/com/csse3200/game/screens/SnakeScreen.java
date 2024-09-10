@@ -90,7 +90,7 @@ public class SnakeScreen extends PausableScreen {
         font.getData().setScale(5.0f);
 
         this.stage = ServiceLocator.getRenderService().getStage();
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
