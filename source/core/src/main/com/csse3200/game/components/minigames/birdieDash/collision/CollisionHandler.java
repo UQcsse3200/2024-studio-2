@@ -66,7 +66,6 @@ public class CollisionHandler {
         }
     }
 
-
     private void checkCoin() {
         for (Coin coin : coins) {
             if (bird.getBoundingBox().overlaps(coin.getBoundary())) {
@@ -87,5 +86,9 @@ public class CollisionHandler {
 
     boolean isApproximatelyEqual(float a, float b, float epsilon) {
         return Math.abs(a - b) < epsilon;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
