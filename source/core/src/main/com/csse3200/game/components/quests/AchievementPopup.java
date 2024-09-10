@@ -79,7 +79,7 @@ public class AchievementPopup extends UIComponent {
 
             SequenceAction sequence = new SequenceAction();
             sequence.addAction(Actions.fadeOut(1f));
-            //sequence.addAction(Actions.run(this::dispose));
+            sequence.addAction(Actions.run(this::dispose));
             popup.addAction(sequence);
             stage.addActor(popup);
         }
