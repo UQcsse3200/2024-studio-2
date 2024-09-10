@@ -71,7 +71,7 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -96,9 +96,8 @@ public class EnemyFactory {
                     ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
     frog
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -132,7 +131,8 @@ public class EnemyFactory {
     animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0))
+
+            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
@@ -192,7 +192,8 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     kangarooBoss
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100))
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false))
+
             .addComponent(animator)
             .addComponent(new KangaBossAnimationController());
 
@@ -215,7 +216,7 @@ public class EnemyFactory {
 
     kangarooBoss
             .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100));
+            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false));
 
     kangarooBoss.scaleHeight(3.0f);
 

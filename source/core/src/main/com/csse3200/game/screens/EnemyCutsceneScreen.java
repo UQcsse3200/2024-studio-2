@@ -99,8 +99,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         logger.debug("Initialising main game dup screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        //this.gameArea = new ForestGameArea(terrainFactory, game);
-        //this.gameArea.create();
     }
 
     /**

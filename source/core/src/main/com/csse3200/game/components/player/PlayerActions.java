@@ -16,6 +16,7 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.audio.DogSoundPlayer;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -29,12 +30,14 @@ public class PlayerActions extends Component {
   private boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
-
+  private DogSoundPlayer dogSoundPlayer;
+  private final String selectedAnimal;
   private final GdxGame game;
 
-  public PlayerActions(GdxGame game, Entity player) {
+  public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
     this.game = game;
     this.player = player;
+    this.selectedAnimal = selectedAnimal;
   }
 
   @Override
@@ -46,10 +49,20 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("startCombat", this::startCombat);
+
+    if ("images/dog.png".equals(selectedAnimal)) {
+      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
+      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
+      dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+    }
+    // Handle other animals (e.g., cat) here
   }
 
   @Override
   public void update() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.updatePantingSound(moving, 1.0f);
+    }
     if (moving) {
       updateSpeed();
     }
@@ -59,7 +72,6 @@ public class PlayerActions extends Component {
     Body body = physicsComponent.getBody();
     Vector2 velocity = body.getLinearVelocity();
     Vector2 desiredVelocity = walkDirection.cpy().scl(MAX_SPEED);
-    // impulse = (desiredVel - currentVel) * mass
     Vector2 impulse = desiredVelocity.sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
@@ -72,6 +84,7 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
+    logger.info("Player started moving in direction: " + direction);
     player.getEvents().trigger("steps");
   }
 
@@ -82,12 +95,16 @@ public class PlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
+    logger.info("Player stopped moving.");
   }
 
   /**
    * Makes the player attack.
    */
   void attack() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.playBarkingSound(1.0f);
+    }
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
     player.getEvents().trigger("attackTask");
@@ -105,14 +122,14 @@ public class PlayerActions extends Component {
     mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);
   }
 
-  public void startCombat(Entity enemy){
+  public void startCombat(Entity enemy) {
     AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
     PriorityTask currentTask = aiTaskComponent.getCurrentTask();
 
-    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss() ||
-            (currentTask instanceof ChaseTask  && ((ChaseTask) currentTask).isBoss()))) {
-        currentTask.stop();
-        game.addBossCutsceneScreen(player, enemy);
+    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss()) ||
+            (currentTask instanceof ChaseTask && ((ChaseTask) currentTask).isBoss())) {
+      currentTask.stop();
+      game.addBossCutsceneScreen(player, enemy);
     } else {
 //        game.enterCombatScreen(player, enemy);
         game.addEnemyCutsceneScreen(player, enemy);
