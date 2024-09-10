@@ -1,5 +1,7 @@
 package com.csse3200.game.components.minigames.birdieDash;
 
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.birdieDash.collision.CollisionHandler;
 //import com.csse3200.game.components.minigames.birdieDash.controller.BirdieDashController;
@@ -8,8 +10,10 @@ import com.csse3200.game.components.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.components.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
 import com.csse3200.game.components.minigames.birdieDash.rendering.*;
+import com.csse3200.game.screens.EndMiniGameScreen;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.GdxGameManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ public class BirdieDashGame {
     private final CollisionHandler collisionHandler;
     private float speedMultiplier = 1.0f;
     private float accelerationRate = 0.05f;
+    private Boolean isGameOver;
 
     public BirdieDashGame() {
         this.pipes = createPipes();
@@ -37,6 +42,7 @@ public class BirdieDashGame {
         this.bird = new Bird(920, 600);
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
+        this.isGameOver = false;
       //  this.controller = new BirdieDashController();
         this.collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
         initRenderers();
@@ -52,9 +58,6 @@ public class BirdieDashGame {
         renderer.addRenderable(new CoinRenderer(coins, renderer));
         renderer.addRenderable(new BirdRenderer(bird, renderer));
         renderer.addRenderable(new SpikeRenderer(spike, renderer));
-
-
-        // Add all the other ones e.g. bird, coins etc.
     }
 
     /**
@@ -105,6 +108,9 @@ public class BirdieDashGame {
     private void updateGamePosition(float dt) {
         speedMultiplier += accelerationRate * dt;
         collisionHandler.checkCollisions();
+        if (collisionHandler.checkSpikes() || collisionHandler.checkBoundary()) { // TODO || boundaryDetection
+            isGameOver = true;
+        }
         changePipePosition(dt * speedMultiplier);
         changeCoinPosition(dt * speedMultiplier);
         bird.update(dt, speedMultiplier);
@@ -135,5 +141,13 @@ public class BirdieDashGame {
      */
     public int getScore() {
         return collisionHandler.getScore();
+    }
+
+    /**
+     * Determines if the game is over
+     * @return true if game is over, false otherwise
+     */
+    public Boolean getIsGameOver() {
+        return isGameOver;
     }
 }

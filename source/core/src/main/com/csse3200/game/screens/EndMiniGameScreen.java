@@ -21,6 +21,9 @@ import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceContainer;
 
+import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
+
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.
@@ -187,7 +190,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
-                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+                if (gameName == SNAKE) {
+                    game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+                }
+                else if (gameName == BIRD) {
+                    game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+                } else {
+                    //TODO: add Maze screen
+                }
             }
         });
 

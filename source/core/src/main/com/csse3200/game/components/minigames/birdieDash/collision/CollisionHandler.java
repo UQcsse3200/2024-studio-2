@@ -7,7 +7,7 @@ import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
 
 import java.util.List;
 
-public class CollisionHandler {
+public class CollisionHandler{
     private final Bird bird;
     private final List<Pipe> pipes;
     private final List<Coin> coins;
@@ -30,7 +30,7 @@ public class CollisionHandler {
     public void checkCollisions() {
         checkPipes();
         checkCoin();
-        checkSpikes();
+        //checkSpikes();
     }
 
     private void checkPipes() {
@@ -75,15 +75,20 @@ public class CollisionHandler {
         }
     }
 
-    private void checkSpikes() {
-        if (bird.getBoundingBox().overlaps(spike.getSpikeBoundary())) {
-            // Handle game-over logic
-            System.out.println("Game Over! Final Score: " + score);
-            // You might want to add code to stop the game or reset the game state
-        }
+    /**
+     * Determines if the bird is touching the spikes
+     * @return tru if bird is touching spikes otherwise false.
+     */
+    public Boolean checkSpikes() {
+        return bird.getBoundingBox().overlaps(spike.getSpikeBoundary());
     }
 
-    boolean isApproximatelyEqual(float a, float b, float epsilon) {
+    public Boolean checkBoundary() {
+        //return bird.getBoundingBox().overlaps();
+        return false;
+    }
+
+    private boolean isApproximatelyEqual(float a, float b, float epsilon) {
         return Math.abs(a - b) < epsilon;
     }
 
