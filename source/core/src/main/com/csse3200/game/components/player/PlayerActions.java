@@ -52,6 +52,13 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("startCombat", this::startCombat);
     entity.getEvents().addListener("switchMap", this::switchMap);
     entity.getEvents().addListener("stoF", this::stof);
+
+    if ("images/dog.png".equals(selectedAnimal)) {
+      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
+      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
+      dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+    }
+    // Handle other animals (e.g., cat) here
   }
 
   /**
@@ -68,13 +75,6 @@ public class PlayerActions extends Component {
   private void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.setMap(MapHandler.MapType.WATER);
-
-    if ("images/dog.png".equals(selectedAnimal)) {
-      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
-      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
-      dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
-    }
-    // Handle other animals (e.g., cat) here
   }
 
   @Override
