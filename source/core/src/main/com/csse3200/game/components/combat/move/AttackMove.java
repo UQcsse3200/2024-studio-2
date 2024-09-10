@@ -21,6 +21,11 @@ public class AttackMove extends CombatMove {
         execute(attackerStats, targetStats, false);
     }
 
+    @Override
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        execute(attackerStats, targetStats, false, 1);
+    }
+
     /**
      * The attacker damages the target with an attack move. Stamina is used in doing so.
      * Attack damage dependent on target's stats and whether they used a Guard move.
@@ -29,19 +34,22 @@ public class AttackMove extends CombatMove {
      * @param targetStats combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded)
+    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+                        int numHitsLanded)
     {
-        if (attackerStats != null && targetStats != null) {
+        for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
+            if (attackerStats != null && targetStats != null) {
 
-            int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded);
-            logger.info("Attacker is inflicting {} damage", damage);
+                int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);
+                logger.info("Attacker is inflicting {} damage", damage);
 
-            targetStats.setHealth(targetStats.getHealth() - damage);
+                targetStats.setHealth(targetStats.getHealth() - damage);
 
-            attackerStats.addStamina(-(this.getStaminaCost()));
+                attackerStats.addStamina(-(this.getStaminaCost()));
 
-        } else {
-            logger.error("Either attacker or target does not have CombatStatsComponent.");
+            } else {
+                logger.error("Either attacker or target does not have CombatStatsComponent.");
+            }
         }
     }
 
@@ -56,7 +64,7 @@ public class AttackMove extends CombatMove {
      * @return the damage to be inflicted on the target.
      */
     private int calculateDamage(
-            CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded
+            CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded, int hitNumber
     )
     {
         int damage;
@@ -64,7 +72,7 @@ public class AttackMove extends CombatMove {
         double m1 = calculateStatusMultiplier();
         double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
         double m3 = calculateGuardMultiplier(targetIsGuarded);
-        double m4 = calculateMultiHitMultiplier(1);
+        double m4 = calculateMultiHitMultiplier(hitNumber);
         int L = 1; // Level of the user.
         int A = attackerStats.getStrength(); // user's strength stat
         int D = targetStats.getDefense(); // opponent's defense stat
@@ -128,13 +136,14 @@ public class AttackMove extends CombatMove {
      * Calculates the multi-hit multiplier used to calculate damage.
      * THIS FUNCTION IS FOR LATER IMPLEMENTATION AND IS NOT YET FUNCTIONAL.
      *
-     * @param numHitsLanded number of hits landed in a multi-hit attack.
+     * @param hitNumber hit number 1..4 in a multi-hit attack.
+     * The default multiplier is 1 for a regular attack.
+     * Multiplier = 1 + 0.25N where N is the number of additional hits.
      * @return status effect multiplier.
      */
-    private double calculateMultiHitMultiplier(int numHitsLanded) {
+    private double calculateMultiHitMultiplier(int hitNumber) {
         double multiplier;
-        multiplier = 1;
+        multiplier = 1 + (0.25 * (hitNumber - 1));
         return multiplier;
     }
-
 }
