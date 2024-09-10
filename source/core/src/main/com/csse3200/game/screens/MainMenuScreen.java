@@ -26,6 +26,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private final GdxGame game;
   private final Renderer renderer;
   private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
+  private MainMenuDisplay mainMenuDisplay;
 
   public MainMenuScreen(GdxGame game) {
     this.game = game;
@@ -51,6 +52,10 @@ public class MainMenuScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
+    mainMenuDisplay.updateUserTable();
+    mainMenuDisplay.updateSettingMenu();
+    mainMenuDisplay.updateLoginRegisterTable();
+    mainMenuDisplay.updateButtonSize();
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
@@ -96,7 +101,8 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new MainMenuDisplay())
+    mainMenuDisplay = new MainMenuDisplay();
+    ui.addComponent(mainMenuDisplay)
             .addComponent(new InputDecorator(stage, 10))
             .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().register(ui);

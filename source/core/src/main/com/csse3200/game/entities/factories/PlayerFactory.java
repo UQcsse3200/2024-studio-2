@@ -3,9 +3,9 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
+import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
@@ -34,18 +34,18 @@ import java.util.List;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-    private static final PlayerConfig stats =
-            FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
-  /**
-   * Create a player entity.
-   * @return entity
-   */
-  public static Entity createPlayer(GdxGame game) {
-    String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForPlayer();
+    private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
+
+    /**
+     * Create a player entity.
+     * @return entity
+     */
+    public static Entity createPlayer(GdxGame game) {
+        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player =
                 new Entity()
@@ -55,7 +55,6 @@ public class PlayerFactory {
                         .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
-        player.addComponent(new PlayerActions(game, player));
 
         List<CombatMove> moveSet = new ArrayList<>();
         moveSet.add(new AttackMove("Punch", 10));
@@ -64,42 +63,40 @@ public class PlayerFactory {
 
         player.addComponent(new CombatMoveComponent(moveSet));
 
-        if (imagePath.equals("images/dog.png")) {
-          player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true));
-        } else if (imagePath.equals("images/croc.png")) {
-          player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true));
-        } else if (imagePath.equals("images/bird.png")) {
-          player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true));
-        }
-        else {
-          player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(),true));
+        player.addComponent(new PlayerActions(game, player, imagePath));
+        switch (imagePath) {
+            case "images/dog.png" ->
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true));
+            case "images/croc.png" ->
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true));
+            case "images/bird.png" ->
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true));
+            default ->
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer()));
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
+                .addComponent(inputComponent)
+                .addComponent(new PlayerStatsDisplay())
+                .addComponent(new QuestManager(player))
+                .addComponent(new QuestPopup());
+        player.addComponent((new StatManager()));
+        player.addComponent(new LootBoxOverlayComponent());
 
-              .addComponent(inputComponent)
-              .addComponent(new PlayerStatsDisplay())
-              .addComponent(new QuestManager(player))
-              .addComponent(new QuestPopup());
-            player.addComponent((new StatManager()));
+        PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+        player.getComponent(ColliderComponent.class).setDensity(1.5f);
+        player.getComponent(TextureRenderComponent.class).scaleEntity();
+        player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
+        player.getComponent(QuestManager.class).loadQuests();
 
-
-
-    PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
-    player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(TextureRenderComponent.class).scaleEntity();
-    player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
-    player.getComponent(QuestManager.class).loadQuests();
-    return player;
-  }
-
-
-
+        return player;
+    }
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
     }
 
-    public static String getSelectedAnimalImagePath() {return AnimalSelectionActions.getSelectedAnimalImagePath();
+    public static String getSelectedAnimalImagePath() {
+        return AnimalSelectionActions.getSelectedAnimalImagePath();
     }
 }

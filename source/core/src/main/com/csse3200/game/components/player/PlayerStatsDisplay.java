@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -168,9 +169,62 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
 
+        startHungerDecreaseTimer();
         // Add the table to the stage
         return true;
     }
+
+
+    public void startHungerDecreaseTimer() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+                if (combatStats != null) {
+                    // Decrease hunger by 1 every 3 seconds
+                    combatStats.addHunger(-1);
+                    int hunger = combatStats.getHunger();
+                    updatePlayerHungerUI(hunger);
+
+                    // Adjust health based on the current hunger level
+                    adjustHealthBasedOnHunger(hunger, combatStats);
+                }
+            }
+        }, 3, 3); // Initial delay of 3 seconds, then repeat every 3 seconds
+    }
+
+    private void adjustHealthBasedOnHunger(int hunger, CombatStatsComponent combatStats) {
+        int health = combatStats.getHealth();
+
+        if (hunger >= 90 && health < maxHealth) {
+            // Increase health by 1 if hunger is 90+ and health isn't max
+            combatStats.addHealth(1);
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+        } else if (hunger < 20 && hunger > 0) {
+            // Decrease health by 1 every 3 seconds if hunger is less than 20
+            combatStats.addHealth(-1);
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+        } else if (hunger == 0) {
+            // Decrease health by 1 every second if hunger is 0
+            startHealthDecreaseTimer(combatStats);
+        }
+    }
+
+
+    private void startHealthDecreaseTimer(CombatStatsComponent combatStats) {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if (combatStats.getHunger() == 0) {
+                    combatStats.addHealth(-1);
+                    updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+                }
+            }
+        }, 0, 1); // Run every second
+    }
+
+
+
 
     @Override
     public void draw(SpriteBatch batch) {

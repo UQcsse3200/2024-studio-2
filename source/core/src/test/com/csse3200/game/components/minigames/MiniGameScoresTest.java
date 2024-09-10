@@ -1,13 +1,24 @@
 package com.csse3200.game.components.minigames;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.PlayerFactory;
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 public class MiniGameScoresTest {
     private MiniGamesScores miniGamesScores;
-
+    private Entity mockPlayer;
+    private GdxGame mockGame;
     @BeforeEach
     public void setUp() {
+        mockGame = mock(GdxGame.class);
+
         miniGamesScores = new MiniGamesScores();
     }
 

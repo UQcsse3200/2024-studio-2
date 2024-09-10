@@ -1,10 +1,12 @@
 {
   "gameSounds" : [
-    "sounds/mooing-cow.mp3",
-    "sounds/tiger-roar.mp3",
-    "sounds/turtle-hiss.mp3",
-    "sounds/snake-hiss.mp3",
-    "sounds/eagle-scream.mp3",
+    "sounds/aus-magpie.wav",
+    "sounds/mooing-cow.wav",
+    "sounds/tiger-roar.wav",
+    "sounds/turtle-hiss.wav",
+    "sounds/snake-hiss.wav",
+    "sounds/FishBubble.wav",
+    "sounds/eagle-scream.wav",
     "sounds/QuestComplete.wav",
     "sounds/Impact4.ogg"
   ],
@@ -12,5 +14,11 @@
     "sounds/BGM_03_mp3.mp3",
     "sounds/heartbeat.mp3"
   ],
-  "backgroundMusic" : "sounds/BGM_03_mp3.mp3"
+  "backgroundMusic" : "sounds/BGM_03_mp3.mp3",
+
+  "characterSounds" : [
+    "sounds/animal/panting.mp3",
+    "sounds/animal/bark.mp3",
+    "sounds/animal/catgrowl.mp3"
+  ]
 }
