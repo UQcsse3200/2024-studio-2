@@ -50,6 +50,7 @@ public class ProximityComponent extends Component {
         entity.getEvents().addListener("proximityTriggered", () -> {
             AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);
             animationComponent.startAnimation("spawn");
+            entity.setEnabled(true);
 
             // Listen for when the spawn animation ends
             entity.getEvents().addListener("animationEnd", (String animationName) -> {
