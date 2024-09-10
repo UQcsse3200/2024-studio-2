@@ -12,7 +12,6 @@ public class ProximityComponent extends Component {
     private final Entity target;
     private final double proximityRange;
 
-
     /**
      * @param target         the player entity, for detecting if it is in range
      * @param proximityRange the range in which the player will cause the entity to
@@ -33,7 +32,6 @@ public class ProximityComponent extends Component {
                 target.getPosition().x, target.getPosition().y) < proximityRange) {
             this.entity.getEvents().trigger("proximityTriggered");
             this.entity.setEnabled(true); // Enable the entity when in proximity
-
         }
     }
 

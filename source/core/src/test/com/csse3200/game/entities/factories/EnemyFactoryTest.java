@@ -49,7 +49,7 @@ class EnemyFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
-            "images/chicken3.png",
+            "images/chicken.png",
             "images/monkey.png",
             "images/frog.png",
             "images/bear.png"
