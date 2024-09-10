@@ -42,10 +42,8 @@ public class Bird {
                 velocity.add(0, GRAVITY * deltaTime);
             }
         } else {
-            position.y = 0;
-            velocity.y = 0;
+            position.y = position.x = 0;
         }
-
         if(position.x < 960 && !collidingPipe) {
             velocity.x = 50;
         } else {
@@ -100,7 +98,7 @@ public class Bird {
     public void unsetCollidingPipe() {
         collidingPipe = false;
     }
-    public void flapp() {
+    public void flap() {
         isFlapping = true;
     }
     public Vector2 getPosition() {
@@ -111,5 +109,13 @@ public class Bird {
     }
     private void updateBoundingBox() {
         boundingBox.setPosition(position);
+    }
+
+    /**
+     * Determines if the bird is touching or past the ground
+     * @return true if bird it touching the ground, otherwise false
+     */
+    public Boolean touchingFloor () {
+        return !(position.y > 0);
     }
 }

@@ -108,7 +108,7 @@ public class BirdieDashGame {
     private void updateGamePosition(float dt) {
         speedMultiplier += accelerationRate * dt;
         collisionHandler.checkCollisions();
-        if (collisionHandler.checkSpikes() || collisionHandler.checkBoundary()) { // TODO || boundaryDetection
+        if (collisionHandler.checkSpikes() || bird.touchingFloor()) {
             isGameOver = true;
         }
         changePipePosition(dt * speedMultiplier);
@@ -137,7 +137,7 @@ public class BirdieDashGame {
      * Public method to trigger the bird's flap action
      */
     public void flapBird() {
-        bird.flapp();
+        bird.flap();
     }
 
     /**

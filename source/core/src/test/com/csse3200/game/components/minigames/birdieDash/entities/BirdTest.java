@@ -37,7 +37,7 @@ class BirdTest {
     // Testing to ensure that the Bird's velocity is updated when the flap method is called.
     @Test
     void testFlap() {
-        bird.flapp();
+        bird.flap();
         Vector2 velocity = bird.getPosition();
         assertEquals(300, bird.getPosition().y, "Y velocity after flap should be 300");
     }
@@ -55,7 +55,7 @@ class BirdTest {
         float flapStrength = getPrivateField("FLAP_STRENGTH");
         float gravity = getPrivateField("GRAVITY");
 
-        bird.flapp(); // Simulate a flap
+        bird.flap(); // Simulate a flap
         bird.update(1.0f, 1); // Update with gravity
 
         float expectedY = 300 + flapStrength + gravity;

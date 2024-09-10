@@ -8,20 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
-import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
@@ -167,7 +164,6 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getEntityService().register(ui);
     }
 
-    // TODO: Why is this it's own function?
      private void flap() {
             // Trigger the flap action in BirdieDashGame
             birdGame.flapBird();

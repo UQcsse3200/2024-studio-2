@@ -83,11 +83,6 @@ public class CollisionHandler{
         return bird.getBoundingBox().overlaps(spike.getSpikeBoundary());
     }
 
-    public Boolean checkBoundary() {
-        //return bird.getBoundingBox().overlaps();
-        return false;
-    }
-
     private boolean isApproximatelyEqual(float a, float b, float epsilon) {
         return Math.abs(a - b) < epsilon;
     }

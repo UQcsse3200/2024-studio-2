@@ -73,8 +73,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Scale the button's font
         exitButton.getLabel().setFontScale(scale);
 
-        // Scale the button's size
-
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -123,7 +121,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             dispose();
-            game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+            if (gameName == SNAKE) {
+                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+            }
+            else if (gameName == BIRD) {
+                game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+            } else {
+                //TODO: add Maze screen
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
