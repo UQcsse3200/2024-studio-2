@@ -40,6 +40,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * Manages the cutscene for enemy NPCs displayed before transitioning to the combat screen.
+ * Handles initialization, rendering, and disposal of cutscene elements.
+ */
 public class EnemyCutsceneScreen extends ScreenAdapter {
     private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
     private float timeElapsed = 0;
@@ -57,6 +61,15 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     private final Entity enemy;
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
+    /**
+     * Creates a new cutscene screen.
+     *
+     * @param game the game instance
+     * @param screen the previous screen
+     * @param container services from the previous screen
+     * @param player the player entity
+     * @param enemy the enemy entity
+     */
     public EnemyCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
         this.game = game;
         this.oldScreen = screen;
@@ -90,6 +103,12 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         //this.gameArea.create();
     }
 
+    /**
+     * Renders the cutscene screen. Updates the physics engine and entity service,
+     * and handles transitioning to the combat screen once the cutscene duration has passed.
+     *
+     * @param delta The time elapsed since the last frame, in seconds.
+     */
     @Override
     public void render(float delta) {
         if (!isPaused) {
@@ -107,24 +126,40 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Resizes the renderer when the screen size changes.
+     *
+     * @param width  The new width of the screen.
+     * @param height The new height of the screen.
+     */
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
+    /**
+     * Pauses the cutscene screen. Disables updates and rendering when the game is paused.
+     */
     @Override
     public void pause() {
         isPaused = true;
         logger.info("Game paused");
     }
 
+    /**
+     * Resumes the cutscene screen. Re-enables updates and rendering when the game is resumed.
+     */
     @Override
     public void resume() {
         isPaused = false;
         logger.info("Game resumed");
     }
 
+    /**
+     * Disposes of the resources used by the cutscene screen, including renderer and services.
+     * This method is called when the screen is no longer needed.
+     */
     @Override
     public void dispose() {
         logger.debug("Disposing cutscene screen");
@@ -139,8 +174,11 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates and sets up the cutscene UI elements, including motion effects for the text and image.
-     * Debugged and Developed with ChatGPT
+     * Sets up and animates the cutscene UI elements, including the enemy image and name.
+     * This method configures the appearance and animations of UI components, such as:
+     * - The enemy image, which slides into view.
+     * - The enemy name label, which flashes and slides into view.
+     * - Black bars at the top and bottom of the screen.
      */
     private void createUI() {
         logger.debug("Creating cutscene UI");
@@ -157,21 +195,27 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         Label enemyNameLabel;
 
-        if(enemy.getEnemyType() == Entity.EnemyType.CHICKEN) {
-            enemyImageTexture = new Texture("images/chicken.png");
-            enemyNameLabel = new Label("Chicken", labelStyle);
-        } else if (enemy.getEnemyType() == Entity.EnemyType.FROG) {
-            enemyImageTexture = new Texture("images/frog.png");
-            enemyNameLabel = new Label("Frog", labelStyle);
-        }  else if (enemy.getEnemyType() == Entity.EnemyType.MONKEY) {
-            enemyImageTexture = new Texture("images/monkey.png");
-            enemyNameLabel = new Label("Monkey", labelStyle);
-        } else {
-            enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
-            enemyNameLabel = new Label("Kanga", labelStyle);
+        // Select enemy image and name based on enemy type
+        switch (enemy.getEnemyType()) {
+            case CHICKEN:
+                enemyImageTexture = new Texture("images/chicken.png");
+                enemyNameLabel = new Label("Chicken", labelStyle);
+                break;
+            case FROG:
+                enemyImageTexture = new Texture("images/frog.png");
+                enemyNameLabel = new Label("Frog", labelStyle);
+                break;
+            case MONKEY:
+                enemyImageTexture = new Texture("images/monkey.png");
+                enemyNameLabel = new Label("Monkey", labelStyle);
+                break;
+            default:
+                enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
+                enemyNameLabel = new Label("Kanga", labelStyle);
+                break;
         }
 
-        // Create black bars
+        // Create and position black bars
         Texture topBarTexture = new Texture("images/black_bar.png");
         Texture bottomBarTexture = new Texture("images/black_bar.png");
 
@@ -238,12 +282,18 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         stage.addActor(table);
     }
 
+    /**
+     * Pauses the screen's entities.
+     */
     public void rest() {
         logger.info("Screen is resting");
         //gameArea.pauseMusic();
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
+    /**
+     * Resumes the screen's entities.
+     */
     public void wake() {
         logger.info("Screen is Awake");
         //gameArea.playMusic();
