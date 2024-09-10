@@ -12,6 +12,7 @@ com.csse3200.game.components.gamearea
 com.csse3200.game.components.gameover
 com.csse3200.game.components.loading
 com.csse3200.game.components.login
+com.csse3200.game.components.lootboxview
 com.csse3200.game.components.maingame
 com.csse3200.game.components.mainmenu
 com.csse3200.game.components.minigames
@@ -42,6 +43,9 @@ com.csse3200.game.inventory
 com.csse3200.game.inventory.items
 com.csse3200.game.inventory.items.exceptions
 com.csse3200.game.inventory.items.food
+com.csse3200.game.inventory.items.lootbox
+com.csse3200.game.inventory.items.lootbox.configs
+com.csse3200.game.inventory.items.lootbox.rarities
 com.csse3200.game.inventory.items.potions
 com.csse3200.game.overlays
 com.csse3200.game.physics
