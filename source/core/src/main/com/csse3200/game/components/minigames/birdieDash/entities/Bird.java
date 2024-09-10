@@ -8,8 +8,8 @@ public class Bird {
     private Vector2 position;
     private Vector2 velocity;
     private Rectangle boundingBox;
-    private static final float GRAVITY = -1000f;
-    private static final float FLAP_STRENGTH = 800;
+    private static final float GRAVITY = -2600f;
+    private static final float FLAP_STRENGTH = 1200;
     private static final float BIRD_WIDTH = 60f;
     private static final float BIRD_HEIGHT = 45f;
     private static final int GAME_HEIGHT = 1200;

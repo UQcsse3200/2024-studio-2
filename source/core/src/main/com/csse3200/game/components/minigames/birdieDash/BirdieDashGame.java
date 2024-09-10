@@ -58,6 +58,11 @@ public class BirdieDashGame {
         renderer.addRenderable(new CoinRenderer(coins, renderer));
         renderer.addRenderable(new BirdRenderer(bird, renderer));
         renderer.addRenderable(new SpikeRenderer(spike, renderer));
+        ServiceLocator.getResourceService().loadTextures(new String[]{"images/PauseOverlay/TitleBG.png",
+                "images/PauseOverlay/Button.png",
+                "images/QuestsOverlay/Quest_BG.png",
+                "images/QuestsOverlay/Quest_SBG.png"});
+        ServiceLocator.getResourceService().loadAll();
     }
 
     /**
@@ -118,13 +123,18 @@ public class BirdieDashGame {
     }
 
     /**
+     * Public method to update the game objects (i.e. physics)
+     * @param dt change in time
+     */
+    public void update(float dt) {
+        updateGamePosition(dt);
+    }
+
+    /**
      * Public method to render the game objects
      * @param dt change in time
      */
     public void render(float dt) {
-        for (int i = 0; i < 20; i++) {
-            updateGamePosition(dt / 20);
-        }
         renderer.render();
     }
 

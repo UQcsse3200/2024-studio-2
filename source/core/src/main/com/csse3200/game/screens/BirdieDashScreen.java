@@ -14,6 +14,7 @@ import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ServiceContainer;
@@ -78,8 +79,13 @@ public class BirdieDashScreen extends PausableScreen {
 
     @Override
     public void render(float delta) {
-        clearBackground();
+        if (!resting) {
+            for (int i = 0; i < 20; i++) {
+                birdGame.update(delta / 20);
+            }
+        }
 
+        clearBackground();
         birdGame.render(delta);
         if (birdGame.getIsGameOver()) {
             dispose();
@@ -142,10 +148,12 @@ public class BirdieDashScreen extends PausableScreen {
 
     private void createUI() {
         logger.debug("Creating birdie dash ui");
+        Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = new KeyboardBirdInputComponent();
 
         Entity ui = new Entity();
         ui
+                .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
          .addComponent(new KeyboardMiniGameInputComponent());
