@@ -77,7 +77,7 @@ public class QuestManager extends Component {
         Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", "Complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
-        Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
+        Task collectPotions = new Task("item collection task successful", "Collect Defense Potions", "Collect 5 defense potions scattered around the kingdom.", 1, 0, false, false);
         Task listenAdvice = new Task("listenToGuide", "Visit cow again", "Go visit the cow!", 1, 0, false, false);
         Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
         Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
@@ -91,7 +91,7 @@ public class QuestManager extends Component {
                 "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
         };
         String[] potionDialogue = {
-                "I need five potions! They’re scattered around. Keep your eyes peeled."
+                "I need five defense potions! They’re scattered around. Keep your eyes peeled."
         };
         String[] listenDialogue = {
                 "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
@@ -126,7 +126,7 @@ public class QuestManager extends Component {
         GameState.quests.quests.add(guideQuest2);
 
         List<Task> potionQuest = new ArrayList<>(List.of(collectPotions));
-        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
+        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
