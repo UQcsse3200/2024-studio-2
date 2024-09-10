@@ -64,10 +64,12 @@ public class DialogueBoxService {
      */
     public void updateText(String[] text) {
         hints = text;
+        hideCurrentOverlay();
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
         } else {
+            currentOverlay.hideDialogueBox();
             currentOverlay.showDialogueBox(text);
         }
 
