@@ -54,12 +54,6 @@ public class SnakeScreen extends PausableScreen {
     private final Stage stage;
     private float scale;
     private final Table exitButtonTable;
-
-    /**
-     * Queue of currently enabled overlays in the game screen.
-     */
-    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 

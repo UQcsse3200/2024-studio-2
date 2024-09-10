@@ -78,8 +78,13 @@ public class BirdieDashScreen extends PausableScreen {
 
     @Override
     public void render(float delta) {
-        clearBackground();
+        if (!resting) {
+            for (int i = 0; i < 20; i++) {
+                birdGame.update(delta / 20);
+            }
+        }
 
+        clearBackground();
         birdGame.render(delta);
 
         stage.act(delta);   // Update the stage
