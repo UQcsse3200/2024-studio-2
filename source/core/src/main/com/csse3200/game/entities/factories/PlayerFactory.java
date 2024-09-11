@@ -4,6 +4,7 @@ import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
+import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -17,6 +18,7 @@ import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -34,7 +36,6 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
 
@@ -58,21 +59,28 @@ public class PlayerFactory {
 
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
-            case "images/dog.png" -> player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
-            case "images/croc.png" -> player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
-            case "images/bird.png" -> player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
+            case "images/dog.png" ->
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
+            case "images/croc.png" ->
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
+            case "images/bird.png" ->
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
 
         }
 
-        player.addComponent(new PlayerInventoryDisplay(45, 9))
-                .addComponent(inputComponent)
+        player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup());
         player.addComponent((new StatManager()));
-        player.addComponent(new LootBoxOverlayComponent());
+
+        // Add inventory from player (in future this will provide shared interface for memory
+        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        player.addComponent(inventoryComponent)
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new LootBoxOverlayComponent());
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
