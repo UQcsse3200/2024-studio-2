@@ -30,7 +30,6 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * The game screen containing the combat feature.
  *
@@ -42,6 +41,7 @@ public class CombatScreen extends ScreenAdapter {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
           "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
+
   };
   private boolean isPaused = false;
   private final GdxGame game;
@@ -54,6 +54,7 @@ public class CombatScreen extends ScreenAdapter {
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea gameArea;
+
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -160,8 +161,8 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, manager))
-        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
+        .addComponent(new CombatActions(this.game, manager, enemy))
+        .addComponent(new CombatExitDisplay(enemy))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)

@@ -1,6 +1,7 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
@@ -8,15 +9,14 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.DialogueBoxService;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
 
 /**
  * Manages, tracks and updates the quests within the game.
@@ -50,6 +50,7 @@ public class QuestManager extends Component {
                 "Cow", new String[]{"2 Task Quest"}
         );
         this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
     }
 
     /**
@@ -72,6 +73,7 @@ public class QuestManager extends Component {
                 collectPotions, listenAdvice, exploreWild, retrieveWeapon
         };
     }
+
 
     /**Sets up the dialogue for quests. */
     private Map<DialogueKey, String[]> createQuestDialogues() {
@@ -181,7 +183,6 @@ public class QuestManager extends Component {
         inventory.questItemListen("Defense Potion", 5);
     }
 
-
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -200,6 +201,7 @@ public class QuestManager extends Component {
     private void subscribeToAchievementEvents(QuestHidden achievement) {
         player.getEvents().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
     }
+
     /**
      * Adds a new quest to the manager.
      * @param quest The quest to be added.
@@ -210,10 +212,6 @@ public class QuestManager extends Component {
         subscribeToQuestEvents(quest);
     }
 
-    /**
-     * Add a achievement to the overall list of achievements.
-     * @param achievement The achievement being added.
-     */
     public void addAchievement(QuestHidden achievement) {
         achievements.put(achievement.getQuestName(), achievement);
         subscribeToAchievementEvents(achievement);
@@ -254,15 +252,6 @@ public class QuestManager extends Component {
     }
 
     /**
-     * Get the class representation of an achievement.
-     * @param achievementName The name of the achievement being got.
-     * @return The class representation of the achievement.
-     */
-    public QuestHidden getAchievement(String achievementName) {
-        return achievements.get(achievementName);
-    }
-
-    /**
      * Checks if quest is failed.
      * @param questName The name of the quest to fail.
      */
@@ -276,7 +265,7 @@ public class QuestManager extends Component {
 
 
     /**
-     * Progresses the  quest based on completion and updates the quest status..
+     * Progresses the quest based on completion and updates the quest status.
      * @param questName The name of the quest.
      * @param taskName  The name of the task.
      */

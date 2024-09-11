@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ComponentType;
-import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,7 +218,7 @@ public class Entity {
   /** Dispose of the entity. This will dispose of all components on this entity. */
   public void dispose() {
     for (Component component : createdComponents) {
-      component.dispose();
+      if(!component.getClass().equals(AnimationRenderComponent.class)) {component.dispose();}
     }
     ServiceLocator.getEntityService().unregister(this);
   }

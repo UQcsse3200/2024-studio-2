@@ -3,11 +3,11 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.*;
 
 /**
  * This class listens to events relevant to the combat screen and does something when one of the
@@ -17,36 +17,34 @@ public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
   private final CombatManager manager;
+  private Entity enemy;
 
-  public CombatActions(GdxGame game, CombatManager manager) {
+
+    public CombatActions(GdxGame game, CombatManager manager, Entity enemy) {
     this.game = game;
+    this.enemy = enemy;
     this.manager = manager;
   }
 
   @Override
   public void create() {
-    entity.getEvents().addListener("returnToMainGame", this::onReturnToMainGame);
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-  }
+    entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
 
-  private void onReturnToMainGame(Screen screen, ServiceContainer container) {
-    logger.info("Returning to main game screen");
-    // change to new GDXgame function
-    game.setOldScreen(screen, container);
   }
 
   /**
    * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
    * 'Kills' enemy entity on return to combat screen.
    */
-  private void onCombatWin(Screen screen, ServiceContainer container) {
+  private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
 
@@ -56,7 +54,7 @@ public class CombatActions extends Component {
   private void onCombatLoss(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat loss.");
     // Set current screen to original MainGameScreen
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
   }
   private void onAttack(Screen screen, ServiceContainer container) {
     logger.info("Attack selected.");
@@ -66,7 +64,14 @@ public class CombatActions extends Component {
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("before Guard");
     // Perform Guard logic here, like increasing health
+  }
 
+  /**
+   * Switches to the end game stats screen upon defeating the final Kanga Boss.
+   */
+  private void onKangaDefeated() {
+    logger.info("Switching to end game stats screen.");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
   }
   private void onSleep(Screen screen, ServiceContainer container) {
     logger.info("before Sleep");
@@ -78,6 +83,7 @@ public class CombatActions extends Component {
     // Perform Guard logic here, like increasing health
 
   }
+
   /**
    * Called when the screen is disposed to free resources.
    */

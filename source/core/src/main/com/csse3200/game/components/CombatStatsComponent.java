@@ -19,20 +19,23 @@ public class CombatStatsComponent extends Component {
   private int speed;
   private int experience;
   private boolean isPlayer;
+  private boolean isBoss;
+
   private final int maxHunger;
   private int maxExperience;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
-      this.maxHealth = health;
-      this.maxHunger = hunger;
-      this.maxExperience=100;
-      this.isPlayer = isPlayer;
-      setHealth(health);
-      setHunger(hunger);
-      setStrength(strength);
-      setDefense(defense);
-      setSpeed(speed);
-      setExperience(experience);
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer, boolean isBoss) {
+    this.maxHealth = health;
+    this.maxHunger = hunger;
+    this.maxExperience=100;
+    this.isPlayer = isPlayer;
+    this.isBoss = isBoss;
+    setHealth(health);
+    setHunger(hunger);
+    setStrength(strength);
+    setDefense(defense);
+    setSpeed(speed);
+    setExperience(experience);
 
   }
 
@@ -43,6 +46,15 @@ public class CombatStatsComponent extends Component {
    */
   public Boolean isDead() {
     return health == 0;
+  }
+
+  /**
+   * Returns true if the entity's is a boss, otherwise false.
+   *
+   * @return is player dead
+   */
+  public Boolean isBoss() {
+    return this.isBoss;
   }
 
   /**
