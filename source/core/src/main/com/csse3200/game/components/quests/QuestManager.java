@@ -236,7 +236,7 @@ public class QuestManager extends Component {
 
     private void handleQuestCompletion(QuestBasic quest) {
         if (!quest.isSecret()) {
-            //questComplete.play();
+            questComplete.play();
             player.getEvents().trigger("questCompleted");
             player.getEvents().trigger(quest.getQuestName());
             logger.info("{} completed!", quest.getQuestName());

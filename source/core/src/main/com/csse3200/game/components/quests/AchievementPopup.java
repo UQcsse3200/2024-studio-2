@@ -1,7 +1,6 @@
 package com.csse3200.game.components.quests;
 
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -12,31 +11,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-import javax.sound.midi.Sequence;
 
 
 /**
- * A popup UI that displays a popup message when a achievement is completed.
+ * AchievementPopup is an UIComponent that displays whenever the player completes a new achievement and then disappears.
  */
 public class AchievementPopup extends UIComponent {
-    /** Flag to see if popup is displaying. */
+    // Flag to see if popup is displaying.
     private boolean showing;
-    /** Label for achievement completion. */
+    // Image for achievement completion. */
     private Image popup;
 
-    /** Scale of font size. */
-    private static final float FONTSCALE = 2f;
 
-    /**
-     * Adds the listener for the label to trigger the popup.
-     */
+
 
     public AchievementPopup() {
         this.showing = false;
+
     }
 
     /**
-     * Initializes the component.
+     * Adds the listener for triggering the popup.
      */
     @Override
     public void create() {
@@ -45,17 +40,17 @@ public class AchievementPopup extends UIComponent {
     }
 
     /**
-     * Displays the label popup and draws it.
+     * Displays the popup on the current screen and save the completed achievement.
      */
-
     private void showPopup() {
-        showing = true;
-        generate();
+        if (!showing) {
+            generate();
+        }
         SaveHandler.save(GameState.class, "saves");
     }
 
     /**
-     * Draws the popup message and creates label.
+     * Handles drawing of the component. The actual rendering is managed by the stage.
      * @param batch The SpriteBatch used for drawing.
      */
     @Override
@@ -63,27 +58,32 @@ public class AchievementPopup extends UIComponent {
        // handled by the stage
     }
 
+    /**
+     * Creates the popup and adds it to the stage.
+     */
     public void generate() {
 
-        if(showing) {
+            showing = true;
+            // Create the popup image
             popup = new Image(new Texture(Gdx.files.internal("images/logbook-popup.png")));
-            //create the label
-
-            // Position label and calculates position
+            // Calculate and position the popup
             float screenHeight = Gdx.graphics.getHeight();
             float screenWidth = Gdx.graphics.getWidth();
             float displayX = screenWidth * 0.8f;
             float displayY = screenHeight * 0.8f;
             popup.setPosition(displayX, displayY);
-            //defines actions for label created
 
+
+            // Add actions to the popup
             SequenceAction sequence = new SequenceAction();
-            sequence.addAction(Actions.delay(1f));
+            sequence.addAction(Actions.delay(2f));
             sequence.addAction(Actions.run(this::dispose));
             popup.addAction(sequence);
             stage.addActor(popup);
+
         }
-    }
+
+
     /**
      * Disposes of popup message.
      */
@@ -92,6 +92,7 @@ public class AchievementPopup extends UIComponent {
         if (popup != null) {
             popup.clear();
             popup.remove();
+            showing = false;
             popup = null;
         }
         super.dispose();

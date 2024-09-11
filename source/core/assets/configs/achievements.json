@@ -1,12 +1,4 @@
 [
-{
-  "questName": "steps",
-  "questDescription": "These boots have seen everything",
-  "completed": false,
-  "seen": false,
-  "type": "ITEM",
-  "iconPath": "images/logbook-popup.png"
-},
   {
     "questName": "AppleAdvancement",
     "questDescription": "Collect your first apple!",
