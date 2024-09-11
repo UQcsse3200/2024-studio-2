@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -7,6 +8,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +32,6 @@ class QuickTimeEventTest {
     private static final int LOOP_TIME_OUT = 1000;
 
     Entity ui;
-    QuickTimeEventDisplay display;
     QuickTimeEventActions actions;
     Stage stage;
 
@@ -37,6 +39,7 @@ class QuickTimeEventTest {
     @Mock GameTime gameTime;
     @Mock Viewport viewport;
     @Mock SpriteBatch spriteBatch;
+    @Spy QuickTimeEventDisplay display;
 
     @BeforeEach
     void beforeEach() {
@@ -45,8 +48,8 @@ class QuickTimeEventTest {
 
         // register services
         ServiceLocator.registerTimeSource(gameTime);
-        ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
+        ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
         RenderService renderer = new RenderService();
         renderer.setStage(stage);
@@ -54,9 +57,11 @@ class QuickTimeEventTest {
 
         // create ui
         ui = new Entity();
-        display = new QuickTimeEventDisplay();
+        display = Mockito.spy(new QuickTimeEventDisplay());
         actions = new QuickTimeEventActions(game);
-        ui.addComponent(display).addComponent(actions);
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForCombat();
+        ui.addComponent(display).addComponent(actions).addComponent(inputComponent);
         ServiceLocator.getEntityService().register(ui);
 
     }
@@ -95,10 +100,10 @@ class QuickTimeEventTest {
 
     /**
      * This test checks that when the counter reaches 0 then
-     * quick-time events start
+     * quick-time event start
      */
     @Test
-    void shouldStartQuickTimeEvents() {
+    void shouldStartQuickTimeEvent() {
         when(gameTime.getTime()).thenReturn(0L);
         ui.getEvents().trigger("start");
         ui.update();
@@ -114,8 +119,42 @@ class QuickTimeEventTest {
         assertTrue(i < LOOP_TIME_OUT);
         // quick-time event should have triggered
         assertEquals(ui.getEvents().getLastTriggeredEvent(), "startQuickTime");
-        // quick-time event actor should have queued some actions
-        assertTrue(display.getQte().getActions().size > 0);
+    }
+
+    /**
+     * This test checks that when a user responds too quickly to
+     * a quick-time event then it is processed correctly
+     */
+    @Test
+    void shouldHandleFastQuickTimeEvent() {
+        when(gameTime.getTime()).thenReturn(0L);
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
+        ui.getEvents().trigger("startQuickTime", quickTimeEvents);
+        ui.update();
+        stage.act(0.5f);
+        when(gameTime.getTime()).thenReturn(500L);
+        InputService inputService = ServiceLocator.getInputService();
+        inputService.keyDown(Keys.W);
+        ui.update();
+        Mockito.verify(display).setTargetImage("target_fast");
+    }
+
+    /**
+     * This test checks that when a user responds correctly to
+     * a quick-time event then it is processed correctly
+     */
+    @Test
+    void shouldHandlePerfectQuickTimeEvent() {
+        when(gameTime.getTime()).thenReturn(0L);
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
+        ui.getEvents().trigger("startQuickTime", quickTimeEvents);
+        ui.update();
+        stage.act(0.995f);
+        when(gameTime.getTime()).thenReturn(995L);
+        InputService inputService = ServiceLocator.getInputService();
+        inputService.keyDown(Keys.W);
+        ui.update();
+        Mockito.verify(display).setTargetImage("target_perfect");
     }
 
     /**

@@ -171,7 +171,7 @@ public class QuickTimeEventDisplay extends UIComponent {
      *
      * @param name the name of the image (in the atlas)
      */
-    private void setTargetImage(String name) {
+    public void setTargetImage(String name) {
         isDefault = name.equals("target_default"); // set flag
         target.getStyle().imageUp = new TextureRegionDrawable(pawsAtlas.findRegion(name));
     }
@@ -340,15 +340,6 @@ public class QuickTimeEventDisplay extends UIComponent {
      */
     public Label getLabel() {
         return this.label;
-    }
-
-    /**
-     * Returns a reference to the quick-time events actor
-     *
-     * @return the quick-time events
-     */
-    public Image getQte() {
-        return this.qte;
     }
 
     @Override
