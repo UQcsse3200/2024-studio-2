@@ -1,23 +1,15 @@
 package com.csse3200.game.components.story;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -30,9 +22,6 @@ public class StoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StoryDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-    private Table settingMenu;
-    private SettingsMenuDisplay settingsMenuDisplay;
-    private TextButton toggleWindowBtn;
     private final Texture backgroundTexture0 = new Texture("images/Story/DogStory1.png");
     private final Texture backgroundTexture1 = new Texture("images/Story/DogStory2.png");
     private final Texture backgroundTexture2 = new Texture("images/Story/DogStory3.png");
@@ -77,8 +66,6 @@ public class StoryDisplay extends UIComponent {
     private void addActors() {
         table = new Table();
         table.setFillParent(true);
-
-        settingMenu = new Table();
 
         // Initialises buttons
         TextButton nextBtn = new TextButton("Next", skin);
@@ -145,8 +132,6 @@ public class StoryDisplay extends UIComponent {
         stage.addActor(topRightTable);
         stage.addActor(table);
 
-        // Adds the setting menu to program
-        addSettingMenu();
     }
 
     /**
@@ -160,148 +145,6 @@ public class StoryDisplay extends UIComponent {
         } else {
             // Small screen sizing
             table.setBounds(0,-350,200,1000);
-        }
-    }
-
-    /**
-     * Adds a minimize button to the top-right corner of the screen.
-     * This button toggles between fullscreen and windowed mode.
-     */
-    private void addMinimizeButton() {
-        if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("->", skin); // Start with the minus (minimize) icon
-        } else {
-            toggleWindowBtn = new TextButton("+", skin);
-        }
-
-        toggleWindowBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                boolean isFullscreen = Gdx.graphics.isFullscreen();
-                if (isFullscreen) {
-                    // Switch to windowed mode
-                    Gdx.graphics.setWindowedMode(1200, 750);
-                } else {
-                    // Switch to fullscreen mode
-                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-                }
-                updateSettingMenu();
-                updateToggleWindowButtonText(); // Update text after toggling
-                logger.info("Fullscreen toggled: " + !isFullscreen);
-                sizeTable();
-            }
-        });
-
-        Table topRightTable = new Table();
-        topRightTable.top().right();
-        topRightTable.setFillParent(true);
-        topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
-
-        stage.addActor(topRightTable);
-    }
-
-    /**
-     * Updates the text of the minimize button based on screen mode.
-     */
-    private void updateToggleWindowButtonText() {
-        boolean isFullscreen = Gdx.graphics.isFullscreen();
-        if (isFullscreen) {
-            toggleWindowBtn.setText("-"); // Show minus for minimizing
-        } else {
-            toggleWindowBtn.setText("+"); // Show plus for maximizing
-        }
-    }
-
-    /**
-     * Adds a settings menu to the screen.
-     */
-    private void addSettingMenu() {
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE); // Set color to white
-        pixmap.fill();
-
-        // Create a Drawable from the Pixmap
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-
-        // Dispose of the Pixmap after creating the texture
-        pixmap.dispose();
-
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        settingMenu.setSize(550, 350);
-        settingMenu.setBackground(backgroundDrawable);
-        settingMenu.setVisible(false);
-
-        Table topTable = new Table();
-        topTable.top().padTop(10);
-
-        Label title = new Label("Settings", skin, "title");
-
-        topTable.add(title).expandX().center();
-        topTable.row();
-
-        TextButton closeButton = new TextButton("X", skin);
-        topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
-
-        settingsMenuDisplay = new SettingsMenuDisplay();
-        Table contentTable = settingsMenuDisplay.makeSettingsTable();
-
-        // Create a table for the "Apply" button
-        Table bottomRightTable = new Table();
-        bottomRightTable.bottom(); // Align contents to bottom-right
-
-        TextButton applyButton = new TextButton("Apply", skin);
-        bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
-
-        settingMenu.add(topTable).expandX().fillX(); // Top-right table
-        settingMenu.row().padTop(30f);
-        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
-        settingMenu.row().padTop(30f);
-        settingMenu.add(bottomRightTable).expandX().right().padLeft(100); // Bottom-right table
-
-        // Center the menu on the screen
-        settingMenu.setPosition(
-                (screenWidth - settingMenu.getWidth()) / 2,
-                (screenHeight - settingMenu.getHeight()) / 2
-        );
-
-        stage.addActor(settingMenu);
-
-        closeButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        settingMenu.setVisible(false);
-                        table.setTouchable(Touchable.enabled);
-                    }
-                });
-
-        // Add event listener for the "Apply" button
-        applyButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Apply button clicked");
-                        settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
-                        settingMenu.setVisible(false); // Optionally hide the settings menu
-                        table.setTouchable(Touchable.enabled);
-                    }
-                });
-    }
-
-    /**
-     * Updates the position of the settings menu based on screen size.
-     */
-    public void updateSettingMenu() {
-        if (settingMenu != null) {
-            // Center the menu on the screen
-            float screenWidth = Gdx.graphics.getWidth();
-            float screenHeight = Gdx.graphics.getHeight();
-            settingMenu.setPosition(
-                    (screenWidth - settingMenu.getWidth()) / 2,
-                    (screenHeight - settingMenu.getHeight()) / 2
-            );
         }
     }
 
