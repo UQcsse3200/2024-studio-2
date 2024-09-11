@@ -1,9 +1,6 @@
 package com.csse3200.game.entities.factories;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.entities.DialogueBoxService;
@@ -22,12 +19,10 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
-import org.mockito.ArgumentCaptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -606,7 +601,10 @@ class NPCFactoryTest {
     void TestMagpieHasCorrectBaseHint() {
         String[] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Maggie the Magpie."}, baseHint);
+        Assertions.assertArrayEquals(new String[]{"WHO GOES THERE!!",
+                "If you want to get past me you must pay",
+                "Go play a game and collect me some coins",
+                "/mbOr I will claw your eyes out!"}, baseHint);
     }
 
     /**
