@@ -86,8 +86,8 @@ public class AudioManager {
     public static void unmuteAudio() {
         if (isMuted) {
             // Restore desired volumes when unmuted
-            musicVolume = scaleVolume(desiredMusicVolume);
-            soundVolume = scaleVolume(desiredSoundVolume);
+            musicVolume = desiredMusicVolume;
+            soundVolume = desiredSoundVolume;
 
             if (currentMusic != null) {
                 currentMusic.setVolume(musicVolume);
