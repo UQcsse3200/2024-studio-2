@@ -72,7 +72,6 @@ public class PlayerFactory {
 
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
-                .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup());
         player.addComponent((new StatManager()));
 
@@ -81,6 +80,9 @@ public class PlayerFactory {
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());
+
+        // Add QuestManager to player
+        player.addComponent(new QuestManager(player));
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);

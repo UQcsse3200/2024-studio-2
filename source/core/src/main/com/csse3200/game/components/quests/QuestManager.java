@@ -135,6 +135,7 @@ public class QuestManager extends Component {
 
         List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
         QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
+        setupPotionsTask(); // Set up potion collection logic here
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
@@ -306,10 +307,6 @@ public class QuestManager extends Component {
         QuestBasic quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
-        }
-
-        if (questName.equals("First Steps")) {
-            setupPotionsTask();
         }
 
         Task currentTask = quest.getTasks().get(quest.getProgression());
