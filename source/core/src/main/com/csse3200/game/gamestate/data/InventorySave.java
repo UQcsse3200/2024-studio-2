@@ -43,7 +43,7 @@ public class InventorySave implements Json.Serializable {
                     AbstractItem newItem = (AbstractItem) con.newInstance(item.get("quantity").asInt());
                     newItems.add(newItem);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    throw new IllegalStateException(e);
                 }
             } else {
                 newItems.add(null);

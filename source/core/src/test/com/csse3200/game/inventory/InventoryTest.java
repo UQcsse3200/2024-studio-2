@@ -6,15 +6,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.food.Foods;
+import com.csse3200.game.inventory.items.potions.HealingPotion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.util.List;
 
 
 @ExtendWith(GameExtension.class)
@@ -237,5 +243,33 @@ class InventoryTest {
         for (int i = 0; i < 5; i++) {
             assertEquals(names[4-i], inventory.getAt(i).getName());
         }
+    }
+
+    @Test
+    void shouldSaveLoadInventoryContents() {
+        Inventory inventory = new Inventory(3);
+        inventory.loadInventoryFromSave();
+
+        inventory.add(new Foods.Apple(1));
+        inventory.add(new HealingPotion(2));
+
+        SaveHandler.save(GameState.class, "test/saves/inventory");
+
+        GameState.inventory.inventoryContent = new AbstractItem[0];
+
+        SaveHandler.load(GameState.class, "test/saves/inventory");
+
+        inventory.loadInventoryFromSave();
+
+        assertTrue(inventory.hasItem("Health Potion"));
+        assertTrue(inventory.hasItem("Apple"));
+
+        assertEquals(1, inventory.getAt(inventory.getIndex("Apple")).getQuantity());
+        assertEquals("This is a health potion",
+                inventory.getAt(inventory.getIndex("Health Potion")).getDescription());
+
+        GameState.inventory.inventoryContent = new AbstractItem[0];
+
+        SaveHandler.delete(GameState.class, "test/saves/inventory");
     }
 }
