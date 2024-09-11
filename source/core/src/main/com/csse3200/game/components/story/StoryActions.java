@@ -1,7 +1,11 @@
 package com.csse3200.game.components.story;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +31,13 @@ public class StoryActions extends Component {
      * Exits the game.
      */
     private void onNext() {
-        logger.info("Exit game");
-        game.exit();
+        logger.debug("Creating UI");
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        Entity ui = new Entity();
+        ui.addComponent(new StoryDisplay(1))
+                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new StoryActions(game));
+        ServiceLocator.getEntityService().register(ui);
     }
 
     private void onBack() {

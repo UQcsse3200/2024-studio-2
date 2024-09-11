@@ -33,7 +33,14 @@ public class StoryDisplay extends UIComponent {
     private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
     private TextButton toggleWindowBtn;
-    private Texture backgroundTexture;
+    private final Texture backgroundTexture = new Texture("images/Story/DogStory1.png");
+    private final Texture backgroundTexture1 = new Texture("images/Story/DogStory2.png");
+    private int screenNum;
+
+    public StoryDisplay(int screenNum) {
+        super();
+        this.screenNum = screenNum;
+    }
 
     /**
      * Called when the component is created. Initializes the Game Over win UI.
@@ -44,7 +51,6 @@ public class StoryDisplay extends UIComponent {
         logger.info("Creating StoryDisplay");
         addActors();
         applyUserSettings();
-        backgroundTexture = new Texture("images/Story/DogStory1.png");
         logger.info("Background texture loaded");
     }
 
@@ -301,7 +307,10 @@ public class StoryDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        switch (screenNum) {
+            case 0 -> batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            case 1 -> batch.draw(backgroundTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
         batch.end();
     }
 

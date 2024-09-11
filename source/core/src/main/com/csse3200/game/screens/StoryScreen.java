@@ -66,7 +66,7 @@ public class StoryScreen extends ScreenAdapter {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay())
+        ui.addComponent(new StoryDisplay(0))
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new StoryActions(game));
         ServiceLocator.getEntityService().register(ui);
