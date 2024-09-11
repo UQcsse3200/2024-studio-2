@@ -65,7 +65,7 @@ public class QuickTimeEventActions extends Component {
      * @returns list of quick-time events
      */
     private static QuickTimeEvent[] quickTimeEventsDemo() {
-        float delay = 0.1f;
+        float delay = 0.2f;
         float[] durations = {0.7f, 0.65f, 0.55f, 0.45f};
         QuickTimeEvent[] quickTimeEvents = new QuickTimeEvent[durations.length];
         for (int i = 0; i < durations.length; i++) {
