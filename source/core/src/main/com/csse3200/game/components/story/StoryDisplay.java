@@ -94,13 +94,15 @@ public class StoryDisplay extends UIComponent {
             }
         });
 
-        backBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Back button clicked");
-                entity.getEvents().trigger("back");
-            }
-        });
+        if (screenNum != 0) {
+            backBtn.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent changeEvent, Actor actor) {
+                    logger.debug("Back button clicked");
+                    entity.getEvents().trigger("back", screenNum);
+                }
+            });
+        }
 
         // Added the pop-up when user trys to exit game
         //addExitConfirmation(exitBtn);
@@ -108,8 +110,12 @@ public class StoryDisplay extends UIComponent {
         // formats sizes of buttons
         table.add(nextBtn).padTop(15f).width(180f).height(45f);
         table.row();
-        table.add(backBtn).padTop(15f).height(45f).width(180f);
-        table.row();
+
+        if (screenNum != 0) {
+            table.add(backBtn).padTop(15f).height(45f).width(180f);
+            table.row();
+        }
+
         table.add(versionLabel).padTop(50f);
         table.row();
 

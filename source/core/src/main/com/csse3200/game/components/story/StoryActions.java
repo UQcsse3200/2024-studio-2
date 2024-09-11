@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class StoryActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(StoryActions.class);
     private final GdxGame game;
+    private final int finalScreen = 5;
 
     public StoryActions(GdxGame game) {
         this.game = game;
@@ -31,6 +32,10 @@ public class StoryActions extends Component {
      * Exits the game.
      */
     private void onNext(int screenNum) {
+        if(screenNum == finalScreen) {
+            game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+            return;
+        }
         screenNum += 1;
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
@@ -41,9 +46,15 @@ public class StoryActions extends Component {
         ServiceLocator.getEntityService().register(ui);
     }
 
-    private void onBack() {
-        logger.info("Launching achievements screen");
-        game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
+    private void onBack(int screenNum) {
+        screenNum -= 1;
+        logger.debug("Creating UI");
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        Entity ui = new Entity();
+        ui.addComponent(new StoryDisplay(screenNum))
+                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new StoryActions(game));
+        ServiceLocator.getEntityService().register(ui);
     }
 
 }

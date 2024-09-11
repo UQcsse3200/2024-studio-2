@@ -53,7 +53,7 @@ public class StoryScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing main menu screen");
+        logger.debug("Disposing story screen");
 
         renderer.dispose();
         ServiceLocator.getRenderService().dispose();
