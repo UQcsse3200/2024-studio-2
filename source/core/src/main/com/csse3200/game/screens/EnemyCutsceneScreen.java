@@ -183,6 +183,13 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         logger.debug("Creating cutscene UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
 
+        // Load background texture and create Image actor
+        Texture backgroundTexture = new Texture("images/transitionBg.jpg");
+        Image backgroundImage = new Image(backgroundTexture);
+
+        // Set background image to cover the whole screen
+        backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         Texture enemyImageTexture;
         BitmapFont defaultFont = new BitmapFont();
         defaultFont.getData().setScale(2.0f);
@@ -242,19 +249,19 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         Image enemyImage = new Image(enemyImageTexture);
 
-        // Animate enemy name label (flash effect)
-        enemyNameLabel.addAction(
-                Actions.sequence(
-                        Actions.alpha(0f),
-                        Actions.repeat(5,
-                                Actions.sequence(
-                                        Actions.fadeIn(0.2f),
-                                        Actions.fadeOut(0.2f)
-                                )
-                        ),
-                        Actions.fadeIn(0.2f) // Finally, keep it visible
-                )
-        );
+       // Animate enemy name label (flash effect)
+//        enemyNameLabel.addAction(
+//                Actions.sequence(
+//                        Actions.alpha(0f),
+//                        Actions.repeat(5,
+//                                Actions.sequence(
+//                                        Actions.fadeIn(0.2f),
+//                                        Actions.fadeOut(0.2f)
+//                                )
+//                        ),
+//                        Actions.fadeIn(0.2f) // Finally, keep it visible
+//                )
+//        );
 
         // Centered positions
         float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
@@ -274,7 +281,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Animate enemy name label (slide-in effect)
         enemyNameLabel.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX + 250, centerY - 80, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + 200, centerY - 10, 2f, Interpolation.pow5Out)
                 )
         );
 
@@ -284,24 +291,37 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         table.center();
 
         // Add elements to the table with spacing
-        table.add(enemyImage).width(500).height(500); // Pad bottom for spacing
+        table.add(enemyImage).width(500).height(400);
         table.row();
-        table.add(enemyNameLabel).padBottom(5);
+        table.add(enemyNameLabel).padBottom(5); // Pad bottom for spacing
         table.row();
-        table.add(healthLabel).padBottom(5); // Pad bottom for spacing
+        table.add(healthLabel).padBottom(5);
         table.row();
-        table.add(hungerLabel).padBottom(5); // Pad bottom for spacing
+        table.add(hungerLabel).padBottom(5);
         table.row();
-        table.add(strengthLabel).padBottom(5); // Pad bottom for spacing
+        table.add(strengthLabel).padBottom(5);
         table.row();
-        table.add(defenseLabel).padBottom(5); // Pad bottom for spacing
+        table.add(defenseLabel).padBottom(5);
         table.row();
-        table.add(speedLabel).padBottom(5); // Pad bottom for spacing
+        table.add(speedLabel).padBottom(5);
         table.row();
         table.add(experienceLabel).padBottom(5);;
 
+        table.addAction(
+                Actions.sequence(
+                        Actions.alpha(0f),
+                        Actions.repeat(5,
+                                Actions.sequence(
+                                        Actions.fadeIn(0.2f),
+                                        Actions.fadeOut(0.2f)
+                                )
+                        ),
+                        Actions.fadeIn(0.2f) // Finally, keep it visible
+                )
+        );
 
-        // Add actors to stage
+        // Add actors to stage, with background first
+        stage.addActor(backgroundImage);
         stage.addActor(topBar);
         stage.addActor(bottomBar);
         stage.addActor(table);
