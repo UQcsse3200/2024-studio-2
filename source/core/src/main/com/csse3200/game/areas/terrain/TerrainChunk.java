@@ -34,11 +34,13 @@ public class TerrainChunk {
 
   public Array<Tile> tiles;
   public Array<BitSet> grid;
+  private BitSet collapsedTiles;
 
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
     this.grid = new Array<BitSet>(256);
+    this.collapsedTiles = new BitSet(256);
 
     for (int i = 0; i < 256; ++i) {
       BitSet bitset = new BitSet(TerrainResource.TILE_SIZE);
@@ -99,6 +101,8 @@ public class TerrainChunk {
 
       if (minentropyTiles.size == 0)
         break;
+
+
       Integer randomTile = minentropyTiles.random();
       // int randomTile = t;
       GridPoint2 toGridpos = new GridPoint2(randomTile % 16, randomTile / 16);
@@ -122,9 +126,26 @@ public class TerrainChunk {
       CCell cell = new CCell();
       cell.setTile(terrainResource.getTilebyIndex(randomTrueBitIndex), terrainResource);
       ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + toGridpos.x, cPosY + toGridpos.y, cell);
+      collapsedTiles.set(randomTile);
 
       updateGrid();
     }
+    // set the rest of the empty tiles
+    int currentBit = 0;
+    for (int i = 0; i < collapsedTiles.size() - collapsedTiles.cardinality(); ++i) {
+      currentBit = collapsedTiles.nextClearBit(currentBit);
+
+      GridPoint2 Gridpos = new GridPoint2(currentBit % 16, currentBit / 16);
+      
+      CCell cell = new CCell();
+      cell.setTile(terrainResource.getTilebyIndex(4), terrainResource);
+      ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + Gridpos.x, cPosY + Gridpos.y, cell);
+      
+      currentBit++;
+    }
+    
+
+
     return allCollapsed;
   }
 

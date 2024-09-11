@@ -11,6 +11,7 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.entities.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.terrain.TerrainChunk;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
@@ -148,7 +149,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     spawnEntity(new Entity().addComponent(terrain));
 
     // // Terrain walls
