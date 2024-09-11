@@ -174,15 +174,6 @@ public class NPCFactory {
       }
     }
   }
-  // TODO: Fix this so comment this method out if need be
-//  public static void registerFriendlyNPC(Entity npc) {
-//    // Register the NPC as a friendly one
-//    BaseFriendlyEntityConfig chicken = configs.chicken;
-//    createFriendlyNPC(npc, ForestGameArea.enemies, chicken);
-//    npc.getEvents().trigger("onFriendlyNPCCreated");
-//    // Need to add additional logic
-////
-//  }
 
   /**
    * Ends a dialogue and takes it off the screen

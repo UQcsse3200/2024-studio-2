@@ -32,16 +32,16 @@ public class ItemProximityTask extends ProximityTask {
         this.hasApproached = false;
     }
 
-//    /**
-//     * Starts the task by adding an event listener for the "pickupItem" event.
-//     * The event is triggered when the Player presses P.
-//     */
-//    @Override
-//    public void start() {
-//        super.start();
-//        this.target.getEvents().addListener("pickUpItem", this::addToInventory);
-//    }
-//
+    /**
+     * Starts the task by adding an event listener for the "pickupItem" event.
+     * The event is triggered when the Player presses P.
+     */
+    @Override
+    public void start() {
+        super.start();
+        this.target.getEvents().addListener("pickUpItem", this::addToInventory);
+    }
+
     /**
      *Adds the item to the players' inventory if they are near the item and haven't picked it up
      * Disposes of the item entity once it has been picked up and logs the event
