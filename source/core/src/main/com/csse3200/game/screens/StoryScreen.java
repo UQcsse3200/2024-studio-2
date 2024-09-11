@@ -3,7 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.gameover.GameOverActions;
+import com.csse3200.game.components.story.StoryActions;
 import com.csse3200.game.components.story.StoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -68,7 +68,7 @@ public class StoryScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new StoryDisplay())
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new GameOverActions(game));
+                .addComponent(new StoryActions(game));
         ServiceLocator.getEntityService().register(ui);
     }
 }

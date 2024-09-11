@@ -84,6 +84,14 @@ public class StoryDisplay extends UIComponent {
             }
         });
 
+        backBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Back button clicked");
+                entity.getEvents().trigger("back");
+            }
+        });
+
         // Added the pop-up when user trys to exit game
         //addExitConfirmation(exitBtn);
 
