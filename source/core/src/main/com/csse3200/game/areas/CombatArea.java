@@ -85,7 +85,7 @@ public class CombatArea extends GameArea {
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
      * has engaged combat with.
      *
-     * @param combatTerrainFactory CombatTerrainFactory used to create the terrain for the GameArea.
+     * @param terrainFactory CombatTerrainFactory used to create the terrain for the GameArea.
      * @requires terrainFactory != null
      */
     // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
@@ -126,8 +126,8 @@ public class CombatArea extends GameArea {
 
     private void spawnTerrain() {
         terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
-        Entity t = new Entity();
-        spawnEntityAt((t.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
+        Entity terrainEntity = new Entity();
+        spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
 
     /** Spawn a static player entity as an NPC for static combat

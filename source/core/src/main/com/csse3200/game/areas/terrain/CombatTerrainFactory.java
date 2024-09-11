@@ -111,13 +111,6 @@ public class CombatTerrainFactory {
         camera.setToOrtho(false, screenSize.x, screenSize.y);
         camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
 
-        // Print debugging information
-        System.out.println("Background Width: " + backgroundWidth);
-        System.out.println("Background Height: " + backgroundHeight);
-        System.out.println("Scaled Width: " + scaledWidth);
-        System.out.println("Scaled Height: " + scaledHeight);
-        System.out.println("Screen Size: " + screenSize);
-
         // Return the TerrainComponent with the background image rendering setup
         return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f); // 1f scale used for background
     }
@@ -132,47 +125,6 @@ public class CombatTerrainFactory {
                 return new HexagonalTiledMapRenderer(tiledMap, tileScale);
             default:
                 return null;
-        }
-    }
-
-    private TiledMap createForestDemoTiles(
-            GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
-        TiledMap tiledMap = new TiledMap();
-        TerrainTile grassTile = new TerrainTile(grass);
-        TerrainTile grassTuftTile = new TerrainTile(grassTuft);
-        TerrainTile rockTile = new TerrainTile(rocks);
-        TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
-
-        // Create base grass
-        fillTiles(layer, MAP_SIZE, grassTile);
-
-        // Add some grass and rocks
-        fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
-        fillTilesAtRandom(layer, MAP_SIZE, rockTile, ROCK_TILE_COUNT);
-
-        tiledMap.getLayers().add(layer);
-        return tiledMap;
-    }
-
-    private static void fillTilesAtRandom(
-            TiledMapTileLayer layer, GridPoint2 mapSize, TerrainTile tile, int amount) {
-        GridPoint2 min = new GridPoint2(0, 0);
-        GridPoint2 max = new GridPoint2(mapSize.x - 1, mapSize.y - 1);
-
-        for (int i = 0; i < amount; i++) {
-            GridPoint2 tilePos = RandomUtils.random(min, max);
-            Cell cell = layer.getCell(tilePos.x, tilePos.y);
-            cell.setTile(tile);
-        }
-    }
-
-    private static void fillTiles(TiledMapTileLayer layer, GridPoint2 mapSize, TerrainTile tile) {
-        for (int x = 0; x < mapSize.x; x++) {
-            for (int y = 0; y < mapSize.y; y++) {
-                Cell cell = new Cell();
-                cell.setTile(tile);
-                layer.setCell(x, y, cell);
-            }
         }
     }
 

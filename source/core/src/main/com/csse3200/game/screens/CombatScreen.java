@@ -195,12 +195,6 @@ public class CombatScreen extends ScreenAdapter {
     }
   }
 
-  public void rest() {
-    logger.info("Screen is resting");
-    gameArea.pauseMusic();
-    ServiceLocator.getEntityService().restWholeScreen();
-  }
-
   public void wake() {
     logger.info("Screen is Awake");
     gameArea.playMusic();
