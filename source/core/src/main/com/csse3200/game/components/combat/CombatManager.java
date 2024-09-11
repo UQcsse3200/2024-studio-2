@@ -122,6 +122,10 @@ public class CombatManager extends Component {
     private Action selectEnemyMove() {
         Action enemyAction;
 
+        if (enemyStats.getStamina() < 25) {
+            return Action.SLEEP;
+        }
+
         int rand = enemyMove.hasSpecialMove() ? (int) (Math.random() * 4) : (int) (Math.random() * 3);
         enemyAction = switch (rand) {
             case 0 -> Action.ATTACK;
