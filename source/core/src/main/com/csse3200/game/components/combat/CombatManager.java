@@ -220,8 +220,6 @@ public class CombatManager extends Component {
 
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
-
-        checkCombatEnd();
     }
 
     /**
