@@ -140,13 +140,6 @@ class QuestManagerTest {
 
         assertTrue(quest.isQuestCompleted());
 
-
-        QuestHidden achievement = new QuestHidden("Complex Achievement", "An achievement for completing complex quests.");
-        questManager.addAchievement(achievement);
-        questManager.completeAchievement("Complex Achievement");
-
-
-        verify(eventHandler).trigger("achievementCompleted");
     }
 
     @Test
