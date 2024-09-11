@@ -40,6 +40,7 @@ public class StoryDisplay extends UIComponent {
     private final Texture backgroundTexture4 = new Texture("images/Story/DogStory5.png");
     private final Texture backgroundTexture5 = new Texture("images/Story/DogStory6.png");
     private final int screenNum;
+    private final int finalScreen = 5;
 
     public StoryDisplay(int screenNum) {
         super();
@@ -59,6 +60,7 @@ public class StoryDisplay extends UIComponent {
 
         entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
         entity.getEvents().addListener("backDisplay", this::onBackDisplay);
+        entity.getEvents().addListener("skip", this::onSkip);
     }
 
     /**
@@ -81,6 +83,7 @@ public class StoryDisplay extends UIComponent {
         // Initialises buttons
         TextButton nextBtn = new TextButton("Next", skin);
         TextButton backBtn = new TextButton("Back", skin);
+        TextButton skipBtn = new TextButton(">>", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
 
@@ -107,6 +110,14 @@ public class StoryDisplay extends UIComponent {
             });
         }
 
+        skipBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Skip button clicked");
+                entity.getEvents().trigger("skip");
+            }
+        });
+
         // Added the pop-up when user trys to exit game
         //addExitConfirmation(exitBtn);
 
@@ -129,7 +140,12 @@ public class StoryDisplay extends UIComponent {
         sizeTable();
 
         // Add the minimize button to the top-right corner
-        addMinimizeButton();
+        Table topRightTable = new Table();
+        topRightTable.top().right();
+        topRightTable.setFillParent(true);
+        topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
+
+        stage.addActor(topRightTable);
         stage.addActor(table);
 
         // Adds the setting menu to program
@@ -156,7 +172,7 @@ public class StoryDisplay extends UIComponent {
      */
     private void addMinimizeButton() {
         if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
+            toggleWindowBtn = new TextButton("->", skin); // Start with the minus (minimize) icon
         } else {
             toggleWindowBtn = new TextButton("+", skin);
         }
@@ -350,5 +366,10 @@ public class StoryDisplay extends UIComponent {
     private void onBackDisplay() {
         dispose();
         entity.getEvents().trigger("back", screenNum);
+    }
+
+    private void onSkip() {
+        dispose();
+        entity.getEvents().trigger("next", finalScreen);
     }
 }
