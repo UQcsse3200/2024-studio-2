@@ -1,9 +1,11 @@
 
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.ProjectileFactory;
 import com.csse3200.game.services.GameTime;
@@ -79,7 +81,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   private int getActivePriority() {
     float dst = getDistanceToTarget();
     if (dst > range) {
-      return -1; // Too far, stop chasing
+      return -1; // Too far, stop shooting
     }
     return priority;
   }
@@ -114,7 +116,18 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     // this.owner.getEntity().getEvents().trigger("shooting");  // Trigger shooting event
     lastShotTime = timer.getTime();  // Update the time of the last shot
     numShots++;  // Increase shot count
-    Entity banana = ProjectileFactory.createBanana(owner.getEntity());
-    // spawn banana
+    Entity banana = ProjectileFactory.createBanana(target);
+
+// Calculate bananaX and bananaY based on target's relative position
+    float bananaX = (owner.getEntity().getPosition().x - target.getPosition().x) > 0 ? -1 : 1;
+    float bananaY = (owner.getEntity().getPosition().y - target.getPosition().y) > 0 ? 1 : -1;
+
+// Calculate the new position using Vector2
+    Vector2 pos = new Vector2(owner.getEntity().getPosition().x + bananaX, owner.getEntity().getPosition().y + bananaY);
+
+
+// Spawn the banana entity at the calculated GridPoint2
+    GameArea currentGameArea = ServiceLocator.getGameArea();
+    currentGameArea.spawnEntityAtVector(banana, pos);
   }
 }
