@@ -71,7 +71,9 @@ public class AttackMove extends CombatMove {
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
                 int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);
-                logger.info("Attacker is inflicting {} damage", damage);
+                logger.info("{} attacks for {} damage.",
+                        attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
+                        damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
                 attackerStats.addStamina(-(this.getStaminaCost()));
             } else {

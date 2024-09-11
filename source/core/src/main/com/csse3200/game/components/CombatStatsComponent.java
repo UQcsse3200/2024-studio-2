@@ -51,6 +51,15 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Returns true if the entity is a player, otherwise false.
+   *
+   * @return is entity player
+   */
+  public Boolean isPlayer() {
+    return isPlayer;
+  }
+
+  /**
    * Returns true if the entity's has 0 health, otherwise false.
    *
    * @return is player dead

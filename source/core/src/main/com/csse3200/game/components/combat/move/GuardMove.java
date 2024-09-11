@@ -29,7 +29,9 @@ public class GuardMove extends CombatMove {
     @Override
     public void execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
-            logger.info("Guard Move: {} using {} stamina.", this.getMoveName(), this.getStaminaCost());
+            logger.info("{} guard using {} stamina.",
+                    attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
+                    this.getStaminaCost());
 
             attackerStats.addStamina(-(this.getStaminaCost()));
         } else {

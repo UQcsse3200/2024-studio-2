@@ -70,7 +70,8 @@ public class CombatManager extends Component {
         checkForConfusion(playerStats);
 
         enemyAction = selectEnemyMove();
-        logger.info("Player action = {}, enemy action = {}", playerAction, enemyAction);
+        logger.info("PLAYER action: {}, health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
+        logger.info("ENEMY action: {}, health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
@@ -87,7 +88,7 @@ public class CombatManager extends Component {
      */
     public void checkForConfusion(CombatStatsComponent playerStats) {
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
-            logger.info("Player is confused and will use a random move.");
+            logger.info("PLAYER is CONFUSED");
 
             int rand = (int) (Math.random() * 3);
             playerAction = switch (rand) {
@@ -106,7 +107,7 @@ public class CombatManager extends Component {
      */
     public void processStatusEffects(CombatStatsComponent entityStats) {
         if (entityStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            logger.info("Entity is bleeding and takes damage.");
+            logger.info("{} is BLEEDING", entityStats.isPlayer() ? "PLAYER" : "ENEMY");
             entityStats.setHealth(entityStats.getHealth() - 5);
         }
     }
@@ -249,13 +250,10 @@ public class CombatManager extends Component {
      * Triggers events based on whether the player has won or lost the combat.
      */
     private void checkCombatEnd() {
-        logger.info("Checking combat end: player health = {}, enemy health = {}", playerStats.getHealth(), enemyStats.getHealth());
         if (playerStats.getHealth() <= 0) {
             entity.getEvents().trigger("combatLoss");
-            logger.info("Combat lost in manager.");
         } else if (enemyStats.getHealth() <= 0) {
             entity.getEvents().trigger("combatWin");
-            logger.info("Combat won in manager.");
         }
     }
 

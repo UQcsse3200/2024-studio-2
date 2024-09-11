@@ -35,9 +35,6 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
-
-    logger.info("Player health start: {}", manager.getPlayer().getComponent(CombatStatsComponent.class).getHealth());
-    logger.info("Enemy health start: {}", manager.getEnemy().getComponent(CombatStatsComponent.class).getHealth());
   }
 
   /**
@@ -60,17 +57,14 @@ public class CombatActions extends Component {
   }
 
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("Attack clicked.");
     manager.onPlayerActionSelected("ATTACK");
   }
 
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("Guard clicked.");
     manager.onPlayerActionSelected("GUARD");
   }
 
   private void onSleep(Screen screen, ServiceContainer container) {
-    logger.info("Sleep clicked.");
     manager.onPlayerActionSelected("SLEEP");
   }
 

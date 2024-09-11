@@ -32,7 +32,9 @@ public class SleepMove extends CombatMove {
             // Restore 25% of the user's stamina and 10% of their health
             attackerStats.addStamina((int) (0.25 * attackerStats.getMaxStamina()));
             attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
-            logger.info("Sleep increased stamina to {} and health to {}", attackerStats.getStamina(),
+            logger.info("{} sleeps: increased stamina to {} and health to {}.",
+                    attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
+                    attackerStats.getStamina(),
                     attackerStats.getHealth());
         } else {
             logger.error("Entity does not have CombatStatsComponent");

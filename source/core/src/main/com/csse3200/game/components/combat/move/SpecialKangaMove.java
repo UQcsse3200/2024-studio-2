@@ -33,7 +33,7 @@ public class SpecialKangaMove extends SpecialMove {
     protected void applyDebuffs(CombatStatsComponent targetStats) {
         targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
         targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
-        logger.info("Kanga inflicted confusion and bleeding on the player.");
+        logger.info("{} inflicted CONFUSION and BLEEDING.", targetStats.isPlayer() ? "PLAYER" : "ENEMY");
     }
 
     /**
@@ -47,6 +47,9 @@ public class SpecialKangaMove extends SpecialMove {
     protected void applyBuffs(CombatStatsComponent attackerStats) {
         attackerStats.addStrength(15);
         attackerStats.addDefense(10);
-        logger.info("Kanga increased its strength and defense.");
+        logger.info("{} increased its strength to {} and defense to {}.",
+                attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
+                attackerStats.getStrength(),
+                attackerStats.getDefense());
     }
 }

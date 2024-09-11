@@ -71,16 +71,18 @@ public abstract class SpecialMove extends CombatMove {
     @Override
     public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
         if (attackerStats != null && targetStats != null) {
+            logger.info("{} used a special move.",
+                    attackerStats.isPlayer() ? "PLAYER" : "ENEMY");
+
             if (!targetIsGuarded) {
                 applyDebuffs(targetStats);
             } else {
-                logger.info("Player blocked the special move with guard!");
+                logger.info("{} blocked the special move with guard.",
+                        targetStats.isPlayer() ? "PLAYER" : "ENEMY");
             }
 
             applyBuffs(attackerStats);
             attackerStats.addStamina(-getStaminaCost());
-
-            logger.info("Entity used the special move '{}'!", getMoveName());
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
