@@ -289,7 +289,7 @@ class EnemyFactoryTest {
     }
 
     /**
-     * Tests Creation of a chicken.
+     * Tests Creation of a bear.
      */
     @Test
     void TestBearCreation() {
@@ -297,7 +297,7 @@ class EnemyFactoryTest {
     }
 
     /**
-     * Tests that the chicken is an Entity.
+     * Tests that the bear is an Entity.
      */
     @Test
     void TestBearIsEntity() {
@@ -305,7 +305,7 @@ class EnemyFactoryTest {
     }
 
     /**
-     * Tests that the chicken has the correct components.
+     * Tests that the bear has the correct components.
      */
     @Test
     void TestBearHasComponents() {
@@ -318,9 +318,8 @@ class EnemyFactoryTest {
     }
 
     /**
-     * Tests that the chicken has the correct stats.
+     * Tests that the bear has the correct stats.
      */
-    /*
     @Test
     void TestBearStats() {
         assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 12) && (bear.getComponent(CombatStatsComponent.class).getHealth() < 18),
@@ -330,10 +329,8 @@ class EnemyFactoryTest {
                 "bear should have 0 speed.");
     }
 
-     */
-
     /**
-     * Tests that the chicken has correct animations.
+     * Tests that the bear has correct animations.
      */
     @Test
     void TestBearAnimation() {
@@ -344,7 +341,7 @@ class EnemyFactoryTest {
     }
 
     /**
-     * Tests that the chicken is in the correct spot when placed.
+     * Tests that the bear is in the correct spot when placed.
      */
     @Test
     void TestBearSetPosition() {

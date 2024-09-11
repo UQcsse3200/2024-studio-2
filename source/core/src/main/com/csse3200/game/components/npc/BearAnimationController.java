@@ -19,26 +19,30 @@ public class BearAnimationController extends Component {
         entity.getEvents().addListener("wanderRight", this::animateWanderRight);
         entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
         entity.getEvents().addListener("chaseRight", this::animateChaseRight);
+        entity.getEvents().addListener("spawnStart", this::animateSpawn);
     }
 
+    private void animateSpawn() {
+        animator.startAnimation("spawn");
+    }
 
     private void animateChaseLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("chase");
+        animator.startAnimation("float");
     }
 
     private void animateChaseRight() {
         animator.setFlipX(false);
-        animator.startAnimation("chase");
+        animator.startAnimation("float");
     }
 
     private void animateWanderLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("float");
+        animator.startAnimation("chase");
     }
 
     private void animateWanderRight() {
         animator.setFlipX(false);
-        animator.startAnimation("float");
+        animator.startAnimation("chase");
     }
 }

@@ -96,11 +96,12 @@ public class EnemyFactory {
 
     animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
 
     bear
-            .addComponent(animator)
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
                     config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
+            .addComponent(animator)
             .addComponent(new BearAnimationController());
 
 
