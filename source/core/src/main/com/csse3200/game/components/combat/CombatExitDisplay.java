@@ -26,7 +26,7 @@ public class CombatExitDisplay extends UIComponent {
     this.container = container;
   }
 
-  @Override
+    @Override
   public void create() {
     super.create();
     addActors();
@@ -61,7 +61,6 @@ public class CombatExitDisplay extends UIComponent {
 
     table.add(win).padTop(10f).padRight(10f);
     table.add(lose).padTop(10f).padRight(10f);
-
     stage.addActor(table);
   }
 

@@ -2,13 +2,13 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.combat.*;
+import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.combat.CombatStatsDisplay;
 import com.csse3200.game.components.combat.CombatActions;
@@ -41,10 +41,11 @@ import java.util.LinkedList;
  */
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
-  private static final String[] mainGameTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+  private static final String[] combatTextures = {
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/combat_background_one.png", "images/hunger_bar.png",
+          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
   };
-  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
   private final GdxGame game;
   private final Renderer renderer;
@@ -55,7 +56,8 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-
+  private final CombatArea gameArea;
+  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -77,13 +79,17 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
     renderer = RenderFactory.createRenderer();
-    renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
-
     createUI();
+
     logger.debug("Initialising main game dup screen entities");
+    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
+    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory);
+    gameArea.create();
+
+
   }
 
   @Override
@@ -104,14 +110,12 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    //gameArea.pauseMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
     isPaused = false;
-    //gameArea.playMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game resumed");
   }
 
@@ -125,21 +129,20 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-
     ServiceLocator.clear();
   }
 
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(mainGameTextures);
+    resourceService.loadTextures(combatTextures);
     ServiceLocator.getResourceService().loadAll();
   }
 
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(mainGameTextures);
+    resourceService.unloadAssets(combatTextures);
   }
 
   /**
@@ -152,28 +155,27 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
+    // Initialise combat manager with instances of player and enemy to be passed into combat actions
+    CombatManager manager = new CombatManager(player, enemy);
+
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, this.enemy))
+        .addComponent(new CombatActions(this.game, manager))
         .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(playerCombatStats)
+        .addComponent(enemyCombatStats)
+        .addComponent(new TerminalDisplay())
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void rest() {
-    logger.info("Screen is resting");
-    //gameArea.pauseMusic();
-    ServiceLocator.getEntityService().restWholeScreen();
-  }
-
   public void wake() {
     logger.info("Screen is Awake");
-    //gameArea.playMusic();
+    gameArea.playMusic();
     ServiceLocator.getEntityService().wakeWholeScreen();
   }
 }

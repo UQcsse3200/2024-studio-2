@@ -291,4 +291,5 @@ public class CombatStatsComponent extends Component {
     return maxHunger;
   }
   public int getMaxExperience(){return maxExperience;}
+
 }
