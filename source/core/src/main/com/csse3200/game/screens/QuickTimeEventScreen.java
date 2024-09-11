@@ -86,6 +86,7 @@ public class QuickTimeEventScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadSounds(new String[]{"sounds/victory.mp3"});
         resourceService.loadAll();
     }
 
