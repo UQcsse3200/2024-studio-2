@@ -43,6 +43,7 @@ public class Entity {
     CHICKEN,
     FROG,
     MONKEY,
+    BEAR,
     KANGAROO,
   }
 
