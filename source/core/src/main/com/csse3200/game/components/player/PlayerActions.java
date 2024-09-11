@@ -83,7 +83,6 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("steps");
 
     // test trigger, please remove when Noah merges his logbook into main
-    player.getEvents().trigger("achievementCompleted");
   }
 
   void stopWalking() {

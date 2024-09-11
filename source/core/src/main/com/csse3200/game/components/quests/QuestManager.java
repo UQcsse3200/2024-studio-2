@@ -163,7 +163,9 @@ public class QuestManager extends Component {
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
 
-
+        // test achievement for functionality, remove on @theboah's merge
+        QuestHidden questHidden = new QuestHidden("steps", "these boots have seen everything");
+        addAchievement(questHidden);
     }
 
     /** Creates all tests for quests and dialogues */
