@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 public class QuickTimeEventActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventActions.class);
     private int count = 0;
+    private static final int MAX_COUNT = 3;
     private long lastUpdate;
     private GameTime gameTime;
     private GdxGame game;
@@ -47,7 +48,7 @@ public class QuickTimeEventActions extends Component {
      * Initiates count-down to quick-time event start
      */
     private void onStart() {
-        count = 5;
+        count = MAX_COUNT;
         entity.getEvents().trigger("editLabel", count + "");
         lastUpdate = gameTime.getTime();
     }

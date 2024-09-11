@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.ui.UIComponent;
@@ -34,13 +36,17 @@ public class QuickTimeEventDisplay extends UIComponent {
     // actors
     private Table table;
     private Label label;
-    private Image target;
-    private Image qteImage;
+    private ImageButton target;
+    private Image qte;
 
     // assets
-    private Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
-    private Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
-    private TextureAtlas pawsAtlas = new TextureAtlas("images/quicktimeevent/paws.atlas");
+    private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
+    private final Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
+    private final TextureAtlas pawsAtlas = new TextureAtlas("images/quicktimeevent/paws.atlas");
+    private final Drawable defaultTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("target"));
+    private final Drawable slowTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("slow"));
+    private final Drawable perfectTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("perfect"));
+    private final Drawable fastTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("fast"));
 
     @Override
     public void create() {
@@ -63,6 +69,7 @@ public class QuickTimeEventDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("start button clicked");
+                resetDisplay();
                 entity.getEvents().trigger("start");
             }
         });
@@ -79,16 +86,21 @@ public class QuickTimeEventDisplay extends UIComponent {
         // first row (quick-time event images)
         table.add().width(COL_WIDTH);
         table.add().width(COL_WIDTH);
-        // Use a group to manage images
         Group group = new Group();
-        target = new Image(pawsAtlas.findRegion("target"));
+        // Set up the target (for the quick-time event)
+        target = new ImageButton(skin);
+        target.setDisabled(true);
         target.setSize(IMG_SIZE, IMG_SIZE);
+        ImageButtonStyle buttonStyle = new ImageButtonStyle();
+        buttonStyle.imageUp = defaultTargetSprite;
+        target.setStyle(buttonStyle);
         group.addActor(target);
-        qteImage = new Image(pawsAtlas.findRegion("default"));
-        qteImage.setSize(IMG_SIZE, IMG_SIZE);
-        qteImage.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
-        qteImage.setVisible(false); // Start as not visible
-        group.addActor(qteImage);
+        // Set up the quick-time event
+        qte = new Image(pawsAtlas.findRegion("default"));
+        qte.setSize(IMG_SIZE, IMG_SIZE);
+        qte.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
+        qte.setVisible(false); // Start as not visible
+        group.addActor(qte);
         table.add(group).size(IMG_SIZE,IMG_SIZE).expand().padTop(60f);
         table.add().width(COL_WIDTH);
         table.add().width(COL_WIDTH);
@@ -140,29 +152,6 @@ public class QuickTimeEventDisplay extends UIComponent {
             table.add();
         }
     }
-    /**
-     * Animates a quick-time event for given duration
-     *
-     * @param duration the time (in seconds) to animate
-     *                 the quick-time event
-     */
-    private void onStartQuickTime(float duration) {
-        // set-up the image
-        qteImage.setVisible(false);
-        qteImage.clearActions();
-        qteImage.setScale(QTE_START_SIZE);
-        qteImage.setRotation(QTE_START_ROT);
-        // set-up the action
-        ScaleToAction scaleToAction = new ScaleToAction();
-        scaleToAction.setDuration(duration);
-        scaleToAction.setScale(1.0f);
-        RotateByAction rotateByAction = new RotateByAction();
-        rotateByAction.setDuration(duration);
-        rotateByAction.setAmount(-QTE_START_ROT);
-        // add action to image and make visible
-        qteImage.setVisible(true);
-        qteImage.addAction(new ParallelAction(scaleToAction, rotateByAction));
-    }
 
     /**
      * Edits the text in the label actor
@@ -171,6 +160,37 @@ public class QuickTimeEventDisplay extends UIComponent {
      */
     private void onEditLabel(String text) {
         this.label.setText(new StringBuffer(text));
+    }
+
+    /**
+     * Animates a quick-time event for given duration
+     *
+     * @param duration the time (in seconds) to animate
+     *                 the quick-time event
+     */
+    private void onStartQuickTime(float duration) {
+        // set up the image
+        qte.setScale(QTE_START_SIZE);
+        qte.setRotation(QTE_START_ROT);
+        // set up the action
+        ScaleToAction scaleToAction = new ScaleToAction();
+        scaleToAction.setDuration(duration);
+        scaleToAction.setScale(1.0f);
+        RotateByAction rotateByAction = new RotateByAction();
+        rotateByAction.setDuration(duration);
+        rotateByAction.setAmount(-QTE_START_ROT);
+        // add action to image and make visible
+        qte.setVisible(true);
+        qte.addAction(new ParallelAction(scaleToAction, rotateByAction));
+    }
+
+    /**
+     * Reset the quick-time event display
+     */
+    private void resetDisplay() {
+        qte.setVisible(false);
+        qte.clearActions();
+        target.getStyle().imageUp = defaultTargetSprite;
     }
 
     @Override
