@@ -220,12 +220,10 @@ class NPCFactoryTest {
     void TestCowHasCorrectBaseHint() {
         String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{
-                {"Welcome to Animal Kingdom!", "I am Charlie the Cow.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
-                {"Potions heals you by (n) HP!", "I hope this helped."},
-                {"Final boss?? That Kangaroo??", "idk"},
-                {"Good luck!"}
-        });
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
+                "We will be your guides",
+                "but before you can roam free...",
+                "you must complete the first steps and 2 step quests."}});
     }
 
     /**
