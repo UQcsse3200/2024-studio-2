@@ -1,7 +1,6 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
@@ -19,7 +18,6 @@ public class CombatActions extends Component {
   private final CombatManager manager;
   private final Screen previousScreen;
   private final ServiceContainer previousServices;
-  private Stage stage;
 
   public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
@@ -59,13 +57,13 @@ public class CombatActions extends Component {
   }
 
   private void onAttack(Screen screen, ServiceContainer container) {
-      logger.info("Attack selected.");
       manager.onPlayerActionSelected("ATTACK");
       entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
   private void onGuard(Screen screen, ServiceContainer container) {
     manager.onPlayerActionSelected("GUARD");
+    entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
   private void onSleep(Screen screen, ServiceContainer container) {
