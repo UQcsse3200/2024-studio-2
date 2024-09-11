@@ -56,9 +56,10 @@
   },
 
   "magpie": {
-    "baseHint": [
-      ["Welcome to Animal Kingdom!","I am Maggie the Magpie."]
-    ],
+    "baseHint": [["WHO GOES THERE!!",
+                 "If you want to get past me you must pay",
+                 "Go play a game and collect me some coins",
+                 "/mbOr I will claw your eyes out!"]],
     "spritePath": "images/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
