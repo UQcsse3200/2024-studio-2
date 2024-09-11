@@ -1,7 +1,6 @@
 package com.csse3200.game.inventory.items.lootbox.configs;
 
 import com.csse3200.game.inventory.items.AbstractItem;
-
 import java.lang.reflect.Constructor;
 
 /**
@@ -56,7 +55,6 @@ public class LootItemConfig {
      * @return A new instance of the specified AbstractItem.
      * @throws Exception If the item cannot be instantiated, including issues with constructor access or parameter mismatches.
      */
-
     public AbstractItem createNewItem() throws Exception {
         Constructor<? extends AbstractItem> constructor = item.getDeclaredConstructor(parameterTypes);  // Get the constructor with specified parameter types
         return constructor.newInstance(parameters);  // Create a new instance with specified parameters

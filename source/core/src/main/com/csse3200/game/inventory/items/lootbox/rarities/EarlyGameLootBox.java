@@ -12,7 +12,6 @@ import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
  * to visually represent the loot box in the game.
  */
 public class EarlyGameLootBox extends LootBox {
-
     private final static String path = "images/chests/ordinary-chest.png";
 
     /**
@@ -23,7 +22,7 @@ public class EarlyGameLootBox extends LootBox {
      * @param player    The player Entity to which the loot box items will be added.
      */
     public EarlyGameLootBox(EarlyGameLootTable lootTable, int rolls, Entity player) {
-        super(lootTable, rolls, player );
+        super(lootTable, rolls, player);
         this.setTexturePath(path);
         this.setDescription("This is an EarlyGameLootBox, Open it Up for Goodies!!!!");
     }
