@@ -27,6 +27,7 @@ public class MainMenuActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("achievements", this::onAchievements);
+    entity.getEvents().addListener("stats", this::onStats);
     entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
   }
 
@@ -77,6 +78,14 @@ public class MainMenuActions extends Component {
   private void onAchievements() {
     logger.info("Launching achievements screen");
     game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
+  }
+
+  /**
+   * Shows the end game stats screen.
+   */
+  private void onStats() {
+    logger.info("Launching achievements screen");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
   }
 
   private void onSnakeMiniGame() {

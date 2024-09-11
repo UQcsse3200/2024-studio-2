@@ -167,7 +167,7 @@ public class GdxGame extends Game {
             case ANIMAL_SELECTION:
                 return new AnimalSelectionScreen(this);
             case END_GAME_STATS:
-                return new EndGameStatsScreen(this, player);
+                return new EndGameStatsScreen(this);
             case GAME_OVER_LOSE:
                 return new GameOverLoseScreen(this);
 
