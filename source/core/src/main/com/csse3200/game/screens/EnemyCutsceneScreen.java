@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -248,20 +247,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         Label experienceLabel = new Label("Experience: " + stats.getExperience() + "/" + stats.getMaxExperience(), labelStyle);
 
         Image enemyImage = new Image(enemyImageTexture);
-
-       // Animate enemy name label (flash effect)
-//        enemyNameLabel.addAction(
-//                Actions.sequence(
-//                        Actions.alpha(0f),
-//                        Actions.repeat(5,
-//                                Actions.sequence(
-//                                        Actions.fadeIn(0.2f),
-//                                        Actions.fadeOut(0.2f)
-//                                )
-//                        ),
-//                        Actions.fadeIn(0.2f) // Finally, keep it visible
-//                )
-//        );
 
         // Centered positions
         float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
