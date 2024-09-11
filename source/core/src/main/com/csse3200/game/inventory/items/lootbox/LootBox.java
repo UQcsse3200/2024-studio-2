@@ -1,15 +1,11 @@
 package com.csse3200.game.inventory.items.lootbox;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.exceptions.ConsumedException;
-import com.csse3200.game.inventory.items.lootbox.*;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.lootbox.configs.BaseLootTable;
 import com.csse3200.game.entities.factories.ItemFactory;
@@ -39,7 +35,6 @@ public class LootBox extends ConsumableItem {
         this.lootTable = lootTable;
         this.rolls = rolls;
         this.player = player;
-
     }
 
 

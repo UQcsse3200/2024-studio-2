@@ -26,6 +26,4 @@ public class EarlyGameLootBox extends LootBox {
         this.setTexturePath(path);
         this.setDescription("This is an EarlyGameLootBox, Open it Up for Goodies!!!!");
     }
-
-
 }

@@ -24,6 +24,5 @@ public class LateGameLootBox extends LootBox {
         this.setTexturePath(path);
         this.setDescription("This is an LateGameLootBox, Open it Up for Goodies!!!!");
     }
-
 }
 
