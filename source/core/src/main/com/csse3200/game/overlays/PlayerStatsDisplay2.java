@@ -22,14 +22,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class PlayerStatsDisplay extends UIComponent {
+public class PlayerStatsDisplay2 extends UIComponent {
     private Table backgroundTable;
     private Table rootTable;
     private PausableScreen screen;
     private String spritePath;
     private String playerDescription;
 
-    public PlayerStatsDisplay(PausableScreen screen, String spritePath, String playerDescription) {
+    public PlayerStatsDisplay2(PausableScreen screen, String spritePath, String playerDescription) {
         super();
         this.screen = screen;
         this.spritePath = spritePath;
@@ -100,9 +100,7 @@ public class PlayerStatsDisplay extends UIComponent {
                 ServiceLocator.getResourceService()
                         .getAsset("images/QuestsOverlay/Quest_SBG.png", Texture.class));
 
-        float backgroundWidth = 3;
-        float backgroundHeight = 6;
-        statsBackground.setSize(backgroundWidth, backgroundHeight);
+
 
         // Create the title and description labels
         Label title = new Label("PLAYER STATS", skin, "title");
@@ -114,7 +112,8 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Create the background table and set the background image
         backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
+        backgroundTable.setSize(600, 800);
+        backgroundTable.setPosition(660, 140);
         backgroundTable.add(statsBackground).expand().fill();
         stage.addActor(backgroundTable);
 

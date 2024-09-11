@@ -3,7 +3,7 @@ package com.csse3200.game.overlays;
 
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.overlays.PlayerStatsDisplay;
+import com.csse3200.game.overlays.PlayerStatsDisplay2;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class PlayerStatsOverlay extends Overlay {
         String spritePath = PlayerFactory.getSelectedAnimalImagePath();
         String description = "Player Description"; // Replace with actual description if available
         super.add(ui);
-        ui.addComponent(new PlayerStatsDisplay(screen, spritePath, description)).addComponent(new InputDecorator(stage, 10));
+        ui.addComponent(new PlayerStatsDisplay2(screen, spritePath, description)).addComponent(new InputDecorator(stage, 10));
         ServiceLocator.getEntityService().register(ui);
     }
 }

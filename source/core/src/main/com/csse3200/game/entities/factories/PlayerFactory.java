@@ -55,11 +55,11 @@ public class PlayerFactory {
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
 
