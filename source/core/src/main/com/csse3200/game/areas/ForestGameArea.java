@@ -78,41 +78,46 @@ public class ForestGameArea extends GameArea {
    * */
   @Override
   public void create() {
-    loadAssets();
+      loadAssets();
 
-    displayUI();
+      displayUI();
 
-    // Terrain
-    spawnTerrain();
+      // Terrain
+      spawnTerrain();
 
-    // Player
-    player = spawnPlayer();
-    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setInitials(player.getPosition(), terrain);
+      // Player
+      player = spawnPlayer();
+      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+      TerrainLoader.setInitials(player.getPosition(), terrain);
 
-    // Obstacles
-    spawnTrees();
+      // Obstacles
+      spawnTrees();
 
-    //Enemies
-    spawnEnemies();
+      //Enemies
+      spawnEnemies();
 
-    // items
-    handleItems();
+      // items
+      handleItems();
 
-    //Friendlies
-    spawnFriendlyNPCs();
+      //Friendlies
+      spawnFriendlyNPCs();
 
-    playMusic();
-    player.getEvents().addListener("setPosition", this::handleNewChunks);
-    player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-    player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-    kangarooBossSpawned = false;
+      playMusic();
+      player.getEvents().addListener("setPosition", this::handleNewChunks);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+      kangarooBossSpawned = false;
 
-    if(MainMenuActions.getGameLoaded()) {
-        SaveHandler.load(GameState.class, "saves");
-    }
-    player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
-    player.getComponent(QuestManager.class).loadQuests();
+
+
+      if(MainMenuActions.getGameLoaded()) {
+          SaveHandler.load(GameState.class, "saves");
+      } else {
+          GameState.clearState();
+      }
+
+      player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+      player.getComponent(QuestManager.class).loadQuests();
   }
 
   private void handleNewChunks(Vector2 playerPos) {

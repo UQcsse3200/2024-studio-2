@@ -14,4 +14,9 @@ public class GameState {
     public static QuestSave quests = new QuestSave();
 
     public static InventorySave inventory = new InventorySave();
+
+    public static void clearState() {
+        quests = new QuestSave();
+        inventory = new InventorySave();
+    }
 }
