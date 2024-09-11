@@ -11,22 +11,24 @@ import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class QuickTimeEventDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventDisplay.class);
-
+    private GameTime gameTime;
+    
     // sizes and dimensions
     private static final float COL_WIDTH = 160f;
     private static final float IMG_SIZE = 300f;
     private static final float QTE_ORIGIN_X = IMG_SIZE/2;
     private static final float QTE_ORIGIN_Y = IMG_SIZE/3;
-    private static final float QTE_START_SIZE = 1.8f;
+    private static final float QTE_START_SCALE = 1.8f;
     private static final float QTE_START_ROT = -80f;
     private static final float LABEL_WIDTH = 500f;
     private static final float BTN_WIDTH = 90f;
@@ -38,9 +40,12 @@ public class QuickTimeEventDisplay extends UIComponent {
     private ImageButton target;
     private Image qte;
 
-    // flags
-    private boolean quickTimeEventActive = false;
-    private boolean isDefaultTargetImage = true;
+    // quick-time event constants and variables
+    private static final long QUICK_TIME_WINDOW = 30; // milli-secs
+    private boolean qteActive = false;
+    private boolean isDefault = true;
+    private long startTime;
+    private long windowStartTime;
 
     // assets
     private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
@@ -51,6 +56,7 @@ public class QuickTimeEventDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating QuickTimeEventDisplay");
+        gameTime = ServiceLocator.getTimeSource();
         entity.getEvents().addListener("editLabel", this::onEditLabel);
         entity.getEvents().addListener("startQuickTime", this::onStartQuickTime);
         entity.getEvents().addListener("quickTimeBtnPress", this::onQuickTimeBtnPress);
@@ -160,7 +166,7 @@ public class QuickTimeEventDisplay extends UIComponent {
      * @param name the name of the image (in the atlas)
      */
     private void setTargetImage(String name) {
-        isDefaultTargetImage = name.equals("target_default"); // set flag
+        isDefault = name.equals("target_default"); // set flag
         target.getStyle().imageUp = new TextureRegionDrawable(pawsAtlas.findRegion(name));
     }
 
@@ -183,7 +189,7 @@ public class QuickTimeEventDisplay extends UIComponent {
         SequenceAction quickTimeActions = new SequenceAction();
         int counter = quickTimeEvents.length - 1;
         for (QuickTimeEvent quickTimeEvent : quickTimeEvents) {
-            Action quickTimeAction = createQuickTimeAction(quickTimeEvent, counter==0);
+            Action quickTimeAction = createAction(quickTimeEvent, counter==0);
             quickTimeActions.addAction(quickTimeAction);
             counter -= 1;
         }
@@ -195,22 +201,28 @@ public class QuickTimeEventDisplay extends UIComponent {
      *
      * @param quickTimeEvent quick-time event data
      * @param last flag for last quick-time event in the sequence
+     *             
+     * @returns action representing the quick-time event
      */
-    private Action createQuickTimeAction(QuickTimeEvent quickTimeEvent, boolean last) {
+    private Action createAction(QuickTimeEvent quickTimeEvent, boolean last) {
         // Get quick-time event data
         float duration = quickTimeEvent.duration();
         float delay = quickTimeEvent.delay();
+        // convert duration to ms
+        long durationMS = (long) (1000*duration);
         // create action to initialise quick-time event
         RunnableAction initAction = new RunnableAction();
         initAction.setRunnable(new Runnable() {
             @Override
             public void run() {
                 logger.debug("Setting up quick-time event");
-                qte.setScale(QTE_START_SIZE);
+                qte.setScale(QTE_START_SCALE);
                 qte.setRotation(QTE_START_ROT);
                 qte.setVisible(true);
                 setTargetImage("target_default");
-                quickTimeEventActive = true;
+                startTime = gameTime.getTime();
+                windowStartTime = startTime + durationMS - QUICK_TIME_WINDOW;
+                qteActive = true;
             }
         });
         // create action to animate quick-time event
@@ -221,14 +233,17 @@ public class QuickTimeEventDisplay extends UIComponent {
         rotateByAction.setDuration(duration);
         rotateByAction.setAmount(-QTE_START_ROT);
         Action coreAction = new ParallelAction(scaleToAction, rotateByAction);
+        // create action to add small delay for input
+        DelayAction smallDelayAction = new DelayAction();
+        smallDelayAction.setDuration(QUICK_TIME_WINDOW / 2000f);
         // create action to handle stuff after quick-time event
         RunnableAction toggleFlagOffAction = new RunnableAction();
         toggleFlagOffAction.setRunnable(new Runnable() {
             @Override
             public void run() {
                 logger.debug("Wrapping up quick-time event");
-                quickTimeEventActive = false;
-                if (isDefaultTargetImage) {
+                qteActive = false;
+                if (isDefault) {
                     setTargetImage("target_slow"); // player was too slow
                 }
             }
@@ -237,9 +252,8 @@ public class QuickTimeEventDisplay extends UIComponent {
         DelayAction delayAction = new DelayAction();
         delayAction.setDuration(delay);
         // sequence actions together
-        SequenceAction actions = new SequenceAction(
-                initAction, coreAction, toggleFlagOffAction, delayAction
-        );
+        SequenceAction actions = new SequenceAction(initAction, coreAction,
+                smallDelayAction, toggleFlagOffAction, delayAction);
         if (last) {
             // last quick-time event - do some additional clean up
             RunnableAction resetAction = new RunnableAction();
@@ -257,15 +271,29 @@ public class QuickTimeEventDisplay extends UIComponent {
     }
 
     /**
-     * Handle quick-time button press
+     * Handle quick-time event button press
      */
-    private void onQuickTimeBtnPress() {}
+    private void onQuickTimeBtnPress() {
+        if (qteActive) {
+            // quick-time event in process
+            if (gameTime.getTime() >= windowStartTime) {
+                // button press timed correctly
+                setTargetImage("target_perfect");
+            } else {
+                // button press too fast
+                setTargetImage("target_fast");
+            }
+            // de-render quick-time event animation
+            qteActive = false;
+            qte.setVisible(false);
+        }
+    }
 
     /**
-     * Forcefully reset the quick-time event display
+     * Reset the quick-time event display
      */
     private void resetDisplay() {
-        quickTimeEventActive = false;
+        qteActive = false;
         qte.setVisible(false);
         qte.clearActions();
         setTargetImage("target_default");

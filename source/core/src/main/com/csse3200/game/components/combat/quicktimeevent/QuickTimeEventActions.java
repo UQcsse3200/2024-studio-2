@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class QuickTimeEventActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventActions.class);
+    private final GdxGame game;
+    private GameTime gameTime;
     private int count = 0;
     private static final int MAX_COUNT = 3;
     private long lastUpdate;
-    private GameTime gameTime;
-    private GdxGame game;
 
     public QuickTimeEventActions(GdxGame game) {
         this.game = game;
