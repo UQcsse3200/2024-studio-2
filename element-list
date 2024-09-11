@@ -17,6 +17,7 @@ com.csse3200.game.components.maingame
 com.csse3200.game.components.mainmenu
 com.csse3200.game.components.minigames
 com.csse3200.game.components.minigames.birdieDash
+com.csse3200.game.components.minigames.birdieDash.collision
 com.csse3200.game.components.minigames.birdieDash.controller
 com.csse3200.game.components.minigames.birdieDash.entities
 com.csse3200.game.components.minigames.birdieDash.rendering
