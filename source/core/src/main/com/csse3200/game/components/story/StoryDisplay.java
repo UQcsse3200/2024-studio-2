@@ -44,7 +44,7 @@ public class StoryDisplay extends UIComponent {
         logger.info("Creating StoryDisplay");
         addActors();
         applyUserSettings();
-        backgroundTexture = new Texture("images/GameOverWin.png");
+        backgroundTexture = new Texture("images/Story/DogStory1.png");
         logger.info("Background texture loaded");
     }
 
