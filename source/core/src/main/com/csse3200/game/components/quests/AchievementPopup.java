@@ -78,7 +78,7 @@ public class AchievementPopup extends UIComponent {
             //defines actions for label created
 
             SequenceAction sequence = new SequenceAction();
-            sequence.addAction(Actions.fadeOut(1f));
+            sequence.addAction(Actions.delay(1f));
             sequence.addAction(Actions.run(this::dispose));
             popup.addAction(sequence);
             stage.addActor(popup);
