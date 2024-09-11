@@ -74,10 +74,19 @@ public class PlayerFactory {
         player.addComponent((new StatManager()));
         player.addComponent(new LootBoxOverlayComponent());
 
+        // Added in from main
+        PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+        player.getComponent(ColliderComponent.class).setDensity(1.5f);
+        player.getComponent(TextureRenderComponent.class).scaleEntity();
+        player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
+        player.getComponent(QuestManager.class).loadQuests();
+
         return player;
     }
 
-    // Create a player NPC to spawn in Combat
+    /**
+     * Create a player NPC to spawn in Combat
+     */
 
     public static Entity createCombatPlayer(String imagePath) {
         Entity combatPlayer = createCombatPlayerStatic();
