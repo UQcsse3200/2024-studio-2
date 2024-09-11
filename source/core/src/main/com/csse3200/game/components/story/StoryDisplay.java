@@ -84,7 +84,6 @@ public class StoryDisplay extends UIComponent {
         TextButton nextBtn = new TextButton("Next", skin);
         TextButton backBtn = new TextButton("Back", skin);
         TextButton skipBtn = new TextButton(">>", skin);
-        Label versionLabel = new Label("Version 1.0", skin);
 
 
         // Adds UI component (hover over buttons)
@@ -130,8 +129,6 @@ public class StoryDisplay extends UIComponent {
             table.row();
         }
 
-        table.add(versionLabel).padTop(50f);
-        table.row();
 
         // Enables tables use
         stage.addActor(table);
