@@ -2,8 +2,6 @@ package com.csse3200.game.components.gameover;
 
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.SaveHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
