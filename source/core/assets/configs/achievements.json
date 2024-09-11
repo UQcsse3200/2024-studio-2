@@ -70,5 +70,13 @@
     "seen": false,
     "type": "ITEM",
     "iconPath": "images/foodtextures/carrot.png"
+  },
+  {
+    "questName": "First Steps",
+    "questDescription": "Take your first steps in this world!",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/first-steps.png"
   }
 ]

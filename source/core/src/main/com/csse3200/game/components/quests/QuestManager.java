@@ -69,7 +69,7 @@ public class QuestManager extends Component {
 
         //creates single task quest
         List<Task> tasks = List.of(stepsTask);
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, false,null,null, false, false, 0);
+        QuestBasic firstStepsQuest = new QuestBasic("First Steps","Take your first steps in this world!", tasks, true,null,null, false, false, 0);
 
         GameState.quests.quests.add(firstStepsQuest);
 
@@ -235,11 +235,11 @@ public class QuestManager extends Component {
      */
 
     private void handleQuestCompletion(QuestBasic quest) {
+        player.getEvents().trigger(quest.getQuestName());
+        logger.info("{} completed!", quest.getQuestName());
         if (!quest.isSecret()) {
             questComplete.play();
             player.getEvents().trigger("questCompleted");
-            player.getEvents().trigger(quest.getQuestName());
-            logger.info("{} completed!", quest.getQuestName());
         }
     }
 
