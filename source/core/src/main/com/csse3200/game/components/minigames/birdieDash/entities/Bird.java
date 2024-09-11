@@ -15,11 +15,11 @@ public class Bird {
     private static final float FLAP_STRENGTH = 1200; // Bird flap strength
     private static final float BIRD_WIDTH = 60f; // The bird's width
     private static final float BIRD_HEIGHT = 45f; // The birds height
-    private static final int GAME_HEIGHT = 1200;
+    private static final int GAME_HEIGHT = 1200; // The game height
 
-    private boolean collidingPipe;
-    private boolean collideTopOfPipe;
-    private boolean isFlapping;
+    private boolean collidingPipe; // Variable to track if bird is collided with pipe
+    private boolean collideTopOfPipe; // Variable to detects if bird collided with top (or bottom) of pipe
+    private boolean isFlapping; //Variable if the bird is flapping
 
     public Bird(float x, float y) {
         position = new Vector2(x, y);
@@ -31,7 +31,7 @@ public class Bird {
     }
 
     /**
-     * Updates the birds position
+     * Updates the birds position and adjusts velocity as needed
      * @param deltaTime the time from the last position update
      * @param multiplier Used to speed up the game
      */
@@ -43,6 +43,8 @@ public class Bird {
         }
 
         if (position.y > 0) {
+
+            // Ensure bird does not increase velocity if flown into pipe
             if(collideTopOfPipe) {
                 if (velocity.y != 0) {
                     velocity.y = 0;
@@ -53,6 +55,8 @@ public class Bird {
         } else { // Ensure bird doesn't fly below screen
             position.y = position.x = 0;
         }
+
+        // Increase velocity if not pipe collision
         if(position.x < 960 && !collidingPipe) {
             velocity.x = 50;
         } else {
@@ -95,7 +99,6 @@ public class Bird {
         position.set(position.x, y - getBirdHeight() - 1);
         velocity.set(0,0);
     }
-
 
     /**
      * For collisions

@@ -7,15 +7,21 @@ import com.csse3200.game.components.minigames.birdieDash.entities.Spike;
 
 import java.util.List;
 
+/**
+ * Class to detect and track collisions in birdie dash mini-game
+ */
 public class CollisionHandler{
-    private final Bird bird;
+    private final Bird bird; // The bird
+
+    // Items to collide with
     private final List<Pipe> pipes;
     private final List<Coin> coins;
     private final Spike spike;
+
     private int score;  // To keep track of the player's score
-    final float epsilon = 5f;
-    private boolean collisionDetected;
-    private boolean overlapping;
+    final float epsilon = 5f; // Used as to detect collision
+    private boolean collisionDetected; // To track collision
+    private boolean overlapping; // To track overlapping
 
     public CollisionHandler(Bird bird, List<Pipe> pipes, List<Coin> coins, Spike spike) {
         this.bird = bird;
@@ -27,12 +33,17 @@ public class CollisionHandler{
         this.overlapping = false;
     }
 
+    /**
+     * Checks if collisions with non-game terminating objects
+     */
     public void checkCollisions() {
         checkPipes();
         checkCoin();
-        //checkSpikes();
     }
 
+    /**
+     * Checks if the bird has collided with the pipes
+     */
     private void checkPipes() {
         overlapping = false;
         for (Pipe pipe : pipes) {
@@ -41,12 +52,12 @@ public class CollisionHandler{
                 if(!collisionDetected) {
                     float bottomPipeY = pipe.getPositionBottom().y + pipe.getBottomPipe().height;
                     float topPipeY = pipe.getPositionTop().y;
-                    if (isApproximatelyEqual(bird.getPosition().y, bottomPipeY, epsilon)) {
+                    if (isApproximatelyEqual(bird.getPosition().y, bottomPipeY)) {
                         bird.setCollidingTopPipe(bottomPipeY);
                         collisionDetected = true;
                         return;
                     } else if (isApproximatelyEqual(bird.getPosition().y + bird.getBirdHeight(),
-                            topPipeY, epsilon)) {
+                            topPipeY)) {
                         bird.setCollidingBottomPipe(topPipeY);
                         collisionDetected = true;
                         return;
@@ -64,10 +75,12 @@ public class CollisionHandler{
         }
     }
 
+    /**
+     * Checks if bird has collided with a coin
+     */
     private void checkCoin() {
         for (Coin coin : coins) {
             if (bird.getBoundingBox().overlaps(coin.getBoundary())) {
-                // Increment the score and respawn the coin
                 score++;
                 coin.respawnCoin();
             }
@@ -82,7 +95,13 @@ public class CollisionHandler{
         return bird.getBoundingBox().overlaps(spike.getSpikeBoundary());
     }
 
-    private boolean isApproximatelyEqual(float a, float b, float epsilon) {
+    /**
+     * Used for detection of collision
+     * @param a item to check collision with
+     * @param b item to check collision with
+     * @return if the value is approximately equal to (true if so, otherwise false)
+     */
+    private boolean isApproximatelyEqual(float a, float b) {
         return Math.abs(a - b) < epsilon;
     }
 

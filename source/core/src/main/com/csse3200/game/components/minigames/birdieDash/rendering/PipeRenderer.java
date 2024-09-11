@@ -26,7 +26,7 @@ public class PipeRenderer implements MinigameRenderable {
     }
 
     /**
-     * Render pipes
+     * Render the pipes in the birdie dash mini-game
      */
     public void render(){
         for (Pipe pipe : this.pipes) {

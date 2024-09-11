@@ -28,7 +28,6 @@ public class KeyboardBirdInputComponent extends InputComponent {
                 entity.getEvents().trigger("flap");
                 yield true;
             }
-
             default -> false;
         };
     }

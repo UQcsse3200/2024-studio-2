@@ -18,21 +18,20 @@ import java.util.List;
  */
 public class BirdieDashGame {
 
-    private final int GAME_WIDTH = 1920;
-    private final int GAME_HEIGHT = 1200;
     // Initial speed of the game
     private final float START_SPEED = 200;
 
+    // Items on the screen
     private final List<Pipe> pipes;
     private final List<Coin> coins;
     private final Bird bird;
     private final Spike spike;
-    private final MinigameRenderer renderer;
-   // private final BirdieDashController controller;
-    private final CollisionHandler collisionHandler;
-    private float speedMultiplier = 1.0f;
-    private final float accelerationRate = 0.05f;
-    private Boolean isGameOver;
+
+    private final MinigameRenderer renderer;  // Mini-game renderer
+    private final CollisionHandler collisionHandler; // Collision detection
+    private float speedMultiplier = 1.0f; // Multiplier to increase the speed
+    private final float accelerationRate = 0.05f; // Mutiplier for acceleration of the bird
+    private Boolean isGameOver; // Used to track if the game is over
 
     public BirdieDashGame() {
         this.pipes = createPipes();
@@ -41,7 +40,6 @@ public class BirdieDashGame {
         this.spike = new Spike(0);
         this.renderer = new MinigameRenderer();
         this.isGameOver = false;
-      //  this.controller = new BirdieDashController();
         this.collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
         initRenderers();
     }

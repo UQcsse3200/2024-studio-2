@@ -19,7 +19,6 @@ public class Coin {
     private final float speed;
     private final Random random;
 
-
     /**
      * Constructors to create a coin.
      * Coin will spawn randomly between pipes, both horizontally and vertically.

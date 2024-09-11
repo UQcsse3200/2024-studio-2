@@ -94,15 +94,22 @@ public class BirdieDashScreen extends PausableScreen {
 
         clearBackground();
         birdGame.render(delta);
-        if (birdGame.getIsGameOver()) {
-            dispose();
-            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
-        }
+        isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
 
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
+    }
+
+    /**
+     * Detect if the game is over
+     */
+    private void isGameOver() {
+        if (birdGame.getIsGameOver()) {
+            dispose();
+            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
+        }
     }
 
     /**

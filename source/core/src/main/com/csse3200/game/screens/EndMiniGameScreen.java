@@ -16,14 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.minigames.MiniGameConstants;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
@@ -31,7 +28,6 @@ import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
 import com.csse3200.game.inventory.items.lootbox.rarities.LateGameLootBox;
 import com.csse3200.game.inventory.items.lootbox.rarities.MediumGameLootBox;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -58,7 +54,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 
-    private Entity player;
+    private final Entity player;
     private PlayerInventoryDisplay display;
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
@@ -86,7 +82,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         } else {
             this.player = null;
             this.display = null;
-
         }
         Gdx.input.setInputProcessor(stage);
 
@@ -109,11 +104,11 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
                 switch(getMedal(score)) {
-                    case MiniGameMedals.BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
+                    case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
                             new EarlyGameLootTable(),3 , player));
-                    case MiniGameMedals.SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
+                    case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
                             new MediumGameLootTable(),3 , player));
-                    case MiniGameMedals.GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
+                    case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
                             new LateGameLootTable(),3 , player));
                 }
                 game.setOldScreen(oldScreen, oldScreenServices);
