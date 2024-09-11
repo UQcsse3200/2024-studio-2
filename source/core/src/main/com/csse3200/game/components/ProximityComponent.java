@@ -44,20 +44,20 @@ public class ProximityComponent extends Component {
      * @param entity the entity to set up the spawn animation for
      */
 
-    void setupSpawnAnimation(Entity entity) {
-        entity.setEnabled(false); // Disable the entity until proximity is triggered
-
-        entity.getEvents().addListener("proximityTriggered", () -> {
-            AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);
-            animationComponent.startAnimation("spawn");
-            entity.setEnabled(true);
-
-            // Listen for when the spawn animation ends
-            entity.getEvents().addListener("animationEnd", (String animationName) -> {
-                if (animationName.equals("spawn")) {
-                   animationComponent.startAnimation("walk");
-                }
-            });
-        });
-    }
+//    void setupSpawnAnimation(Entity entity) {
+////        entity.setEnabled(false); // Disable the entity until proximity is triggered
+//
+//        entity.getEvents().addListener("proximityTriggered", () -> {
+//            AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);
+//            animationComponent.startAnimation("spawn");
+////            entity.update();
+//
+////             Listen for when the spawn animation ends
+//            entity.getEvents().addListener("animationEnd", (String animationName) -> {
+//                if (animationName.equals("spawn")) {
+//                   animationComponent.startAnimation("walk");
+//                }
+//            });
+//        });
+//    }
 }

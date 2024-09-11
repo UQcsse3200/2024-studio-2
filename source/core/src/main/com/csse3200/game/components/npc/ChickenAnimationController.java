@@ -2,6 +2,7 @@ package com.csse3200.game.components.npc;
 
 import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * This class listens to events relevant to a chicken entity's state and plays the animation when one
@@ -29,6 +30,7 @@ public class ChickenAnimationController extends Component {
 
   private void animateAlert() {
     animator.startAnimation("alert");
+    //animator.setScale(1.5f, 1.5f);
   }
 
   private void animateChaseLeft() {

@@ -14,8 +14,14 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.lang.invoke.MethodHandles;
+
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
   protected final Entity target;
   protected final int priority;
   protected final float viewDistance;
@@ -28,7 +34,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final boolean isBoss;
   private static final String heartbeat = "sounds/heartbeat.mp3";
   private final Vector2 bossSpeed;
-
+  private boolean alertPlaying = false;
   /**
    * @param target The entity to chase.
    * @param priority Task priority when chasing (0 when not chasing).
@@ -79,8 +85,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
           this.owner.getEntity().getEvents().trigger("chaseRight");
 
     }
-
-      this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
     void playTensionSound() {
@@ -123,8 +127,19 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       this.owner.getEntity().getEvents().trigger("chaseRight");
     }
 
-//    owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("alert");
-
+    int currentPriority = getActivePriority();
+    LOGGER.error("started chasing");
+    LOGGER.error("currentpriority {} ", currentPriority);
+    if (currentPriority != -1 && !alertPlaying) {
+      this.owner.getEntity().getEvents().trigger("alert");
+      alertPlaying = true;
+      LOGGER.error("RUNNING ALERT");
+      currentPriority = -1;
+    } else if (currentPriority == -1 && alertPlaying) {
+      LOGGER.error("SHOULD GO BACK");
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+      alertPlaying = false;
+    }
   }
 
   public float getViewDistance() {
@@ -158,9 +173,13 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   protected int getActivePriority() {
     float dst = getDistanceToTarget();
     if (dst > maxChaseDistance || !isTargetVisible()) {
+      LOGGER.error("-1 stopped chasing");
       return -1; // Too far, stop chasing
+
     }
+    LOGGER.error("priority {}", priority);
     return priority;
+
   }
 
   protected int getInactivePriority() {

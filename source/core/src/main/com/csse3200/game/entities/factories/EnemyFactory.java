@@ -66,8 +66,8 @@ public class EnemyFactory {
     AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
 
     animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
-    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-    animator.addAnimation("alert",1.0f, Animation.PlayMode.NORMAL);
+    animator.addAnimation("wanderLeft", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("alert",1.0f, Animation.PlayMode.LOOP);
 
 
     chicken

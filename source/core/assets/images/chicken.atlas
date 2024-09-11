@@ -62,7 +62,7 @@ spawn
 alert
   rotate: false
   xy: 85,82
-  size:17,27
+  size:17,25
   orig:16,25
   offset:0,0
   index:0
