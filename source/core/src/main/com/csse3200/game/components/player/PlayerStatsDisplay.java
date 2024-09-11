@@ -199,11 +199,11 @@ public class PlayerStatsDisplay extends UIComponent {
         if (hunger >= 90 && health < maxHealth) {
             // Increase health by 1 if hunger is 90+ and health isn't max
             combatStats.addHealth(1);
-            updatePlayerHealthUI(combatStats.getHealth());
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
         } else if (hunger < 20 && hunger > 0) {
             // Decrease health by 1 every 3 seconds if hunger is less than 20
             combatStats.addHealth(-1);
-            updatePlayerHealthUI(combatStats.getHealth());
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
         } else if (hunger == 0) {
             // Decrease health by 1 every second if hunger is 0
             startHealthDecreaseTimer(combatStats);
@@ -217,7 +217,7 @@ public class PlayerStatsDisplay extends UIComponent {
             public void run() {
                 if (combatStats.getHunger() == 0) {
                     combatStats.addHealth(-1);
-                    updatePlayerHealthUI(combatStats.getHealth());
+                    updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
                 }
             }
         }, 0, 1); // Run every second

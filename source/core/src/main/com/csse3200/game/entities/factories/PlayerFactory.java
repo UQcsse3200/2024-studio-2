@@ -2,6 +2,7 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.csse3200.game.components.player.InventoryComponent;
@@ -61,16 +62,23 @@ public class PlayerFactory {
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
 
+        List<CombatMove> moveSet = new ArrayList<>();
+        moveSet.add(new AttackMove("Player Attack", 10));
+        moveSet.add(new GuardMove("Player Guard", 5));
+        moveSet.add(new SleepMove("Player Sleep", 0));
+
+        player.addComponent(new CombatMoveComponent(moveSet));
+
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true, false));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true, false));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true, false));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true, false));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer(), stats.isBoss()));
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
         }
 
         player.addComponent(inputComponent)
@@ -103,7 +111,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100,true, false));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false));
 
         combatPlayer.scaleHeight(90.0f);
 

@@ -2,6 +2,7 @@ package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.entities.Entity;
@@ -17,28 +18,29 @@ public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
   private final CombatManager manager;
-  private Entity enemy;
-  private Screen previousScreen;
-  private ServiceContainer previousServices;
+  private final Screen previousScreen;
+  private final ServiceContainer previousServices;
 
-    public CombatActions(GdxGame game, CombatManager manager, Entity enemy, Screen previousScreen, ServiceContainer previousServices) {
+  public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
-    this.enemy = enemy;
+    //this.enemy = enemy;
     this.manager = manager;
     this.previousServices = previousServices;
     this.previousScreen = previousScreen;
   }
 
+  /**
+   * Initialises the event listeners.
+   */
   @Override
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
-    entity.getEvents().addListener("combatLose", this::onCombatLoss);
+    entity.getEvents().addListener("combatLoss", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
     entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
-
   }
 
   /**
@@ -47,26 +49,36 @@ public class CombatActions extends Component {
    */
   private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-    game.returnFromCombat(previousScreen, previousServices, enemy);
+    game.setOldScreen(previousScreen, previousServices);
+    //game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
-   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
+   * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
-  private void onCombatLoss(Screen screen, ServiceContainer container) {
+  private void onCombatLoss() {
     logger.info("Returning to main game screen after combat loss.");
-    // Set current screen to original MainGameScreen
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
+
+  /**
+   * Signalled by clicking attack button, to then signal the ATTACK combat move in the manager.
+   */
   private void onAttack(Screen screen, ServiceContainer container) {
-    logger.info("Attack selected.");
-    manager.onAttackSelected();
-    entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
+      manager.onPlayerActionSelected("ATTACK");
+      entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
+
+  /**
+   * Signalled by clicking guard button, to then signal the GUARD combat move in the manager.
+   */
   private void onGuard(Screen screen, ServiceContainer container) {
     logger.info("before Guard");
-    // Perform Guard logic here, like increasing health
+    manager.onPlayerActionSelected("GUARD");
+    entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
   /**
@@ -75,16 +87,22 @@ public class CombatActions extends Component {
   private void onKangaDefeated() {
     logger.info("Switching to end game stats screen.");
     game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
-  }
-  private void onSleep(Screen screen, ServiceContainer container) {
-    logger.info("before Sleep");
-    entity.getEvents().trigger("onSleep", manager.getPlayerStats(), manager.getEnemyStats());
-    // Perform counter logic here.
-  }
-  private void onItems(Screen screen, ServiceContainer container) {
-    logger.info("before Items");
-    // Perform Guard logic here, like increasing health
 
+  }
+
+  /**
+   * Signalled by clicking sleep button, to then signal the SLEEP combat move in the manager.
+   */
+  private void onSleep(Screen screen, ServiceContainer container) {
+    manager.onPlayerActionSelected("SLEEP");
+    entity.getEvents().trigger("onSleep", manager.getPlayerStats(), manager.getEnemyStats());
+  }
+
+  /**
+   * Signalled by clicking items button.
+   */
+  private void onItems(Screen screen, ServiceContainer container) {
+    logger.info("Clicked Items");
   }
 
   /**
@@ -93,6 +111,5 @@ public class CombatActions extends Component {
   @Override
   public void dispose() {
     // Dispose of the stage to free up resources
-    //stage.dispose(); // commented out because stage was returning null so could not be disposed of
   }
 }

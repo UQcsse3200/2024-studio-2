@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class CombatStatsComponentTest {
   @Test
   void shouldSetGetHealth() {
-    int maxHealth = 100;
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, 0, true, false);
 
     assertEquals(100, combat.getHealth());
 
@@ -34,8 +33,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldCheckIsDead() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false, false);
-
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, 0, true, false);
     assertFalse(combat.isDead());
 
     combat.setHealth(0);
@@ -44,7 +42,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddHealth() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, 0, true, false);
     combat.addHealth(-500);
     assertEquals(0, combat.getHealth());
 
@@ -56,7 +54,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldSetHungerWithinBounds() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 0, false, false);
     combat.setHunger(150);
     assertEquals(100, combat.getHunger());
 
@@ -69,7 +67,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddHungerWithCap() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 0, false, false);
     combat.addHunger(60);
     assertEquals(100, combat.getHunger());
 
@@ -81,7 +79,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldSetStrength() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, 0, true, false);
     combat.setStrength(0);
     assertEquals(0, combat.getStrength());
 
@@ -94,7 +92,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddStrength() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, 0, false, false);
     combat.addStrength(50);
     assertEquals(70, combat.getStrength());
 
@@ -106,7 +104,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldSetDefense() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 20, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 20, 0, 0, 0, false, false);
     combat.setDefense(0);
     assertEquals(0, combat.getDefense());
 
@@ -119,7 +117,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddDefense() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 20, 0, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 20, 0, 0, 0, false, false);
     combat.addDefense(50);
     assertEquals(70, combat.getDefense());
 
@@ -131,7 +129,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldSetSpeed() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 20, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 20, 0, 0, false, false);
     combat.setSpeed(0);
     assertEquals(0, combat.getSpeed());
 
@@ -144,7 +142,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddSpeed() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 20, 0, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 20, 0, 0, false, false);
     combat.addSpeed(50);
     assertEquals(70, combat.getSpeed());
 
@@ -156,7 +154,7 @@ class CombatStatsComponentTest {
   @Test
   void shouldSetExperienceAndHandleOverflow() {
     int maxExperience = 100;
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, true, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 0, true, false);
 
     combat.setExperience(150);
     assertEquals(50, combat.getExperience());
@@ -173,7 +171,7 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldAddExperienceWithOverflow() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 20, true, false);
+    CombatStatsComponent combat = new CombatStatsComponent(100, 100, 0, 0, 0, 20, 0, true, false);
     combat.addExperience(100);
     assertEquals(20, combat.getExperience());
 
@@ -190,7 +188,7 @@ class CombatStatsComponentTest {
     int initialExperience = 95;
     int maxExperience = 100;
 
-    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, true, false);
+    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, 100, true, false);
 
     combat.addExperience(10);
     assertEquals(5, combat.getExperience());
@@ -211,7 +209,7 @@ class CombatStatsComponentTest {
     int initialExperience = 95;
     int maxExperience = 100;
 
-    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, true, false);
+    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, 100, true, false);
 
     combat.setExperience(105);
     assertEquals(5, combat.getExperience());
@@ -233,7 +231,7 @@ class CombatStatsComponentTest {
     int maxHealth = 100;
     int maxExperience = 100;
 
-    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, false, false);
+    CombatStatsComponent combat = new CombatStatsComponent(initialHealth, 100, initialStrength, initialDefense, initialSpeed, initialExperience, 100, false, false);
 
     combat.addExperience(10);
     assertEquals(maxExperience, combat.getExperience());
@@ -244,6 +242,4 @@ class CombatStatsComponentTest {
     assertEquals(30, combat.getDefense());
     assertEquals(20, combat.getSpeed());
   }
-
-
 }

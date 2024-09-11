@@ -55,7 +55,6 @@ public class CombatScreen extends ScreenAdapter {
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea gameArea;
 
-
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
     this.oldScreen = screen;
@@ -161,8 +160,9 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, manager, enemy, oldScreen, oldScreenServices))
         .addComponent(new CombatExitDisplay(enemy))
+        .addComponent(manager)
+        .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)

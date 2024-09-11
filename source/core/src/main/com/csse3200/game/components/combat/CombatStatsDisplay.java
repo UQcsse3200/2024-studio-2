@@ -52,7 +52,11 @@ public class CombatStatsDisplay extends UIComponent {
     super.create();
     addActors();
     entity.getEvents().addListener("onAttack", this::updateHealthUI);
-    entity.getEvents().addListener("onCounter", this::updateHealthUI);
+    entity.getEvents().addListener("onAttack", this::updatePlayerHungerUI);
+    entity.getEvents().addListener("onGuard", this::updateHealthUI);
+    entity.getEvents().addListener("onGuard", this::updatePlayerHungerUI);
+    entity.getEvents().addListener("onSleep", this::updateHealthUI);
+    entity.getEvents().addListener("onSleep", this::updatePlayerHungerUI);
     entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
   }
 
@@ -262,11 +266,12 @@ public class CombatStatsDisplay extends UIComponent {
   /**
    * Updates the hunger bar animation of the player
    * @param playerStats The CombatStatsComponent of the player
+   * THE HUNGER BAR IS USED TEMPORARILY FOR DISPLAYING THE PLAYER'S STAMINA
    */
-  public void updatePlayerHungerUI(CombatStatsComponent playerStats) {
-    int hunger = playerStats.getHunger();
-    int maxHunger = playerStats.getMaxHunger();
-    CharSequence text = String.format("HGR: %d", hunger);
+  public void updatePlayerHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+    int hunger = playerStats.getStamina();
+    int maxHunger = playerStats.getMaxStamina();
+    CharSequence text = String.format("Stamina: %d", hunger);
     playerHungerLabel.setText(text);
 
     int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));

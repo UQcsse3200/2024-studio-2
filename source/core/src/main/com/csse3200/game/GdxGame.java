@@ -90,14 +90,9 @@ public class GdxGame extends Game {
         addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
     }
 
-    public void addEnemyCutsceneScreen(Entity player, Entity enemy) {
-      addScreen(ScreenType.ENEMY_CUTSCENE, getScreen(), player, enemy);
-
-    }
-
     public void enterCombatScreen(Entity player, Entity enemy) {
-    addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
-  }
+        addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
+    }
 
     public void enterSnakeScreen() {
         addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
@@ -167,8 +162,6 @@ public class GdxGame extends Game {
         case BOSS_CUTSCENE:
             return new BossCutsceneScreen(this, screen, container, player, enemy);
         case ENEMY_CUTSCENE:
-          return new EnemyCutsceneScreen(this, screen, container, player, enemy);
-        case ACHIEVEMENTS:
           return new AchievementsScreen(this);
         case MINI_GAME_MENU_SCREEN:
           return new MiniGameMenuScreen(this);
@@ -187,21 +180,19 @@ public class GdxGame extends Game {
       }
   }
 
-  /**
-   * types of screens
-   */
-  public enum ScreenType {
-      MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
-      ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, SNAKE_MINI_GAME,
-      ENEMY_CUTSCENE, BIRD_MINI_GAME,
-      END_GAME_STATS
+    /**
+     * types of screens
+     */
+    public enum ScreenType {
+        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
+        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME,
+        BIRD_MINI_GAME, END_GAME_STATS
+    }
 
-  }
-
-  /**
-   * Exit the game.
-   */
-  public void exit() {
-      app.exit();
-  }
+    /**
+     * Exit the game.
+     */
+    public void exit() {
+        app.exit();
+    }
 }
