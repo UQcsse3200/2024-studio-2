@@ -29,7 +29,7 @@ public class QuickTimeEventActions extends Component {
     @Override
     public void update() {
         // Handle count down to quick-time event start
-        if (count != 0 && gameTime.getTimeSince(lastUpdate) > 1000) {
+        if (count != 0 && gameTime.getTimeSince(lastUpdate) >= 1000) {
             // 1 second has passed - update counter
             count -= 1;
             if (count != 0) {

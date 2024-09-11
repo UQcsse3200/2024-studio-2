@@ -333,6 +333,15 @@ public class QuickTimeEventDisplay extends UIComponent {
         onEditLabel(""); // clear display
     }
 
+    /**
+     * Returns a reference to the label
+     *
+     * @return the label
+     */
+    public Label getLabel() {
+        return this.label;
+    }
+
     @Override
     public void dispose() {
         table.clear();
