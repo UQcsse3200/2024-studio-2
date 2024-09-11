@@ -125,7 +125,7 @@ public class Slides {
             Label titleLabel = new Label("Storyline Overview", skin, "title");
             Label contentLabel = new Label("\n" +
                                            "Welcome to Attack on Animals, a real-time strategy adventure of animal conquest\n" +
-                                           "Control powerful creatures to conquer kingdoms and restore balance to the lands\n" +
+                                           "Control powerful creatures to conquer kingdoms and restore balance to the land\n" +
                                            "Choose from a variety of animals with unique stats and abilities\n" +
                                            "Explore three kingdoms: Water, Land, and Air, each with unique ecosystems\n" +
                                            "Dogs rule the Land, while birds reign over the skies of Air\n" +
