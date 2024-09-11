@@ -242,7 +242,7 @@ public class DialogueBox {
                 if (currentMinigame == SNAKE) {
                     gdxGame.enterSnakeScreen();
                 } else if (currentMinigame == BIRD) {
-                    // TODO: Implement bird game (sprint 3)
+                    gdxGame.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
                     // TODO: Implement underwater maze (sprint 4)
                 }
