@@ -56,8 +56,6 @@ public class QuickTimeEventDisplay extends UIComponent {
     private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
     private final Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
     private final TextureAtlas pawsAtlas = new TextureAtlas("images/quicktimeevent/paws.atlas");
-
-    // sounds
     private final String victorySound = "sounds/victory.mp3";
 
     @Override

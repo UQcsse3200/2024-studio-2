@@ -35,7 +35,6 @@ public class QuickTimeEventActions extends Component {
             if (count != 0) {
                 entity.getEvents().trigger("editLabel", count + "");
             } else {
-                entity.getEvents().trigger("editLabel", "");
                 entity.getEvents().trigger("startQuickTime", quickTimeEventsDemo());
             }
             lastUpdate = gameTime.getTime();
@@ -60,9 +59,10 @@ public class QuickTimeEventActions extends Component {
     }
 
     /**
-     * Creates a quick-time events demo
+     * Creates a demo list of four quick-time events
+     * with different durations
      *
-     * @returns list of quick-time events
+     * @returns a list of demo quick-time events
      */
     private static QuickTimeEvent[] quickTimeEventsDemo() {
         float delay = 0.2f;
