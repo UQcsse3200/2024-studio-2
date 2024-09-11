@@ -3,6 +3,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AchievementManager {
     private static final String CONFIG_PATH = "configs/achievements.json";
@@ -55,6 +57,8 @@ public class AchievementManager {
      * Function to save achievements to 'saves/achievements.json'.
      */
     public static void saveAchievements(Array<Achievement> achievements) {
+        Logger logger = LoggerFactory.getLogger(AchievementManager.class);
+        logger.info("saving achievement");
         Json json = new Json();
         FileHandle saveFile = Gdx.files.local(SAVE_PATH);
 

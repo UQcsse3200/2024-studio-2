@@ -203,7 +203,6 @@ public class QuestManager extends Component {
      * Subscribes to mini game triggers and sends it as a specific achievement completion trigger.
      */
     private void handleMiniGameAdvancement(MiniGameNames name, MiniGameMedals medal){
-        logger.info("{} triggered", name.name() +' ' + medal.name());
         player.getEvents().trigger(medal.name()  +' ' + name.name());
     }
 
@@ -211,7 +210,8 @@ public class QuestManager extends Component {
      * Subscribes to enemy beaten triggers and sends it as a specific achievement completion trigger.
      */
     private void handleEnemyAdvancement(Entity enemy){
-        player.getEvents().trigger(enemy.getClass().getName() + "Advancement");
+        logger.info("{} triggered", enemy.getEnemyType().toString());
+        player.getEvents().trigger(enemy.getEnemyType().toString());
     }
 
     /**
@@ -375,6 +375,7 @@ public class QuestManager extends Component {
             achievement.complete();
             questComplete.play();
             player.getEvents().trigger("achievementCompleted");
+            saveAchievements(achievements);
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }

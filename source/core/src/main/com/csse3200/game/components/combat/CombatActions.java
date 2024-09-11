@@ -46,6 +46,7 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }

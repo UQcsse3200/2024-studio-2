@@ -128,4 +128,38 @@
     "type": "ADVANCEMENT",
     "iconPath": "images/logbook/icons/bird-gold.png"
   }
+,
+  {
+    "questName": "MONKEY",
+    "questDescription": "Defeat the fearsome monkey!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/monkey.png"
+  }
+,
+  {
+    "questName": "CHICKEN",
+    "questDescription": "Defeat the terrifying chicken!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/chicken.png"
+  },
+  {
+    "questName": "FROG",
+    "questDescription": "Defeat the dangerous frog!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/frog.png"
+  },
+  {
+    "questName": "KANGAROO",
+    "questDescription": "Defeat the MIGHTY KANGAROO!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/final_boss_kangaroo_idle.png"
+  }
 ]
