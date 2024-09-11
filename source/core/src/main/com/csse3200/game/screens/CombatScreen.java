@@ -110,14 +110,12 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    //gameArea.pauseMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
     isPaused = false;
-    //gameArea.playMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game resumed");
   }
 
@@ -173,26 +171,6 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
 
     ServiceLocator.getEntityService().register(ui);
-  }
-
-  public void removeOverlay(){
-    logger.debug("Removing top Overlay");
-
-    if (enabledOverlays.isEmpty()){
-      this.wake();
-      return;
-    }
-
-    enabledOverlays.getFirst().remove();
-
-    enabledOverlays.removeFirst();
-
-    if (enabledOverlays.isEmpty()){
-      this.wake();
-
-    } else {
-      enabledOverlays.getFirst().wake();
-    }
   }
 
   public void wake() {
