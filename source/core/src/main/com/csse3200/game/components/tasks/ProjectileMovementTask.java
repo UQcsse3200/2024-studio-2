@@ -6,27 +6,29 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ProjectileMovementTask extends DefaultTask implements PriorityTask {
-  protected final Entity target;
   protected final int priority;
   protected final PhysicsEngine physics;
   protected MovementTask movementTask;
+  private Vector2 targetPosition;
 
   /**
    * @param target The entity to chase.
    * @param priority Task priority when chasing (0 when not chasing).
    */
   public ProjectileMovementTask(Entity target, int priority) {
-    this.target = target;
+    this.targetPosition = target.getPosition();
     this.priority = priority;
     physics = ServiceLocator.getPhysicsService().getPhysics();
   }
@@ -39,9 +41,7 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
     super.start();
       System.out.println("firing banana");
       // Set movementTask based on npc type
-      Vector2 currentPos = owner.getEntity().getPosition();
-      Vector2 targetPos = target.getPosition();
-      movementTask = new MovementTask(targetPos);
+      movementTask = new MovementTask(targetPosition);
       movementTask.create(owner);
       movementTask.start();
 
@@ -53,11 +53,15 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
    */
   @Override
   public void update() {
-    movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
-      Gdx.app.postRunnable(owner.getEntity()::dispose);
+      System.out.println(owner.getEntity().getComponent(ProjectileAttackComponent.class));
+      owner.getEntity().setEnabled(false);
+      AnimationRenderComponent animationRenderComponent = owner.getEntity().getComponent(AnimationRenderComponent.class);
+      animationRenderComponent.stopAnimation();
+      owner.getEntity().dispose();
+      //Gdx.app.postRunnable(owner.getEntity()::dispose);
     }
-    System.out.println("firing banana");
+    movementTask.update();
   }
 
   @Override

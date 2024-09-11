@@ -116,18 +116,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     // this.owner.getEntity().getEvents().trigger("shooting");  // Trigger shooting event
     lastShotTime = timer.getTime();  // Update the time of the last shot
     numShots++;  // Increase shot count
-    Entity banana = ProjectileFactory.createBanana(target);
-
-// Calculate bananaX and bananaY based on target's relative position
-    float bananaX = (owner.getEntity().getPosition().x - target.getPosition().x) > 0 ? -1 : 1;
-    float bananaY = (owner.getEntity().getPosition().y - target.getPosition().y) > 0 ? 1 : -1;
-
-// Calculate the new position using Vector2
-    Vector2 pos = new Vector2(owner.getEntity().getPosition().x + bananaX, owner.getEntity().getPosition().y + bananaY);
-
-
-// Spawn the banana entity at the calculated GridPoint2
-    GameArea currentGameArea = ServiceLocator.getGameArea();
-    currentGameArea.spawnEntityAtVector(banana, pos);
+    owner.getEntity().getEvents().trigger("FireBanana", owner.getEntity());
   }
 }

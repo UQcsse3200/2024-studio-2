@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
@@ -59,13 +60,10 @@ public class ProjectileFactory {
     TextureAtlas bananaAtlas = ServiceLocator.getResourceService().getAsset("images/banana.atlas", TextureAtlas.class);
 
     AnimationRenderComponent animator = new AnimationRenderComponent(bananaAtlas);
-
     animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
 
     banana
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2), 0,
-                    config.getBaseAttack(), 0, config.getSpeed(), 0))
             .addComponent(new BananaAnimationController());
 
     banana.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -88,7 +86,7 @@ public class ProjectileFactory {
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
+            .addComponent(new ProjectileAttackComponent(PhysicsLayer.PLAYER));
 
     PhysicsUtils.setScaledCollider(projectile, 0.9f, 0.4f);
     return projectile;
