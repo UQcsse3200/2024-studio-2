@@ -308,5 +308,6 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void loadInventoryFromSave() {
         inventory.loadInventoryFromSave();
+        hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
     }
 }
