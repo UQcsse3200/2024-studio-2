@@ -65,6 +65,7 @@ public class PauseDisplay extends UIComponent {
         // Create buttons
         TextButton resumeBtn = new TextButton("Resume", skin);
         TextButton questsBtn = new TextButton("Quest Tracker", skin);
+        TextButton settingsBtn = new TextButton("Settings", skin);
         TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
 
         // Add listeners for buttons
@@ -83,6 +84,13 @@ public class PauseDisplay extends UIComponent {
                 openQuests();
             }
         });
+        settingsBtn.addListener(new ChangeListener() {  // Settings button listener
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                logger.debug("Settings button clicked");
+                openSettings();  // Call method to open settings overlay
+            }
+        });
 
         // Triggers an event when the button is pressed.
         mainMenuBtn.addListener(
@@ -96,7 +104,7 @@ public class PauseDisplay extends UIComponent {
 
         // Layout buttons in a table
         Table table = new Table();
-        Actor[] actors = {questsBtn, resumeBtn, mainMenuBtn};
+        Actor[] actors = {questsBtn, resumeBtn,settingsBtn, mainMenuBtn};
         for ( Actor button : actors){
             Image buttonBackground = new Image(
                     ServiceLocator.getResourceService()
@@ -118,7 +126,9 @@ public class PauseDisplay extends UIComponent {
         screen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
     }
 
-
+    private void openSettings() {  // New method to open settings overlay
+        screen.addOverlay(Overlay.OverlayType.SETTINGS_OVERLAY);
+    }
     @Override
     protected void draw(SpriteBatch batch) {
         // draw is handled by the stage
