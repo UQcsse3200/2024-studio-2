@@ -81,8 +81,6 @@ public class PlayerActions extends Component {
     moving = true;
     logger.info("Player started moving in direction: " + direction);
     player.getEvents().trigger("steps");
-
-    // test trigger, please remove when Noah merges his logbook into main
   }
 
   void stopWalking() {
