@@ -334,12 +334,21 @@ public class QuickTimeEventDisplay extends UIComponent {
     }
 
     /**
-     * Returns a reference to the label
+     * Returns a reference to the label actor
      *
      * @return the label
      */
     public Label getLabel() {
         return this.label;
+    }
+
+    /**
+     * Returns a reference to the quick-time events actor
+     *
+     * @return the quick-time events
+     */
+    public Image getQte() {
+        return this.qte;
     }
 
     @Override

@@ -26,6 +26,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
 class QuickTimeEventTest {
+    private static final int LOOP_TIME_OUT = 1000;
+
     Entity ui;
     QuickTimeEventDisplay display;
     QuickTimeEventActions actions;
@@ -79,16 +81,41 @@ class QuickTimeEventTest {
         when(gameTime.getTime()).thenReturn(0L);
         ui.getEvents().trigger("start");
         ui.update();
-        // label is no longer empty
+        // label should no longer be empty
         assertNotEquals(display.getLabel().getText().toString(), "");
         int startCount = parseLabelTextToInt();
         // make 1 second pass
         when(gameTime.getTimeSince(0L)).thenReturn(1000L);
         ui.update();
-        // counter has decremented by 1
+        // counter should have decremented by 1
         int nextCount = parseLabelTextToInt();
         assertNotEquals(startCount, nextCount);
         assertEquals(startCount, nextCount + 1);
+    }
+
+    /**
+     * This test checks that when the counter reaches 0 then
+     * quick-time events start
+     */
+    @Test
+    void shouldStartQuickTimeEvents() {
+        when(gameTime.getTime()).thenReturn(0L);
+        ui.getEvents().trigger("start");
+        ui.update();
+        int i;
+        // make 1 second pass on each update
+        when(gameTime.getTimeSince(0L)).thenReturn(1000L);
+        for (i = 0; i < LOOP_TIME_OUT; i++) {
+            if (!ui.getEvents().getLastTriggeredEvent().equals("editLabel")) {
+                break; // Some new event has started
+            }
+            ui.update();
+        }
+        assertTrue(i < LOOP_TIME_OUT);
+        // quick-time event should have triggered
+        assertEquals(ui.getEvents().getLastTriggeredEvent(), "startQuickTime");
+        // quick-time event actor should have queued some actions
+        assertTrue(display.getQte().getActions().size > 0);
     }
 
     /**
