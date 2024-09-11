@@ -34,7 +34,7 @@ public class UserSettings {
      * Get the stored user settings
      * @return Copy of the current settings
      */
-    public static com.csse3200.game.components.settingsmenu.UserSettings.Settings get() {
+    public static Settings get() {
         String path = ROOT_DIR + File.separator + SETTINGS_FILE;
         com.csse3200.game.components.settingsmenu.UserSettings.Settings fileSettings = FileLoader.readClass(com.csse3200.game.components.settingsmenu.UserSettings.Settings.class, path, Location.EXTERNAL);
         // Use default values if file doesn't exist
@@ -46,7 +46,7 @@ public class UserSettings {
      * @param settings New settings to store
      * @param applyImmediate true to immediately apply new settings.
      */
-    public static void set(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings, boolean applyImmediate) {
+    public static void set(Settings settings, boolean applyImmediate) {
         String path = ROOT_DIR + File.separator + SETTINGS_FILE;
         FileLoader.writeClass(settings, path, Location.EXTERNAL);
 
@@ -59,7 +59,7 @@ public class UserSettings {
      * Apply the given settings without storing them.
      * @param settings Settings to apply
      */
-    public static void applySettings(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings) {
+    public static void applySettings(Settings settings) {
         Gdx.graphics.setForegroundFPS(settings.fps);
 
         if (settings.fullscreen) {
@@ -90,6 +90,16 @@ public class UserSettings {
             AudioManager.setMusicVolume(lastMusicVolume);
             AudioManager.setSoundVolume(lastSoundVolume);
         }
+
+    }
+
+    public static void applyDisplayMode(Settings settings) {
+        if (settings.fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(1280, 800);
+        }
+        set(settings, true);
     }
 
     /**
@@ -133,7 +143,8 @@ public class UserSettings {
         }
     }
 
-    private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
+
+    private static DisplayMode findMatching(DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
             return null;
         }
@@ -156,14 +167,16 @@ public class UserSettings {
          * FPS cap of the game. Independant of screen FPS.
          */
         public int fps = 60;
-        public boolean fullscreen = true;
+        public boolean fullscreen = false;
         /**
          * ui Scale. Currently unused, but can be implemented.
          */
         public float audioScale = 100;
         public float soundScale = 100;
-        public com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings displayMode = null;
+        public DisplaySettings displayMode = null;
         public String selectedMusicTrack = "Track 1";
+
+
     }
 
     /**

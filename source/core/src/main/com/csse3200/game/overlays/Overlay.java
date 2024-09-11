@@ -67,7 +67,7 @@ public class Overlay {
      * Enumeration of different types of overlays.
      */
     public enum OverlayType {
-        PAUSE_OVERLAY, QUEST_OVERLAY
+        PAUSE_OVERLAY, QUEST_OVERLAY, SETTINGS_OVERLAY
     }
 
     /**

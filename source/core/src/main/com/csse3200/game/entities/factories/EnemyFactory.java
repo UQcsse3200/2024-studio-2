@@ -54,14 +54,22 @@ public class EnemyFactory {
   );
 
   /**
+   * types of enemies
+   */
+  private enum EnemyType {
+    FROG,
+    CHICKEN,
+    MONKEY;
+  }
+
+  /**
    * Creates a chicken enemy.
    *
    * @param target entity to chase (player in most cases, but does not have to be)
    * @return enemy chicken entity
    */
   public static Entity createChicken(Entity target) {
-    Entity chicken = createBaseEnemy(target, Entity.EnemyType.CHICKEN);
-    chicken.setEnemyType(Entity.EnemyType.CHICKEN);
+    Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
     BaseEnemyEntityConfig config = configs.chicken;
     chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
@@ -92,8 +100,7 @@ public class EnemyFactory {
    * @return enemy frog entity
    */
   public static Entity createFrog(Entity target) {
-    Entity frog = createBaseEnemy(target, Entity.EnemyType.FROG);
-    frog.setEnemyType(Entity.EnemyType.FROG);
+    Entity frog = createBaseEnemy(target, EnemyType.FROG);
     BaseEnemyEntityConfig config = configs.frog;
     frog.setEnemyType(Entity.EnemyType.FROG);
 
@@ -121,8 +128,7 @@ public class EnemyFactory {
    * @return enemy monkey entity
    */
   public static Entity createMonkey(Entity target) {
-    Entity monkey = createBaseEnemy(target, Entity.EnemyType.MONKEY);
-    monkey.setEnemyType(Entity.EnemyType.MONKEY);
+    Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
     BaseEnemyEntityConfig config = configs.monkey;
     monkey.setEnemyType(Entity.EnemyType.MONKEY);
 
@@ -159,10 +165,10 @@ public class EnemyFactory {
    * @param type the enemy type
    * @return entity
    */
-  private static Entity createBaseEnemy(Entity target, Entity.EnemyType type) {
+  private static Entity createBaseEnemy(Entity target, EnemyType type) {
     AITaskComponent aiComponent = new AITaskComponent();
 
-    if (type == Entity.EnemyType.MONKEY) {
+    if (type == EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(2f, 2f), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
     } else {
