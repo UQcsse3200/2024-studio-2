@@ -431,21 +431,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     music.pause();
   }
 
-  @Override
-  public void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
-            Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
-  }
-
-  @Override
-  public void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
-    music.pause();
-  }
-
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();

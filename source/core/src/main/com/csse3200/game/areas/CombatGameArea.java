@@ -7,17 +7,21 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatGameArea extends GameArea {
@@ -138,16 +142,26 @@ public class CombatGameArea extends GameArea {
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }
 
-  @Override
-  public void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-    music.setLooping(true);
-    music.setVolume(0.3f);
-    music.play();
-  }
+  public static void playMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.setLooping(true);
+//    music.setVolume(0.5f);
+//    music.play();
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
 
-  @Override
-  public void pauseMusic() {}
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
+    }
+  }
+  public static void pauseMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.pause();
+    AudioManager.stopMusic();  // Stop the music
+  }
 
   @Override
   public Entity getPlayer() {

@@ -4,11 +4,14 @@ import com.badlogic.gdx.audio.Music;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Objects;
 
 /** Combat area used in combat screen. */
 public class CombatArea extends GameArea {
@@ -40,23 +43,30 @@ public class CombatArea extends GameArea {
         ui.addComponent(new GameAreaDisplay("Combat"));
     }
 
-    @Override
-    public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
+  public static void playMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.setLooping(true);
+//    music.setVolume(0.5f);
+//    music.play();
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
     }
+  }
+  public static void pauseMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.pause();
+    AudioManager.stopMusic();  // Stop the music
+  }
 
     @Override
     public Entity getPlayer() {
         return player;
-    }
-
-    @Override
-    public void pauseMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-        music.pause();
     }
 
     public void loadAssets() {

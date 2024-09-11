@@ -25,9 +25,6 @@ class GameAreaTest {
           public void create() {}
 
           @Override
-          public void playMusic() {}
-
-          @Override
           public Entity getPlayer() {
             return null;
           }
@@ -35,11 +32,6 @@ class GameAreaTest {
           @Override
           public void unloadAssets() {
           }
-
-          @Override
-          public void pauseMusic() {
-          }
-
         };
 
     ServiceLocator.registerEntityService(new EntityService());

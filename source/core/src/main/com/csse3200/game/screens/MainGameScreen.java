@@ -22,6 +22,7 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -150,7 +151,8 @@ public class MainGameScreen extends PausableScreen {
   @Override
   public void pause() {
     isPaused = true;
-    MapHandler.getCurrentMap().pauseMusic();
+    AudioManager.stopMusic();
+    //MapHandler.getCurrentMap().pauseMusic();
     logger.info("Game paused");
   }
 
@@ -164,7 +166,8 @@ public class MainGameScreen extends PausableScreen {
         .getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     if (!resting) {
-      MapHandler.getCurrentMap().playMusic();
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+      //MapHandler.getCurrentMap().playMusic();
     }
     logger.info("Game resumed");
   }
@@ -234,7 +237,8 @@ public class MainGameScreen extends PausableScreen {
    */
   public void rest() {
     super.rest();
-    MapHandler.getCurrentMap().pauseMusic();
+    AudioManager.stopMusic();
+    //MapHandler.getCurrentMap().pauseMusic();
   }
 
   /**
@@ -245,10 +249,11 @@ public class MainGameScreen extends PausableScreen {
     KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer()
         .getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
-    MapHandler.getCurrentMap().playMusic();
+    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    //MapHandler.getCurrentMap().playMusic();
   }
 
-  public ForestGameArea getGameArea() {
-    return gameArea;
-  }
+  //public ForestGameArea getGameArea() {
+  //  return gameArea;
+  //}
 }

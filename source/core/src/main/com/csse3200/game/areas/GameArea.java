@@ -72,8 +72,8 @@ public abstract class GameArea implements Disposable {
     spawnEntity(entity);
   }
 
-  public abstract void playMusic();
-  public abstract void pauseMusic();
+  //public abstract void playMusic();
+  //public abstract void pauseMusic();
   public abstract Entity getPlayer();
   public abstract void unloadAssets();
   

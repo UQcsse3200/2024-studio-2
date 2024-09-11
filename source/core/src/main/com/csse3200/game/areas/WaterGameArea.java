@@ -295,40 +295,6 @@ public class WaterGameArea extends GameArea {
     }
   }
 
-  /**
-   * Static method to play background music
-   */
-  public static void pMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
-            Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
-  }
-
-  /**
-   * Static method to pause background music
-   */
-  public static void puMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
-    music.pause();
-  }
-
-  @Override
-  public void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
-            Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
-  }
-
-  @Override
-  public void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
-    music.pause();
-  }
-
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
