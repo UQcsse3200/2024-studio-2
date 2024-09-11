@@ -79,6 +79,8 @@ public class CombatManager extends Component {
         // Process any status effects after the actions are taken.
         processStatusEffects(playerStats);
         processStatusEffects(enemyStats);
+
+        checkCombatEnd();
     }
 
     /**
