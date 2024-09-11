@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -162,6 +163,39 @@ class CombatMoveComponentTest {
         verify(mockGuardMove, never()).execute(any());
         verify(mockSleepMove, never()).execute(any());
         verify(mockSpecialMove, never()).execute(any());
+    }
+
+    /**
+     * Test that hasSpecialMove returns true when a special move is present in the move set.
+     */
+    @Test
+    void testHasSpecialMoveTrue() {
+        List<CombatMove> moveSet = Arrays.asList(mockAttackMove, mockGuardMove, mockSleepMove, mockSpecialMove);
+        combatMoveComponent = new CombatMoveComponent(moveSet);
+
+        assertTrue(combatMoveComponent.hasSpecialMove(), "The move set contains a special move, but hasSpecialMove returned false.");
+    }
+
+    /**
+     * Test that hasSpecialMove returns false when no special move is present in the move set.
+     */
+    @Test
+    void testHasSpecialMoveFalse() {
+        List<CombatMove> moveSet = Arrays.asList(mockAttackMove, mockGuardMove, mockSleepMove);
+        combatMoveComponent = new CombatMoveComponent(moveSet);
+
+        assertFalse(combatMoveComponent.hasSpecialMove(), "The move set does not contain a special move, but hasSpecialMove returned true.");
+    }
+
+    /**
+     * Test that hasSpecialMove returns false when the move set is empty.
+     */
+    @Test
+    void testHasSpecialMoveEmptyMoveSet() {
+        List<CombatMove> emptyMoveSet = Collections.emptyList();
+        combatMoveComponent = new CombatMoveComponent(emptyMoveSet);
+
+        assertFalse(combatMoveComponent.hasSpecialMove(), "The move set is empty, but hasSpecialMove returned true.");
     }
 
     /**
