@@ -28,21 +28,21 @@ public class BearAnimationController extends Component {
 
     private void animateChaseLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("float");
+        animator.startAnimation("chase");
     }
 
     private void animateChaseRight() {
         animator.setFlipX(false);
-        animator.startAnimation("float");
+        animator.startAnimation("chase");
     }
 
     private void animateWanderLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("chase");
+        animator.startAnimation("float");
     }
 
     private void animateWanderRight() {
         animator.setFlipX(false);
-        animator.startAnimation("chase");
+        animator.startAnimation("float");
     }
 }
