@@ -70,8 +70,8 @@ public class CombatManager extends Component {
         checkForConfusion(playerStats);
 
         enemyAction = selectEnemyMove();
-        logger.info("(BEFORE) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(BEFORE) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(BEFORE) PLAYER {}: health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
+        logger.info("(BEFORE) ENEMY {}: health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
@@ -120,7 +120,7 @@ public class CombatManager extends Component {
     private Action selectEnemyMove() {
         Action enemyAction;
 
-        int rand = (int) (Math.random() * 4);
+        int rand = enemyMove.hasSpecialMove() ? (int) (Math.random() * 4) : (int) (Math.random() * 3);
         enemyAction = switch (rand) {
             case 0 -> Action.ATTACK;
             case 1 -> Action.GUARD;
@@ -159,31 +159,23 @@ public class CombatManager extends Component {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
                             playerMove.executeMove(playerAction, enemyStats);
+                            enemyMove.executeMove(enemyAction, playerStats);
                         } else {
-                            enemyMove.executeMove(enemyAction, enemyStats);
-                        }
-                        checkCombatEnd();
-                        if (getSlowerEntity() == player) {
+                            enemyMove.executeMove(enemyAction, playerStats);
                             playerMove.executeMove(playerAction, enemyStats);
-                        } else {
-                            enemyMove.executeMove(enemyAction, enemyStats);
                         }
-                        checkCombatEnd();
                     }
                     case GUARD -> {
                         enemyMove.executeMove(enemyAction);
                         playerMove.executeMove(playerAction, enemyStats, true);
-                        checkCombatEnd();
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        // player.multiHitAttack()
-                        checkCombatEnd();
+                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
                     }
                     case SPECIAL -> {
-                        // enemy.special()
+                        enemyMove.executeMove(enemyAction, playerStats, false);
                         playerMove.executeMove(playerAction, enemyStats);
-                        checkCombatEnd();
                     }
                 }
             }
@@ -192,7 +184,6 @@ public class CombatManager extends Component {
                     case ATTACK, SPECIAL -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction, playerStats, true);
-                        checkCombatEnd();
                     }
                     case GUARD, SLEEP -> {
                         playerMove.executeMove(playerAction);
@@ -205,7 +196,6 @@ public class CombatManager extends Component {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
                         enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
-                        checkCombatEnd();
                     }
                     case GUARD, SLEEP -> {
                         playerMove.executeMove(playerAction);
@@ -213,8 +203,7 @@ public class CombatManager extends Component {
                     }
                     case SPECIAL -> {
                         playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, false, 1);
-                        checkCombatEnd();
+                        enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                 }
             }
@@ -225,6 +214,8 @@ public class CombatManager extends Component {
 
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+
+        checkCombatEnd();
     }
 
     /**
@@ -234,15 +225,6 @@ public class CombatManager extends Component {
      */
     private Entity getFasterEntity() {
         return playerStats.getSpeed() >= enemyStats.getSpeed() ? player : enemy;
-    }
-
-    /**
-     * Determines the slower entity based on their speed stat.
-     *
-     * @return the entity with the lower speed stat.
-     */
-    private Entity getSlowerEntity() {
-        return playerStats.getSpeed() < enemyStats.getSpeed() ? player : enemy;
     }
 
     /**

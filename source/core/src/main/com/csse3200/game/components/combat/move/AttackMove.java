@@ -53,7 +53,7 @@ public class AttackMove extends CombatMove {
      */
     @Override
     public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats, targetStats, false, 1);
+        execute(attackerStats, targetStats, targetIsGuarded, 1);
     }
 
     /**
