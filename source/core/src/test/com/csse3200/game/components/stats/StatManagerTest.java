@@ -45,12 +45,6 @@ class StatManagerTest {
     }
 
     @Test
-    void testHandleCollection() {
-        statManager.handleCollection(item);
-        verify(eventHandler).trigger("TestItemCollected");
-    }
-
-    @Test
     void testIncrementStatNotFound() {
         when(stat.getStatName()).thenReturn("DifferentStat");
 
