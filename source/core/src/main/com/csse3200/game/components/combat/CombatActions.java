@@ -46,7 +46,7 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    game.setOldScreen(previousScreen, previousServices);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
 

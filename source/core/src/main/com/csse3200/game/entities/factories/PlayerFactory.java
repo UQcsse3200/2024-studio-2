@@ -110,7 +110,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100,true));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true));
 
         combatPlayer.scaleHeight(90.0f);
 

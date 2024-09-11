@@ -235,9 +235,9 @@ public class CombatManager extends Component {
      */
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
-            entity.getEvents().trigger("combatLoss");
+            this.getEntity().getEvents().trigger("combatLoss");
         } else if (enemyStats.getHealth() <= 0) {
-            entity.getEvents().trigger("combatWin");
+            this.getEntity().getEvents().trigger("combatWin");
         }
     }
 
@@ -270,5 +270,19 @@ public class CombatManager extends Component {
      */
     public Entity getEnemy() {
         return enemy;
+    }
+
+    /**
+     * @return the stats component of the player.
+     */
+    public CombatStatsComponent getPlayerStats() {
+        return playerStats;
+    }
+
+    /**
+     * @return the stats component of the enemy.
+     */
+    public CombatStatsComponent getEnemyStats() {
+        return enemyStats;
     }
 }
