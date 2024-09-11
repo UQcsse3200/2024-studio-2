@@ -56,8 +56,4 @@ class StatManagerTest {
         statManager.dispose();
     }
 
-    @After
-    public void tearDown() {
-        reset(Gdx.class);
-    }
 }
