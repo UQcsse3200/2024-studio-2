@@ -47,7 +47,6 @@ public class MapHandler {
 
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
-    // create map if not exist
     if (mapType == MapType.FOREST) {
       forestGameArea = new ForestGameArea(terrainFactory, game);
       forestGameArea.create();

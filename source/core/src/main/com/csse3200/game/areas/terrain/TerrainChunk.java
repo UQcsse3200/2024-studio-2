@@ -94,7 +94,6 @@ public class TerrainChunk {
       Array<Integer> minentropyTiles = new Array<Integer>();
       for (int i = 0; i < grid.size; ++i) {
         if (grid.get(i).cardinality() == minentropy) {
-          // System.out.println("e: " + grid.get(i).cardinality() + " i: " + i);
           minentropyTiles.add(i);
         }
       }
@@ -102,14 +101,10 @@ public class TerrainChunk {
       if (minentropyTiles.size == 0)
         break;
 
-
       Integer randomTile = minentropyTiles.random();
       // int randomTile = t;
       GridPoint2 toGridpos = new GridPoint2(randomTile % 16, randomTile / 16);
 
-      // System.out.println(((TiledMapTileLayer)
-      // tiledMap.getLayers().get(0)).getCell(cPosX + toGridpos.x, cPosY +
-      // toGridpos.y));
       // ranodm pick a tile
       int numTrueBits = grid.get(randomTile).cardinality();
       int randomTrueBitIndex = 0;

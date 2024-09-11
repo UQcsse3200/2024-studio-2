@@ -138,8 +138,6 @@ public class TerrainComponent extends RenderComponent {
         activeChunks.add(pos);
       }
     }
-    //GridPoint2 pos = new GridPoint2(chunkPos.x, chunkPos.y);
-    //fillChunk(pos);
 
     updateChunkStatus();
   }
@@ -231,31 +229,12 @@ public class TerrainComponent extends RenderComponent {
    * TerrainResource class to store all possible tiles and their edge tiles.
    */
   public class TerrainResource {
-    private Tile grassTL, grassTM, grassTR, grassML, grassMM, grassMR, grassBL, grassBM, grassBR;
-    private Tile fullSand;
     private ArrayList<Tile> tiles;
-
-   
 
     // total number of tiles
     public static int TILE_SIZE = 0;
 
     public TerrainResource(MapType mapType) {
-
-
-  // the tile config 
-  //"forestMapTiles" : [
-  //  {
-  //    "id": "grassTL",
-  //    "fp": "images/grass_tile_2_around_sand/upper_left_corner_grass_2_around_sand.jpg",
-  //    "edges": ["AAA", "ABB", "ABB", "AAA"]
-  //  },
-  //  {
-  //    "id": "grassTM",
-  //    "fp": "images/grass_tile_2_around_sand/upper_middle_grass_2_around_sand.jpg",
-  //    "edges": ["AAA", "ABB", "BBB", "ABB"]
-  //  },
-
       ResourceService resourceService = ServiceLocator.getResourceService();
       tiles = new ArrayList<Tile>();
       switch(mapType) {
@@ -265,10 +244,6 @@ public class TerrainComponent extends RenderComponent {
           System.out.println("Tile Config: " + tileConfig);
 
          for (ForestTileConfig tile : tileConfig.forestMapTiles) {
-            //System.out.println("Tile ID: " + tile.id);
-            //System.out.println("Tile File Path: " + tile.fp);
-            //System.out.println("Tile Edges: " + tile.edges);
-
             // edge: TOP, RIGHT, BOTTOM, LEFT
             // A: sand, B: grass, C: water
             // =======================
@@ -279,64 +254,6 @@ public class TerrainComponent extends RenderComponent {
         default:
           throw new IllegalArgumentException("Map type not supported: " + mapType);
       }
-
-
-
-
-      //this.grassTL = new Tile("grassTL",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/upper_left_corner_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("AAA", "ABB", "ABB", "AAA")));
-      //
-      //this.grassTM = new Tile("grassTM",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/upper_middle_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("AAA", "ABB", "BBB", "ABB")));
-      //
-      //this.grassTR = new Tile("grassTR",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/upper_right_corner_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("AAA", "AAA", "BBA", "ABB")));
-      //
-      //this.grassML = new Tile("grassML",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/left_middle_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("ABB", "BBB", "ABB", "AAA")));
-      //
-      //this.grassMM = new Tile("grassMM",
-      //    new TextureRegion(resourceService.getAsset("images/grass_tile_2_around_sand/middle_grass_2_around_sand.jpg",
-      //        Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("BBB", "BBB", "BBB", "BBB")));
-      //
-      //this.grassMR = new Tile("grassMR",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/right_middle_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("BBA", "AAA", "BBA", "BBB")));
-      //
-      //this.grassBL = new Tile("grassBL",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/lower_left_corner_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("ABB", "BBA", "AAA", "AAA")));
-      //
-      //this.grassBM = new Tile("grassBM",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/lower_middle_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("BBB", "BBA", "AAA", "BBA")));
-      //
-      //this.grassBR = new Tile("grassBR",
-      //    new TextureRegion(resourceService
-      //        .getAsset("images/grass_tile_2_around_sand/lower_right_corner_grass_2_around_sand.jpg", Texture.class)),
-      //    new ArrayList<String>(Arrays.asList("BBA", "AAA", "AAA", "BBA")));
-      //
-      //tiles.add(this.grassTL);
-      //tiles.add(this.grassTM);
-      //tiles.add(this.grassTR);
-      //tiles.add(this.grassML);
-      //tiles.add(this.grassMM);
-      //tiles.add(this.grassMR);
-      //tiles.add(this.grassBL);
-      //tiles.add(this.grassBM);
-      //tiles.add(this.grassBR);
 
       this.setPossibleTiles();
     }
@@ -361,13 +278,6 @@ public class TerrainComponent extends RenderComponent {
     public void setPossibleUp(Tile tile) {
       BitSet up = new BitSet(TILE_SIZE);
       for (int i = 0; i < this.tiles.size(); i++) {
-        //System.out.println("name: " + tile.name + " edge: " + tile.getEdgeTiles().get(0));
-        //System.out.println("name: " + this.tiles.get(i).name + " edge: " + this.tiles.get(i).getEdgeTiles().get(2));
-        //System.out.println(this.tiles.get(i).getEdgeTiles().get(2) + " == " + tile.getEdgeTiles().get(0));
-        //System.out.println(this.tiles.get(i).getEdgeTiles().get(2) instanceof String);
-        //System.out.println(tile.getEdgeTiles().get(0) instanceof String);
-        //System.out.println(this.tiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0)));
-        //System.out.println("=======================");
         if (this.tiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0))) {
           up.set(i, true);
         }
@@ -453,96 +363,6 @@ public class TerrainComponent extends RenderComponent {
     public ArrayList<Tile> getAllTiles() {
       return this.tiles;
     }
-
-    ///**
-    // * Get top left grass tile.
-    // * 
-    // * @return The top left grass tile
-    // */
-    //public Tile getGrassTL() {
-    //  return this.grassTL;
-    //}
-    //
-    ///**
-    // * Get top middle grass tile.
-    // * 
-    // * @return The top middle grass tile
-    // */
-    //public Tile getGrassTM() {
-    //  return this.grassTM;
-    //}
-    //
-    ///**
-    // * Get top right grass tile.
-    // * 
-    // * @return The top right grass tile
-    // */
-    //public Tile getGrassTR() {
-    //  return this.grassTR;
-    //}
-    //
-    ///**
-    // * Get middle left grass tile.
-    // * 
-    // * @return The middle left grass tile
-    // */
-    //public Tile getGrassML() {
-    //  return this.grassML;
-    //}
-    //
-    ///**
-    // * Get middle middle grass tile.
-    // * 
-    // * @return The middle middle grass tile
-    // */
-    //public Tile getGrassMM() {
-    //  return this.grassMM;
-    //}
-    //
-    ///**
-    // * Get middle right grass tile.
-    // * 
-    // * @return The middle right grass tile
-    // */
-    //public Tile getGrassMR() {
-    //  return this.grassMR;
-    //}
-    //
-    ///**
-    // * Get bottom left grass tile.
-    // * 
-    // * @return The bottom left grass tile
-    // */
-    //public Tile getGrassBL() {
-    //  return this.grassBL;
-    //}
-    //
-    ///**
-    // * Get bottom middle grass tile.
-    // * 
-    // * @return The bottom middle grass tile
-    // */
-    //public Tile getGrassBM() {
-    //  return this.grassBM;
-    //}
-    //
-    ///**
-    // * Get bottom right grass tile.
-    // * 
-    // * @return The bottom right grass tile
-    // */
-    //public Tile getGrassBR() {
-    //  return this.grassBR;
-    //}
-    //
-    ///**
-    // * Get full sand tile.
-    // * 
-    // * @return The full sand tile
-    // */
-    //public Tile getFullSand() {
-    //  return this.fullSand;
-    //}
 
     /**
      * Randomly pick a tile from the list of tiles.
