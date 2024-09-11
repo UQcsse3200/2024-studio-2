@@ -4,71 +4,64 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.food.AbstractFood;
-import com.csse3200.game.inventory.items.food.Foods;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.csse3200.game.inventory.items.food.Foods.Apple;
-import com.csse3200.game.inventory.items.food.Foods.Candy;
-import com.csse3200.game.inventory.items.food.Foods.Meat;
-import com.csse3200.game.inventory.items.food.Foods.Carrot;
-import com.csse3200.game.inventory.items.food.Foods.ChickenLeg;
+import com.csse3200.game.inventory.items.food.Foods;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
 public class FoodItemTest {
-    private CombatStatsComponent stat;
-    private FoodItemTest.TestablePlayer player1;
-
-    private static class TestablePlayer extends ItemUsageContext {
-        public TestablePlayer(Entity entity) {super(entity);
-        }
-    }
+    private Entity player;
+    private ItemUsageContext context;
 
     @BeforeEach
     void setUp() {
-        int maxHealth = 100;
+        // Initialise stats component with hunger half full:
         int maxHunger = 100;
-        stat = new CombatStatsComponent(maxHealth, maxHunger,0,0,0,0, true);
+        CombatStatsComponent stat = new CombatStatsComponent(0, maxHunger, 0, 0, 0, 0, true);
         stat.setHunger(50);
-        player1 = new TestablePlayer(new Entity().addComponent(stat));
+
+        // Create a sample player to test:
+        player = new Entity().addComponent(stat);
+        context = new ItemUsageContext(player);
     }
 
     void helperTestFood(AbstractFood food) {
-        int originalHunger = player1.player.getComponent(CombatStatsComponent.class).getHunger();
+        int originalHunger = player.getComponent(CombatStatsComponent.class).getHunger();
         assertEquals(originalHunger, 50);
-        food.useItem(player1);
-        int newHunger = player1.player.getComponent(CombatStatsComponent.class).getHunger();
+        food.useItem(context);
+        int newHunger = player.getComponent(CombatStatsComponent.class).getHunger();
         assertTrue(newHunger > originalHunger, "Hunger did not increase when food was used!");
     }
 
     @Test
     void testApple() {
-        Apple apple = new Apple(1);
+        Foods.Apple apple = new Foods.Apple(1);
         helperTestFood(apple);
     }
 
     @Test
     void testCandy() {
-        Candy candy = new Candy(1);
+        Foods.Candy candy = new Foods.Candy(1);
         helperTestFood(candy);
     }
 
     @Test
     void testMeat() {
-        Meat meat = new Meat(1);
+        Foods.Meat meat = new Foods.Meat(1);
         helperTestFood(meat);
     }
 
     @Test
     void testCarrot() {
-        Carrot carrot = new Carrot(1);
+        Foods.Carrot carrot = new Foods.Carrot(1);
         helperTestFood(carrot);
     }
 
     @Test
     void testChickenLeg() {
-        ChickenLeg chickenLeg = new ChickenLeg(1);
+        Foods.ChickenLeg chickenLeg = new Foods.ChickenLeg(1);
         helperTestFood(chickenLeg);
     }
 }
