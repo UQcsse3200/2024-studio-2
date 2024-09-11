@@ -29,6 +29,7 @@ public class CombatActions extends Component {
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLose", this::onCombatLoss);
+    entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
 
   }
 
@@ -49,6 +50,15 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat loss.");
     game.setScreen(GdxGame.ScreenType.MAIN_GAME);
   }
+
+  /**
+   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
+   */
+  private void onKangaDefeated() {
+    logger.info("Switching to end game stats screen.");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  }
+
   /**
    * Called when the screen is disposed to free resources.
    */

@@ -83,6 +83,7 @@ public class StatManager extends Component {
                 logger.info("stat not found in stats");
             }
         }
+        saveStats(stats);
     }
 
     @Override

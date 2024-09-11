@@ -6,5 +6,29 @@
     "statHasMax": false,
     "statMax": null,
     "type": "ITEM"
+  },
+  {
+    "statName": "CandyCollected",
+    "statDescription": "Candy collected by player",
+    "statCurrent": 0,
+    "statHasMax": false,
+    "statMax": null,
+    "type": "ITEM"
+  },
+  {
+    "statName": "MeatCollected",
+    "statDescription": "Meat collected by player",
+    "statCurrent": 0,
+    "statHasMax": false,
+    "statMax": null,
+    "type": "ITEM"
+  },
+  {
+    "statName": "CarrotCollected",
+    "statDescription": "Carrots collected by player",
+    "statCurrent": 0,
+    "statHasMax": false,
+    "statMax": null,
+    "type": "ITEM"
   }
 ]

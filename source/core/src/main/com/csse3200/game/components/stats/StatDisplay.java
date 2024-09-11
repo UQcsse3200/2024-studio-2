@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -29,7 +30,7 @@ public class StatDisplay extends UIComponent {
     private Table rootTable;
     /** Array to store stats. */
     private final Array<Stat> stats;
-    final ImageButton[] lastPressedButton = {null};
+    final Actor[] lastPressedButton = {null};
 
     /**
      * Array of texture paths used in the Achievements game screen.
@@ -43,7 +44,7 @@ public class StatDisplay extends UIComponent {
         super();
         this.game = game;
         StatSaveManager statSaveManager = new StatSaveManager();
-        this.stats =  statSaveManager.getStats();
+        this.stats = statSaveManager.getStats();
     }
 
     /**
@@ -73,7 +74,6 @@ public class StatDisplay extends UIComponent {
                 (Gdx.graphics.getHeight() - tableHeight) / 1.6f
         );
 
-
         Table menuBtns = makeMenuBtns();
 
         Stack tabContentStack = new Stack();
@@ -84,27 +84,27 @@ public class StatDisplay extends UIComponent {
         Table enemiesTable = makeLogbookTable(Stat.StatType.ENEMY);
         enemiesTable.add(new Label("Content for Tab 2", skin));
 
-        Table achievementsTable = makeLogbookTable(Stat.StatType.ADVANCEMENT);
-        achievementsTable.add(new Label("Content for Tab 3", skin));
+        Table playerTable = makeLogbookTable(Stat.StatType.PLAYER);
+        playerTable.add(new Label("Content for Tab 3", skin));
 
-        Table tabs = makeTabs(itemsTable, enemiesTable, achievementsTable);
+        Table tabs = makeTabs(itemsTable, enemiesTable, playerTable);
 
         // Add content tables to the stack
         tabContentStack.add(itemsTable);
         tabContentStack.add(enemiesTable);
-        tabContentStack.add(achievementsTable);
+        tabContentStack.add(playerTable);
 
         itemsTable.setVisible(true);
         enemiesTable.setVisible(false);
-        achievementsTable.setVisible(false);
+        playerTable.setVisible(false);
 
         rootTable.add(tabs).fillX().row();
         rootTable.add(tabContentStack).expand().fill();
-        rootTable.add(menuBtns).fillX().row();
+        rootTable.add(menuBtns).top().right().pad(10);
         stage.addActor(rootTable);
     }
 
-    void updateHoverEffect(ImageButton newButton) {
+    void updateHoverEffect(Actor newButton) {
         // Hover effect actions
         Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
         Action hoverOut = Actions.moveBy(0, -5, 0.3f); // Move down
@@ -115,104 +115,144 @@ public class StatDisplay extends UIComponent {
         if (lastPressedButton[0] != null) {
             lastPressedButton[0].clearActions();
             lastPressedButton[0].setPosition(lastPressedButton[0].getX(), lastPressedButton[0].getY() - 5); // Reset Y position
-            lastPressedButton[0].setScale(1f);
+            lastPressedButton[0].setScale(1f);  // Reset scale if applicable
         }
 
-        newButton.addAction(repeatHover); // Apply repeating hover effect to the new button
-        lastPressedButton[0] = newButton; // Update the last pressed button
+        newButton.addAction(repeatHover);  // Apply repeating hover effect to the new "button"
+        lastPressedButton[0] = newButton;  // Update the last pressed "button"
     }
-
 
     private Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
-        Image itemBG = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-yellow-tab.png", Texture.class));
-        Image enemyBG = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-red-tab.png", Texture.class));
-        Image achievementBG = new Image(
-                ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/lb-blue-tab.png", Texture.class));
+        // Background images for the tabs
+        Image itemBG = new Image(ServiceLocator.getResourceService()
+                .getAsset("images/logbook/lb-yellow-tab.png", Texture.class));
+        Image enemyBG = new Image(ServiceLocator.getResourceService()
+                .getAsset("images/logbook/lb-red-tab.png", Texture.class));
+        Image playerBG = new Image(ServiceLocator.getResourceService()
+                .getAsset("images/logbook/lb-blue-tab.png", Texture.class));
 
-        ImageButton itemButton = new ImageButton(itemBG.getDrawable());
-        ImageButton enemyButton = new ImageButton(enemyBG.getDrawable());
-        ImageButton achievementButton = new ImageButton(achievementBG.getDrawable());
+        // Labels for the tab titles
+        Label itemLabel = new Label("Items", skin);
+        Label enemyLabel = new Label("Enemy", skin);
+        Label playerLabel = new Label("Player", skin);
 
-        addButtonElevationEffect(itemButton);
-        addButtonElevationEffect(enemyButton);
-        addButtonElevationEffect(achievementButton);
+        // Set the alignment and font size for the labels
+        itemLabel.setFontScale(1.5f);
+        enemyLabel.setFontScale(1.5f);
+        playerLabel.setFontScale(1.5f);
+        itemLabel.setAlignment(Align.center);
+        enemyLabel.setAlignment(Align.center);
+        playerLabel.setAlignment(Align.center);
+
+        // Create tables for each button to simulate text over image
+        Table itemTable = new Table();
+        itemTable.add(itemBG).padBottom(-itemLabel.getHeight()); // Add image and adjust padding to overlay label
+        itemTable.row();
+        itemTable.add(itemLabel).center().padTop(-itemBG.getHeight() / 2f); // Overlay label on image
+
+        Table enemyTable = new Table();
+        enemyTable.add(enemyBG).padBottom(-enemyLabel.getHeight());
+        enemyTable.row();
+        enemyTable.add(enemyLabel).center().padTop(-enemyBG.getHeight() / 2f);
+
+        Table playerTable = new Table();
+        playerTable.add(playerBG).padBottom(-playerLabel.getHeight());
+        playerTable.row();
+        playerTable.add(playerLabel).center().padTop(-playerBG.getHeight() / 2f);
+
+        // Add the button tables to the main table
         tabButtonTable.left().top();
-        tabButtonTable.add(itemButton).left();
-        tabButtonTable.add(enemyButton).left();
-        tabButtonTable.add(achievementButton).left();
+        tabButtonTable.add(itemTable).left().padRight(10);
+        tabButtonTable.add(enemyTable).left().padRight(10);
+        tabButtonTable.add(playerTable).left();
 
-        itemButton.addListener(new ChangeListener() {
+        // Add event listeners to simulate button clicks using ClickListener
+        itemTable.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(true);
                 enemiesTable.setVisible(false);
                 achievementsTable.setVisible(false);
-                updateHoverEffect(itemButton);
+                updateHoverEffect(itemTable);  // Update hover effect
             }
         });
 
-        enemyButton.addListener(new ChangeListener() {
+        enemyTable.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(true);
                 achievementsTable.setVisible(false);
-                updateHoverEffect(enemyButton);
+                updateHoverEffect(enemyTable);
             }
         });
 
-        achievementButton.addListener(new ChangeListener() {
+        playerTable.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(false);
                 achievementsTable.setVisible(true);
-                updateHoverEffect(achievementButton);
+                updateHoverEffect(playerTable);
             }
         });
-        updateHoverEffect(itemButton);
+
+        // Add elevation effects to the tables
+        addTableElevationEffect(itemTable);
+        addTableElevationEffect(enemyTable);
+        addTableElevationEffect(playerTable);
+
+        // Set the initial hover effect
+        updateHoverEffect(itemTable);
+
         return tabButtonTable;
     }
+
 
     /**
      * Creates the Table for the visual representation of completed stats.
      * @return The Table showing stats.
      */
     private Table makeLogbookTable(Stat.StatType type) {
-        Table table = new Table().left().top().padLeft(50);
-        Integer advancementCounter = 0;
+        Table table = new Table();
+        table.top().pad(1);  // Adds padding around the top of the table
+        table.left().pad(100);  // Adds padding around the left of the table
+
+        // Create and add the title label at the top of the table
+        Label titleLabel = new Label(type + " Statistics", skin);
+        titleLabel.setFontScale(2.0f); // Set the font size
+        table.add(titleLabel).colspan(2).padBottom(35);  // Spanning across both columns and adding some padding below
+        table.row();  // Move to the next row for stats
 
         for (Stat stat : stats) {
             logger.info("stats are: {}", stats);
-            logger.info("AppleCollected current value is: {}", stat.getCurrent());
             if (stat.getCurrent() != 0 && stat.getType() == type) {
-                // Create a label to display stat.getCurrent() instead of an ImageButton
+                // Create labels to display stat information
                 Label statNameLabel = new Label(String.valueOf(stat.getStatName()), skin);
                 Label statCurrentLabel = new Label(String.valueOf(stat.getCurrent()), skin);
 
-                // Style or add padding to the label
+                // Style the labels
                 statNameLabel.setFontScale(1.5f);
                 statNameLabel.setAlignment(Align.center);
 
                 statCurrentLabel.setFontScale(1.5f);
                 statCurrentLabel.setAlignment(Align.center);
 
-                // Add stat to table
-                table.add(statNameLabel);
-                table.add(statCurrentLabel);
+                // Add stat labels to the table
+                table.add(statNameLabel).padRight(20); // Adding padding between columns
+                table.add(statCurrentLabel).padRight(20);
 
-                advancementCounter++;
-                if (advancementCounter == 6) {
-                    table.row();  // Move to a new row after 6 entries
-                    advancementCounter = 0;
-                }
+                // Add the actual row for the stat
+                table.row();
+
+                // Add a physical line as a separator
+                Label separator = new Label("--------------------------------------------------", skin);
+                separator.setFontScale(1.2f); // Adjust line thickness/size
+                separator.setAlignment(Align.center);
+                table.add(separator).colspan(2).padTop(10).padBottom(10);  // Spanning across both columns
+                table.row();
             }
         }
         return table;
@@ -238,6 +278,12 @@ public class StatDisplay extends UIComponent {
 
         Table table = new Table();
         table.add(exitBtn);
+
+        // Align the table to the top right of its parent container
+        table.top().right();
+        table.padRight(10);
+        table.padTop(10);
+
         return table;
     }
 
@@ -269,13 +315,13 @@ public class StatDisplay extends UIComponent {
     }
 
     /**
-     * Adds an elevation effect to buttons when hovered.
+     * Adds an elevation effect to tables when hovered.
      */
-    private void addButtonElevationEffect(Button button) {
-        button.addListener(new ClickListener() {
+    private void addTableElevationEffect(Table table) {
+        table.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                button.addAction(Actions.parallel(
+                table.addAction(Actions.parallel(
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
                 ));
@@ -284,11 +330,12 @@ public class StatDisplay extends UIComponent {
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                button.addAction(Actions.parallel(
+                table.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
                         Actions.scaleTo(1f, 1f, 0.1f)
                 ));
             }
         });
     }
+
 }

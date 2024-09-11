@@ -141,7 +141,7 @@ public class Stat implements Json.Serializable {
      * Define types for end game stats
      * */
     public enum StatType{
-        ITEM,ENEMY,ADVANCEMENT
+        ITEM,ENEMY,PLAYER
     }
 
     public Stat.StatType getType() {
