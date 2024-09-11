@@ -32,6 +32,7 @@ public class QuestManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
+    private final Sound achievementComplete = ServiceLocator.getResourceService().getAsset("sounds/achievement-sound.mp3", Sound.class);
     /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
 
@@ -352,7 +353,7 @@ public class QuestManager extends Component {
         QuestHidden achievement = achievements.get(achievementName);
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
-            questComplete.play();
+            achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
             logger.info("{} Completed!", achievement.getQuestName());
         }

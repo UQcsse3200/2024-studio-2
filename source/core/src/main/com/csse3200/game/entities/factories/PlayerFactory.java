@@ -9,6 +9,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.quests.AchievementPopup;
 import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
@@ -77,6 +78,7 @@ public class PlayerFactory {
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());
+        player.addComponent(new AchievementPopup());
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
