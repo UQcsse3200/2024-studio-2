@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -20,6 +23,10 @@ public class QuickTimeEventDisplay extends UIComponent {
     // sizes and dimensions
     private static final float COL_WIDTH = 160f;
     private static final float IMG_SIZE = 300f;
+    private static final float QTE_ORIGIN_X = IMG_SIZE/2;
+    private static final float QTE_ORIGIN_Y = IMG_SIZE/3;
+    private static final float QTE_START_SIZE = 1.8f;
+    private static final float QTE_START_ROT = -80f;
     private static final float LABEL_WIDTH = 500f;
     private static final float BTN_WIDTH = 90f;
     private static final float BTN_HEIGHT = 45f;
@@ -74,12 +81,14 @@ public class QuickTimeEventDisplay extends UIComponent {
         table.add().width(COL_WIDTH);
         // Use a group to manage images
         Group group = new Group();
+        target = new Image(pawsAtlas.findRegion("target"));
+        target.setSize(IMG_SIZE, IMG_SIZE);
+        group.addActor(target);
         qteImage = new Image(pawsAtlas.findRegion("default"));
+        qteImage.setSize(IMG_SIZE, IMG_SIZE);
+        qteImage.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
         qteImage.setVisible(false); // Start as not visible
         group.addActor(qteImage);
-        target = new Image(pawsAtlas.findRegion("target"));
-        target.setFillParent(true);
-        group.addActor(target);
         table.add(group).size(IMG_SIZE,IMG_SIZE).expand().padTop(60f);
         table.add().width(COL_WIDTH);
         table.add().width(COL_WIDTH);
@@ -130,6 +139,29 @@ public class QuickTimeEventDisplay extends UIComponent {
         for (int i = 0; i < numCols; i++) {
             table.add();
         }
+    }
+    /**
+     * Animates a quick-time event for given duration
+     *
+     * @param duration the time (in seconds) to animate
+     *                 the quick-time event
+     */
+    private void onStartQuickTime(float duration) {
+        // set-up the image
+        qteImage.setVisible(false);
+        qteImage.clearActions();
+        qteImage.setScale(QTE_START_SIZE);
+        qteImage.setRotation(QTE_START_ROT);
+        // set-up the action
+        ScaleToAction scaleToAction = new ScaleToAction();
+        scaleToAction.setDuration(duration);
+        scaleToAction.setScale(1.0f);
+        RotateByAction rotateByAction = new RotateByAction();
+        rotateByAction.setDuration(duration);
+        rotateByAction.setAmount(-QTE_START_ROT);
+        // add action to image and make visible
+        qteImage.setVisible(true);
+        qteImage.addAction(new ParallelAction(scaleToAction, rotateByAction));
     }
 
     /**
