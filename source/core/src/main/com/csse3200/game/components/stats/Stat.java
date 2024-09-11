@@ -97,12 +97,13 @@ public class Stat implements Json.Serializable {
      * @param value the new value to set the stat to
      */
     private void setCurrent(int value) {
-        if (this.hasMax()){
-            this.current = Math.min((this.current + value), this.max);
+        if (this.hasMax) {
+            this.current = Math.min(value, this.max);
         } else {
             this.current = value;
         }
     }
+
 
     /**
      * Increase the stat by the given value to a max of max if the stat has one
@@ -121,8 +122,9 @@ public class Stat implements Json.Serializable {
      * @param value the amount
      */
     private void subtractValue(int value) {
-        this.setCurrent(Math.max((this.current - value), 0));
+        this.current = Math.max(this.current - value, 0);
     }
+
 
     /**
      * Event handling method that is called when an event is triggered

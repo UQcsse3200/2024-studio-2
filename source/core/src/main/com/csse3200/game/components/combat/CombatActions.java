@@ -18,9 +18,10 @@ public class CombatActions extends Component {
   private GdxGame game;
   private final CombatManager manager;
   private Entity enemy;
+  private Screen previousScreen;
+  private ServiceContainer previousServices;
 
-
-    public CombatActions(GdxGame game, CombatManager manager, Entity enemy) {
+    public CombatActions(GdxGame game, CombatManager manager, Entity enemy, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
     this.enemy = enemy;
     this.manager = manager;
@@ -44,8 +45,8 @@ public class CombatActions extends Component {
    */
   private void onCombatWin() {
     logger.info("Returning to main game screen after combat win.");
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**

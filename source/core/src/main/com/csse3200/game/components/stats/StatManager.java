@@ -22,10 +22,6 @@ public class StatManager extends Component {
 
     public StatManager(Entity player) {
         this.player = player;
-
-        // 1. Create json for stats to be tracked
-        // 2. Create StatSaveManager to load the json stats in
-        // 3. Create setup handle and subscribe to achievements functions
         StatSaveManager statSaveManager = new StatSaveManager();
         this.stats = statSaveManager.getStats();
         setupStats();
@@ -36,7 +32,7 @@ public class StatManager extends Component {
      * certain update event.
      * Currently, the only update event is collecting items.
      */
-    private void setupStats() {
+    void setupStats() {
         // Event for defeating an enemy
         player.getEvents().addListener("addItem", this::handleCollection);
         for (Stat stat : stats) {
@@ -47,7 +43,7 @@ public class StatManager extends Component {
     /**
      * Subscribes to item triggers and sends it as a specific stat collection trigger.
      */
-    private void handleCollection(AbstractItem item){
+    void handleCollection(AbstractItem item){
         player.getEvents().trigger(item.getName() + "Collected");
     }
 

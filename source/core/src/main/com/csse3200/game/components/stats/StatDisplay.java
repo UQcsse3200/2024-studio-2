@@ -122,7 +122,7 @@ public class StatDisplay extends UIComponent {
         lastPressedButton[0] = newButton;  // Update the last pressed "button"
     }
 
-    private Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
+    Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
         // Background images for the tabs
@@ -290,7 +290,7 @@ public class StatDisplay extends UIComponent {
     /**
      * Sets the current game screen back to the main menu.
      */
-    private void exitMenu() {
+    void exitMenu() {
         saveStats(stats);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
@@ -338,4 +338,11 @@ public class StatDisplay extends UIComponent {
         });
     }
 
+    public Object getRootTable() {
+        return rootTable;
+    }
+
+    public Object[] getLastPressedButton() {
+        return lastPressedButton;
+    }
 }

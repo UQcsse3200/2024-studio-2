@@ -39,7 +39,7 @@ public class StatSaveManager {
         }
     }
 
-    private boolean containsStat(Array<Stat> stats, String name) {
+    boolean containsStat(Array<Stat> stats, String name) {
         for (Stat stat : stats) {
             if (stat.getStatName().equals(name)) {
                 return true;
