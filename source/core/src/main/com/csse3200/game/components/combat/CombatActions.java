@@ -31,7 +31,7 @@ public class CombatActions extends Component {
   @Override
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
-    entity.getEvents().addListener("combatLose", this::onCombatLoss);
+    entity.getEvents().addListener("combatLoss", this::onCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
@@ -51,7 +51,7 @@ public class CombatActions extends Component {
   /**
    * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
    */
-  private void onCombatLoss(Screen screen, ServiceContainer container) {
+  private void onCombatLoss() {
     logger.info("Returning to main game screen after combat loss.");
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
