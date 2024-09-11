@@ -231,7 +231,7 @@ public class DialogueBox {
             }
         });
 
-        // Listener for the playButtton, will boot up a specific mini-game
+        // Listener for the playButton, will boot up a specific mini-game
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -307,8 +307,8 @@ public class DialogueBox {
      * Checks if the current text on the label contains either of the following flags at the
      * beginning of the string. This then shows the playButton and assigns the corresponding
      * mini-game to be played.
-     *  /ms: minigame snake
-     *  /mb: minigame birdie dash
+     *  /ms: mini-game snake
+     *  /mb: mini-game birdie dash
      *  /mu: underwater maze
      * @param text the label text to be shown in the dialogue.
      * @return the altered text without the flag to be shown in the dialogue box.
