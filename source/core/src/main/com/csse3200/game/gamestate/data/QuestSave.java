@@ -5,13 +5,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class QuestSave implements Json.Serializable {
-    private Logger logger = LoggerFactory.getLogger(QuestSave.class);
     public List<QuestBasic> quests = new ArrayList<>();
 
     @Override
@@ -25,10 +22,8 @@ public class QuestSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        logger.info("step 1 for real");
         ArrayList<QuestBasic> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
-            logger.info("step 1");
             Iterator<JsonValue> taskList;
 
             if(quest.get("tasks").has("items")) {
@@ -44,7 +39,6 @@ public class QuestSave implements Json.Serializable {
                 dialogueList = quest.get("questDialogue").iterator();
             }
 
-            logger.info("step 2");
             Iterator<JsonValue> taskCompletionList;
 
             if(quest.get("taskCompletionTriggers").isNull()) {
@@ -52,10 +46,6 @@ public class QuestSave implements Json.Serializable {
             } else {
                 taskCompletionList = quest.get("taskCompletionTriggers").iterator();
             }
-
-            logger.info("step 3");
-
-
 
             List<Task> newTasks = new ArrayList<>();
 
@@ -67,7 +57,6 @@ public class QuestSave implements Json.Serializable {
                 newDialogues = null;
             }
 
-            logger.info("step 4");
             List<String> newTriggers;
 
             String[] finalTriggers = null;
@@ -78,7 +67,6 @@ public class QuestSave implements Json.Serializable {
                 newTriggers = null;
             }
 
-            logger.info("step 5");
             while (taskList.hasNext()) {
                 JsonValue taskValue = taskList.next();
                 Task task = new Task(taskValue.getString("taskName"),
@@ -91,8 +79,6 @@ public class QuestSave implements Json.Serializable {
                 newTasks.add(task);
             }
 
-            logger.info("step 6");
-
             if(dialogueList != null) {
                 while (dialogueList.hasNext()) {
                     //TODO: fill with functional loading for NPC integration
@@ -100,8 +86,6 @@ public class QuestSave implements Json.Serializable {
                 }
             }
 
-
-            logger.info("step 7");
             if(taskCompletionList != null) {
                 while (taskCompletionList.hasNext()) {
                     newTriggers.add(taskCompletionList.next().toString());
@@ -109,7 +93,6 @@ public class QuestSave implements Json.Serializable {
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
             }
 
-            logger.info("step 8");
             QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),
                     quest.getString("questDescription"),
                     newTasks,

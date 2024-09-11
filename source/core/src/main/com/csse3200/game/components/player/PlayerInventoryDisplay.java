@@ -62,7 +62,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             throw new IllegalArgumentException(msg);
         }
         this.inventory = inventory;
-//        this.hotbar= new PlayerInventoryHotbarDisplay(5, inventory,this);
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];

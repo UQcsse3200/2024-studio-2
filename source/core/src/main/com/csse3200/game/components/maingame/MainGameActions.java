@@ -31,7 +31,6 @@ public class MainGameActions extends Component {
    */
   public void onExit() {
     logger.info("Exiting main game screen");
-    SaveHandler.save(GameState.class, "saves");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
 
