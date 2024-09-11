@@ -96,7 +96,6 @@ public class CombatArea extends GameArea {
         this.combatTerrainFactory = terrainFactory;
         this.player = player;
         this.enemy = enemy;
-        System.out.println("THE ENEMY IS:" + enemy.getEnemyType());
     }
 
     /** Create the game area, including terrain, static entities (trees), dynamic entities (player) */
@@ -118,12 +117,15 @@ public class CombatArea extends GameArea {
         playMusic();
     }
 
-
+    /** Adds all UI components to the combat area */
     private void displayUI() {
         Entity ui = new Entity();
         spawnEntity(ui);
     }
 
+    /** Spawns the official backgrond terrain for
+     * combat using combat terrain factory
+     */
     private void spawnTerrain() {
         terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
         Entity terrainEntity = new Entity();
@@ -172,13 +174,13 @@ public class CombatArea extends GameArea {
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
-    // Eventually pass a variable to determine which enemy needs to be spawned
     private void spawnCombatEnemy() {
         Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 
-    // The following functions spawn chicken, monkey, and frog entities as NPC's for static combat
+    /** The following functions spawn chicken, monkey, and frog entities as NPC's for static combat
+     */
     private void spawnChicken() {
         Entity combatEnemyNPC = EnemyFactory.createChickenCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
@@ -199,12 +201,19 @@ public class CombatArea extends GameArea {
         spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
     }
 
+    /** Play the music for combat
+     *
+     */
     public void playMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
     }
+
+    /** Pause the music for combat. Will be finalised and used when
+     * combat pause is implemented
+     */
     public void pauseMusic() {
         Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
         music.pause();

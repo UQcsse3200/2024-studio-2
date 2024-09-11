@@ -7,24 +7,18 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
-import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class CombatTerrainFactory {
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
-    private static final int TUFT_TILE_COUNT = 30;
-    private static final int ROCK_TILE_COUNT = 30;
 
     private final OrthographicCamera camera;
     private final TerrainOrientation orientation;
@@ -60,6 +54,13 @@ public class CombatTerrainFactory {
         return this.cameraComponent;
     }
 
+    /**
+     * Creates the background terrain for the combat screen
+     * @param terrainType
+     * @param playerPosition the position of the player for camera positioning against background
+     * @param screenSize size of screen for relevant background scaling
+     * @return a background terrain
+     */
     public TerrainComponent createBackgroundTerrain2(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
         // Initialize ResourceService and load the background texture
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -115,6 +116,12 @@ public class CombatTerrainFactory {
         return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f); // 1f scale used for background
     }
 
+    /**
+     * Creates tiled terrain area
+     * @param tiledMap
+     * @param tileScale size of map
+     * @return new tiled and rendered map
+     */
     private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
         switch (orientation) {
             case ORTHOGONAL:

@@ -3,20 +3,17 @@ quests: [
 	{
 		questName: First Steps
 		questDescription: Take your first steps in this world!
-		tasks: {
-			class: java.util.ImmutableCollections$List12
-			items: [
-				{
-					taskName: steps
-					description: Take your first steps
-					hint: Just start moving!
-					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
-					failed: false
-				}
-			]
-		}
+		tasks: [
+			{
+				taskName: steps
+				description: Take your first steps
+				hint: Just start moving!
+				requiredTriggers: 1
+				triggerCount: 1
+				completed: true
+				failed: false
+			}
+		]
 		isSecretQuest: false
 		questDialogue: null
 		currentTaskIndex: 1
@@ -25,42 +22,210 @@ quests: [
 		taskCompletionTriggers: null
 	}
 	{
-		questName: 2 Task Quest
-		questDescription: Move then Attack for a Test Quest
-		tasks: {
-			class: java.util.ImmutableCollections$List12
-			items: [
-				{
-					taskName: steps
-					description: Take your first steps
-					hint: Just start moving!
-					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
-					failed: false
-				}
-				{
-					taskName: attack
-					description: Swing your first sword
-					hint: Just Attack!
-					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			]
-		}
+		questName: Guide's Intro
+		questDescription: Follow the guide's teachings to start your journey.
+		tasks: [
+			{
+				taskName: talkToGuide
+				description: Talk to the cow
+				hint: Speak with the Guide to start your journey.
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
 		isSecretQuest: false
 		questDialogue: {
 			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=2}: [
-				Yippeee!
-				You completed your Quest!
+			TupleKey{str='Cow', num=1}: [
+				"Moo there, adventurer! Welcome to the kingdom."
+				We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests.
 			]
+			TupleKey{str='Cow', num=2}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+			TupleKey{str='Cow', num=3}: [
+				I need five potions! They’re scattered around. Keep your eyes peeled.
+			]
+			TupleKey{str='Cow', num=4}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+		}
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: Teachings
+		questDescription: Follow the cow's teachings and complete further quests.
+		tasks: [
+			{
+				taskName: followCowsTeachings
+				description: Complete further quests
+				hint: Complete first steps and 2 step quest or a combat quest
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: {
+			class: java.util.ImmutableCollections$MapN
+			TupleKey{str='Cow', num=1}: [
+				"Moo there, adventurer! Welcome to the kingdom."
+				We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+			]
+			TupleKey{str='Cow', num=2}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+			TupleKey{str='Cow', num=3}: [
+				I need five potions! They’re scattered around. Keep your eyes peeled.
+			]
+			TupleKey{str='Cow', num=4}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+		}
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: Potion Collection
+		questDescription: Collect 5 defense potions scattered around the kingdom.
+		tasks: [
+			{
+				taskName: item collection task successful
+				description: Collect Potions
+				hint: Collect 5 defense potions scattered around the kingdom.
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: {
+			class: java.util.ImmutableCollections$MapN
+			TupleKey{str='Cow', num=1}: [
+				"Moo there, adventurer! Welcome to the kingdom."
+				We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+			]
+			TupleKey{str='Cow', num=2}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+			TupleKey{str='Cow', num=3}: [
+				I need five potions! They’re scattered around. Keep your eyes peeled.
+			]
+			TupleKey{str='Cow', num=4}: [
+				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			]
+		}
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: Guide's Advice
+		questDescription: Listen to the guide's advice to progress further.
+		tasks: [
+			{
+				taskName: listenToGuide
+				description: Visit cow again
+				hint: Go visit the cow!
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: null
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: Exploration
+		questDescription: Explore the kingdom and gather information about Kanga.
+		tasks: [
+			{
+				taskName: exploration
+				description: Explore and ask around
+				hint: Ask other animals about Kanga!
+				requiredTriggers: 1
+				triggerCount: 1
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: null
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: Weapon Retrieval
+		questDescription: Retrieve a weapon by completing the snake minigame.
+		tasks: [
+			{
+				taskName: retrieveWeapon
+				description: Complete the minigame
+				hint: Play the snake minigame!
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: null
+		currentTaskIndex: 0
+		isFailed: false
+		isActive: false
+		taskCompletionTriggers: null
+	}
+	{
+		questName: 2 Task Quest
+		questDescription: Move then Attack for a Test Quest
+		tasks: [
+			{
+				taskName: steps
+				description: Take your first steps
+				hint: Just start moving!
+				requiredTriggers: 1
+				triggerCount: 1
+				completed: true
+				failed: false
+			}
+			{
+				taskName: attack
+				description: Swing your first sword
+				hint: Just Attack!
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
+		isSecretQuest: false
+		questDialogue: {
+			class: java.util.ImmutableCollections$MapN
 			TupleKey{str='Cow', num=1}: [
 				Welcome to Animal Kingdom!
 				Here let me help with your quest...
 				Press Spacebar!
+			]
+			TupleKey{str='Cow', num=2}: [
+				Yippeee!
+				You completed your Quest!
 			]
 		}
 		currentTaskIndex: 0
@@ -74,38 +239,35 @@ quests: [
 	{
 		questName: Final Boss
 		questDescription: Complete quest 1 and 2 to summon the boss
-		tasks: {
-			class: java.util.ImmutableCollections$ListN
-			items: [
-				{
-					taskName: spawnKangaBoss
-					description: He is Coming...
-					hint: RUN
-					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-				{
-					taskName: steps
-					description: Take your first steps
-					hint: Just start moving!
-					requiredTriggers: 1
-					triggerCount: 1
-					completed: true
-					failed: false
-				}
-				{
-					taskName: attack
-					description: Swing your first sword
-					hint: Just Attack!
-					requiredTriggers: 1
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			]
-		}
+		tasks: [
+			{
+				taskName: spawnKangaBoss
+				description: He is Coming...
+				hint: RUN
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+			{
+				taskName: steps
+				description: Take your first steps
+				hint: Just start moving!
+				requiredTriggers: 1
+				triggerCount: 1
+				completed: true
+				failed: false
+			}
+			{
+				taskName: attack
+				description: Swing your first sword
+				hint: Just Attack!
+				requiredTriggers: 1
+				triggerCount: 0
+				completed: false
+				failed: false
+			}
+		]
 		isSecretQuest: false
 		questDialogue: null
 		currentTaskIndex: 0
