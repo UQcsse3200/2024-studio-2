@@ -191,12 +191,12 @@ public class Stat implements Json.Serializable {
      */
     @Override
     public String toString() {
-        return "Achievement{" +
-                "questName='" + statName + '\'' +
-                ", questDescription='" + statDescription + '\'' +
-                ", current=" + current +
-                ", max=" + max +
-                ", hasMax=" + hasMax +
+        return "Stat{" +
+                "statName='" + statName + '\'' +
+                ", statDescription='" + statDescription + '\'' +
+                ", statCurrent=" + current +
+                ", statMax=" + max +
+                ", statHasMax=" + hasMax +
                 ", type=" + type +
                 '}';
     }

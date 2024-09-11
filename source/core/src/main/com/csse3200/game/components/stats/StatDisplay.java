@@ -1,7 +1,6 @@
 package com.csse3200.game.components.stats;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.services.ServiceLocator;
@@ -42,8 +42,8 @@ public class StatDisplay extends UIComponent {
     public StatDisplay(GdxGame game) {
         super();
         this.game = game;
-        StatSaveManager achievementManager = new StatSaveManager();
-        this.stats =  achievementManager.getStats();
+        StatSaveManager statSaveManager = new StatSaveManager();
+        this.stats =  statSaveManager.getStats();
     }
 
     /**
@@ -78,6 +78,7 @@ public class StatDisplay extends UIComponent {
 
         Stack tabContentStack = new Stack();
 
+        // Populate tables with stat data
         Table itemsTable = makeLogbookTable(Stat.StatType.ITEM);
 
         Table enemiesTable = makeLogbookTable(Stat.StatType.ENEMY);
@@ -180,9 +181,6 @@ public class StatDisplay extends UIComponent {
         return tabButtonTable;
     }
 
-
-
-
     /**
      * Creates the Table for the visual representation of completed stats.
      * @return The Table showing stats.
@@ -190,32 +188,32 @@ public class StatDisplay extends UIComponent {
     private Table makeLogbookTable(Stat.StatType type) {
         Table table = new Table().left().top().padLeft(50);
         Integer advancementCounter = 0;
+
         for (Stat stat : stats) {
+            logger.info("stats are: {}", stats);
+            logger.info("AppleCollected current value is: {}", stat.getCurrent());
             if (stat.getCurrent() != 0 && stat.getType() == type) {
-                Action newAnimation = Actions.forever(Actions.sequence(
-                        Actions.color(Color.YELLOW, 0.5f),
-                        Actions.color(Color.GOLD, 0.5f)
-                ));
+                // Create a label to display stat.getCurrent() instead of an ImageButton
+                Label statLabel = new Label(String.valueOf(stat.getCurrent()), skin);
 
-                Image button = new Image(
-                        ServiceLocator.getResourceService()
-                                .getAsset("images/logbook/lb-yellow-btn.png", Texture.class));
-                Image buttonPressed = new Image(
-                        ServiceLocator.getResourceService()
-                                .getAsset("images/logbook/lb-yellow-btn-pressed.png", Texture.class));
-                ImageButton achievementButton = new ImageButton(button.getDrawable(),buttonPressed.getDrawable());
-                advancementCounter ++;
+                // Style or add padding to the label
+                statLabel.setFontScale(1.5f);
+                statLabel.setAlignment(Align.center);
 
-                addButtonElevationEffect(achievementButton);
-                table.add(achievementButton);
-                if(advancementCounter == 6){
-                    table.row();
+                // Add stat to table
+                table.add(statLabel);
+
+                advancementCounter++;
+                if (advancementCounter == 6) {
+                    table.row();  // Move to a new row after 6 entries
                     advancementCounter = 0;
                 }
             }
         }
+
         return table;
     }
+
 
     /**
      * Creates the table for the exit button.
