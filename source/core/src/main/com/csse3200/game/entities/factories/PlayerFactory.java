@@ -18,6 +18,7 @@ import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -48,7 +49,7 @@ public class PlayerFactory {
      * @return entity
      */
     public static Entity createPlayer(GdxGame game) {
-        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String imagePath = GameState.player.selectedAnimalPath;
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
@@ -138,9 +139,5 @@ public class PlayerFactory {
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
-    }
-
-    public static String getSelectedAnimalImagePath() {
-        return AnimalSelectionActions.getSelectedAnimalImagePath();
     }
 }
