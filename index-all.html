@@ -170,6 +170,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds to the player's defense.</div>
 </dd>
+<dt><a href="com/csse3200/game/GdxGame.html#addEnemyCutsceneScreen(com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity)" class="member-name-link">addEnemyCutsceneScreen(Entity, Entity)</a> - Method in class com.csse3200.game.<a href="com/csse3200/game/GdxGame.html" title="class in com.csse3200.game">GdxGame</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.html#addExperience(int)" class="member-name-link">addExperience(int)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
 <dd>
 <div class="block">Adds to the player's experience.</div>
@@ -438,6 +440,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructs a BaseLootTable and initializes the list of items.</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#BEAR" class="member-name-link">BEAR</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/PhysicsContactListener.html#beginContact(com.badlogic.gdx.physics.box2d.Contact)" class="member-name-link">beginContact(Contact)</a> - Method in class com.csse3200.game.physics.<a href="com/csse3200/game/physics/PhysicsContactListener.html" title="class in com.csse3200.game.physics">PhysicsContactListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/minigames/birdieDash/entities/Bird.html" class="type-name-link" title="class in com.csse3200.game.components.minigames.birdieDash.entities">Bird</a> - Class in <a href="com/csse3200/game/components/minigames/birdieDash/entities/package-summary.html">com.csse3200.game.components.minigames.birdieDash.entities</a></dt>
@@ -1531,6 +1535,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Dispose the fonts, skin and stage.</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Disposes of the resources used by the cutscene screen, including renderer and services.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/GameOverLoseScreen.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverLoseScreen.html" title="class in com.csse3200.game.screens">GameOverLoseScreen</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/GameOverWinScreen.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverWinScreen.html" title="class in com.csse3200.game.screens">GameOverWinScreen</a></dt>
@@ -1712,6 +1720,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/screens/EndMiniGameScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame,int,com.csse3200.game.components.minigames.MiniGameNames,com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer)" class="member-name-link">EndMiniGameScreen(GdxGame, int, MiniGameNames, Screen, ServiceContainer)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EndMiniGameScreen.html" title="class in com.csse3200.game.screens">EndMiniGameScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/GdxGame.ScreenType.html#ENEMY_CUTSCENE" class="member-name-link">ENEMY_CUTSCENE</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a> - Class in <a href="com/csse3200/game/screens/package-summary.html">com.csse3200.game.screens</a></dt>
+<dd>
+<div class="block">Manages the cutscene for enemy NPCs displayed before transitioning to the combat screen.</div>
+</dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame,com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer,com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity)" class="member-name-link">EnemyCutsceneScreen(GdxGame, Screen, ServiceContainer, Entity, Entity)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Creates a new cutscene screen.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">EnemyFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
 <dd>
 <div class="block">Factory to create non-playable character (NPC) entities with predefined components.</div>
@@ -2115,6 +2133,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the item at the specified index in the inventory.</div>
 </dd>
+<dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html#getAtlas()" class="member-name-link">getAtlas()</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/AnimalSelectionDisplay.html#getBackButton()" class="member-name-link">getBackButton()</a> - Method in class com.csse3200.game.components.animal.<a href="com/csse3200/game/components/animal/AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AnimalSelectionDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/AirAnimalSelectionDisplay.html#getBackgroundImagePath()" class="member-name-link">getBackgroundImagePath()</a> - Method in class com.csse3200.game.components.animal.<a href="com/csse3200/game/components/animal/AirAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AirAnimalSelectionDisplay</a></dt>
@@ -2324,7 +2344,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the stats component of the enemy</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/Entity.html#getEnemyType()" class="member-name-link">getEnemyType()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the current enemy type for this entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/ui/terminal/Terminal.html#getEnteredMessage()" class="member-name-link">getEnteredMessage()</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/Terminal.html" title="class in com.csse3200.game.ui.terminal">Terminal</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ai/tasks/TaskRunner.html#getEntity()" class="member-name-link">getEntity()</a> - Method in interface com.csse3200.game.ai.tasks.<a href="com/csse3200/game/ai/tasks/TaskRunner.html" title="interface in com.csse3200.game.ai.tasks">TaskRunner</a></dt>
@@ -4083,6 +4105,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Pause the game, eventually will need to pause music</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#pause()" class="member-name-link">pause()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Pauses the cutscene screen.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/GameOverLoseScreen.html#pause()" class="member-name-link">pause()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverLoseScreen.html" title="class in com.csse3200.game.screens">GameOverLoseScreen</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/GameOverWinScreen.html#pause()" class="member-name-link">pause()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverWinScreen.html" title="class in com.csse3200.game.screens">GameOverWinScreen</a></dt>
@@ -4583,6 +4609,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Renders the screen.</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#render(float)" class="member-name-link">render(float)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Renders the cutscene screen.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/GameOverLoseScreen.html#render(float)" class="member-name-link">render(float)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverLoseScreen.html" title="class in com.csse3200.game.screens">GameOverLoseScreen</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/GameOverWinScreen.html#render(float)" class="member-name-link">render(float)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverWinScreen.html" title="class in com.csse3200.game.screens">GameOverWinScreen</a></dt>
@@ -4699,6 +4729,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Resize function that automatically gets called when the screen is resized.</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Resizes the renderer when the screen size changes.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/GameOverLoseScreen.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverLoseScreen.html" title="class in com.csse3200.game.screens">GameOverLoseScreen</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/GameOverWinScreen.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverWinScreen.html" title="class in com.csse3200.game.screens">GameOverWinScreen</a></dt>
@@ -4753,6 +4787,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/screens/BossCutsceneScreen.html#rest()" class="member-name-link">rest()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/BossCutsceneScreen.html" title="class in com.csse3200.game.screens">BossCutsceneScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#rest()" class="member-name-link">rest()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Pauses the screen's entities.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/MainGameScreen.html#rest()" class="member-name-link">rest()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/MainGameScreen.html" title="class in com.csse3200.game.screens">MainGameScreen</a></dt>
 <dd>
 <div class="block">Puts the screen into a resting state, pausing music and resting all entities.</div>
@@ -4783,6 +4821,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/screens/CombatScreen.html#resume()" class="member-name-link">resume()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/CombatScreen.html" title="class in com.csse3200.game.screens">CombatScreen</a></dt>
 <dd>
 <div class="block">Resume the game, unpause music, when implemented</div>
+</dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#resume()" class="member-name-link">resume()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Resumes the cutscene screen.</div>
 </dd>
 <dt><a href="com/csse3200/game/screens/GameOverLoseScreen.html#resume()" class="member-name-link">resume()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/GameOverLoseScreen.html" title="class in com.csse3200.game.screens">GameOverLoseScreen</a></dt>
 <dd>&nbsp;</dd>
@@ -4976,7 +5018,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/physics/components/PhysicsComponent.html#setEnabled(boolean)" class="member-name-link">setEnabled(boolean)</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsComponent.html" title="class in com.csse3200.game.physics.components">PhysicsComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/Entity.html#setEnemyType(com.csse3200.game.entities.Entity.EnemyType)" class="member-name-link">setEnemyType(Entity.EnemyType)</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the enemy type for this entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/ui/terminal/Terminal.html#setEnteredMessage(java.lang.String)" class="member-name-link">setEnteredMessage(String)</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/Terminal.html" title="class in com.csse3200.game.ui.terminal">Terminal</a></dt>
 <dd>
 <div class="block">Sets the text shown on the terminal</div>
@@ -6348,6 +6392,10 @@ the order they are declared.</div>
 </dd>
 <dt><a href="com/csse3200/game/screens/BossCutsceneScreen.html#wake()" class="member-name-link">wake()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/BossCutsceneScreen.html" title="class in com.csse3200.game.screens">BossCutsceneScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/screens/EnemyCutsceneScreen.html#wake()" class="member-name-link">wake()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/EnemyCutsceneScreen.html" title="class in com.csse3200.game.screens">EnemyCutsceneScreen</a></dt>
+<dd>
+<div class="block">Resumes the screen's entities.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/MainGameScreen.html#wake()" class="member-name-link">wake()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/MainGameScreen.html" title="class in com.csse3200.game.screens">MainGameScreen</a></dt>
 <dd>
 <div class="block">Wakes the screen from a resting state.</div>

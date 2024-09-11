@@ -183,7 +183,9 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemyType()" class="member-name-link">getEnemyType</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the current enemy type for this entity.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../events/EventHandler.html" title="class in com.csse3200.game.events">EventHandler</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEvents()" class="member-name-link">getEvents</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -227,9 +229,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Enable or disable an entity.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnemyType(com.csse3200.game.entities.Entity.EnemyType)" class="member-name-link">setEnemyType</a><wbr>(<a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;enemyType)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the enemy type for this entity.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(float,float)" class="member-name-link">setPosition</a><wbr>(float&nbsp;x,
  float&nbsp;y)</code></div>
@@ -297,18 +301,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="getEnemyType()">
-<h3>getEnemyType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></span>&nbsp;<span class="element-name">getEnemyType</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="setEnemyType(com.csse3200.game.entities.Entity.EnemyType)">
-<h3>setEnemyType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">setEnemyType</span><wbr><span class="parameters">(<a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;enemyType)</span></div>
-</section>
-</li>
 <li>
 <section class="detail" id="setEnabled(boolean)">
 <h3>setEnabled</h3>
@@ -563,6 +555,28 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the status of the entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getEnemyType()">
+<h3>getEnemyType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></span>&nbsp;<span class="element-name">getEnemyType</span>()</div>
+<div class="block">Retrieves the current enemy type for this entity.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current <a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities"><code>Entity.EnemyType</code></a> of this entity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setEnemyType(com.csse3200.game.entities.Entity.EnemyType)">
+<h3>setEnemyType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEnemyType</span><wbr><span class="parameters">(<a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;enemyType)</span></div>
+<div class="block">Sets the enemy type for this entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>enemyType</code> - The <a href="Entity.EnemyType.html" title="enum class in com.csse3200.game.entities"><code>Entity.EnemyType</code></a> to be assigned to this entity.</dd>
 </dl>
 </section>
 </li>
