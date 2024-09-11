@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -67,31 +66,31 @@ public class StoryDisplay extends UIComponent {
         settingMenu = new Table();
 
         // Initialises buttons
-        TextButton achievementsBtn = new TextButton("Achievements", skin);
-        TextButton exitBtn = new TextButton("Exit", skin);
+        TextButton nextBtn = new TextButton("Next", skin);
+        TextButton backBtn = new TextButton("Back", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
 
         // Adds UI component (hover over buttons)
-        addButtonElevationEffect(achievementsBtn);
-        addButtonElevationEffect(exitBtn);
+        addButtonElevationEffect(nextBtn);
+        addButtonElevationEffect(backBtn);
 
         // Added handles for when clicked
-        achievementsBtn.addListener(new ChangeListener() {
+        nextBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Achievements button clicked");
-                entity.getEvents().trigger("achievements");
+                logger.debug("Next button clicked");
+                entity.getEvents().trigger("next");
             }
         });
 
         // Added the pop-up when user trys to exit game
-        addExitConfirmation(exitBtn);
+        //addExitConfirmation(exitBtn);
 
         // formats sizes of buttons
-        table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
+        table.add(nextBtn).padTop(15f).width(180f).height(45f);
         table.row();
-        table.add(exitBtn).padTop(15f).height(45f).width(180f);
+        table.add(backBtn).padTop(15f).height(45f).width(180f);
         table.row();
         table.add(versionLabel).padTop(50f);
         table.row();
@@ -286,65 +285,6 @@ public class StoryDisplay extends UIComponent {
                         Actions.moveBy(0, -5, 0.1f),
                         Actions.scaleTo(1f, 1f, 0.1f)
                 ));
-            }
-        });
-    }
-
-    /**
-     * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
-     */
-    private void addExitConfirmation(TextButton exitBtn) {
-        exitBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-                pixmap.setColor(Color.WHITE);
-                pixmap.fill();
-
-                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-                pixmap.dispose();
-
-                final Dialog dialog = new Dialog("", skin);
-                dialog.setBackground(dialogBackground);
-                dialog.pad(40f);
-                dialog.setSize(500f, 300f);
-                dialog.setModal(true);
-
-                Label confirmLabel = new Label("Leave the game?", skin);
-                confirmLabel.setColor(Color.WHITE);
-                confirmLabel.setFontScale(1.5f);
-
-                TextButton yesBtn = new TextButton("Yes", skin);
-                TextButton noBtn = new TextButton("No", skin);
-
-                yesBtn.getLabel().setFontScale(1.2f);
-                noBtn.getLabel().setFontScale(1.2f);
-
-                yesBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit confirmed, closing game");
-                        Gdx.app.exit();
-                    }
-                });
-
-                noBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit canceled");
-                        dialog.hide();
-                    }
-                });
-
-                dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
-                dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
-                dialog.getButtonTable().add(noBtn).width(150f).height(60f);
-
-                dialog.setPosition(
-                        (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
-                        (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
-                );
-                dialog.show(stage);
             }
         });
     }
