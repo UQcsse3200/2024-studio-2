@@ -48,6 +48,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
+    entity.getEvents().addListener("statsInfo", this::statsInfo);
     entity.getEvents().addListener("startCombat", this::startCombat);
 
     if ("images/dog.png".equals(selectedAnimal)) {
@@ -110,6 +111,14 @@ public class PlayerActions extends Component {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);
   }
+
+
+  private void statsInfo() {
+    logger.debug("Triggering addOverlay for PlayerStatsOverlay");
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.addOverlay(OverlayType.PLAYER_STATS_OVERLAY);
+  }
+
 
   public void startCombat(Entity enemy) {
     AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);

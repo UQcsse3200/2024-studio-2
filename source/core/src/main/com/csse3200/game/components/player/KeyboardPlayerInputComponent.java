@@ -81,6 +81,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
+      case Keys.I:
+        entity.getEvents().trigger("statsInfo");
+        return true;
       default:
         return false;
     }
