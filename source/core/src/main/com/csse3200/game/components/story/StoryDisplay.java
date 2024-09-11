@@ -56,6 +56,9 @@ public class StoryDisplay extends UIComponent {
         addActors();
         applyUserSettings();
         logger.info("Background texture loaded");
+
+        entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
+        entity.getEvents().addListener("backDisplay", this::onBackDisplay);
     }
 
     /**
@@ -90,7 +93,7 @@ public class StoryDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Next button clicked");
-                entity.getEvents().trigger("next", screenNum);
+                entity.getEvents().trigger("nextDisplay");
             }
         });
 
@@ -99,7 +102,7 @@ public class StoryDisplay extends UIComponent {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     logger.debug("Back button clicked");
-                    entity.getEvents().trigger("back", screenNum);
+                    entity.getEvents().trigger("backDisplay");
                 }
             });
         }
@@ -337,5 +340,15 @@ public class StoryDisplay extends UIComponent {
     public void dispose() {
         table.clear();
         super.dispose();
+    }
+
+    private void onNextDisplay() {
+        dispose();
+        entity.getEvents().trigger("next", screenNum);
+    }
+
+    private void onBackDisplay() {
+        dispose();
+        entity.getEvents().trigger("back", screenNum);
     }
 }
