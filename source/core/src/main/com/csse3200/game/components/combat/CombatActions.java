@@ -35,6 +35,7 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
+    entity.getEvents().addListener("Items", this::onItems);
   }
 
   /**
@@ -46,6 +47,7 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
   }
 
   /**
@@ -57,7 +59,9 @@ public class CombatActions extends Component {
   }
 
   private void onAttack(Screen screen, ServiceContainer container) {
-    manager.onPlayerActionSelected("ATTACK");
+      logger.info("Attack selected.");
+      manager.onPlayerActionSelected("ATTACK");
+      entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
   private void onGuard(Screen screen, ServiceContainer container) {
@@ -66,6 +70,11 @@ public class CombatActions extends Component {
 
   private void onSleep(Screen screen, ServiceContainer container) {
     manager.onPlayerActionSelected("SLEEP");
+    entity.getEvents().trigger("onSleep", manager.getPlayerStats(), manager.getEnemyStats());
+  }
+
+  private void onItems(Screen screen, ServiceContainer container) {
+    logger.info("Clicked Items");
   }
 
   /**
@@ -74,6 +83,5 @@ public class CombatActions extends Component {
   @Override
   public void dispose() {
     // Dispose of the stage to free up resources
-    stage.dispose();
   }
 }

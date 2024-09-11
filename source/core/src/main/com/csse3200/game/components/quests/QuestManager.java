@@ -3,12 +3,14 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
+
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.DialogueBoxService;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,7 @@ public class QuestManager extends Component {
     private final Entity player;
 
     private final DialogueBoxService dialogueBoxService;
+
 
 
     /**Constructs questManager instance */
@@ -354,4 +357,6 @@ public class QuestManager extends Component {
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
+
+
 }

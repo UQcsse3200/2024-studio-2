@@ -20,53 +20,42 @@ public class CombatButtonDisplay extends UIComponent {
     private Table table;
     private Screen screen;
     private ServiceContainer container;
-    private int iHealthCheck =-100;
     TextButton AttackButton ;
     TextButton GuardButton ;
     TextButton SleepButton;
-    private boolean AttackStatus=true;
-    private boolean GuardStatus=true;
+    TextButton ItemsButton;
 
 
+    /**
+     * Initialises the CombatButtonDisplay UIComponent
+     * @param screen The current screen that the buttons are being rendered onto
+     * @param container The container that
+     */
     public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
         this.screen = screen;
         this.container = container;
     }
 
-
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container,int iHealthCheck, boolean AttackStatus , boolean GuardStatus ) {
-        this.iHealthCheck = iHealthCheck;
-        logger.info("iHealthCheck: {}", iHealthCheck);
-        this.AttackStatus = AttackStatus;
-        this.GuardStatus = GuardStatus;
-        //ChangeActors(iHealthCheck, AttackStatus, BoostStatus);
-        logger.info("CombatButtonStagDisplay in const for change actor");
-        create();
-    }
-
     @Override
     public void create() {
         super.create();
-        if(iHealthCheck== -100)
-        {
-            logger.info("CombatButtonStagDisplay::Create() , before calling addActors");
+            logger.info("CombatButtonDisplay::Create() , before calling addActors");
             addActors();
-        }
-        else {
-            logger.info("CombatButtonStagDisplay::Create() , before calling ChangeActors");
-            ChangeActors(iHealthCheck , AttackStatus, GuardStatus);
-        }
 
     }
 
+    /**
+     * Initialises the buttons, adds listeners to them, and adds them into the game's stage
+     */
     private void addActors() {
         table = new Table();
-        table.center().left();
+        table.bottom();
         table.setFillParent(true);
 
         AttackButton = new TextButton("Attack", skin);
         GuardButton = new TextButton("Guard", skin);
         SleepButton = new TextButton("Sleep", skin);
+        ItemsButton = new TextButton("Items", skin);
 
         AttackButton.addListener(
                 new ChangeListener() {
@@ -90,17 +79,32 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Sleep", screen, container);
                     }
                 });
+        ItemsButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        entity.getEvents().trigger("Items", screen, container);
+                    }
+                });
 
-        table.add(AttackButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(GuardButton).padBottom(10f).padLeft(10f);
-        table.row();
-        table.add(SleepButton).padBottom(10f).padLeft(10f);
+
+        // Position the button on the central bottom part and make them a lil bigger
+        table.add(AttackButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(GuardButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(SleepButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(ItemsButton).padBottom(50).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
     }
+
+    /**
+     * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
+     * @param iHealthCheck an integer representing the health of the entity
+     * @param AttackStatus a boolean stating if the current entity has attacked
+     * @param GuardStatus a boolean stating if the current entity has guarded
+     */
     private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus){
-        logger.info("CombatButtonStagDisplay::ChangeActors::entering");
+        logger.info("CombatButtonDisplay::ChangeActors::entering");
         //Button enabling status logic
     }
 
