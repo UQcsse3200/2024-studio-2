@@ -219,7 +219,7 @@ public class QuestDisplay extends UIComponent {
             }
         });
 
-        //
+
         nextPage.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -230,7 +230,7 @@ public class QuestDisplay extends UIComponent {
             }
         });
 
-        //
+
         prevPage.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
