@@ -3,9 +3,6 @@ package com.csse3200.game.components.stats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class StatDisplay {
 
     private final StatManager statManager;
@@ -20,7 +17,7 @@ public class StatDisplay {
      */
     public void displayStat(Stat stat) {
         StringBuilder statDisplay = new StringBuilder();
-        statDisplay.append(stat.getDescription())
+        statDisplay.append(stat.getStatDescription())
                 .append(": ")
                 .append(stat.getCurrent());
         if (stat.hasMax()) {

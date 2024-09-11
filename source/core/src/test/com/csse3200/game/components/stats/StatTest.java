@@ -12,7 +12,7 @@ class StatTest {
         stat = new Stat("Tracking", "Stats are being tracked");
         assertFalse(stat.hasMax());
         assertEquals("Tracking", stat.getStatName());
-        assertEquals("Stats are being tracked", stat.getDescription());
+        assertEquals("Stats are being tracked", stat.getStatDescription());
         assertEquals(0, stat.getCurrent());
         assertEquals(-1, stat.getMax());
     }
@@ -22,7 +22,7 @@ class StatTest {
         stat = new Stat("Tracking", "Stats are being tracked", 10);
         assertTrue(stat.hasMax());
         assertEquals("Tracking", stat.getStatName());
-        assertEquals("Stats are being tracked", stat.getDescription());
+        assertEquals("Stats are being tracked", stat.getStatDescription());
         assertEquals(0, stat.getCurrent());
         assertEquals(10, stat.getMax());
     }

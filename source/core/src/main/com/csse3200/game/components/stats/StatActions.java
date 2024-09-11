@@ -27,7 +27,7 @@ public class StatActions extends Component {
     public void create() {
         entity.getEvents().addListener("incrementStat", this::onStatIncrement);
 
-        logger.info("Enemies defeated: {}", player.getComponent(StatManager.class).getStat("EnemyDefeated").getStatName());
+        //logger.info("Enemies defeated: {}", player.getComponent(StatManager.class).getStat("EnemyDefeated").getStatName());
     }
 
     /**
@@ -35,10 +35,10 @@ public class StatActions extends Component {
      */
     public void onStatIncrement(int value) {
         String operation = "add";
-        player.getComponent(StatManager.class).updateStat("EnemyDefeated", operation, value);
+        player.getComponent(StatManager.class).incrementStat("EnemyDefeated", operation, value);
 
-        logger.info("Incrementing stat: {} ", player.getComponent(StatManager.class).getStat("EnemyDefeated"));
-        logger.info("New stat value: {}", player.getComponent(StatManager.class).getStat("EnemyDefeated").getCurrent());
+        //logger.info("Incrementing stat: {} ", player.getComponent(StatManager.class).getStat("EnemyDefeated"));
+        //logger.info("New stat value: {}", player.getComponent(StatManager.class).getStat("EnemyDefeated").getCurrent());
     }
 }
 

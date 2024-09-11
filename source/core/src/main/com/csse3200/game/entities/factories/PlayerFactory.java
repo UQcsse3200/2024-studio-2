@@ -80,13 +80,13 @@ public class PlayerFactory {
                 .addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
-                .addComponent(new QuestPopup());
-        player.addComponent((new StatManager()));
+                .addComponent(new QuestPopup())
+                .addComponent((new StatManager(player)));
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
+        //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
         return player;
     }

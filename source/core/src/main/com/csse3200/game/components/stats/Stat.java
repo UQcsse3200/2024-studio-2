@@ -1,17 +1,21 @@
 package com.csse3200.game.components.stats;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.csse3200.game.components.quests.Achievement;
+
 /** A simple class to hold values for stats to be tracked through the game.
  *
  */
-public class Stat {
+public class Stat implements Json.Serializable {
 
     /** The name of the stat, used as the string within the events system
      */
-    private final String statName;
+    private String statName;
 
     /** The description of the stat, this is how the stat will be displayed in menus/logs
      */
-    private final String description;
+    private String statDescription;
     /** the Current value of the stat
      */
     private int current;
@@ -22,14 +26,22 @@ public class Stat {
 
     /** True if the stat has a max, false otherwise
      */
-    private final boolean hasMax;
+    private boolean hasMax;
+    /** The type of stat
+     */
+    private StatType type;
+
+    /**
+     * Create no arg function for serialisation
+     */
+    public Stat(){}
 
     /**
      * Constructor for stat with no max value e.g. snake high score
      */
     public Stat(String statName, String description) {
         this.statName = statName;
-        this.description = description;
+        this.statDescription = description;
         this.hasMax = false;
         this.current = 0;
     }
@@ -38,7 +50,7 @@ public class Stat {
      */
     public Stat(String statName, String description, int max) {
         this.statName = statName;
-        this.description = description;
+        this.statDescription = description;
         this.max = max;
         this.hasMax = true;
         this.current = 0;
@@ -56,8 +68,8 @@ public class Stat {
      * Getter for the description
      * @return string description
      */
-    public String getDescription() {
-        return description;
+    public String getStatDescription() {
+        return statDescription;
     }
 
     /**
@@ -106,12 +118,13 @@ public class Stat {
      * @param value amount to increase the stat by
      */
     private void addValue(int value) {
-        if (this.hasMax()){
-            this.setCurrent(Math.min((this.current + value), this.max));
+        if (this.hasMax) {
+            this.current = Math.min(this.current + value, this.max);
         } else {
-            this.setCurrent(this.current + value);
+            this.current += value;
         }
     }
+
 
     /**
      * Reduce a stat by the given amount to a minimum of 0
@@ -132,5 +145,52 @@ public class Stat {
             case "add" -> this.addValue(value);
             case "subtract" -> this.subtractValue(value);
         }
+    }
+
+    /**
+     * Define types for end game stats
+     * */
+    public enum StatType{
+        ITEM,ENEMY,ADVANCEMENT
+    }
+
+    public Stat.StatType getType() {
+        return this.type;
+    }
+
+    /**
+     * Perform json read and write actions on the end game stats config file
+     *
+     * @param json The config containing stats to be tracked
+     */
+    @Override
+    public void write(Json json) {
+        json.writeValue("statName", statName);
+        json.writeValue("statDescription", statDescription);
+        json.writeValue("statCurrent", current);
+        json.writeValue("statMax", max);
+        json.writeValue("statHasMax", hasMax);
+        json.writeValue("type", type.name());
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        this.statName = jsonData.getString("statName");
+        this.statDescription = jsonData.getString("statDescription");
+        this.current = jsonData.getInt("statCurrent");
+        this.max = jsonData.getInt("statMax");
+        this.hasMax = jsonData.getBoolean("statHasMax");
+        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
+    }
+    @Override
+    public String toString() {
+        return "Achievement{" +
+                "questName='" + statName + '\'' +
+                ", questDescription='" + statDescription + '\'' +
+                ", current=" + current +
+                ", max=" + max +
+                ", hasMax=" + hasMax +
+                ", type=" + type +
+                '}';
     }
 }
