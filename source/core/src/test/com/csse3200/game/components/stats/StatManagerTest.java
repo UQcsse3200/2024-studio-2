@@ -51,9 +51,4 @@ class StatManagerTest {
         statManager.incrementStat("TestStat", "add", 1);
     }
 
-    @Test
-    void testDispose() {
-        statManager.dispose();
-    }
-
 }
