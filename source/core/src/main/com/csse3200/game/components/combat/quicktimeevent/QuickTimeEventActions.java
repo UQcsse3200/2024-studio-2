@@ -13,7 +13,6 @@ public class QuickTimeEventActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventActions.class);
     private int count = 0;
     private long lastUpdate;
-    private Label counter;
     private GameTime gameTime;
     private GdxGame game;
 
@@ -35,9 +34,9 @@ public class QuickTimeEventActions extends Component {
             // 1 second has passed - update counter
             count -= 1;
             if (count != 0) {
-                counter.setText(count);
+                entity.getEvents().trigger("editLabel", count + "");
             } else {
-                counter.setText("");
+                entity.getEvents().trigger("editLabel", "");
                 // Trigger a listener in QuickTimeEventHandler
             }
             lastUpdate = gameTime.getTime();
@@ -46,13 +45,10 @@ public class QuickTimeEventActions extends Component {
 
     /**
      * Initiates count-down to quick-time event start
-     *
-     * @param counter the label which displays the timer
      */
-    private void onStart(Label counter) {
+    private void onStart() {
         count = 5;
-        this.counter = counter;
-        counter.setText(count);
+        entity.getEvents().trigger("editLabel", count + "");
         lastUpdate = gameTime.getTime();
     }
 

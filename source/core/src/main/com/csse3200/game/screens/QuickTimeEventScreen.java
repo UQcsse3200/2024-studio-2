@@ -39,8 +39,8 @@ public class QuickTimeEventScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
+        // Rendering
         renderer = RenderFactory.createRenderer();
-        // Handles dynamic screen resizing
         renderer.getStage().setViewport(
                 new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
         );
