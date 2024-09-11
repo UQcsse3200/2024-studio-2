@@ -194,14 +194,19 @@ public class StatDisplay extends UIComponent {
             logger.info("AppleCollected current value is: {}", stat.getCurrent());
             if (stat.getCurrent() != 0 && stat.getType() == type) {
                 // Create a label to display stat.getCurrent() instead of an ImageButton
-                Label statLabel = new Label(String.valueOf(stat.getCurrent()), skin);
+                Label statNameLabel = new Label(String.valueOf(stat.getStatName()), skin);
+                Label statCurrentLabel = new Label(String.valueOf(stat.getCurrent()), skin);
 
                 // Style or add padding to the label
-                statLabel.setFontScale(1.5f);
-                statLabel.setAlignment(Align.center);
+                statNameLabel.setFontScale(1.5f);
+                statNameLabel.setAlignment(Align.center);
+
+                statCurrentLabel.setFontScale(1.5f);
+                statCurrentLabel.setAlignment(Align.center);
 
                 // Add stat to table
-                table.add(statLabel);
+                table.add(statNameLabel);
+                table.add(statCurrentLabel);
 
                 advancementCounter++;
                 if (advancementCounter == 6) {
@@ -210,7 +215,6 @@ public class StatDisplay extends UIComponent {
                 }
             }
         }
-
         return table;
     }
 
