@@ -70,8 +70,8 @@ public class CombatManager extends Component {
         checkForConfusion(playerStats);
 
         enemyAction = selectEnemyMove();
-        logger.info("PLAYER action: {}, health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
-        logger.info("ENEMY action: {}, health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(BEFORE) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
+        logger.info("(BEFORE) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
@@ -223,8 +223,8 @@ public class CombatManager extends Component {
             }
         }
 
-        logger.info("PLAYER health {} stamina {}", playerStats.getHealth(), playerStats.getStamina());
-        logger.info("ENEMY health {} stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
+        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
     }
 
     /**
