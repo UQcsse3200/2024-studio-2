@@ -20,7 +20,7 @@ import com.csse3200.game.utils.math.Vector2Utils;
 public class ProjectileMovementTask extends DefaultTask implements PriorityTask {
   protected final int priority;
   protected final PhysicsEngine physics;
-  protected MovementTask movementTask;
+  public MovementTask movementTask;
   private Vector2 targetPosition;
 
   /**
@@ -54,12 +54,10 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
   @Override
   public void update() {
     if (movementTask.getStatus() != Status.ACTIVE) {
-      System.out.println(owner.getEntity().getComponent(ProjectileAttackComponent.class));
       owner.getEntity().setEnabled(false);
       AnimationRenderComponent animationRenderComponent = owner.getEntity().getComponent(AnimationRenderComponent.class);
       animationRenderComponent.stopAnimation();
       owner.getEntity().dispose();
-      //Gdx.app.postRunnable(owner.getEntity()::dispose);
     }
     movementTask.update();
   }

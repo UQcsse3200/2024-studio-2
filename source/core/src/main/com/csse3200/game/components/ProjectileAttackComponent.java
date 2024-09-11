@@ -2,10 +2,13 @@ package com.csse3200.game.components;
 
 
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 
 
 /**
@@ -47,13 +50,13 @@ public class ProjectileAttackComponent extends Component {
       return;
     }
 
-    // Try to attack target.
+    // does damage if player
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
-  }
-  
-  
-  @Override
-  public void dispose() {
+    target.getComponent(CombatStatsComponent.class).addHealth(-2); //placeholder value
+    
+    // disposes of projectile
+    Entity owner = getEntity();
+    ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
+    task.movementTask.stop();
   }
 }

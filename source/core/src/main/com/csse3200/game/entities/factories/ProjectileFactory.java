@@ -61,12 +61,15 @@ public class ProjectileFactory {
 
     AnimationRenderComponent animator = new AnimationRenderComponent(bananaAtlas);
     animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
-
+    
     banana
             .addComponent(animator)
             .addComponent(new BananaAnimationController());
-
-    banana.getComponent(AnimationRenderComponent.class).scaleEntity();
+    
+    //animator.scaleEntity();
+    banana.setScale(0.5f, 0.5f);
+    
+    //banana.getComponent(AnimationRenderComponent.class).scaleEntity();
     banana.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return banana;
@@ -86,7 +89,7 @@ public class ProjectileFactory {
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
-            .addComponent(new ProjectileAttackComponent(PhysicsLayer.PLAYER));
+            .addComponent(new ProjectileAttackComponent((short)(PhysicsLayer.PLAYER + PhysicsLayer.OBSTACLE)));
 
     PhysicsUtils.setScaledCollider(projectile, 0.9f, 0.4f);
     return projectile;
