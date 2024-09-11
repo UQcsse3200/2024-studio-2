@@ -10,6 +10,7 @@ import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
+import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
@@ -99,9 +100,12 @@ public class QuickTimeEventScreen extends ScreenAdapter {
     private void createUI() {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForCombat();
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
           .addComponent(new QuickTimeEventDisplay())
+          .addComponent(inputComponent)
           .addComponent(new QuickTimeEventActions(game));
         ServiceLocator.getEntityService().register(ui);
     }

@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.ui.UIComponent;
@@ -43,10 +42,6 @@ public class QuickTimeEventDisplay extends UIComponent {
     private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
     private final Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
     private final TextureAtlas pawsAtlas = new TextureAtlas("images/quicktimeevent/paws.atlas");
-    private final Drawable defaultTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("target"));
-    private final Drawable slowTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("slow"));
-    private final Drawable perfectTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("perfect"));
-    private final Drawable fastTargetSprite = new TextureRegionDrawable(pawsAtlas.findRegion("fast"));
 
     @Override
     public void create() {
@@ -92,11 +87,11 @@ public class QuickTimeEventDisplay extends UIComponent {
         target.setDisabled(true);
         target.setSize(IMG_SIZE, IMG_SIZE);
         ImageButtonStyle buttonStyle = new ImageButtonStyle();
-        buttonStyle.imageUp = defaultTargetSprite;
         target.setStyle(buttonStyle);
+        setTargetImage("target_default");
         group.addActor(target);
         // Set up the quick-time event
-        qte = new Image(pawsAtlas.findRegion("default"));
+        qte = new Image(pawsAtlas.findRegion("qte"));
         qte.setSize(IMG_SIZE, IMG_SIZE);
         qte.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
         qte.setVisible(false); // Start as not visible
@@ -163,6 +158,16 @@ public class QuickTimeEventDisplay extends UIComponent {
     }
 
     /**
+     * Sets image on target
+     *
+     * @param name the name of the image (in the atlas)
+     */
+    private void setTargetImage(String name) {
+        target.getStyle().imageUp = new TextureRegionDrawable(pawsAtlas.findRegion(name));
+    }
+
+
+    /**
      * Animates a quick-time event for given duration
      *
      * @param duration the time (in seconds) to animate
@@ -190,7 +195,7 @@ public class QuickTimeEventDisplay extends UIComponent {
     private void resetDisplay() {
         qte.setVisible(false);
         qte.clearActions();
-        target.getStyle().imageUp = defaultTargetSprite;
+        setTargetImage("target_default");
     }
 
     @Override
@@ -198,5 +203,4 @@ public class QuickTimeEventDisplay extends UIComponent {
         table.clear();
         super.dispose();
     }
-
 }

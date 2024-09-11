@@ -1,4 +1,6 @@
 package com.csse3200.game.input;
+
+import com.csse3200.game.components.combat.KeyboardCombatInputComponent;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.ui.terminal.KeyboardTerminalInputComponent;
 import org.slf4j.Logger;
@@ -28,5 +30,15 @@ public class KeyboardInputFactory extends InputFactory {
     public InputComponent createForTerminal() {
         logger.debug("Creating terminal input handler");
         return new KeyboardTerminalInputComponent();
+    }
+
+    /**
+     * Creates an input handler for combat.
+     *
+     * @return combat input handler
+     */
+    public InputComponent createForCombat() {
+        logger.debug("Creating combat input handler");
+        return new KeyboardCombatInputComponent();
     }
 }

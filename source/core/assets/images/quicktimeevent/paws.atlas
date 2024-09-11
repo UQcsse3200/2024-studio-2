@@ -3,35 +3,35 @@ size: 2500, 500
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-default
+qte
   rotate: false
   xy: 0, 0
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: 0
-target
+target_default
   rotate: false
   xy: 500, 0
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: 1
-slow
+target_slow
   rotate: false
   xy: 1000, 0
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: 2
-perfect
+target_perfect
   rotate: false
   xy: 1500, 0
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: 3
-fast
+target_fast
   rotate: false
   xy: 2000, 0
   size: 500, 500
