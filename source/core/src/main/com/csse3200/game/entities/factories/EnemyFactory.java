@@ -126,6 +126,7 @@ public class EnemyFactory {
                     ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
 
     frog
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
