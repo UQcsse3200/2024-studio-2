@@ -1,4 +1,3 @@
-
 package com.csse3200.game.overlays;
 
 import com.csse3200.game.entities.Entity;
@@ -23,11 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
-
-
 public class PlayerStatsDisplay extends UIComponent {
-    private Table background;
+    private Table backgroundTable;
     private Table rootTable;
     private PausableScreen screen;
     private String spritePath;
@@ -99,6 +95,16 @@ public class PlayerStatsDisplay extends UIComponent {
     }
 
     private void addActors() {
+        // Load the background image
+        Image statsBackground = new Image(
+                ServiceLocator.getResourceService()
+                        .getAsset("images/QuestsOverlay/Quest_SBG.png", Texture.class));
+
+        float backgroundWidth = 3;
+        float backgroundHeight = 6;
+        statsBackground.setSize(backgroundWidth, backgroundHeight);
+
+        // Create the title and description labels
         Label title = new Label("PLAYER STATS", skin, "title");
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
@@ -106,17 +112,21 @@ public class PlayerStatsDisplay extends UIComponent {
         Image playerSprite = new Image(ServiceLocator.getResourceService().getAsset(spritePath, Texture.class));
         Label description = new Label(playerDescription, skin, "default");
 
-        background = new Table();
-        background.setFillParent(true);
-        stage.addActor(background);
+        // Create the background table and set the background image
+        backgroundTable = new Table();
+        backgroundTable.setFillParent(true);
+        backgroundTable.add(statsBackground).expand().fill();
+        stage.addActor(backgroundTable);
 
+        // Create the stats and menu tables
         Table statsTable = makeStatsTable();
         Table menuBtns = makeMenuBtns();
 
         rootTable = new Table();
-        rootTable.setSize(background.getWidth(), background.getHeight());
+        rootTable.setSize(backgroundTable.getWidth(), backgroundTable.getHeight());
         rootTable.setFillParent(true);
 
+        // Add components to the root table
         rootTable.add(playerSprite).left().padTop(20f).padLeft(20f);
         rootTable.add(description).left().padTop(20f).padLeft(10f);
         rootTable.row().padTop(10f);
@@ -124,6 +134,7 @@ public class PlayerStatsDisplay extends UIComponent {
         rootTable.row();
         rootTable.add(menuBtns).center().padTop(10f);
 
+        // Add the root table to the stage
         stage.addActor(rootTable);
     }
 
@@ -139,7 +150,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        background.clear();
+        backgroundTable.clear();
         rootTable.clear();
         super.dispose();
     }
