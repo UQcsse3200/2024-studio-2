@@ -28,7 +28,7 @@ public class ItemFactory {
      * @param item The specific item to create an entity of (e.g., potions, food items).
      * @return The created item entity, fulled configured with its components
      */
-    private static Entity createItem(Entity target, AbstractItem item) {
+    public static Entity createItem(Entity target, AbstractItem item) {
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new ItemProximityTask(target,20, 1f, item));
 
