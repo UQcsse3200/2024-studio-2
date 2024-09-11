@@ -197,7 +197,7 @@ public class EnemyFactory {
     if (type == EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
-      aiComponent.addTask(new ShootTask(1000, target, 4f));
+      aiComponent.addTask(new ShootTask(1000, target, 5f));
     } else {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));

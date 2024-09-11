@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public abstract class GameArea implements Disposable {
    *
    * @param entity Entity (not yet registered)
    */
-  protected void spawnEntity(Entity entity) {
+  public void spawnEntity(Entity entity) {
     areaEntities.add(entity);
     ServiceLocator.getEntityService().register(entity);
   }
@@ -68,6 +69,11 @@ public abstract class GameArea implements Disposable {
       worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
     }
 
+    entity.setPosition(worldPos);
+    spawnEntity(entity);
+  }
+
+  public void spawnEntityAtVector(Entity entity, Vector2 worldPos) {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
