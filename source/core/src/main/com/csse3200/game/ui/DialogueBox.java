@@ -227,7 +227,7 @@ public class DialogueBox {
             }
         });
 
-        // Listener for the playButtton, will boot up a specific mini-game
+        // Listener for the playButton, will boot up a specific mini-game
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -238,7 +238,7 @@ public class DialogueBox {
                 if (currentMinigame == SNAKE) {
                     gdxGame.enterSnakeScreen();
                 } else if (currentMinigame == BIRD) {
-                    // TODO: Implement bird game (sprint 3)
+                    gdxGame.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
                     // TODO: Implement underwater maze (sprint 4)
                 }
@@ -303,8 +303,8 @@ public class DialogueBox {
      * Checks if the current text on the label contains either of the following flags at the
      * beginning of the string. This then shows the playButton and assigns the corresponding
      * mini-game to be played.
-     *  /ms: minigame snake
-     *  /mb: minigame birdie dash
+     *  /ms: mini-game snake
+     *  /mb: mini-game birdie dash
      *  /mu: underwater maze
      * @param text the label text to be shown in the dialogue.
      * @return the altered text without the flag to be shown in the dialogue box.
@@ -354,6 +354,9 @@ public class DialogueBox {
         if (hints.length > 1) {
             if (forwardButton != null) forwardButton.setVisible(true);
             if (backwardButton != null) backwardButton.setVisible(true);
+        } else {
+            if (forwardButton != null) forwardButton.setVisible(false);
+            if (backwardButton != null) backwardButton.setVisible(false);
         }
         if (backgroundImage != null) backgroundImage.setVisible(true);
         if (label != null) this.label.setVisible(true);

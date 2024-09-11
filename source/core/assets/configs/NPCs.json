@@ -7,7 +7,10 @@
     "animalName": "Lion"
   },
   "cow": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Charlie the Cow."],
+    "baseHint": ["Moo there, adventurer! Welcome to the kingdom.",
+      "We will be your guides",
+      "but before you can roam free...",
+      "you must complete the first steps and 2 step quests."],
     "spritePath": "images/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
@@ -39,7 +42,10 @@
   },
 
   "magpie": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Maggie the Magpie."],
+    "baseHint": ["WHO GOES THERE!!",
+                 "If you want to get past me you must pay",
+                 "Go play a game and collect me some coins",
+                 "/mbOr I will claw your eyes out!"],
     "spritePath": "images/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],

@@ -1,11 +1,12 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,12 +50,14 @@ public class ItemProximityTask extends ProximityTask {
         if (!itemPickedUp && targetInProximity()) { // Check if the item hasn't been picked up and player is near
             PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
             if (display != null) {
-                display.getEntity().getEvents().trigger("addItem", item);
-                logger.debug("Item added to inventory.");
-                itemPickedUp = true; // Set flag to prevent further triggering
-                owner.getEntity().dispose();
-                logger.debug("I WAS DISPOSED OF!");
-                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
+                if (!display.hasSpaceFor()) {
+                    display.getEntity().getEvents().trigger("addItem", item);
+                    logger.debug("Item added to inventory.");
+                    itemPickedUp = true; // Set flag to prevent further triggering
+                    owner.getEntity().dispose();
+                    logger.debug("I WAS DISPOSED OF!");
+                    ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
+                }
             } else {
                 logger.error("PlayerInventoryDisplay component not found on target entity.");
             }
@@ -81,6 +84,12 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedAway() {
+        // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+        DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+        if (dialogueBoxService == null) {
+            Stage stage = ServiceLocator.getRenderService().getStage();
+            ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+        }
         ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
     }
 

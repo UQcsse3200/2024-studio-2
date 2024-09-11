@@ -19,13 +19,14 @@ public class MainMenuActions extends Component {
     this.game = game;
   }
 
+  private static boolean loaded = false;
+
   @Override
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
     entity.getEvents().addListener("load", this::onLoad);
     entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("exit", this::onExit);
-    entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("achievements", this::onAchievements);
     entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
   }
@@ -35,6 +36,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
+    loaded = false;
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
@@ -44,7 +46,7 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
-    SaveHandler.load(GameState.class, "saves");
+    loaded = true;
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
@@ -69,10 +71,6 @@ public class MainMenuActions extends Component {
   /**
    * Swaps to the Settings screen.
    */
-  private void onSettings() {
-    logger.info("Launching settings screen");
-    game.setScreen(GdxGame.ScreenType.SETTINGS);
-  }
 
   private void onAchievements() {
     logger.info("Launching achievements screen");
@@ -84,5 +82,12 @@ public class MainMenuActions extends Component {
     game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
   }
 
+  /**
+   * Returns whether the current game instance loaded a save or not.
+   * @return whether the game loaded a save.
+   */
+  public static boolean getGameLoaded() {
+    return loaded;
+  }
 
 }

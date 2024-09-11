@@ -1,6 +1,7 @@
 package com.csse3200.game.gamestate;
 
-import com.csse3200.game.gamestate.data.Quests;
+import com.csse3200.game.gamestate.data.InventorySave;
+import com.csse3200.game.gamestate.data.QuestSave;
 
 /**
  * A data struct that contains other data structs to be saved to JSONs by SaveHandler.
@@ -10,5 +11,12 @@ import com.csse3200.game.gamestate.data.Quests;
 public class GameState {
     private GameState() {}
 
-    public static Quests quests = new Quests();
+    public static QuestSave quests = new QuestSave();
+
+    public static InventorySave inventory = new InventorySave();
+
+    public static void clearState() {
+        quests = new QuestSave();
+        inventory = new InventorySave();
+    }
 }
