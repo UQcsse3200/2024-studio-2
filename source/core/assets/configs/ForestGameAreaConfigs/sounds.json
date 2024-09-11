@@ -1,10 +1,11 @@
 {
   "gameSounds" : [
-    "sounds/mooing-cow.mp3",
-    "sounds/tiger-roar.mp3",
-    "sounds/turtle-hiss.mp3",
-    "sounds/snake-hiss.mp3",
-    "sounds/eagle-scream.mp3",
+    "sounds/mooing-cow.wav",
+    "sounds/tiger-roar.wav",
+    "sounds/turtle-hiss.wav",
+    "sounds/snake-hiss.wav",
+    "sounds/FishBubble.wav",
+    "sounds/eagle-scream.wav",
     "sounds/QuestComplete.wav",
     "sounds/Impact4.ogg"
   ],
@@ -16,6 +17,7 @@
 
   "characterSounds" : [
     "sounds/animal/panting.mp3",
-    "sounds/animal/bark.mp3"
+    "sounds/animal/bark.mp3",
+    "sounds/animal/catgrowl.mp3"
   ]
 }

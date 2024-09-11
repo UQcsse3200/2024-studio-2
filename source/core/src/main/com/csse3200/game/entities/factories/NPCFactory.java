@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -88,6 +89,14 @@ public class NPCFactory {
   }
 
   /**
+   * Creates a Fish NPC.
+   */
+  public static Entity createFish(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.fish;
+    return createFriendlyNPC(target, enemies, config);
+  }
+
+  /**
    * Creates a Lion NPC.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
@@ -125,25 +134,50 @@ public class NPCFactory {
                     .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
   }
 
-  private static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.updateText(hintText);
+  /**
+   * Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.
+   * If the dialogue box service is not available, it creates a new instance.
+   *
+   * @param animalSoundPaths An array of sound asset paths to play. If null or empty, no sounds are played.
+   * @param hintText An array of strings to display in the dialogue box.
+   */
+  public static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+    DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (dialogueBoxService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+      dialogueBoxService = ServiceLocator.getDialogueBoxService();
+    }
+
+    dialogueBoxService.updateText(hintText);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
         Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-        long soundId = animalSound.play();
-        animalSound.setVolume(soundId, 0.3f);
-        animalSound.setLooping(soundId, false);
+          long soundId = animalSound.play();
+          animalSound.setVolume(soundId, 0.3f);
+          animalSound.setLooping(soundId, false);
       }
     }
-
   }
 
-  private static void endDialogue() {
-    DialogueBoxService chatOverlayService = ServiceLocator.getEntityChatService();
-    chatOverlayService.hideCurrentOverlay();
+  /**
+   * Ends a dialogue and takes it off the screen
+   */
+  public static void endDialogue () {
+    DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (dialogueBoxService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+    } else {
+      dialogueBoxService.hideCurrentOverlay();
+    }
   }
+
 
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
@@ -172,122 +206,7 @@ public class NPCFactory {
     return npc;
   }
 
-
-    /**
-     * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
-     *
-     * @param target entity to chase
-     * @return entity
-     */
-    public static Entity createKangaBossEntity(Entity target) {
-        Entity kangarooBoss = createBossNPC(target);
-        BaseEntityConfig config = configs.kangarooBoss;
-
-        AnimationRenderComponent animator =
-                new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
-        animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-        kangarooBoss
-                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100, false))
-                .addComponent(animator)
-                .addComponent(new KangaBossAnimationController());
-
-        kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-        kangarooBoss.scaleHeight(3.0f);
-
-        return kangarooBoss;
-    }
-
-    /**
-     * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-     * there is no chase task included. This is where abilities components will be added.
-     * loaded.
-     *
-     * @return entity
-     */
-    public static Entity createKangaBossCombatEntity() {
-        Entity kangarooBoss = createCombatBossNPC();
-        BaseEntityConfig config = configs.kangarooBoss;
-
-        kangarooBoss
-                .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-                .addComponent(new CombatStatsComponent(config.health, 100, 100, 100, 100, 100, false));
-
-        kangarooBoss.scaleHeight(3.0f);
-
-        return kangarooBoss;
-    }
-
-  /**
-   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-  private static Entity createBaseNPC(Entity target) {
-    AITaskComponent aiComponent =
-            new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
-                    .addTask(new ChaseTask(target, 10, 3f, 4f, true));
-    Entity npc =
-            new Entity()
-                    .addComponent(new PhysicsComponent())
-                    .addComponent(new PhysicsMovementComponent())
-                    .addComponent(new ColliderComponent())
-                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-                    .addComponent(aiComponent);
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-  /**
-   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-  public static Entity createBossNPC(Entity target) {
-    AITaskComponent aiComponent =
-            new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
-                    .addTask(new ChaseTask(target, 10, 6f, 8f, true));
-    Entity npc =
-            new Entity()
-                    .addComponent(new PhysicsComponent())
-                    .addComponent(new PhysicsMovementComponent())
-                    .addComponent(new ColliderComponent())
-                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-                    .addComponent(aiComponent);
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-    /**
-     * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
-     *
-     * @return entity
-     */
-    public static Entity createCombatBossNPC() {
-        Entity npc =
-                new Entity()
-                        .addComponent(new PhysicsComponent())
-                        .addComponent(new PhysicsMovementComponent())
-                        .addComponent(new ColliderComponent())
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                        .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
-
-
-        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-        return npc;
-    }
-
-
-    private NPCFactory() {
-
+  private NPCFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
 }

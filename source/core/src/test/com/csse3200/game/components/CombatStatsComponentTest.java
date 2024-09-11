@@ -243,4 +243,5 @@ class CombatStatsComponentTest {
     assertEquals(20, combat.getSpeed());
   }
 
+
 }

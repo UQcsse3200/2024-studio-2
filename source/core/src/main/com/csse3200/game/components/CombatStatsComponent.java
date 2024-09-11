@@ -78,10 +78,12 @@ public class CombatStatsComponent extends Component {
   /**
    * Adds to the player's health. The amount added can be negative.
    *
-   * @param health health to add
+   * @param change the health to add
    */
-  public void addHealth(int health) {
-    setHealth(this.health + health);
+  public void addHealth(int change) {
+    int newHealth = Math.min(maxHealth, this.health + change);
+    newHealth = Math.max(0, newHealth);
+    setHealth(newHealth);
   }
 
   /**
@@ -117,10 +119,12 @@ public class CombatStatsComponent extends Component {
   /**
    * Adds to the player's hunger. The amount added can be negative.
    *
-   * @param hunger hunger to add
+   * @param change hunger to add
    */
-  public void addHunger(int hunger) {
-    setHunger(this.hunger + hunger);
+  public void addHunger(int change) {
+    int newHunger = Math.min(maxHunger, this.hunger + change);
+    newHunger = Math.max(0, newHunger);
+    setHunger(newHunger);
   }
 
 
