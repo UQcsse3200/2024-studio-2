@@ -2,7 +2,6 @@ package com.csse3200.game.components.stats;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.csse3200.game.components.quests.Achievement;
 
 /** A simple class to hold values for stats to be tracked through the game.
  *

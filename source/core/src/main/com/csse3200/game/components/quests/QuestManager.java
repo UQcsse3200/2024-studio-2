@@ -13,14 +13,10 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.DialogueBoxService;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
-
 
 /**
  * Manages, tracks and updates the quests within the game.
