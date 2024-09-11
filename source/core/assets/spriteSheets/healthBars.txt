@@ -9,74 +9,74 @@ repeat: none
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 0
 90%_health
   rotate: false
   xy: 573, 0
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 1
 80%_health
   rotate: false
   xy: 1146, 0
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 2
 70%_health
   rotate: false
   xy: 0, 110
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 3
 60%_health
   rotate: false
   xy: 573, 110
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 4
 50%_health
   rotate: false
   xy: 1146, 110
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 5
 40%_health
   rotate: false
   xy: 0, 220
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 6
 30%_health
   rotate: false
   xy: 573, 220
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 7
 20%_health
   rotate: false
   xy: 1146, 220
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 8
 10%_health
   rotate: false
   xy: 0, 330
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 9
 0%_health
   rotate: false
   xy: 573, 330
   size: 573, 110
   orig: 573, 110
   offset: 0, 0
-  index: -1
+  index: 10

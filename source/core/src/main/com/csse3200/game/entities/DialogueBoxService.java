@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class DialogueBoxService {
     private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
-    private String[] hints;
+    private String[][] hints;
 
     /**
      * Create a new chat overlay with the given hint text.
@@ -25,7 +25,7 @@ public class DialogueBoxService {
      *
      * @return a copy of the hints array as a String[]
      */
-    public String[] getHints() {
+    public String[][] getHints() {
         // Return a copy of the hints array to prevent modification of the original array
         return hints.clone();
     }
@@ -62,13 +62,27 @@ public class DialogueBoxService {
     /**
      * Update the current chat overlay if it exists.
      */
-    public void updateText(String[] text) {
+    public void updateText(String[][] text) {
         hints = text;
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
         } else {
             currentOverlay.showDialogueBox(text);
+        }
+
+    }
+
+    /**
+     * Update the current chat overlay if it exists.
+     */
+    public void updateText(String[] text) {
+        hints = new String[][]{text};
+        if (currentOverlay == null) {
+            // handling if it ever gets deleted when not supposed to
+            currentOverlay = new DialogueBox(hints);
+        } else {
+            currentOverlay.showDialogueBox(new String[][]{text});
         }
 
     }

@@ -74,7 +74,7 @@ public class LoadingScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    BackgroundImage loadingScreenImage = new BackgroundImage("images/animal/shootingstar3.jpeg");
+    BackgroundImage loadingScreenImage = new BackgroundImage("images/animal/loadingbg.png");
     stage.addActor(loadingScreenImage);
     loadingDisplay = new LoadingDisplay();
     ui.addComponent(loadingDisplay).addComponent(new InputDecorator(stage, 10));

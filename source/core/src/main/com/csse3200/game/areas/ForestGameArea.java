@@ -7,6 +7,9 @@ import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
+import com.csse3200.game.components.mainmenu.MainMenuActions;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
@@ -19,8 +22,9 @@ import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainChunk;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.areas.terrain.TerrainLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -74,35 +78,39 @@ public class ForestGameArea extends GameArea {
    * */
   @Override
   public void create() {
-    loadAssets();
+      loadAssets();
 
-    displayUI();
+      displayUI();
 
-    // Terrain
-    spawnTerrain();
+      // Terrain
+      spawnTerrain();
 
-    // Player
-    player = spawnPlayer();
-    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setInitials(player.getPosition(), terrain);
+      // Player
+      player = spawnPlayer();
+      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+      TerrainLoader.setInitials(player.getPosition(), terrain);
 
-    // Obstacles
-    spawnTrees();
+      // Obstacles
+      spawnTrees();
 
-    //Enemies
-    spawnEnemies();
+      //Enemies
+      spawnEnemies();
 
-    // items
-    handleItems();
+      // items
+      handleItems();
 
-    //Friendlies
-    spawnFriendlyNPCs();
+      //Friendlies
+      spawnFriendlyNPCs();
 
-    playMusic();
-    player.getEvents().addListener("setPosition", this::handleNewChunks);
-    player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-    player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-    kangarooBossSpawned = false;
+      playMusic();
+      player.getEvents().addListener("setPosition", this::handleNewChunks);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+      kangarooBossSpawned = false;
+
+      //Initialise inventory and quests with loaded data
+      player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+      player.getComponent(QuestManager.class).loadQuests();
   }
 
   private void handleNewChunks(Vector2 playerPos) {
@@ -160,30 +168,6 @@ public class ForestGameArea extends GameArea {
     // Background terrain
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
-
-    // // Terrain walls
-    // float tileSize = terrain.getTileSize();
-    // GridPoint2 tileBounds = terrain.getMapBounds(0);
-    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    //  // Left
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    //  // Right
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //      new GridPoint2(tileBounds.x, 0),
-    //      false,
-    //      false);
-    //  // Top
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //      new GridPoint2(0, tileBounds.y),
-    //      false,
-    //      false);
-    //  // Bottom
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void spawnTrees() {
@@ -420,6 +404,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
     resourceService.loadSounds(config.sounds.gameSounds);
     resourceService.loadMusic(config.sounds.gameMusic);
+    resourceService.loadSounds(config.sounds.characterSounds);
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
       logger.debug("Loading... {}%", resourceService.getProgress());

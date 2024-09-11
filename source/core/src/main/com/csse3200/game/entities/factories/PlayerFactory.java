@@ -2,7 +2,10 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.move.*;
+import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
+import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -11,17 +14,25 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory to create a player entity.
@@ -30,7 +41,6 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
 
@@ -39,7 +49,7 @@ public class PlayerFactory {
      * @return entity
      */
     public static Entity createPlayer(GdxGame game) {
-        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String imagePath = GameState.player.selectedAnimalPath;
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
@@ -52,26 +62,36 @@ public class PlayerFactory {
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
 
+        List<CombatMove> moveSet = new ArrayList<>();
+        moveSet.add(new AttackMove("Player Attack", 10));
+        moveSet.add(new GuardMove("Player Guard", 5));
+        moveSet.add(new SleepMove("Player Sleep", 0));
+
+        player.addComponent(new CombatMoveComponent(moveSet));
+
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, true));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, true));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
-
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer()));
         }
 
-        player.addComponent(new PlayerInventoryDisplay(45, 9))
-                .addComponent(inputComponent)
+        player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup());
         player.addComponent((new StatManager()));
-        player.addComponent(new LootBoxOverlayComponent());
+
+        // Add inventory from player (in future this will provide shared interface for memory
+        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        player.addComponent(inventoryComponent)
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new LootBoxOverlayComponent());
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
@@ -82,12 +102,42 @@ public class PlayerFactory {
         return player;
     }
 
+    /**
+     * Create a player NPC to spawn in Combat
+     */
+
+    public static Entity createCombatPlayer(String imagePath) {
+        Entity combatPlayer = createCombatPlayerStatic();
+
+        combatPlayer
+                .addComponent(new TextureRenderComponent(imagePath))
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true));
+
+        combatPlayer.scaleHeight(90.0f);
+
+        return combatPlayer;
+    }
+
+    /**
+     * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+     *
+     * @return entity
+     */
+    public static Entity createCombatPlayerStatic() {
+        Entity npc =
+                new Entity()
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new PhysicsMovementComponent())
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                        .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
+
+
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        return npc;
+    }
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
-    }
-
-    public static String getSelectedAnimalImagePath() {
-        return AnimalSelectionActions.getSelectedAnimalImagePath();
     }
 }

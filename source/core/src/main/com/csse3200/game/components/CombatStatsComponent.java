@@ -2,15 +2,25 @@ package com.csse3200.game.components;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Component used to store information related to combat such as health, attack, etc. Any entities
- * which engage it combat should have an instance of this class registered. This class can be
- * extended for more specific combat needs.
+ * which engage in combat should have an instance of this class registered.
  */
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+
+  // Enum for status effects
+  public enum StatusEffect {
+    CONFUSION, BLEEDING
+  }
+
+  // Set to hold active status effects
+  private Set<StatusEffect> statusEffects = new HashSet<>();
+
   private int maxHealth;
   private int health;
   private int hunger;
@@ -18,28 +28,52 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
-  private boolean isPlayer;
+  private int stamina;
+  private final int maxStamina;
   private final int maxHunger;
   private int maxExperience;
+  private final boolean isPlayer;
 
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
-      this.maxHealth = health;
-      this.maxHunger = hunger;
-      this.maxExperience=100;
-      this.isPlayer = isPlayer;
-      setHealth(health);
-      setHunger(hunger);
-      setStrength(strength);
-      setDefense(defense);
-      setSpeed(speed);
-      setExperience(experience);
-
+  /**
+   * Constructor for CombatStatsComponent, initializing all combat-related attributes for an entity.
+   *
+   * @param health Initial health value
+   * @param hunger Initial hunger value
+   * @param strength Initial strength value
+   * @param defense Initial defense value
+   * @param speed Initial speed value
+   * @param experience Initial experience value
+   * @param stamina Initial stamina value
+   * @param isPlayer Boolean indicating if this entity is the player
+   */
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer) {
+    this.maxHealth = health;
+    this.maxHunger = hunger;
+    this.maxExperience=100;
+    this.maxStamina = stamina;
+    this.isPlayer = isPlayer;
+    setHealth(health);
+    setHunger(hunger);
+    setStrength(strength);
+    setDefense(defense);
+    setSpeed(speed);
+    setExperience(experience);
+    setStamina(stamina);
   }
 
   /**
-   * Returns true if the entity's has 0 health, otherwise false.
+   * Returns true if the entity is a player, otherwise false.
    *
-   * @return is player dead
+   * @return is entity player
+   */
+  public Boolean isPlayer() {
+    return isPlayer;
+  }
+
+  /**
+   * Returns true if the entity has 0 health, otherwise false.
+   *
+   * @return is entity dead
    */
   public Boolean isDead() {
     return health == 0;
@@ -55,30 +89,29 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health has a minimum bound of 0 and cannot exceed maxHealth.
    *
-   * @param health health
+   * @param health health value to set
    */
   public void setHealth(int health) {
     if (health >= 0) {
       if (health >= this.maxHealth) {
         this.health = this.maxHealth;
-      }
-      else {
+      } else {
         this.health = health;
       }
     } else {
       this.health = 0;
     }
     if (entity != null) {
-      entity.getEvents().trigger("updateHealth", this.health);
+      entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
     }
   }
 
   /**
-   * Adds to the player's health. The amount added can be negative.
+   * Adds a specified amount to the entity's health. The amount can be negative to reduce health.
    *
-   * @param change the health to add
+   * @param change the health to add (positive or negative)
    */
   public void addHealth(int change) {
     int newHealth = Math.min(maxHealth, this.health + change);
@@ -96,16 +129,15 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's hunger. hunger has a minimum bound of 0.
+   * Sets the entity's hunger. Hunger has a minimum bound of 0 and cannot exceed maxHunger.
    *
-   * @param hunger hunger
+   * @param hunger hunger value to set
    */
   public void setHunger(int hunger) {
     if (hunger >= 0) {
       if (hunger >= this.maxHunger) {
         this.hunger = this.maxHunger;
-      }
-      else {
+      } else {
         this.hunger = hunger;
       }
     } else {
@@ -117,9 +149,9 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Adds to the player's hunger. The amount added can be negative.
+   * Adds a specified amount to the entity's hunger. The amount can be negative to reduce hunger.
    *
-   * @param change hunger to add
+   * @param change hunger to add (positive or negative)
    */
   public void addHunger(int change) {
     int newHunger = Math.min(maxHunger, this.hunger + change);
@@ -127,14 +159,11 @@ public class CombatStatsComponent extends Component {
     setHunger(newHunger);
   }
 
-
   /**
-
    * Returns the entity's strength.
    *
    * @return entity's strength
    */
-
   public int getStrength() {
     return strength;
   }
@@ -142,21 +171,16 @@ public class CombatStatsComponent extends Component {
   /**
    * Sets the entity's strength. Strength has a minimum bound of 0.
    *
-   * @param strength Strength
+   * @param strength Strength value to set
    */
-
   public void setStrength(int strength) {
-    if (strength >= 0) {
-      this.strength = strength;
-    } else {
-      this.strength = 0;
-    }
+    this.strength = Math.max(0, strength);
   }
 
   /**
-   * Adds to the player's strength. The amount added can be negative.
+   * Adds a specified amount to the entity's strength. The amount can be negative to reduce strength.
    *
-   * @param strength strength to add
+   * @param strength strength to add (positive or negative)
    */
   public void addStrength(int strength) {
     setStrength(this.strength + strength);
@@ -174,20 +198,16 @@ public class CombatStatsComponent extends Component {
   /**
    * Sets the entity's defense. Defense has a minimum bound of 0.
    *
-   * @param defense Defense
+   * @param defense defense value to set
    */
   public void setDefense(int defense) {
-    if (defense >= 0) {
-      this.defense = defense;
-    } else {
-      this.defense = 0;
-    }
+    this.defense = Math.max(0, defense);
   }
 
   /**
-   * Adds to the player's defense. The amount added can be negative.
+   * Adds a specified amount to the entity's defense. The amount can be negative to reduce defense.
    *
-   * @param defense defense to add
+   * @param defense defense to add (positive or negative)
    */
   public void addDefense(int defense) {
     setDefense(this.defense + defense);
@@ -202,93 +222,175 @@ public class CombatStatsComponent extends Component {
     return speed;
   }
 
-
   /**
-   * Sets the entity's speed. speed has a minimum bound of 0.
+   * Sets the entity's speed. Speed has a minimum bound of 0.
    *
-   * @param speed speed
+   * @param speed speed value to set
    */
   public void setSpeed(int speed) {
-    if (speed >= 0) {
-      this.speed = speed;
-    } else {
-      this.speed = 0;
-    }
+    this.speed = Math.max(0, speed);
   }
 
   /**
-   * Adds to the player's defense. The amount added can be negative.
+   * Adds a specified amount to the entity's speed. The amount can be negative to reduce speed.
    *
-   * //@param defense defense to add
+   * @param speed speed to add (positive or negative)
    */
   public void addSpeed(int speed) {
     setSpeed(this.speed + speed);
   }
 
-
+  /**
+   * Returns the entity's experience.
+   *
+   * @return entity's experience
+   */
   public int getExperience() {
     return experience;
   }
 
-
   /**
-   * Sets the entity's experience. experience has a minimum bound of 0.
+   * Sets the entity's experience. Experience has a minimum bound of 0.
+   * If the entity is a player, level up logic is applied once experience exceeds the maximum threshold.
    *
-   * @param experience experience
+   * @param experience experience value to set
    */
   public void setExperience(int experience) {
-    if (experience >= 0) {
-      this.experience = experience;
-    } else {
-      this.experience = 0;
-    }
+    this.experience = Math.max(0, experience);
 
-    if (experience >= this.maxExperience && isPlayer) {
-
+    if (this.experience >= this.maxExperience && isPlayer) {
       int experienceDiff = this.experience - this.maxExperience;
-
       this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
       setExperience(experienceDiff);
 
       int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
-      this.maxHealth = this.maxHealth + healthDiff;
+      this.maxHealth += healthDiff;
       addHealth(healthDiff);
       addStrength((int) Math.ceil(this.strength * 0.02));
       addDefense((int) Math.ceil(this.defense * 0.02));
       addSpeed((int) Math.ceil(this.speed * 0.02));
-
     }
 
-    if (experience >= this.maxExperience && !isPlayer) {
+    if (this.experience >= this.maxExperience && !isPlayer) {
       this.experience = this.maxExperience;
     }
   }
 
   /**
-   * Adds to the player's experience. The amount added can be negative.
+   * Adds a specified amount to the entity's experience. The amount can be negative to reduce experience.
    *
-   * @param experience experience to add
+   * @param experience experience to add (positive or negative)
    */
   public void addExperience(int experience) {
-
     setExperience(this.experience + experience);
-
   }
 
-
+  /**
+   * Simulates the entity being hit by an attacker. The target's health is reduced based on the attacker's strength.
+   *
+   * @param attacker CombatStatsComponent of the attacking entity
+   */
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getStrength();
-    logger.info("Attacker Attack:");
     logger.info("Attacker's Strength: {}", attacker.getStrength());
     logger.info("New Health: {}", newHealth);
     setHealth(newHealth);
   }
 
+  /**
+   * Returns the entity's maximum health.
+   *
+   * @return entity's max health
+   */
   public int getMaxHealth() {
     return maxHealth;
   }
+
+  /**
+   * Returns the entity's maximum hunger.
+   *
+   * @return entity's max hunger
+   */
   public int getMaxHunger() {
     return maxHunger;
   }
-  public int getMaxExperience(){return maxExperience;}
+
+  /**
+   * Returns the entity's maximum experience.
+   *
+   * @return entity's max experience
+   */
+  public int getMaxExperience() {
+    return maxExperience;
+  }
+
+  /**
+   * Returns the entity's stamina.
+   *
+   * @return entity's stamina
+   */
+  public int getStamina() {
+    return stamina;
+  }
+
+  /**
+   * Sets the entity's stamina. Stamina has a minimum bound of 0 and cannot exceed maxStamina.
+   *
+   * @param stamina stamina value to set
+   */
+  public void setStamina(int stamina) {
+    this.stamina = Math.min(maxStamina, Math.max(0, stamina));
+  }
+
+  /**
+   * Adds a specified amount to the entity's stamina. The amount can be negative to reduce stamina.
+   *
+   * @param stamina stamina to add (positive or negative)
+   */
+  public void addStamina(int stamina) {
+    setStamina(this.stamina + stamina);
+  }
+
+  /**
+   * Returns the entity's maximum stamina.
+   *
+   * @return entity's max stamina
+   */
+  public int getMaxStamina() {
+    return maxStamina;
+  }
+
+  /**
+   * Adds a status effect to the entity. Status effects can impact combat in different ways.
+   * For example, 'CONFUSION' may cause an entity to randomly attack, while 'BLEEDING' may
+   * cause gradual health loss over time.
+   * @param effect The status effect to add
+   */
+  public void addStatusEffect(StatusEffect effect) {
+    statusEffects.add(effect);
+    logger.info("Added status effect: {}", effect);
+  }
+
+  /**
+   * Removes a status effect from the entity. This can be used to stop the negative
+   * impact of certain effects, such as stopping health loss from 'BLEEDING'.
+   *
+   * @param effect The status effect to remove
+   */
+  public void removeStatusEffect(StatusEffect effect) {
+    if (statusEffects.contains(effect)) {
+      statusEffects.remove(effect);
+      logger.info("Removed status effect: {}", effect);
+    }
+  }
+
+  /**
+   * Checks if the entity has a specific status effect.
+   *
+   * @param effect The status effect to check
+   * @return true if the entity has the status effect, false otherwise
+   */
+  public boolean hasStatusEffect(StatusEffect effect) {
+    return statusEffects.contains(effect);
+  }
 }
