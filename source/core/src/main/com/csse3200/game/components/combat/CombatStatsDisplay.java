@@ -85,7 +85,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     // Hunger text
     int hunger = playerStats.getHunger();
-    CharSequence hungerText = String.format("HP: %d", hunger);
+    CharSequence hungerText = String.format("Hunger: %d", hunger);
     playerHungerLabel = new Label(hungerText, skin, "large");
 
     // Health/XP images
