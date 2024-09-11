@@ -58,7 +58,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   @Override
   public void update() {
     // Check if the entity should switch from waiting to shooting
-    if ((timer.getTime() - lastShotTime > waitTime * 1000) || numShots == 0) {
+    if (((timer.getTime() - lastShotTime) > waitTime) || numShots == 0) {
       startShooting();  // Start shooting if enough time has passed or no shots have been fired yet
     }
     // this.owner.getEntity().getEvents().trigger("standing");  // Update the current state
