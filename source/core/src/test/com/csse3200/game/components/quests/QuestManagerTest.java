@@ -31,6 +31,7 @@ class QuestManagerTest {
 
         Sound mockSound = mock(Sound.class);
         when(resourceService.getAsset("sounds/QuestComplete.wav", Sound.class)).thenReturn(mockSound);
+        when(resourceService.getAsset("sounds/achievement-sound.mp3", Sound.class)).thenReturn(mockSound);
 
 
         when(player.getEvents()).thenReturn(eventHandler);
