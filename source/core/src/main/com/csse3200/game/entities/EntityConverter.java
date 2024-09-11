@@ -10,11 +10,12 @@ import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.entities.configs.BaseFriendlyEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
+import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.services.ServiceLocator;
 
 import java.util.List;
 
@@ -29,16 +30,14 @@ public class EntityConverter {
 		}
 		
 		BaseEntityConfig config = determineConfig(animator);
-		config.setFriendly(true);  // Ensure the config is set to friendly
+		config.setFriendly(true);
 		
 		removeEnemyComponents(enemy);
 		updateAIBehavior(enemy, player, enemies);
 		updateAnimation(animator, config);
 		updateComponents(enemy, config);
 		adjustMovementSpeed(enemy);
-		addSoundEffects(enemy, config);
-		
-		enemy.getEvents().trigger("onConvertToFriendly");
+		addEventTriggers(enemy, config);
 	}
 	
 	private static BaseEntityConfig determineConfig(AnimationRenderComponent animator) {
@@ -99,27 +98,35 @@ public class EntityConverter {
 		}
 	}
 	
-	private static void addSoundEffects(Entity enemy, BaseEntityConfig config) {
+	private static void addEventTriggers(Entity entity, BaseEntityConfig config) {
 		String[] animalSoundPaths = config.getSoundPath();
 		if (animalSoundPaths != null && animalSoundPaths.length > 0) {
-			String eventPausedStart = "PauseStart"; // Using a generic event name
-			String eventPausedEnd = "PauseEnd";     // Using a generic event name
-			enemy.getEvents().addListener(eventPausedStart, () -> initiateDialogue(animalSoundPaths));
-			enemy.getEvents().addListener(eventPausedEnd, EntityConverter::endDialogue);
+			String animalName = (config instanceof BaseFriendlyEntityConfig)
+					? ((BaseFriendlyEntityConfig) config).getAnimalName()
+					: "Animal";
+			
+			String eventPausedStart = String.format("PauseStart%s", animalName);
+			String eventPausedEnd = String.format("PauseEnd%s", animalName);
+			
+			entity.getEvents().addListener(eventPausedStart,
+					() -> NPCFactory.initiateDialogue(animalSoundPaths, getHintText(config)));
+			entity.getEvents().addListener(eventPausedEnd, NPCFactory::endDialogue);
 		}
 	}
 	
-	private static void initiateDialogue(String[] animalSoundPaths) {
-		DialogueBoxService chatService = ServiceLocator.getDialogueBoxService();
-		for (String soundPath : animalSoundPaths) {
-			// Play sound logic here
+	private static String[] getHintText(BaseEntityConfig config) {
+		if (config instanceof BaseFriendlyEntityConfig) {
+			BaseFriendlyEntityConfig friendlyConfig = (BaseFriendlyEntityConfig) config;
+			String[] hintText = friendlyConfig.getStringHintLevel();
+			if (hintText == null || hintText.length == 0) {
+				hintText = friendlyConfig.getBaseHint();
+			}
+			if (hintText == null || hintText.length == 0) {
+				hintText = new String[]{"A friendly " + friendlyConfig.getAnimalName() + " appears!"};
+			}
+			return hintText;
+		} else {
+			return new String[]{"A friendly creature appears!"};
 		}
-		// Note: We don't have access to hintText here. You may need to adjust this.
-		chatService.updateText(new String[]{"Friendly animal sound!"});
-	}
-	
-	private static void endDialogue() {
-		DialogueBoxService chatService = ServiceLocator.getDialogueBoxService();
-		chatService.hideCurrentOverlay();
 	}
 }
