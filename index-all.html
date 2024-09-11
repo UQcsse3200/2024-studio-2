@@ -714,6 +714,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a> - package com.csse3200.game.components.combat.move</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/package-summary.html">com.csse3200.game.components.combat.quicktimeevent</a> - package com.csse3200.game.components.combat.quicktimeevent</dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/gamearea/package-summary.html">com.csse3200.game.components.gamearea</a> - package com.csse3200.game.components.gamearea</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/gameover/package-summary.html">com.csse3200.game.components.gameover</a> - package com.csse3200.game.components.gameover</dt>
@@ -1013,6 +1015,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatStatsDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatStatsDisplay.html" title="class in com.csse3200.game.components.combat">CombatStatsDisplay</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventActions</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/Component.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
 <div class="block">Called when the entity is created and registered.</div>
@@ -1200,6 +1206,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a Fish NPC.</div>
 </dd>
+<dt><a href="com/csse3200/game/input/InputFactory.html#createForCombat()" class="member-name-link">createForCombat()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.html" title="class in com.csse3200.game.input">InputFactory</a></dt>
+<dd>
+<div class="block">Creates an input handler for combat.</div>
+</dd>
+<dt><a href="com/csse3200/game/input/KeyboardInputFactory.html#createForCombat()" class="member-name-link">createForCombat()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/KeyboardInputFactory.html" title="class in com.csse3200.game.input">KeyboardInputFactory</a></dt>
+<dd>
+<div class="block">Creates an input handler for combat.</div>
+</dd>
+<dt><a href="com/csse3200/game/input/TouchInputFactory.html#createForCombat()" class="member-name-link">createForCombat()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/TouchInputFactory.html" title="class in com.csse3200.game.input">TouchInputFactory</a></dt>
+<dd>
+<div class="block">Creates an input handler for combat.</div>
+</dd>
 <dt><a href="com/csse3200/game/input/InputFactory.html#createForPlayer()" class="member-name-link">createForPlayer()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.html" title="class in com.csse3200.game.input">InputFactory</a></dt>
 <dd>
 <div class="block">Creates an input handler for the player</div>
@@ -1355,6 +1373,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructs a new <code>HealingPotion</code> with the specified quantity and a default healing effect.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#delay()" class="member-name-link">delay()</a> - Method in record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#param-delay"><code>delay</code></a> record component.</div>
+</dd>
 <dt><a href="com/csse3200/game/gamestate/SaveHandler.html#delete(java.lang.Class,java.lang.String)" class="member-name-link">delete(Class&lt;?&gt;, String)</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/SaveHandler.html" title="class in com.csse3200.game.gamestate">SaveHandler</a></dt>
 <dd>
 <div class="block">Clear all data from JSON files.</div>
@@ -1471,6 +1493,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Cleans up the UI component by clearing the table and disposing of resources.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatStatsDisplay.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatStatsDisplay.html" title="class in com.csse3200.game.components.combat">CombatStatsDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/Component.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
@@ -1616,6 +1640,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called to dispose of resources to prevent memory leaks</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/SnakeScreen.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/SnakeScreen.html" title="class in com.csse3200.game.screens">SnakeScreen</a></dt>
 <dd>
 <div class="block">Disposes of resources used by the SnakeScreen.</div>
@@ -1659,6 +1685,8 @@ loadScripts(document, 'script');</script>
 <div class="block">The drawing is handled by the Stage, so no additional drawing logic is needed here.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatStatsDisplay.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw(SpriteBatch)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatStatsDisplay.html" title="class in com.csse3200.game.components.combat">CombatStatsDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw(SpriteBatch)</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/gamearea/GameAreaDisplay.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw(SpriteBatch)</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/GameAreaDisplay.html" title="class in com.csse3200.game.components.gamearea">GameAreaDisplay</a></dt>
 <dd>
@@ -1733,6 +1761,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/rendering/DebugRenderer.html#drawRectangle(com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2,com.badlogic.gdx.graphics.Color,float)" class="member-name-link">drawRectangle(Vector2, Vector2, Color, float)</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></dt>
 <dd>
 <div class="block">Draw a rectangle</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#duration()" class="member-name-link">duration()</a> - Method in record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#param-duration"><code>duration</code></a> record component.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
@@ -1825,6 +1857,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/ForestGameAreaConfigs/EntitySpawnConfig.html#%3Cinit%3E()" class="member-name-link">EntitySpawnConfig()</a> - Constructor for class com.csse3200.game.areas.ForestGameAreaConfigs.<a href="com/csse3200/game/areas/ForestGameAreaConfigs/EntitySpawnConfig.html" title="class in com.csse3200.game.areas.ForestGameAreaConfigs">EntitySpawnConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/minigames/snake/Snake.Segment.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.csse3200.game.components.minigames.snake.<a href="com/csse3200/game/components/minigames/snake/Snake.Segment.html" title="class in com.csse3200.game.components.minigames.snake">Snake.Segment</a></dt>
 <dd>
 <div class="block">A function to check if segments are equal</div>
@@ -2713,6 +2749,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the list of loot items in this loot table.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
+<dd>
+<div class="block">Returns a reference to the label actor</div>
+</dd>
 <dt><a href="com/csse3200/game/ui/DialogueBox.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the Label object used for displaying hints.</div>
@@ -3351,6 +3391,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ProximityTask.html#hasApproached" class="member-name-link">hasApproached</a> - Variable in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ProximityTask.html" title="class in com.csse3200.game.components.tasks">ProximityTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/minigames/snake/Snake.Segment.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.csse3200.game.components.minigames.snake.<a href="com/csse3200/game/components/minigames/snake/Snake.Segment.html" title="class in com.csse3200.game.components.minigames.snake">Snake.Segment</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -3704,6 +3748,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/minigames/birdieDash/controller/KeyboardBirdInputComponent.html#%3Cinit%3E()" class="member-name-link">KeyboardBirdInputComponent()</a> - Constructor for class com.csse3200.game.components.minigames.birdieDash.controller.<a href="com/csse3200/game/components/minigames/birdieDash/controller/KeyboardBirdInputComponent.html" title="class in com.csse3200.game.components.minigames.birdieDash.controller">KeyboardBirdInputComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html" class="type-name-link" title="class in com.csse3200.game.components.combat">KeyboardCombatInputComponent</a> - Class in <a href="com/csse3200/game/components/combat/package-summary.html">com.csse3200.game.components.combat</a></dt>
+<dd>
+<div class="block">Input handler for combat for keyboard and touch (mouse) input.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html#%3Cinit%3E()" class="member-name-link">KeyboardCombatInputComponent()</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html" title="class in com.csse3200.game.components.combat">KeyboardCombatInputComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/KeyboardInputFactory.html" class="type-name-link" title="class in com.csse3200.game.input">KeyboardInputFactory</a> - Class in <a href="com/csse3200/game/input/package-summary.html">com.csse3200.game.input</a></dt>
 <dd>
 <div class="block">KeyboardInputFactory creates input handlers that process keyboard and touch support.</div>
@@ -3743,6 +3793,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html#%3Cinit%3E(com.csse3200.game.ui.terminal.Terminal)" class="member-name-link">KeyboardTerminalInputComponent(Terminal)</a> - Constructor for class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html" title="class in com.csse3200.game.ui.terminal">KeyboardTerminalInputComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html#keyDown(int)" class="member-name-link">keyDown(int)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html" title="class in com.csse3200.game.components.combat">KeyboardCombatInputComponent</a></dt>
+<dd>
+<div class="block">Triggers combat events on specific keycodes.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html#keyDown(int)" class="member-name-link">keyDown(int)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html" title="class in com.csse3200.game.components.combat">TouchCombatInputComponent</a></dt>
+<dd>
+<div class="block">Triggers combat events on specific keycodes.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/minigames/birdieDash/controller/KeyboardBirdInputComponent.html#keyDown(int)" class="member-name-link">keyDown(int)</a> - Method in class com.csse3200.game.components.minigames.birdieDash.controller.<a href="com/csse3200/game/components/minigames/birdieDash/controller/KeyboardBirdInputComponent.html" title="class in com.csse3200.game.components.minigames.birdieDash.controller">KeyboardBirdInputComponent</a></dt>
 <dd>
 <div class="block">Define keys for events</div>
@@ -3796,6 +3854,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/ui/terminal/TouchTerminalInputComponent.html#keyTyped(char)" class="member-name-link">keyTyped(char)</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/TouchTerminalInputComponent.html" title="class in com.csse3200.game.ui.terminal">TouchTerminalInputComponent</a></dt>
 <dd>
 <div class="block">Handles input if the terminal is open.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html#keyUp(int)" class="member-name-link">keyUp(int)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html" title="class in com.csse3200.game.components.combat">KeyboardCombatInputComponent</a></dt>
+<dd>
+<div class="block">Triggers player events on specific keycodes.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html#keyUp(int)" class="member-name-link">keyUp(int)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html" title="class in com.csse3200.game.components.combat">TouchCombatInputComponent</a></dt>
+<dd>
+<div class="block">Triggers player events on specific keycodes.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/minigames/KeyboardMiniGameInputComponent.html#keyUp(int)" class="member-name-link">keyUp(int)</a> - Method in class com.csse3200.game.components.minigames.<a href="com/csse3200/game/components/minigames/KeyboardMiniGameInputComponent.html" title="class in com.csse3200.game.components.minigames">KeyboardMiniGameInputComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -4332,6 +4398,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the game is paused</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#pause()" class="member-name-link">pause()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/Overlay.OverlayType.html#PAUSE_OVERLAY" class="member-name-link">PAUSE_OVERLAY</a> - Enum constant in enum class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/Overlay.OverlayType.html" title="enum class in com.csse3200.game.overlays">Overlay.OverlayType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/PauseDisplay.html" class="type-name-link" title="class in com.csse3200.game.overlays">PauseDisplay</a> - Class in <a href="com/csse3200/game/overlays/package-summary.html">com.csse3200.game.overlays</a></dt>
@@ -4667,6 +4735,31 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/gamestate/data/QuestSave.html#%3Cinit%3E()" class="member-name-link">QuestSave()</a> - Constructor for class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/QuestSave.html" title="class in com.csse3200.game.gamestate.data">QuestSave</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/GdxGame.ScreenType.html#QUICK_TIME_EVENT" class="member-name-link">QUICK_TIME_EVENT</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" class="type-name-link" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a> - Record Class in <a href="com/csse3200/game/components/combat/quicktimeevent/package-summary.html">com.csse3200.game.components.combat.quicktimeevent</a></dt>
+<dd>
+<div class="block">Record data structure representing a quick-time event.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#%3Cinit%3E(float,float)" class="member-name-link">QuickTimeEvent(float, float)</a> - Constructor for record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>QuickTimeEvent</code> record class.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html" class="type-name-link" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventActions</a> - Class in <a href="com/csse3200/game/components/combat/quicktimeevent/package-summary.html">com.csse3200.game.components.combat.quicktimeevent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">QuickTimeEventActions(GdxGame)</a> - Constructor for class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventActions</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a> - Class in <a href="com/csse3200/game/components/combat/quicktimeevent/package-summary.html">com.csse3200.game.components.combat.quicktimeevent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#%3Cinit%3E()" class="member-name-link">QuickTimeEventDisplay()</a> - Constructor for class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a> - Class in <a href="com/csse3200/game/screens/package-summary.html">com.csse3200.game.screens</a></dt>
+<dd>
+<div class="block">A screen dedicated to practicing quick-time events
+ used in main-game combat</div>
+</dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">QuickTimeEventScreen(GdxGame)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:R">R</h2>
 <dl class="index">
@@ -4848,6 +4941,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called every frame to render the screen</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#render(float)" class="member-name-link">render(float)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/SnakeScreen.html#render(float)" class="member-name-link">render(float)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/SnakeScreen.html" title="class in com.csse3200.game.screens">SnakeScreen</a></dt>
 <dd>
 <div class="block">Renders the Snake game screen, including the grid and the apple.</div>
@@ -4964,6 +5059,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the screen is resized</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/SnakeScreen.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/SnakeScreen.html" title="class in com.csse3200.game.screens">SnakeScreen</a></dt>
 <dd>
 <div class="block">Resizes the elements on the screen including game elements, score board and exit button</div>
@@ -5047,6 +5144,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the game is resumed after a pause</div>
 </dd>
+<dt><a href="com/csse3200/game/screens/QuickTimeEventScreen.html#resume()" class="member-name-link">resume()</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/QuickTimeEventScreen.html" title="class in com.csse3200.game.screens">QuickTimeEventScreen</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/minigames/Direction.html#RIGHT" class="member-name-link">RIGHT</a> - Enum constant in enum class com.csse3200.game.components.minigames.<a href="com/csse3200/game/components/minigames/Direction.html" title="enum class in com.csse3200.game.components.minigames">Direction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/components/PhysicsComponent.AlignX.html#RIGHT" class="member-name-link">RIGHT</a> - Enum constant in enum class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsComponent.AlignX.html" title="enum class in com.csse3200.game.physics.components">PhysicsComponent.AlignX</a></dt>
@@ -5449,6 +5548,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/physics/components/PhysicsMovementComponent.html#setTarget(com.badlogic.gdx.math.Vector2)" class="member-name-link">setTarget(Vector2)</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsMovementComponent.html" title="class in com.csse3200.game.physics.components">PhysicsMovementComponent</a></dt>
 <dd>
 <div class="block">Set a target to move towards.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html#setTargetImage(java.lang.String)" class="member-name-link">setTargetImage(String)</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventDisplay.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventDisplay</a></dt>
+<dd>
+<div class="block">Sets image on target</div>
 </dd>
 <dt><a href="com/csse3200/game/inventory/items/AbstractItem.html#setTexturePath(java.lang.String)" class="member-name-link">setTexturePath(String)</a> - Method in class com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></dt>
 <dd>
@@ -6034,6 +6137,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/physics/components/PhysicsComponent.AlignY.html#TOP" class="member-name-link">TOP</a> - Enum constant in enum class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsComponent.AlignY.html" title="enum class in com.csse3200.game.physics.components">PhysicsComponent.AlignY</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html#toString()" class="member-name-link">toString()</a> - Method in record class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEvent.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEvent</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/Component.html#toString()" class="member-name-link">toString()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/minigames/MiniGameMedals.html#toString()" class="member-name-link">toString()</a> - Method in enum class com.csse3200.game.components.minigames.<a href="com/csse3200/game/components/minigames/MiniGameMedals.html" title="enum class in com.csse3200.game.components.minigames">MiniGameMedals</a></dt>
@@ -6066,6 +6173,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a component which attacks entities on collision, without knockback.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html" class="type-name-link" title="class in com.csse3200.game.components.combat">TouchCombatInputComponent</a> - Class in <a href="com/csse3200/game/components/combat/package-summary.html">com.csse3200.game.components.combat</a></dt>
+<dd>
+<div class="block">Input handler for combat for keyboard and touch (mouse) input.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html#%3Cinit%3E()" class="member-name-link">TouchCombatInputComponent()</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/TouchCombatInputComponent.html" title="class in com.csse3200.game.components.combat">TouchCombatInputComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/InputComponent.html#touchDown(float,float,int,int)" class="member-name-link">touchDown(float, float, int, int)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputComponent.html" title="class in com.csse3200.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/InputService.html#touchDown(float,float,int,int)" class="member-name-link">touchDown(float, float, int, int)</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputService.html" title="class in com.csse3200.game.input">InputService</a></dt>
@@ -6222,6 +6335,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Run one frame of the task.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/CameraComponent.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/QuickTimeEventActions.html" title="class in com.csse3200.game.components.combat.quicktimeevent">QuickTimeEventActions</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/Component.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
