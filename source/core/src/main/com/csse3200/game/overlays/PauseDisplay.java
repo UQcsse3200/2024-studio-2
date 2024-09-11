@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
@@ -33,7 +35,7 @@ public class PauseDisplay extends UIComponent {
      this.screen = screen;
      this.game = game;
     }
-
+  
     @Override
     public void create() {
         super.create();
@@ -98,6 +100,7 @@ public class PauseDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
+                        SaveHandler.save(GameState.class, "saves");
                         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
                     }
                 });

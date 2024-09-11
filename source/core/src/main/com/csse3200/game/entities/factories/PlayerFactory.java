@@ -2,6 +2,9 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
+import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -10,14 +13,18 @@ import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
@@ -29,7 +36,6 @@ import com.csse3200.game.components.animal.AnimalSelectionActions;
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
 
@@ -64,12 +70,17 @@ public class PlayerFactory {
 
         }
 
-        player.addComponent(new PlayerInventoryDisplay(45, 9))
-                .addComponent(inputComponent)
+        player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
-                .addComponent(new QuestPopup())
-                .addComponent(new StatManager());
+                .addComponent(new QuestPopup());
+        player.addComponent((new StatManager()));
+
+        // Add inventory from player (in future this will provide shared interface for memory
+        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        player.addComponent(inventoryComponent)
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new LootBoxOverlayComponent());
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
@@ -80,6 +91,40 @@ public class PlayerFactory {
         return player;
     }
 
+    /**
+     * Create a player NPC to spawn in Combat
+     */
+
+    public static Entity createCombatPlayer(String imagePath) {
+        Entity combatPlayer = createCombatPlayerStatic();
+
+        combatPlayer
+                .addComponent(new TextureRenderComponent(imagePath))
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100,true));
+
+        combatPlayer.scaleHeight(90.0f);
+
+        return combatPlayer;
+    }
+
+    /**
+     * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
+     *
+     * @return entity
+     */
+    public static Entity createCombatPlayerStatic() {
+        Entity npc =
+                new Entity()
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new PhysicsMovementComponent())
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                        .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
+
+
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        return npc;
+    }
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");

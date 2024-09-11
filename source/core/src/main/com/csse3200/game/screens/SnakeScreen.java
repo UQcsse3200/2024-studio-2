@@ -11,13 +11,11 @@ import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
+import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
@@ -35,10 +33,6 @@ import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.csse3200.game.components.minigames.MiniGameNames;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
-
 /**
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
@@ -54,12 +48,6 @@ public class SnakeScreen extends PausableScreen {
     private final Stage stage;
     private float scale;
     private final Table exitButtonTable;
-
-    /**
-     * Queue of currently enabled overlays in the game screen.
-     */
-    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
-
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
 
@@ -90,7 +78,7 @@ public class SnakeScreen extends PausableScreen {
         font.getData().setScale(5.0f);
 
         this.stage = ServiceLocator.getRenderService().getStage();
-
+        //Gdx.input.setInputProcessor(stage);
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
@@ -219,8 +207,11 @@ public class SnakeScreen extends PausableScreen {
         InputComponent inputComponent =
                 new KeyboardSnakeInputComponent();
 
+        Stage stage = ServiceLocator.getRenderService().getStage();
+
         Entity ui = new Entity();
         ui
+                .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
