@@ -997,7 +997,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/overlays/PauseDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/PauseDisplay.html" title="class in com.csse3200.game.overlays">PauseDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/QuestDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/QuestDisplay.html" title="class in com.csse3200.game.overlays">QuestDisplay</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates the display</div>
+</dd>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/components/HitboxComponent.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/HitboxComponent.html" title="class in com.csse3200.game.physics.components">HitboxComponent</a></dt>
@@ -2188,12 +2190,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the current quest dialogue for the given npc</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/QuestManager.html#getDialogue(java.lang.String)" class="member-name-link">getDialogue(String)</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestManager.html" title="class in com.csse3200.game.components.quests">QuestManager</a></dt>
-<dd>
-<div class="block">Returns all the dialogue for all quests for the given npc
- In sprint 2 will return a struct containing all dialogue for (String questName : npcRelevantQuests)
- Need to have null checks for npcName being in npcRelevantQuests</div>
-</dd>
 <dt><a href="com/csse3200/game/services/ServiceContainer.html#getDialogueBoxService()" class="member-name-link">getDialogueBoxService()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceContainer.html" title="class in com.csse3200.game.services">ServiceContainer</a></dt>
 <dd>
 <div class="block">Gets the EntityService stored in this container</div>
@@ -2420,6 +2416,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/GdxGameManager.html#getInstance()" class="member-name-link">getInstance()</a> - Static method in class com.csse3200.game.<a href="com/csse3200/game/GdxGameManager.html" title="class in com.csse3200.game">GdxGameManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/player/PlayerInventoryDisplay.html#getInventory()" class="member-name-link">getInventory()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a></dt>
+<dd>
+<div class="block">Returns inventory - for quests.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/minigames/birdieDash/BirdieDashGame.html#getIsGameOver()" class="member-name-link">getIsGameOver()</a> - Method in class com.csse3200.game.components.minigames.birdieDash.<a href="com/csse3200/game/components/minigames/birdieDash/BirdieDashGame.html" title="class in com.csse3200.game.components.minigames.birdieDash">BirdieDashGame</a></dt>
 <dd>
 <div class="block">Determines if the game is over</div>
@@ -3280,6 +3280,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/inventory/items/AbstractItem.html#itemCode" class="member-name-link">itemCode</a> - Variable in class com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/Inventory.html#itemCollectionSuccessful()" class="member-name-link">itemCollectionSuccessful()</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
+<dd>
+<div class="block">Quests item collection completion - used to send out "items collected"</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">ItemFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
 <dd>
 <div class="block">A factory class for creating various item entities in the game.</div>
@@ -4222,11 +4226,17 @@ loadScripts(document, 'script');</script>
 <div class="block">A public class that represents the settings menu display and logic for managing and showing quests onto the screen.</div>
 </dd>
 <dt><a href="com/csse3200/game/overlays/QuestDisplay.html#%3Cinit%3E(com.csse3200.game.screens.PausableScreen)" class="member-name-link">QuestDisplay(PausableScreen)</a> - Constructor for class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/QuestDisplay.html" title="class in com.csse3200.game.overlays">QuestDisplay</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new quest display and sets the screen that can be paused.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/quests/QuestHidden.html" class="type-name-link" title="class in com.csse3200.game.components.quests">QuestHidden</a> - Class in <a href="com/csse3200/game/components/quests/package-summary.html">com.csse3200.game.components.quests</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/QuestHidden.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">QuestHidden(String, String)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestHidden.html" title="class in com.csse3200.game.components.quests">QuestHidden</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/Inventory.html#questItemListen(java.lang.String,int)" class="member-name-link">questItemListen(String, int)</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
+<dd>
+<div class="block">Inventory listen for quests item collection tasks</div>
+</dd>
 <dt><a href="com/csse3200/game/components/quests/QuestManager.html" class="type-name-link" title="class in com.csse3200.game.components.quests">QuestManager</a> - Class in <a href="com/csse3200/game/components/quests/package-summary.html">com.csse3200.game.components.quests</a></dt>
 <dd>
 <div class="block">Manages, tracks and updates the quests within the game.</div>
