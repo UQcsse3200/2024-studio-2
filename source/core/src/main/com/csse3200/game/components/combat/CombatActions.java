@@ -26,6 +26,9 @@ public class CombatActions extends Component {
     this.previousServices = previousServices;
   }
 
+  /**
+   * Initialises the event listeners.
+   */
   @Override
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
@@ -44,33 +47,45 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    game.setOldScreen(previousScreen, previousServices);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+    game.setOldScreen(previousScreen, previousServices);
   }
 
   /**
-   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
+   * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
   private void onCombatLoss() {
     logger.info("Returning to main game screen after combat loss.");
     game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
   }
 
+  /**
+   * Signalled by clicking attack button, to then signal the ATTACK combat move in the manager.
+   */
   private void onAttack(Screen screen, ServiceContainer container) {
       manager.onPlayerActionSelected("ATTACK");
       entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
+  /**
+   * Signalled by clicking guard button, to then signal the GUARD combat move in the manager.
+   */
   private void onGuard(Screen screen, ServiceContainer container) {
     manager.onPlayerActionSelected("GUARD");
     entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
+  /**
+   * Signalled by clicking sleep button, to then signal the SLEEP combat move in the manager.
+   */
   private void onSleep(Screen screen, ServiceContainer container) {
     manager.onPlayerActionSelected("SLEEP");
     entity.getEvents().trigger("onSleep", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
+  /**
+   * Signalled by clicking items button.
+   */
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
   }
