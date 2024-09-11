@@ -82,6 +82,10 @@ public class MainMenuActions extends Component {
     game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
   }
 
+  /**
+   * Returns whether the current game instance loaded a save or not.
+   * @return whether the game loaded a save.
+   */
   public static boolean getGameLoaded() {
     return loaded;
   }

@@ -29,7 +29,8 @@ public class QuestSave implements Json.Serializable {
         for (JsonValue quest : jsonData.child) {
             logger.info("step 1");
             Iterator<JsonValue> taskList;
-            if(quest.get("tasks").hasChild("items")) {
+
+            if(quest.get("tasks").has("items")) {
                 taskList = quest.get("tasks").get("items").iterator();
             } else {
                 taskList = quest.get("tasks").iterator();
