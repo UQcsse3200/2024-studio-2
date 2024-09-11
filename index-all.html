@@ -1270,6 +1270,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new instance of the loot item using reflection, with the specified constructor parameters.</div>
 </dd>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#createOptionButton(int)" class="member-name-link">createOptionButton(int)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dd>
+<div class="block">Creates the optionButton.</div>
+</dd>
 <dt><a href="com/csse3200/game/ui/DialogueBox.html#createPlayButton()" class="member-name-link">createPlayButton()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates the playButton for booting up mini-games</div>
@@ -1305,6 +1309,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainLoader.html#currentChunk" class="member-name-link">currentChunk</a> - Static variable in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainLoader.html" title="class in com.csse3200.game.areas.terrain">TerrainLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#currentHint" class="member-name-link">currentHint</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#currentHintLine" class="member-name-link">currentHintLine</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:D">D</h2>
@@ -1384,7 +1390,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new base DialogueBox with the given hint messages.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#%3Cinit%3E(java.lang.String%5B%5D)" class="member-name-link">DialogueBox(String[])</a> - Constructor for class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#%3Cinit%3E(java.lang.String%5B%5D%5B%5D)" class="member-name-link">DialogueBox(String[][])</a> - Constructor for class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates a new DialogueBox with the given hint messages.</div>
 </dd>
@@ -2397,6 +2403,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the index of the current hint being displayed.</div>
 </dd>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#getCurrentHintLine()" class="member-name-link">getCurrentHintLine()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dd>
+<div class="block">Returns the index of the current hint line being displayed.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/DialogueBoxService.html#getCurrentOverlay()" class="member-name-link">getCurrentOverlay()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Returns the currentOverlay which can be null or not null</div>
@@ -3321,6 +3331,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Handles the forward button click event to navigate to the next hint.</div>
 </dd>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#handleOptionButtonClick(int)" class="member-name-link">handleOptionButtonClick(int)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dd>
+<div class="block">Handles the option button click event to navigate to the specific hint.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/minigames/snake/SnakeGame.html#handleSnakeInput(com.csse3200.game.components.minigames.Direction)" class="member-name-link">handleSnakeInput(Direction)</a> - Method in class com.csse3200.game.components.minigames.snake.<a href="com/csse3200/game/components/minigames/snake/SnakeGame.html" title="class in com.csse3200.game.components.minigames.snake">SnakeGame</a></dt>
 <dd>
 <div class="block">Update snake direction based on an input direction.</div>
@@ -3464,7 +3478,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Initializes the animations for the health, hunger, and experience bars.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#initiateDialogue(java.lang.String%5B%5D,java.lang.String%5B%5D)" class="member-name-link">initiateDialogue(String[], String[])</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#initiateDialogue(java.lang.String%5B%5D,java.lang.String%5B%5D%5B%5D)" class="member-name-link">initiateDialogue(String[], String[][])</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
 <div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
 </dd>
@@ -4253,6 +4267,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/LootBox.html#open()" class="member-name-link">open()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/LootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">LootBox</a></dt>
 <dd>
 <div class="block">Opens the loot box and returns a list of randomly selected items based on the specified number of rolls.</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#optionsCheck(java.lang.String)" class="member-name-link">optionsCheck(String)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dd>
+<div class="block">Checks if the current text on the label contains either of the following flags at the
+ beginning of the string.</div>
 </dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainOrientation.html#ORTHOGONAL" class="member-name-link">ORTHOGONAL</a> - Enum constant in enum class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainOrientation.html" title="enum class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainOrientation</a></dt>
 <dd>&nbsp;</dd>
@@ -5171,7 +5190,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setBaseAttack(int)" class="member-name-link">setBaseAttack(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setBaseHint(java.lang.String%5B%5D)" class="member-name-link">setBaseHint(String[])</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
+<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setBaseHint(java.lang.String%5B%5D%5B%5D)" class="member-name-link">setBaseHint(String[][])</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>
 <div class="block">Sets the base hint messages for this entity.</div>
 </dd>
@@ -5487,7 +5506,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the screen is shown for the first time</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#showDialogueBox(java.lang.String%5B%5D)" class="member-name-link">showDialogueBox(String[])</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/DialogueBox.html#showDialogueBox(java.lang.String%5B%5D%5B%5D)" class="member-name-link">showDialogueBox(String[][])</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
 <dd>
 <div class="block">Displays the dialogue box with the provided hint messages.</div>
 </dd>
@@ -6367,6 +6386,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Handler for event triggering an update of the a stat</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/DialogueBoxService.html#updateText(java.lang.String%5B%5D)" class="member-name-link">updateText(String[])</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dd>
+<div class="block">Update the current chat overlay if it exists.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#updateText(java.lang.String%5B%5D%5B%5D)" class="member-name-link">updateText(String[][])</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Update the current chat overlay if it exists.</div>
 </dd>
