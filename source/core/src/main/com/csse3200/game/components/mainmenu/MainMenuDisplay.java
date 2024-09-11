@@ -306,6 +306,8 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.row();
         menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
         menuButtonTable.row();
+        menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
