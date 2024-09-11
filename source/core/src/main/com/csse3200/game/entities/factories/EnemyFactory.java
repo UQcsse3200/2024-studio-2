@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
@@ -26,6 +27,10 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
  *
@@ -39,6 +44,14 @@ import com.csse3200.game.services.ServiceLocator;
 public class EnemyFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
+
+  private static final List<CombatMove> moveSet = new ArrayList<>(
+          Arrays.asList(
+                  new AttackMove("Enemy Attack", 10),
+                  new GuardMove("Enemy Guard", 5),
+                  new SleepMove("Enemy Sleep", 0)
+          )
+  );
 
   /**
    * Creates a chicken enemy.
@@ -62,7 +75,8 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -89,7 +103,8 @@ public class EnemyFactory {
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     frog
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
@@ -125,7 +140,8 @@ public class EnemyFactory {
 
     monkey
 
-            .addComponent(new CombatStatsComponent(config.getHealth(), 0, config.getBaseAttack(), 0, 0, 0, false))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
@@ -186,8 +202,8 @@ public class EnemyFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     kangarooBoss
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false))
-
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new KangaBossAnimationController());
 
@@ -211,7 +227,7 @@ public class EnemyFactory {
 
     kangarooBoss
             .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
 
     kangarooBoss.scaleHeight(120.0f);
 
@@ -271,7 +287,7 @@ public class EnemyFactory {
 
     chickenEnemy
             .addComponent(new TextureRenderComponent("images/chicken_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
 
     chickenEnemy.scaleHeight(90.0f);
 
@@ -288,7 +304,7 @@ public class EnemyFactory {
 
     monkeyEnemy
             .addComponent(new TextureRenderComponent("images/monkey_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
 
     monkeyEnemy.scaleHeight(90.0f);
 
@@ -305,7 +321,7 @@ public class EnemyFactory {
 
     frogEnemy
             .addComponent(new TextureRenderComponent("images/frog_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), 100, 100, 100, 100, 100, false));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
 
     frogEnemy.scaleHeight(150.0f);
 
