@@ -72,7 +72,6 @@ public class UserSettings {
             Gdx.graphics.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
         }
         applyAudioSettings(settings.audioScale, settings.soundScale);
-
     }
     /**
      * Applies the audio settings to the game, including handling mute/unmute.
@@ -91,6 +90,7 @@ public class UserSettings {
             AudioManager.setMusicVolume(lastMusicVolume);
             AudioManager.setSoundVolume(lastSoundVolume);
         }
+
     }
 
     public static void applyDisplayMode(Settings settings) {
@@ -99,6 +99,7 @@ public class UserSettings {
         } else {
             Gdx.graphics.setWindowedMode(1280, 800);
         }
+        set(settings, true);
     }
 
     /**
