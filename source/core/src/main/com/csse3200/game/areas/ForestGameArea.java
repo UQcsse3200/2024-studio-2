@@ -109,14 +109,7 @@ public class ForestGameArea extends GameArea {
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       kangarooBossSpawned = false;
 
-
-
-      if(MainMenuActions.getGameLoaded()) {
-          SaveHandler.load(GameState.class, "saves");
-      } else {
-          GameState.clearState();
-      }
-
+      //Initialise inventory and quests with loaded data
       player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
   }

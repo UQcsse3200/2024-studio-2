@@ -51,7 +51,7 @@ public class PauseTask extends ChaseTask {
 
 
         if (this.config != null) {
-            String[] hintText = this.config.getBaseHint();
+            String[][] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);

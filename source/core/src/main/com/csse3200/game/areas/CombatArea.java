@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
-    private static final Logger logger = LoggerFactory.getLogger(CombatGameArea.class);
+    private static final Logger logger = LoggerFactory.getLogger(CombatArea.class);
     private static GridPoint2 PLAYER_SPAWN = new GridPoint2(290,  335); // 9, 14...384, 256
 
     private static final String[] combatTexture = {
@@ -59,6 +59,7 @@ public class CombatArea extends GameArea {
             "images/chicken_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
+            "images/bear_idle.png",
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",

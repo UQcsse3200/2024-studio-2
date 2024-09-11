@@ -87,7 +87,7 @@ public class EntityConverter {
 		// Note: We don't have direct access to health in BaseEntityConfig
 		// You may need to add a getHealth() method to BaseEntityConfig or handle this differently
 		int defaultHealth = 10; // Using a default value; adjust as needed
-		enemy.addComponent(new CombatStatsComponent(defaultHealth, 0, 0, 0, 0, 0, false))
+		enemy.addComponent(new CombatStatsComponent(defaultHealth, 0, 0, 0, 0, 0, 0, false))
 				.addComponent(new FriendlyNPCAnimationController());
 	}
 	
@@ -114,19 +114,27 @@ public class EntityConverter {
 		}
 	}
 	
-	private static String[] getHintText(BaseEntityConfig config) {
+	private static String[][] getHintText(BaseEntityConfig config) {
 		if (config instanceof BaseFriendlyEntityConfig) {
 			BaseFriendlyEntityConfig friendlyConfig = (BaseFriendlyEntityConfig) config;
-			String[] hintText = friendlyConfig.getStringHintLevel();
-			if (hintText == null || hintText.length == 0) {
-				hintText = friendlyConfig.getBaseHint();
+			String animalName = friendlyConfig.getAnimalName();
+			
+			// Check for hints in order of priority
+			String[] currentLevelHints = friendlyConfig.getStringHintLevel();
+			if (currentLevelHints != null && currentLevelHints.length > 0) {
+				return new String[][]{currentLevelHints};
 			}
-			if (hintText == null || hintText.length == 0) {
-				hintText = new String[]{"A friendly " + friendlyConfig.getAnimalName() + " appears!"};
+			
+			String[][] baseHints = friendlyConfig.getBaseHint();
+			if (baseHints != null && baseHints.length > 0) {
+				return baseHints;
 			}
-			return hintText;
+			
+			// Fallback to a more informative default message
+			return new String[][]{{String.format("A friendly %s appears! It seems to have something to say.", animalName)}};
 		} else {
-			return new String[]{"A friendly creature appears!"};
+			// Fallback for non-friendly entities
+			return new String[][]{{"A mysterious creature appears!"}};
 		}
 	}
 }
