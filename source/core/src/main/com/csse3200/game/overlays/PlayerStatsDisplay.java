@@ -1,29 +1,43 @@
+
 package com.csse3200.game.overlays;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.screens.PausableScreen;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
+import com.csse3200.game.screens.PausableScreen;
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.components.stats.Stat;
+import com.csse3200.game.components.stats.StatManager;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-/**
- * A public class that represents the display and logic for managing and showing player stats onto the screen.
- * This handles the user interface components.
- */
+
+
+
 public class PlayerStatsDisplay extends UIComponent {
     private Table background;
     private Table rootTable;
     private PausableScreen screen;
+    private String spritePath;
+    private String playerDescription;
 
-    public PlayerStatsDisplay(PausableScreen screen) {
+    public PlayerStatsDisplay(PausableScreen screen, String spritePath, String playerDescription) {
         super();
         this.screen = screen;
+        this.spritePath = spritePath;
+        this.playerDescription = playerDescription;
     }
 
     @Override
@@ -32,10 +46,6 @@ public class PlayerStatsDisplay extends UIComponent {
         addActors();
     }
 
-    /**
-     * Creates and returns a table with player stats.
-     * @return A table containing player stats information.
-     */
     private Table makeStatsTable() {
         Table table = new Table();
         CombatStatsComponent stats = (CombatStatsComponent) ServiceLocator.getEntityService().getSpecificComponent(CombatStatsComponent.class);
@@ -52,13 +62,6 @@ public class PlayerStatsDisplay extends UIComponent {
         return table;
     }
 
-    /**
-     * Adds a row to the stats table with the given stat name and value.
-     * @param table The table to which the row will be added.
-     * @param name The name of the stat.
-     * @param value The value of the stat.
-     * @param maxValue Optional maximum value for stats with a range (e.g., Health).
-     */
     private void addStatRow(Table table, String name, int value, int maxValue) {
         Label nameLabel = new Label(name, skin, "default");
         Label valueLabel = new Label(value + "/" + maxValue, skin, "default");
@@ -67,12 +70,6 @@ public class PlayerStatsDisplay extends UIComponent {
         table.row().padTop(5f);
     }
 
-    /**
-     * Adds a row to the stats table with the given stat name and value.
-     * @param table The table to which the row will be added.
-     * @param name The name of the stat.
-     * @param value The value of the stat.
-     */
     private void addStatRow(Table table, String name, int value) {
         Label nameLabel = new Label(name, skin, "default");
         Label valueLabel = new Label(String.valueOf(value), skin, "default");
@@ -81,10 +78,6 @@ public class PlayerStatsDisplay extends UIComponent {
         table.row().padTop(5f);
     }
 
-    /**
-     * Creates and returns a table containing menu buttons for navigating the stats menu.
-     * @return A table containing the menu buttons.
-     */
     private Table makeMenuBtns() {
         TextButton exitBtn = new TextButton("Leave Menu", skin);
         exitBtn.getLabel().setFontScale(0.8f);
@@ -101,67 +94,49 @@ public class PlayerStatsDisplay extends UIComponent {
         return table;
     }
 
-    /**
-     * Handles exiting the player stats menu.
-     */
     private void exitMenu() {
         screen.removeOverlay();
     }
 
-    /**
-     * Adds actors to the stage for displaying the player stats UI components.
-     */
     private void addActors() {
         Label title = new Label("PLAYER STATS", skin, "title");
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
 
-        //Image statsBackground = new Image(
-                //ServiceLocator.getResourceService()
-                        //.getAsset("images/PlayerStatsOverlay/Stats_SBG.png", Texture.class));
+        Image playerSprite = new Image(ServiceLocator.getResourceService().getAsset(spritePath, Texture.class));
+        Label description = new Label(playerDescription, skin, "default");
+
         background = new Table();
         background.setFillParent(true);
-        //background.add(statsBackground).center();
         stage.addActor(background);
 
-        Table menuBtns = makeMenuBtns();
         Table statsTable = makeStatsTable();
+        Table menuBtns = makeMenuBtns();
 
         rootTable = new Table();
         rootTable.setSize(background.getWidth(), background.getHeight());
         rootTable.setFillParent(true);
 
-        float paddingTop = 28f;
-
-        rootTable.add(title).center().padTop(paddingTop);
-        rootTable.row();
-        rootTable.add(statsTable).padBottom(10f).padTop(paddingTop);
+        rootTable.add(playerSprite).left().padTop(20f).padLeft(20f);
+        rootTable.add(description).left().padTop(20f).padLeft(10f);
+        rootTable.row().padTop(10f);
+        rootTable.add(statsTable).padBottom(10f).padTop(10f).colspan(2);
         rootTable.row();
         rootTable.add(menuBtns).center().padTop(10f);
 
         stage.addActor(rootTable);
     }
 
-    /**
-     * Draws the player stats UI onto the screen.
-     * @param batch The sprite batch used for drawing.
-     */
     @Override
     protected void draw(SpriteBatch batch) {
         // draw is handled by the stage
     }
 
-    /**
-     * Updates the player stats UI based on time.
-     */
     @Override
     public void update() {
         stage.act(ServiceLocator.getTimeSource().getDeltaTime());
     }
 
-    /**
-     * Disposes of assets used by the player stats display.
-     */
     @Override
     public void dispose() {
         background.clear();
