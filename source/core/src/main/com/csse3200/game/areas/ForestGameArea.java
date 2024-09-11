@@ -83,10 +83,10 @@ public class ForestGameArea extends GameArea {
     spawnEnemies();
 
     // items
-    // handleItems();
+    handleItems();
 
     //Friendlies
-    // spawnFriendlyNPCs();
+    spawnFriendlyNPCs();
 
     playMusic();
     player.getEvents().addListener("setPosition", this::handleNewChunks);
@@ -256,8 +256,8 @@ public class ForestGameArea extends GameArea {
     Supplier<Entity> generator;
 
     // Chicken
-    //generator = () -> EnemyFactory.createChicken(player);
-    //spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
+    generator = () -> EnemyFactory.createChicken(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
 
     // Monkey
     generator = () -> EnemyFactory.createMonkey(player);
@@ -266,12 +266,12 @@ public class ForestGameArea extends GameArea {
 
 
     // Frog
-    //generator = () -> EnemyFactory.createFrog(player);
-    //spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+    generator = () -> EnemyFactory.createFrog(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
 
     //Bear
-    //generator = () -> EnemyFactory.createBear(player);
-    //spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
+    generator = () -> EnemyFactory.createBear(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
   }
 
   private void spawnFriendlyNPCs() {
