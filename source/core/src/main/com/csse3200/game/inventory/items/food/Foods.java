@@ -8,7 +8,7 @@ public class Foods {
         private final static String path = "images/foodtextures/apple.png";
 
         /**
-         * Constructs an Apple class  while assigning fields with set values.
+         * Constructs an Apple class while assigning fields with set values.
          */
         public Apple(int quantity) {
             super("Apple", 11, 1, quantity, 2);
