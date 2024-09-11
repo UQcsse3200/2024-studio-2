@@ -24,14 +24,12 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
- * Factory to create non-playable projectile entity with predefined components.
+ * Factory to create non-playable projectile entities with predefined components.
  *
- * <p>Each Projectile entity type should have a creation method that returns a corresponding entity.
- * Predefined entity properties can be loaded from configs stored as json files which are defined in
- * "NPCConfigs".
- *
- * <p>If needed, this factory can be separated into more specific factories for entities with
- * similar characteristics.
+ * <p>Each projectile entity type has a creation method that returns a corresponding entity.
+ * Predefined entity properties can be loaded from configurations stored as JSON files defined in
+ * "NPCConfigs". This factory can be expanded or separated into more specific factories for entities
+ * with similar characteristics.
  */
 public class ProjectileFactory {
 
@@ -39,14 +37,13 @@ public class ProjectileFactory {
           FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
   /**
-   * types of projectiles
-   */
-
-  /**
-   * Creates a banana projectile.
+   * Creates a banana projectile entity.
    *
-   * @param target entity to chase (player in most cases, but does not have to be)
-   * @return enemy chicken entity
+   * <p>This projectile will chase the specified target entity, such as a player, using predefined
+   * AI tasks and animations.
+   *
+   * @param target The entity that the projectile will target and chase.
+   * @return A new banana projectile entity.
    */
   public static Entity createBanana(Entity target) {
     Entity banana = createBaseProjectile(target);
@@ -77,10 +74,11 @@ public class ProjectileFactory {
 
 
   /**
-   * Creates a generic Enemy with specific tasks depending on the enemy type.
+   * Creates a base projectile entity with common components and sets the target layer for
+   * the projectile's attacks.
    *
-   * @param target the enemy target
-   * @return entity
+   * @param target The entity that the projectile will target.
+   * @return A new projectile entity with basic components.
    */
   private static Entity createBaseProjectile(Entity target) {
     Entity projectile =
