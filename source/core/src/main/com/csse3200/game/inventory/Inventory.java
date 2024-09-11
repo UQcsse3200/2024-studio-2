@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import static java.util.Arrays.fill;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
@@ -29,8 +27,6 @@ public class Inventory implements InventoryInterface {
     private TreeMap<String, TreeSet<Integer>> nameToIndices;
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
-
-    private Logger logger = LoggerFactory.getLogger(Inventory.class);
 
 
     /**
@@ -52,6 +48,12 @@ public class Inventory implements InventoryInterface {
 
     }
 
+    /**
+     * Loads and initialises the contents of the inventory from a save.
+     * If one does not exist, creates one.
+     *
+     * @see InventorySave
+     */
     public void loadInventoryFromSave() {
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);

@@ -303,6 +303,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         return Z_INDEX;
     }
 
+    /**
+     * Loads the inventory attached to the player from a save.
+     */
     public void loadInventoryFromSave() {
         inventory.loadInventoryFromSave();
     }
