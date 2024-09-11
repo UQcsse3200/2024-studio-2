@@ -35,7 +35,7 @@ public class PauseDisplay extends UIComponent {
      this.screen = screen;
      this.game = game;
     }
-
+  
     @Override
     public void create() {
         super.create();
