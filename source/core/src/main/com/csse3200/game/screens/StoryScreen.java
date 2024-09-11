@@ -24,7 +24,6 @@ public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
-    private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
     public StoryScreen(GdxGame game) {
         this.game = game;
@@ -37,7 +36,6 @@ public class StoryScreen extends ScreenAdapter {
 
         renderer = RenderFactory.createRenderer();
 
-        loadAssets();
         createUI();
     }
 
@@ -54,43 +52,16 @@ public class StoryScreen extends ScreenAdapter {
     }
 
     @Override
-    public void pause() {
-        logger.info("Game paused");
-    }
-
-    @Override
-    public void resume() {
-        logger.info("Game resumed");
-    }
-
-    @Override
     public void dispose() {
         logger.debug("Disposing main menu screen");
 
         renderer.dispose();
-        unloadAssets();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
 
         ServiceLocator.clear();
     }
 
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainMenuTextures);
-        resourceService.loadAll();
-    }
-
-    private void unloadAssets() {
-        logger.debug("Unloading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainMenuTextures);
-    }
-    /**
-     * Creates the main menu's ui including components for rendering ui elements to the screen and
-     * capturing and handling ui input.
-     */
     private void createUI() {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();

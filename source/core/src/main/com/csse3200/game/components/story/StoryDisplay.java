@@ -42,7 +42,7 @@ public class StoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        logger.info("Creating MainMenuDisplay");
+        logger.info("Creating StoryDisplay");
         addActors();
         applyUserSettings();
         backgroundTexture = new Texture("images/GameOverWin.png");
