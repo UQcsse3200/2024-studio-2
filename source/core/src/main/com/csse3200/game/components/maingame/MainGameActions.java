@@ -43,6 +43,6 @@ public class MainGameActions extends Component {
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen");
     // change to new GDXgame function
-    game.setOldScreen(screen, container);
+    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
   }
 }

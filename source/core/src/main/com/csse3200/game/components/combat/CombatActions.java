@@ -25,6 +25,8 @@ public class CombatActions extends Component {
     this.game = game;
     this.enemy = enemy;
     this.manager = manager;
+    this.previousServices = previousServices;
+    this.previousScreen = previousScreen;
   }
 
   @Override
