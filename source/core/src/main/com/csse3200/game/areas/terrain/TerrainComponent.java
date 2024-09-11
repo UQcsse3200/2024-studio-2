@@ -25,7 +25,9 @@ import java.util.BitSet;
  * shows the 'ground' in the game. Enabling/disabling this component will
  * show/hide the terrain.
  */
-public class TerrainComponent extends RenderComponent {
+public class TerrainComponent extends RenderComponent
+{
+
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
@@ -37,6 +39,15 @@ public class TerrainComponent extends RenderComponent {
 
   private static Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private static TerrainResource terrainResource;
+
+  private TiledMapRenderer renderer;
+
+  // Constructor and other methods...
+
+  // Package-private or protected method for testing
+  TiledMapRenderer getRenderer() {
+    return renderer;
+  }
 
   public TerrainComponent(
           OrthographicCamera camera,
@@ -185,6 +196,12 @@ public class TerrainComponent extends RenderComponent {
   @Override
   public int getLayer() {
     return TERRAIN_LAYER;
+  }
+
+  public TiledMap getTiledMap()
+  {
+
+      return null;
   }
 
   public enum TerrainOrientation {
