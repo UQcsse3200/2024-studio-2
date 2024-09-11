@@ -1,128 +1,111 @@
 package com.csse3200.game.areas;
 
-import static org.mockito.Mockito.*;
-
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.input.InputFactory;
+import com.csse3200.game.input.InputService;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.csse3200.game.extensions.GameExtension;
 
+@ExtendWith(GameExtension.class)
 class ForestGameAreaTest {
-
     private ForestGameArea forestGameArea;
-    private ResourceService mockResourceService;
+    private TerrainFactory terrainFactory;
+    private GdxGame game;
+    private Entity mockPlayer;
 
     @BeforeEach
     void setUp() {
-        // Mock dependencies for TerrainFactory and GdxGame
-        TerrainFactory mockTerrainFactory = mock(TerrainFactory.class);
-        GdxGame mockGdxGame = mock(GdxGame.class);
+        terrainFactory = mock(TerrainFactory.class);
+        game = mock(GdxGame.class);
 
-        // Initialise ForestGameArea with mocked dependencies
-        forestGameArea = new ForestGameArea(mockTerrainFactory, mockGdxGame);
+        // Register a mocked EntityService in ServiceLocator
+        EntityService entityService = mock(EntityService.class);
+        ServiceLocator.registerEntityService(entityService);
 
-        // Mock the ResourceService and register it with ServiceLocator
-        mockResourceService = mock(ResourceService.class);
-        ServiceLocator.registerResourceService(mockResourceService);
+        // Register a mocked InputService in ServiceLocator
+        InputService inputService = mock(InputService.class);
+        InputFactory inputFactory = mock(InputFactory.class);
+        when(inputService.getInputFactory()).thenReturn(inputFactory);
+        ServiceLocator.registerInputService(inputService);
+
+        // Register a mocked ResourceService in ServiceLocator
+        ResourceService resourceService = mock(ResourceService.class);
+        Texture mockTexture = mock(Texture.class);
+        when(resourceService.getAsset(anyString(), eq(Texture.class))).thenReturn(mockTexture);
+        ServiceLocator.registerResourceService(resourceService);
+
+        // Send spies to collect information
+        forestGameArea = spy(new ForestGameArea(terrainFactory, game));
+
+        // Mock loadAssets to prevent real asset loading during tests
+        doNothing().when(forestGameArea).loadAssets();
+
+        // Mock player entity
+        mockPlayer = mock(Entity.class);
+        when(mockPlayer.getPosition()).thenReturn(new Vector2(2500, 2500));
     }
 
-    //@Test
-    //void testForestGameAreaInitialisation() {
-    //    // Verify that the ForestGameArea is initialised successfully
-    //    assertNotNull(forestGameArea, "ForestGameArea should be initialised.");
-    //}
-    //
-    //@Test
-    //void testLoadAssets() {
-    //    // Mock the behaviour of loadForMillis to return immediately
-    //    when(mockResourceService.loadForMillis(anyInt())).thenReturn(true);
-    //
-    //    // Mock loading textures, sounds, and music
-    //    doNothing().when(mockResourceService).loadTextures(any());
-    //    doNothing().when(mockResourceService).loadSounds(any());
-    //    doNothing().when(mockResourceService).loadMusic(any());
-    //
-    //    // Invoke loadAssets method
-    //    forestGameArea.loadAssets();
-    //
-    //    // Verify that resources are loaded the expected number of times
-    //    verify(mockResourceService, times(1)).loadTextures(any());
-    //    verify(mockResourceService, times(7)).loadSounds(any());
-    //    verify(mockResourceService, times(1)).loadMusic(any());
-    //}
+    @AfterEach
+    void tearDown() {
+        ServiceLocator.clear(); // Clear ServiceLocator to avoid contamination between tests
+    }
 
-    //@Test
-    //void testPlayMusic() {
-    //    // Mock the music asset
-    //    Music mockMusic = mock(Music.class);
-    //    when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
-    //
-    //    // Invoke playMusic method
-    //    forestGameArea.playMusic();
-    //
-    //    // Verify that the music plays and loops at the correct volume
-    //    verify(mockMusic, times(1)).play();
-    //    verify(mockMusic, times(1)).setLooping(true);
-    //    verify(mockMusic, times(1)).setVolume(0.5f);
-    //}
-    //
-    //@Test
-    //void testPauseMusic() {
-    //    // Mock the music asset
-    //    Music mockMusic = mock(Music.class);
-    //    when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
-    //
-    //    // Invoke pauseMusic method
-    //    forestGameArea.pauseMusic();
-    //
-    //    // Verify that the music is paused
-    //    verify(mockMusic, times(1)).pause();
-    //}
-
-    // Test currently commented out due to freezing issue
-    // This test checks the creation of the terrain in ForestGameArea
-    // The test mocks the TerrainFactory and TerrainComponent to verify terrain creation logic
+    @Test
+    void testInitialisation() {
+        assertNotNull(forestGameArea, "ForestGameArea should be initialised");
+    }
+//  Failing due to incompetence
 //    @Test
-//    void testTerrainCreationWithLogging() {
-//        // Mock the TerrainFactory and TerrainComponent
-//        TerrainFactory mockTerrainFactory = mock(TerrainFactory.class);
-//        TerrainComponent mockTerrainComponent = mock(TerrainComponent.class);
+//    void testCreateTerrain() {
+//        TerrainComponent mockTerrain = mock(TerrainComponent.class);
 //
-//        // When createTerrain is called, return the mock TerrainComponent
-//        when(mockTerrainFactory.createTerrain(any(), any(), any())).thenReturn(mockTerrainComponent);
+//        // Mock the creation of terrain using the TerrainFactory
+//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mockTerrain);
 //
-//        // Initialise ForestGameArea with mocked dependencies
-//        forestGameArea = new ForestGameArea(mockTerrainFactory, mock(GdxGame.class));
-//
-//        // Add print statements to isolate any freezing issues
-//        System.out.println("Before forestGameArea.create()");
-//
-//        // Invoke the create method to initialise terrain
+//        // Call the create method on the forestGameArea (which should trigger terrain creation)
 //        forestGameArea.create();
 //
-//        System.out.println("After forestGameArea.create()");
-//
-//        // Verify that createTerrain was invoked once
-//        verify(mockTerrainFactory, times(1)).createTerrain(any(), any(), any());
-//
-//        System.out.println("Verified terrain creation");
+//        assertNotNull(forestGameArea, "ForestGameArea should be created successfully");
 //    }
-
-    //@Test
-    //void testUnloadAssets() {
-    //    // Invoke unloadAssets method to release resources
-    //    forestGameArea.unloadAssets();
-    //
-    //    // Verify that unloadAssets is called for each resource type
-    //    verify(mockResourceService, atLeastOnce()).unloadAssets(any(String[].class));
-    //}
+//
+//    @Test
+//    void testPlayerSpawn() {
+//        // Mock terrain
+//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mock(TerrainComponent.class));
+//
+//        //  trigger player and terrain spawn
+//        forestGameArea.create();
+//
+//        Entity player = forestGameArea.getPlayer();
+//        assertNotNull(player, "Player entity should be spawned");
+//    }
+//
+//    @Test
+//    void testEntityRegistration() {
+//        // Mock terrain creation
+//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mock(TerrainComponent.class));
+//
+//        // Get the mock entity service
+//        EntityService entityService = ServiceLocator.getEntityService();
+//
+//        // Call create to trigger terrain and entity registration
+//        forestGameArea.create();
+//
+//        // Ensure that the player entity was registered with the entity service
+//        verify(entityService, times(1)).register(any(Entity.class));
+//    }
 }
