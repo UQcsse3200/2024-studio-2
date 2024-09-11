@@ -1,0 +1,40 @@
+Cat1.png
+size: 455, 55
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Attack
+  rotate: false
+  xy: 187, 29
+  size: 177, 25
+  orig: 192, 48
+  offset: 4, 0
+  index: -1
+Death
+  rotate: false
+  xy: 1, 29
+  size: 184, 24
+  orig: 192, 48
+  offset: 4, 0
+  index: -1
+Hurt
+  rotate: false
+  xy: 366, 27
+  size: 77, 27
+  orig: 96, 48
+  offset: 4, 0
+  index: -1
+Idle
+  rotate: false
+  xy: 279, 1
+  size: 175, 24
+  orig: 192, 48
+  offset: 4, 0
+  index: -1
+Walk
+  rotate: false
+  xy: 1, 1
+  size: 276, 26
+  orig: 288, 48
+  offset: 4, 0
+  index: -1
