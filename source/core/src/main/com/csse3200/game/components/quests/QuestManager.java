@@ -9,6 +9,7 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
@@ -53,14 +54,9 @@ public class QuestManager extends Component {
                 "Cow", new String[]{"2 Task Quest"}
         );
         this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
-        if(GameState.quests.quests.isEmpty()) {
-            testQuests();
-        }
-        loadQuests();
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
-
     }
 
     /**
@@ -259,6 +255,12 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
+        if(GameState.quests == null) {
+            GameState.quests = new QuestSave();
+        }
+        if(GameState.quests.quests.isEmpty()) {
+            testQuests();
+        }
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
         }
