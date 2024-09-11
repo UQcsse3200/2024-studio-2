@@ -33,7 +33,7 @@ public class StoryActions extends Component {
      */
     private void onNext(int screenNum) {
         if(screenNum == finalScreen) {
-            game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+            game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
             return;
         }
         screenNum += 1;

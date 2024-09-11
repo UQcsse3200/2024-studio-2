@@ -47,7 +47,7 @@ public class LoadingScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().update();
     renderer.render();
     if (loadingDisplay.isLoadingFinished()) {
-      game.setScreen(GdxGame.ScreenType.STORY);
+      game.setScreen(GdxGame.ScreenType.MAIN_GAME);
     }
 
   }
