@@ -101,8 +101,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CombatStatsDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">Displays the name of the current game area.
- Current implementation is temporary, to demonstrate that the stats of the specific entities are being passed in.</div>
+<div class="block">Displays the stats bars of both the player and the enemy on the CombatScreen.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -128,7 +127,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">CombatStatsDisplay</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats,
  <a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;enemyStats)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Initialises the required components for the CombatStatsDisplays</div>
+</div>
 </div>
 </section>
 </li>
@@ -157,6 +158,34 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Draw the renderable.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initBarAnimations()" class="member-name-link">initBarAnimations</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes the animations for the health, hunger, and experience bars.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNewFrame(int,com.badlogic.gdx.graphics.g2d.Animation,com.badlogic.gdx.scenes.scene2d.ui.Image)" class="member-name-link">setNewFrame</a><wbr>(int&nbsp;frameIndex,
+ com.badlogic.gdx.graphics.g2d.Animation&lt;com.badlogic.gdx.graphics.g2d.TextureRegion&gt;&nbsp;statBarAnimation,
+ com.badlogic.gdx.scenes.scene2d.ui.Image&nbsp;statBar)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets a new frame for a stat bar animation on the stage.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateHealthUI(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">updateHealthUI</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats,
+ <a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;enemyStats)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the labels and animations associated with the player and enemy's stats</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerExperienceUI(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">updatePlayerExperienceUI</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the experience label and bar of the character after defeating a specific enemy</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePlayerHungerUI(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">updatePlayerHungerUI</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the hunger bar animation of the player</div>
 </div>
 </div>
 </div>
@@ -195,6 +224,12 @@ loadScripts(document, 'script');</script>
 <h3>CombatStatsDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CombatStatsDisplay</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats,
  <a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;enemyStats)</span></div>
+<div class="block">Initialises the required components for the CombatStatsDisplays</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerStats</code> - CombatStatsComponent of the player</dd>
+<dd><code>enemyStats</code> - CombatStatsComponent of the enemy</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -215,6 +250,65 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../../ui/UIComponent.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="initBarAnimations()">
+<h3>initBarAnimations</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initBarAnimations</span>()</div>
+<div class="block">Initializes the animations for the health, hunger, and experience bars.
+ Each bar's animation consist of series of consecutive frames from a texture atlas given in the assets folder.
+ The animations reflect the current status of the player's health, hunger, and experience.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setNewFrame(int,com.badlogic.gdx.graphics.g2d.Animation,com.badlogic.gdx.scenes.scene2d.ui.Image)">
+<h3>setNewFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNewFrame</span><wbr><span class="parameters">(int&nbsp;frameIndex,
+ com.badlogic.gdx.graphics.g2d.Animation&lt;com.badlogic.gdx.graphics.g2d.TextureRegion&gt;&nbsp;statBarAnimation,
+ com.badlogic.gdx.scenes.scene2d.ui.Image&nbsp;statBar)</span></div>
+<div class="block">Sets a new frame for a stat bar animation on the stage.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>frameIndex</code> - The index of the desired frame in the animation to be changed</dd>
+<dd><code>statBarAnimation</code> - The animation for the specific stat bar to be changed</dd>
+<dd><code>statBar</code> - image that stores the current frame on the stage for the stat bar.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updateHealthUI(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)">
+<h3>updateHealthUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateHealthUI</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats,
+ <a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;enemyStats)</span></div>
+<div class="block">Updates the labels and animations associated with the player and enemy's stats</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerStats</code> - CombatStatsComponent of the player</dd>
+<dd><code>enemyStats</code> - CombatStatsComponent of the enemy</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updatePlayerExperienceUI(com.csse3200.game.components.CombatStatsComponent)">
+<h3>updatePlayerExperienceUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerExperienceUI</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</span></div>
+<div class="block">Updates the experience label and bar of the character after defeating a specific enemy</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerStats</code> - CombatStatsComponent of the player</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updatePlayerHungerUI(com.csse3200.game.components.CombatStatsComponent)">
+<h3>updatePlayerHungerUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePlayerHungerUI</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</span></div>
+<div class="block">Updates the hunger bar animation of the player</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerStats</code> - The CombatStatsComponent of the player</dd>
 </dl>
 </section>
 </li>
