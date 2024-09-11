@@ -54,8 +54,7 @@ public class Inventory implements InventoryInterface {
 
     public void loadInventoryFromSave() {
         if(GameState.inventory.inventoryContent.length != 0) {
-            this.memoryView = GameState.inventory.inventoryContent;
-//            reconstructFromArray(GameState.inventory.inventoryContent);
+            reconstructFromArray(GameState.inventory.inventoryContent);
         } else {
             GameState.inventory.inventoryContent = this.memoryView;
         }
