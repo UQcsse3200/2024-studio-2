@@ -67,6 +67,18 @@ public class StoryDisplay extends UIComponent {
         table = new Table();
         table.setFillParent(true);
 
+        Table bottomLeftTable = new Table();
+        bottomLeftTable.bottom().left();
+        bottomLeftTable.setFillParent(true);
+
+        Table bottomRightTable = new Table();
+        bottomRightTable.bottom().right();
+        bottomRightTable.setFillParent(true);
+
+        table.add(bottomLeftTable).padTop(15f).width(180f).height(45f);
+        table.add(bottomRightTable).padTop(15f).width(180f).height(45f);
+        table.row();
+
         // Initialises buttons
         TextButton nextBtn = new TextButton("Next", skin);
         TextButton backBtn = new TextButton("Back", skin);
@@ -105,21 +117,14 @@ public class StoryDisplay extends UIComponent {
             }
         });
 
-        // Added the pop-up when user trys to exit game
-        //addExitConfirmation(exitBtn);
-
         // formats sizes of buttons
-        table.add(nextBtn).padTop(15f).width(180f).height(45f);
-        table.row();
+        bottomRightTable.add(nextBtn).padBottom(15f).padRight(15f).width(180f).height(45f);
+        bottomRightTable.row();
 
         if (screenNum != 0) {
-            table.add(backBtn).padTop(15f).height(45f).width(180f);
-            table.row();
+            bottomLeftTable.add(backBtn).padBottom(15f).padLeft(15f).width(180f).height(45f);
+            bottomLeftTable.row();
         }
-
-
-        // Enables tables use
-        stage.addActor(table);
 
         // Formats height of buttons on screen
         sizeTable();
@@ -132,6 +137,8 @@ public class StoryDisplay extends UIComponent {
 
         stage.addActor(topRightTable);
         stage.addActor(table);
+        stage.addActor(bottomLeftTable);
+        stage.addActor(bottomRightTable);
 
     }
 
