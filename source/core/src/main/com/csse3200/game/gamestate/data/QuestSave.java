@@ -25,6 +25,7 @@ public class QuestSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
+        logger.info("step 1 for real");
         ArrayList<QuestBasic> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
             logger.info("step 1");

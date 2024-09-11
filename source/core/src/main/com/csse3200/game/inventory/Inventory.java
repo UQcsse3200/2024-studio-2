@@ -1,5 +1,6 @@
 package com.csse3200.game.inventory;
 
+import com.badlogic.gdx.Game;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -58,6 +59,9 @@ public class Inventory implements InventoryInterface {
      * @see InventorySave
      */
     public void loadInventoryFromSave() {
+        if(GameState.inventory == null) {
+            GameState.inventory = new InventorySave();
+        }
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);
         } else {
