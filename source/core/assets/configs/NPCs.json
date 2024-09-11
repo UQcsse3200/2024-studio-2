@@ -7,7 +7,10 @@
     "animalName": "Lion"
   },
   "cow": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Charlie the Cow."],
+    "baseHint": ["Moo there, adventurer! Welcome to the kingdom.",
+      "We will be your guides",
+      "but before you can roam free...",
+      "you must complete the first steps and 2 step quests."],
     "spritePath": "images/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
