@@ -23,16 +23,16 @@ public class CombatStatsComponent extends Component {
   private int maxExperience;
 
   public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer) {
-      this.maxHealth = health;
-      this.maxHunger = hunger;
-      this.maxExperience=100;
-      this.isPlayer = isPlayer;
-      setHealth(health);
-      setHunger(hunger);
-      setStrength(strength);
-      setDefense(defense);
-      setSpeed(speed);
-      setExperience(experience);
+    this.maxHealth = health;
+    this.maxHunger = hunger;
+    this.maxExperience=100;
+    this.isPlayer = isPlayer;
+    setHealth(health);
+    setHunger(hunger);
+    setStrength(strength);
+    setDefense(defense);
+    setSpeed(speed);
+    setExperience(experience);
 
   }
 
@@ -291,4 +291,5 @@ public class CombatStatsComponent extends Component {
     return maxHunger;
   }
   public int getMaxExperience(){return maxExperience;}
+
 }

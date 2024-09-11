@@ -35,7 +35,7 @@ public class CombatEnvironmentDisplay extends UIComponent {
     table.setFillParent(true);
 
     // Import image.
-    Texture texture = ServiceLocator.getResourceService().getAsset("images/grass_3.png", Texture.class);
+    Texture texture = ServiceLocator.getResourceService().getAsset("images/combat/combat_bg_forest.png", Texture.class);
     Image bg = new Image(texture);
 
     Stage stage = ServiceLocator.getRenderService().getStage();

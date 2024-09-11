@@ -25,6 +25,9 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Factory to create a player entity.
  *
@@ -63,14 +66,13 @@ public class PlayerFactory {
                     player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, true));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
-
         }
 
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
-                .addComponent(new QuestPopup());
-        player.addComponent((new StatManager()));
+                .addComponent(new QuestPopup())
+                .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
         InventoryComponent inventoryComponent = new InventoryComponent(45);
@@ -81,7 +83,7 @@ public class PlayerFactory {
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
+        //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
         return player;

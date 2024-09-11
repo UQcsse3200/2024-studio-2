@@ -13,6 +13,7 @@ class CombatStatsComponentTest {
   void shouldSetGetHealth() {
     int maxHealth = 100;
     CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false);
+
     assertEquals(100, combat.getHealth());
 
     combat.setHealth(150);
@@ -34,6 +35,7 @@ class CombatStatsComponentTest {
   @Test
   void shouldCheckIsDead() {
     CombatStatsComponent combat = new CombatStatsComponent(100, 100, 20, 0, 0, 0, false);
+
     assertFalse(combat.isDead());
 
     combat.setHealth(0);

@@ -1,0 +1,10 @@
+[
+  {
+    "statName": "AppleCollected",
+    "statDescription": "Apples collected by player",
+    "statCurrent": 0,
+    "statHasMax": false,
+    "statMax": null,
+    "type": "ITEM"
+  }
+]

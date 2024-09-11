@@ -25,10 +25,10 @@
   },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
-    "health": 100,
-    "baseAttack": 100,
-    "defense": 100,
-    "speed": 20,
+    "health": 150,
+    "baseAttack": 50,
+    "defense": 50,
+    "speed": 25,
     "isEnemy": 1
   }
 }

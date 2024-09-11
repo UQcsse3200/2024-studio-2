@@ -1,12 +1,10 @@
 package com.csse3200.game.components.combat;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +16,8 @@ public class CombatExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
-  private final Screen screen;
-  private final ServiceContainer container;
 
-  public CombatExitDisplay(Screen screen, ServiceContainer container) {
-    this.screen = screen;
-    this.container = container;
-  }
-
-  @Override
+    @Override
   public void create() {
     super.create();
     addActors();
@@ -44,9 +35,7 @@ public class CombatExitDisplay extends UIComponent {
       new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          entity.getEvents().trigger("KangaDefeated", "add", 1);
-          entity.getEvents().trigger("combatWin", screen, container);
-
+          entity.getEvents().trigger("combatWin");
         }
       });
 
@@ -55,13 +44,12 @@ public class CombatExitDisplay extends UIComponent {
       new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          entity.getEvents().trigger("combatLose", screen, container);
+          entity.getEvents().trigger("combatLoss");
         }
       });
 
     table.add(win).padTop(10f).padRight(10f);
     table.add(lose).padTop(10f).padRight(10f);
-
     stage.addActor(table);
   }
 

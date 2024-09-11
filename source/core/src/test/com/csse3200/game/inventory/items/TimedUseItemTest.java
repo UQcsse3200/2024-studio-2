@@ -58,7 +58,6 @@ class TimedUseItemTest  {
 
     @Test
     void testHealingApplyEffect() {
-
         int originalHealth = player1.player.getComponent(CombatStatsComponent.class).getHealth();
         healingPotion.useItem(player1);
         assertEquals(2, healingPotion.getQuantity(), "The potion should have 2 uses left after one use.");

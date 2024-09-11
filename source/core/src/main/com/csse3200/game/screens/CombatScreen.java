@@ -5,13 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
+import com.csse3200.game.components.combat.*;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatEnvironmentDisplay;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.combat.CombatStatsDisplay;
-import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -31,9 +26,6 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * The game screen containing the combat feature.
  *
@@ -42,7 +34,8 @@ import java.util.LinkedList;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] mainGameTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png"
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/health_bar_x1.png", "images/xp_bar.png", "images/combat/combat_bg_forest.png"
   };
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
   private boolean isPaused = false;
@@ -53,8 +46,8 @@ public class CombatScreen extends ScreenAdapter {
   private final ServiceContainer oldScreenServices;
   private final Entity player;
   private final Entity enemy;
-  private CombatStatsComponent playerCombatStats;
-  private CombatStatsComponent enemyCombatStats;
+  private final CombatStatsComponent playerCombatStats;
+  private final CombatStatsComponent enemyCombatStats;
 
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
@@ -152,14 +145,19 @@ public class CombatScreen extends ScreenAdapter {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
+    CombatStatsDisplay statsDisplay = new CombatStatsDisplay(playerCombatStats, enemyCombatStats);
+    // Initialise combat manager with instances of player and enemy, to be passed into combat actions.
+
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatActions(this.game, this.enemy))
-        .addComponent(new CombatExitDisplay(oldScreen, oldScreenServices))
-        .addComponent(new CombatEnvironmentDisplay())
-        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+        .addComponent(new CombatActions(this.game, enemy))
+        //.addComponent(new CombatEnvironmentDisplay())
+        .addComponent(new CombatExitDisplay())
+        .addComponent(statsDisplay)
         .addComponent(new Terminal())
         .addComponent(inputComponent)
+        .addComponent(playerCombatStats)
+        .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay());
 
     ServiceLocator.getEntityService().register(ui);
