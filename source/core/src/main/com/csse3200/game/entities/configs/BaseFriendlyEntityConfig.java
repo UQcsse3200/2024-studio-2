@@ -12,13 +12,15 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int strength = 0;
     private int speed = 1;
     private int experience = 100;
+    private int stamina = 100;
 
     public final Map<Integer, String[]> hints = null;
     public int hintLevel = 0;
     public int currentHint = 0;
+    public int currentHintLine = 0;
     protected String animalName = "";
 
-    protected String[] baseHint;
+    protected String[][] baseHint;
     protected String spritePath;
     protected final float animationSpeed = 0.1f;
     protected String[] soundPath;
@@ -123,7 +125,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
      *
      * @return an array of String containing the base hints.
      */
-    public String[] getBaseHint() {
+    public String[][] getBaseHint() {
         return baseHint;
     }
 
@@ -132,13 +134,14 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
      *
      * @param baseHint an array of String containing the new base hints.
      */
-    public void setBaseHint(String[] baseHint) {
+    public void setBaseHint(String[][] baseHint) {
         this.baseHint = baseHint;
     }
 
     public void restartCurrentHint() {
         if (hints != null) {
             this.currentHint = 0;
+            this.currentHintLine = 0;
         }
     }
 
@@ -194,4 +197,9 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+    // Getter and setter for stamina.
+    public int getStamina() { return stamina; }
+
+    public void setStamina(int stamina) { this.stamina = stamina; }
 }

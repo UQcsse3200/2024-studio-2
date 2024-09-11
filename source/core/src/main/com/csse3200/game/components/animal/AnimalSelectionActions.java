@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
@@ -119,6 +120,7 @@ public class AnimalSelectionActions {
 
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
+        GameState.player.selectedAnimalPath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight the selected image
 
         logger.debug("Animal selected: {}", animalImage.getName());

@@ -132,4 +132,5 @@ public class Terminal extends Component {
   public void setEnteredMessage(String text) {
     enteredMessage = text;
   }
+
 }
