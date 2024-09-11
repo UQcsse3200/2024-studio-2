@@ -16,11 +16,13 @@ import org.slf4j.LoggerFactory;
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private final GdxGame game;
-  private final Entity enemy; // Each combat can only have one enemy.
+  private final Entity enemy;// Each combat can only have one enemy.
+  private final Entity player;
 
-  public CombatActions(GdxGame game, Entity enemy) {
+  public CombatActions(GdxGame game, Entity enemy, Entity player) {
     this.game = game;
     this.enemy = enemy;
+    this.player = player;
   }
 
   @Override
@@ -42,6 +44,7 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen after combat win.");
+    player.getEvents().trigger("defeatedEnemy",enemy);
     // Kill enemy.
     //this.enemy.dispose();
     //this.enemy.update();

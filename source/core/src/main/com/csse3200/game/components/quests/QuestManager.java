@@ -3,6 +3,8 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.minigames.MiniGameMedals;
+import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
 import com.csse3200.game.entities.Entity;
@@ -193,16 +195,33 @@ public class QuestManager extends Component {
 
     private void setupAchievements(){
         // Init logbook listeners and handlers
-        player.getEvents().addListener("addItem",this::handleAdvancement);
+        player.getEvents().addListener("addItem",this::handleItemAdvancement);
+        player.getEvents().addListener("defeatedEnemy",this::handleEnemyAdvancement);
+        player.getEvents().addListener("miniGame",this::handleMiniGameAdvancement);
         for (Achievement achievement : achievements) {
             subscribeToAchievementEvents(achievement);
         }
     }
 
     /**
+     * Subscribes to mini game triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleMiniGameAdvancement(MiniGameNames name, MiniGameMedals medal){
+        logger.info("{} triggered", name.name() +' ' + medal.name());
+        player.getEvents().trigger(medal.name()  +' ' + name.name());
+    }
+
+    /**
+     * Subscribes to enemy beaten triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleEnemyAdvancement(Entity enemy){
+        player.getEvents().trigger(enemy.getClass().getName() + "Advancement");
+    }
+
+    /**
      * Subscribes to item triggers and sends it as a specific achievement completion trigger.
      */
-    private void handleAdvancement(AbstractItem item){
+    private void handleItemAdvancement(AbstractItem item){
         player.getEvents().trigger(item.getName() + "Advancement");
     }
 

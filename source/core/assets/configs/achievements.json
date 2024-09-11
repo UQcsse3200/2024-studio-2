@@ -78,5 +78,54 @@
     "seen": false,
     "type": "ADVANCEMENT",
     "iconPath": "images/logbook/icons/first-steps.png"
+  },
+  {
+    "questName": "BRONZE SNAKE",
+    "questDescription": "Finish the snake mini game with a bronze medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-bronze.png"
+  },
+  {
+    "questName": "SILVER SNAKE",
+    "questDescription": "Finish the snake mini game with a silver medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-silver.png"
+  },
+  {
+    "questName": "GOLD SNAKE",
+    "questDescription": "Finish the snake mini game with a gold medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-gold.png"
+  }
+,
+  {
+    "questName": "BRONZE BIRD",
+    "questDescription": "Finish the bird mini game with a bronze medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-bronze.png"
+  },
+  {
+    "questName": "SILVER BIRD",
+    "questDescription": "Finish the bird mini game with a silver medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-silver.png"
+  },
+  {
+    "questName": "GOLD BIRD",
+    "questDescription": "Finish the bird mini game with a gold medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-gold.png"
   }
 ]
