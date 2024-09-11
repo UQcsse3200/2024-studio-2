@@ -8,13 +8,13 @@ import com.badlogic.gdx.math.Rectangle;
  * Class for the bird in the mini-game birdie dash
  */
 public class Bird {
-    private final Vector2 position;
-    private final Vector2 velocity;
-    private final Rectangle boundingBox;
-    private static final float GRAVITY = -2600f;
-    private static final float FLAP_STRENGTH = 1200;
-    private static final float BIRD_WIDTH = 60f;
-    private static final float BIRD_HEIGHT = 45f;
+    private final Vector2 position; // Bird position
+    private final Vector2 velocity; // Bird velocity
+    private final Rectangle boundingBox; // Bird boundary
+    private static final float GRAVITY = -2600f; // Gravity for physics
+    private static final float FLAP_STRENGTH = 1200; // Bird flap strength
+    private static final float BIRD_WIDTH = 60f; // The bird's width
+    private static final float BIRD_HEIGHT = 45f; // The birds height
     private static final int GAME_HEIGHT = 1200;
     // testing
     private boolean collidingPipe;
