@@ -127,7 +127,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">PlayerInventoryDisplay</a><wbr>(int&nbsp;capacity,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int)" class="member-name-link">PlayerInventoryDisplay</a><wbr>(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
  int&nbsp;numCols)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.</div>
@@ -190,8 +190,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Checks to see if inventory is full</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeItem(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">removeItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadInventoryFromSave()" class="member-name-link">loadInventoryFromSave</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Loads the inventory attached to the player from a save.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeItem(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">removeItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes an item from the inventory and updates the display.</div>
 </div>
 </div>
@@ -227,15 +232,15 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int)">
+<section class="detail" id="&lt;init&gt;(com.csse3200.game.inventory.Inventory,int)">
 <h3>PlayerInventoryDisplay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayerInventoryDisplay</span><wbr><span class="parameters">(int&nbsp;capacity,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayerInventoryDisplay</span><wbr><span class="parameters">(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
  int&nbsp;numCols)</span></div>
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
  The capacity must be evenly divisible by the number of columns.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>capacity</code> - The total number of slots in the inventory.</dd>
+<dd><code>inventory</code> - The inventory from which to build the display</dd>
 <dd><code>numCols</code> - The number of columns in the inventory display.</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if numCols is less than 1 or if capacity is not divisible by numCols.</dd>
@@ -351,6 +356,13 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>The z-index for this component.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="loadInventoryFromSave()">
+<h3>loadInventoryFromSave</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadInventoryFromSave</span>()</div>
+<div class="block">Loads the inventory attached to the player from a save.</div>
 </section>
 </li>
 <li>
