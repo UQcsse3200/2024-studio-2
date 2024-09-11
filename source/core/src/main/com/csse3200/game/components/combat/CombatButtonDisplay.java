@@ -26,11 +26,16 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton ItemsButton;
 
 
-
+    /**
+     * Initialises the CombatButtonDisplay UIComponent
+     * @param screen The current screen that the buttons are being rendered onto
+     * @param container The container that
+     */
     public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
         this.screen = screen;
         this.container = container;
     }
+
     @Override
     public void create() {
         super.create();
@@ -39,7 +44,9 @@ public class CombatButtonDisplay extends UIComponent {
 
     }
 
-
+    /**
+     * Initialises the buttons, adds listeners to them, and adds them into the game's stage
+     */
     private void addActors() {
         table = new Table();
         table.bottom();
@@ -89,6 +96,13 @@ public class CombatButtonDisplay extends UIComponent {
 
         stage.addActor(table);
     }
+
+    /**
+     * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
+     * @param iHealthCheck an integer representing the health of the entity
+     * @param AttackStatus a boolean stating if the current entity has attacked
+     * @param GuardStatus a boolean stating if the current entity has guarded
+     */
     private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus){
         logger.info("CombatButtonDisplay::ChangeActors::entering");
         //Button enabling status logic
