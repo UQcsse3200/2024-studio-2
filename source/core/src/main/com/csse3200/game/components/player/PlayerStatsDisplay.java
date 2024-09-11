@@ -165,7 +165,7 @@ public class PlayerStatsDisplay extends UIComponent {
         stage.addActor(table);
 
         //initialising the character stats
-        updatePlayerHealthUI(health);
+        updatePlayerHealthUI(health, this.maxHealth, true);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
 
@@ -250,7 +250,7 @@ public class PlayerStatsDisplay extends UIComponent {
      * including the call to test functions for checking
      * @param health the current health stat value of the player
      */
-    public void updatePlayerHealthUI(int health) {
+    public void updatePlayerHealthUI(int health, int maxHealth, boolean isPlayer) {
         CharSequence text = String.format("HP: %d", health);
         logger.debug("Made it to this updateHealth function");
         logger.debug("{}", health);
@@ -261,7 +261,10 @@ public class PlayerStatsDisplay extends UIComponent {
 
         int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        setNewFrame(frameIndex, healthBarAnimation, healthImage);
+
+        if (isPlayer) {
+            setNewFrame(frameIndex, healthBarAnimation, healthImage);
+        }
     }
 
     /**
