@@ -37,7 +37,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
@@ -57,7 +57,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -94,11 +94,25 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CombatStatsComponent</span>
 <span class="extends-implements">extends <a href="Component.html" title="class in com.csse3200.game.components">Component</a></span></div>
 <div class="block">Component used to store information related to combat such as health, attack, etc. Any entities
- which engage it combat should have an instance of this class registered. This class can be
- extended for more specific combat needs.</div>
+ which engage in combat should have an instance of this class registered.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="CombatStatsComponent.StatusEffect.html" class="type-name-link" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- =========== FIELD SUMMARY =========== -->
 <li>
 <section class="field-summary" id="field-summary">
@@ -116,14 +130,17 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int,int,boolean)" class="member-name-link">CombatStatsComponent</a><wbr>(int&nbsp;health,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int,int,int,boolean)" class="member-name-link">CombatStatsComponent</a><wbr>(int&nbsp;health,
  int&nbsp;hunger,
  int&nbsp;strength,
  int&nbsp;defense,
  int&nbsp;speed,
  int&nbsp;experience,
+ int&nbsp;stamina,
  boolean&nbsp;isPlayer)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor for CombatStatsComponent, initializing all combat-related attributes for an entity.</div>
+</div>
 </div>
 </section>
 </li>
@@ -141,32 +158,42 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addDefense(int)" class="member-name-link">addDefense</a><wbr>(int&nbsp;defense)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's defense.</div>
+<div class="block">Adds a specified amount to the entity's defense.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addExperience(int)" class="member-name-link">addExperience</a><wbr>(int&nbsp;experience)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's experience.</div>
+<div class="block">Adds a specified amount to the entity's experience.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addHealth(int)" class="member-name-link">addHealth</a><wbr>(int&nbsp;change)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's health.</div>
+<div class="block">Adds a specified amount to the entity's health.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addHunger(int)" class="member-name-link">addHunger</a><wbr>(int&nbsp;change)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's hunger.</div>
+<div class="block">Adds a specified amount to the entity's hunger.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addSpeed(int)" class="member-name-link">addSpeed</a><wbr>(int&nbsp;speed)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's defense.</div>
+<div class="block">Adds a specified amount to the entity's speed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addStamina(int)" class="member-name-link">addStamina</a><wbr>(int&nbsp;stamina)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a specified amount to the entity's stamina.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">addStatusEffect</a><wbr>(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a status effect to the entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addStrength(int)" class="member-name-link">addStrength</a><wbr>(int&nbsp;strength)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Adds to the player's strength.</div>
+<div class="block">Adds a specified amount to the entity's strength.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefense()" class="member-name-link">getDefense</a>()</code></div>
@@ -175,7 +202,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getExperience()" class="member-name-link">getExperience</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's experience.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHealth()" class="member-name-link">getHealth</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -188,55 +217,93 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxExperience()" class="member-name-link">getMaxExperience</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's maximum experience.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxHealth()" class="member-name-link">getMaxHealth</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's maximum health.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxHunger()" class="member-name-link">getMaxHunger</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's maximum hunger.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxStamina()" class="member-name-link">getMaxStamina</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's maximum stamina.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the entity's speed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStamina()" class="member-name-link">getStamina</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the entity's stamina.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStrength()" class="member-name-link">getStrength</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the entity's strength.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hit(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">hit</a><wbr>(<a href="CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;attacker)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDead()" class="member-name-link">isDead</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">hasStatusEffect</a><wbr>(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the entity has a specific status effect.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hit(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">hit</a><wbr>(<a href="CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;attacker)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns true if the entity's has 0 health, otherwise false.</div>
+<div class="block">Simulates the entity being hit by an attacker.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDead()" class="member-name-link">isDead</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns true if the entity has 0 health, otherwise false.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPlayer()" class="member-name-link">isPlayer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns true if the entity is a player, otherwise false.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDefense(int)" class="member-name-link">setDefense</a><wbr>(int&nbsp;defense)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">removeStatusEffect</a><wbr>(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Removes a status effect from the entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDefense(int)" class="member-name-link">setDefense</a><wbr>(int&nbsp;defense)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the entity's defense.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExperience(int)" class="member-name-link">setExperience</a><wbr>(int&nbsp;experience)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExperience(int)" class="member-name-link">setExperience</a><wbr>(int&nbsp;experience)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the entity's experience.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHealth(int)" class="member-name-link">setHealth</a><wbr>(int&nbsp;health)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHealth(int)" class="member-name-link">setHealth</a><wbr>(int&nbsp;health)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the entity's health.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHunger(int)" class="member-name-link">setHunger</a><wbr>(int&nbsp;hunger)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHunger(int)" class="member-name-link">setHunger</a><wbr>(int&nbsp;hunger)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the entity's hunger.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpeed(int)" class="member-name-link">setSpeed</a><wbr>(int&nbsp;speed)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpeed(int)" class="member-name-link">setSpeed</a><wbr>(int&nbsp;speed)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the entity's speed.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStamina(int)" class="member-name-link">setStamina</a><wbr>(int&nbsp;stamina)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the entity's stamina.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStrength(int)" class="member-name-link">setStrength</a><wbr>(int&nbsp;strength)</code></div>
@@ -264,7 +331,7 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int,int,int,boolean)">
+<section class="detail" id="&lt;init&gt;(int,int,int,int,int,int,int,boolean)">
 <h3>CombatStatsComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CombatStatsComponent</span><wbr><span class="parameters">(int&nbsp;health,
  int&nbsp;hunger,
@@ -272,7 +339,20 @@ loadScripts(document, 'script');</script>
  int&nbsp;defense,
  int&nbsp;speed,
  int&nbsp;experience,
+ int&nbsp;stamina,
  boolean&nbsp;isPlayer)</span></div>
+<div class="block">Constructor for CombatStatsComponent, initializing all combat-related attributes for an entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>health</code> - Initial health value</dd>
+<dd><code>hunger</code> - Initial hunger value</dd>
+<dd><code>strength</code> - Initial strength value</dd>
+<dd><code>defense</code> - Initial defense value</dd>
+<dd><code>speed</code> - Initial speed value</dd>
+<dd><code>experience</code> - Initial experience value</dd>
+<dd><code>stamina</code> - Initial stamina value</dd>
+<dd><code>isPlayer</code> - Boolean indicating if this entity is the player</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -284,13 +364,24 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="isPlayer()">
+<h3>isPlayer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">isPlayer</span>()</div>
+<div class="block">Returns true if the entity is a player, otherwise false.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>is entity player</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="isDead()">
 <h3>isDead</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">isDead</span>()</div>
-<div class="block">Returns true if the entity's has 0 health, otherwise false.</div>
+<div class="block">Returns true if the entity has 0 health, otherwise false.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>is player dead</dd>
+<dd>is entity dead</dd>
 </dl>
 </section>
 </li>
@@ -309,10 +400,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setHealth(int)">
 <h3>setHealth</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHealth</span><wbr><span class="parameters">(int&nbsp;health)</span></div>
-<div class="block">Sets the entity's health. Health has a minimum bound of 0.</div>
+<div class="block">Sets the entity's health. Health has a minimum bound of 0 and cannot exceed maxHealth.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>health</code> - health</dd>
+<dd><code>health</code> - health value to set</dd>
 </dl>
 </section>
 </li>
@@ -320,10 +411,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addHealth(int)">
 <h3>addHealth</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addHealth</span><wbr><span class="parameters">(int&nbsp;change)</span></div>
-<div class="block">Adds to the player's health. The amount added can be negative.</div>
+<div class="block">Adds a specified amount to the entity's health. The amount can be negative to reduce health.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>change</code> - the health to add</dd>
+<dd><code>change</code> - the health to add (positive or negative)</dd>
 </dl>
 </section>
 </li>
@@ -342,10 +433,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setHunger(int)">
 <h3>setHunger</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHunger</span><wbr><span class="parameters">(int&nbsp;hunger)</span></div>
-<div class="block">Sets the entity's hunger. hunger has a minimum bound of 0.</div>
+<div class="block">Sets the entity's hunger. Hunger has a minimum bound of 0 and cannot exceed maxHunger.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>hunger</code> - hunger</dd>
+<dd><code>hunger</code> - hunger value to set</dd>
 </dl>
 </section>
 </li>
@@ -353,10 +444,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addHunger(int)">
 <h3>addHunger</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addHunger</span><wbr><span class="parameters">(int&nbsp;change)</span></div>
-<div class="block">Adds to the player's hunger. The amount added can be negative.</div>
+<div class="block">Adds a specified amount to the entity's hunger. The amount can be negative to reduce hunger.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>change</code> - hunger to add</dd>
+<dd><code>change</code> - hunger to add (positive or negative)</dd>
 </dl>
 </section>
 </li>
@@ -378,7 +469,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the entity's strength. Strength has a minimum bound of 0.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>strength</code> - Strength</dd>
+<dd><code>strength</code> - Strength value to set</dd>
 </dl>
 </section>
 </li>
@@ -386,10 +477,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addStrength(int)">
 <h3>addStrength</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addStrength</span><wbr><span class="parameters">(int&nbsp;strength)</span></div>
-<div class="block">Adds to the player's strength. The amount added can be negative.</div>
+<div class="block">Adds a specified amount to the entity's strength. The amount can be negative to reduce strength.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>strength</code> - strength to add</dd>
+<dd><code>strength</code> - strength to add (positive or negative)</dd>
 </dl>
 </section>
 </li>
@@ -411,7 +502,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the entity's defense. Defense has a minimum bound of 0.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>defense</code> - Defense</dd>
+<dd><code>defense</code> - defense value to set</dd>
 </dl>
 </section>
 </li>
@@ -419,10 +510,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addDefense(int)">
 <h3>addDefense</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addDefense</span><wbr><span class="parameters">(int&nbsp;defense)</span></div>
-<div class="block">Adds to the player's defense. The amount added can be negative.</div>
+<div class="block">Adds a specified amount to the entity's defense. The amount can be negative to reduce defense.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>defense</code> - defense to add</dd>
+<dd><code>defense</code> - defense to add (positive or negative)</dd>
 </dl>
 </section>
 </li>
@@ -441,10 +532,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setSpeed(int)">
 <h3>setSpeed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSpeed</span><wbr><span class="parameters">(int&nbsp;speed)</span></div>
-<div class="block">Sets the entity's speed. speed has a minimum bound of 0.</div>
+<div class="block">Sets the entity's speed. Speed has a minimum bound of 0.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>speed</code> - speed</dd>
+<dd><code>speed</code> - speed value to set</dd>
 </dl>
 </section>
 </li>
@@ -452,25 +543,33 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addSpeed(int)">
 <h3>addSpeed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addSpeed</span><wbr><span class="parameters">(int&nbsp;speed)</span></div>
-<div class="block">Adds to the player's defense. The amount added can be negative.
-
- //@param defense defense to add</div>
+<div class="block">Adds a specified amount to the entity's speed. The amount can be negative to reduce speed.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>speed</code> - speed to add (positive or negative)</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getExperience()">
 <h3>getExperience</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getExperience</span>()</div>
+<div class="block">Returns the entity's experience.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's experience</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setExperience(int)">
 <h3>setExperience</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setExperience</span><wbr><span class="parameters">(int&nbsp;experience)</span></div>
-<div class="block">Sets the entity's experience. experience has a minimum bound of 0.</div>
+<div class="block">Sets the entity's experience. Experience has a minimum bound of 0.
+ If the entity is a player, level up logic is applied once experience exceeds the maximum threshold.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>experience</code> - experience</dd>
+<dd><code>experience</code> - experience value to set</dd>
 </dl>
 </section>
 </li>
@@ -478,10 +577,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addExperience(int)">
 <h3>addExperience</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addExperience</span><wbr><span class="parameters">(int&nbsp;experience)</span></div>
-<div class="block">Adds to the player's experience. The amount added can be negative.</div>
+<div class="block">Adds a specified amount to the entity's experience. The amount can be negative to reduce experience.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>experience</code> - experience to add</dd>
+<dd><code>experience</code> - experience to add (positive or negative)</dd>
 </dl>
 </section>
 </li>
@@ -489,24 +588,126 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hit(com.csse3200.game.components.CombatStatsComponent)">
 <h3>hit</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hit</span><wbr><span class="parameters">(<a href="CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;attacker)</span></div>
+<div class="block">Simulates the entity being hit by an attacker. The target's health is reduced based on the attacker's strength.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>attacker</code> - CombatStatsComponent of the attacking entity</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMaxHealth()">
 <h3>getMaxHealth</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxHealth</span>()</div>
+<div class="block">Returns the entity's maximum health.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's max health</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMaxHunger()">
 <h3>getMaxHunger</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxHunger</span>()</div>
+<div class="block">Returns the entity's maximum hunger.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's max hunger</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMaxExperience()">
 <h3>getMaxExperience</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxExperience</span>()</div>
+<div class="block">Returns the entity's maximum experience.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's max experience</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getStamina()">
+<h3>getStamina</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getStamina</span>()</div>
+<div class="block">Returns the entity's stamina.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's stamina</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setStamina(int)">
+<h3>setStamina</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStamina</span><wbr><span class="parameters">(int&nbsp;stamina)</span></div>
+<div class="block">Sets the entity's stamina. Stamina has a minimum bound of 0 and cannot exceed maxStamina.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stamina</code> - stamina value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addStamina(int)">
+<h3>addStamina</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addStamina</span><wbr><span class="parameters">(int&nbsp;stamina)</span></div>
+<div class="block">Adds a specified amount to the entity's stamina. The amount can be negative to reduce stamina.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stamina</code> - stamina to add (positive or negative)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMaxStamina()">
+<h3>getMaxStamina</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxStamina</span>()</div>
+<div class="block">Returns the entity's maximum stamina.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's max stamina</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)">
+<h3>addStatusEffect</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addStatusEffect</span><wbr><span class="parameters">(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</span></div>
+<div class="block">Adds a status effect to the entity. Status effects can impact combat in different ways.
+ For example, 'CONFUSION' may cause an entity to randomly attack, while 'BLEEDING' may
+ cause gradual health loss over time.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>effect</code> - The status effect to add</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="removeStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)">
+<h3>removeStatusEffect</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeStatusEffect</span><wbr><span class="parameters">(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</span></div>
+<div class="block">Removes a status effect from the entity. This can be used to stop the negative
+ impact of certain effects, such as stopping health loss from 'BLEEDING'.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>effect</code> - The status effect to remove</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)">
+<h3>hasStatusEffect</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStatusEffect</span><wbr><span class="parameters">(<a href="CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a>&nbsp;effect)</span></div>
+<div class="block">Checks if the entity has a specific status effect.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>effect</code> - The status effect to check</dd>
+<dt>Returns:</dt>
+<dd>true if the entity has the status effect, false otherwise</dd>
+</dl>
 </section>
 </li>
 </ul>

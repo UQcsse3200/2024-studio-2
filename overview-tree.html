@@ -61,6 +61,7 @@ loadScripts(document, 'script');</script>
 <li><a href="com/csse3200/game/components/animal/package-tree.html">com.csse3200.game.components.animal</a>, </li>
 <li><a href="com/csse3200/game/components/audio/package-tree.html">com.csse3200.game.components.audio</a>, </li>
 <li><a href="com/csse3200/game/components/combat/package-tree.html">com.csse3200.game.components.combat</a>, </li>
+<li><a href="com/csse3200/game/components/combat/move/package-tree.html">com.csse3200.game.components.combat.move</a>, </li>
 <li><a href="com/csse3200/game/components/gamearea/package-tree.html">com.csse3200.game.components.gamearea</a>, </li>
 <li><a href="com/csse3200/game/components/gameover/package-tree.html">com.csse3200.game.components.gameover</a>, </li>
 <li><a href="com/csse3200/game/components/loading/package-tree.html">com.csse3200.game.components.loading</a>, </li>
@@ -238,6 +239,18 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.components.minigames.birdieDash.entities.<a href="com/csse3200/game/components/minigames/birdieDash/entities/Coin.html" class="type-name-link" title="class in com.csse3200.game.components.minigames.birdieDash.entities">Coin</a></li>
 <li class="circle">com.csse3200.game.components.minigames.birdieDash.rendering.<a href="com/csse3200/game/components/minigames/birdieDash/rendering/CoinRenderer.html" class="type-name-link" title="class in com.csse3200.game.components.minigames.birdieDash.rendering">CoinRenderer</a> (implements com.csse3200.game.components.minigames.<a href="com/csse3200/game/components/minigames/MinigameRenderable.html" title="interface in com.csse3200.game.components.minigames">MinigameRenderable</a>)</li>
 <li class="circle">com.csse3200.game.components.minigames.birdieDash.collision.<a href="com/csse3200/game/components/minigames/birdieDash/collision/CollisionHandler.html" class="type-name-link" title="class in com.csse3200.game.components.minigames.birdieDash.collision">CollisionHandler</a></li>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">CombatMove</a>
+<ul>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/AttackMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">AttackMove</a></li>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">GuardMove</a></li>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SleepMove</a></li>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialMove</a>
+<ul>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialKangaMove</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html" class="type-name-link" title="class in com.csse3200.game.areas.terrain">CombatTerrainFactory</a></li>
 <li class="circle">com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" class="type-name-link" title="class in com.csse3200.game.components">Component</a>
 <ul>
@@ -252,6 +265,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatActions.html" class="type-name-link" title="class in com.csse3200.game.components.combat">CombatActions</a></li>
 <li class="circle">com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" class="type-name-link" title="class in com.csse3200.game.components.combat">CombatManager</a></li>
+<li class="circle">com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMoveComponent.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">CombatMoveComponent</a></li>
 <li class="circle">com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" class="type-name-link" title="class in com.csse3200.game.components">CombatStatsComponent</a></li>
 <li class="circle">com.csse3200.game.components.<a href="com/csse3200/game/components/ConfigComponent.html" class="type-name-link" title="class in com.csse3200.game.components">ConfigComponent</a>&lt;T&gt;</li>
 <li class="circle">com.csse3200.game.components.<a href="com/csse3200/game/components/EnterCombatComponent.html" class="type-name-link" title="class in com.csse3200.game.components">EnterCombatComponent</a></li>
@@ -362,7 +376,6 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.areas.<a href="com/csse3200/game/areas/GameArea.html" class="type-name-link" title="class in com.csse3200.game.areas">GameArea</a> (implements com.badlogic.gdx.utils.Disposable)
 <ul>
 <li class="circle">com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.html" class="type-name-link" title="class in com.csse3200.game.areas">CombatArea</a></li>
-<li class="circle">com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatGameArea.html" class="type-name-link" title="class in com.csse3200.game.areas">CombatGameArea</a></li>
 <li class="circle">com.csse3200.game.areas.<a href="com/csse3200/game/areas/ForestGameArea.html" class="type-name-link" title="class in com.csse3200.game.areas">ForestGameArea</a></li>
 </ul>
 </li>
@@ -537,6 +550,8 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" class="type-name-link external-link" title="class or interface in java.lang">Enum</a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;T&gt;, java.lang.constant.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/constant/Constable.html" title="class or interface in java.lang.constant" class="external-link">Constable</a>, java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
+<li class="circle">com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.Action.html" class="type-name-link" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a></li>
+<li class="circle">com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" class="type-name-link" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></li>
 <li class="circle">com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.TerrainType.html" class="type-name-link" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a></li>
 <li class="circle">com.csse3200.game.components.minigames.<a href="com/csse3200/game/components/minigames/Direction.html" class="type-name-link" title="enum class in com.csse3200.game.components.minigames">Direction</a></li>
 <li class="circle">com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" class="type-name-link" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></li>

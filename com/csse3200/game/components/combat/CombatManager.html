@@ -37,7 +37,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
@@ -57,7 +57,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -93,10 +93,30 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CombatManager</span>
 <span class="extends-implements">extends <a href="../Component.html" title="class in com.csse3200.game.components">Component</a></span></div>
-<div class="block">Manages the turn-based combat loop and handles attacks</div>
+<div class="block">The CombatManager class is responsible for managing the turn-based combat loop between two entities (player and enemy).
+ It handles the selection of moves, the sequence in which they are performed, and applies the effects of moves such as
+ attacks, guards, and special actions. The class also checks for any status effects (like confusion or bleeding) and determines
+ when combat has ended based on the health of the player and the enemy.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="CombatManager.Action.html" class="type-name-link" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Enum representing the possible actions in combat: ATTACK, GUARD, SLEEP, SPECIAL, or ITEM.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- =========== FIELD SUMMARY =========== -->
 <li>
 <section class="field-summary" id="field-summary">
@@ -116,7 +136,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity)" class="member-name-link">CombatManager</a><wbr>(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;enemy)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a CombatManager that handles the combat sequence between the player and enemy.</div>
+</div>
 </div>
 </section>
 </li>
@@ -131,30 +153,32 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemy()" class="member-name-link">getEnemy</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForConfusion(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">checkForConfusion</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the enemy's entity</div>
+<div class="block">Checks if the player is confused and randomly selects a new action for them if they are.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemyStats()" class="member-name-link">getEnemyStats</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemy()" class="member-name-link">getEnemy</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemyStats()" class="member-name-link">getEnemyStats</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayerStats()" class="member-name-link">getPlayerStats</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onPlayerActionSelected(java.lang.String)" class="member-name-link">onPlayerActionSelected</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerActionStr)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the stats component of the enemy</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the player's Entity</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayerStats()" class="member-name-link">getPlayerStats</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the stats component of the player</div>
+<div class="block">Sets the player's action based on input and triggers enemy action selection.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onAttackSelected()" class="member-name-link">onAttackSelected</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processStatusEffects(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">processStatusEffects</a><wbr>(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;entityStats)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Player has clicked attack button to select 'attack' as their action.</div>
+<div class="block">Processes status effects such as BLEEDING, which inflicts damage each round.</div>
 </div>
 </div>
 </div>
@@ -181,6 +205,13 @@ loadScripts(document, 'script');</script>
 <h3>CombatManager</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CombatManager</span><wbr><span class="parameters">(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;enemy)</span></div>
+<div class="block">Creates a CombatManager that handles the combat sequence between the player and enemy.
+ It initializes player and enemy stats, their moves, and actions.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>player</code> - the player entity involved in combat.</dd>
+<dd><code>enemy</code> - the enemy entity involved in combat.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -192,20 +223,46 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="onAttackSelected()">
-<h3>onAttackSelected</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onAttackSelected</span>()</div>
-<div class="block">Player has clicked attack button to select 'attack' as their action.</div>
+<section class="detail" id="onPlayerActionSelected(java.lang.String)">
+<h3>onPlayerActionSelected</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onPlayerActionSelected</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerActionStr)</span></div>
+<div class="block">Sets the player's action based on input and triggers enemy action selection.
+ The move combination is then executed, and status effects are processed at the end of the turn.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerActionStr</code> - the action chosen by the player as a string.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="checkForConfusion(com.csse3200.game.components.CombatStatsComponent)">
+<h3>checkForConfusion</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkForConfusion</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;playerStats)</span></div>
+<div class="block">Checks if the player is confused and randomly selects a new action for them if they are.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>playerStats</code> - the player's combat statistics, which include status effects.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="processStatusEffects(com.csse3200.game.components.CombatStatsComponent)">
+<h3>processStatusEffects</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">processStatusEffects</span><wbr><span class="parameters">(<a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;entityStats)</span></div>
+<div class="block">Processes status effects such as BLEEDING, which inflicts damage each round.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>entityStats</code> - the combat statistics of the entity to process status effects on.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getPlayer()">
 <h3>getPlayer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">getPlayer</span>()</div>
-<div class="block">Returns the player's Entity</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Entity of the player</dd>
+<dd>the player entity.</dd>
 </dl>
 </section>
 </li>
@@ -213,10 +270,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEnemy()">
 <h3>getEnemy</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">getEnemy</span>()</div>
-<div class="block">Returns the enemy's entity</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Entity of the enemy</dd>
+<dd>the enemy entity.</dd>
 </dl>
 </section>
 </li>
@@ -224,10 +280,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getPlayerStats()">
 <h3>getPlayerStats</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></span>&nbsp;<span class="element-name">getPlayerStats</span>()</div>
-<div class="block">Returns the stats component of the player</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>CombatStatsComponent of player</dd>
+<dd>the stats component of the player.</dd>
 </dl>
 </section>
 </li>
@@ -235,10 +290,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEnemyStats()">
 <h3>getEnemyStats</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></span>&nbsp;<span class="element-name">getEnemyStats</span>()</div>
-<div class="block">Returns the stats component of the enemy</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>CombatStatsComponent of the enemy</dd>
+<dd>the stats component of the enemy.</dd>
 </dl>
 </section>
 </li>
