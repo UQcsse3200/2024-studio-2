@@ -45,9 +45,9 @@ public class EnemyFactory {
 
   private static final List<CombatMove> moveSet = new ArrayList<>(
           Arrays.asList(
-                  new AttackMove("Normal Attack", 10),
-                  new GuardMove("Normal Guard", 5),
-                  new SleepMove("Normal Sleep", 0)
+                  new AttackMove("Enemy Attack", 10),
+                  new GuardMove("Enemy Guard", 5),
+                  new SleepMove("Enemy Sleep", 0)
           )
   );
 
@@ -203,10 +203,10 @@ public class EnemyFactory {
 
     List<CombatMove> moveSet = new ArrayList<>(
             Arrays.asList(
-                    new AttackMove("Kanga Punch", 10),
+                    new AttackMove("Kanga Attack", 10),
                     new GuardMove("Kanga Guard", 5),
                     new SleepMove("Kanga Sleep", 0),
-                    new SpecialKangaMove("Ultimate Kanga Drop Kick", 25)
+                    new SpecialKangaMove("Kanga Special", 25)
             )
     );
 

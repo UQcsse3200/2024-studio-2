@@ -57,9 +57,9 @@ public class PlayerFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
 
         List<CombatMove> moveSet = new ArrayList<>();
-        moveSet.add(new AttackMove("Punch", 10));
-        moveSet.add(new GuardMove("Guard", 5));
-        moveSet.add(new SleepMove("Sleep", 0));
+        moveSet.add(new AttackMove("Player Attack", 10));
+        moveSet.add(new GuardMove("Player Guard", 5));
+        moveSet.add(new SleepMove("Player Sleep", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
 
