@@ -76,6 +76,7 @@ public class StoryDisplay extends UIComponent {
         // Adds UI component (hover over buttons)
         addButtonElevationEffect(nextBtn);
         addButtonElevationEffect(backBtn);
+        addButtonElevationEffect(skipBtn);
 
         // Added handles for when clicked
         nextBtn.addListener(new ChangeListener() {
