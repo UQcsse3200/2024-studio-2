@@ -459,97 +459,179 @@ public class MainMenuDisplay extends UIComponent {
      * Displays the help window with slides for game instructions.
      */
     private void showHelpWindow() {
+        // Constants for window and slide settings
         final int NUM_SLIDES = 5;
         final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
         final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
 
-        // Create a Window for the help screen
-        Table helpWindow = new Table();
-        helpWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        // Create the main help window table with appropriate size and background
+        Table helpWindow = createHelpWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        // Set the background of the helpWindow using the settingBackground texture
+        // Table to hold the slides and navigation buttons
+        Table slideTable = createSlideTable();
+        Table navigationTable = createNavigationButtons(slideTable, NUM_SLIDES);
+
+        // Create the top bar with title and close button
+        Table topTable = createTopBar();
+
+        // Assemble the help window by adding the top bar, slide table, and navigation buttons
+        helpWindow.add(topTable).expandX().fillX().row();
+        helpWindow.add(slideTable).expand().fill().row();
+        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(30).row();
+
+        // Track the current slide being shown
+        final int[] currentSlide = {0};
+
+        // Create instances for all slides
+        Table[] slideInstances = createSlides(NUM_SLIDES, skin);
+
+        // Set up slide navigation functionality for "Previous" and "Next" buttons
+        configureSlideNavigation(navigationTable, slideInstances, slideTable, currentSlide);
+
+        // Add keyboard navigation support (LEFT/RIGHT arrow keys)
+        configureKeyboardNavigation(helpWindow, slideInstances, slideTable, currentSlide, NUM_SLIDES);
+
+        // Add functionality for the close button
+        configureCloseButton(helpWindow);
+
+        // Initialize the slides by showing the first slide and hiding the others
+        initializeSlides(slideInstances, slideTable);
+
+        // Center the help window on the stage
+        centerWindow(helpWindow);
+
+        // Add the help window to the stage and set focus to it
+        stage.addActor(helpWindow);
+        stage.setKeyboardFocus(helpWindow);
+    }
+
+    // Creates and returns the main help window with a background
+    private Table createHelpWindow(float width, float height) {
+        Table helpWindow = new Table();
+        helpWindow.setSize(width, height);
+
+        // Set background texture
         Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
         helpWindow.setBackground(settingDrawable);
 
-        // Create a table to hold all slides
-        final Table slideTable = new Table();
-        slideTable.setFillParent(true);
+        return helpWindow;
+    }
 
-        // Create slide instances
-        Table[] slideInstances = new Table[NUM_SLIDES];
+    // Creates and returns the table that will hold the slides
+    private Table createSlideTable() {
+        Table slideTable = new Table();
+        slideTable.setFillParent(true); // Ensure the slide table fills the window
+        return slideTable;
+    }
+
+    // Creates and returns the table for navigation buttons ("Previous" and "Next")
+    private Table createNavigationButtons(Table slideTable, int numSlides) {
+        Table navigationTable = new Table();
+
+        // Create "Previous" and "Next" buttons
+        TextButton previousButton = new TextButton("Previous", skin);
+        TextButton nextButton = new TextButton("Next", skin);
+
+        // Add buttons to the navigation table
+        navigationTable.add(previousButton).padRight(10); // Add spacing between buttons
+        navigationTable.add(nextButton);
+
+        return navigationTable;
+    }
+
+    // Creates and returns the top bar containing the title and close button
+    private Table createTopBar() {
+        Label title = new Label("Help", skin, "title-white"); // Title label
+
+        // Create a close button with a texture
+        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
+
+        Table closeButtonTable = new Table();
+        closeButtonTable.add(closeButton).size(80, 80).right().expandX().padTop(-10).padRight(-10);
+
+        // Create the top bar table and add title and close button
+        Table topTable = new Table();
+        topTable.top().padTop(10);
+        topTable.add(title).expandX().center().padTop(20); // Center the title
+        topTable.row();
+        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110); // Align close button to the right
+
+        return topTable;
+    }
+
+    // Creates and returns the slide instances for the help window
+    private Table[] createSlides(int numSlides, Skin skin) {
+        Table[] slideInstances = new Table[numSlides];
+
+        // Instantiate each slide (Movement, Combat, Storyline, Minigames, Stats)
         slideInstances[0] = new Slides.MovementSlide(skin);
         slideInstances[1] = new Slides.CombatSlide(skin);
         slideInstances[2] = new Slides.StorylineSlide(skin);
         slideInstances[3] = new Slides.MinigamesSlide(skin);
         slideInstances[4] = new Slides.StatsSlide(skin);
 
-        // Add the first slide to the slideTable
-        slideTable.add(slideInstances[0]).expand().fill().row();
+        return slideInstances;
+    }
 
-        logger.info("Help window opened, displaying Movement slide");
+    // Configures the slide navigation for the "Previous" and "Next" buttons
+    private void configureSlideNavigation(Table navigationTable, Table[] slides, Table slideTable, int[] currentSlide) {
+        TextButton previousButton = (TextButton) navigationTable.getChildren().get(0); // Get "Previous" button
+        TextButton nextButton = (TextButton) navigationTable.getChildren().get(1); // Get "Next" button
 
-        // Create a table for navigation buttons
-        Table navigationTable = new Table();
-        TextButton previousButton = new TextButton("Previous", skin);
-        TextButton nextButton = new TextButton("Next", skin);
-        navigationTable.add(previousButton).padRight(10);
-        navigationTable.add(nextButton);
-
-        Label title = new Label("Help", skin, "title-white");
-        // Create a table for the close button
-        Table closeButtonTable = new Table();
-        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
-        closeButtonTable.add(closeButton).size(80, 80).right().expandX().padTop(-10).padRight(-10);
-
-        Table topTable = new Table();
-        topTable.top().padTop(10);
-        topTable.add(title).expandX().center().padTop(20);
-        topTable.row();
-        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
-
-        // Add the close button table to the top-right of the helpWindow
-        helpWindow.add(topTable).expandX().fillX();
-        helpWindow.add().row();
-
-        // Add the slideTable to the helpWindow and position it to fill the window
-        helpWindow.add(slideTable).expand().fill().row();
-
-        // Add the navigation table to the bottom of the helpWindow
-        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(30).row();
-
-        final int[] currentSlide = {0};
-
-        // Handles when slide change is clicked
+        // Listener for "Previous" button
         previousButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (currentSlide[0] > 0) {
-                    slideInstances[currentSlide[0]].setVisible(false);
-                    currentSlide[0]--;
-                    slideInstances[currentSlide[0]].setVisible(true);
-                    slideTable.clear(); // Clear the table
-                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                    changeSlide(slides, slideTable, currentSlide, -1);
                 }
             }
         });
 
-        // Handles when slide change is clicked
+        // Listener for "Next" button
         nextButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (currentSlide[0] < NUM_SLIDES - 1) {
-                    slideInstances[currentSlide[0]].setVisible(false);
-                    currentSlide[0]++;
-                    slideInstances[currentSlide[0]].setVisible(true);
-                    slideTable.clear(); // Clear the table
-                    slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                if (currentSlide[0] < slides.length - 1) {
+                    changeSlide(slides, slideTable, currentSlide, 1);
                 }
             }
         });
+    }
 
-        // Handles when help menu is exited
+    // Configures keyboard navigation for switching slides using LEFT/RIGHT keys
+    private void configureKeyboardNavigation(Table helpWindow, Table[] slides, Table slideTable, int[] currentSlide, int numSlides) {
+        helpWindow.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.LEFT && currentSlide[0] > 0) {
+                    changeSlide(slides, slideTable, currentSlide, -1);
+                    return true;
+                } else if (keycode == Input.Keys.RIGHT && currentSlide[0] < numSlides - 1) {
+                    changeSlide(slides, slideTable, currentSlide, 1);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    // Changes the current slide based on the direction (previous/next)
+    private void changeSlide(Table[] slides, Table slideTable, int[] currentSlide, int direction) {
+        slides[currentSlide[0]].setVisible(false); // Hide the current slide
+        currentSlide[0] += direction; // Update the current slide index
+        slides[currentSlide[0]].setVisible(true); // Show the new slide
+
+        slideTable.clear(); // Clear the slide table
+        slideTable.add(slides[currentSlide[0]]).expand().fill(); // Add the new slide to the table
+
+        logger.info("Slide changed to: " + (currentSlide[0] + 1)); // Log the change
+    }
+
+    // Configures the close button to remove the help window from the stage
+    private void configureCloseButton(Table helpWindow) {
+        Button closeButton = (Button) ((Table) helpWindow.getChildren().get(0)).getChildren().get(1); // Get close button
+
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -557,59 +639,27 @@ public class MainMenuDisplay extends UIComponent {
                 logger.info("Help window closed");
             }
         });
+    }
 
-        // Initially show only the first slide
-        slideInstances[0].setVisible(true);
-        // Initially hide all slides except the first
-        for (int i = 1; i < NUM_SLIDES; i++) {
-            slideInstances[i].setVisible(false);
+    // Initializes the slides by showing the first slide and hiding the rest
+    private void initializeSlides(Table[] slides, Table slideTable) {
+        // Hide all slides except the first one
+        for (int i = 1; i < slides.length; i++) {
+            slides[i].setVisible(false);
         }
 
-        slideTable.clear(); // Clear any existing slides
-        slideTable.add(slideInstances[0]).expand().fill(); // Add the first slide
-
-        // Center the window on the stage
-        helpWindow.setPosition(
-                (stage.getWidth() - helpWindow.getWidth()) / 2,
-                (stage.getHeight() - helpWindow.getHeight()) / 2
-        );
-
-        // Set focus to the help window to ensure it receives key events
-        stage.setKeyboardFocus(helpWindow);
-        // Add an InputListener to handle keyboard input
-        helpWindow.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.LEFT:
-                        if (currentSlide[0] > 0) {
-                            slideInstances[currentSlide[0]].setVisible(false);
-                            currentSlide[0]--;
-                            slideInstances[currentSlide[0]].setVisible(true);
-                            slideTable.clear(); // Clear the table
-                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
-                        }
-                        return true;
-                    case Input.Keys.RIGHT:
-                        if (currentSlide[0] < NUM_SLIDES - 1) {
-                            slideInstances[currentSlide[0]].setVisible(false);
-                            currentSlide[0]++;
-                            slideInstances[currentSlide[0]].setVisible(true);
-                            slideTable.clear(); // Clear the table
-                            slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
-                        }
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
-        // Show the window
-        stage.addActor(helpWindow);
+        slideTable.clear();
+        slideTable.add(slides[0]).expand().fill(); // Show the first slide
     }
+
+    // Centers the help window on the stage
+    private void centerWindow(Table helpWindow) {
+        helpWindow.setPosition(
+                (stage.getWidth() - helpWindow.getWidth()) / 2, // Center horizontally
+                (stage.getHeight() - helpWindow.getHeight()) / 2 // Center vertically
+        );
+    }
+
 
     /**
      * Adds a minimize button and mute button to the top-right corner of the screen.
