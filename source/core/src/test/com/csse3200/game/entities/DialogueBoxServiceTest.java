@@ -73,15 +73,21 @@ class DialogueBoxServiceTest {
     @Test
     void testButtonPresses() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        entityChatService.updateText(new String[][] {{"1", "2"}});
-        entityChatService.getCurrentOverlay().handleForwardButtonClick();
-        Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.getCurrentOverlay().handleForwardButtonClick();
-        Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.getCurrentOverlay().handleBackwardButtonClick();
-        Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.getCurrentOverlay().handleBackwardButtonClick();
-        Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                entityChatService.updateText(new String[][]{{"1", "2"}});
+            } else {
+                entityChatService.updateText(new String[]{"1", "2"});
+            }
+            entityChatService.getCurrentOverlay().handleForwardButtonClick();
+            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+            entityChatService.getCurrentOverlay().handleForwardButtonClick();
+            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
+            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
+            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+        }
     }
 
     @Test
