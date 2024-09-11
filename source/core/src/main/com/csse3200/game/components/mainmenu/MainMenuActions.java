@@ -4,6 +4,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.gamestate.data.PlayerSave;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,9 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    loaded = false;
+
+    GameState.clearState();
+
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
@@ -46,8 +49,16 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
-    loaded = true;
-    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+
+    SaveHandler.load(GameState.class, "saves");
+    if(GameState.player == null) {
+      GameState.player = new PlayerSave();
+    }
+    if(GameState.player.selectedAnimalPath == null) {
+      game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+    } else {
+      game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
+    }
   }
 
   /**

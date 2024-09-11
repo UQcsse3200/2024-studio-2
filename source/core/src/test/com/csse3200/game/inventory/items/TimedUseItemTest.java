@@ -37,7 +37,7 @@ class TimedUseItemTest  {
     @BeforeEach
     void setUp() {
         int maxHealth = 200;
-        stat = new CombatStatsComponent(100, 0,0,0,0,0, true);
+        stat = new CombatStatsComponent(100, 0,0,0,0,0, 100, true);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         gameTime = Mockito.mock(GameTime.class);
         stat.setHealth(0);
