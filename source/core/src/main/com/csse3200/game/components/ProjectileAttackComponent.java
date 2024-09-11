@@ -51,4 +51,9 @@ public class ProjectileAttackComponent extends Component {
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
     CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
   }
+  
+  
+  @Override
+  public void dispose() {
+  }
 }

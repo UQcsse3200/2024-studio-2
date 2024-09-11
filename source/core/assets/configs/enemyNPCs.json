@@ -44,7 +44,7 @@
     "health": 100,
     "baseAttack": 100,
     "defense": 100,
-    "speed": 20,
+    "speed": 2,
     "isEnemy": 1
   }
 }
