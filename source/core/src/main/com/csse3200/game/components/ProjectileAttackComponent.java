@@ -12,12 +12,13 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 
 
 /**
- * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
+ * A component that allows an entity to attack other entities upon collision, dealing damage and applying knockback.
  *
- * <p>Requires CombatStatsComponent, HitboxComponent on this entity.
- *
- * <p>Damage is only applied if target entity has a CombatStatsComponent. Knockback is only applied
- * if target entity has a PhysicsComponent.
+ * <p>This component should be added to a projectile entity. It requires the entity to have a
+ * {@link CombatStatsComponent} to define its damage capabilities and a {@link HitboxComponent} to detect collisions.
+ * When a collision is detected with an entity on the specified target layer, this component will deal damage to the
+ * target if it has a {@link CombatStatsComponent}, and apply knockback if it has a {@link com.csse3200.game.physics.components.PhysicsMovementComponent}.
+ * The projectile is then disposed of after the collision.
  */
 public class ProjectileAttackComponent extends Component {
   private short targetLayer;
@@ -25,13 +26,19 @@ public class ProjectileAttackComponent extends Component {
   private HitboxComponent hitboxComponent;
 
   /**
-   * Create a component which attacks entities on collision, without knockback.
-   * @param targetLayer The physics layer of the target's collider.
+   * Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.
+   * The component is configured to target entities in a specific physics layer.
+   *
+   * @param targetLayer The physics layer of the target entities' collider.
    */
   public ProjectileAttackComponent(short targetLayer) {
     this.targetLayer = targetLayer;
   }
 
+  /**
+   * Initializes the component by registering collision listeners and fetching the necessary components
+   * for handling attacks and detecting collisions. This method is called when the component is created.
+   */
   @Override
   public void create() {
     entity.getEvents().addListener("collisionStart", this::onCollisionStart);
@@ -39,6 +46,13 @@ public class ProjectileAttackComponent extends Component {
     hitboxComponent = entity.getComponent(HitboxComponent.class);
   }
 
+  /**
+   * Handles collision start events for the projectile. If the collision is with a valid target on the
+   * specified layer, the target takes damage and the projectile is disposed of.
+   *
+   * @param me    The fixture of this entity that was involved in the collision.
+   * @param other The fixture of the other entity involved in the collision.
+   */
   private void onCollisionStart(Fixture me, Fixture other) {
     if (hitboxComponent.getFixture() != me) {
       // Not triggered by hitbox, ignore

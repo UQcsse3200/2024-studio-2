@@ -73,6 +73,16 @@ public abstract class GameArea implements Disposable {
     spawnEntity(entity);
   }
 
+  /**
+   * Spawns an entity at a specified world position.
+   *
+   * <p>This method sets the position of the given entity to the specified coordinates in the world
+   * and then registers the entity into the game world. The entity should not be registered prior to
+   * calling this method.
+   *
+   * @param entity  The entity to be spawned (not yet registered).
+   * @param worldPos The world position where the entity should be placed.
+   */
   public void spawnEntityAtVector(Entity entity, Vector2 worldPos) {
     entity.setPosition(worldPos);
     spawnEntity(entity);

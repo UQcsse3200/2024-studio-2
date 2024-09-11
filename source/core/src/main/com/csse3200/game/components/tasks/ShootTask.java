@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Task that waits for a set amount of time and then fires a projectile at a target.
+ * A task that allows an entity to wait for a set time and then shoot a projectile at a target.
  */
 public class ShootTask extends DefaultTask implements PriorityTask {
   private static final Logger logger = LoggerFactory.getLogger(ShootTask.class);
@@ -27,11 +27,11 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   private int numShots = 0;     // Number of shots fired
 
   /**
-   * Creates a shoot task that waits and then fires a projectile at the target.
+   * A task that allows an entity to wait for a set time and then shoot a projectile at a target.
    *
-   * @param waitTime How long in seconds to wait between firing a projectile.
-   * @param target   The target for shooting.
-   * @param range    The range before the entity stops chasing and starts shooting.
+   * @param waitTime Time in seconds to wait between shots.
+   * @param target   The target entity to shoot at.
+   * @param range    The distance within which the entity will stop chasing and start shooting.
    */
   public ShootTask(float waitTime, Entity target, float range) {
     this.waitTime = waitTime;
@@ -74,9 +74,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   }
 
   /**
-   * Returns the priority if the task is currently active.
+   * Gets the priority when the task is active, based on the distance to the target.
    *
-   * @return The current priority.
+   * @return The priority value, or -1 if out of range.
    */
   private int getActivePriority() {
     float dst = getDistanceToTarget();
@@ -87,9 +87,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   }
 
   /**
-   * Returns the priority if the task is currently inactive.
+   * Gets the priority when the task is inactive, based on the distance to the target.
    *
-   * @return The current priority.
+   * @return The priority value, or -1 if out of range.
    */
   private int getInactivePriority() {
     float dst = getDistanceToTarget();
@@ -100,7 +100,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   }
 
   /**
-   * Makes the entity wait before shooting again.
+   * Starts the waiting state before shooting.
    */
   private void startWaiting() {
     logger.debug("Starting waiting");
@@ -109,7 +109,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
   }
 
   /**
-   * Makes the entity shoot at the target.
+   * Fires a projectile at the target.
    */
   private void startShooting() {
     logger.debug("Shooting at target");
