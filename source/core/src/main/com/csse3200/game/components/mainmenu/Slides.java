@@ -123,16 +123,18 @@ public class Slides {
     public static class StorylineSlide extends Table {
         public StorylineSlide(Skin skin) {
             Label titleLabel = new Label("Storyline Overview", skin, "title");
-            Label contentLabel = new Label("Attack on Animals thrusts you into a riveting real-time strategy adventure\n"+
-                                           "where you control a diverse array of animals, each with unique abilities\n" +
-                                           "to reclaim kingdoms and restore harmony. As you explore vibrant ecosystems\n" +
-                                           "you'll gather resources, craft essential tools, and face formidable foes\n" +
-                                           "including the ultimate challenge the last of the humans\n" +
-                                           "Master probability-based combat and strategic planning to unite the\n " +
-                                           "animal kingdoms and emerge victorious in this epic quest for dominance."
-                    , skin);
+            Label contentLabel = new Label("\n" +
+                                           "Welcome to Attack on Animals, a real-time strategy adventure of animal conquest\n" +
+                                           "Control powerful creatures to conquer kingdoms and restore balance to the lands\n" +
+                                           "Choose from a variety of animals with unique stats and abilities\n" +
+                                           "Explore three kingdoms: Water, Land, and Air, each with unique ecosystems\n" +
+                                           "Dogs rule the Land, while birds reign over the skies of Air\n" +
+                                           "Gather resources, craft tools, and adapt to changing environments for survival\n "+
+                                           "Face fierce animal rulers and the ultimate challenge the last standing\n" +
+                                           "Your strategies and choices will shape the fate of this animal world\n" +
+                                           "Pick your kingdom, choose your favorite animal, and lead them to victory!\n", skin);
 
-            add(titleLabel).padTop(-100f).expandX().center().row();
+            add(titleLabel).padTop(10f).expandX().center().row();
             add(contentLabel).padTop(20f).padLeft(30f).expandX().left().row();
             padBottom(-200f);
 
@@ -167,10 +169,20 @@ public class Slides {
     public static class StatsSlide extends Table {
         public StatsSlide(Skin skin) {
             Label titleLabel = new Label("Game Stats", skin, "title");
-            Label contentLabel = new Label("Here are some statistics about the game...", skin);
+            Label contentLabel = new Label("Each animal in every kingdom has five core stats:\n\n" +
+                                           "Health: Determines how long they survive in battle\n" +
+                                           "Strength: Shows how much damage they can deal\n" +
+                                           "Defense: Reflects how resistant they are to attacks.\n" +
+                                           "Speed: Measures how quickly they strike and move\n" +
+                                           "Stamina:Indicates how long they can keep fighting.\n\n" +
+                                           "Every animal has unique levels, so choose wisely!\n\n" +
+                                           "You can collect various items like apples in the game.\n" +
+                                           "Press P to add them to your inventory and use E to access it."
+                    , skin);
 
-            add(titleLabel).padTop(20f).expandX().center().row();
-            add(contentLabel).padTop(20f).expandX().center().row();
+            add(titleLabel).padTop(-10f).expandX().center().row();
+            add(contentLabel).padTop(20f).padLeft(30f).expandX().left().row();
+            padBottom(-200f);
         }
     }
 
