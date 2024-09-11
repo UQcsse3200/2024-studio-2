@@ -1,9 +1,7 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -38,7 +36,7 @@ public class QuickTimeEventActions extends Component {
                 entity.getEvents().trigger("editLabel", count + "");
             } else {
                 entity.getEvents().trigger("editLabel", "");
-                // Trigger a listener in QuickTimeEventHandler
+                entity.getEvents().trigger("startQuickTime", quickTimeEventsDemo());
             }
             lastUpdate = gameTime.getTime();
         }
@@ -59,5 +57,20 @@ public class QuickTimeEventActions extends Component {
     private void onExit() {
         logger.info("Exit QuickTimeEvent screen");
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+    }
+
+    /**
+     * Creates a quick-time events demo
+     *
+     * @returns list of quick-time events
+     */
+    private static QuickTimeEvent[] quickTimeEventsDemo() {
+        float delay = 0.1f;
+        float[] durations = {0.7f, 0.65f, 0.55f, 0.45f};
+        QuickTimeEvent[] quickTimeEvents = new QuickTimeEvent[durations.length];
+        for (int i = 0; i < durations.length; i++) {
+            quickTimeEvents[i] = new QuickTimeEvent(durations[i], delay);
+        }
+        return quickTimeEvents;
     }
 }

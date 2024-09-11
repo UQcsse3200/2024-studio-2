@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -38,6 +37,9 @@ public class QuickTimeEventDisplay extends UIComponent {
     private ImageButton target;
     private Image qte;
 
+    // flags
+    private boolean quickTimeEventActive = false;
+
     // assets
     private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
     private final Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
@@ -48,6 +50,8 @@ public class QuickTimeEventDisplay extends UIComponent {
         super.create();
         logger.info("Creating QuickTimeEventDisplay");
         entity.getEvents().addListener("editLabel", this::onEditLabel);
+        entity.getEvents().addListener("startQuickTime", this::onStartQuickTime);
+        entity.getEvents().addListener("quickTimeBtnPress", this::onQuickTimeBtnPress);
         addActors();
     }
 
@@ -149,6 +153,15 @@ public class QuickTimeEventDisplay extends UIComponent {
     }
 
     /**
+     * Sets image on target
+     *
+     * @param name the name of the image (in the atlas)
+     */
+    private void setTargetImage(String name) {
+        target.getStyle().imageUp = new TextureRegionDrawable(pawsAtlas.findRegion(name));
+    }
+
+    /**
      * Edits the text in the label actor
      *
      * @param text the text to display in the label
@@ -158,41 +171,98 @@ public class QuickTimeEventDisplay extends UIComponent {
     }
 
     /**
-     * Sets image on target
+     * Animates the quick-time events
      *
-     * @param name the name of the image (in the atlas)
+     * @param quickTimeEvents the quick-time event data
      */
-    private void setTargetImage(String name) {
-        target.getStyle().imageUp = new TextureRegionDrawable(pawsAtlas.findRegion(name));
+    private void onStartQuickTime(QuickTimeEvent[] quickTimeEvents) {
+        // process and set up the quick-time events
+        SequenceAction quickTimeActions = new SequenceAction();
+        int counter = quickTimeEvents.length - 1;
+        for (QuickTimeEvent quickTimeEvent : quickTimeEvents) {
+            Action quickTimeAction;
+            if (counter != 0) {
+                quickTimeAction = createQuickTimeAction(quickTimeEvent, false);
+            } else {
+                // reached last quick-time event
+                quickTimeAction = createQuickTimeAction(quickTimeEvent, true);
+            }
+            quickTimeActions.addAction(quickTimeAction);
+            counter -= 1;
+        }
+        qte.addAction(quickTimeActions);
     }
 
-
     /**
-     * Animates a quick-time event for given duration
+     * Create quick-time event action
      *
-     * @param duration the time (in seconds) to animate
-     *                 the quick-time event
+     * @param quickTimeEvent quick-time event data
+     * @param last flag for last quick-time event in the sequence
      */
-    private void onStartQuickTime(float duration) {
-        // set up the image
-        qte.setScale(QTE_START_SIZE);
-        qte.setRotation(QTE_START_ROT);
-        // set up the action
+    private Action createQuickTimeAction(QuickTimeEvent quickTimeEvent, boolean last) {
+        // Get quick-time event data
+        float duration = quickTimeEvent.duration();
+        float delay = quickTimeEvent.delay();
+        // create action to initialise quick-time event
+        RunnableAction initAction = new RunnableAction();
+        initAction.setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                qte.setScale(QTE_START_SIZE);
+                qte.setRotation(QTE_START_ROT);
+                qte.setVisible(true);
+                setTargetImage("target_default");
+                quickTimeEventActive = true;
+            }
+        });
+        // create action to animate quick-time event
         ScaleToAction scaleToAction = new ScaleToAction();
         scaleToAction.setDuration(duration);
         scaleToAction.setScale(1.0f);
         RotateByAction rotateByAction = new RotateByAction();
         rotateByAction.setDuration(duration);
         rotateByAction.setAmount(-QTE_START_ROT);
-        // add action to image and make visible
-        qte.setVisible(true);
-        qte.addAction(new ParallelAction(scaleToAction, rotateByAction));
+        Action coreAction = new ParallelAction(scaleToAction, rotateByAction);
+        // create action to toggle quick-time event flag off
+        RunnableAction toggleFlagOffAction = new RunnableAction();
+        toggleFlagOffAction.setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                quickTimeEventActive = false;
+            }
+        });
+        // create action to add some delay
+        DelayAction delayAction = new DelayAction();
+        delayAction.setDuration(delay);
+        // sequence actions together
+        SequenceAction actions = new SequenceAction(
+                initAction, coreAction, toggleFlagOffAction, delayAction
+        );
+        if (last) {
+            // last quick-time event - do some additional clean up
+            RunnableAction resetAction = new RunnableAction();
+            resetAction.setRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    qte.setVisible(false);
+                    setTargetImage("target_default");
+                }
+            });
+            actions.addAction(resetAction);
+        }
+        return actions;
     }
 
     /**
-     * Reset the quick-time event display
+     * Handle quick-time button press
+     */
+    private void onQuickTimeBtnPress() {}
+
+    /**
+     * Forcefully reset the quick-time event display
      */
     private void resetDisplay() {
+        quickTimeEventActive = false;
         qte.setVisible(false);
         qte.clearActions();
         setTargetImage("target_default");
