@@ -229,7 +229,6 @@ public class SettingsMenuDisplay extends UIComponent {
         if (fpsVal != null) {
             settings.fps = fpsVal;
         }
-        settings.fullscreen = fullScreenCheck.isChecked();
         settings.audioScale = audioScaleSlider.getValue();
         settings.soundScale = soundScaleSlider.getValue();
         settings.displayMode = new UserSettings.DisplaySettings(displayModeSelect.getSelected().object);
