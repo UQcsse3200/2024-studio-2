@@ -161,7 +161,6 @@ public class QuestManager extends Component {
         GameState.quests.quests.add(twoTaskQuest);
 
         // Create 2 task quest
-        //2 0 1
         List<Task> finalQuestTasks = new ArrayList<>(List.of(tasks[2], tasks[0], tasks[1]));
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
@@ -169,7 +168,7 @@ public class QuestManager extends Component {
 
     }
 
-    /** Creates all tests for quests and dialoues*/
+    /** Creates all tests for quests and dialogues */
     private void testQuests() {
         Task[] tasks = createTasks();
         Map<DialogueKey, String[]> questDialogues = createQuestDialogues();

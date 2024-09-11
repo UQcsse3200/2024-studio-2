@@ -421,7 +421,7 @@ public class Inventory implements InventoryInterface {
         }
     }
 
-    // Quests additions \\\\\\\\\\\//////////
+    // Quests additions - starting here
     /** Inventory listen for quests item collection tasks
      * @param itemName - the item name that will be listened for
      * @param quantity - the number of item occurrences required for
