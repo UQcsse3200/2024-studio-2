@@ -73,10 +73,10 @@ public class LootBox extends ConsumableItem {
             if (display.hasSpaceFor()) { // Check if the inventory is full
                 Entity itemEntity = ItemFactory.createItem(player, item); // Create entity for the item
                 player.getEvents().trigger("dropItems", itemEntity, 3); // Drop item near player
-                logger.info("Dropping item: {}", item.getName());
+                logger.debug("Dropping item: {}", item.getName());
             } else {
                 display.getEntity().getEvents().trigger("addItem", item); // Add item to inventory
-                logger.info("Item added to inventory: {}", item.getName());
+                logger.debug("Item added to inventory: {}", item.getName());
             }
         }
 
