@@ -1,5 +1,4 @@
 package com.csse3200.game.areas.terrain;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -47,6 +46,15 @@ public class TerrainComponent extends RenderComponent {
 
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
+
+  private TiledMapRenderer renderer;
+
+  // Constructor and other methods...
+
+  // Package-private or protected method for testing
+  TiledMapRenderer getRenderer() {
+    return renderer;
+  }
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -97,8 +105,8 @@ public class TerrainComponent extends RenderComponent {
     TerrainChunk chunk = new TerrainChunk(chunkPos, tiledMap);
 
     if ((chunkPos.x < 0 || chunkPos.y < 0) ||
-        (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
-            chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
+            (chunkPos.x >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getWidth() ||
+                    chunkPos.y >= ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getHeight()))
       return;
 
     chunk.generateTiles(chunkPos, loadedChunks, terrainResource);
@@ -217,6 +225,12 @@ public class TerrainComponent extends RenderComponent {
   @Override
   public int getLayer() {
     return TERRAIN_LAYER;
+  }
+
+  public TiledMap getTiledMap()
+  {
+
+      return null;
   }
 
   public enum TerrainOrientation {

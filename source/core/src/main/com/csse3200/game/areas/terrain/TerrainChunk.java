@@ -59,7 +59,7 @@ public class TerrainChunk {
    * @param terrainResource The terrain resource to use for generating the terrain
    */
   public void generateTiles(GridPoint2 chunkPos, Map<GridPoint2, TerrainChunk> loadedChunks,
-      TerrainResource terrainResource) {
+                            TerrainResource terrainResource) {
     int cPosX = chunkPos.x * CHUNK_SIZE;
     int cPosY = chunkPos.y * CHUNK_SIZE;
 
@@ -200,7 +200,7 @@ public class TerrainChunk {
    * @return The updated bitset for this cell
    */
   private BitSet analyseTile(BitSet up, BitSet down, BitSet left, BitSet right,
-      BitSet currentBitCell) {
+                             BitSet currentBitCell) {
     BitSet gridCell = currentBitCell;
     if (up != null)
       currentBitCell.and(up);
