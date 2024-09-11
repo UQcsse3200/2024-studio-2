@@ -27,7 +27,10 @@ public class Inventory implements InventoryInterface {
     private TreeMap<String, TreeSet<Integer>> nameToIndices;
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
-
+    /* Name of an item being searched for - used for quests */
+    private String questItem;
+    /* Name of an item being searched for - used for quests */
+    private int questItemCount;
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -462,5 +465,30 @@ public class Inventory implements InventoryInterface {
         if (index < nextIndex) { // Update the next available index if necessary.
             nextIndex = index;
         }
+    }
+
+    // Quests additions - starting here
+    /** Inventory listen for quests item collection tasks
+     * @param itemName - the item name that will be listened for
+     * @param quantity - the number of item occurrences required for
+     *                 the quest to be completed. */
+    public void questItemListen(String itemName, int quantity){
+        this.questItem = itemName;
+        this.questItemCount = quantity;
+    }
+
+    /** Quests item collection completion - used to send out "items collected"
+     * @return True if specified numbers of item has been collected. */
+    public boolean itemCollectionSuccessful() {
+        int count = 0;
+        for (int item = 0; item < this.nextIndex; item++) {
+            if (memoryView[item].getName().equals(this.questItem)) {
+                count += memoryView[item].getQuantity();
+            }
+        }
+        if (count > 0) {
+            return count >= this.questItemCount;
+        }
+        return false;
     }
 }

@@ -310,4 +310,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         inventory.loadInventoryFromSave();
         hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
     }
+  
+    /** Returns inventory - for quests. */
+    public Inventory getInventory() {
+        return inventory;
+    }
 }
