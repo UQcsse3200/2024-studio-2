@@ -28,7 +28,7 @@ public class StoryScreen extends ScreenAdapter {
     public StoryScreen(GdxGame game) {
         this.game = game;
 
-        logger.debug("Initialising game over win screen services");
+        logger.debug("Initialising story screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());

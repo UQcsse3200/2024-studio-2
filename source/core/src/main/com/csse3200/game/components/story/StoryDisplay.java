@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A UI component for displaying the Game Over win screen.
+ * A UI component for displaying the story screen.
  */
 public class StoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StoryDisplay.class);
@@ -37,7 +37,7 @@ public class StoryDisplay extends UIComponent {
     }
 
     /**
-     * Called when the component is created. Initializes the Game Over win UI.
+     * Called when the component is created. Initializes the story UI.
      */
     @Override
     public void create() {
