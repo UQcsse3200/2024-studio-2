@@ -13,5 +13,9 @@ public class InventoryComponent extends Component {
         this.inventory = new Inventory(capacity);
     }
 
+    /**
+     * Returns the player's current inventory from this attached InventoryComponent
+     * @return The player's current inventory
+     */
     public Inventory getInventory() {return this.inventory;}
 }
