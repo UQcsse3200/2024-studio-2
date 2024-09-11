@@ -22,7 +22,7 @@ public class Stat implements Json.Serializable {
 
     /** The max value of the stat, if it has one
      */
-    private int max;
+    private Integer max;
 
     /** True if the stat has a max, false otherwise
      */
@@ -37,23 +37,15 @@ public class Stat implements Json.Serializable {
     public Stat(){}
 
     /**
-     * Constructor for stat with no max value e.g. snake high score
+     * Constructor for a stat
      */
-    public Stat(String statName, String description) {
+    public Stat(String statName, String description, int current,  Integer max, Boolean hasMax, StatType type) {
         this.statName = statName;
         this.statDescription = description;
-        this.hasMax = false;
-        this.current = 0;
-    }
-    /**
-     * Constructor for stat with a max value e.g. number of bosses killed
-     */
-    public Stat(String statName, String description, int max) {
-        this.statName = statName;
-        this.statDescription = description;
+        this.current = current;
         this.max = max;
-        this.hasMax = true;
-        this.current = 0;
+        this.hasMax = hasMax;
+        this.type = type;
     }
 
     /**
@@ -85,7 +77,7 @@ public class Stat implements Json.Serializable {
      *
      * @return the value of max, or -1 if hasMax == false
      */
-    public int getMax() {
+    public Integer getMax() {
         if (this.hasMax) {
             return max;
         } else {
@@ -125,7 +117,6 @@ public class Stat implements Json.Serializable {
         }
     }
 
-
     /**
      * Reduce a stat by the given amount to a minimum of 0
      * @param value the amount
@@ -159,7 +150,7 @@ public class Stat implements Json.Serializable {
     }
 
     /**
-     * Perform json read and write actions on the end game stats config file
+     * Perform json write actions on the end game stats config file
      *
      * @param json The config containing stats to be tracked
      */
@@ -173,15 +164,31 @@ public class Stat implements Json.Serializable {
         json.writeValue("type", type.name());
     }
 
+    /**
+     * Perform json read actions on the end game stats config file
+     *
+     * @param json The config containing stats to be tracked
+     */
     @Override
     public void read(Json json, JsonValue jsonData) {
         this.statName = jsonData.getString("statName");
         this.statDescription = jsonData.getString("statDescription");
         this.current = jsonData.getInt("statCurrent");
-        this.max = jsonData.getInt("statMax");
         this.hasMax = jsonData.getBoolean("statHasMax");
+        // Check if json statMax is null
+        if (this.hasMax) {
+            this.max = jsonData.getInt("statMax");
+        } else {
+            this.max = null;
+        }
         this.type = Stat.StatType.valueOf(jsonData.getString("type"));
     }
+
+    /**
+     * Convert stats json to a human-readable string
+     *
+     * @return human-readable stats string
+     */
     @Override
     public String toString() {
         return "Achievement{" +

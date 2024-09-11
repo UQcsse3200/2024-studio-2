@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.csse3200.game.components.quests.Achievement;
 
 public class StatSaveManager {
 
@@ -50,6 +51,17 @@ public class StatSaveManager {
 
     public Array<Stat> getStats() {
         return stats;
+    }
+
+    /**
+     * Function to save stats to 'saves/stats.json'.
+     */
+    public static void saveStats(Array<Stat> stats) {
+        Json json = new Json();
+        FileHandle saveFile = Gdx.files.local(SAVE_PATH);
+
+        // Serialize the Array<Achievement> and write to file
+        saveFile.writeString(json.prettyPrint(stats), false);
     }
 
 
