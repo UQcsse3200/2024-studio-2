@@ -284,9 +284,9 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         table.center();
 
         // Add elements to the table with spacing
-        table.add(enemyImage).width(500).height(500).padBottom(20); // Pad bottom for spacing
+        table.add(enemyImage).width(500).height(500); // Pad bottom for spacing
         table.row();
-        table.add(enemyNameLabel).padBottom(10);
+        table.add(enemyNameLabel).padBottom(5);
         table.row();
         table.add(healthLabel).padBottom(5); // Pad bottom for spacing
         table.row();
