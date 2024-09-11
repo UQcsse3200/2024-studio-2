@@ -48,6 +48,7 @@ public class PopUpHelper {
                 defenseStats,
                 strengthStats
         );
+        dialogBox.setAnimalIndex(animalIndex); // Set the correct animal index
         dialogBox.display(stage);
     }
 }

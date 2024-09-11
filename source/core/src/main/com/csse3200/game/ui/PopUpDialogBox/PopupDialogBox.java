@@ -30,6 +30,8 @@ public class PopupDialogBox extends Dialog {
     private int[] defenseStats;
     private int[] strengthStats;
 
+    private int animalIndex = 0; // Default to bird stats, should be updated based on selection
+
     /**
      * Constructs a new PopupDialogBox.
      *
@@ -134,9 +136,6 @@ public class PopupDialogBox extends Dialog {
      * Updates the stats table with the current animal's stats.
      */
     private void updateStatsTable() {
-        // Example index for demonstration, adjust as needed based on selected animal
-        int animalIndex = 0; // Default index, should be set based on actual selected animal
-
         // Clear previous stats
         statsTable.clear();
         statsTable.add(new Label("STATS", getSkin())).colspan(2).padBottom(10).row();
@@ -169,5 +168,15 @@ public class PopupDialogBox extends Dialog {
      */
     public void display(Stage stage) {
         stage.addActor(this);
+    }
+
+    /**
+     * Sets the index of the animal for which stats should be displayed.
+     *
+     * @param animalIndex Index of the selected animal (0 for bird, 1 for croc, 2 for dog).
+     */
+    public void setAnimalIndex(int animalIndex) {
+        this.animalIndex = animalIndex;
+        updateStatsTable(); // Update stats immediately with new animal stats
     }
 }

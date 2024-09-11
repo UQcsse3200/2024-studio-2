@@ -19,10 +19,6 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Action component for interacting with the player. Player events should be initialized in create()
- * and when triggered should call methods within this class.
- */
 public class PlayerActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
 
@@ -55,9 +51,6 @@ public class PlayerActions extends Component {
       return;
     }
 
-    // Initialize speed based on selected animal
-    initializeCombatStats();
-
     // Register event listeners
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
@@ -83,32 +76,6 @@ public class PlayerActions extends Component {
     }
   }
 
-  /**
-   * Initializes the CombatStatsComponent with speed based on the selected animal.
-   * This should be called during the creation of the PlayerActions component.
-   */
-  private void initializeCombatStats() {
-    switch (selectedAnimal.toLowerCase()) {
-      case "crocodile":
-        combatStats.setSpeed(40); // Example value; adjust as needed
-        break;
-      case "bird":
-        combatStats.setSpeed(100); // Example value; adjust as needed
-        break;
-      case "dog":
-        combatStats.setSpeed(80); // Example value; adjust as needed
-        break;
-      default:
-        logger.warn("Unknown animal selected. Using default speed.");
-        combatStats.setSpeed(50); // Default speed
-        break;
-    }
-    logger.info("Player speed set to: {}", combatStats.getSpeed());
-  }
-
-  /**
-   * Initializes animal-specific sounds based on the selected animal.
-   */
   private void initializeAnimalSounds() {
     switch (selectedAnimal.toLowerCase()) {
       case "dog":
@@ -125,28 +92,21 @@ public class PlayerActions extends Component {
     }
   }
 
-  /**
-   * Updates the player's velocity based on the current walk direction and animal speed.
-   */
   private void updateSpeed() {
     Body body = physicsComponent.getBody();
     Vector2 velocity = body.getLinearVelocity();
 
-    // Convert combatStats speed to meters per second
-    float speedFactor = 0.01f; // Adjust scaling factor as necessary
-    float animalSpeed = combatStats.getSpeed() * speedFactor;
+    // Use a base speed and multiply it by the animal's speed stat
+    float baseSpeed = 1f; // Adjust this value to get the desired overall movement speed
+    float animalSpeedMultiplier = combatStats.getSpeed() / 10f; // Normalize the speed to a 0-1 range
+    float finalSpeed = baseSpeed * animalSpeedMultiplier;
 
-    Vector2 desiredVelocity = walkDirection.cpy().scl(animalSpeed);
+    Vector2 desiredVelocity = walkDirection.cpy().scl(finalSpeed);
     Vector2 impulse = desiredVelocity.sub(velocity).scl(body.getMass());
 
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
 
-  /**
-   * Handles the walk event by setting the walk direction and enabling movement.
-   *
-   * @param direction The direction vector from WASD input.
-   */
   void walk(Vector2 direction) {
     this.walkDirection = direction.nor(); // Ensure direction is normalized
     this.moving = true;
@@ -154,9 +114,6 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("steps");
   }
 
-  /**
-   * Handles the walkStop event by stopping movement.
-   */
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed(); // Stop the player by setting velocity to zero
@@ -164,9 +121,6 @@ public class PlayerActions extends Component {
     logger.info("Player stopped moving.");
   }
 
-  /**
-   * Handles the attack event by playing attack sounds and triggering attack tasks.
-   */
   void attack() {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound(1.0f);
@@ -177,29 +131,18 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("attackTask");
   }
 
-  /**
-   * Opens the rest menu overlay.
-   */
   private void restMenu() {
     logger.info("Opening Rest Menu Overlay.");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
   }
 
-  /**
-   * Opens the quest overlay.
-   */
   private void quest() {
     logger.debug("Triggering Quest Overlay.");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
   }
 
-  /**
-   * Initiates combat with the specified enemy entity.
-   *
-   * @param enemy The enemy entity to engage in combat.
-   */
   public void startCombat(Entity enemy) {
     AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
     if (aiTaskComponent == null) {
