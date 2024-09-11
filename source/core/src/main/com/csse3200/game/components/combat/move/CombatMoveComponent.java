@@ -117,6 +117,20 @@ public class CombatMoveComponent extends Component {
     }
 
     /**
+     * Checks if the entity has a special move in its move set.
+     *
+     * @return true if the entity has a special move, false otherwise.
+     */
+    public boolean hasSpecialMove() {
+        for (CombatMove move : moveSet) {
+            if (move instanceof SpecialMove) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets the list of combat moves associated with this component.
      *
      * @return the list of combat moves.
