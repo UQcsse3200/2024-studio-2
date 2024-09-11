@@ -186,10 +186,4 @@ public class EventHandler {
   public void dispose() {
     listeners.clear();
   }
-
-    public boolean hasListener(String updateHealth)
-    {
-
-        return false;
-    }
 }

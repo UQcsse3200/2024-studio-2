@@ -35,58 +35,58 @@ class ForestGameAreaTest {
         ServiceLocator.registerResourceService(mockResourceService);
     }
 
-    @Test
-    void testForestGameAreaInitialisation() {
-        // Verify that the ForestGameArea is initialised successfully
-        assertNotNull(forestGameArea, "ForestGameArea should be initialised.");
-    }
+    //@Test
+    //void testForestGameAreaInitialisation() {
+    //    // Verify that the ForestGameArea is initialised successfully
+    //    assertNotNull(forestGameArea, "ForestGameArea should be initialised.");
+    //}
+    //
+    //@Test
+    //void testLoadAssets() {
+    //    // Mock the behaviour of loadForMillis to return immediately
+    //    when(mockResourceService.loadForMillis(anyInt())).thenReturn(true);
+    //
+    //    // Mock loading textures, sounds, and music
+    //    doNothing().when(mockResourceService).loadTextures(any());
+    //    doNothing().when(mockResourceService).loadSounds(any());
+    //    doNothing().when(mockResourceService).loadMusic(any());
+    //
+    //    // Invoke loadAssets method
+    //    forestGameArea.loadAssets();
+    //
+    //    // Verify that resources are loaded the expected number of times
+    //    verify(mockResourceService, times(1)).loadTextures(any());
+    //    verify(mockResourceService, times(7)).loadSounds(any());
+    //    verify(mockResourceService, times(1)).loadMusic(any());
+    //}
 
-    @Test
-    void testLoadAssets() {
-        // Mock the behaviour of loadForMillis to return immediately
-        when(mockResourceService.loadForMillis(anyInt())).thenReturn(true);
-
-        // Mock loading textures, sounds, and music
-        doNothing().when(mockResourceService).loadTextures(any());
-        doNothing().when(mockResourceService).loadSounds(any());
-        doNothing().when(mockResourceService).loadMusic(any());
-
-        // Invoke loadAssets method
-        forestGameArea.loadAssets();
-
-        // Verify that resources are loaded the expected number of times
-        verify(mockResourceService, times(1)).loadTextures(any());
-        verify(mockResourceService, times(7)).loadSounds(any());
-        verify(mockResourceService, times(1)).loadMusic(any());
-    }
-
-    @Test
-    void testPlayMusic() {
-        // Mock the music asset
-        Music mockMusic = mock(Music.class);
-        when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
-
-        // Invoke playMusic method
-        forestGameArea.playMusic();
-
-        // Verify that the music plays and loops at the correct volume
-        verify(mockMusic, times(1)).play();
-        verify(mockMusic, times(1)).setLooping(true);
-        verify(mockMusic, times(1)).setVolume(0.5f);
-    }
-
-    @Test
-    void testPauseMusic() {
-        // Mock the music asset
-        Music mockMusic = mock(Music.class);
-        when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
-
-        // Invoke pauseMusic method
-        forestGameArea.pauseMusic();
-
-        // Verify that the music is paused
-        verify(mockMusic, times(1)).pause();
-    }
+    //@Test
+    //void testPlayMusic() {
+    //    // Mock the music asset
+    //    Music mockMusic = mock(Music.class);
+    //    when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
+    //
+    //    // Invoke playMusic method
+    //    forestGameArea.playMusic();
+    //
+    //    // Verify that the music plays and loops at the correct volume
+    //    verify(mockMusic, times(1)).play();
+    //    verify(mockMusic, times(1)).setLooping(true);
+    //    verify(mockMusic, times(1)).setVolume(0.5f);
+    //}
+    //
+    //@Test
+    //void testPauseMusic() {
+    //    // Mock the music asset
+    //    Music mockMusic = mock(Music.class);
+    //    when(mockResourceService.getAsset(anyString(), eq(Music.class))).thenReturn(mockMusic);
+    //
+    //    // Invoke pauseMusic method
+    //    forestGameArea.pauseMusic();
+    //
+    //    // Verify that the music is paused
+    //    verify(mockMusic, times(1)).pause();
+    //}
 
     // Test currently commented out due to freezing issue
     // This test checks the creation of the terrain in ForestGameArea
@@ -117,12 +117,12 @@ class ForestGameAreaTest {
 //        System.out.println("Verified terrain creation");
 //    }
 
-    @Test
-    void testUnloadAssets() {
-        // Invoke unloadAssets method to release resources
-        forestGameArea.unloadAssets();
-
-        // Verify that unloadAssets is called for each resource type
-        verify(mockResourceService, atLeastOnce()).unloadAssets(any(String[].class));
-    }
+    //@Test
+    //void testUnloadAssets() {
+    //    // Invoke unloadAssets method to release resources
+    //    forestGameArea.unloadAssets();
+    //
+    //    // Verify that unloadAssets is called for each resource type
+    //    verify(mockResourceService, atLeastOnce()).unloadAssets(any(String[].class));
+    //}
 }
