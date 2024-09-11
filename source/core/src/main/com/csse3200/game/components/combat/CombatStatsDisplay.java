@@ -14,17 +14,13 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Displays the name of the current game area.
- * Current implementation is temporary, to demonstrate that the stats of the specific entities are being passed in.
+ * Displays the stats bars of both the player and the enemy on the CombatScreen.
  */
 public class CombatStatsDisplay extends UIComponent {
   private CombatStatsComponent playerStats;
   private CombatStatsComponent enemyStats;
-  private Table statsTable;
   private Image playerHealthImage;
   private Image playerHungerImage;
   private Image enemyHealthImage;
@@ -42,6 +38,11 @@ public class CombatStatsDisplay extends UIComponent {
   private float barImageHeight;
   private static final int totalFrames = 11;
 
+  /**
+   * Initialises the required components for the CombatStatsDisplays
+   * @param playerStats CombatStatsComponent of the player
+   * @param enemyStats CombatStatsComponent of the enemy
+   */
   public CombatStatsDisplay(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
     this.playerStats = playerStats;
     this.enemyStats = enemyStats;
@@ -85,7 +86,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     // Hunger text
     int hunger = playerStats.getHunger();
-    CharSequence hungerText = String.format("HP: %d", hunger);
+    CharSequence hungerText = String.format("Hunger: %d", hunger);
     playerHungerLabel = new Label(hungerText, skin, "large");
 
     // Health/XP images
@@ -111,7 +112,7 @@ public class CombatStatsDisplay extends UIComponent {
   }
 
   /**
-   * Initialises a table containing the enemy's stats bars and lables
+   * Initialises a table containing the enemy's stats bars and labels
    * @return A table containing the enemy's health bar and its associated label
    */
   private Table initialiseEnemyStatBars() {
@@ -197,6 +198,9 @@ public class CombatStatsDisplay extends UIComponent {
     statBar.setDrawable(new TextureRegionDrawable(currentFrame));
   }
 
+  /**
+   * Adds the playerTable and enemyTable into the stage of the game to be displayed
+   */
   private void addActors() {
     Table playerTable = initialisePlayerStatBars();
     Table enemyTable = initialiseEnemyStatBars();
@@ -256,7 +260,7 @@ public class CombatStatsDisplay extends UIComponent {
   }
 
   /**
-   * Updates hte hunger bar animation of the player
+   * Updates the hunger bar animation of the player
    * @param playerStats The CombatStatsComponent of the player
    */
   public void updatePlayerHungerUI(CombatStatsComponent playerStats) {

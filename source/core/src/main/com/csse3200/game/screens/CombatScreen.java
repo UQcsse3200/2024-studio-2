@@ -7,7 +7,6 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
 import com.csse3200.game.areas.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
-import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.combat.CombatStatsDisplay;
@@ -31,8 +30,6 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * The game screen containing the combat feature.
@@ -57,7 +54,6 @@ public class CombatScreen extends ScreenAdapter {
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea gameArea;
-  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -85,8 +81,8 @@ public class CombatScreen extends ScreenAdapter {
     createUI();
 
     logger.debug("Initialising main game dup screen entities");
-    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera());
-    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory);
+    CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera()); // create new combat terrain factory
+    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
     gameArea.create();
 
 
@@ -107,17 +103,19 @@ public class CombatScreen extends ScreenAdapter {
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
+  /** Pause the game, eventually will need to pause music
+   */
   @Override
   public void pause() {
     isPaused = true;
-    //gameArea.pauseMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game paused");
   }
 
+  /** Resume the game, unpause music, when implemented
+   */
   @Override
   public void resume() {
     isPaused = false;
-    //gameArea.playMusic(); // No GameArea to contain music is initialised as of yet.
     logger.info("Game resumed");
   }
 
@@ -175,35 +173,4 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
-  public void removeOverlay(){
-    logger.debug("Removing top Overlay");
-
-    if (enabledOverlays.isEmpty()){
-      this.wake();
-      return;
-    }
-
-    enabledOverlays.getFirst().remove();
-
-    enabledOverlays.removeFirst();
-
-    if (enabledOverlays.isEmpty()){
-      this.wake();
-
-    } else {
-      enabledOverlays.getFirst().wake();
-    }
-  }
-
-  public void rest() {
-    logger.info("Screen is resting");
-    gameArea.pauseMusic();
-    ServiceLocator.getEntityService().restWholeScreen();
-  }
-
-  public void wake() {
-    logger.info("Screen is Awake");
-    gameArea.playMusic();
-    ServiceLocator.getEntityService().wakeWholeScreen();
-  }
 }

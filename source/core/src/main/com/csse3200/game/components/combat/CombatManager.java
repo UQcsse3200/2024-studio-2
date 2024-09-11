@@ -71,6 +71,9 @@ public class CombatManager extends Component {
         }
     }
 
+    /**
+     * Checks if either the player or enemy's health is at 0, end changes isCombatEnd to true if so
+     */
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0 || enemyStats.getHealth() <= 0) {
             isCombatEnd = true;
@@ -78,18 +81,34 @@ public class CombatManager extends Component {
         }
     }
 
+    /**
+     * Returns the player's Entity
+     * @return Entity of the player
+     */
     public Entity getPlayer() {
         return player;
     }
 
+    /**
+     * Returns the enemy's entity
+     * @return Entity of the enemy
+     */
     public Entity getEnemy() {
         return enemy;
     }
 
+    /**
+     * Returns the stats component of the player
+     * @return CombatStatsComponent of player
+     */
     public CombatStatsComponent getPlayerStats() {
         return playerStats;
     }
 
+    /**
+     * Returns the stats component of the enemy
+     * @return CombatStatsComponent of the enemy
+     */
     public CombatStatsComponent getEnemyStats() {
         return enemyStats;
     }
