@@ -241,7 +241,7 @@ public class CombatManager extends Component {
         if (playerStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatLoss");
         } else if (enemyStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatWin");
+            this.getEntity().getEvents().trigger("combatWin", enemy);
         }
     }
 

@@ -59,7 +59,7 @@ public class CombatExitDisplay extends UIComponent {
           if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
             entity.getEvents().trigger("kangaDefeated");
           } else {
-            entity.getEvents().trigger("combatWin");
+            entity.getEvents().trigger("combatWin", enemy);
           }
         }
       });

@@ -47,13 +47,12 @@ public class CombatActions extends Component {
    * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
    * 'Kills' enemy entity on return to combat screen.
    */
-  private void onCombatWin() {
+  private void onCombatWin(Entity enemy) {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-    game.setOldScreen(previousScreen, previousServices);
-    //game.returnFromCombat(previousScreen, previousServices, enemy);
+    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
