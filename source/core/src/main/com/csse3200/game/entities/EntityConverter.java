@@ -37,6 +37,8 @@ public class EntityConverter {
 		updateAnimation(animator, config);
 		adjustMovementSpeed(enemy);
 		addEventTriggers(enemy, config);
+		
+		enemy.getEvents().trigger("convertToFriendlyNPC");
 	}
 	
 	private static BaseEntityConfig determineConfig(AnimationRenderComponent animator) {
