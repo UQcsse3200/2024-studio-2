@@ -298,11 +298,17 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
     // Monkey
     generator = () -> EnemyFactory.createMonkey(player);
-    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+    spawnMonkeyEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+    
+
 
     // Frog
     generator = () -> EnemyFactory.createFrog(player);
     spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+
+    //Bear
+    generator = () -> EnemyFactory.createBear(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
   }
 
   private void spawnFriendlyNPCs() {
@@ -392,6 +398,34 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       enemies.add(enemy);
       enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
     }
+  }
+  
+  private void spawnMonkeyEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+    
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      spawnEntityAt(enemy, randomPos, true, false);
+      enemies.add(enemy);
+      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+      enemy.getEvents().addListener("FireBanana", this::spawnBanana);
+    }
+  }
+  
+  private void spawnBanana(Entity enemy) {
+    Entity banana = ProjectileFactory.createBanana(player);
+    
+    // Calculate bananaX and bananaY based on target's relative position
+    float bananaX = (enemy.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+    float bananaY = (enemy.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+    // Calculate the new position using Vector2
+    Vector2 pos = new Vector2(enemy.getPosition().x + bananaX, enemy.getPosition().y + bananaY);
+    
+    //spawns
+    spawnEntityAtVector(banana, pos);
   }
 
   public void loadAssets() {
