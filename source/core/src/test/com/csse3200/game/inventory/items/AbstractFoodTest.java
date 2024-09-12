@@ -37,7 +37,7 @@ public class AbstractFoodTest {
 
     @BeforeEach
     void setUp() { // Initialize TestableItem and ItemUsageContext
-        stat = new CombatStatsComponent(50, 100,50,50,50,50, true);
+        stat = new CombatStatsComponent(50, 100,50,50,50,50, 100, true);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         food = new TestableItem("test", 3, 10, 3, 10);
         stat.setHunger(50);

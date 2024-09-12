@@ -161,8 +161,10 @@ public class GdxGame extends Game {
                 return new GameOverWinScreen(this);
             case GAME_OVER_LOSE:
                 return new GameOverLoseScreen(this);
-
-
+            case STORY:
+                return new StoryScreen(this);
+            case QUICK_TIME_EVENT:
+                return new QuickTimeEventScreen(this);
             default:
                 return null;
         }
@@ -174,7 +176,7 @@ public class GdxGame extends Game {
     public enum ScreenType {
         MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME,
-        BIRD_MINI_GAME
+        BIRD_MINI_GAME, QUICK_TIME_EVENT, STORY
     }
 
     /**
