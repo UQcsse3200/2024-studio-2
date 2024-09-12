@@ -48,7 +48,7 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
   private static final float WALL_WIDTH = 0.1f;
   private final TerrainFactory terrainFactory;
-  public static List<Entity> enemies = null;
+  private final List<Entity> enemies;
   // private final List<Entity> staticItems;
   private final Map<Integer, Entity> dynamicItems = new HashMap<>();
   private int totalItems = 0;
@@ -156,6 +156,10 @@ public class ForestGameArea extends GameArea {
    */
   public Entity getPlayer () {
     return player;
+  }
+  
+  public List<Entity> getEnemies() {
+    return enemies;
   }
 
   public void displayUI() {

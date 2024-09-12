@@ -35,7 +35,6 @@ public class EntityConverter {
 		removeEnemyComponents(enemy);
 		updateAIBehavior(enemy, player, enemies);
 		updateAnimation(animator, config);
-		updateComponents(enemy, config);
 		adjustMovementSpeed(enemy);
 		addEventTriggers(enemy, config);
 	}
@@ -81,14 +80,6 @@ public class EntityConverter {
 		animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 		animator.startAnimation("float");
 		animator.scaleEntity();
-	}
-	
-	private static void updateComponents(Entity enemy, BaseEntityConfig config) {
-		// Note: We don't have direct access to health in BaseEntityConfig
-		// You may need to add a getHealth() method to BaseEntityConfig or handle this differently
-		int defaultHealth = 10; // Using a default value; adjust as needed
-		enemy.addComponent(new CombatStatsComponent(defaultHealth, 0, 0, 0, 0, 0, 0, false))
-				.addComponent(new FriendlyNPCAnimationController());
 	}
 	
 	private static void adjustMovementSpeed(Entity enemy) {

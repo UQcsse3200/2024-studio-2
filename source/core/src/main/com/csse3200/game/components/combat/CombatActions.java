@@ -7,9 +7,12 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * This class listens to events relevant to the combat screen and does something when one of the
@@ -51,7 +54,12 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-    EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), ForestGameArea.enemies);
+    if (previousScreen instanceof MainGameScreen mainGameScreen) {
+	    ForestGameArea gameArea = mainGameScreen.getGameArea();
+      List<Entity> enemies = gameArea.getEnemies();
+      
+      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
+    }
     game.setOldScreen(previousScreen, previousServices);
   }
 
