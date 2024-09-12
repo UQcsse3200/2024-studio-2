@@ -37,6 +37,7 @@ public class QuestManager extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
+    private final Sound achievementComplete = ServiceLocator.getResourceService().getAsset("sounds/achievement-sound.mp3", Sound.class);
     /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
 
@@ -170,7 +171,6 @@ public class QuestManager extends Component {
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
 
-
     }
 
     /** Creates all tests for quests and dialogues */
@@ -248,6 +248,7 @@ public class QuestManager extends Component {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
+    
 
     /**
      * Automatically loads and registers all of the quests stored in GameState.
@@ -282,6 +283,7 @@ public class QuestManager extends Component {
     public QuestBasic getQuest(String questName) {
         return quests.get(questName);
     }
+
 
     /**
      * Checks if quest is failed.
@@ -348,11 +350,11 @@ public class QuestManager extends Component {
      * @param quest The quest that has been completed.
      */
     private void handleQuestCompletion(QuestBasic quest) {
-        player.getEvents().trigger(quest.getQuestName());
-        logger.info("{} completed!", quest.getQuestName());
         if (!quest.isSecret()) {
             questComplete.play();
             player.getEvents().trigger("questCompleted");
+            player.getEvents().trigger(quest.getQuestName());
+            logger.info("{} completed!", quest.getQuestName());
         }
     }
 
@@ -365,7 +367,7 @@ public class QuestManager extends Component {
     public void completeAchievement(Achievement achievement) {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
-            questComplete.play();
+            achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
             saveAchievements(achievements,"saves/achievements.json");
             logger.info("{} Completed!", achievement.getQuestName());
