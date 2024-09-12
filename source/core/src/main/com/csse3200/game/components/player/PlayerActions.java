@@ -120,7 +120,7 @@ public class PlayerActions extends Component {
       currentTask.stop();
       game.addBossCutsceneScreen(player, enemy);
     } else {
-      game.enterCombatScreen(player, enemy);
+      game.addEnemyCutsceneScreen(player, enemy);
     }
   }
 }
