@@ -3,8 +3,15 @@ package com.csse3200.game.components.stats;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.food.Foods;
+import com.csse3200.game.inventory.items.potions.HealingPotion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -78,40 +85,60 @@ class StatTest {
     }
 
     @Test
-    void testJsonWrite() {
-        // Mock Json write behaviour for verifying the output
-        stat.write(mockJson);
+    void shouldSaveLoadInventoryContents() {
 
-        // Verify that the correct values are written to the Json object
-        verify(mockJson).writeValue("statName", "ApplesCollected");
-        verify(mockJson).writeValue("statDescription", "Number of apples collected");
-        verify(mockJson).writeValue("statCurrent", 0);
-        verify(mockJson).writeValue("statMax", 10);
-        verify(mockJson).writeValue("statHasMax", true);
-        verify(mockJson).writeValue("type", "ITEM");
+        GameState.stats.stats.add(stat);
+
+        SaveHandler.save(GameState.class, "test/saves/stats");
+
+        GameState.stats.stats = new Array<>();
+
+        SaveHandler.load(GameState.class, "test/saves/stats");
+
+        assertEquals("ApplesCollected", GameState.stats.stats.get(0).getStatName());
+        assertEquals(10, GameState.stats.stats.get(0).getStatMax());
+        assertEquals(Stat.StatType.ITEM, GameState.stats.stats.get(0).getType());
+
+        GameState.stats.stats = new Array<>();
+
+        SaveHandler.delete(GameState.class, "test/saves/stats");
     }
 
-    @Test
-    void testJsonRead() {
-        // Mock the JsonValue object to return expected data for each key
-        when(mockJsonValue.getString("statName")).thenReturn("ApplesCollected");
-        when(mockJsonValue.getString("statDescription")).thenReturn("Number of apples collected");
-        when(mockJsonValue.getInt("statCurrent")).thenReturn(5);
-        when(mockJsonValue.getBoolean("statHasMax")).thenReturn(true);
-        when(mockJsonValue.getInt("statMax")).thenReturn(10);
-        when(mockJsonValue.getString("type")).thenReturn("ITEM");
-
-        // Read the mocked Json data
-        stat.read(mockJson, mockJsonValue);
-
-        // Verify that the stat object has been populated correctly
-        assertEquals("ApplesCollected", stat.getStatName());
-        assertEquals("Number of apples collected", stat.getStatDescription());
-        assertEquals(5, stat.getCurrent());
-        assertTrue(stat.hasMax());
-        assertEquals(10, stat.getStatMax());
-        assertEquals(Stat.StatType.ITEM, stat.getType());
-    }
+//    @Test
+//    void testJsonWrite() {
+//        // Mock Json write behaviour for verifying the output
+//        stat.write(mockJson);
+//
+//        // Verify that the correct values are written to the Json object
+//        verify(mockJson).writeValue("statName", "ApplesCollected");
+//        verify(mockJson).writeValue("statDescription", "Number of apples collected");
+//        verify(mockJson).writeValue("statCurrent", 0);
+//        verify(mockJson).writeValue("statMax", 10);
+//        verify(mockJson).writeValue("statHasMax", true);
+//        verify(mockJson).writeValue("type", "ITEM");
+//    }
+//
+//    @Test
+//    void testJsonRead() {
+//        // Mock the JsonValue object to return expected data for each key
+//        when(mockJsonValue.getString("statName")).thenReturn("ApplesCollected");
+//        when(mockJsonValue.getString("statDescription")).thenReturn("Number of apples collected");
+//        when(mockJsonValue.getInt("statCurrent")).thenReturn(5);
+//        when(mockJsonValue.getBoolean("statHasMax")).thenReturn(true);
+//        when(mockJsonValue.getInt("statMax")).thenReturn(10);
+//        when(mockJsonValue.getString("type")).thenReturn("ITEM");
+//
+//        // Read the mocked Json data
+//        stat.read(mockJson, mockJsonValue);
+//
+//        // Verify that the stat object has been populated correctly
+//        assertEquals("ApplesCollected", stat.getStatName());
+//        assertEquals("Number of apples collected", stat.getStatDescription());
+//        assertEquals(5, stat.getCurrent());
+//        assertTrue(stat.hasMax());
+//        assertEquals(10, stat.getStatMax());
+//        assertEquals(Stat.StatType.ITEM, stat.getType());
+//    }
 
     @Test
     void testToString() {

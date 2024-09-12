@@ -29,7 +29,7 @@ public class GameState {
     public static void resetState() {
         Logger logger = LoggerFactory.getLogger(GameState.class);
         logger.info("state is reset");
-        SaveHandler.load(GameState.class, "saves/defaultsaves");
+        SaveHandler.load(GameState.class, "defaultsaves");
     }
 
     public static boolean checkState() {
