@@ -17,7 +17,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
  * <p>This component should be added to a projectile entity. It requires the entity to have a
  * {@link CombatStatsComponent} to define its damage capabilities and a {@link HitboxComponent} to detect collisions.
  * When a collision is detected with an entity on the specified target layer, this component will deal damage to the
- * target if it has a {@link CombatStatsComponent}, and apply knockback if it has a {@link com.csse3200.game.physics.components.PhysicsMovementComponent}.
+ * target if it has a {@link CombatStatsComponent}.
  * The projectile is then disposed of after the collision.
  */
 public class ProjectileAttackComponent extends Component {

@@ -39,8 +39,6 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
   @Override
   public void start() {
     super.start();
-      System.out.println("firing banana");
-      // Set movementTask based on npc type
       movementTask = new MovementTask(targetPosition);
       movementTask.create(owner);
       movementTask.start();

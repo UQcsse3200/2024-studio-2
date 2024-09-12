@@ -13,16 +13,14 @@ public class BananaAnimationController extends Component {
   @Override
   public void create() {
     super.create();
-    // Get the AnimationRenderComponent associated with the entity and store it in the animator field
     animator = this.entity.getComponent(AnimationRenderComponent.class);
     entity.getEvents().addListener("ProjectileMove", this::animateFire);
   }
 
   //The following methods will be updated with new animations in future sprints,
   //so are currently placeholders
-
+  
   private void animateFire() {
-    System.out.println("BananaAnimationController animateFire");
     animator.startAnimation("fire");
   }
 }

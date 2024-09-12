@@ -62,11 +62,8 @@ public class ProjectileFactory {
     banana
             .addComponent(animator)
             .addComponent(new BananaAnimationController());
-    
-    //animator.scaleEntity();
     banana.setScale(0.5f, 0.5f);
     
-    //banana.getComponent(AnimationRenderComponent.class).scaleEntity();
     banana.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return banana;
