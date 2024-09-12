@@ -63,7 +63,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button loadBtn;
     private Button minigamesBtn;
     private Button settingsBtn;
-    private TextButton logbookBtn;
+    private Button logbookBtn;
     private TextButton statsBtn;
     private Button helpBtn;
     private Button exitBtn;
@@ -204,7 +204,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
         minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
         settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
-        logbookBtn = new TextButton("Logbook", skin);
+        logbookBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/logbook1.png"))));
         statsBtn = new TextButton("Stats", skin);
         helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
         exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
