@@ -89,6 +89,9 @@ public class GdxGame extends Game {
     public void addBossCutsceneScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
     }
+    public void addEnemyCutsceneScreen(Entity player, Entity enemy) {
+        addScreen(ScreenType.ENEMY_CUTSCENE, getScreen(), player, enemy);
+    }
 
     public void enterCombatScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
@@ -162,6 +165,8 @@ public class GdxGame extends Game {
                 return new CombatScreen(this, screen, container, player, enemy);
             case BOSS_CUTSCENE:
                 return new BossCutsceneScreen(this, screen, container, player, enemy);
+            case ENEMY_CUTSCENE:
+                return new EnemyCutsceneScreen(this, screen, container, player, enemy);
             case ACHIEVEMENTS:
                 return new AchievementsScreen(this);
             case MINI_GAME_MENU_SCREEN:
