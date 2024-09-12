@@ -72,19 +72,20 @@ public class PlayerFactory {
         player.addComponent(new PlayerActions(game, player, imagePath));
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true, false));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer()));
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
         }
 
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
-                .addComponent(new QuestPopup());
-        player.addComponent((new StatManager()));
+                .addComponent(new QuestManager(player))
+                .addComponent(new QuestPopup())
+                .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
         InventoryComponent inventoryComponent = new InventoryComponent(45);
@@ -98,7 +99,7 @@ public class PlayerFactory {
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        player.getComponent(StatManager.class).addStat(new Stat("KangaDefeated", "Kangaroos Defeated", 1));
+        //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
         return player;
@@ -113,7 +114,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false));
 
         combatPlayer.scaleHeight(90.0f);
 

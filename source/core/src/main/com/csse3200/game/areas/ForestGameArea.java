@@ -426,4 +426,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
   }
+
+  public List<Entity> getEnemies() {
+    return enemies;
+  }
 }
