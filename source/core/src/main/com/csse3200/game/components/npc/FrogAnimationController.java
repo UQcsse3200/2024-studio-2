@@ -18,11 +18,6 @@ public class FrogAnimationController extends Component {
     entity.getEvents().addListener("wanderRight", this::animateWanderRight);
     entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
     entity.getEvents().addListener("chaseRight", this::animateChaseRight);
-    entity.getEvents().addListener("spawnStart", this::animateSpawn);
-  }
-
-  private void animateSpawn() {
-    animator.startAnimation("spawn");
   }
 
   //The following methods will be updated with new animations in future sprints,

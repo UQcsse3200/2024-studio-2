@@ -52,34 +52,34 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     super.start();
     startPos = owner.getEntity().getPosition();
     Vector2 newPos = getRandomPosInRange();
-    if (this.isBoss) {
-      // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
-      waitTask.create(owner);
-      movementTask = new MovementTask(getRandomPosInRange());
-      movementTask.create(owner);
-      movementTask.start();
+      if (this.isBoss) {
+        // Wait for the spawn event to complete or for a specified duration before starting to wander
+        waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+        waitTask.create(owner);
+        movementTask = new MovementTask(getRandomPosInRange());
+        movementTask.create(owner);
+        movementTask.start();
 
-      currentTask = movementTask;
+        currentTask = movementTask;
 
-      this.owner.getEntity().getEvents().trigger("kangaWanderStart");
-    } else if(!isSpawned) {
-      logger.debug("Triggering spawn event");
-      this.owner.getEntity().getEvents().trigger("spawnStart");
-      isSpawned = true;
+        this.owner.getEntity().getEvents().trigger("kangaWanderStart");
+      } else if(!isSpawned) {
+          logger.debug("Triggering spawn event");
+          this.owner.getEntity().getEvents().trigger("spawnStart");
+          isSpawned = true;
 
-      // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
-      waitTask.create(owner);
-      swapTask(waitTask);
-    } else if (newPos.x - startPos.x < 0) {
+          // Wait for the spawn event to complete or for a specified duration before starting to wander
+          waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+          waitTask.create(owner);
+          swapTask(waitTask);
+      } else if (newPos.x - startPos.x < 0) {
       logger.debug("wandering right");
       this.owner.getEntity().getEvents().trigger("wanderLeft");
     } else {
       logger.debug("wandering left");
       this.owner.getEntity().getEvents().trigger("wanderRight");
     }
-    this.owner.getEntity().getEvents().trigger("wanderStart");
+      this.owner.getEntity().getEvents().trigger("wanderStart");
   }
 
   @Override

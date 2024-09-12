@@ -13,7 +13,7 @@ public class ProximityComponent extends Component {
     private final double proximityRange;
 
     /**
-     * @param target         the player entity, for detecting if it is in range
+     * @param target the player entity, for detecting if it is in range
      * @param proximityRange the range in which the player will cause the entity to
      *                       trigger the spawn animation and become enabled.
      */
@@ -27,13 +27,13 @@ public class ProximityComponent extends Component {
      * Triggers the "proximityTriggered" event when the entity is within the proximity range.
      */
     @Override
-    public void update() {
-        if (Vector2.dst(entity.getPosition().x, entity.getPosition().y,
-                target.getPosition().x, target.getPosition().y) < proximityRange) {
-            this.entity.getEvents().trigger("proximityTriggered");
-            this.entity.setEnabled(true); // Enable the entity when in proximity
+        public void update() {
+            if (Vector2.dst(entity.getPosition().x, entity.getPosition().y,
+                    target.getPosition().x, target.getPosition().y) < proximityRange) {
+                this.entity.getEvents().trigger("proximityTriggered");
+                this.entity.setEnabled(true); // Enable the entity when in proximity
+            }
         }
-    }
 
     /**
      * Sets up the spawn animation for the given entity.
@@ -41,10 +41,8 @@ public class ProximityComponent extends Component {
      *
      * @param entity the entity to set up the spawn animation for
      */
-
     void setupSpawnAnimation(Entity entity) {
         entity.setEnabled(false); // Disable the entity until proximity is triggered
-
         entity.getEvents().addListener("proximityTriggered", () -> {
             AnimationRenderComponent animationComponent = entity.getComponent(AnimationRenderComponent.class);
             animationComponent.startAnimation("spawn");
@@ -52,7 +50,7 @@ public class ProximityComponent extends Component {
             // Listen for when the spawn animation ends
             entity.getEvents().addListener("animationEnd", (String animationName) -> {
                 if (animationName.equals("spawn")) {
-                   animationComponent.startAnimation("walk");
+                    animationComponent.startAnimation("walk"); // Transition to walking after spawn
                 }
             });
         });

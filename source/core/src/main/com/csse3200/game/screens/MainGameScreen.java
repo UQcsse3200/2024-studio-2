@@ -102,9 +102,6 @@ public class MainGameScreen extends PausableScreen {
       TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
           this.gameArea = new ForestGameArea(terrainFactory, game);
 
-      // Register the game area with ServiceLocator
-      ServiceLocator.registerGameArea(gameArea);
-
       gameArea.create();
 
       Stage stage = ServiceLocator.getRenderService().getStage();

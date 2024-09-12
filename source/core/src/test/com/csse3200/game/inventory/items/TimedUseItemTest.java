@@ -102,7 +102,7 @@ class TimedUseItemTest  {
 
     @Test
     void testSpeedApplyEffect() throws InterruptedException {
-        float originalSpeed = player1.player.getComponent(CombatStatsComponent.class).getSpeed();
+        int originalSpeed = player1.player.getComponent(CombatStatsComponent.class).getSpeed();
         speedPotion.useItem(player1);
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
         speedPotion.update(player1);
