@@ -33,8 +33,8 @@ public class EntityConverter {
 		config.setFriendly(true);
 		
 		removeEnemyComponents(enemy);
-		updateAIBehavior(enemy, player, enemies);
 		updateAnimation(animator, config);
+		updateAIBehavior(enemy, player, enemies);
 		adjustMovementSpeed(enemy);
 		addEventTriggers(enemy, config);
 		
@@ -44,20 +44,27 @@ public class EntityConverter {
 	private static BaseEntityConfig determineConfig(AnimationRenderComponent animator) {
 		String currentAnimation = animator.getCurrentAnimation();
 		if (currentAnimation == null) {
+			configs.chicken.setFriendly(false);
 			return configs.chicken; // Default to chicken if no animation is set
 		}
 		
 		if (currentAnimation.contains("chicken")) {
+			//configs.chicken.setFriendly(false);
 			return configs.chicken;
 		} else if (currentAnimation.contains("frog")) {
+			//configs.frog.setFriendly(false);
 			return configs.frog;
 		} else if (currentAnimation.contains("monkey")) {
+			//configs.monkey.setFriendly(false);
 			return configs.monkey;
 		} else {
+			//configs.chicken.setFriendly(false);
 			return configs.chicken; // Default to chicken if type can't be determined
 		}
 	}
-	
+	public static BaseEntityConfig handleConfig(AnimationRenderComponent animator) {
+		return determineConfig(animator);
+	}
 	private static void removeEnemyComponents(Entity enemy) {
 		enemy.removeComponent(TouchAttackComponent.class);
 		enemy.removeComponent(CombatStatsComponent.class);

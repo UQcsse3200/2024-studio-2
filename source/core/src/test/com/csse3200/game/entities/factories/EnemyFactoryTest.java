@@ -57,7 +57,9 @@ class EnemyFactoryTest {
             "images/chicken.atlas",
             "images/enemy-chicken.atlas",
             "images/monkey.atlas",
+            "images/enemy-monkey.atlas",
             "images/frog.atlas",
+            "images/enemy-frog.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
