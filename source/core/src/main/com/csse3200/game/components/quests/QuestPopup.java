@@ -18,6 +18,8 @@ public class QuestPopup extends UIComponent {
     private boolean showing = false;
     /** Label for quest completion. */
     private Label questCompleted;
+
+    private Label questDetails;
     /** Scale of font size. */
     private static final float FONTSCALE = 2f;
 
@@ -55,18 +57,28 @@ public class QuestPopup extends UIComponent {
         if(showing) {
             //create the label
             questCompleted = new Label("Quest Completed!", skin,"title",Color.GOLD);
+            questDetails = new Label("See quest log for more details", skin,"title",Color.GOLD);
             questCompleted.setFontScale(FONTSCALE);
             stage.addActor(questCompleted);
+            stage.addActor(questDetails);
 
             // Position label and calculates position
             float screenHeight = Gdx.graphics.getHeight();
             float screenWidth = Gdx.graphics.getWidth();
             float displayX = (screenWidth / 2) - (questCompleted.getWidth() * FONTSCALE / 2);
             float displayY = (screenHeight / 2) - (questCompleted.getHeight() * FONTSCALE / 2);
-            questCompleted.setPosition( displayX, displayY);
+            float detailX = (screenWidth / 2) - (questDetails.getWidth() / 2);
+            float detailY = (screenHeight / 2) - (questDetails.getHeight() * FONTSCALE / 2) - questCompleted.getHeight();
+            questCompleted.setPosition(displayX, displayY);
+            questDetails.setPosition(detailX, detailY);
 
             //defines actions for label created
             questCompleted.addAction(Actions.sequence(
+                    Actions.fadeOut(1f),
+                    Actions.run(this::dispose)
+            ));
+
+            questDetails.addAction(Actions.sequence(
                     Actions.fadeOut(1f),
                     Actions.run(this::dispose)
             ));
@@ -77,9 +89,11 @@ public class QuestPopup extends UIComponent {
      */
     @Override
     public void dispose() {
-        if (questCompleted != null) {
+        if (questCompleted != null && questDetails != null) {
             questCompleted.remove();
+            questDetails.remove();
             questCompleted = null;
+            questDetails = null;
         }
         super.dispose();
     }

@@ -3,8 +3,8 @@
     "spritePath": "images/enemy-chicken.atlas",
     "health": 10,
     "baseAttack": 1,
-    "defense": 1,
-    "speed": 3,
+    "defense": 2,
+    "speed": 2,
     "isEnemy": 1
   },
   "frog": {
@@ -23,12 +23,29 @@
     "speed": 2,
     "isEnemy": 1
   },
+  "bear": {
+    "spritePath": "images/bear.atlas",
+    "health": 15,
+    "baseAttack": 10,
+    "defense": 15,
+    "speed": 1,
+    "experience": 50,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
     "health": 150,
     "baseAttack": 50,
     "defense": 50,
     "speed": 25,
+    "isEnemy": 1
+  },
+  "banana": {
+    "spritePath": "images/banana.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 2,
     "isEnemy": 1
   }
 }
