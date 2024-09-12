@@ -115,7 +115,7 @@ public class EnemyFactory {
 
     bear
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
-                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0, 0, false))
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0, 0, false, false))
             .addComponent(animator)
             .addComponent(new BearAnimationController());
 
@@ -385,7 +385,7 @@ public class EnemyFactory {
 
     bearEnemy
             .addComponent(new TextureRenderComponent("images/bear_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
 
     bearEnemy.setScale(150f,103.5f);
     //bearEnemy.scaleHeight(150.0f);

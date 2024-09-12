@@ -25,6 +25,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,22 +41,22 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class EnemyFactoryTest {
 
-    private Entity chicken;
-    private Entity frog;
-    private Entity monkey;
-    private Entity kanga;
-    private Entity bear;
+    private static Entity chicken;
+    private static Entity frog;
+    private static Entity monkey;
+    private static Entity kanga;
+    private static Entity bear;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
-    private String[] textures = {
+    private static String[] textures = {
             "images/chicken.png",
             "images/monkey.png",
             "images/frog.png",
             "images/bear.png"
     };
 
-    private String[] atlas = {
+    private static String[] atlas = {
             "images/chicken.atlas",
             "images/enemy-chicken.atlas",
             "images/monkey.atlas",
@@ -66,8 +67,8 @@ class EnemyFactoryTest {
 
 
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
