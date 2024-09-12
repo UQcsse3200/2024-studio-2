@@ -10,7 +10,6 @@ import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
  * a balanced reward suitable for players in the mid-game phase.
  */
 public class MediumGameLootBox extends LootBox {
-
     private final static String path = "images/chests/fancy-chest.png";
 
     /**
@@ -21,10 +20,8 @@ public class MediumGameLootBox extends LootBox {
      * @param player    The player Entity to which the loot box items will be added.
      */
     public MediumGameLootBox(MediumGameLootTable lootTable, int rolls, Entity player) {
-        super(lootTable, rolls, player );
+        super(lootTable, rolls, player);
         this.setTexturePath(path);
         this.setDescription("This is an MediumGameLootBox, Open it Up for Goodies!!!!");
     }
-
-
 }

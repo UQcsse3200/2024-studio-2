@@ -10,11 +10,12 @@ import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
-import com.csse3200.game.screens.MainGameScreen;
+
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class QuestDisplay extends UIComponent {
      * Screen that this
      */
     private PausableScreen screen;
+    /** Keeps track of number of quests per page */
+    private static final int numOfQuestsPerPage = 3;
+    /**Current page tracker */
+    private int currPage = 0;
+    /**List of quests */
+    private List<QuestBasic> listOfQuests = new ArrayList<>();
+
 
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
@@ -57,11 +65,13 @@ public class QuestDisplay extends UIComponent {
         }
     };
 
+    /** Creates a new quest display and sets the screen that can be paused. */
     public QuestDisplay(PausableScreen screen) {
         super();
         this.screen = screen;
     }
 
+    /**Creates the display */
     @Override
     public void create() {
         super.create();
@@ -79,16 +89,23 @@ public class QuestDisplay extends UIComponent {
         addQuestsCompletedLabel(table);
 
         if (questManager != null) {
-            List<QuestBasic> questList = questManager.getAllQuests();
-            questList.sort(questComparator);
+            listOfQuests = questManager.getAllQuests();
+            listOfQuests.sort(questComparator);
+            //
+            int start = currPage * numOfQuestsPerPage;
+            //
+            int end = Math.min(start + numOfQuestsPerPage, listOfQuests.size());
+            List<QuestBasic> questDisplay = listOfQuests.subList(start, end);
 
-            for (AbstractQuest quest : questList) {
+
+
+            for (AbstractQuest quest : questDisplay) {
                 if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
             }
 
-            updateQuestsCompletedLabel(table, questList);
+            updateQuestsCompletedLabel(table, listOfQuests);
         }
         return table;
     }
@@ -113,8 +130,10 @@ public class QuestDisplay extends UIComponent {
         Color questShownActive = determineQuestColor(quest);
 
         Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
+        questTitle.setFontScaleX(0.8f);
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
+        questProgressBar.setSize(0.5f, 0.5f);
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
 
@@ -150,16 +169,18 @@ public class QuestDisplay extends UIComponent {
     private void addQuestInfo(Table table, AbstractQuest quest) {
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
+        descLabel.setFontScale(0.70f);
 
-        table.add(descLabel).expandX().fillX().colspan(3);
-        table.row().padTop(5f);
+        table.add(descLabel).expandX().fillX().colspan(10);
+        table.row().padTop(1f);
 
         for (Task task : quest.getTasks()) {
             Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
             hintLabel.setColor(Color.GRAY);
+            hintLabel.setFontScale(0.70f);
 
-            table.add(hintLabel).expandX().fillX().colspan(3);
-            table.row().padTop(5f);
+            table.add(hintLabel).expandX().fillX().colspan(10);
+            table.row().padTop(1f);
         }
     }
 
@@ -179,7 +200,6 @@ public class QuestDisplay extends UIComponent {
      * @return A table containing the menu buttons.
      */
 
-    //menu button
     private Table makeMenuBtns() {
 
         TextButton exitBtn = new TextButton("Leave Menu", skin);
@@ -200,6 +220,28 @@ public class QuestDisplay extends UIComponent {
         });
 
 
+        nextPage.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if ((currPage + 1) * numOfQuestsPerPage < listOfQuests.size()) {
+                    currPage++;
+                    refreshTheUI();
+                }
+            }
+        });
+
+
+        prevPage.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (currPage > 0) {
+                    currPage--;
+                    refreshTheUI();
+                }
+            }
+        });
+
+
         Table table = new Table();
         table.add(prevPage).expandX().left().padRight(10f);
         table.add(exitBtn).expandX().center().padRight(10f);
@@ -209,6 +251,31 @@ public class QuestDisplay extends UIComponent {
 
         return table;
     }
+
+    /** Refreshes the UI so quest display components display properly without collision*/
+    private void refreshTheUI() {
+        rootTable.clearChildren();
+
+        Label title = new Label("QUESTS", skin, "title");
+        title.setColor(Color.RED);
+        title.setFontScale(1.2f);
+
+        float paddingTop = 28f;
+        rootTable.add(title).center().padTop(paddingTop).row();
+
+        Table questsTable = makeSliders();
+        if (questsTable.hasChildren()) {
+            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f).padTop(paddingTop).row();
+        }
+
+        Table menuBtns = makeMenuBtns();
+        rootTable.add(menuBtns).center().padTop(10f);
+
+        stage.addActor(rootTable);
+    }
+
+
+
 
     /**
      * Handles exiting the quest menu
@@ -235,29 +302,12 @@ public class QuestDisplay extends UIComponent {
         background.add(questsBackGround).center();
         stage.addActor(background);
 
-        Table menuBtns = makeMenuBtns();
-        Table questsTable = makeSliders();
-
         rootTable = new Table();
         rootTable.setSize(background.getWidth(), background.getHeight());
         rootTable.setFillParent(true);
 
+        refreshTheUI();
 
-        float paddingTop = 28f;
-
-        rootTable.add(title).center().padTop(paddingTop);
-
-
-        if (questsTable.hasChildren()) {
-            rootTable.row();
-            rootTable.add(questsTable).padBottom(560f - questsTable.getRows() * 40f).padTop(paddingTop);
-        }
-
-
-        rootTable.row();
-        rootTable.add(menuBtns).center().padTop(10f);
-
-        stage.addActor(rootTable);
     }
 
     /**

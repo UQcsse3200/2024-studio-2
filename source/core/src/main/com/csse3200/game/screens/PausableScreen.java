@@ -6,7 +6,11 @@ import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.overlays.QuestOverlay;
+
 import com.csse3200.game.overlays.PlayerStatsOverlay;
+
+import com.csse3200.game.overlays.SettingsOverlay;
+
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +68,8 @@ public class PausableScreen extends ScreenAdapter {
             case PLAYER_STATS_OVERLAY:
                 enabledOverlays.addFirst(new PlayerStatsOverlay(this));
                 break;
+            case SETTINGS_OVERLAY:
+                enabledOverlays.addFirst(new SettingsOverlay(this));
             default:
                 logger.warn("Unknown Overlay type: {}", overlayType);
                 break;
