@@ -1,4 +1,5 @@
 package com.csse3200.game.entities.factories;
+
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -31,6 +32,7 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +42,10 @@ import java.util.List;
  * <p>Predefined player properties are loaded from a config stored as a json file and should have
  * the properties stores in 'PlayerConfig'.
  */
+
 public class PlayerFactory {
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
-
-    /**
-     * Create a player entity.
-     * @return entity
-     */
     public static Entity createPlayer(GdxGame game) {
         String imagePath = GameState.player.selectedAnimalPath;
         InputComponent inputComponent =
@@ -57,7 +55,6 @@ public class PlayerFactory {
                 new Entity()
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
-                        // Notify terrain component when moving
                         .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
@@ -70,6 +67,8 @@ public class PlayerFactory {
         player.addComponent(new CombatMoveComponent(moveSet));
 
         player.addComponent(new PlayerActions(game, player, imagePath));
+
+        // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
                     player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
@@ -79,12 +78,14 @@ public class PlayerFactory {
                     player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
+
         }
 
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup())
+
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
@@ -92,6 +93,9 @@ public class PlayerFactory {
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());
+
+        // Add QuestManager to player
+        player.addComponent(new QuestManager(player));
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
@@ -101,6 +105,7 @@ public class PlayerFactory {
 
         return player;
     }
+
 
     /**
      * Create a player NPC to spawn in Combat
@@ -116,6 +121,10 @@ public class PlayerFactory {
         combatPlayer.scaleHeight(90.0f);
 
         return combatPlayer;
+    }
+
+    public static String getSelectedAnimalImagePath() {
+        return GameState.player.selectedAnimalPath;
     }
 
     /**
@@ -136,6 +145,7 @@ public class PlayerFactory {
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
     }
+
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
