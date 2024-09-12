@@ -51,6 +51,7 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
     game.returnFromCombat(previousScreen, previousServices, enemy);
   }
