@@ -96,6 +96,9 @@ public class PlayerFactory {
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
+        // Add QuestManager to player
+        player.addComponent(new QuestManager(player));
+
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
