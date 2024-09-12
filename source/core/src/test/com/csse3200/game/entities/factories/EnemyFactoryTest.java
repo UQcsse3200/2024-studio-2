@@ -125,9 +125,9 @@ class EnemyFactoryTest {
     void TestMonkeyStats() {
         assertTrue((monkey.getComponent(CombatStatsComponent.class).getHealth() > 8) && (monkey.getComponent(CombatStatsComponent.class).getHealth() < 12),
                 "Monkey should have between 9 and 11 HP inclusive.");
-        assertEquals(0,
+        assertEquals(1,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
-                "monkey should have 2 speed.");
+                "monkey should have 1 speed.");
     }
 
     /**
@@ -200,7 +200,7 @@ class EnemyFactoryTest {
     void TestChickenStats() {
         assertTrue((chicken.getComponent(CombatStatsComponent.class).getHealth() > 3) && (chicken.getComponent(CombatStatsComponent.class).getHealth() < 7),
                 "chicken should have between 4 and 6 HP.");
-        assertEquals(0,
+        assertEquals(2,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
                 "chicken should have 3 speed.");
     }
@@ -262,7 +262,7 @@ class EnemyFactoryTest {
     void TestFrogStats() {
         assertTrue((frog.getComponent(CombatStatsComponent.class).getHealth() > 2) && (frog.getComponent(CombatStatsComponent.class).getHealth() < 6),
                 "frog should have between 3 and 5 HP.");
-        assertEquals(0,
+        assertEquals(1,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
                 "frog should have 1 speed.");
     }

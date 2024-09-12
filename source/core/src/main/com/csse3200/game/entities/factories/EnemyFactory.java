@@ -104,6 +104,7 @@ public class EnemyFactory {
   public static Entity createBear(Entity target) {
     Entity bear = createBaseEnemy(target, EnemyType.BEAR);
     BaseEnemyEntityConfig config = configs.bear;
+    bear.setEnemyType(Entity.EnemyType.BEAR);
 
     TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
@@ -115,7 +116,7 @@ public class EnemyFactory {
 
     bear
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
-                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0))
+                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0, 0, false))
             .addComponent(animator)
             .addComponent(new BearAnimationController());
 
@@ -377,6 +378,24 @@ public class EnemyFactory {
     frogEnemy.scaleHeight(150.0f);
 
     return frogEnemy;
+  }
+
+  /**
+   * Creates frog enemy as NPC entity for static combat
+   * */
+  public static Entity createBearCombatEnemy() {
+    Entity bearEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.bear;
+    bearEnemy.setEnemyType(Entity.EnemyType.BEAR);
+
+    bearEnemy
+            .addComponent(new TextureRenderComponent("images/bear_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false));
+
+    bearEnemy.setScale(150f,103.5f);
+    //bearEnemy.scaleHeight(150.0f);
+
+    return bearEnemy;
   }
 
   private EnemyFactory() {
