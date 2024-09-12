@@ -91,6 +91,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         entity.getEvents().trigger("stoF");
         return true;
       // > end 
+      case Keys.I:
+        entity.getEvents().trigger("statsInfo");
+        return true;
       default:
         return false;
     }
