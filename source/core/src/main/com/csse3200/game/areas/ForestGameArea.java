@@ -340,19 +340,33 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     generator = () -> NPCFactory.createMagpie(player, this.enemies);
     spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
     
-    Entity convertedFriends = generator.get();
-    convertedFriends.getEvents().addListener("convertToFriendlyNPC", this::spawnConvertedEntity);
-    
+//    Supplier<Entity> chickenGenerator = () -> NPCFactory.createChicken(player, this.enemies);
+//    addConversionListener(chickenGenerator, config.spawns.NUM_CHICKENS);
+//
+//    Supplier<Entity> frogGenerator = () -> NPCFactory.createFrog(player, this.enemies);
+//    addConversionListener(frogGenerator, config.spawns.NUM_FROGS);
+//
+//    Supplier<Entity> monkeyGenerator = () -> NPCFactory.createMonkey(player, this.enemies);
+//    addConversionListener(monkeyGenerator, config.spawns.NUM_MONKEYS);
   }
   
-  private void spawnConvertedEntity(Supplier<Entity> creator, int numItems, double proximityRange) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
-    
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity convertedFriends = creator.get();
-    spawnEntityAt(convertedFriends, randomPos, true, false);
-  }
+//  private void addConversionListener(Supplier<Entity> generator, int numToSpawn) {
+//    Entity convertedFriend = generator.get();
+//    convertedFriend.getEvents().addListener("convertToFriendlyNPC",
+//            () -> spawnConvertedEntity(generator, numToSpawn, 20.0)
+//    );
+//  }
+//
+//  private void spawnConvertedEntity(Supplier<Entity> creator, int numItems, double proximityRange) {
+//    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - (int) proximityRange, PLAYER_SPAWN.y - (int) proximityRange);
+//    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + (int) proximityRange, PLAYER_SPAWN.y + (int) proximityRange);
+//
+//    for (int i = 0; i < numItems; i++) {
+//      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+//      Entity convertedFriend = creator.get();
+//      spawnEntityAt(convertedFriend, randomPos, true, false);
+//    }
+//  }
 
   private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
     GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);

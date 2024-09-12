@@ -54,7 +54,6 @@
     "soundPath": ["sounds/snake-hiss.wav"],
     "animalName": "Snake"
   },
-
   "magpie": {
     "baseHint": [["WHO GOES THERE!!",
                  "If you want to get past me you must pay",
@@ -75,7 +74,7 @@
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Fish"
   },
-  "friendly-chicken": {
+  "chicken": {
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Charlie the Chicken."]
     ],
@@ -84,7 +83,7 @@
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Chicken"
   },
-  "friendly-frog": {
+  "frog": {
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Fred the Frog."]
     ],
@@ -93,7 +92,7 @@
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Frog"
   },
-  "friendly-monkey": {
+  "monkey": {
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Max the Monkey."]
     ],
