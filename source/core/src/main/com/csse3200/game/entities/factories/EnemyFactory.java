@@ -328,7 +328,7 @@ public class EnemyFactory {
 
 
   /**
-   * Creates chicken enemy as NPC entity for static combat
+   * Creates chicken enemy as NPC entity for static combat.
    * */
   public static Entity createChickenCombatEnemy() {
     Entity chickenEnemy = createCombatBossNPC();
