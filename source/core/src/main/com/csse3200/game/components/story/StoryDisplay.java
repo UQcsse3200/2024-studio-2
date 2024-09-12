@@ -23,20 +23,15 @@ public class StoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StoryDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-    private final Texture[] backgroundTextures = {
-            new Texture("images/Story/DogStory1.png"),
-            new Texture("images/Story/DogStory2.png"),
-            new Texture("images/Story/DogStory3.png"),
-            new Texture("images/Story/DogStory4.png"),
-            new Texture("images/Story/DogStory5.png"),
-            new Texture("images/Story/DogStory6.png")
-    };
+    private final Texture[] backgroundTextures;
     private final int screenNum;
-    private final int finalScreen = backgroundTextures.length - 1;
+    private final int finalScreen;
 
-    public StoryDisplay(int screenNum) {
+    public StoryDisplay(Texture[] backgroundTextures, int screenNum) {
         super();
+        this.backgroundTextures = backgroundTextures;
         this.screenNum = screenNum;
+        finalScreen = backgroundTextures.length - 1;
     }
 
     /**
