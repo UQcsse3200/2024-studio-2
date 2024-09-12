@@ -41,7 +41,8 @@ public class Entity {
     KANGAROO,
     CHICKEN,
     MONKEY,
-    FROG
+    FROG,
+    BEAR
   }
 
 
