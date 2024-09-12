@@ -1,6 +1,6 @@
 {
   "chicken": {
-    "spritePath": "images/chicken.atlas",
+    "spritePath": "images/enemy-chicken.atlas",
     "health": 10,
     "baseAttack": 1,
     "defense": 1,
@@ -8,7 +8,7 @@
     "isEnemy": 1
   },
   "frog": {
-    "spritePath": "images/frog.atlas",
+    "spritePath": "images/enemy-frog.atlas",
     "health": 100,
     "baseAttack": 25,
     "defense": 25,
@@ -16,7 +16,7 @@
     "isEnemy": 1
   },
   "monkey": {
-    "spritePath": "images/monkey.atlas",
+    "spritePath": "images/enemy-monkey.atlas",
     "health": 100,
     "baseAttack": 25,
     "defense": 25,
