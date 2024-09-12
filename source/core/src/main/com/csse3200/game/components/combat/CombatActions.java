@@ -57,12 +57,12 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-    if (previousScreen instanceof MainGameScreen mainGameScreen) {
-      ForestGameArea gameArea = mainGameScreen.getGameArea();
-      List<Entity> enemies = gameArea.getEnemies();
-      
-      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
-    }
+//    if (previousScreen instanceof MainGameScreen mainGameScreen) {
+//      ForestGameArea gameArea = mainGameScreen.getGameArea();
+//      List<Entity> enemies = gameArea.getEnemies();
+//
+//      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
+//    }
     game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
