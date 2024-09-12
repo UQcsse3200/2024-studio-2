@@ -74,5 +74,32 @@
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Fish"
+  },
+  "friendly-chicken": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Charlie the Chicken."]
+    ],
+    "spritePath": "images/chicken.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/FishBubble.wav"],
+    "animalName": "Chicken"
+  },
+  "friendly-frog": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Fred the Frog."]
+    ],
+    "spritePath": "images/frog.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/FishBubble.wav"],
+    "animalName": "Frog"
+  },
+  "friendly-monkey": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Max the Monkey."]
+    ],
+    "spritePath": "images/monkey.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/FishBubble.wav"],
+    "animalName": "Monkey"
   }
 }
