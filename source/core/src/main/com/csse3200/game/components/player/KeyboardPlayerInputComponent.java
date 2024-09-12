@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.utils.math.Vector2Utils;
+import com.csse3200.game.areas.MapHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +83,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
+      // >  temporary keybinds for switching maps
+      case Keys.L:
+        entity.getEvents().trigger("switchMap");
+        return true;
+      case Keys.K:
+        entity.getEvents().trigger("stoF");
+        return true;
+      // > end 
       case Keys.I:
         entity.getEvents().trigger("statsInfo");
         return true;

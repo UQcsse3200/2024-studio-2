@@ -73,6 +73,15 @@ public abstract class GameArea implements Disposable {
     spawnEntity(entity);
   }
 
+  public abstract Entity getPlayer();
+  public abstract void unloadAssets();
+
+  public abstract void pauseMusic();
+
+  public abstract void playMusic();
+
+  public abstract List<Entity> getEnemies();
+
   /**
    * Spawns an entity at a specified world position.
    *
@@ -87,4 +96,5 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+
 }

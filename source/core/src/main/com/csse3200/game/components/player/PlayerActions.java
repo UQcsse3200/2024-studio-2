@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
@@ -50,12 +51,30 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("statsInfo", this::statsInfo);
     entity.getEvents().addListener("startCombat", this::startCombat);
+    entity.getEvents().addListener("switchMap", this::switchMap);
+    entity.getEvents().addListener("stoF", this::stof);
 
     if ("images/dog.png".equals(selectedAnimal)) {
       Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
       Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
       dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
     }
+  }
+
+  /**
+   * Switches to the forest map.
+   */
+  private void stof() {
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.FOREST);
+  }
+
+  /**
+   * Switches to the water map.
+   */
+  private void switchMap() {
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.WATER);
   }
 
   @Override

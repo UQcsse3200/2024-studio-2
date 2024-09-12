@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -43,8 +44,8 @@ public class StatDisplay extends UIComponent {
     public StatDisplay(GdxGame game) {
         super();
         this.game = game;
-        StatSaveManager statSaveManager = new StatSaveManager();
-        this.stats = statSaveManager.getStats();
+//        StatSaveManager statSaveManager = new StatSaveManager();
+        this.stats = GameState.stats.stats;
     }
 
     /**
@@ -226,8 +227,9 @@ public class StatDisplay extends UIComponent {
         table.add(titleLabel).colspan(2).padBottom(35);  // Spanning across both columns and adding some padding below
         table.row();  // Move to the next row for stats
 
+        logger.info("stats are: {}", stats);
         for (Stat stat : stats) {
-            logger.info("stats are: {}", stats);
+            logger.info("stat is: {}", stat);
             if (stat.getCurrent() != 0 && stat.getType() == type) {
                 // Create labels to display stat information
                 Label statNameLabel = new Label(String.valueOf(stat.getStatName()), skin);
