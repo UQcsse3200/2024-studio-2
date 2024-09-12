@@ -105,7 +105,8 @@ public class EnemyFactory {
             .addComponent(new BearAnimationController());
 
 
-    bear.getComponent(AnimationRenderComponent.class).scaleEntity();
+    bear.setScale(2f,1.38f);
+    //bear.getComponent(AnimationRenderComponent.class).scaleEntity();
     bear.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return bear;
