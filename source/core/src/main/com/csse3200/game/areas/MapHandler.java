@@ -1,5 +1,6 @@
 package com.csse3200.game.areas;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.csse3200.game.areas.ForestGameArea;
@@ -10,6 +11,7 @@ import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.GdxGame;
 
 public class MapHandler {
+  private static GameArea currentGameArea;
   private static MapType currentMap = MapType.NONE;
   private static MapType previousMap = MapType.NONE;
 
@@ -33,8 +35,9 @@ public class MapHandler {
    * @param renderer renderer
    * @param game game
    * @param saveState save state
+   * @return 
    */
-  public static void switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
+  public static GameArea switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
     // TODO: save state
     if (saveState && currentMap != MapType.NONE) {
       // currentMap.saveState();
@@ -48,15 +51,16 @@ public class MapHandler {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     if (mapType == MapType.FOREST) {
-      forestGameArea = new ForestGameArea(terrainFactory, game);
-      forestGameArea.create();
+      currentGameArea = new ForestGameArea(terrainFactory, game);
+      currentGameArea.create();
     } else if (mapType == MapType.WATER) {
-      waterGameArea = new WaterGameArea(terrainFactory, game);
-      waterGameArea.create();
+      currentGameArea = new WaterGameArea(terrainFactory, game);
+      currentGameArea.create();
     }
 
     previousMap = currentMap;
     currentMap = mapType;
+    return currentGameArea;
   }
 
   /**

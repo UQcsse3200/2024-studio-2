@@ -362,7 +362,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
-  public static void playMusic() {
+  public void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
@@ -377,7 +377,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         AudioManager.playMusic("sounds/track_2.mp3", true);
     }
   }
-  public static void pauseMusic() {
+  public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
     AudioManager.stopMusic();  // Stop the music

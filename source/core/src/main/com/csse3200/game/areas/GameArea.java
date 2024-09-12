@@ -76,5 +76,11 @@ public abstract class GameArea implements Disposable {
   //public abstract void pauseMusic();
   public abstract Entity getPlayer();
   public abstract void unloadAssets();
+
+public abstract void pauseMusic();
+
+public abstract void playMusic();
+
+public abstract List<Entity> getEnemies();
   
 }

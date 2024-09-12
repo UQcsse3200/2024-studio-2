@@ -21,6 +21,7 @@ import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
@@ -142,7 +143,7 @@ public class CombatGameArea extends GameArea {
     spawnEntityAt(combatEnemyNPC, ENEMY_COMBAT_SPAWN, true, true);
   }
 
-  public static void playMusic() {
+  public void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
@@ -157,7 +158,7 @@ public class CombatGameArea extends GameArea {
         AudioManager.playMusic("sounds/track_2.mp3", true);
     }
   }
-  public static void pauseMusic() {
+  public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
     AudioManager.stopMusic();  // Stop the music
@@ -197,5 +198,11 @@ public class CombatGameArea extends GameArea {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+
+  @Override
+  public List<Entity> getEnemies() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
   }
 }

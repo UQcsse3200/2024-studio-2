@@ -48,23 +48,19 @@ public class MainGameScreen extends PausableScreen {
    * Logger instance for logging debug, info, and warning messages.
    */
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+
   /**
    * Array of texture paths used in the main game screen.
    */
-<<<<<<< HEAD
-  private static final String[] mainGameTextures = { "images/health_bar_x1.png",
-      AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png", "images/vignette.png",
-      "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png",
-      "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png" };
-=======
   private static final String[] mainGameTextures = {"images/health_bar_x1.png",
           GameState.player.selectedAnimalPath, "images/player_icon_forest.png", "images/vignette.png",
           "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
->>>>>>> 6f32f1cf2ccf0434ab2c61cfb58f693cdc9abba1
+
   /**
    * Initial position of the camera in game.
    */
   private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
+
   /**
    * Flag indicating whether the game is currently paused.
    */
@@ -74,10 +70,16 @@ public class MainGameScreen extends PausableScreen {
    * Renderer for rendering game graphics.
    */
   private final Renderer renderer;
+
   /**
    * Physics engine for handling physics simulations in the game.
    */
   private final PhysicsEngine physicsEngine;
+
+  /**
+   * The game area containing the main game.
+   */
+  private GameArea gameArea;
 
   /**
    * Constructs a MainGameScreen instance.
@@ -111,10 +113,8 @@ public class MainGameScreen extends PausableScreen {
 
     setMap(MapHandler.MapType.FOREST);
 
-<<<<<<< HEAD
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
-
   }
 
   /**
@@ -123,276 +123,136 @@ public class MainGameScreen extends PausableScreen {
    * @param mapType The map type to set the map to.
    */
   public void setMap(MapHandler.MapType mapType) {
-    MapHandler.switchMapTo(mapType, renderer, game, true);
+    this.gameArea = MapHandler.switchMapTo(mapType, renderer, game, true);
   }
 
   /**
-   * Renders the game screen and updates the physics engine, game entities, and
-   * renderer.
-   * 
+   * Renders the game screen and updates the physics engine, game entities, and renderer.
    * @param delta The time elapsed since the last render call.
    */
   @Override
   public void render(float delta) {
-    if (!isPaused) {
-      physicsEngine.update();
-      ServiceLocator.getEntityService().update();
-      renderer.render();
-    }
+      if (!isPaused){
+          physicsEngine.update();
+          ServiceLocator.getEntityService().update();
+          renderer.render();
+      }
   }
-
+  
   /**
    * Resizes the renderer to fit dimensions.
-   * 
    * @param width  width of the screen.
    * @param height height of the screen.
    */
   @Override
   public void resize(int width, int height) {
-    renderer.resize(width, height);
-    logger.trace("Resized renderer: ({} x {})", width, height);
+      renderer.resize(width, height);
+      logger.trace("Resized renderer: ({} x {})", width, height);
   }
-
+  
   /**
    * Pauses the game, stopping any ongoing music and setting the paused state.
    */
   @Override
   public void pause() {
-    isPaused = true;
-    AudioManager.stopMusic();
-    //MapHandler.getCurrentMap().pauseMusic();
-    logger.info("Game paused");
+      isPaused = true;
+      gameArea.pauseMusic();
+      logger.info("Game paused");
   }
-
+  
   /**
    * Resumes the game and restarts music if not in resting state.
    */
   @Override
   public void resume() {
-    isPaused = false;
-    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer()
-        .getComponent(KeyboardPlayerInputComponent.class);
-    inputComponent.resetVelocity();
-    if (!resting) {
-      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
-      //MapHandler.getCurrentMap().playMusic();
-    }
-    logger.info("Game resumed");
+      isPaused = false;
+      KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+      inputComponent.resetVelocity();
+      if (!resting) {
+          gameArea.playMusic();
+      }
+      logger.info("Game resumed");
   }
-
+  
   /**
    * Disposes of resources used by the game screen.
    */
   @Override
   public void dispose() {
-    logger.debug("Disposing main game screen");
-
-    renderer.dispose();
-    unloadAssets();
-
-    ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getResourceService().dispose();
-
-    ServiceLocator.clear();
+      logger.debug("Disposing main game screen");
+      
+      renderer.dispose();
+      unloadAssets();
+      
+      ServiceLocator.getEntityService().dispose();
+      ServiceLocator.getRenderService().dispose();
+      ServiceLocator.getResourceService().dispose();
+      
+      ServiceLocator.clear();
   }
-
+  
   /**
    * Loads assets required for the main game screen.
    */
   private void loadAssets() {
-    logger.debug("Loading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(mainGameTextures);
-    ServiceLocator.getResourceService().loadAll();
+      logger.debug("Loading assets");
+      ResourceService resourceService = ServiceLocator.getResourceService();
+      resourceService.loadTextures(mainGameTextures);
+      ServiceLocator.getResourceService().loadAll();
   }
-
+  
   /**
    * Unloads assets that are no longer needed.
    */
   private void unloadAssets() {
-    logger.debug("Unloading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(mainGameTextures);
+      logger.debug("Unloading assets");
+      ResourceService resourceService = ServiceLocator.getResourceService();
+      resourceService.unloadAssets(mainGameTextures);
   }
-
+  
   /**
-   * Creates the main game's ui including components for rendering ui elements to
-   * the screen and
+   * Creates the main game's ui including components for rendering ui elements to the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
-    logger.debug("Creating ui");
-    Stage stage = ServiceLocator.getRenderService().getStage();
-    InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
-    Entity ui = new Entity();
-
-    Component mainGameActions = new MainGameActions(this.game);
-    ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new PerformanceDisplay())
-        .addComponent(mainGameActions)
-        .addComponent(new MainGameExitDisplay(mainGameActions))
-        .addComponent(new Terminal())
-        .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
-
-    ServiceLocator.getEntityService().register(ui);
+      logger.debug("Creating ui");
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      InputComponent inputComponent =
+              ServiceLocator.getInputService().getInputFactory().createForTerminal();
+      
+      Entity ui = new Entity();
+      
+      Component mainGameActions = new MainGameActions(this.game);
+      ui.addComponent(new InputDecorator(stage, 10))
+              .addComponent(new PerformanceDisplay())
+              .addComponent(mainGameActions)
+              .addComponent(new MainGameExitDisplay(mainGameActions))
+              .addComponent(new Terminal())
+              .addComponent(inputComponent)
+              .addComponent(new TerminalDisplay());
+      
+      ServiceLocator.getEntityService().register(ui);
   }
-
+  
   /**
    * Puts the screen into a resting state, pausing music and resting all entities.
    */
   public void rest() {
-    super.rest();
-    AudioManager.stopMusic();
-    //MapHandler.getCurrentMap().pauseMusic();
+      super.rest();
+      gameArea.pauseMusic();
   }
-
+  
   /**
    * Wakes the screen from a resting state.
    */
   public void wake() {
-    super.wake();
-    KeyboardPlayerInputComponent inputComponent = MapHandler.getCurrentMap().getPlayer()
-        .getComponent(KeyboardPlayerInputComponent.class);
-    inputComponent.resetVelocity();
-    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
-    //MapHandler.getCurrentMap().playMusic();
+      super.wake();
+      KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+      inputComponent.resetVelocity();
+      gameArea.playMusic();
   }
-=======
-      Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
-    }
 
-    /**
-     * Renders the game screen and updates the physics engine, game entities, and renderer.
-     * @param delta The time elapsed since the last render call.
-     */
-    @Override
-    public void render(float delta) {
-        if (!isPaused){
-            physicsEngine.update();
-            ServiceLocator.getEntityService().update();
-            renderer.render();
-        }
-    }
-    
-    /**
-     * Resizes the renderer to fit dimensions.
-     * @param width  width of the screen.
-     * @param height height of the screen.
-     */
-    @Override
-    public void resize(int width, int height) {
-        renderer.resize(width, height);
-        logger.trace("Resized renderer: ({} x {})", width, height);
-    }
-    
-    /**
-     * Pauses the game, stopping any ongoing music and setting the paused state.
-     */
-    @Override
-    public void pause() {
-        isPaused = true;
-        gameArea.pauseMusic();
-        logger.info("Game paused");
-    }
-    
-    /**
-     * Resumes the game and restarts music if not in resting state.
-     */
-    @Override
-    public void resume() {
-        isPaused = false;
-        KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
-        inputComponent.resetVelocity();
-        if (!resting) {
-            gameArea.playMusic();
-        }
-        logger.info("Game resumed");
-    }
-    
-    /**
-     * Disposes of resources used by the game screen.
-     */
-    @Override
-    public void dispose() {
-        logger.debug("Disposing main game screen");
-        
-        renderer.dispose();
-        unloadAssets();
-        
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getResourceService().dispose();
-        
-        ServiceLocator.clear();
-    }
-    
-    /**
-     * Loads assets required for the main game screen.
-     */
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainGameTextures);
-        ServiceLocator.getResourceService().loadAll();
-    }
-    
-    /**
-     * Unloads assets that are no longer needed.
-     */
-    private void unloadAssets() {
-        logger.debug("Unloading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainGameTextures);
-    }
-    
-    /**
-     * Creates the main game's ui including components for rendering ui elements to the screen and
-     * capturing and handling ui input.
-     */
-    private void createUI() {
-        logger.debug("Creating ui");
-        Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
-        
-        Entity ui = new Entity();
-        
-        Component mainGameActions = new MainGameActions(this.game);
-        ui.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(mainGameActions)
-                .addComponent(new MainGameExitDisplay(mainGameActions))
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-        
-        ServiceLocator.getEntityService().register(ui);
-    }
-    
-    /**
-     * Puts the screen into a resting state, pausing music and resting all entities.
-     */
-    public void rest() {
-        super.rest();
-        gameArea.pauseMusic();
-    }
-    
-    /**
-     * Wakes the screen from a resting state.
-     */
-    public void wake() {
-        super.wake();
-        KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
-        inputComponent.resetVelocity();
-        gameArea.playMusic();
-    }
->>>>>>> 6f32f1cf2ccf0434ab2c61cfb58f693cdc9abba1
-
-  //public ForestGameArea getGameArea() {
-  //  return gameArea;
-  //}
+  public GameArea getGameArea() {
+    return gameArea;
+  }
 }
