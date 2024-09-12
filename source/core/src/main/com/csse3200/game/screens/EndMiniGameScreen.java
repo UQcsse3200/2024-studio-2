@@ -79,6 +79,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
             if (player != null) {
                 logger.info("Adding loot box to player's inventory.");
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
+                // Rewarding achievement to player
+                logger.info("Achievement trigger {} {}", gameName.name(),getMedal(score).name());
+                player.getEvents().trigger("miniGame",gameName,getMedal(score));
             }
         } else {
             this.player = null;

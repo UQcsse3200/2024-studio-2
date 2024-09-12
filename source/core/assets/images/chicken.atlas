@@ -59,3 +59,32 @@ spawn
   orig: 16, 16
   offset: 0, 0
   index: 3
+alert
+  rotate: false
+  xy: 0,32
+  size:16,16
+  orig:16,16
+  offset:0,0
+  index:0
+alert
+  rotate: false
+  xy: 16,32
+  size:16,16
+  orig:16,16
+  offset:0,0
+  index:1
+alert
+  rotate: false
+  xy: 32,32
+  size:16,16
+  orig:16,16
+  offset:0,0
+  index:2
+alert
+  rotate: false
+  xy: 48,32
+  size:16,16
+  orig:16,16
+  offset:0,0
+  index:3
+

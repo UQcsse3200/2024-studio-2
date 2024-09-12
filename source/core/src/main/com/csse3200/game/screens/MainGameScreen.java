@@ -112,6 +112,11 @@ public class MainGameScreen extends PausableScreen {
     logger.debug("Initialising main game screen entities");
 
     setMap(MapHandler.MapType.FOREST);
+    
+    // Register the game area with ServiceLocator
+    ServiceLocator.registerGameArea(gameArea);
+
+    gameArea.create();
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));

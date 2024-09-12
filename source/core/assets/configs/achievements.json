@@ -4,56 +4,162 @@
   "questDescription": "Collect your first apple!",
   "completed": false,
   "seen": false,
-  "type": "ITEM"
+  "type": "ITEM",
+  "iconPath": "images/foodtextures/apple.png"
 },
   {
     "questName": "Attack PotionAdvancement",
     "questDescription": "Collect your first Attack Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/attack.png"
   },
   {
     "questName": "Defense PotionAdvancement",
     "questDescription": "Collect your first Defense Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/defense.png"
   },
   {
     "questName": "Health PotionAdvancement",
     "questDescription": "Collect your first Healing Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/Healthpotion.png"
   },
   {
     "questName": "Speed PotionAdvancement",
     "questDescription": "Collect your first Speed Potion!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/potiontexture/speed.png"
   },
   {
     "questName": "Chicken LegAdvancement",
     "questDescription": "Collect your first Chicken Leg!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/chicken_leg.png"
   },
   {
     "questName": "MeatAdvancement",
     "questDescription": "Collect your first Meat!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/meat.png"
   },
   {
     "questName": "CandyAdvancement",
     "questDescription": "Collect your first Candy!",
     "completed": false,
     "seen": false,
-    "type": "ITEM"
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/candy.png"
+  },
+  {
+    "questName": "CarrotAdvancement",
+    "questDescription": "Collect your first Carrot!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/carrot.png"
+  },
+  {
+    "questName": "First Steps",
+    "questDescription": "Take your first steps in this world!",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/first-steps.png"
+  },
+  {
+    "questName": "BRONZE SNAKE",
+    "questDescription": "Finish the snake mini game with a bronze medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-bronze.png"
+  },
+  {
+    "questName": "SILVER SNAKE",
+    "questDescription": "Finish the snake mini game with a silver medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-silver.png"
+  },
+  {
+    "questName": "GOLD SNAKE",
+    "questDescription": "Finish the snake mini game with a gold medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/snake-gold.png"
   }
-
+,
+  {
+    "questName": "BRONZE BIRD",
+    "questDescription": "Finish the bird mini game with a bronze medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-bronze.png"
+  },
+  {
+    "questName": "SILVER BIRD",
+    "questDescription": "Finish the bird mini game with a silver medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-silver.png"
+  },
+  {
+    "questName": "GOLD BIRD",
+    "questDescription": "Finish the bird mini game with a gold medal",
+    "completed": false,
+    "seen": false,
+    "type": "ADVANCEMENT",
+    "iconPath": "images/logbook/icons/bird-gold.png"
+  }
+,
+  {
+    "questName": "MONKEY",
+    "questDescription": "Defeat the fearsome monkey!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/monkey.png"
+  }
+,
+  {
+    "questName": "CHICKEN",
+    "questDescription": "Defeat the terrifying chicken!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/chicken.png"
+  },
+  {
+    "questName": "FROG",
+    "questDescription": "Defeat the dangerous frog!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/logbook/icons/frog.png"
+  },
+  {
+    "questName": "KANGAROO",
+    "questDescription": "Defeat the MIGHTY KANGAROO!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/final_boss_kangaroo_idle.png"
+  }
 ]

@@ -3,6 +3,13 @@ size: 800, 444
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+spawn
+  rotate: false
+  xy: 13, 119
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
 angry_float
   rotate: false
   xy: 13, 119

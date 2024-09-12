@@ -1,5 +1,6 @@
 package com.csse3200.game.components.mainmenu;
 
+import com.badlogic.gdx.Game;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.gamestate.GameState;
@@ -39,7 +40,7 @@ public class MainMenuActions extends Component {
   private void onStart() {
     logger.info("Start game");
 
-    GameState.clearState();
+    GameState.resetState();
 
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
@@ -52,8 +53,11 @@ public class MainMenuActions extends Component {
     logger.info("Load game");
 
     SaveHandler.load(GameState.class, "saves");
-    if(GameState.player == null) {
-      GameState.player = new PlayerSave();
+//    if(GameState.player == null) {
+//      GameState.player = new PlayerSave();
+//    }
+    if(GameState.checkState()) {
+      GameState.resetState();
     }
     if(GameState.player.selectedAnimalPath == null) {
       game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
