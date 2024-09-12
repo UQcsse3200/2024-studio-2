@@ -142,51 +142,56 @@ public class GdxGame extends Game {
         return newScreen(screenType, screen, container, null, null);
     }
 
-  /**
-   * Create a new screen of the provided type.
-   * @param screenType screen type
-   * @param screen for returning to an old screen, may be null.
-   * @param container container for services, for returning to an old screen. may be null.
-   * @param player player entity to be passed into the new screen (null if not needed).
-   * @param enemy enemy entity to be passed into the new screen (null if not needed).
-   * @return new screen
-   */
-  private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    switch (screenType) {
-      case MAIN_MENU:
-        return new MainMenuScreen(this);
-      case MAIN_GAME:
-        return new MainGameScreen(this);
-        case COMBAT:
-            return new CombatScreen(this, screen, container, player, enemy);
-        case BOSS_CUTSCENE:
-            return new BossCutsceneScreen(this, screen, container, player, enemy);
-        case ENEMY_CUTSCENE:
-          return new AchievementsScreen(this);
-        case MINI_GAME_MENU_SCREEN:
-          return new MiniGameMenuScreen(this);
-        case SNAKE_MINI_GAME:
-              return new SnakeScreen(this, screen, container);
-        case BIRD_MINI_GAME:
-            return new BirdieDashScreen(this, screen, container);
-        case LOADING_SCREEN:
-            return new LoadingScreen(this);
-        case ANIMAL_SELECTION:
-            return new LandAnimalSelectionScreen(this);
-        case END_GAME_STATS:
-            return new EndGameStatsScreen(this);
-          default:
-              return null;
-      }
-  }
+    /**
+     * Create a new screen of the provided type.
+     *
+     * @param screenType screen type
+     * @param screen     for returning to an old screen, may be null.
+     * @param container  container for services, for returning to an old screen. may be null.
+     * @param player     player entity to be passed into the new screen (null if not needed).
+     * @param enemy      enemy entity to be passed into the new screen (null if not needed).
+     * @return new screen
+     */
+    private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+        switch (screenType) {
+            case MAIN_MENU:
+                return new MainMenuScreen(this);
+            case MAIN_GAME:
+                return new MainGameScreen(this);
+            case COMBAT:
+                return new CombatScreen(this, screen, container, player, enemy);
+            case BOSS_CUTSCENE:
+                return new BossCutsceneScreen(this, screen, container, player, enemy);
+            case ACHIEVEMENTS:
+                return new AchievementsScreen(this);
+            case MINI_GAME_MENU_SCREEN:
+                return new MiniGameMenuScreen(this);
+            case SNAKE_MINI_GAME:
+                return new SnakeScreen(this, screen, container);
+            case BIRD_MINI_GAME:
+                return new BirdieDashScreen(this, screen, container);
+            case LOADING_SCREEN:
+                return new LoadingScreen(this);
+            case ANIMAL_SELECTION:
+                return new LandAnimalSelectionScreen(this);
+            case END_GAME_STATS:
+                return new EndGameStatsScreen(this);
+            case GAME_OVER_LOSE:
+                return new GameOverLoseScreen(this);
+            case QUICK_TIME_EVENT:
+                return new QuickTimeEventScreen(this);
+            default:
+                return null;
+        }
+    }
 
     /**
      * types of screens
      */
     public enum ScreenType {
         MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
-        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME,
-        BIRD_MINI_GAME, END_GAME_STATS
+        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
+        BIRD_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS
     }
 
     /**
