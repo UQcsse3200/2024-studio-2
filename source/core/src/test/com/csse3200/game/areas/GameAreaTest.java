@@ -3,6 +3,8 @@ package com.csse3200.game.areas;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
@@ -31,6 +33,24 @@ class GameAreaTest {
 
           @Override
           public void unloadAssets() {
+          }
+
+          @Override
+          public void pauseMusic() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'pauseMusic'");
+          }
+
+          @Override
+          public void playMusic() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'playMusic'");
+          }
+
+          @Override
+          public List<Entity> getEnemies() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
           }
         };
 
