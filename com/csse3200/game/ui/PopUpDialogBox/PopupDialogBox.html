@@ -147,12 +147,15 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String%5B%5D,java.lang.String%5B%5D,java.lang.String,com.badlogic.gdx.scenes.scene2d.ui.Skin,float,float)" class="member-name-link">PopupDialogBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;titles,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String%5B%5D,java.lang.String%5B%5D,java.lang.String,com.badlogic.gdx.scenes.scene2d.ui.Skin,float,float,int%5B%5D,int%5B%5D,int%5B%5D)" class="member-name-link">PopupDialogBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;titles,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;content,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animalImagePath,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  float&nbsp;dialogWidth,
- float&nbsp;dialogHeight)</code></div>
+ float&nbsp;dialogHeight,
+ int[]&nbsp;speedStats,
+ int[]&nbsp;defenseStats,
+ int[]&nbsp;strengthStats)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a new PopupDialogBox.</div>
 </div>
@@ -174,6 +177,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#display(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">display</a><wbr>(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Displays the dialog box on the specified stage.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnimalIndex(int)" class="member-name-link">setAnimalIndex</a><wbr>(int&nbsp;animalIndex)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the index of the animal for which stats should be displayed.</div>
 </div>
 </div>
 </div>
@@ -211,14 +219,17 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String[],java.lang.String[],java.lang.String,com.badlogic.gdx.scenes.scene2d.ui.Skin,float,float)">
+<section class="detail" id="&lt;init&gt;(java.lang.String[],java.lang.String[],java.lang.String,com.badlogic.gdx.scenes.scene2d.ui.Skin,float,float,int[],int[],int[])">
 <h3>PopupDialogBox</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PopupDialogBox</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;titles,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;content,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animalImagePath,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  float&nbsp;dialogWidth,
- float&nbsp;dialogHeight)</span></div>
+ float&nbsp;dialogHeight,
+ int[]&nbsp;speedStats,
+ int[]&nbsp;defenseStats,
+ int[]&nbsp;strengthStats)</span></div>
 <div class="block">Constructs a new PopupDialogBox.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -228,6 +239,9 @@ loadScripts(document, 'script');</script>
 <dd><code>skin</code> - Skin to be used for the UI elements.</dd>
 <dd><code>dialogWidth</code> - Width of the dialog box.</dd>
 <dd><code>dialogHeight</code> - Height of the dialog box.</dd>
+<dd><code>speedStats</code> - Array of speed stats for different animals.</dd>
+<dd><code>defenseStats</code> - Array of defense stats for different animals.</dd>
+<dd><code>strengthStats</code> - Array of strength stats for different animals.</dd>
 </dl>
 </section>
 </li>
@@ -247,6 +261,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>stage</code> - The stage on which to display the dialog box.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setAnimalIndex(int)">
+<h3>setAnimalIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAnimalIndex</span><wbr><span class="parameters">(int&nbsp;animalIndex)</span></div>
+<div class="block">Sets the index of the animal for which stats should be displayed.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>animalIndex</code> - Index of the selected animal (0 for bird, 1 for croc, 2 for dog).</dd>
 </dl>
 </section>
 </li>
