@@ -63,7 +63,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button loadBtn;
     private Button minigamesBtn;
     private Button settingsBtn;
-    private TextButton achievementsBtn;
+    private TextButton logbookBtn;
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
@@ -203,7 +203,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
         minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
         settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
-        achievementsBtn = new TextButton("Achievements", skin);
+        logbookBtn = new TextButton("Logbook", skin);
         helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
         exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
     }
@@ -216,7 +216,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
-        addButtonElevationEffect(achievementsBtn);
+        addButtonElevationEffect(logbookBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
     }
@@ -268,7 +268,7 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Added handles for when clicked
-        achievementsBtn.addListener(new ChangeListener() {
+        logbookBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Achievements button clicked");
@@ -319,7 +319,7 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.row();
         menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
         menuButtonTable.row();
-        menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(logbookBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();

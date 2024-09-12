@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
 
+/**
+ * The {@code AchievementDisplay} class manages the display of achievements in the achievements screen
+ */
 public class AchievementDisplay extends UIComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(AchievementDisplay.class);
@@ -29,19 +32,32 @@ public class AchievementDisplay extends UIComponent {
     private Table rootTable;
     /** Array to store achievements. */
     private final Array<Achievement> achievements;
-    final tabButton[] lastPressedButton = {null};
+    final TabButton[] lastPressedButton = {null};
     private Float originalY;
 
     /**
      * Array of texture paths used in the Achievements game screen.
      */
-    private static final String[] logbookTextures = {"images/logbook/icons/first-steps.png","images/logbook/lb-exit.png","images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
-            "images/logbook/lb-blue-tab.png", "images/logbook/lb-red-tab.png", "images/logbook/lb-blue-btn.png",
-            "images/logbook/lb-red-btn.png", "images/logbook/lb-yellow-btn.png", "images/logbook/lb-blue-btn-pressed.png", "images/logbook/lb-red-btn-pressed.png", "images/logbook/lb-yellow-btn-pressed.png"};
+    private static final String[] logbookTextures = {"images/logbook/icons/first-steps.png",
+            "images/logbook/lb-exit.png",
+            "images/logbook/lb-bg.png",
+            "images/logbook/lb-yellow-tab.png",
+            "images/logbook/lb-blue-tab.png",
+            "images/logbook/lb-red-tab.png",
+            "images/logbook/lb-blue-btn.png",
+            "images/logbook/lb-red-btn.png",
+            "images/logbook/lb-yellow-btn.png",
+            "images/logbook/lb-blue-btn-pressed.png",
+            "images/logbook/lb-red-btn-pressed.png",
+            "images/logbook/lb-yellow-btn-pressed.png"};
 
-    private static final String[] logbookSounds = {"sounds/logbook/select_005.ogg","sounds/logbook/select_004.ogg"};
+    private static final String[] logbookSounds = {"sounds/logbook/select_005.ogg",
+            "sounds/logbook/select_004.ogg"};
 
-
+    /**
+     * Constructs an {@code AchievementDisplay} instance for managing the display of achievements in the game.
+     * @param game The main game instance.
+     */
     public AchievementDisplay(GdxGame game) {
         super();
         this.game = game;
@@ -50,7 +66,7 @@ public class AchievementDisplay extends UIComponent {
     }
 
     /**
-     * Creates and populates the UI with UI elements.
+     * Initializes the Achievement display by loading textures, sounds, and creating UI components.
      */
     @Override
     public void create() {
@@ -78,7 +94,7 @@ public class AchievementDisplay extends UIComponent {
         );
 
 
-        Table menuBtns = makeMenuBtns();
+        Table exitButton = makeExitButton();
 
         Stack tabContentStack = new Stack();
 
@@ -100,11 +116,15 @@ public class AchievementDisplay extends UIComponent {
         achievementsTable.setVisible(false);
         rootTable.add(tabs).fillX().row();
         rootTable.add(tabContentStack).expand().fill().row();
-        rootTable.add(menuBtns.left().bottom()).left().bottom();
+        rootTable.add(exitButton.left().bottom()).left().bottom();
         stage.addActor(rootTable);
     }
 
-    void updateHoverEffect(tabButton newButton) {
+    /**
+     * Updates the hover effect on the tab buttons.
+     * @param newButton The new button to apply the hover effect.
+     */
+    void updateHoverEffect(TabButton newButton) {
 
         // Hover effect actions
         Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
@@ -124,6 +144,13 @@ public class AchievementDisplay extends UIComponent {
     }
 
 
+    /**
+     * Creates the tab buttons
+     * @param itemsTable The table for displaying item-related achievements.
+     * @param enemiesTable The table for displaying enemy-related achievements.
+     * @param achievementsTable The table for displaying advancement-related achievements.
+     * @return The table containing tab buttons.
+     */
     private Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
@@ -139,9 +166,9 @@ public class AchievementDisplay extends UIComponent {
 
         Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
 
-        tabButton itemButton = new tabButton("Items", skin, itemBG);
-        tabButton enemyButton = new tabButton("Enemy", skin, enemyBG);
-        tabButton achievementButton = new tabButton("Achievements", skin, achievementBG);
+        TabButton itemButton = new TabButton("Items", skin, itemBG);
+        TabButton enemyButton = new TabButton("Enemy", skin, enemyBG);
+        TabButton achievementButton = new TabButton("Achievements", skin, achievementBG);
 
         addButtonElevationEffect(itemButton);
         addButtonElevationEffect(enemyButton);
@@ -192,7 +219,9 @@ public class AchievementDisplay extends UIComponent {
 
 
     /**
-     * Creates the Table for the visual representation of completed achievements.
+     * Creates the Table showing the completed achievements of a specific type
+     *
+     * @param type The type of achievements to be displayed (e.g., ITEM, ENEMY, ADVANCEMENT).
      * @return The Table showing achievements.
      */
     private Table makeLogbookTable(Achievement.AchievementType type) {
@@ -249,7 +278,7 @@ public class AchievementDisplay extends UIComponent {
      * Creates the table for the exit button.
      * @return The Table showing the exit button.
      */
-    private Table makeMenuBtns() {
+    private Table makeExitButton() {
         Image exit = new Image(
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/lb-exit.png", Texture.class));
@@ -277,10 +306,13 @@ public class AchievementDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
-        saveAchievements(achievements);
+        saveAchievements(achievements,"saves/achievements.json");
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
+    /**
+     * Draws the actors.
+     */
     @Override
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
@@ -294,7 +326,7 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        saveAchievements(achievements);
+        saveAchievements(achievements,"saves/achievements.json");
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);

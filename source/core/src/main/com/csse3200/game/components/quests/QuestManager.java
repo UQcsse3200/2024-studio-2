@@ -211,7 +211,6 @@ public class QuestManager extends Component {
      * Subscribes to enemy beaten triggers and sends it as a specific achievement completion trigger.
      */
     private void handleEnemyAdvancement(Entity enemy){
-        logger.info("{} triggered", enemy.getEnemyType().toString());
         player.getEvents().trigger(enemy.getEnemyType().toString());
     }
 
@@ -289,7 +288,6 @@ public class QuestManager extends Component {
      * Checks if quest is failed.
      * @param questName The name of the quest to fail.
      */
-
     public void failQuest(String questName) {
         QuestBasic quest = getQuest(questName);
         if (quest != null) {
@@ -337,7 +335,6 @@ public class QuestManager extends Component {
      * Completes the task of the updates the quest progression.
      * @param quest The quest to be completed.
      */
-
     private void completeTask(QuestBasic quest) {
         quest.progressQuest(player); //advance quest progression
         if (quest.isQuestCompleted()) {
@@ -351,7 +348,6 @@ public class QuestManager extends Component {
      * Handle quest completion.
      * @param quest The quest that has been completed.
      */
-
     private void handleQuestCompletion(QuestBasic quest) {
         player.getEvents().trigger(quest.getQuestName());
         logger.info("{} completed!", quest.getQuestName());
@@ -372,14 +368,14 @@ public class QuestManager extends Component {
             achievement.complete();
             questComplete.play();
             player.getEvents().trigger("achievementCompleted");
-            saveAchievements(achievements);
+            saveAchievements(achievements,"saves/achievements.json");
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
     @Override
     public void dispose() {
-        saveAchievements(achievements);
+        saveAchievements(achievements,"saves/achievements.json");
         super.dispose();
     }
 

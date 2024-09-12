@@ -3,10 +3,12 @@ package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.csse3200.game.components.mainmenu.MainMenuDisplay;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+/**
+ * Represents an achievement.
+ * An achievement has a name, description, completion status, visibility status, type, and an icon path.
+ * Implements the {@link Json.Serializable} interface for serialization and deserialization of achievement data.
+ */
 public class Achievement implements Json.Serializable {
     private String questName;
     private String questDescription;
@@ -15,8 +17,21 @@ public class Achievement implements Json.Serializable {
     private AchievementType type;
     private String iconPath;
 
+    /**
+     * Default constructor for the Achievement class used for json.
+     */
     public Achievement(){}
 
+
+    /**
+     * Constructs an Achievement with the specified parameters.
+     * @param questName The name of the quest.
+     * @param questDescription A brief description of the quest.
+     * @param completed Indicates whether the achievement is completed.
+     * @param seen Indicates whether the achievement has been seen.
+     * @param type The type of achievement.
+     * @param iconPath The file path to the icon representing the achievement.
+     */
     public Achievement(String questName, String questDescription, Boolean completed, Boolean seen, AchievementType type, String iconPath) {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -72,18 +87,26 @@ public class Achievement implements Json.Serializable {
         this.seen = true;
     }
 
-    public enum AchievementType{
-        ITEM,ENEMY,ADVANCEMENT
-    }
-
+    /**
+     * Gets the type of the achievement.
+     * @return The achievement type.
+     */
     public AchievementType getType() {
         return this.type;
     }
 
+    /**
+     * Gets the icon path for the achievement.
+     * @return The file path to the icon representing the achievement.
+     */
     public String getPath() {
         return this.iconPath;
     }
 
+    /**
+     * Serializes the achievement to JSON.
+     * @param json The Json object used for serialization.
+     */
     @Override
     public void write(Json json) {
         json.writeValue("questName", questName);
@@ -94,6 +117,11 @@ public class Achievement implements Json.Serializable {
         json.writeValue("iconPath", iconPath);
     }
 
+    /**
+     * Deserializes the achievement from JSON.
+     * @param json The Json object used for deserialization.
+     * @param jsonData The JsonValue object containing the data to deserialize.
+     */
     @Override
     public void read(Json json, JsonValue jsonData) {
         this.questName = jsonData.getString("questName");
@@ -103,6 +131,10 @@ public class Achievement implements Json.Serializable {
         this.type = AchievementType.valueOf(jsonData.getString("type"));
         this.iconPath = jsonData.getString("iconPath");
     }
+    /**
+     * Returns a string representation of the achievement.
+     * @return A string containing all the achievement properties.
+     */
     @Override
     public String toString() {
         return "Achievement{" +
@@ -113,5 +145,12 @@ public class Achievement implements Json.Serializable {
                 ", type=" + type +
                 ", iconPath=" + iconPath +
                 '}';
+    }
+
+    /**
+     * Represents the type of achievement.
+     */
+    public enum AchievementType {
+        ITEM, ENEMY, ADVANCEMENT
     }
 }
