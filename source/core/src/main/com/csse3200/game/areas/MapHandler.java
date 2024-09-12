@@ -83,9 +83,9 @@ public class MapHandler {
   public static GameArea getMap(MapType mapType) {
     switch (mapType) {
       case FOREST:
-        return forestGameArea;
+        return (ForestGameArea) currentGameArea;
       case WATER:
-        return waterGameArea;
+        return (WaterGameArea) currentGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
     }
@@ -95,6 +95,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, NONE
+    FOREST, WATER, COMBAT, NONE
   }
 }

@@ -114,7 +114,7 @@ public class CombatTerrainFactory {
         camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
 
         // Return the TerrainComponent with the background image rendering setup
-        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.FOREST); // 1f scale used for background
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
     }
 
     /**
