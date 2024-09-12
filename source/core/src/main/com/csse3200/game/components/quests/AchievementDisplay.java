@@ -283,11 +283,15 @@ public class AchievementDisplay extends UIComponent {
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/lb-exit.png", Texture.class));
 
+        ImageButton exitBtn = new ImageButton(exit.getDrawable());
+        addButtonElevationEffect(exitBtn);
+        Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
         exitBtn.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
+                        tabSound.play();
                         exitMenu();
                     }
                 });

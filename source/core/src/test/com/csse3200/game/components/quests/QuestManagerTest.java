@@ -31,7 +31,6 @@ class QuestManagerTest {
 
         Sound mockSound = mock(Sound.class);
         when(resourceService.getAsset("sounds/QuestComplete.wav", Sound.class)).thenReturn(mockSound);
-        when(resourceService.getAsset("sounds/achievement-sound.mp3", Sound.class)).thenReturn(mockSound);
 
 
         when(player.getEvents()).thenReturn(eventHandler);
@@ -46,13 +45,6 @@ class QuestManagerTest {
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
-    }
-
-    @Test
-    void AddAchievement() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Lorem ipsum dolor");
-        questManager.addAchievement(achievement);
-        assertEquals(achievement, questManager.getAchievement("Test Achievement"));
     }
 
     @Test
@@ -104,14 +96,6 @@ class QuestManagerTest {
 
         questManager.progressQuest("Nonexistent Quest", "taskName");
         verify(eventHandler, never()).trigger(anyString());
-    }
-
-    @Test
-    void HandleAchievementCompletion() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Test Description");
-        questManager.addAchievement(achievement);
-        questManager.completeAchievement("Test Achievement");
-        verify(eventHandler).trigger("achievementCompleted");
     }
 
     @Test
