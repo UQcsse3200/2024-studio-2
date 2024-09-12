@@ -64,6 +64,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button minigamesBtn;
     private Button settingsBtn;
     private TextButton achievementsBtn;
+    private TextButton statsBtn;
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
@@ -204,6 +205,7 @@ public class MainMenuDisplay extends UIComponent {
         minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
         settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
         achievementsBtn = new TextButton("Achievements", skin);
+        statsBtn = new TextButton("Stats", skin);
         helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
         exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
     }
@@ -217,6 +219,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
         addButtonElevationEffect(settingsBtn);
         addButtonElevationEffect(achievementsBtn);
+        addButtonElevationEffect(statsBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
     }
@@ -235,7 +238,6 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        // Added handles for when clicked
         loadBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -249,14 +251,12 @@ public class MainMenuDisplay extends UIComponent {
         minigamesBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-
                 logger.debug("SnakeGame button clicked");
                 entity.getEvents().trigger("SnakeGame");
                 clickSound.play();
             }
         });
 
-        // Added handles for when clicked
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -267,7 +267,6 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        // Added handles for when clicked
         achievementsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -277,7 +276,14 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        // Added handles for when clicked
+        statsBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Stats button clicked");
+                entity.getEvents().trigger("stats");
+            }
+        });
+
         helpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
