@@ -19,6 +19,7 @@ import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.terrain.TerrainChunk;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
@@ -153,6 +154,7 @@ public class ForestGameArea extends GameArea {
    * gets the player
    * @return player entity
    */
+  @Override
   public Entity getPlayer () {
     return player;
   }
@@ -166,7 +168,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     spawnEntity(new Entity().addComponent(terrain));
   }
 
@@ -366,7 +368,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
-  public static void playMusic() {
+  public void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
@@ -381,7 +383,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         AudioManager.playMusic("sounds/track_2.mp3", true);
     }
   }
-  public static void pauseMusic() {
+  public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
     AudioManager.stopMusic();  // Stop the music
@@ -428,6 +430,25 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     spawnEntityAtVector(banana, pos);
   }
 
+  /**
+   * Static method to play the background music
+   */
+  public static void pMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
+            Music.class);
+    music.setLooping(true);
+    music.setVolume(0.5f);
+    music.play();
+  }
+
+  /**
+   * Static method to pause the background music 
+   */
+  public static void puMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
+    music.pause();
+  }
+
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -445,6 +466,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     }
   }
 
+  @Override
   public void unloadAssets() {
     logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -460,7 +482,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
   }
-
   public List<Entity> getEnemies() {
     return enemies;
   }

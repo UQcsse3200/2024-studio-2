@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.services.ResourceService;
@@ -113,7 +114,7 @@ public class CombatTerrainFactory {
         camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
 
         // Return the TerrainComponent with the background image rendering setup
-        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f); // 1f scale used for background
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.FOREST); // 1f scale used for background
     }
 
     /**
