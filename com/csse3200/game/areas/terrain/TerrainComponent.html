@@ -157,11 +157,12 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation,float)" class="member-name-link">TerrainComponent</a><wbr>(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">TerrainComponent</a><wbr>(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
  com.badlogic.gdx.maps.tiled.TiledMap&nbsp;map,
  com.badlogic.gdx.maps.tiled.TiledMapRenderer&nbsp;renderer,
  <a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainOrientation</a>&nbsp;orientation,
- float&nbsp;tileSize)</code></div>
+ float&nbsp;tileSize,
+ <a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -219,34 +220,38 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;com.badlogic.gdx.math.GridPoint2&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOldChunks()" class="member-name-link">getOldChunks</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileSize()" class="member-name-link">getTileSize</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.maps.tiled.TiledMap</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTiledMap()" class="member-name-link">getTiledMap</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileSize()" class="member-name-link">getTileSize</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the size of all tiles in the terrain.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZIndex()" class="member-name-link">getZIndex</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZIndex()" class="member-name-link">getZIndex</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Z index controls rendering order within a layer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadChunks(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">loadChunks</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadChunks(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">loadChunks</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Load all chunks around the given chunk position.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadChunks(com.badlogic.gdx.math.GridPoint2,int)" class="member-name-link">loadChunks</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadChunks(com.badlogic.gdx.math.GridPoint2,int)" class="member-name-link">loadChunks</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos,
  int&nbsp;r)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Load all chunks in a given radius (a square - not circle) around the given chunk position.</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Load all chunks in a given radius (a square - not circle) around the given
+ chunk position.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(int,int)" class="member-name-link">tileToWorldPosition</a><wbr>(int&nbsp;x,
- int&nbsp;y)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">tileToWorldPosition</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;tilePos)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(int,int)" class="member-name-link">tileToWorldPosition</a><wbr>(int&nbsp;x,
+ int&nbsp;y)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">tileToWorldPosition</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;tilePos)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -293,13 +298,14 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation,float)">
+<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.csse3200.game.areas.MapHandler.MapType)">
 <h3>TerrainComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TerrainComponent</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
  com.badlogic.gdx.maps.tiled.TiledMap&nbsp;map,
  com.badlogic.gdx.maps.tiled.TiledMapRenderer&nbsp;renderer,
  <a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainOrientation</a>&nbsp;orientation,
- float&nbsp;tileSize)</span></div>
+ float&nbsp;tileSize,
+ <a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</span></div>
 </section>
 </li>
 </ul>
@@ -350,7 +356,8 @@ loadScripts(document, 'script');</script>
 <h3>loadChunks</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadChunks</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;chunkPos,
  int&nbsp;r)</span></div>
-<div class="block">Load all chunks in a given radius (a square - not circle) around the given chunk position.</div>
+<div class="block">Load all chunks in a given radius (a square - not circle) around the given
+ chunk position.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>chunkPos</code> - The position of the chunk to load around</dd>
@@ -475,6 +482,12 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>layer</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTiledMap()">
+<h3>getTiledMap</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.maps.tiled.TiledMap</span>&nbsp;<span class="element-name">getTiledMap</span>()</div>
 </section>
 </li>
 </ul>
