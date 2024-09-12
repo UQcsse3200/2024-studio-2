@@ -1,4 +1,5 @@
 package com.csse3200.game.entities.factories;
+
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -23,21 +24,10 @@ import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 
-/**
- * Factory to create a player entity.
- *
- * <p>Predefined player properties are loaded from a config stored as a json file and should have
- * the properties stores in 'PlayerConfig'.
- */
 public class PlayerFactory {
 
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
-
-    /**
-     * Create a player entity.
-     * @return entity
-     */
     public static Entity createPlayer(GdxGame game) {
         String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
         InputComponent inputComponent =
@@ -47,31 +37,31 @@ public class PlayerFactory {
                 new Entity()
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
-                        // Notify terrain component when moving
                         .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
 
         player.addComponent(new PlayerActions(game, player, imagePath));
+
+        // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 60, 0, true));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 40, 0, true));
             case "images/bird.png" ->
                     player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer()));
-
         }
 
         player.addComponent(new PlayerInventoryDisplay(45, 9))
                 .addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
-                .addComponent(new QuestPopup());
-        player.addComponent((new StatManager()));
-        player.addComponent(new LootBoxOverlayComponent());
+                .addComponent(new QuestPopup())
+                .addComponent(new StatManager())
+                .addComponent(new LootBoxOverlayComponent());
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
@@ -81,7 +71,6 @@ public class PlayerFactory {
 
         return player;
     }
-
 
     private PlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
