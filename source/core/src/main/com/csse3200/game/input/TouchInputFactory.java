@@ -1,5 +1,6 @@
 package com.csse3200.game.input;
 
+import com.csse3200.game.components.combat.TouchCombatInputComponent;
 import com.csse3200.game.components.player.TouchPlayerInputComponent;
 import com.csse3200.game.ui.terminal.TouchTerminalInputComponent;
 import org.slf4j.Logger;
@@ -28,5 +29,15 @@ public class TouchInputFactory extends InputFactory{
   public InputComponent createForTerminal() {
     logger.debug("Creating terminal input handler");
     return new TouchTerminalInputComponent();
+  }
+
+  /**
+   * Creates an input handler for combat.
+   *
+   * @return combat input handler
+   */
+  public InputComponent createForCombat() {
+    logger.debug("Creating combat input handler");
+    return new TouchCombatInputComponent();
   }
 }

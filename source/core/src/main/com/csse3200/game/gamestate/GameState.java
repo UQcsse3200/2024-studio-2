@@ -1,6 +1,7 @@
 package com.csse3200.game.gamestate;
 
 import com.csse3200.game.gamestate.data.InventorySave;
+import com.csse3200.game.gamestate.data.PlayerSave;
 import com.csse3200.game.gamestate.data.QuestSave;
 
 /**
@@ -15,8 +16,14 @@ public class GameState {
 
     public static InventorySave inventory = new InventorySave();
 
+    public static PlayerSave player = new PlayerSave();
+
+    /**
+     * Clears the contents of the GameState
+     */
     public static void clearState() {
         quests = new QuestSave();
         inventory = new InventorySave();
+        player = new PlayerSave();
     }
 }

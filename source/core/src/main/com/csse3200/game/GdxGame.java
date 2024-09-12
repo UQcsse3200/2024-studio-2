@@ -5,11 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 import static com.badlogic.gdx.Gdx.app;
 
@@ -115,6 +118,20 @@ public class GdxGame extends Game {
         setScreen(newScreen(screenType, screen, container, player, enemy));
     }
 
+    public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
+        setOldScreen(screen, container);
+        List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
+        for (Entity e : enemies) {
+            if (e.equals(enemy)) {
+                enemies.remove(e);
+                break;
+            }
+        }
+        AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
+        animationRenderComponent.stopAnimation();
+        enemy.dispose();
+    }
+
     @Override
     public void dispose() {
         logger.debug("Disposing of current screen");
@@ -157,12 +174,14 @@ public class GdxGame extends Game {
                 return new LoadingScreen(this);
             case ANIMAL_SELECTION:
                 return new LandAnimalSelectionScreen(this);
-            case GAME_OVER_WIN:
-                return new GameOverWinScreen(this);
+            case END_GAME_STATS:
+                return new EndGameStatsScreen(this);
             case GAME_OVER_LOSE:
                 return new GameOverLoseScreen(this);
-
-
+            case STORY:
+                return new StoryScreen(this);
+            case QUICK_TIME_EVENT:
+                return new QuickTimeEventScreen(this);
             default:
                 return null;
         }
@@ -173,8 +192,8 @@ public class GdxGame extends Game {
      */
     public enum ScreenType {
         MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
-        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, GAME_OVER_WIN, GAME_OVER_LOSE, SNAKE_MINI_GAME,
-        BIRD_MINI_GAME
+        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
+        BIRD_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, STORY
     }
 
     /**

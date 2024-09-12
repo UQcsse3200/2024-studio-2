@@ -109,14 +109,7 @@ public class ForestGameArea extends GameArea {
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       kangarooBossSpawned = false;
 
-
-
-      if(MainMenuActions.getGameLoaded()) {
-          SaveHandler.load(GameState.class, "saves");
-      } else {
-          GameState.clearState();
-      }
-
+      //Initialise inventory and quests with loaded data
       player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
   }
@@ -177,30 +170,6 @@ public class ForestGameArea extends GameArea {
     // Background terrain
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     spawnEntity(new Entity().addComponent(terrain));
-
-    // // Terrain walls
-    // float tileSize = terrain.getTileSize();
-    // GridPoint2 tileBounds = terrain.getMapBounds(0);
-    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    //  // Left
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    //  // Right
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //      new GridPoint2(tileBounds.x, 0),
-    //      false,
-    //      false);
-    //  // Top
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //      new GridPoint2(0, tileBounds.y),
-    //      false,
-    //      false);
-    //  // Bottom
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void spawnTrees() {
@@ -478,5 +447,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+  public List<Entity> getEnemies() {
+    return enemies;
   }
 }

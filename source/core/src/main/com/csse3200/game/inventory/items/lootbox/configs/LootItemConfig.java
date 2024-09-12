@@ -1,7 +1,6 @@
 package com.csse3200.game.inventory.items.lootbox.configs;
 
 import com.csse3200.game.inventory.items.AbstractItem;
-
 import java.lang.reflect.Constructor;
 
 /**
@@ -32,22 +31,11 @@ public class LootItemConfig {
     }
 
     /**
-     * Gets the class type of the loot item.
-     *
-     * @return The class type of the item, which extends AbstractItem.
-     */
-    public Class<? extends AbstractItem> getItem() {
-        return item;
-    }
-
-    /**
      * Gets the weight of the loot item, used to determine its selection probability in a loot table.
      *
      * @return The weight of the item as a double.
      */
-    public double getWeight() {
-        return weight;
-    }
+    public double getWeight() {return weight;}
 
     /**
      * Creates a new instance of the loot item using reflection, with the specified constructor parameters.
@@ -56,9 +44,9 @@ public class LootItemConfig {
      * @return A new instance of the specified AbstractItem.
      * @throws Exception If the item cannot be instantiated, including issues with constructor access or parameter mismatches.
      */
-
     public AbstractItem createNewItem() throws Exception {
-        Constructor<? extends AbstractItem> constructor = item.getDeclaredConstructor(parameterTypes);  // Get the constructor with specified parameter types
-        return constructor.newInstance(parameters);  // Create a new instance with specified parameters
+        // Get the constructor with specified parameter types
+        Constructor<? extends AbstractItem> constructor = item.getDeclaredConstructor(parameterTypes);
+        return constructor.newInstance(parameters); // Create a new instance with specified parameters
     }
 }

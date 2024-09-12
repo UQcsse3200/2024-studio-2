@@ -1,40 +1,54 @@
 {
   "lion": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Lenny the Lion."],
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Lenny the Lion.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
+      ["Potions heals you by (n) HP!","I hope this helped."],
+      ["Final boss?? That Kangaroo??","idk"],
+      ["Good luck!"]
+    ],
     "spritePath": "images/lion.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Lion"
   },
   "cow": {
-    "baseHint": ["Moo there, adventurer! Welcome to the kingdom.",
+    "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
       "We will be your guides",
       "but before you can roam free...",
-      "you must complete the first steps and 2 step quests."],
+      "you must complete the first steps and 2 step quests."]],
     "spritePath": "images/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
     "animalName": "Cow"
   },
   "turtle": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Tilly the Turtle."],
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Tilly the Turtle.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
+      ["Potions heals you by (n) HP!","I hope this helped."],
+      ["Final boss?? That Kangaroo??","idk"],
+      ["Good luck!"]
+    ],
     "spritePath": "images/turtle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/turtle-hiss.wav"],
     "animalName": "Turtle"
   },
   "eagle": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Ethan the Eagle."],
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Ethan the Eagle.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
+      ["Potions heals you by (n) HP!","I hope this helped."],
+      ["Final boss?? That Kangaroo??","idk"],
+      ["Good luck!"]
+    ],
     "spritePath": "images/eagle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eagle-scream.wav"],
     "animalName": "Eagle"
   },
   "snake": {
-    "baseHint": [ "HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-                  "You look very tasty and I am very hungry",
-                  "Go play a game and collect me some apples...",
-                  "/msOr I will eat you whole!" ],
+    "baseHint": [
+      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!","You look very tasty and I am very hungry","Go play a game and collect me some apples...","/msOr I will eat you whole!"]
+    ],
     "spritePath": "images/snake.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.wav"],
@@ -42,10 +56,10 @@
   },
 
   "magpie": {
-    "baseHint": ["WHO GOES THERE!!",
+    "baseHint": [["WHO GOES THERE!!",
                  "If you want to get past me you must pay",
                  "Go play a game and collect me some coins",
-                 "/mbOr I will claw your eyes out!"],
+                 "/mbOr I will claw your eyes out!"]],
     "spritePath": "images/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
@@ -53,7 +67,9 @@
     },
 
   "fish": {
-    "baseHint": ["Welcome to Animal Kingdom!", "I am Finny the Fish."],
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Finny the Fish."]
+    ],
     "spritePath": "images/Fish.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
