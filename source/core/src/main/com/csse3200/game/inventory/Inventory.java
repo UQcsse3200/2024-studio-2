@@ -59,9 +59,9 @@ public class Inventory implements InventoryInterface {
      * @see InventorySave
      */
     public void loadInventoryFromSave() {
-        if(GameState.inventory == null) {
-            GameState.inventory = new InventorySave();
-        }
+//        if(GameState.inventory == null) {
+//            GameState.inventory = new InventorySave();
+//        }
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);
         } else {

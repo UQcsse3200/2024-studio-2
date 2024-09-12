@@ -3,6 +3,7 @@ package com.csse3200.game.components.stats;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.items.AbstractItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,8 @@ public class StatManager extends Component {
 
     public StatManager(Entity player) {
         this.player = player;
-        StatSaveManager statSaveManager = new StatSaveManager();
-        this.stats = statSaveManager.getStats();
+//        StatSaveManager statSaveManager = new StatSaveManager();
+        this.stats = GameState.stats.stats;
         setupStats();
     }
 
