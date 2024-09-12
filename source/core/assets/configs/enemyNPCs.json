@@ -1,7 +1,7 @@
 {
   "chicken": {
     "spritePath": "images/enemy-chicken.atlas",
-    "health": 10,
+    "health": 5,
     "baseAttack": 1,
     "defense": 2,
     "speed": 2,
@@ -9,7 +9,7 @@
   },
   "frog": {
     "spritePath": "images/enemy-frog.atlas",
-    "health": 100,
+    "health": 4,
     "baseAttack": 25,
     "defense": 25,
     "speed": 1,
@@ -17,10 +17,10 @@
   },
   "monkey": {
     "spritePath": "images/enemy-monkey.atlas",
-    "health": 100,
+    "health": 10,
     "baseAttack": 25,
     "defense": 25,
-    "speed": 2,
+    "speed": 1.5,
     "isEnemy": 1
   },
   "bear": {

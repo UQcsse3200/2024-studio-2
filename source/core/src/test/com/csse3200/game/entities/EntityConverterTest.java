@@ -1,17 +1,10 @@
 package com.csse3200.game.entities;
-
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
-import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.entities.factories.EnemyFactory;
-import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
@@ -22,16 +15,15 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import static com.csse3200.game.entities.EntityConverter.convertToFriendly;
-import static com.csse3200.game.entities.EntityConverter.handleConfig;
+import static com.csse3200.game.entities.EntityConverter.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,6 +33,7 @@ class EntityConverterTest {
     private Entity chicken;
     private Entity frog;
     private Entity monkey;
+    private Entity cow;
     private Entity player;
     private List<Entity> entities;
     private static final NPCConfigs configs =
@@ -116,6 +109,15 @@ class EntityConverterTest {
         assertTrue(config.isFriendly());
     }
 
+
+    @Test
+    void TestChickenGetHintText() {
+        BaseEntityConfig config = EntityConverter.handleConfig(chicken.getComponent(AnimationRenderComponent.class));
+        String[][] testText = {{"A mysterious creature appears!"}};
+        Assertions.assertArrayEquals(testText, retrieveHintText(config));
+    }
+
+
 //    @Test
 //    void TestChickenHasSoundPath() {
 //        String[] sound = {"Sound Path"};
@@ -154,7 +156,15 @@ class EntityConverterTest {
         convertToFriendly(frog, player, entities);
         assertTrue(config.isFriendly());
     }
-//    @Test
+
+    @Test
+    void TestFrogGetHintText() {
+        BaseEntityConfig config = EntityConverter.handleConfig(frog.getComponent(AnimationRenderComponent.class));
+        String[][] testText = {{"A mysterious creature appears!"}};
+        Assertions.assertArrayEquals(testText, retrieveHintText(config));
+    }
+
+    //    @Test
 //    void TestFrogHasSoundPath() {
 //        String[] sound = {"Sound Path"};
 //        assertNotNull(sound);
@@ -190,6 +200,12 @@ class EntityConverterTest {
         assertTrue(config.isFriendly());
     }
 
+    @Test
+    void TestMonkeyGetHintText() {
+        BaseEntityConfig config = EntityConverter.handleConfig(monkey.getComponent(AnimationRenderComponent.class));
+        String[][] testText = {{"A mysterious creature appears!"}};
+        Assertions.assertArrayEquals(testText, retrieveHintText(config));
+    }
 //    @Test
 //    void TestMonkeyHasSoundPath() {
 //        String[] sound = {"Sound Path"};

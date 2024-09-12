@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
-import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
@@ -136,5 +135,9 @@ public class EntityConverter {
 			// Fallback for non-friendly entities
 			return new String[][]{{"A mysterious creature appears!"}};
 		}
+	}
+
+	public static String[][] retrieveHintText(BaseEntityConfig config) {
+		return getHintText(config);
 	}
 }
