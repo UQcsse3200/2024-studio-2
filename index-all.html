@@ -655,6 +655,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determines if the bird is touching the spikes</div>
 </dd>
+<dt><a href="com/csse3200/game/gamestate/GameState.html#checkState()" class="member-name-link">checkState()</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#chicken" class="member-name-link">chicken</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#CHICKEN" class="member-name-link">CHICKEN</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
@@ -705,10 +707,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/inventory/InventoryInterface.html#clearInventory()" class="member-name-link">clearInventory()</a> - Method in interface com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></dt>
 <dd>
 <div class="block">Clears all items from the inventory.</div>
-</dd>
-<dt><a href="com/csse3200/game/gamestate/GameState.html#clearState()" class="member-name-link">clearState()</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
-<dd>
-<div class="block">Clears the contents of the GameState</div>
 </dd>
 <dt><a href="com/csse3200/game/components/minigames/birdieDash/entities/Coin.html" class="type-name-link" title="class in com.csse3200.game.components.minigames.birdieDash.entities">Coin</a> - Class in <a href="com/csse3200/game/components/minigames/birdieDash/entities/package-summary.html">com.csse3200.game.components.minigames.birdieDash.entities</a></dt>
 <dd>
@@ -2966,10 +2964,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the bounds of the terrain map.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/stats/Stat.html#getMax()" class="member-name-link">getMax()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
-<dd>
-<div class="block">Getter for this.max</div>
-</dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.html#getMaxExperience()" class="member-name-link">getMaxExperience()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
 <dd>
 <div class="block">Returns the entity's maximum experience.</div>
@@ -3318,6 +3312,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/stats/Stat.html#getStatDescription()" class="member-name-link">getStatDescription()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
 <dd>
 <div class="block">Getter for the description</div>
+</dd>
+<dt><a href="com/csse3200/game/components/stats/Stat.html#getStatMax()" class="member-name-link">getStatMax()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
+<dd>
+<div class="block">Getter for this.max</div>
 </dd>
 <dt><a href="com/csse3200/game/components/stats/Stat.html#getStatName()" class="member-name-link">getStatName()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
 <dd>
@@ -5082,13 +5080,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Deserializes the achievement from JSON.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/stats/Stat.html#read(com.badlogic.gdx.utils.Json,com.badlogic.gdx.utils.JsonValue)" class="member-name-link">read(Json, JsonValue)</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
-<dd>
-<div class="block">Perform json read actions on the end game stats config file</div>
-</dd>
 <dt><a href="com/csse3200/game/gamestate/data/InventorySave.html#read(com.badlogic.gdx.utils.Json,com.badlogic.gdx.utils.JsonValue)" class="member-name-link">read(Json, JsonValue)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/InventorySave.html" title="class in com.csse3200.game.gamestate.data">InventorySave</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/gamestate/data/QuestSave.html#read(com.badlogic.gdx.utils.Json,com.badlogic.gdx.utils.JsonValue)" class="member-name-link">read(Json, JsonValue)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/QuestSave.html" title="class in com.csse3200.game.gamestate.data">QuestSave</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/StatSave.html#read(com.badlogic.gdx.utils.Json,com.badlogic.gdx.utils.JsonValue)" class="member-name-link">read(Json, JsonValue)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/StatSave.html" title="class in com.csse3200.game.gamestate.data">StatSave</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/files/FileLoader.html#readClass(java.lang.Class,java.lang.String)" class="member-name-link">readClass(Class&lt;T&gt;, String)</a> - Static method in class com.csse3200.game.files.<a href="com/csse3200/game/files/FileLoader.html" title="class in com.csse3200.game.files">FileLoader</a></dt>
 <dd>
@@ -5302,6 +5298,10 @@ loadScripts(document, 'script');</script>
  This method clears the currently selected animal by setting the
  selectedAnimalImage and selectedAnimalImagePath to null.</div>
 </dd>
+<dt><a href="com/csse3200/game/gamestate/GameState.html#resetState()" class="member-name-link">resetState()</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
+<dd>
+<div class="block">Clears the contents of the GameState</div>
+</dd>
 <dt><a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html#resetVelocity()" class="member-name-link">resetVelocity()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html" title="class in com.csse3200.game.components.player">KeyboardPlayerInputComponent</a></dt>
 <dd>
 <div class="block">Resets the player's velocity to 0, 'unpresses' all keys.</div>
@@ -5493,7 +5493,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/stats/StatSaveManager.html#saveStats(com.badlogic.gdx.utils.Array)" class="member-name-link">saveStats(Array&lt;Stat&gt;)</a> - Static method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/StatSaveManager.html" title="class in com.csse3200.game.components.stats">StatSaveManager</a></dt>
 <dd>
-<div class="block">Function to save stats to 'saves/stats.json'.</div>
+<div class="block">Function to save stats to 'saves/endgameStats.json'.</div>
 </dd>
 <dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html#scaleEntity()" class="member-name-link">scaleEntity()</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
@@ -6296,6 +6296,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Class to store Stats and listen for events to update them.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/stats/StatManager.html#%3Cinit%3E(com.csse3200.game.entities.Entity)" class="member-name-link">StatManager(Entity)</a> - Constructor for class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/StatManager.html" title="class in com.csse3200.game.components.stats">StatManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/StatSave.html#stats" class="member-name-link">stats</a> - Variable in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/StatSave.html" title="class in com.csse3200.game.gamestate.data">StatSave</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/GameState.html#stats" class="member-name-link">stats</a> - Static variable in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/StatSave.html" class="type-name-link" title="class in com.csse3200.game.gamestate.data">StatSave</a> - Class in <a href="com/csse3200/game/gamestate/data/package-summary.html">com.csse3200.game.gamestate.data</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/StatSave.html#%3Cinit%3E()" class="member-name-link">StatSave()</a> - Constructor for class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/StatSave.html" title="class in com.csse3200.game.gamestate.data">StatSave</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/stats/StatSaveManager.html" class="type-name-link" title="class in com.csse3200.game.components.stats">StatSaveManager</a> - Class in <a href="com/csse3200/game/components/stats/package-summary.html">com.csse3200.game.components.stats</a></dt>
 <dd>&nbsp;</dd>
@@ -7268,13 +7276,11 @@ the order they are declared.</div>
 <dd>
 <div class="block">Serializes the achievement to JSON.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/stats/Stat.html#write(com.badlogic.gdx.utils.Json)" class="member-name-link">write(Json)</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
-<dd>
-<div class="block">Perform json write actions on the end game stats config file</div>
-</dd>
 <dt><a href="com/csse3200/game/gamestate/data/InventorySave.html#write(com.badlogic.gdx.utils.Json)" class="member-name-link">write(Json)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/InventorySave.html" title="class in com.csse3200.game.gamestate.data">InventorySave</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/gamestate/data/QuestSave.html#write(com.badlogic.gdx.utils.Json)" class="member-name-link">write(Json)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/QuestSave.html" title="class in com.csse3200.game.gamestate.data">QuestSave</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/gamestate/data/StatSave.html#write(com.badlogic.gdx.utils.Json)" class="member-name-link">write(Json)</a> - Method in class com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/StatSave.html" title="class in com.csse3200.game.gamestate.data">StatSave</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/files/FileLoader.html#writeClass(java.lang.Object,java.lang.String)" class="member-name-link">writeClass(Object, String)</a> - Static method in class com.csse3200.game.files.<a href="com/csse3200/game/files/FileLoader.html" title="class in com.csse3200.game.files">FileLoader</a></dt>
 <dd>
