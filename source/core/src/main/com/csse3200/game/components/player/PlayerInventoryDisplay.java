@@ -46,20 +46,22 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
      *
-     * @param capacity The total number of slots in the inventory.
+     * @param inventory The inventory from which to build the display
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public PlayerInventoryDisplay(int capacity, int numCols) {
-        if (numCols < 1 || capacity < 1) {
-            throw new IllegalArgumentException("Inventory dimensions must be positive!");
+    public PlayerInventoryDisplay(Inventory inventory, int numCols) {
+        if (numCols < 1) {
+            String msg = String.format("numCols (%d) must be positive", numCols);
+            throw new IllegalArgumentException(msg);
         }
+
+        int capacity = inventory.getCapacity();
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
-        this.inventory = new Inventory(capacity);
-        this.hotbar= new PlayerInventoryHotbarDisplay(5,inventory,this);
+        this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];
@@ -93,6 +95,25 @@ public class PlayerInventoryDisplay extends UIComponent {
             hotbar.disposeTable();
             toggle = true;
         }
+    }
+
+
+    /**
+     * Determines if the toggle is active
+     * @return returns the toggle
+     */
+    public boolean getToggle() {
+        return toggle;
+    }
+
+    /**
+     * Checks to see if inventory is full
+     * @return boolean for if inventory is full
+     */
+    public boolean hasSpaceFor() {
+        // Logic to check if there's space in the inventory for all the items
+        // For simplicity, assume each item takes one slot and check if enough slots are available
+        return inventory.isFull();
     }
 
     /**
@@ -161,8 +182,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                String[] itemText = {item.getDescription() + ". Quantity: "
-                        + item.getQuantity() + "/" + item.getLimit()};
+                String[][] itemText = {{item.getDescription() + ". Quantity: "
+                        + item.getQuantity() + "/" + item.getLimit()}};
                 ServiceLocator.getDialogueBoxService().updateText(itemText);
             }
             @Override
@@ -279,5 +300,18 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
+    }
+
+    /**
+     * Loads the inventory attached to the player from a save.
+     */
+    public void loadInventoryFromSave() {
+        inventory.loadInventoryFromSave();
+        hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
+    }
+  
+    /** Returns inventory - for quests. */
+    public Inventory getInventory() {
+        return inventory;
     }
 }

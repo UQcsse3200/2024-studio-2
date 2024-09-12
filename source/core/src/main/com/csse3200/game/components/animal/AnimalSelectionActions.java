@@ -6,10 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.animal.AnimalSelectionDisplay;
 
 /**
  * Handles actions related to animal selection in the game.
@@ -118,6 +120,7 @@ public class AnimalSelectionActions {
 
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
+        GameState.player.selectedAnimalPath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight the selected image
 
         logger.debug("Animal selected: {}", animalImage.getName());
@@ -148,10 +151,32 @@ public class AnimalSelectionActions {
 
     void showAnimalDialog(int animalIndex, String animalImagePath) {
         String title = "Animal " + (animalIndex + 1);
-        String content = "You've selected Animal " + (animalIndex + 1) + ".\n" +
-                "This animal has unique characteristics.\n" +
-                "It possesses special abilities.";
+        String content = switch (animalIndex) {
+            case 0 -> // Dog
+                    "You've selected a Dog. This animal is loyal, brave, and agile. It excels in combat with its speed and determination.";
+            case 1 -> // Crocodile
+                    "You've selected a Crocodile. This animal is strong, cunning, and resilient. It possesses incredible defensive and offensive capabilities.";
+            case 2 -> // Bird
+                    "You've selected a Bird. This animal is fast, intelligent, and free. It can outmaneuver opponents and attack from the skies.";
+            default -> "You've selected Animal " + (animalIndex + 1) + ".\n" +
+                    "This animal has unique characteristics.\n" +
+                    "It possesses special abilities.";
+        };
 
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 400f);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f);
     }
+
+    /**
+     * Resets the animal selection state
+     * This method clears the currently selected animal by setting the
+     * selectedAnimalImage and selectedAnimalImagePath to null. This ensures
+     * that no residual selection data is carried over between sessions or
+     * screen transitions, prompting the user to select an animal afresh.
+     *
+     */
+    public void resetSelection() {
+        selectedAnimalImage = null;
+        selectedAnimalImagePath = null;
+    }
+
 }

@@ -1,15 +1,10 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.Overlay.OverlayType;
-import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.overlays.QuestOverlay;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
@@ -18,6 +13,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
@@ -34,9 +30,7 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Map;
+
 
 /**
  * The game screen containing the main game.
@@ -53,7 +47,7 @@ public class MainGameScreen extends PausableScreen {
    * Array of texture paths used in the main game screen.
    */
   private static final String[] mainGameTextures = {"images/health_bar_x1.png",
-          AnimalSelectionActions.getSelectedAnimalImagePath(), "images/player_icon_forest.png", "images/vignette.png",
+          GameState.player.selectedAnimalPath, "images/player_icon_forest.png", "images/vignette.png",
           "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
   /**
    * Initial position of the camera in game.
@@ -243,5 +237,9 @@ public class MainGameScreen extends PausableScreen {
     KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
     inputComponent.resetVelocity();
     gameArea.playMusic();
+  }
+
+  public ForestGameArea getGameArea() {
+    return gameArea;
   }
 }

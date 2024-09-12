@@ -27,6 +27,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -61,7 +62,8 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(animator)
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, 100, false))
+            .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
 
@@ -72,7 +74,7 @@ public class NPCFactory {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-      npc.getEvents().addListener(eventPausedStart, (String[] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
@@ -148,7 +150,7 @@ public class NPCFactory {
    * @param animalSoundPaths An array of sound asset paths to play. If null or empty, no sounds are played.
    * @param hintText An array of strings to display in the dialogue box.
    */
-  public static void initiateDialogue(String[] animalSoundPaths, String[] hintText) {
+  public static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
     DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
 
     // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
@@ -162,10 +164,11 @@ public class NPCFactory {
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
-        Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-          long soundId = animalSound.play();
-          animalSound.setVolume(soundId, 0.3f);
-          animalSound.setLooping(soundId, false);
+        // Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
+        //  long soundId = animalSound.play();
+        //  animalSound.setVolume(soundId, 0.3f);
+        //  animalSound.setLooping(soundId, false);
+        AudioManager.playSound(animalSoundPath);
       }
     }
   }

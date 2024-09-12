@@ -2,6 +2,7 @@ package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,22 +13,21 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
+import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.AudioManager;
 
 /**
  * A UI component for displaying the Main menu.
@@ -36,10 +36,44 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private Table menuButtonTable;
     private Table settingMenu;
+    private Table userTable;
+    private Table loginRegisterTable;
     private SettingsMenuDisplay settingsMenuDisplay;
+    private LoginRegisterDisplay loginRegisterDisplay;
     private TextButton toggleWindowBtn;
-    private Texture backgroundTexture;
+    private Texture lightBackgroundTexture;
+    private Texture settingBackground;
+    private Texture userTableBackground;
+    private Button muteButton;  // Mute toggle button with texture
+    private Texture muteTexture;  // Texture for mute state
+    private Texture unmuteTexture;  // Texture for unmute state
+    private Texture dog2Texture;
+    private Texture crocTexture;
+    private Texture birdTexture;
+    private Image dog2Image;
+    private Image crocImage;
+    private Image birdImage;
+    private boolean isNightMode = false; // A flag to track whether night mode is enabled
+    private Texture nightBackgroundTexture;
+    private Sound clickSound; // Loaded click sound file for buttons
+
+    private Button startBtn;
+    private Button loadBtn;
+    private Button minigamesBtn;
+    private Button settingsBtn;
+    private TextButton achievementsBtn;
+    private Button helpBtn;
+    private Button exitBtn;
+    private Label versionLabel;
+    private final float windowButtonWidth = 180;
+    private final float windowButtonHeight = 45;
+    private final float windowButtonSpacing = 15;
+
+    private final float fullScreenButtonWidth = 360;
+    private final float fullScreenuttonHeight = 90;
+    private final float fullScreenButtonSpacing = 45;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -48,10 +82,27 @@ public class MainMenuDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating MainMenuDisplay");
-        addActors();
-        applyUserSettings();
-        backgroundTexture = new Texture("images/BackgroundSplash.png");
+        loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
+        addActors();
+        animateAnimals();
+        applyUserSettings();
+    }
+
+    /**
+     * Load the textures for the mute and unmute button states.
+     */
+    private void loadTextures() {
+        settingBackground = new Texture("images/SettingBackground.png");
+        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");
+        userTableBackground = new Texture("images/UserTable.png");
+        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
+        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
+        dog2Texture = new Texture("images/dog2.png");
+        crocTexture = new Texture("images/croc.png");
+        birdTexture = new Texture("images/bird.png");
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
     }
 
     /**
@@ -63,25 +114,104 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
+     * Animates the dog2, croc, and bird images to move across the screen repeatedly.
+     */
+    private void animateAnimals() {
+        float screenHeight = Gdx.graphics.getHeight();
+//
+//        // Use the generic method to animate each animal
+//        animateAnimal(dog2Image, screenHeight / 3, 10f);  // Dog moves in 10 seconds
+//        animateAnimal(crocImage, screenHeight / 2, 8f);   // Crocodile moves in 8 seconds
+        animateAnimal(birdImage, 2 * screenHeight / 3, 6f); // Bird moves in 6 seconds
+    }
+
+
+    /**
+     * Adds an animation to the specified animal image to move from left to right across the screen and repeat forever.
+     *
+     * @param image       The animal image to animate.
+     * @param startY      The starting Y position of the animal.
+     * @param moveTime    The time it takes for the animal to move across the screen.
+     */
+    private void animateAnimal(Image image, float startY, float moveTime) {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Set starting position (off-screen to the left)
+        image.setPosition(-image.getWidth(), startY);
+
+        // Animate the animal to move from left to right and repeat forever
+        image.addAction(Actions.forever(Actions.sequence(
+                Actions.moveTo(screenWidth, startY, moveTime),  // Move across the screen in moveTime seconds
+                Actions.moveTo(-image.getWidth(), startY)       // Reset position to the left
+        )));
+    }
+
+
+    /**
      * Adds all UI elements (buttons, labels, etc.) to the main menu.
      */
     private void addActors() {
+        initializeTables();
+        initializeImages();
+        initializeMenuButtons();
+
+        addMenuButtonEffects();
+        addMenuButtonsListeners();
+        addExitConfirmation();
+        addMenuButtonIcon();
+        addTopLeftToggle();
+        addTopRightButtons();
+        addSettingMenu();
+        addUserTable();
+        addLoginRegisterTable();
+    }
+
+
+    /**
+     * Initialize all tables in the main menu
+     */
+    private void initializeTables() {
         table = new Table();
-        table.setFillParent(true);
-
+        menuButtonTable = new Table();
         settingMenu = new Table();
+        userTable = new Table();
+        loginRegisterTable = new Table();
+    }
 
+    /**
+     * Initialize all images in the main menu
+     */
+    private void initializeImages() {
+        // Create Image actors for the animals
+        //dog2Image = new Image(dog2Texture);
+        //crocImage = new Image(crocTexture);
+        birdImage = new Image(birdTexture);
+
+        // Add animal images to the stage
+        //stage.addActor(dog2Image);
+        //stage.addActor(crocImage);
+        stage.addActor(birdImage);
+    }
+
+    /**
+     * Initialize menu buttons in the main menu
+     */
+    private void initializeMenuButtons() {
         // Initialises buttons
-        TextButton startBtn = new TextButton("Start", skin);
-        TextButton loadBtn = new TextButton("Load", skin);
-        TextButton minigamesBtn = new TextButton("Minigames", skin); // New Minigames button
-        TextButton settingsBtn = new TextButton("Settings", skin);
-        TextButton achievementsBtn = new TextButton("Achievements", skin);
-        TextButton helpBtn = new TextButton("Help", skin);
-        TextButton exitBtn = new TextButton("Exit", skin);
-        Label versionLabel = new Label("Version 1.0", skin);
+        startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Start1.png"))));
+        loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
+        minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
+        settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
+        achievementsBtn = new TextButton("Achievements", skin);
+        helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
+        exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
+    }
 
-        // Adds UI component (hover over buttons)
+    /**
+     * Adds UI component (hover over buttons)
+     */
+    private void addMenuButtonEffects() {
         addButtonElevationEffect(startBtn);
         addButtonElevationEffect(loadBtn);
         addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
@@ -89,13 +219,19 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(achievementsBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
+    }
 
+    /**
+     * Add listener for menu buttons
+     */
+    private void addMenuButtonsListeners() {
         // Added handles for when clicked
         startBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Start button clicked");
                 entity.getEvents().trigger("start");
+                clickSound.play(); // This will cause a click sound to play when the button is clicked.
             }
         });
 
@@ -105,19 +241,20 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Load button clicked");
                 entity.getEvents().trigger("load");
+                clickSound.play();
             }
         });
 
         // Added handles for when clicked
-        minigamesBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        minigamesBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
 
-                        logger.debug("SnakeGame button clicked");
-                        entity.getEvents().trigger("SnakeGame");
-                    }
-                });
+                logger.debug("SnakeGame button clicked");
+                entity.getEvents().trigger("SnakeGame");
+                clickSound.play();
+            }
+        });
 
         // Added handles for when clicked
         settingsBtn.addListener(new ChangeListener() {
@@ -126,6 +263,7 @@ public class MainMenuDisplay extends UIComponent {
                 logger.info("Settings button clicked");
                 settingMenu.setVisible(true);
                 table.setTouchable(Touchable.disabled);
+                clickSound.play();
             }
         });
 
@@ -135,6 +273,7 @@ public class MainMenuDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Achievements button clicked");
                 entity.getEvents().trigger("achievements");
+                clickSound.play();
             }
         });
 
@@ -145,56 +284,175 @@ public class MainMenuDisplay extends UIComponent {
                 logger.info("Help button clicked");
                 entity.getEvents().trigger("help");
                 showHelpWindow();
+                clickSound.play();
             }
 
         });
-
-        // Added the pop up when user trys to exit game
-        addExitConfirmation(exitBtn);
-
-        // formats sizes of buttons
-        table.add(startBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(loadBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(achievementsBtn).padTop(15f).width(180f).height(45f);
-        table.row();
-        table.add(minigamesBtn).padTop(15f).width(180f).height(45f); // Add the Minigames button to the layout
-        table.row();
-        table.add(settingsBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(helpBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(exitBtn).padTop(15f).height(45f).width(180f);
-        table.row();
-        table.add(versionLabel).padTop(140f);
-
-        // Enables tables use
-        stage.addActor(table);
-
-        // Formats height of buttons on screen
-        sizeTable();
-
-        // Add the minimize button to the top-right corner
-        addMinimizeButton();
-        stage.addActor(table);
-
-        // Adds the setting menu to program
-        addSettingMenu();
     }
 
     /**
-     * Adjusts the size of the table based on screen mode (fullscreen or windowed).
+     * Add menu buttons icons and update the positions.
      */
-    private void sizeTable() {
-        // Checks if the table is full screen
+    public void addMenuButtonIcon() {
+        float buttonWidth;
+        float buttonHeight;
+        float buttonSpacing;
+        float padTopSpacing;
         if (Gdx.graphics.isFullscreen()) {
-            // Full screen sizing
-            table.setBounds(0,-215,200,1000);
+            buttonWidth = fullScreenButtonWidth;
+            buttonHeight = fullScreenuttonHeight;
+            buttonSpacing = fullScreenButtonSpacing;
+            padTopSpacing = 700;
+            versionLabel = new Label("Version 1.0", skin, "large-white");
         } else {
-            // Small screen sizing
-            table.setBounds(0,-230,200,1000);
+            buttonWidth = windowButtonWidth;
+            buttonHeight = windowButtonHeight;
+            buttonSpacing = windowButtonSpacing;
+            padTopSpacing = 350;
+            versionLabel = new Label("Version 1.0", skin, "default-white");
         }
+        menuButtonTable.setPosition((float) Gdx.graphics.getWidth() /2, (float) Gdx.graphics.getHeight() /2);
+        menuButtonTable.clear();
+        menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
+        menuButtonTable.row();
+        menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(versionLabel).padTop(buttonSpacing);
+        stage.addActor(menuButtonTable);
+    }
+
+    /**
+     * Adds a toggle button to the top left corner of the screen that allows switching
+     * between Night Mode and Day Mode. The button changes its label based on the
+     * current mode (Night Mode or Day Mode).
+     */
+    private void addTopLeftToggle() {
+        // Create a new Table to position the toggle button at the top left of the screen.
+        Table topLeftTable = new Table();
+        topLeftTable.top().left();
+        topLeftTable.setFillParent(true);
+
+        // Create a toggle button with the initial label as "Night Mode".
+        TextButton nightToggleButton = new TextButton("Night Mode", skin);
+
+        // Add a listener to handle button clicks and switch between Night and Day modes.
+        nightToggleButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isNightMode = !isNightMode;  // Toggle the Night Mode state.
+
+                // Update the button text and apply the corresponding mode.
+                if (isNightMode) {
+                    nightToggleButton.setText("Day Mode");  // Change text to "Day Mode".
+                    applyNightMode();  // Apply Night Mode settings.
+                } else {
+                    nightToggleButton.setText("Night Mode");  // Change text to "Night Mode".
+                    applyDayMode();  // Apply Day Mode settings.
+                }
+            }
+        });
+
+        // Add the button to the top left table with size and padding.
+        topLeftTable.add(nightToggleButton).size(150, 50).pad(10);
+
+        // Add the table to the stage to render it on the screen.
+        stage.addActor(topLeftTable);
+    }
+
+    /**
+     * Applies Night Mode by changing the background texture to the night version.
+     */
+    private void applyNightMode() {
+        lightBackgroundTexture = nightBackgroundTexture;  // Set the night mode background.
+    }
+
+    /**
+     * Applies Day Mode by changing the background texture to the default day version.
+     */
+    private void applyDayMode() {
+        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");  // Set the day mode background.
+    }
+
+    private void updateMuteButtonIcon() {
+        if (AudioManager.isMuted()) {
+            muteButton.getStyle().up = new TextureRegionDrawable(new TextureRegion(muteTexture));
+        } else {
+            muteButton.getStyle().up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
+        }
+    }
+
+    private void addUserTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        userTable.setSize(122, 522);
+
+        userTable.setVisible(true);
+
+        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        userTable.add(profileBtn).size(100, 100).top().padTop(30).expandY();
+
+        profileBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                loginRegisterTable.setVisible(true);
+            }
+        });
+
+        stage.addActor(userTable);
+    }
+
+    /**
+     * Add login register table, which could be open by clicking the profile button
+     */
+    private void addLoginRegisterTable() {
+        loginRegisterDisplay = new LoginRegisterDisplay();
+        loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
+        loginRegisterTable.setVisible(false);
+        loginRegisterTable.setSize(663, 405);
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Center the menu on the screen
+        loginRegisterTable.setPosition(
+                (screenWidth - loginRegisterTable.getWidth()) / 2,
+                (screenHeight - loginRegisterTable.getHeight()) / 2
+        );
+
+        stage.addActor(loginRegisterTable);
+    }
+
+    /**
+     * Update the position of login register table.
+     */
+    public void updateLoginRegisterTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Center the menu on the screen
+        loginRegisterTable.setPosition(
+                (screenWidth - loginRegisterTable.getWidth()) / 2,
+                (screenHeight - loginRegisterTable.getHeight()) / 2
+        );
+    }
+
+    /**
+     * Update the position of user table.
+     */
+    public void updateUserTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        userTable.setPosition(screenWidth - 150, screenHeight - 600);
     }
 
     /**
@@ -202,14 +460,16 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void showHelpWindow() {
         final int NUM_SLIDES = 5;
-        final float WINDOW_WIDTH = Math.min(1200f, Gdx.graphics.getWidth() - 100);
-        final float WINDOW_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100);
+        final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
+        final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
 
         // Create a Window for the help screen
-        final Window helpWindow = new Window("Help", skin);
+        Table helpWindow = new Table();
         helpWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        helpWindow.setResizable(true);
-        helpWindow.setMovable(true);
+
+        // Set the background of the helpWindow using the settingBackground texture
+        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
+        helpWindow.setBackground(settingDrawable);
 
         // Create a table to hold all slides
         final Table slideTable = new Table();
@@ -235,20 +495,27 @@ public class MainMenuDisplay extends UIComponent {
         navigationTable.add(previousButton).padRight(10);
         navigationTable.add(nextButton);
 
+        Label title = new Label("Help", skin, "title-white");
         // Create a table for the close button
         Table closeButtonTable = new Table();
-        TextButton closeButton = new TextButton("X", skin);
-        closeButtonTable.add(closeButton).size(40, 40).right().pad(10);
+        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
+        closeButtonTable.add(closeButton).size(80, 80).right().expandX().padTop(-10).padRight(-10);
+
+        Table topTable = new Table();
+        topTable.top().padTop(10);
+        topTable.add(title).expandX().center().padTop(20);
+        topTable.row();
+        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
         // Add the close button table to the top-right of the helpWindow
-        helpWindow.add(closeButtonTable).top().right().pad(1).row();
+        helpWindow.add(topTable).expandX().fillX();
         helpWindow.add().row();
 
         // Add the slideTable to the helpWindow and position it to fill the window
         helpWindow.add(slideTable).expand().fill().row();
 
         // Add the navigation table to the bottom of the helpWindow
-        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(10).row();
+        helpWindow.add(navigationTable).bottom().expandX().fillX().pad(30).row();
 
         final int[] currentSlide = {0};
 
@@ -307,6 +574,8 @@ public class MainMenuDisplay extends UIComponent {
                 (stage.getHeight() - helpWindow.getHeight()) / 2
         );
 
+        // Set focus to the help window to ensure it receives key events
+        stage.setKeyboardFocus(helpWindow);
         // Add an InputListener to handle keyboard input
         helpWindow.addListener(new InputListener() {
             @Override
@@ -343,85 +612,103 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds a minimize button to the top-right corner of the screen.
-     * This button toggles between fullscreen and windowed mode.
+     * Adds a minimize button and mute button to the top-right corner of the screen.
      */
-    private void addMinimizeButton() {
+    private void addTopRightButtons() {
+
+        Texture minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png")); // Replace with your minimize icon
+        Texture maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png")); // Replace with your maximize icon
+
+        Drawable minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
+        Drawable maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
+
+        Table topRightTable = new Table();
+        topRightTable.top().right();
+        topRightTable.setFillParent(true);
+
+        // Adding Icon for the minimax button
+        ImageButton toggleWindowBtn;
         if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
+            toggleWindowBtn = new ImageButton(minimizeDrawable);
         } else {
-            toggleWindowBtn = new TextButton("+", skin);
+            toggleWindowBtn = new ImageButton(maximizeDrawable);
         }
 
+        // Listener for minimizing/maximizing window
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
                 if (isFullscreen) {
-                    // Switch to windowed mode
-                    Gdx.graphics.setWindowedMode(1200, 750);
+                    // Mini-screen mode
+                    UserSettings.Settings settings = UserSettings.get();
+                    settings.fullscreen = false;
+                    UserSettings.applyDisplayMode(settings);
+                    toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
-                    // Switch to fullscreen mode
-                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                    // Fullscreen mode
+                    UserSettings.Settings settings = UserSettings.get();
+                    settings.fullscreen = true;
+                    UserSettings.applyDisplayMode(settings);
+                    toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
-                updateSettingMenu();
-                updateToggleWindowButtonText(); // Update text after toggling
                 logger.info("Fullscreen toggled: " + !isFullscreen);
-                sizeTable();
+                //sizeTable();
             }
         });
 
-        Table topRightTable = new Table();
-        topRightTable.top().right();
-        topRightTable.setFillParent(true);
-        topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+        buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
+        muteButton = new Button(buttonStyle);
 
+        muteButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (AudioManager.isMuted()) {
+                    AudioManager.unmuteAudio();
+                } else {
+                    AudioManager.muteAudio();
+                }
+                updateMuteButtonIcon();
+            }
+        });
+
+        updateMuteButtonIcon();
+
+        // Add the minimize/maximize button and mute button to the table
+        topRightTable.add(muteButton).size(60, 60).pad(10);  // Add mute button first
+        topRightTable.add(toggleWindowBtn).size(60, 60).pad(10);  // Add minimize/maximize button
+
+        // Add the table to the stage
         stage.addActor(topRightTable);
     }
 
-    /**
-     * Updates the text of the minimize button based on screen mode.
-     */
-    private void updateToggleWindowButtonText() {
-        boolean isFullscreen = Gdx.graphics.isFullscreen();
-        if (isFullscreen) {
-            toggleWindowBtn.setText("-"); // Show minus for minimizing
-        } else {
-            toggleWindowBtn.setText("+"); // Show plus for maximizing
-        }
-    }
 
     /**
      * Adds a settings menu to the screen.
      */
     private void addSettingMenu() {
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE); // Set color to white
-        pixmap.fill();
 
-        // Create a Drawable from the Pixmap
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-
-        // Dispose of the Pixmap after creating the texture
-        pixmap.dispose();
+        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        settingMenu.setSize(550, 350);
-        settingMenu.setBackground(backgroundDrawable);
+        settingMenu.setSize(663, 405);
+
+        settingMenu.setBackground(settingDrawable);
         settingMenu.setVisible(false);
 
         Table topTable = new Table();
         topTable.top().padTop(10);
 
-        Label title = new Label("Settings", skin, "title");
+        Label title = new Label("Settings", skin, "title-white");
 
-        topTable.add(title).expandX().center();
+        topTable.add(title).expandX().center().padTop(5);
         topTable.row();
 
-        TextButton closeButton = new TextButton("X", skin);
-        topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
+        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
+        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
         settingsMenuDisplay = new SettingsMenuDisplay();
         Table contentTable = settingsMenuDisplay.makeSettingsTable();
@@ -431,7 +718,7 @@ public class MainMenuDisplay extends UIComponent {
         bottomRightTable.bottom(); // Align contents to bottom-right
 
         TextButton applyButton = new TextButton("Apply", skin);
-        bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
+        bottomRightTable.add(applyButton).size(80, 40).padBottom(30f).padRight(30f);
 
         settingMenu.add(topTable).expandX().fillX(); // Top-right table
         settingMenu.row().padTop(30f);
@@ -465,6 +752,7 @@ public class MainMenuDisplay extends UIComponent {
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
                         table.setTouchable(Touchable.enabled);
+                        updateMuteButtonIcon();
                     }
                 });
     }
@@ -487,7 +775,7 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an elevation effect to buttons when hovered.
      */
-    private void addButtonElevationEffect(TextButton button) {
+    private void addButtonElevationEffect(Button button) {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -511,16 +799,11 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
-    private void addExitConfirmation(TextButton exitBtn) {
+    private void addExitConfirmation() {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-                pixmap.setColor(Color.WHITE);
-                pixmap.fill();
-
-                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-                pixmap.dispose();
+                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
 
                 final Dialog dialog = new Dialog("", skin);
                 dialog.setBackground(dialogBackground);
@@ -534,7 +817,6 @@ public class MainMenuDisplay extends UIComponent {
 
                 TextButton yesBtn = new TextButton("Yes", skin);
                 TextButton noBtn = new TextButton("No", skin);
-
                 yesBtn.getLabel().setFontScale(1.2f);
                 noBtn.getLabel().setFontScale(1.2f);
 
@@ -550,7 +832,7 @@ public class MainMenuDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         logger.info("Exit canceled");
-                        dialog.hide();
+                        dialog.remove();
                     }
                 });
 
@@ -562,7 +844,7 @@ public class MainMenuDisplay extends UIComponent {
                         (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
                         (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
                 );
-                dialog.show(stage);
+                stage.addActor(dialog);
             }
         });
     }
@@ -571,7 +853,7 @@ public class MainMenuDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
@@ -583,6 +865,10 @@ public class MainMenuDisplay extends UIComponent {
     @Override
     public void dispose() {
         table.clear();
+        dog2Texture.dispose();
+        crocTexture.dispose();
+        birdTexture.dispose();
         super.dispose();
+        clickSound.dispose();
     }
 }

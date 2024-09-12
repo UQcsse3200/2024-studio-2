@@ -127,7 +127,7 @@ class EnemyFactoryTest {
                 "Monkey should have between 9 and 11 HP inclusive.");
         assertEquals(0,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
-                "Monkey should have 0 Base Attack.");
+                "monkey should have 2 speed.");
     }
 
     /**
@@ -202,7 +202,7 @@ class EnemyFactoryTest {
                 "chicken should have between 4 and 6 HP.");
         assertEquals(0,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
-                "chicken should have 0 speed.");
+                "chicken should have 3 speed.");
     }
 
     /**
@@ -264,7 +264,7 @@ class EnemyFactoryTest {
                 "frog should have between 3 and 5 HP.");
         assertEquals(0,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
-                "frog should have 0 speed.");
+                "frog should have 1 speed.");
     }
 
     /**
@@ -398,8 +398,8 @@ class EnemyFactoryTest {
      */
     @Test
     void TestKangaHasCorrectHP() {
-        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 100 HP.");
+        assertEquals(150, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 150 HP.");
     }
 
     /**

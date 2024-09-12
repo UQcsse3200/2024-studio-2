@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -147,6 +148,7 @@ public class PlayerStatsDisplay extends UIComponent {
         vignetteImage = new Image(ServiceLocator.getResourceService().getAsset("images/vignette.png", Texture.class));
         vignetteImage.setFillParent(true); // Cover the entire screen
         vignetteImage.setVisible(false); // Initially invisible
+        stage.addActor(vignetteImage);
 
         // Aligning the bars one below the other
         table.add(healthImage).size(barImageWidth, barImageHeight).pad(2).padLeft(170);
@@ -160,18 +162,69 @@ public class PlayerStatsDisplay extends UIComponent {
         table.add(hungerImage).size(barImageWidth, barImageHeight*2).pad(2).padLeft(170).padTop(-15);
         table.add(hungerLabel).align(Align.left).padTop(-15);
 
-
         stage.addActor(table);
-        stage.addActor(vignetteImage);
 
         //initialising the character stats
-        updatePlayerHealthUI(health);
+        updatePlayerHealthUI(health, this.maxHealth, true);
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience);
 
+        startHungerDecreaseTimer();
         // Add the table to the stage
         return true;
     }
+
+
+    public void startHungerDecreaseTimer() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+                if (combatStats != null) {
+                    // Decrease hunger by 1 every 3 seconds
+                    combatStats.addHunger(-1);
+                    int hunger = combatStats.getHunger();
+                    updatePlayerHungerUI(hunger);
+
+                    // Adjust health based on the current hunger level
+                    adjustHealthBasedOnHunger(hunger, combatStats);
+                }
+            }
+        }, 3, 3); // Initial delay of 3 seconds, then repeat every 3 seconds
+    }
+
+    private void adjustHealthBasedOnHunger(int hunger, CombatStatsComponent combatStats) {
+        int health = combatStats.getHealth();
+
+        if (hunger >= 90 && health < maxHealth) {
+            // Increase health by 1 if hunger is 90+ and health isn't max
+            combatStats.addHealth(1);
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+        } else if (hunger < 20 && hunger > 0) {
+            // Decrease health by 1 every 3 seconds if hunger is less than 20
+            combatStats.addHealth(-1);
+            updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+        } else if (hunger == 0) {
+            // Decrease health by 1 every second if hunger is 0
+            startHealthDecreaseTimer(combatStats);
+        }
+    }
+
+
+    private void startHealthDecreaseTimer(CombatStatsComponent combatStats) {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if (combatStats.getHunger() == 0) {
+                    combatStats.addHealth(-1);
+                    updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
+                }
+            }
+        }, 0, 1); // Run every second
+    }
+
+
+
 
     @Override
     public void draw(SpriteBatch batch) {
@@ -197,7 +250,7 @@ public class PlayerStatsDisplay extends UIComponent {
      * including the call to test functions for checking
      * @param health the current health stat value of the player
      */
-    public void updatePlayerHealthUI(int health) {
+    public void updatePlayerHealthUI(int health, int maxHealth, boolean isPlayer) {
         CharSequence text = String.format("HP: %d", health);
         logger.debug("Made it to this updateHealth function");
         logger.debug("{}", health);
@@ -208,8 +261,11 @@ public class PlayerStatsDisplay extends UIComponent {
 
         int frameIndex = totalFrames - 1 - (int) ((float) health / maxHealth * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        // Set the current frame of the health bar animation
-        setNewFrame(frameIndex, healthBarAnimation, healthImage);
+
+        if (isPlayer) {
+            // Set the current frame of the health bar animation
+            setNewFrame(frameIndex, healthBarAnimation, healthImage);
+        }
     }
 
     /**

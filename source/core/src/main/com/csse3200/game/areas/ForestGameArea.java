@@ -7,21 +7,35 @@ import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
+import com.csse3200.game.components.mainmenu.MainMenuActions;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.entities.factories.ObstacleFactory;
+import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainChunk;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.areas.terrain.TerrainLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.ArrayList;
+import com.csse3200.game.entities.factories.ItemFactory;
+
+import java.util.Objects;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -64,34 +78,39 @@ public class ForestGameArea extends GameArea {
    * */
   @Override
   public void create() {
-    loadAssets();
+      loadAssets();
 
-    displayUI();
+      displayUI();
 
-    // Terrain
-    spawnTerrain();
+      // Terrain
+      spawnTerrain();
 
-    // Player
-    player = spawnPlayer();
-    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setInitials(player.getPosition(), terrain);
+      // Player
+      player = spawnPlayer();
+      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+      TerrainLoader.setInitials(player.getPosition(), terrain);
 
-    // Obstacles
-    spawnTrees();
+      // Obstacles
+      spawnTrees();
 
-    //Enemies
-    spawnEnemies();
+      //Enemies
+      spawnEnemies();
 
-    // items
-    handleItems();
+      // items
+      handleItems();
 
-    //Friendlies
-    spawnFriendlyNPCs();
+      //Friendlies
+      spawnFriendlyNPCs();
 
-    playMusic();
-    player.getEvents().addListener("setPosition", this::handleNewChunks);
-    player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-    kangarooBossSpawned = false;
+      playMusic();
+      player.getEvents().addListener("setPosition", this::handleNewChunks);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+      kangarooBossSpawned = false;
+
+      //Initialise inventory and quests with loaded data
+      player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+      player.getComponent(QuestManager.class).loadQuests();
   }
 
   private void handleNewChunks(Vector2 playerPos) {
@@ -149,30 +168,6 @@ public class ForestGameArea extends GameArea {
     // Background terrain
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
     spawnEntity(new Entity().addComponent(terrain));
-
-    // // Terrain walls
-    // float tileSize = terrain.getTileSize();
-    // GridPoint2 tileBounds = terrain.getMapBounds(0);
-    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    //  // Left
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    //  // Right
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //      new GridPoint2(tileBounds.x, 0),
-    //      false,
-    //      false);
-    //  // Top
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //      new GridPoint2(0, tileBounds.y),
-    //      false,
-    //      false);
-    //  // Bottom
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void spawnTrees() {
@@ -210,6 +205,48 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
     spawnEntityAt(entity, randomPos, true, true);
+  }
+
+/**
+ * Spawns an entity near the player within a specified radius, ensuring the entity
+ * is placed within the correct chunk boundaries and loaded areas of the game map.
+ *
+ * This function calculates a valid spawn position near the player's current location,
+ * considering the player's world position and current chunk. It ensures that the entity
+ * is spawned within the boundaries of the current chunk to avoid positioning the entity
+ * in an unloaded or inaccessible area.
+ *
+ * @param entity The entity to be spawned near the player.
+ * @param radius The radius around the player's position within which the entity will be spawned.
+ *               The spawn position is randomly selected within this radius but is constrained
+ *               to be within the current chunk boundaries.
+ *
+ */
+private void spawnEntityNearPlayer(Entity entity, int radius) {
+    // Get the player's current position in the world
+    Vector2 playerWorldPos = player.getPosition();
+
+    // Convert player's position to chunk coordinates
+    GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
+
+    // Calculate potential spawn positions within the specified radius
+    GridPoint2 minPos = new GridPoint2(
+            Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
+            Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
+    );
+
+    GridPoint2 maxPos = new GridPoint2(
+            Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
+            Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
+    );
+
+    // Randomly select a position within the radius
+    GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+    // Spawn the entity at the calculated position
+    spawnEntityAt(entity, spawnPos, true, true);
+    logger.info("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+            entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
   }
 
   private void spawnItems(GridPoint2 pos) {
@@ -329,6 +366,26 @@ public class ForestGameArea extends GameArea {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
+  public static void playMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.setLooping(true);
+//    music.setVolume(0.5f);
+//    music.play();
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
+    }
+  }
+  public static void pauseMusic() {
+//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+//    music.pause();
+    AudioManager.stopMusic();  // Stop the music
+  }
 
   private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
@@ -371,27 +428,17 @@ public class ForestGameArea extends GameArea {
     spawnEntityAtVector(banana, pos);
   }
 
-  public static void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
-            Music.class);
-    music.setLooping(true);
-    music.setVolume(0.5f);
-    music.play();
-  }
-
-  public static void pauseMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
-    music.pause();
-  }
-
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
+    //resourceService.loadMusic(forestMusic);
+
     resourceService.loadTextures(config.textures.forestTextures);
     resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
     resourceService.loadSounds(config.sounds.gameSounds);
     resourceService.loadMusic(config.sounds.gameMusic);
-
+    resourceService.loadSounds(config.sounds.characterSounds);
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
       logger.debug("Loading... {}%", resourceService.getProgress());

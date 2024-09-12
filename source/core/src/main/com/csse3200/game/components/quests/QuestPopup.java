@@ -44,7 +44,6 @@ public class QuestPopup extends UIComponent {
     private void showQuestCompletedPopup() {
         showing = true;
         draw(null); // Call draw with null since SpriteBatch is unused
-        SaveHandler.save(GameState.class, "saves");
     }
 
     /**

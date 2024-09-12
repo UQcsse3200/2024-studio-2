@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.files.FileLoader.Location;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.services.AudioManager;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,11 +24,17 @@ public class UserSettings {
     private static Map<Sound, Float> soundVolumes = new HashMap<>();
     private static Map<Music, Float> musicVolumes = new HashMap<>();
 
+    // Store the last unmuted volume levels for easy restoration after unmuting
+    private static float lastMusicVolume = 1f;
+    private static float lastSoundVolume = 1f;
+    private static boolean isMuted = false;
+
+
     /**
      * Get the stored user settings
      * @return Copy of the current settings
      */
-    public static com.csse3200.game.components.settingsmenu.UserSettings.Settings get() {
+    public static Settings get() {
         String path = ROOT_DIR + File.separator + SETTINGS_FILE;
         com.csse3200.game.components.settingsmenu.UserSettings.Settings fileSettings = FileLoader.readClass(com.csse3200.game.components.settingsmenu.UserSettings.Settings.class, path, Location.EXTERNAL);
         // Use default values if file doesn't exist
@@ -39,7 +46,7 @@ public class UserSettings {
      * @param settings New settings to store
      * @param applyImmediate true to immediately apply new settings.
      */
-    public static void set(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings, boolean applyImmediate) {
+    public static void set(Settings settings, boolean applyImmediate) {
         String path = ROOT_DIR + File.separator + SETTINGS_FILE;
         FileLoader.writeClass(settings, path, Location.EXTERNAL);
 
@@ -52,7 +59,7 @@ public class UserSettings {
      * Apply the given settings without storing them.
      * @param settings Settings to apply
      */
-    public static void applySettings(com.csse3200.game.components.settingsmenu.UserSettings.Settings settings) {
+    public static void applySettings(Settings settings) {
         Gdx.graphics.setForegroundFPS(settings.fps);
 
         if (settings.fullscreen) {
@@ -64,28 +71,80 @@ public class UserSettings {
         } else {
             Gdx.graphics.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
         }
-        //applyAudioSettings(settings.audioScale, settings.soundScale);
+        applyAudioSettings(settings.audioScale, settings.soundScale);
     }
     /**
-     private static void applyAudioSettings(float audioScale, float soundScale) {
-     float volume = audioScale / 100f; // Scale to 0.0 - 1.0
+     * Applies the audio settings to the game, including handling mute/unmute.
+     * @param audioScale The music volume scale (0-100).
+     * @param soundScale The sound effects volume scale (0-100).
+     */
+    private static void applyAudioSettings(float audioScale, float soundScale) {
+        if (isMuted) {
+            AudioManager.setMusicVolume(0f);
+            AudioManager.setSoundVolume(0f);
+        } else {
+            // Store the last known unmuted values for restoration after unmuting
+            lastMusicVolume = audioScale / 100f;
+            lastSoundVolume = soundScale / 100f;
 
-     // Apply volume settings to sounds
-     for (Map.Entry<Sound, Float> entry : soundVolumes.entrySet()) {
-     Sound sound = entry.getKey();
-     float originalVolume = entry.getValue();
-     sound.setVolume(0, volume * originalVolume); // Adjust volume
-     }
+            AudioManager.setMusicVolume(lastMusicVolume);
+            AudioManager.setSoundVolume(lastSoundVolume);
+        }
 
-     // Appply volume settings to music
-     for (Map.Entry<Music, Float> entry : musicVolumes.entrySet()) {
-     Music music = entry.getKey();
-     float originalVolume = entry.getValue();
-     music.setVolume(volume * originalVolume); // adjust volume
-     }
-     } **/
+    }
 
-    private static DisplayMode findMatching(com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings desiredSettings) {
+    public static void applyDisplayMode(Settings settings) {
+        if (settings.fullscreen) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(1280, 800);
+        }
+        set(settings, true);
+    }
+
+    /**
+     * Mutes the audio globally, storing the current volume settings and setting them to 0.
+     */
+    public static void muteAudio() {
+        if (!isMuted) {
+            // Store current volumes before muting
+            lastMusicVolume = AudioManager.getMusicVolume();
+            lastSoundVolume = AudioManager.getSoundVolume();
+
+            // Set volumes to 0
+            AudioManager.setMusicVolume(0f);
+            AudioManager.setSoundVolume(0f);
+
+            isMuted = true;
+        }
+    }
+
+    /**
+     * Unmutes the audio globally, restoring the last saved volume levels.
+     */
+    public static void unmuteAudio() {
+        if (isMuted) {
+            // Restore the volumes
+            AudioManager.setMusicVolume(lastMusicVolume);
+            AudioManager.setSoundVolume(lastSoundVolume);
+
+            isMuted = false;
+        }
+    }
+
+    /**
+     * Toggles between mute and unmute.
+     */
+    public static void toggleMute() {
+        if (isMuted) {
+            unmuteAudio();
+        } else {
+            muteAudio();
+        }
+    }
+
+
+    private static DisplayMode findMatching(DisplaySettings desiredSettings) {
         if (desiredSettings == null) {
             return null;
         }
@@ -108,13 +167,16 @@ public class UserSettings {
          * FPS cap of the game. Independant of screen FPS.
          */
         public int fps = 60;
-        public boolean fullscreen = true;
+        public boolean fullscreen = false;
         /**
          * ui Scale. Currently unused, but can be implemented.
          */
         public float audioScale = 100;
         public float soundScale = 100;
-        public com.csse3200.game.components.settingsmenu.UserSettings.DisplaySettings displayMode = null;
+        public DisplaySettings displayMode = null;
+        public String selectedMusicTrack = "Track 1";
+
+
     }
 
     /**

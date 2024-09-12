@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.animal.BackgroundImage;
 import com.csse3200.game.components.loading.LoadingDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.entities.Entity;
@@ -73,6 +74,8 @@ public class LoadingScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
+    BackgroundImage loadingScreenImage = new BackgroundImage("images/animal/loadingbg.png");
+    stage.addActor(loadingScreenImage);
     loadingDisplay = new LoadingDisplay();
     ui.addComponent(loadingDisplay).addComponent(new InputDecorator(stage, 10));
     ServiceLocator.getEntityService().register(ui);

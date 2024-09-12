@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.entities.factories.PlayerFactory;
 
@@ -45,7 +46,7 @@ public class GameAreaDisplay extends UIComponent {
         title = new Label(this.gameAreaName, skin, "large");
 
         // Get the player image path from PlayerFactory
-        String playerImagePath = PlayerFactory.getSelectedAnimalImagePath();
+        String playerImagePath = GameState.player.selectedAnimalPath;
 
         // Determine the player icon texture based on the player image path
         switch (playerImagePath) {

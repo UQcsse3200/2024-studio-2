@@ -19,13 +19,27 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.minigames.MiniGameConstants;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
+import com.csse3200.game.inventory.items.lootbox.rarities.LateGameLootBox;
+import com.csse3200.game.inventory.items.lootbox.rarities.MediumGameLootBox;
 import com.csse3200.game.services.ServiceContainer;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
 
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.
  */
 public class EndMiniGameScreen extends ScreenAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(EndMiniGameScreen.class);
     private final GdxGame game;
     private final int score;
     private final MiniGameNames gameName;
@@ -39,6 +53,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final BitmapFont font32;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+
+    private final Entity player;
+    private PlayerInventoryDisplay display;
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -54,7 +71,18 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-        
+
+        if (oldScreen instanceof MainGameScreen) {
+            MainGameScreen forestGameArea = (MainGameScreen) oldScreen;
+            this.player = forestGameArea.getGameArea().getPlayer();
+            if (player != null) {
+                logger.info("Adding loot box to player's inventory.");
+                this.display = player.getComponent(PlayerInventoryDisplay.class);
+            }
+        } else {
+            this.player = null;
+            this.display = null;
+        }
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
@@ -70,13 +98,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Scale the button's font
         exitButton.getLabel().setFontScale(scale);
 
-        // Scale the button's size
-
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                switch(getMedal(score)) {
+                    case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
+                            new EarlyGameLootTable(),3 , player));
+                    case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
+                            new MediumGameLootTable(),3 , player));
+                    case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
+                            new LateGameLootTable(),3 , player));
+                }
                 game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
@@ -120,7 +154,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             dispose();
-            game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+            if (gameName == SNAKE) {
+                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+            }
+            else if (gameName == BIRD) {
+                game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+            } else {
+                //TODO: add Maze screen
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
@@ -187,7 +228,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
-                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+                if (gameName == SNAKE) {
+                    game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+                }
+                else if (gameName == BIRD) {
+                    game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+                } else {
+                    //TODO: add Maze screen
+                }
             }
         });
 
@@ -304,10 +352,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 bronzeMedalThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
                 silverMedalThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
                 goldMedalThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
-                failMessage = "Bird message FAIL";
-                bronzeMessage = "Bird message BRONZE";
-                silverMessage = "Bird message SILVER";
-                goldMessage = "Bird message GOLD";
+                failMessage = "You're broke, maybe talk to Centerlink?";
+                bronzeMessage = "Almost middle class";
+                silverMessage = "Damn she rich";
+                goldMessage = "Donate to a poor software engineering student? Please :)";
             }
             case MAZE -> {
                 bronzeMedalThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
@@ -341,7 +389,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font26.dispose();
         font32.dispose();
         stage.dispose();
-        skin.dispose(); 
+        skin.dispose();
     }
 
     /**

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -138,4 +137,56 @@ class QuestManagerTest {
 
         SaveHandler.delete(GameState.class, "test/saves/quests");
     }
+
+    @Test
+    void TestQuestWithTaskAndAchievement() {
+
+        Task task1 = new Task("task1", "First Task", "Complete the first task.", 1, 0, false, false);
+        Task task2 = new Task("task2", "Second Task", "Complete the second task.", 1, 0, false, false);
+
+
+        QuestBasic quest = new QuestBasic("Complex Quest", "A complex quest with multiple tasks.", List.of(task1, task2), false, null, null, true, false, 0);
+        questManager.addQuest(quest);
+
+
+        questManager.progressQuest("Complex Quest", "task1");
+        questManager.progressQuest("Complex Quest", "task2");
+
+
+        assertTrue(quest.isQuestCompleted());
+
+
+        QuestHidden achievement = new QuestHidden("Complex Achievement", "An achievement for completing complex quests.");
+        questManager.addAchievement(achievement);
+        questManager.completeAchievement("Complex Achievement");
+
+
+        verify(eventHandler).trigger("achievementCompleted");
+    }
+
+    @Test
+    void HandleInvalidQuestProgression() {
+        QuestBasic quest = new QuestBasic("Invalid Progression Quest", "Description", List.of(), false, null, null, true, false, 0);
+        questManager.addQuest(quest);
+
+        questManager.progressQuest("Invalid Progression Quest", "nonexistentTask");
+
+        verify(eventHandler, never()).trigger(anyString());
+    }
+
+    @Test
+    void TestFinishingMultipleTasks() {
+        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
+        Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
+        QuestBasic guideQuest = new QuestBasic("Guide's Journey", "Complete various tasks to progress.", List.of(talkToGuide, collectPotions), false, null, null, false, false, 0);
+        questManager.addQuest(guideQuest);
+
+        questManager.progressQuest("Guide's Journey", "talkToGuide");
+        questManager.progressQuest("Guide's Journey", "collectPotions");
+        QuestBasic updatedQuest = questManager.getQuest("Guide's Journey");
+        assertTrue(updatedQuest.getTasks().get(0).isCompleted());
+        assertTrue(updatedQuest.getTasks().get(1).isCompleted());
+        assertTrue(updatedQuest.isQuestCompleted());
+    }
+
 }
