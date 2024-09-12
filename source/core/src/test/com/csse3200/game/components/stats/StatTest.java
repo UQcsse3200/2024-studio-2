@@ -1,62 +1,65 @@
 package com.csse3200.game.components.stats;
 
+import com.badlogic.gdx.utils.Json;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class StatTest {
+
     private Stat stat;
 
-    @Test
-    void twoArgConstructor(){
-        stat = new Stat("Tracking", "Stats are being tracked");
-        assertFalse(stat.hasMax());
-        assertEquals("Tracking", stat.getStatName());
-        assertEquals("Stats are being tracked", stat.getDescription());
-        assertEquals(0, stat.getCurrent());
-        assertEquals(-1, stat.getMax());
+    @BeforeEach
+    void setUp() {
+        stat = new Stat("Health", "The health of the player", 50, 100, true, Stat.StatType.PLAYER);
     }
 
     @Test
-    void threeArgConstructor(){
-        stat = new Stat("Tracking", "Stats are being tracked", 10);
+    void testGetters() {
+        assertEquals("Health", stat.getStatName());
+        assertEquals("The health of the player", stat.getStatDescription());
+        assertEquals(50, stat.getCurrent());
+        assertEquals(100, stat.getMax());
         assertTrue(stat.hasMax());
-        assertEquals("Tracking", stat.getStatName());
-        assertEquals("Stats are being tracked", stat.getDescription());
-        assertEquals(0, stat.getCurrent());
-        assertEquals(10, stat.getMax());
+        assertEquals(Stat.StatType.PLAYER, stat.getType());
     }
 
     @Test
-    void updateSet() {
-        stat = new Stat("Tracking", "Stats are being tracked");
-        stat.update("set", 5);
-        assertEquals(5, stat.getCurrent());
-        stat = new Stat("Tracking", "Stats are being tracked", 10);
-        stat.update("set", 15);
-        assertEquals(10, stat.getCurrent() );
+    void testUpdateSet() {
+        stat.update("set", 75);
+        assertEquals(75, stat.getCurrent());
+        assertEquals(100, stat.getMax());
+    }
+    
+    @Test
+    void testUpdateSubtract() {
+        stat = new Stat("Health", "The health of the player", 50, 100, true, Stat.StatType.PLAYER);
+        stat.update("subtract", 20);
+        assertEquals(30, stat.getCurrent()); // 50 - 20 = 30
+        stat.update("subtract", 40);
+        assertEquals(0, stat.getCurrent()); // Min value should be 0
     }
 
     @Test
-    void updateAdd() {
-        stat = new Stat("Tracking", "Stats are being tracked", 10);
-        stat.update("add", 5);
-        assertEquals(5, stat.getCurrent());
-        stat.update("add", 15);
-        assertEquals(10, stat.getCurrent());
-        stat = new Stat("Tracking", "Stats are being tracked");
-        stat.update("add", 5);
-        assertEquals(5, stat.getCurrent());
+    void testUpdateAdd() {
+        stat.update("add", 30);
+        assertEquals(80, stat.getCurrent()); // 50 + 30 = 80
+        stat.update("add", 50);
+        assertEquals(100, stat.getCurrent()); // Max is 100, so current should be 100
     }
 
     @Test
-    void updateSubtract() {
-        stat = new Stat("Tracking", "Stats are being tracked");
-        stat.update("add", 5);
-        assertEquals(5, stat.getCurrent());
-        stat.update("subtract", 3);
-        assertEquals(2, stat.getCurrent());
-        stat.update("subtract", 3);
-        assertEquals(0, stat.getCurrent());
+    void testUpdateWithoutMax() {
+        Stat statWithoutMax = new Stat("Energy", "The energy of the player", 10, null, false, Stat.StatType.PLAYER);
+        statWithoutMax.update("add", 20);
+        assertEquals(30, statWithoutMax.getCurrent()); // No max limit
+        statWithoutMax.update("subtract", 5);
+        assertEquals(25, statWithoutMax.getCurrent()); // No max limit
+    }
+
+    @Test
+    void testToString() {
+        String expectedString = "Stat{statName='Health', statDescription='The health of the player', statCurrent=50, statMax=100, statHasMax=true, type=PLAYER}";
+        assertEquals(expectedString, stat.toString());
     }
 }

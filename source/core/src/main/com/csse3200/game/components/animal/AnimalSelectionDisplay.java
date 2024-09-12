@@ -18,6 +18,7 @@ public abstract class AnimalSelectionDisplay {
 
     /**
      * Constructor for AnimalSelectionDisplay to initialize UI components and layout.
+     *
      * @param stage The stage where UI elements are added.
      * @param skin  The skin for styling UI elements.
      */
