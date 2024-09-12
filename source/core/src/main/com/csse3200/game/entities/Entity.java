@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ComponentType;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -38,10 +39,12 @@ public class Entity {
   private Array<Component> createdComponents;
   private EnemyType enemyType;
   public enum EnemyType {
-    KANGAROO,
+
     CHICKEN,
+    FROG,
     MONKEY,
-      BEAR, FROG
+    BEAR,
+    KANGAROO,
   }
 
 
@@ -52,19 +55,6 @@ public class Entity {
 
     components = new IntMap<>(4);
     eventHandler = new EventHandler();
-  }
-
-  // Getter for enemy type
-  public EnemyType getEnemyType() {
-
-    // return enemyType;
-    return this.enemyType;
-  }
-
-  // Setter for enemy type
-  public Entity setEnemyType(EnemyType enemyType) {
-    this.enemyType = enemyType;
-    return this;
   }
 
   /**
@@ -319,4 +309,22 @@ public class Entity {
   public Boolean isEnabled(){
     return this.enabled;
   }
+  /**
+   * Retrieves the current enemy type for this entity.
+   *
+   * @return The current {@link EnemyType} of this entity.
+   */
+  public EnemyType getEnemyType() {
+    return this.enemyType;
+  }
+
+  /**
+   * Sets the enemy type for this entity.
+   *
+   * @param enemyType The {@link EnemyType} to be assigned to this entity.
+   */
+  public void setEnemyType(EnemyType enemyType) {
+    this.enemyType = enemyType;
+  }
 }
+

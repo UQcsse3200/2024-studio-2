@@ -76,6 +76,11 @@ public class PlayerActions extends Component {
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
 
+  /**
+   * Moves the player towards a given direction.
+   *
+   * @param direction direction to move in
+   */
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
@@ -83,6 +88,9 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("steps");
   }
 
+  /**
+   * Stops the player from walking.
+   */
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
@@ -90,6 +98,9 @@ public class PlayerActions extends Component {
     logger.info("Player stopped moving.");
   }
 
+  /**
+   * Makes the player attack.
+   */
   void attack() {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound(1.0f);
@@ -120,7 +131,8 @@ public class PlayerActions extends Component {
       currentTask.stop();
       game.addBossCutsceneScreen(player, enemy);
     } else {
-      game.enterCombatScreen(player, enemy);
+      // game.enterCombatScreen(player, enemy);
+      game.addEnemyCutsceneScreen(player, enemy);
     }
   }
 }
