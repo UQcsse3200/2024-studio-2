@@ -263,7 +263,6 @@ public class PlayerStatsDisplay extends UIComponent {
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
 
         if (isPlayer) {
-            // Set the current frame of the health bar animation
             setNewFrame(frameIndex, healthBarAnimation, healthImage);
         }
     }
