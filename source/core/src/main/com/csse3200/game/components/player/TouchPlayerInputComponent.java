@@ -110,5 +110,4 @@ public class TouchPlayerInputComponent extends InputComponent {
     }
   }
 
-
 }

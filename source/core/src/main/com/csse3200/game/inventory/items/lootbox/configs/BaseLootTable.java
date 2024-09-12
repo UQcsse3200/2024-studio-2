@@ -41,9 +41,7 @@ public abstract class  BaseLootTable {
      *
      * @return List of LootItemConfig objects representing the items and their weights in the loot table.
      */
-    public List<LootItemConfig> getItems() {
-        return this.items;
-    }
+    public List<LootItemConfig> getItems() {return this.items;}
 
     /**
      * Selects a random item from the loot table based on the weights of each item.

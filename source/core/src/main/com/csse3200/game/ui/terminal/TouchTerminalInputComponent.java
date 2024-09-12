@@ -22,7 +22,6 @@ public class TouchTerminalInputComponent extends InputComponent {
     this.terminal = terminal;
   }
 
-
   @Override
   public void create() {
     super.create();

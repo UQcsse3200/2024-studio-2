@@ -8,15 +8,14 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.DialogueBoxService;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
 
 /**
  * Manages, tracks and updates the quests within the game.
@@ -184,7 +183,6 @@ public class QuestManager extends Component {
         inventory.questItemListen("Defense Potion", 5);
     }
 
-
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -211,6 +209,11 @@ public class QuestManager extends Component {
     public void addQuest(QuestBasic quest) {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
+    }
+
+    public void addAchievement(QuestHidden achievement) {
+        achievements.put(achievement.getQuestName(), achievement);
+        subscribeToAchievementEvents(achievement);
     }
 
     /**
@@ -279,7 +282,7 @@ public class QuestManager extends Component {
 
 
     /**
-     * Progresses the  quest based on completion and updates the quest status..
+     * Progresses the quest based on completion and updates the quest status.
      * @param questName The name of the quest.
      * @param taskName  The name of the task.
      */

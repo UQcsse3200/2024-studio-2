@@ -2,8 +2,6 @@ package com.csse3200.game.components.quests;
 
 import java.util.Objects;
 
-
-
 /**
  * Key to identify dialogues based on the NPC's.
  */
@@ -28,7 +26,6 @@ public class DialogueKey {
          * @param o The object to compare against.
          * @return True if object is equal to this DialogueKey.
          */
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
