@@ -116,7 +116,7 @@ public class CombatStatsComponent extends Component {
       this.health = 0;
     }
     if (entity != null) {
-      entity.getEvents().trigger("updateHealth", this.health);
+      entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
     }
   }
 

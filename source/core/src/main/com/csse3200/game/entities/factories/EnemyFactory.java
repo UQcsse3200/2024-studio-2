@@ -218,10 +218,6 @@ public class EnemyFactory {
   }
 
   /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> main
    * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
    * there is no chase task included. This is where abilities components will be added.
    * loaded.
@@ -295,7 +291,7 @@ public class EnemyFactory {
 
     chickenEnemy
             .addComponent(new TextureRenderComponent("images/chicken_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
     chickenEnemy.scaleHeight(90.0f);
 
     return chickenEnemy;
