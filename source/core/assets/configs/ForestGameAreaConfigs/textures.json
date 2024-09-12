@@ -182,6 +182,9 @@
     "images/eagle.atlas",
     "images/turtle.atlas",
     "images/magpie.atlas",
-    "images/final_boss_kangaroo.atlas"
+    "images/final_boss_kangaroo.atlas",
+    "images/enemy-frog.atlas",
+    "images/enemy-monkey.atlas",
+    "images/enemy-chicken.atlas"
   ]
 }
