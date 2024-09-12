@@ -339,6 +339,13 @@ run_right_up
   orig: 160, 162
   offset: 0, 0
   index: 5
+wait
+  rotate: false
+  xy: 0, 0
+  size: 160, 162
+  orig: 160, 162
+  offset: 0, 0
+  index: 0
 default
   rotate: false
   xy: 0, 0
