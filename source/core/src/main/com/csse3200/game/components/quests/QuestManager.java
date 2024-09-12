@@ -210,11 +210,7 @@ public class QuestManager extends Component {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
-
-    public void addAchievement(QuestHidden achievement) {
-        achievements.put(achievement.getQuestName(), achievement);
-        subscribeToAchievementEvents(achievement);
-    }
+    
 
     /**
      * Add a achievement to the overall list of achievements.
