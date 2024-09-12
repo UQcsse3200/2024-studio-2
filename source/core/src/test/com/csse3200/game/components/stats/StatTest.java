@@ -36,7 +36,7 @@ class StatTest {
         assertEquals("ApplesCollected", stat.getStatName());
         assertEquals("Number of apples collected", stat.getStatDescription());
         assertEquals(0, stat.getCurrent());
-        assertEquals(10, stat.getMax());
+        assertEquals(10, stat.getStatMax());
         assertTrue(stat.hasMax());
         assertEquals(Stat.StatType.ITEM, stat.getType());
     }
@@ -109,7 +109,7 @@ class StatTest {
         assertEquals("Number of apples collected", stat.getStatDescription());
         assertEquals(5, stat.getCurrent());
         assertTrue(stat.hasMax());
-        assertEquals(10, stat.getMax());
+        assertEquals(10, stat.getStatMax());
         assertEquals(Stat.StatType.ITEM, stat.getType());
     }
 
