@@ -161,7 +161,7 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose of all internal entities in the area</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnEntity(com.csse3200.game.entities.Entity)" class="member-name-link">spawnEntity</a><wbr>(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Spawn entity at its current position</div>
@@ -173,12 +173,6 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
  boolean&nbsp;centerY)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Spawn entity on a given tile.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnEntityAtVector(com.csse3200.game.entities.Entity,com.badlogic.gdx.math.Vector2)" class="member-name-link">spawnEntityAtVector</a><wbr>(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
- com.badlogic.gdx.math.Vector2&nbsp;worldPos)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Spawns an entity at a specified world position.</div>
 </div>
 </div>
 </div>
@@ -252,7 +246,7 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <li>
 <section class="detail" id="spawnEntity(com.csse3200.game.entities.Entity)">
 <h3>spawnEntity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnEntity</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnEntity</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</span></div>
 <div class="block">Spawn entity at its current position</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -274,23 +268,6 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <dd><code>tilePos</code> - tile position to spawn at</dd>
 <dd><code>centerX</code> - true to center entity X on the tile, false to align the bottom left corner</dd>
 <dd><code>centerY</code> - true to center entity Y on the tile, false to align the bottom left corner</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="spawnEntityAtVector(com.csse3200.game.entities.Entity,com.badlogic.gdx.math.Vector2)">
-<h3>spawnEntityAtVector</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnEntityAtVector</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
- com.badlogic.gdx.math.Vector2&nbsp;worldPos)</span></div>
-<div class="block">Spawns an entity at a specified world position.
-
- <p>This method sets the position of the given entity to the specified coordinates in the world
- and then registers the entity into the game world. The entity should not be registered prior to
- calling this method.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>entity</code> - The entity to be spawned (not yet registered).</dd>
-<dd><code>worldPos</code> - The world position where the entity should be placed.</dd>
 </dl>
 </section>
 </li>
