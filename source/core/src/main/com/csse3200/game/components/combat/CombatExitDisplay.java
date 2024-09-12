@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +18,13 @@ import org.slf4j.LoggerFactory;
  */
 public class CombatExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
-  private static final float Z_INDEX = 2f; // Render priority for this UI component
-  private Table table; // Table layout to hold the buttons
+  private static final float Z_INDEX = 2f;
+  private Table table;
+  private Entity enemy;
+
+  public CombatExitDisplay(Entity enemy) {
+    this.enemy = enemy;
+  }
 
   /**
    * Initializes the UI component by calling the parent class' create method and adding actors (buttons).
@@ -45,11 +53,16 @@ public class CombatExitDisplay extends UIComponent {
     // Listener for the "win" button, triggers the combatWin event when clicked
     win.addListener(
             new ChangeListener() {
-              @Override
-              public void changed(ChangeEvent changeEvent, Actor actor) {
-                entity.getEvents().trigger("combatWin");
-              }
-            });
+        @Override
+        public void changed(ChangeEvent changeEvent, Actor actor) {
+          logger.info("enemy is: {}", enemy.getComponent(CombatStatsComponent.class).isBoss());
+          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+            entity.getEvents().trigger("kangaDefeated");
+          } else {
+            entity.getEvents().trigger("combatWin", enemy);
+          }
+        }
+      });
 
     // Listener for the "lose" button, triggers the combatLoss event when clicked
     lose.addListener(

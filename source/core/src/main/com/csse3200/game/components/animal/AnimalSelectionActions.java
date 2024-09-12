@@ -88,7 +88,7 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(new LoadingScreen(game));
+                    game.setScreen(GdxGame.ScreenType.STORY);
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert(); // Show an alert if no animal is selected
@@ -163,7 +163,7 @@ public class AnimalSelectionActions {
                     "It possesses special abilities.";
         };
 
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f, animalIndex);
     }
 
     /**

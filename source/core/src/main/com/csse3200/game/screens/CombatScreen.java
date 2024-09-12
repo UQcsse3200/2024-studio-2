@@ -41,6 +41,7 @@ public class CombatScreen extends ScreenAdapter {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
           "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
+
   };
   private boolean isPaused = false;
   private final GdxGame game;
@@ -159,9 +160,9 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
+        .addComponent(new CombatExitDisplay(enemy))
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
-        .addComponent(new CombatExitDisplay())
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
         .addComponent(inputComponent)

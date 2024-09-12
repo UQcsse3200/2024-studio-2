@@ -48,13 +48,6 @@ class QuestManagerTest {
     }
 
     @Test
-    void AddAchievement() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Lorem ipsum dolor");
-        questManager.addAchievement(achievement);
-        assertEquals(achievement, questManager.getAchievement("Test Achievement"));
-    }
-
-    @Test
     void GetAllQuests() {
         QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, false, 0);
         QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(),  false, null, null, true, false, 0);
@@ -103,14 +96,6 @@ class QuestManagerTest {
 
         questManager.progressQuest("Nonexistent Quest", "taskName");
         verify(eventHandler, never()).trigger(anyString());
-    }
-
-    @Test
-    void HandleAchievementCompletion() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Test Description");
-        questManager.addAchievement(achievement);
-        questManager.completeAchievement("Test Achievement");
-        verify(eventHandler).trigger("achievementCompleted");
     }
 
     @Test

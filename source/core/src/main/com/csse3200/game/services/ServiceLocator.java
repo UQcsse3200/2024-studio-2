@@ -8,6 +8,7 @@ import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.areas.GameArea;
 
 /**
  * A simplified implementation of the Service Locator pattern:
@@ -26,6 +27,8 @@ public class ServiceLocator {
   private static InputService inputService;
   private static ResourceService resourceService;
   private static DialogueBoxService dialogueBoxService;
+  // static field for GameArea
+  private static GameArea gameArea;
 
   public static DialogueBoxService getDialogueBoxService() {
     return dialogueBoxService;
@@ -53,6 +56,17 @@ public class ServiceLocator {
 
   public static ResourceService getResourceService() {
     return resourceService;
+  }
+
+  // Getter for GameArea
+  public static GameArea getGameArea() {
+    return gameArea;
+  }
+
+  // Registration method for GameArea
+  public static void registerGameArea(GameArea area) {
+    logger.debug("Registering game area {}", area);
+    gameArea = area;
   }
 
   public static void registerEntityService(EntityService service) {
@@ -99,6 +113,7 @@ public class ServiceLocator {
     inputService = null;
     resourceService = null;
     dialogueBoxService = null;
+    gameArea = null;
   }
 
   private ServiceLocator() {

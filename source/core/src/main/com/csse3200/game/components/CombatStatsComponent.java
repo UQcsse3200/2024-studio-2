@@ -33,6 +33,8 @@ public class CombatStatsComponent extends Component {
   private final int maxHunger;
   private int maxExperience;
   private final boolean isPlayer;
+  private final boolean isBoss;
+
 
   /**
    * Constructor for CombatStatsComponent, initializing all combat-related attributes for an entity.
@@ -46,12 +48,13 @@ public class CombatStatsComponent extends Component {
    * @param stamina Initial stamina value
    * @param isPlayer Boolean indicating if this entity is the player
    */
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss) {
     this.maxHealth = health;
     this.maxHunger = hunger;
     this.maxExperience=100;
     this.maxStamina = stamina;
     this.isPlayer = isPlayer;
+    this.isBoss = isBoss;
     setHealth(health);
     setHunger(hunger);
     setStrength(strength);
@@ -77,6 +80,15 @@ public class CombatStatsComponent extends Component {
    */
   public Boolean isDead() {
     return health == 0;
+  }
+
+  /**
+   * Returns true if the entity's is a boss, otherwise false.
+   *
+   * @return is player dead
+   */
+  public Boolean isBoss() {
+    return this.isBoss;
   }
 
   /**
