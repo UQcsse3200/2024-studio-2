@@ -18,7 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The game screen for winning the game.
+ * The game screen for the introduction story. Calls StoryDisplay using createUI function.
+ * This exists between the AnimalSelectionScreen and LoadingScreen.
  */
 public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
@@ -62,6 +63,10 @@ public class StoryScreen extends ScreenAdapter {
         ServiceLocator.clear();
     }
 
+    /**
+     * Creates the story's ui including components for rendering ui elements to the screen and
+     * capturing and handling ui input.
+     */
     private void createUI() {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();

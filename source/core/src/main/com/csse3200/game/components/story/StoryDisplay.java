@@ -16,7 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A UI component for displaying the story screen.
+ * A UI component for displaying the story screen. Contains all 6 background images for the StoryScreen.
+ * Is iterated through using next and back buttons. All displays can be skipped using skip button.
  */
 public class StoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StoryDisplay.class);
@@ -61,7 +62,7 @@ public class StoryDisplay extends UIComponent {
     }
 
     /**
-     * Adds all UI elements (buttons, labels, etc.) to the main menu.
+     * Adds all UI elements (buttons, labels, etc.) to the story display.
      */
     private void addActors() {
         table = new Table();
@@ -206,16 +207,26 @@ public class StoryDisplay extends UIComponent {
         super.dispose();
     }
 
+    /**
+     * Disposes the current display. Triggers onNext function in storyActions.
+     */
     private void onNextDisplay() {
         dispose();
         entity.getEvents().trigger("next", screenNum);
     }
 
+    /**
+     * Disposes the current display. Triggers onBack function in storyActions.
+     */
     private void onBackDisplay() {
         dispose();
         entity.getEvents().trigger("back", screenNum);
     }
 
+    /**
+     * Disposes the current display. Triggers onNext function in storyActions.
+     * Sends the final screen to make the triggered function believe it's on the last display.
+     */
     private void onSkip() {
         dispose();
         entity.getEvents().trigger("next", finalScreen);

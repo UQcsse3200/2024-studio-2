@@ -29,7 +29,8 @@ public class StoryActions extends Component {
     }
 
     /**
-     * Exits the game.
+     * Goes to next display. Goes to loading screen if on final display.
+     * This function is also called by the skip button.
      */
     private void onNext(int screenNum) {
         if(screenNum == finalScreen) {
@@ -46,6 +47,9 @@ public class StoryActions extends Component {
         ServiceLocator.getEntityService().register(ui);
     }
 
+    /**
+     * Goes to previous display.
+     */
     private void onBack(int screenNum) {
         screenNum -= 1;
         logger.debug("Creating UI");
