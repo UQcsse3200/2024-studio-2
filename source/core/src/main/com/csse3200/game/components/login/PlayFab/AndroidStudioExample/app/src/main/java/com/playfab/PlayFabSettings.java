@@ -1,4 +1,4 @@
-package com.playfab;
+package com.csse3200.game.components.login.PlayFab.AndroidStudioExample.app.src.main.java.com.playfab;
 
 import java.lang.StringBuilder;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.playfab.test;
+package com.csse3200.game.components.login.PlayFab.AndroidStudioExample.app.src.test.java.com.playfab.test;
 
 import static org.junit.Assert.*;
 import org.junit.*;

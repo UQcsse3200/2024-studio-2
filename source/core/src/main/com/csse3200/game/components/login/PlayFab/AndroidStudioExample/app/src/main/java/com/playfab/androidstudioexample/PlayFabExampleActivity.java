@@ -1,4 +1,4 @@
-package com.playfab.androidstudioexample;
+package com.csse3200.game.components.login.PlayFab.AndroidStudioExample.app.src.main.java.com.playfab.androidstudioexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

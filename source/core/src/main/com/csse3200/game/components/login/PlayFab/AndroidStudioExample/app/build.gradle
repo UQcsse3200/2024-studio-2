@@ -1,3 +1,5 @@
+package com.csse3200.game.components.login.PlayFab.AndroidStudioExample.app
+
 apply plugin: 'com.android.application'
 
 android {

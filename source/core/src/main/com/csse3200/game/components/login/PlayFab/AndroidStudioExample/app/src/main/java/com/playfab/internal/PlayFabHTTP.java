@@ -1,4 +1,4 @@
-package com.playfab.internal;
+package com.csse3200.game.components.login.PlayFab.AndroidStudioExample.app.src.main.java.com.playfab.internal;
 
 import java.util.*;
 import java.util.concurrent.*;
