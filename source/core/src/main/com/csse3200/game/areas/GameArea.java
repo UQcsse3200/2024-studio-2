@@ -44,7 +44,7 @@ public abstract class GameArea implements Disposable {
    *
    * @param entity Entity (not yet registered)
    */
-  public void spawnEntity(Entity entity) {
+  protected void spawnEntity(Entity entity) {
     areaEntities.add(entity);
     ServiceLocator.getEntityService().register(entity);
   }

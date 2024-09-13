@@ -8,6 +8,7 @@
     "sounds/FishBubble.wav",
     "sounds/eagle-scream.wav",
     "sounds/QuestComplete.wav",
+    "sounds/achievement-sound.mp3",
     "sounds/Impact4.ogg"
   ],
   "gameMusic" : [
