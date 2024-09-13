@@ -82,29 +82,39 @@ public class QuestManager extends Component {
     }
 
     /**Sets up the dialogue for quests. */
-    private Map<DialogueKey, String[]> createQuestDialogues() {
+    private Map<DialogueKey, String[][]> createQuestDialogues() {
 
-        String[] cowInitialDialogue = {
-                "Moo there, adventurer! Welcome to the kingdom.",
-                "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
-        };
-        String[] cowAdviceDialogue = {
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] potionDialogue = {
-                "I need five potions! They’re scattered around. Keep your eyes peeled."
-        };
-        String[] listenDialogue = {
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] exploreDialogue = {
-                "Oh the Kanga? Yeah, he was once a sweet little joey. Hard to imagine he’d go to the dark side.",
-                "Word on the street is he snapped after his wife and daughter died in the flood.",
-                "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
-                "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
+        String[][] cowInitialDialogue = {
+                {
+                        "Moo there, adventurer! Welcome to the kingdom.",
+                        "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
+                }
         };
 
-        return Map.of(new DialogueKey("Cow", 1), cowInitialDialogue,
+        String[][] cowAdviceDialogue = {
+                {
+                        "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+                }
+        };
+        String[][] potionDialogue = {
+                {
+                        "I need five potions! They’re scattered around. Keep your eyes peeled."
+                }
+        };
+        String[][] listenDialogue = {
+                {
+                        "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
+                }
+        };
+       // String[] exploreDialogue = {
+         //       "Oh the Kanga? Yeah, he was once a sweet little joey. Hard to imagine he’d go to the dark side.",
+           //     "Word on the street is he snapped after his wife and daughter died in the flood.",
+             //   "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
+               // "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
+        //};
+
+        return Map.of(
+                new DialogueKey("Cow", 1), cowInitialDialogue,
                 new DialogueKey("Cow", 2), cowAdviceDialogue,
                 new DialogueKey("Cow", 3), potionDialogue,
                 new DialogueKey("Cow", 4), listenDialogue
@@ -118,7 +128,7 @@ public class QuestManager extends Component {
      * @param guideQuestDialogues A map where the keys instance and the values
      *                             are arrays of strings representing the dialogues associated with the quest.
      */
-    private void addQuests(Task[] tasks, Map<DialogueKey, String[]> guideQuestDialogues) {
+    private void addQuests(Task[] tasks, Map<DialogueKey, String[][]> guideQuestDialogues) {
         // Add new tasks to a quest
         List<Task> firstStepsTasks = new ArrayList<>(List.of(tasks[0]));
         QuestBasic firstStepsQuest = new QuestBasic("First Steps", "Take your first steps in this world!", firstStepsTasks, false, null, null, false, false, 0);
@@ -155,11 +165,21 @@ public class QuestManager extends Component {
         addQuest(guideQuest6);
         GameState.quests.quests.add(guideQuest6);
 
-        String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
-        String[] test2StepTextProg1 = {"Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"};
-        String[] test2StepTextProg2 = {"Yippeee!", "You completed your Quest!"};
+        String[] test2StepCompletionTriggers = {
+
+                        "", "spawnKangaBoss"
+
+        };
+        String[][] test2StepTextProg1 = {
+                {
+                        "Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"
+                }
+        };
+        String[][] test2StepTextProg2 = {
+                {"Yippeee!", "You completed your Quest!"}
+        };
         List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(tasks[0], tasks[1]));
-        Map<DialogueKey, String[]> test2TaskQuestDialogues = Map.of(
+        Map<DialogueKey, String[][]> test2TaskQuestDialogues = Map.of(
                 new DialogueKey("Cow", 1), test2StepTextProg1,
                 new DialogueKey("Cow", 2), test2StepTextProg2
         );
@@ -176,7 +196,7 @@ public class QuestManager extends Component {
     /** Creates all tests for quests and dialogues */
     private void testQuests() {
         Task[] tasks = createTasks();
-        Map<DialogueKey, String[]> questDialogues = createQuestDialogues();
+        Map<DialogueKey, String[][]> questDialogues = createQuestDialogues();
         addQuests(tasks, questDialogues);
 
     }

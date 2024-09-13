@@ -49,7 +49,7 @@ public class QuestSave implements Json.Serializable {
 
             List<Task> newTasks = new ArrayList<>();
 
-            Map<DialogueKey, String[]> newDialogues;
+            Map<DialogueKey, String[][]> newDialogues;
 
             if(dialogueList != null) {
                 newDialogues = new HashMap<>();
