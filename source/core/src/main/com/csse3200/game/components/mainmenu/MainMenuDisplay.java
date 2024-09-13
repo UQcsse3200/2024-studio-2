@@ -75,6 +75,14 @@ public class MainMenuDisplay extends UIComponent {
     private final float fullScreenuttonHeight = 90;
     private final float fullScreenButtonSpacing = 45;
 
+    private Button testButton;
+    private Label startLabel;
+    private Label loadLabel;
+    private Label minigameLabel;
+    private Label helpLabel;
+    private Label settingLabel;
+    private Label exitLabel;
+
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -165,6 +173,13 @@ public class MainMenuDisplay extends UIComponent {
         addSettingMenu();
         addUserTable();
         addLoginRegisterTable();
+        testButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        startLabel = new Label("Start", skin, "button-red");
+        loadLabel = new Label("Load", skin, "button-red");
+        minigameLabel = new Label("Minigame", skin, "button-red");
+        helpLabel = new Label("Help", skin, "button-red");
+        settingLabel = new Label("Setting", skin, "button-red");
+        exitLabel = new Label("Exit", skin, "button-red");
     }
 
 
@@ -199,13 +214,13 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void initializeMenuButtons() {
         // Initialises buttons
-        startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Start1.png"))));
-        loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Load1.png"))));
-        minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Minigame1.png"))));
-        settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Settings1.png"))));
+        startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         achievementsBtn = new TextButton("Achievements", skin);
-        helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Help1.png"))));
-        exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/Exit1.png"))));
+        helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
     }
 
     /**
@@ -298,32 +313,59 @@ public class MainMenuDisplay extends UIComponent {
         float buttonHeight;
         float buttonSpacing;
         float padTopSpacing;
+        float labelSpacing;
         if (Gdx.graphics.isFullscreen()) {
             buttonWidth = fullScreenButtonWidth;
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
             padTopSpacing = 700;
-            versionLabel = new Label("Version 1.0", skin, "large-white");
+            labelSpacing = -100;
+            startLabel = new Label("Start", skin, "title-red");
+            loadLabel = new Label("Load", skin, "title-red");
+            minigameLabel = new Label("Minigame", skin, "title-red");
+            helpLabel = new Label("Help", skin, "title-red");
+            settingLabel = new Label("Setting", skin, "title-red");
+            exitLabel = new Label("Exit", skin, "title-red");
+            versionLabel = new Label("Version 1.0", skin, "title-white");
         } else {
             buttonWidth = windowButtonWidth;
             buttonHeight = windowButtonHeight;
             buttonSpacing = windowButtonSpacing;
             padTopSpacing = 350;
+            labelSpacing = -48;
+            startLabel = new Label("Start", skin, "button-red");
+            loadLabel = new Label("Load", skin, "button-red");
+            minigameLabel = new Label("Minigame", skin, "button-red");
+            helpLabel = new Label("Help", skin, "button-red");
+            settingLabel = new Label("Setting", skin, "button-red");
+            exitLabel = new Label("Exit", skin, "button-red");
             versionLabel = new Label("Version 1.0", skin, "default-white");
         }
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() /2, (float) Gdx.graphics.getHeight() /2);
         menuButtonTable.clear();
         menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
         menuButtonTable.row();
+        menuButtonTable.add(startLabel).padTop(labelSpacing);
+        menuButtonTable.row();
         menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing); // Add the Minigames button to the layout
+        menuButtonTable.add(loadLabel).padTop(labelSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(minigameLabel).padTop(labelSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
+        menuButtonTable.add(settingLabel).padTop(labelSpacing);
+        menuButtonTable.row();
         menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
+        menuButtonTable.add(helpLabel).padTop(labelSpacing);
+        menuButtonTable.row();
         menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(exitLabel).padTop(labelSpacing);
         menuButtonTable.row();
         menuButtonTable.add(versionLabel).padTop(buttonSpacing);
         stage.addActor(menuButtonTable);
