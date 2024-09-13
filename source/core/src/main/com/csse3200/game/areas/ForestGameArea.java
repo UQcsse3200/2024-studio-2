@@ -7,6 +7,9 @@ import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
+import com.csse3200.game.components.mainmenu.MainMenuActions;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
@@ -16,11 +19,13 @@ import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.terrain.TerrainChunk;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.areas.terrain.TerrainLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -74,35 +79,39 @@ public class ForestGameArea extends GameArea {
    * */
   @Override
   public void create() {
-    loadAssets();
+      loadAssets();
 
-    displayUI();
+      displayUI();
 
-    // Terrain
-    spawnTerrain();
+      // Terrain
+      spawnTerrain();
 
-    // Player
-    player = spawnPlayer();
-    logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-    TerrainLoader.setInitials(player.getPosition(), terrain);
+      // Player
+      player = spawnPlayer();
+      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+      TerrainLoader.setInitials(player.getPosition(), terrain);
 
-    // Obstacles
-    spawnTrees();
+      // Obstacles
+      spawnTrees();
 
-    //Enemies
-    spawnEnemies();
+      //Enemies
+      spawnEnemies();
 
-    // items
-    handleItems();
+      // items
+      handleItems();
 
-    //Friendlies
-    spawnFriendlyNPCs();
+      //Friendlies
+      spawnFriendlyNPCs();
 
-    playMusic();
-    player.getEvents().addListener("setPosition", this::handleNewChunks);
-    player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-    player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-    kangarooBossSpawned = false;
+      playMusic();
+      player.getEvents().addListener("setPosition", this::handleNewChunks);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+      kangarooBossSpawned = false;
+
+      //Initialise inventory and quests with loaded data
+      player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+      player.getComponent(QuestManager.class).loadQuests();
   }
 
   private void handleNewChunks(Vector2 playerPos) {
@@ -145,6 +154,7 @@ public class ForestGameArea extends GameArea {
    * gets the player
    * @return player entity
    */
+  @Override
   public Entity getPlayer () {
     return player;
   }
@@ -158,32 +168,8 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     spawnEntity(new Entity().addComponent(terrain));
-
-    // // Terrain walls
-    // float tileSize = terrain.getTileSize();
-    // GridPoint2 tileBounds = terrain.getMapBounds(0);
-    // Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    //  // Left
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y), GridPoint2Utils.ZERO, false, false);
-    //  // Right
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-    //      new GridPoint2(tileBounds.x, 0),
-    //      false,
-    //      false);
-    //  // Top
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-    //      new GridPoint2(0, tileBounds.y),
-    //      false,
-    //      false);
-    //  // Bottom
-    //  spawnEntityAt(
-    //      ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
   private void spawnTrees() {
@@ -314,11 +300,17 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
     // Monkey
     generator = () -> EnemyFactory.createMonkey(player);
-    spawnRandomEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+    spawnMonkeyEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+    
+
 
     // Frog
     generator = () -> EnemyFactory.createFrog(player);
     spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+
+    //Bear
+    generator = () -> EnemyFactory.createBear(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
   }
 
   private void spawnFriendlyNPCs() {
@@ -376,7 +368,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       spawnEntityAt(npc, randomPos, true, false);
     }
   }
-  public static void playMusic() {
+  public void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
@@ -391,7 +383,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         AudioManager.playMusic("sounds/track_2.mp3", true);
     }
   }
-  public static void pauseMusic() {
+  public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
     AudioManager.stopMusic();  // Stop the music
@@ -408,6 +400,53 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       enemies.add(enemy);
       enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
     }
+  }
+  
+  private void spawnMonkeyEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+    
+    for (int i = 0; i < numItems; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity enemy = creator.get();
+      spawnEntityAt(enemy, randomPos, true, false);
+      enemies.add(enemy);
+      enemy.addComponent(new ProximityComponent(player, proximityRange)); // Add ProximityComponent
+      enemy.getEvents().addListener("FireBanana", this::spawnBanana);
+    }
+  }
+  
+  private void spawnBanana(Entity enemy) {
+    Entity banana = ProjectileFactory.createBanana(player);
+    
+    // Calculate bananaX and bananaY based on target's relative position
+    float bananaX = (enemy.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+    float bananaY = (enemy.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+    // Calculate the new position using Vector2
+    Vector2 pos = new Vector2(enemy.getPosition().x + bananaX, enemy.getPosition().y + bananaY);
+    
+    //spawns
+    spawnEntityAtVector(banana, pos);
+  }
+
+  /**
+   * Static method to play the background music
+   */
+  public static void pMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
+            Music.class);
+    music.setLooping(true);
+    music.setVolume(0.5f);
+    music.play();
+  }
+
+  /**
+   * Static method to pause the background music 
+   */
+  public static void puMusic() {
+    Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
+    music.pause();
   }
 
   public void loadAssets() {
@@ -427,6 +466,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     }
   }
 
+  @Override
   public void unloadAssets() {
     logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -441,5 +481,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+  public List<Entity> getEnemies() {
+    return enemies;
   }
 }

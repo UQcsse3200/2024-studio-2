@@ -1,9 +1,11 @@
 package com.csse3200.game.components.mainmenu;
 
+import com.badlogic.gdx.Game;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.gamestate.data.PlayerSave;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,8 @@ public class MainMenuActions extends Component {
     this.game = game;
   }
 
+  private static boolean loaded = false;
+
   @Override
   public void create() {
     entity.getEvents().addListener("start", this::onStart);
@@ -26,6 +30,7 @@ public class MainMenuActions extends Component {
     entity.getEvents().addListener("combat", this::onCombat);
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("achievements", this::onAchievements);
+    entity.getEvents().addListener("stats", this::onStats);
     entity.getEvents().addListener("SnakeGame", this::onSnakeMiniGame);
   }
 
@@ -34,6 +39,9 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
+
+    GameState.resetState();
+
     game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
@@ -43,8 +51,19 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+
     SaveHandler.load(GameState.class, "saves");
-    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+//    if(GameState.player == null) {
+//      GameState.player = new PlayerSave();
+//    }
+    if(GameState.checkState()) {
+      GameState.resetState();
+    }
+    if(GameState.player.selectedAnimalPath == null) {
+      game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+    } else {
+      game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
+    }
   }
 
   /**
@@ -74,10 +93,25 @@ public class MainMenuActions extends Component {
     game.setScreen(GdxGame.ScreenType.ACHIEVEMENTS);
   }
 
+  /**
+   * Shows the end game stats screen.
+   */
+  private void onStats() {
+    logger.info("Launching achievements screen");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  }
+
   private void onSnakeMiniGame() {
     logger.info("Launching settings screen");
     game.setScreen(GdxGame.ScreenType.MINI_GAME_MENU_SCREEN);
   }
 
+  /**
+   * Returns whether the current game instance loaded a save or not.
+   * @return whether the game loaded a save.
+   */
+  public static boolean getGameLoaded() {
+    return loaded;
+  }
 
 }

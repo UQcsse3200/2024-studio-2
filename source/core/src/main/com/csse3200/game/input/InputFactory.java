@@ -55,4 +55,11 @@ public abstract class InputFactory {
    * @return Terminal input handler
    */
   public abstract InputComponent createForTerminal();
+
+  /**
+   * Creates an input handler for combat.
+   *
+   * @return combat input handler
+   */
+  public abstract InputComponent createForCombat();
 }

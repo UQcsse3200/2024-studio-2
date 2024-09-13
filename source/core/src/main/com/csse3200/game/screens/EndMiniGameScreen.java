@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.minigames.MiniGameConstants;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
@@ -74,10 +75,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         if (oldScreen instanceof MainGameScreen) {
             MainGameScreen forestGameArea = (MainGameScreen) oldScreen;
-            this.player = forestGameArea.getGameArea().getPlayer();
+            this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 logger.info("Adding loot box to player's inventory.");
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
+                // Rewarding achievement to player
+                logger.info("Achievement trigger {} {}", gameName.name(),getMedal(score).name());
+                player.getEvents().trigger("miniGame",gameName,getMedal(score));
             }
         } else {
             this.player = null;

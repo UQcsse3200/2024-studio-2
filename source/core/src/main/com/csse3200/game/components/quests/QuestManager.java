@@ -1,12 +1,17 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.minigames.MiniGameMedals;
+import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.entities.DialogueBoxService;
 
@@ -16,6 +21,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
+
 
 /**
  * Manages, tracks and updates the quests within the game.
@@ -24,13 +31,13 @@ import java.util.*;
 public class QuestManager extends Component {
     /** Map to store quests. */
     private final HashMap<String, QuestBasic> quests;
-     /** Map to store achievements. */
-     private final HashMap<String, QuestHidden> achievements;
-
+     /** Array to store achievements. */
+     private final Array<Achievement> achievements;
     /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
+    private final Sound achievementComplete = ServiceLocator.getResourceService().getAsset("sounds/achievement-sound.mp3", Sound.class);
     /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
     private final Map<String, String[]> relevantQuests;
 
@@ -43,16 +50,14 @@ public class QuestManager extends Component {
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
         this.quests = new HashMap<>();
-        this.achievements = new HashMap<>();
         this.player = player;
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
         this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
-        if(GameState.quests.quests.isEmpty()) {
-            testQuests();
-        }
-        loadQuests();
+        AchievementManager achievementManager = new AchievementManager();
+        this.achievements =  achievementManager.getAchievements();
+        setupAchievements();
     }
 
     /**
@@ -131,6 +136,7 @@ public class QuestManager extends Component {
 
         List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
         QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
+        setupPotionsTask(); // Set up potion collection logic here
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
@@ -165,7 +171,6 @@ public class QuestManager extends Component {
         QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
         GameState.quests.quests.add(finalQuest);
 
-
     }
 
     /** Creates all tests for quests and dialogues */
@@ -185,6 +190,37 @@ public class QuestManager extends Component {
     }
 
 
+    private void setupAchievements(){
+        // Init logbook listeners and handlers
+        player.getEvents().addListener("addItem",this::handleItemAdvancement);
+        player.getEvents().addListener("defeatedEnemy",this::handleEnemyAdvancement);
+        player.getEvents().addListener("miniGame",this::handleMiniGameAdvancement);
+        for (Achievement achievement : achievements) {
+            subscribeToAchievementEvents(achievement);
+        }
+    }
+
+    /**
+     * Subscribes to mini game triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleMiniGameAdvancement(MiniGameNames name, MiniGameMedals medal){
+        player.getEvents().trigger(medal.name()  +' ' + name.name());
+    }
+
+    /**
+     * Subscribes to enemy beaten triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleEnemyAdvancement(Entity enemy){
+        player.getEvents().trigger(enemy.getEnemyType().toString());
+    }
+
+    /**
+     * Subscribes to item triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleItemAdvancement(AbstractItem item){
+        player.getEvents().trigger(item.getName() + "Advancement");
+    }
+
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -200,8 +236,8 @@ public class QuestManager extends Component {
      * Adds a listener for the achievement, which completes the achievement when triggered.
      * @param achievement The achievement being listened to.
      */
-    private void subscribeToAchievementEvents(QuestHidden achievement) {
-        player.getEvents().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement.getQuestName()));
+    private void subscribeToAchievementEvents(Achievement achievement) {
+        player.getEvents().addListener(achievement.getQuestName(), () -> this.completeAchievement(achievement));
     }
     /**
      * Adds a new quest to the manager.
@@ -212,21 +248,19 @@ public class QuestManager extends Component {
         quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
-
-    /**
-     * Add a achievement to the overall list of achievements.
-     * @param achievement The achievement being added.
-     */
-    public void addAchievement(QuestHidden achievement) {
-        achievements.put(achievement.getQuestName(), achievement);
-        subscribeToAchievementEvents(achievement);
-    }
+    
 
     /**
      * Automatically loads and registers all of the quests stored in GameState.
      * @see GameState
      */
     public void loadQuests() {
+//        if(GameState.quests == null) {
+//            GameState.quests = new QuestSave();
+//        }
+        if(GameState.quests.quests.isEmpty()) {
+            testQuests();
+        }
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
         }
@@ -250,20 +284,11 @@ public class QuestManager extends Component {
         return quests.get(questName);
     }
 
-    /**
-     * Get the class representation of an achievement.
-     * @param achievementName The name of the achievement being got.
-     * @return The class representation of the achievement.
-     */
-    public QuestHidden getAchievement(String achievementName) {
-        return achievements.get(achievementName);
-    }
 
     /**
      * Checks if quest is failed.
      * @param questName The name of the quest to fail.
      */
-
     public void failQuest(String questName) {
         QuestBasic quest = getQuest(questName);
         if (quest != null) {
@@ -273,7 +298,7 @@ public class QuestManager extends Component {
 
 
     /**
-     * Progresses the  quest based on completion and updates the quest status..
+     * Progresses the quest based on completion and updates the quest status.
      * @param questName The name of the quest.
      * @param taskName  The name of the task.
      */
@@ -281,10 +306,6 @@ public class QuestManager extends Component {
         QuestBasic quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
-        }
-
-        if (questName.equals("First Steps")) {
-            setupPotionsTask();
         }
 
         Task currentTask = quest.getTasks().get(quest.getProgression());
@@ -315,7 +336,6 @@ public class QuestManager extends Component {
      * Completes the task of the updates the quest progression.
      * @param quest The quest to be completed.
      */
-
     private void completeTask(QuestBasic quest) {
         quest.progressQuest(player); //advance quest progression
         if (quest.isQuestCompleted()) {
@@ -329,7 +349,6 @@ public class QuestManager extends Component {
      * Handle quest completion.
      * @param quest The quest that has been completed.
      */
-
     private void handleQuestCompletion(QuestBasic quest) {
         if (!quest.isSecret()) {
             questComplete.play();
@@ -343,17 +362,22 @@ public class QuestManager extends Component {
 
     /**
      * Completes the achievement by changing the state of the achievement and triggering an achievement popup
-     * @param achievementName The name of the achievement being completed
+     * @param achievement The achievement being completed
      */
-    public void completeAchievement(String achievementName) {
-        QuestHidden achievement = achievements.get(achievementName);
+    public void completeAchievement(Achievement achievement) {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
-            questComplete.play();
+            achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
+            saveAchievements(achievements,"saves/achievements.json");
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
+    @Override
+    public void dispose() {
+        saveAchievements(achievements,"saves/achievements.json");
+        super.dispose();
+    }
 
 }

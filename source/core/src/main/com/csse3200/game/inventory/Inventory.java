@@ -1,5 +1,8 @@
 package com.csse3200.game.inventory;
 
+import com.badlogic.gdx.Game;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 
@@ -16,7 +19,7 @@ import static java.util.Arrays.fill;
  * players retrieve from the game.
  */
 public class Inventory implements InventoryInterface {
-    private final int capacity; // The maximum number of items the inventory can hold.
+    private int capacity; // The maximum number of items the inventory can hold.
     private int freeSlots; // The current number of available slots in the inventory.
     private int nextIndex = 0; // The index where the next item can be stored.
     // Maps item codes to sets of inventory indices where they are stored.
@@ -46,7 +49,54 @@ public class Inventory implements InventoryInterface {
         this.codeToIndices = new TreeMap<>();
         this.nameToIndices = new TreeMap<>();
         this.memoryView = new AbstractItem[capacity];
+
     }
+
+    /**
+     * Loads and initialises the contents of the inventory from a save.
+     * If one does not exist, creates one.
+     *
+     * @see InventorySave
+     */
+    public void loadInventoryFromSave() {
+//        if(GameState.inventory == null) {
+//            GameState.inventory = new InventorySave();
+//        }
+        if(GameState.inventory.inventoryContent.length != 0) {
+            reconstructFromArray(GameState.inventory.inventoryContent);
+        } else {
+            GameState.inventory.inventoryContent = this.memoryView;
+        }
+    }
+
+    private void reconstructFromArray(AbstractItem[] newView) {
+        this.capacity = newView.length;
+        this.memoryView = newView;
+        this.freeSlots = capacity;
+        this.nextIndex = capacity; // Initialise to invalid index
+        codeToIndices = new TreeMap<>();
+        nameToIndices = new TreeMap<>();
+
+        for (int i = 0; i < capacity; i++) {
+            if (memoryView[i] != null) {
+                AbstractItem item = memoryView[i];
+                // Add to code/name mapping to indices
+                // Note we assume code and names have a 1-1 relationship
+                if (!codeToIndices.containsKey(item.getItemCode())) {
+                    codeToIndices.put(item.getItemCode(), new TreeSet<>());
+                    nameToIndices.put(item.getName(), new TreeSet<>());
+                }
+
+                codeToIndices.get(item.getItemCode()).add(i);
+                nameToIndices.get(item.getName()).add(i);
+                freeSlots--;
+            } else {
+                // Update next index if not already set
+                this.nextIndex = nextIndex == capacity ? i : nextIndex;
+            }
+        }
+    }
+
 
     /**
      * @return the total capacity of the inventory.

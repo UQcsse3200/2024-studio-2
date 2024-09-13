@@ -39,21 +39,38 @@ public class LoginRegisterDisplay extends UIComponent {
     private TextButton switchButton;
     private Button closeButton;
     private boolean isLoginMode = true;
+    private Texture backgroundTexture;
+    private Texture closeButtonTexture;
 
     public LoginRegisterDisplay() {
         super();
     }
 
-    public Table makeLoginRegisterTable() {// Create table for layout
+    private void loadTextures() {
+        backgroundTexture = new Texture("images/SettingBackground.png");
+        closeButtonTexture = new Texture("images/CloseButton.png");
+    }
+
+    public void initializeTable() {
         table = new Table();
         topTable = new Table();
         contentTable = new Table();
-        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png"))));
-        table.setSize(663, 405);;
-
-        closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
-
+        table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
+        table.setSize(663, 405);
         title = new Label("Login", skin, "title-white");
+    }
+
+    public Table makeLoginRegisterTable() {// Create table for layout
+        loadTextures();
+        initializeTable();
+        addInputField();
+        addButtons();
+        updateUI();
+
+        return table;
+    }
+
+    private void addInputField() {
         usernameField = new TextField("", skin);
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
@@ -61,13 +78,12 @@ public class LoginRegisterDisplay extends UIComponent {
         confirmPasswordField = new TextField("", skin);
         confirmPasswordField.setPasswordMode(true);
         confirmPasswordField.setPasswordCharacter('*');
+    }
 
-
-
-
+    private void addButtons() {
+        closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
         submitButton = new TextButton("Submit", skin);
         switchButton = new TextButton("Switch to Register", skin);
-
         switchButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -88,9 +104,6 @@ public class LoginRegisterDisplay extends UIComponent {
                 table.setVisible(false);
             }
         });
-        updateUI();
-
-        return table;
     }
 
     private void updateUI() {

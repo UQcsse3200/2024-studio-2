@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,4 +72,29 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+
+  public abstract Entity getPlayer();
+  public abstract void unloadAssets();
+
+  public abstract void pauseMusic();
+
+  public abstract void playMusic();
+
+  public abstract List<Entity> getEnemies();
+
+  /**
+   * Spawns an entity at a specified world position.
+   *
+   * <p>This method sets the position of the given entity to the specified coordinates in the world
+   * and then registers the entity into the game world. The entity should not be registered prior to
+   * calling this method.
+   *
+   * @param entity  The entity to be spawned (not yet registered).
+   * @param worldPos The world position where the entity should be placed.
+   */
+  public void spawnEntityAtVector(Entity entity, Vector2 worldPos) {
+    entity.setPosition(worldPos);
+    spawnEntity(entity);
+  }
+
 }

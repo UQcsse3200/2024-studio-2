@@ -48,13 +48,6 @@ class QuestManagerTest {
     }
 
     @Test
-    void AddAchievement() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Lorem ipsum dolor");
-        questManager.addAchievement(achievement);
-        assertEquals(achievement, questManager.getAchievement("Test Achievement"));
-    }
-
-    @Test
     void GetAllQuests() {
         QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, false, 0);
         QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(),  false, null, null, true, false, 0);
@@ -106,14 +99,6 @@ class QuestManagerTest {
     }
 
     @Test
-    void HandleAchievementCompletion() {
-        QuestHidden achievement = new QuestHidden("Test Achievement", "Test Description");
-        questManager.addAchievement(achievement);
-        questManager.completeAchievement("Test Achievement");
-        verify(eventHandler).trigger("achievementCompleted");
-    }
-
-    @Test
     void shouldSaveLoadQuestProgression() {
         QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, true, 0);
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
@@ -136,32 +121,6 @@ class QuestManagerTest {
         GameState.quests.quests.clear();
 
         SaveHandler.delete(GameState.class, "test/saves/quests");
-    }
-
-    @Test
-    void TestQuestWithTaskAndAchievement() {
-
-        Task task1 = new Task("task1", "First Task", "Complete the first task.", 1, 0, false, false);
-        Task task2 = new Task("task2", "Second Task", "Complete the second task.", 1, 0, false, false);
-
-
-        QuestBasic quest = new QuestBasic("Complex Quest", "A complex quest with multiple tasks.", List.of(task1, task2), false, null, null, true, false, 0);
-        questManager.addQuest(quest);
-
-
-        questManager.progressQuest("Complex Quest", "task1");
-        questManager.progressQuest("Complex Quest", "task2");
-
-
-        assertTrue(quest.isQuestCompleted());
-
-
-        QuestHidden achievement = new QuestHidden("Complex Achievement", "An achievement for completing complex quests.");
-        questManager.addAchievement(achievement);
-        questManager.completeAchievement("Complex Achievement");
-
-
-        verify(eventHandler).trigger("achievementCompleted");
     }
 
     @Test

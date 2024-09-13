@@ -6,5 +6,4 @@
 
 
 **/.DS_Store
-/source/core/assets/saves/
-/saves/*
+**/saves/**

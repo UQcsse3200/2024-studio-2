@@ -17,8 +17,7 @@ public class PopupDialogBox extends Dialog {
     private final Label contentLabel;
     private final TextButton nextButton;
     private final Image animalImage;
-//    private final Image healthBarImage1;
-//    private final Image healthBarImage2;
+    private Table statsTable;
 
     private final float dialogWidth;
     private final float dialogHeight;
@@ -27,17 +26,27 @@ public class PopupDialogBox extends Dialog {
     private String[] content;
     private int currentIndex = 0;
 
+    private int[] speedStats;
+    private int[] defenseStats;
+    private int[] strengthStats;
+
+    private int animalIndex = 0; // Default to bird stats, should be updated based on selection
+
     /**
      * Constructs a new PopupDialogBox.
      *
-     * @param titles        Array of titles for each page of content.
-     * @param content       Array of content for each page.
+     * @param titles         Array of titles for each page of content.
+     * @param content        Array of content for each page.
      * @param animalImagePath Path to the image of the animal to be displayed.
-     * @param skin          Skin to be used for the UI elements.
-     * @param dialogWidth   Width of the dialog box.
-     * @param dialogHeight  Height of the dialog box.
+     * @param skin           Skin to be used for the UI elements.
+     * @param dialogWidth    Width of the dialog box.
+     * @param dialogHeight   Height of the dialog box.
+     * @param speedStats     Array of speed stats for different animals.
+     * @param defenseStats   Array of defense stats for different animals.
+     * @param strengthStats  Array of strength stats for different animals.
      */
-    public PopupDialogBox(String[] titles, String[] content, String animalImagePath, Skin skin, float dialogWidth, float dialogHeight) {
+    public PopupDialogBox(String[] titles, String[] content, String animalImagePath, Skin skin, float dialogWidth, float dialogHeight,
+                          int[] speedStats, int[] defenseStats, int[] strengthStats) {
         super("", skin);
         Texture bgTexture = new Texture(Gdx.files.internal("images/animal/lightblue.png")); // Load the background image
         Image backgroundImage = new Image(bgTexture); // Create an Image from the texture
@@ -51,10 +60,10 @@ public class PopupDialogBox extends Dialog {
         Texture animalTexture = new Texture(Gdx.files.internal(animalImagePath));
         animalImage = new Image(animalTexture);
 
-//        // Load the health bar images
-//        Texture healthTexture = new Texture(Gdx.files.internal("images/health_bar_x1.png"));
-//        healthBarImage1 = new Image(healthTexture);
-//        healthBarImage2 = new Image(healthTexture);
+        // Initialize stats arrays
+        this.speedStats = speedStats;
+        this.defenseStats = defenseStats;
+        this.strengthStats = strengthStats;
 
         // Initialize labels and buttons
         titleLabel = new Label(titles[currentIndex], skin);
@@ -88,7 +97,7 @@ public class PopupDialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        // Layout: Image on the left, text and health bars on the right
+        // Layout: Image on the left, text and stats table on the right
         Table rightTable = new Table();
 
         // Text on top 1/3 of the right side
@@ -98,12 +107,12 @@ public class PopupDialogBox extends Dialog {
                 .top().expandY();
         rightTable.add(textTable).width(dialogWidth * 0.5f).expandX().row();
 
-
-//        // Health bars on bottom 2/3 of the right side
-//        Table healthTable = new Table();
-//        healthTable.add(healthBarImage1).width(dialogWidth * 0.3f).height(dialogHeight * 0.2f).padTop(10).row();
-//        healthTable.add(healthBarImage2).width(dialogWidth * 0.3f).height(dialogHeight * 0.2f).padTop(10);
-//        rightTable.add(healthTable).expandX().fillY().top();
+        // Stats table under text
+        Table statsContainer = new Table();
+        statsTable = new Table();
+        statsTable.add(new Label("STATS", getSkin())).colspan(2).padBottom(10).row();
+        statsContainer.add(statsTable).expand().top().row();
+        rightTable.add(statsContainer).width(dialogWidth * 0.5f).expandX().fillY().top();
 
         // Add image and right table to the content layout
         Table innerTable = new Table();
@@ -119,6 +128,23 @@ public class PopupDialogBox extends Dialog {
         // Set the size and position of the dialog box
         setSize(dialogWidth, dialogHeight);
         setPosition((Gdx.graphics.getWidth() - getWidth()) / 2f, (Gdx.graphics.getHeight() - getHeight()) / 2f);
+
+        updateStatsTable(); // Update stats table with the current animal's stats
+    }
+
+    /**
+     * Updates the stats table with the current animal's stats.
+     */
+    private void updateStatsTable() {
+        // Clear previous stats
+        statsTable.clear();
+        statsTable.add(new Label("STATS", getSkin())).colspan(2).padBottom(10).row();
+        statsTable.add(new Label("SPEED:", getSkin())).left();
+        statsTable.add(new Label(String.valueOf(speedStats[animalIndex]), getSkin())).right().row();
+        statsTable.add(new Label("DEFENSE:", getSkin())).left();
+        statsTable.add(new Label(String.valueOf(defenseStats[animalIndex]), getSkin())).right().row();
+        statsTable.add(new Label("STRENGTH:", getSkin())).left();
+        statsTable.add(new Label(String.valueOf(strengthStats[animalIndex]), getSkin())).right().row();
     }
 
     /**
@@ -129,6 +155,7 @@ public class PopupDialogBox extends Dialog {
         if (currentIndex < titles.length) {
             titleLabel.setText(titles[currentIndex]);
             contentLabel.setText(content[currentIndex]);
+            updateStatsTable(); // Update stats table when changing pages
         } else {
             hide();  // Hide dialog when content is done
         }
@@ -141,5 +168,15 @@ public class PopupDialogBox extends Dialog {
      */
     public void display(Stage stage) {
         stage.addActor(this);
+    }
+
+    /**
+     * Sets the index of the animal for which stats should be displayed.
+     *
+     * @param animalIndex Index of the selected animal (0 for bird, 1 for croc, 2 for dog).
+     */
+    public void setAnimalIndex(int animalIndex) {
+        this.animalIndex = animalIndex;
+        updateStatsTable(); // Update stats immediately with new animal stats
     }
 }

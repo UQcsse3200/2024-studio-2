@@ -1,9 +1,6 @@
 package com.csse3200.game.entities.factories;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.entities.DialogueBoxService;
@@ -22,12 +19,10 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
-import org.mockito.ArgumentCaptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,9 +135,9 @@ class NPCFactoryTest {
      */
     @Test
     void TestFishHasCorrectBaseHint() {
-        String[] baseHint = configs.fish.getBaseHint();
+        String[][] baseHint = configs.fish.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Finny the Fish."}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Finny the Fish."}}, baseHint);
     }
 
     /**
@@ -218,12 +213,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowHasCorrectBaseHint() {
-        String[] baseHint = configs.cow.getBaseHint();
+        String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Moo there, adventurer! Welcome to the kingdom.",
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
                 "We will be your guides",
                 "but before you can roam free...",
-                "you must complete the first steps and 2 step quests."}));
+                "you must complete the first steps and 2 step quests."}});
     }
 
     /**
@@ -299,9 +294,14 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionHasCorrectBaseHint() {
-        String[] baseHint = configs.lion.getBaseHint();
+        String[][] baseHint = configs.lion.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}));
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
     }
 
     /**
@@ -377,9 +377,14 @@ class NPCFactoryTest {
      */
     @Test
     void TestEagleHasCorrectBaseHint() {
-        String[] baseHint = configs.eagle.getBaseHint();
+        String[][] baseHint = configs.eagle.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}));
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Ethan the Eagle.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
     }
 
     /**
@@ -523,12 +528,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestSnakeHasCorrectBaseHint() {
-        String[] baseHint = configs.snake.getBaseHint();
+        String[][] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
                 "You look very tasty and I am very hungry",
                 "Go play a game and collect me some apples...",
-                "/msOr I will eat you whole!"}));
+                "/msOr I will eat you whole!"}});
     }
 
     /**
@@ -604,9 +609,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestMagpieHasCorrectBaseHint() {
-        String[] baseHint = configs.magpie.getBaseHint();
+        String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Maggie the Magpie."}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"WHO GOES THERE!!",
+                "If you want to get past me you must pay",
+                "Go play a game and collect me some coins",
+                "/mbOr I will claw your eyes out!"}}, baseHint);
     }
 
     /**
@@ -653,7 +661,7 @@ class NPCFactoryTest {
 
         // Given
         String[] animalSoundPaths = {"sound1.wav", "sound2.wav"};
-        String[] hintText = {"Hint 1", "Hint 2"};
+        String[][] hintText = {{"Hint 1", "Hint 2"}};
 
         Sound sound1 = mock(Sound.class);
         Sound sound2 = mock(Sound.class);
