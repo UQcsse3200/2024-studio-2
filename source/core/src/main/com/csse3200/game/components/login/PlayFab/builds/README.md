@@ -1,1 +1,0 @@
-This folder contains the jar files for the built java projects.
