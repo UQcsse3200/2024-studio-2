@@ -1,8 +1,11 @@
 package com.csse3200.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
@@ -43,12 +46,12 @@ class DialogueBoxServiceTest {
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
 
-        Stage stage = ServiceLocator.getRenderService().getStage();
+        stage = ServiceLocator.getRenderService().getStage();
+
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
         entityChatService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(entityChatService);
-        this.stage = stage;
     }
 
     @Test
