@@ -84,12 +84,11 @@ public class EnemyFactory {
 
     chicken
             .addComponent(animator)
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 2), config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
             .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(new ChickenAnimationController());
 
     chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-    chicken.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return chicken;
   }
@@ -115,14 +114,12 @@ public class EnemyFactory {
 
     bear
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
-                    config.getBaseAttack() + (int)(Math.random() * 2), 0, 0, 0, 0, false, false))
+                    config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
             .addComponent(animator)
             .addComponent(new BearAnimationController());
 
 
     bear.setScale(2f,1.38f);
-    //bear.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bear.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return bear;
   }
@@ -146,13 +143,12 @@ public class EnemyFactory {
     animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
 
     frog
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 5) - 2, config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
             .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new FrogAnimationController());
 
     frog.getComponent(AnimationRenderComponent.class).scaleEntity();
-    frog.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return frog;
   }
@@ -182,13 +178,12 @@ public class EnemyFactory {
     animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
 
     monkey
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 2) - 1, config.getSpeed(), config.getExperience(), 100, false, false))
             .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new MonkeyAnimationController());
 
     monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
-    monkey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return monkey;
   }
@@ -204,7 +199,7 @@ public class EnemyFactory {
   private static Entity createBaseEnemy(Entity target, EnemyType type) {
     AITaskComponent aiComponent = new AITaskComponent();
 
-    BaseEnemyEntityConfig configStats = switch (type) {
+    BaseEnemyEntityConfig configStats = switch (type) { // assign config variable depending on enemy to inherit speed stat
       case FROG -> configs.frog;
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
@@ -212,11 +207,13 @@ public class EnemyFactory {
     };
 
     if (type == EnemyType.MONKEY) {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+      // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
+      aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 5f));
     } else {
-      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+      // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
+      aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
     }
 

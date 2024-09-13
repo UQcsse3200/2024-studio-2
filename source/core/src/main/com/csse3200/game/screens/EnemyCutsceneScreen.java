@@ -42,6 +42,8 @@ import java.util.LinkedList;
  */
 public class EnemyCutsceneScreen extends ScreenAdapter {
     private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
+    private int labelBuffer;
+    private int imagebuffer;
     private float timeElapsed = 0;
     private boolean transition;
 
@@ -72,6 +74,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         this.oldScreenServices = container;
         this.player = player;
         this.enemy = enemy;
+        setLabelBuffer(enemy.getEnemyType());
 
         logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -311,14 +314,14 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Animate enemy image (slide-in effect)
         enemyImage.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.imagebuffer, centerY, 2f, Interpolation.pow5Out)
                 )
         );
 
         // Animate enemy name label (slide-in effect)
         enemyNameLabel.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX + 200, centerY - 10, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.labelBuffer, centerY - 10, 2f, Interpolation.pow5Out)
                 )
         );
 
@@ -355,6 +358,23 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         logger.info("Screen is resting");
         //gameArea.pauseMusic();
         ServiceLocator.getEntityService().restWholeScreen();
+    }
+
+    public void setLabelBuffer(Entity.EnemyType enemy) {
+        switch (enemy) {
+            case FROG -> {
+                this.labelBuffer =  220;
+            }
+            case BEAR -> {
+                this.labelBuffer = 220;
+                this.imagebuffer = -55;
+            }
+            default -> {
+                this.labelBuffer =  200;
+                this.imagebuffer = 0;
+            }
+        }
+
     }
 
     /**

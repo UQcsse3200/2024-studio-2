@@ -1,0 +1,191 @@
+[
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: AppleAdvancement
+	questDescription: Collect your first apple!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/foodtextures/apple.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: Attack PotionAdvancement
+	questDescription: Collect your first Attack Potion!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/potiontexture/attack.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: Defense PotionAdvancement
+	questDescription: Collect your first Defense Potion!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/potiontexture/defense.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: Health PotionAdvancement
+	questDescription: Collect your first Healing Potion!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/Healthpotion.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: Speed PotionAdvancement
+	questDescription: Collect your first Speed Potion!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/potiontexture/speed.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: Chicken LegAdvancement
+	questDescription: Collect your first Chicken Leg!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/foodtextures/chicken_leg.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: MeatAdvancement
+	questDescription: Collect your first Meat!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/foodtextures/meat.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: CandyAdvancement
+	questDescription: Collect your first Candy!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/foodtextures/candy.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: CarrotAdvancement
+	questDescription: Collect your first Carrot!
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: images/foodtextures/carrot.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: First Steps
+	questDescription: Take your first steps in this world!
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/first-steps.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: BRONZE SNAKE
+	questDescription: Finish the snake mini game with a bronze medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/snake-bronze.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: SILVER SNAKE
+	questDescription: Finish the snake mini game with a silver medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/snake-silver.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: GOLD SNAKE
+	questDescription: Finish the snake mini game with a gold medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/snake-gold.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: BRONZE BIRD
+	questDescription: Finish the bird mini game with a bronze medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/bird-bronze.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: SILVER BIRD
+	questDescription: Finish the bird mini game with a silver medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/bird-silver.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: GOLD BIRD
+	questDescription: Finish the bird mini game with a gold medal
+	completed: false
+	seen: false
+	type: ADVANCEMENT
+	iconPath: images/logbook/icons/bird-gold.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: MONKEY
+	questDescription: Defeat the fearsome monkey!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/logbook/icons/monkey.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: CHICKEN
+	questDescription: Defeat the terrifying chicken!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/logbook/icons/chicken.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: FROG
+	questDescription: Defeat the dangerous frog!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/logbook/icons/frog.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: KANGAROO
+	questDescription: Defeat the MIGHTY KANGAROO!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/final_boss_kangaroo_idle.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: New Quest
+	questDescription: A new quest description
+	completed: false
+	seen: false
+	type: ITEM
+	iconPath: path/to/icon
+}
+]

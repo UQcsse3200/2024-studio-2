@@ -209,7 +209,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 
     /** Play the music for combat
