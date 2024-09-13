@@ -43,7 +43,6 @@ public class StoryDisplay extends UIComponent {
         logger.info("Creating StoryDisplay");
         addActors();
         applyUserSettings();
-        logger.info("Background texture loaded");
 
         entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
         entity.getEvents().addListener("backDisplay", this::onBackDisplay);
