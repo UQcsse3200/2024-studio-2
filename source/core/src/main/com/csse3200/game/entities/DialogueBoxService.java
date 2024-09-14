@@ -1,5 +1,6 @@
 package com.csse3200.game.entities;
 
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.csse3200.game.ui.DialogueBox;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
@@ -100,6 +101,9 @@ public class DialogueBoxService {
 
     }
 
+    /**
+     * Resizes the DialogueBox in the event the screen changes size
+     */
     public void resizeElements() {
         currentOverlay.resizeElements();
     }

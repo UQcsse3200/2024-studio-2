@@ -1,5 +1,6 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
@@ -10,6 +11,8 @@ import com.csse3200.game.services.ServiceLocator;
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
+    private static final Logger logger = new Logger("PauseTask");
+
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
@@ -93,10 +96,11 @@ public class PauseTask extends ChaseTask {
             // NPC pauses when close enough to the target
             hasApproached = true;
             movementTask.stop();
+            logger.info("Pausing");
+        }
 
-            if (Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())) {
-                triggerPauseEvent();
-            }
+        if (hasApproached == true && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())) {
+            triggerPauseEvent();
         }
     }
 

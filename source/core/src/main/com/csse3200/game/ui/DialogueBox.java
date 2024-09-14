@@ -36,14 +36,13 @@ public class DialogueBox {
     private TextButton forwardButton;
     private TextButton backwardButton;
     private TextButton playButton;
-    private TextButton[] optionButtons;
-    private int screenWidth = Gdx.graphics.getWidth();
-    private int screenHeight = Gdx.graphics.getHeight();
-
     private String[][] hints;
     private int currentHint;
     private int currentHintLine;
     private MiniGameNames currentMinigame;
+    private TextButton[] optionButtons;
+    private int screenWidth = Gdx.graphics.getWidth();
+    private int screenHeight = Gdx.graphics.getHeight();
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -121,8 +120,10 @@ public class DialogueBox {
      */
     public void resizeElements() {
         // resize background image
-        screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
-        screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
+        if (ServiceLocator.getRenderService().getStage().getViewport() != null) {
+            screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
+            screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
+        }
 
         float desiredHeight = screenHeight * 0.08f;  // 7% of the screen height
         float newWidth = screenWidth;  // Full screen width
@@ -154,7 +155,6 @@ public class DialogueBox {
 
         resizeOptionButtons();
     }
-
 
     /**
      * Creates the label for displaying hints.
@@ -324,6 +324,14 @@ public class DialogueBox {
      */
     public String[][] getHints() {
         return this.hints;
+    }
+
+    /**
+     * Gets the option buttons.
+     * @return the array of option buttons.
+     */
+    public TextButton[] getOptionButtons() {
+        return optionButtons;
     }
 
     /**
