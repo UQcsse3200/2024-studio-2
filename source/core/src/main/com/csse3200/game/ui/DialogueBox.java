@@ -64,8 +64,12 @@ public class DialogueBox {
         createForwardButton();
         createBackwardButton();
         createPlayButton();
-        this.optionButtons = new TextButton[]{createOptionButton(0), createOptionButton(1), createOptionButton(2),
-                createOptionButton(3), createOptionButton(4)};
+
+        int totalOptions = 5;
+        optionButtons = new TextButton[totalOptions];
+        for (int i = 0; i < optionButtons.length; i++) {
+            optionButtons[i] = createOptionButton(i); // Call createOptionButton with the index i
+        }
 
         if (hide) {
             hideDialogueBox();
@@ -147,6 +151,8 @@ public class DialogueBox {
 
         backwardButton.setSize(newWidth, desiredHeight);
         backwardButton.setPosition(screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
+
+        resizeOptionButtons();
     }
 
 
@@ -226,7 +232,7 @@ public class DialogueBox {
 
     /**
      * Creates the optionButton.
-     *
+     * @param index
      * @return the optionButton instance.
      */
     public TextButton createOptionButton(int index) {
@@ -380,6 +386,66 @@ public class DialogueBox {
     }
 
     /**
+     * Resizes and spaces the buttons based on the number of currently visible options.
+     */
+    public void resizeOptionButtons() {
+        // Determine the number of visible buttons (i.e., buttons that have been set to visible in optionsCheck)
+        int visibleButtonCount = 0;
+        for (TextButton button : optionButtons) {
+            if (button.isVisible()) {
+                visibleButtonCount++;
+            }
+        }
+
+        if (visibleButtonCount == 0) {
+            return; // No buttons to resize or space if none are visible
+        }
+
+        // Get the background image dimensions and position
+        float backgroundXPosition = screenWidth * 0.05f; // LHS of the background image
+        float backgroundWidth = screenWidth * 0.9f;      // Width of the background image
+
+        // Calculate the button width based on the number of visible buttons and available space
+        float buttonWidth = (backgroundWidth * 0.8f) / visibleButtonCount; // Adjust width relative to background
+        float spacing = (backgroundWidth - visibleButtonCount * buttonWidth) / (visibleButtonCount - 1); // Space between buttons
+
+        // Set a fixed y position for the buttons above the background image
+        float backgroundHeight = screenHeight * 0.08f;  // Height of the background image
+        float backgroundYPosition = screenHeight * 0.09f; // Y position of the background image
+        float buttonYPosition = backgroundYPosition + backgroundHeight + 10; // Spacing above background
+
+        // Resize and reposition each visible button
+        int buttonIndex = 0;
+        for (TextButton optionButton : optionButtons) {
+            if (optionButton.isVisible()) {
+                // Set the new width for the button
+                optionButton.setWidth(buttonWidth);
+
+                // Calculate the x position for evenly spacing the buttons
+                float xPosition = backgroundXPosition + buttonIndex * (buttonWidth + spacing);
+
+                // Set the button's position
+                optionButton.setPosition(xPosition, buttonYPosition);
+
+                // Shrink label text if too large
+                Label label = optionButton.getLabel();
+                float newWidth = optionButton.getWidth() - 100; // Add padding to prevent text overflow at the edges
+
+                if (label.getPrefWidth() > newWidth) {
+                    // Scale down font size proportionally to fit the button width
+                    float scaleFactor = newWidth / label.getPrefWidth();
+                    label.setFontScale(scaleFactor);
+                } else {
+                    // Reset font scale to default if no shrinking is needed
+                    label.setFontScale(1f);
+                }
+
+                buttonIndex++;
+            }
+        }
+    }
+
+    /**
      * Handles the option button click event to navigate to the specific hint.
      * Updates the label text to the certain hint in the array and repositions the label.
      */
@@ -441,6 +507,8 @@ public class DialogueBox {
                 optionButtons[i - 1].setText(options[i].substring(2));
                 optionButtons[i - 1].setVisible(true);
             }
+
+            resizeOptionButtons();
             return options[0].substring(2);
         } else {
             for (TextButton button : optionButtons) {
