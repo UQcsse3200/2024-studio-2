@@ -34,6 +34,16 @@ public class MazeGrid{
         createMaze();
     }
 
+    /***
+     * Method to get the cell at a specific coordinate
+     * @param row the row
+     * @param col the column
+     * @return
+     */
+    public MazeCell getCell(int row, int col) {
+        return cells[row][col];
+    }
+
     /**
      * Reads the file and constructs the maze by filling the cells array.
      * Each character in the file is read, where '1' corresponds to a Wall and '0' to a NotWall.
