@@ -9,6 +9,7 @@ public class DialogueBoxService {
     private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[][] hints;
+    private Boolean isVisible;
 
     /**
      * Create a new chat overlay with the given hint text.
@@ -16,6 +17,7 @@ public class DialogueBoxService {
     public DialogueBoxService(Stage stage) {
         currentOverlay = new DialogueBox(stage);
         hints = null;
+        isVisible = false;
     }
 
     /**
@@ -41,6 +43,7 @@ public class DialogueBoxService {
      * Dispose of the current chat overlay if it exists.
      */
     public void disposeCurrentOverlay() {
+        isVisible = false;
         if (currentOverlay != null) {
             currentOverlay.dispose();
             currentOverlay = null;
@@ -50,9 +53,17 @@ public class DialogueBoxService {
     }
 
     /**
+     * Returns if the current dialgoue box is visible
+     */
+    public Boolean getIsVisible() {
+        return isVisible;
+    }
+
+    /**
      * Dispose of the current chat overlay if it exists.
      */
     public void hideCurrentOverlay() {
+        isVisible = false;
         if (currentOverlay != null) {
             currentOverlay.hideDialogueBox();
             hints = null;
@@ -64,6 +75,7 @@ public class DialogueBoxService {
      */
     public void updateText(String[][] text) {
         hints = text;
+        isVisible = true;
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
@@ -78,6 +90,7 @@ public class DialogueBoxService {
      */
     public void updateText(String[] text) {
         hints = new String[][]{text};
+        isVisible = true;
         if (currentOverlay == null) {
             // handling if it ever gets deleted when not supposed to
             currentOverlay = new DialogueBox(hints);
@@ -85,5 +98,9 @@ public class DialogueBoxService {
             currentOverlay.showDialogueBox(new String[][]{text});
         }
 
+    }
+
+    public void resizeElements() {
+        currentOverlay.resizeElements();
     }
 }

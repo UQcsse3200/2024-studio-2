@@ -115,7 +115,7 @@ public class DialogueBox {
     /**
      * Resizes the background image for formatting
      */
-    private void resizeElements() {
+    public void resizeElements() {
         // resize background image
         screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
         screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
@@ -128,6 +128,7 @@ public class DialogueBox {
 
         newWidth = screenWidth * 0.9f;  // Background label width (littler than image)
 
+        updateLabelPosition();
         // Shrink label text if too large
         if (label.getPrefWidth() > newWidth) {
             float scaleFactor = newWidth / label.getPrefWidth();
