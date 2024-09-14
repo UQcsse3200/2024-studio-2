@@ -2,6 +2,7 @@ package com.csse3200.game.components.quests;
 
 import com.csse3200.game.entities.Entity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public abstract class AbstractQuest {
      * DialogueKey(String npcName, Integer ProgressionLevel)
      * to a dialogue map relevant to the npc
      */
-    private final Map<DialogueKey,String[]> questDialogue;
+    private final Map<DialogueKey,String[][]> questDialogue;
     /**
      * Number of tasks completed for current quest.
      */
@@ -47,7 +48,7 @@ public abstract class AbstractQuest {
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[][]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -158,14 +159,6 @@ public abstract class AbstractQuest {
     /** Returns true if the quest is active */
     public boolean isActive() {
         return isActive;
-    }
-
-    /** Returns the current quest dialogue for the given npc */
-    public String[] getDialogue(String npcName) {
-        if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
-            return questDialogue.get(new DialogueKey(npcName, getProgression()));
-        }
-        return new String[]{};
     }
 
 
