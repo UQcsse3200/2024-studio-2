@@ -1,5 +1,7 @@
 package com.csse3200.game.components.tasks;
 
+import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
@@ -13,6 +15,7 @@ public class PauseTask extends ChaseTask {
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
+    QuestManager questManager;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -27,6 +30,7 @@ public class PauseTask extends ChaseTask {
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.questManager = target.getComponent(QuestManager.class);
     }
 
     /**
@@ -50,9 +54,21 @@ public class PauseTask extends ChaseTask {
 
 
         if (this.config != null) {
-            String[][] hintText = this.config.getBaseHint();
+            String[][] hintText = new String[0][];
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
+            if (questManager != null) {
+                for (AbstractQuest quest : questManager.getAllQuests()) {
+                    if (quest.isActive()) {
+                        hintText = this.config.getBaseHint(); // replace with the quest functionality to get a hint here
+                    }
+                }
+
+            } else {
+                // try reset it for next time
+                this.questManager = target.getComponent(QuestManager.class);
+                hintText = this.config.getBaseHint();
+            }
             entity.getEvents().trigger(eventName, hintText);
         } else {
             entity.getEvents().trigger("PauseStart");
