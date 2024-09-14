@@ -80,7 +80,7 @@ public class MazeGrid{
                     char ch = line.charAt(col);
                     // Calculate the position for this cell
                     float x = gridX + col * cellSize;
-                    float y = gridY + (size - row - 1) * cellSize;  // Correctly calculate the Y position
+                    float y = gridY + (size - row - 1) * cellSize;
                     System.out.println(new Vector2(x,y));
 
                     if (ch == '1') {
