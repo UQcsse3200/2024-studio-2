@@ -5,6 +5,7 @@ public class MazeAssetPaths {
     // Mazes
     public static final String TEST_MAZE = "minigameMaze/TestMaze.txt";
     public static final String MAZE_ONE = "minigameMaze/MazeOne.txt";
+    public static final String MAZE_TWO = "minigameMaze/maze2.txt";
 
     // Images
     public static final String WATER = "images/minigames/water.png";

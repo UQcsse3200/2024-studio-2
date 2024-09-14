@@ -12,7 +12,7 @@ public class MazeGame {
     private final MinigameRenderer renderer;
 
     public MazeGame() {
-        this.grid = new MazeGrid(10, MazeAssetPaths.MAZE_ONE);
+        this.grid = new MazeGrid(31, MazeAssetPaths.MAZE_TWO);
         this.renderer = new MinigameRenderer();
         initRenderers();
     }

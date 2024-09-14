@@ -2,6 +2,7 @@ package com.csse3200.game.components.minigames.maze.mazegrid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 
 import java.io.*;
 
@@ -25,6 +26,7 @@ public class MazeGrid{
     private final float gridHeight = 1000;
     private float gridX;
     private float gridY;
+    private float cellSize;
 
     /**
      * Creates a new MazeGrid with the specified dimensions.
@@ -38,13 +40,15 @@ public class MazeGrid{
         this.size = size;
         this.file = file;
         this.cells = new MazeCell[size][size];
-        createMaze();
         calculateCellDimensions();
+        createMaze();
+
     }
 
     private void calculateCellDimensions() {
         this.gridX = (screenWidth - gridWidth) / 2; // Center the grid horizontally
         this.gridY = (screenHeight - gridHeight) / 2; // Center the grid vertically
+        this.cellSize = gridWidth / size;
     }
 
     /***
@@ -66,7 +70,6 @@ public class MazeGrid{
      * Each character in the file is read, where '1' corresponds to a Wall and '0' to a NotWall.
      */
     private void createMaze() {
-        // For in game
         if (isLibGDXEnvironemnt()) {
             FileHandle fileHandle = Gdx.files.internal(file);  // Use Gdx.files to load the file
             String[] lines = fileHandle.readString().split("\n");  // Read the file content
@@ -75,24 +78,26 @@ public class MazeGrid{
                 String line = lines[row];
                 for (int col = 0; col < line.length() && col < size; col++) {
                     char ch = line.charAt(col);
+                    // Calculate the position for this cell
+                    float x = gridX + col * cellSize;
+                    float y = gridY + (size - row - 1) * cellSize;  // Correctly calculate the Y position
+                    System.out.println(new Vector2(x,y));
+
                     if (ch == '1') {
-                        cells[row][col] = new Wall(row, col);
+                        cells[row][col] = new Wall(x, y, cellSize);
                     } else {
-                        cells[row][col] = new Water(row, col);
+                        cells[row][col] = new Water(x, y, cellSize);
                     }
                 }
             }
-        }
-        else {
+        } else {
             setUpInTest();
         }
     }
 
-
-
     /**
-     * Private method to check if in game or junit test
-     * @return whether it is game or junit environemnt
+     * Private method to check if in-game or JUnit test
+     * @return whether it is game or test environment
      */
     private boolean isLibGDXEnvironemnt() {
         return Gdx.files != null;
@@ -107,11 +112,15 @@ public class MazeGrid{
             while ((line = br.readLine()) != null) {
                 for (int col = 0; col < line.length() && col < size; col++) {
                     char ch = line.charAt(col);
-                    // Make a wall if it's a 1, otherwise water
+                    // Calculate the position for this cell
+                    float x = gridX + col * cellSize;
+                    float y = gridY + (size - row - 1) * cellSize;
+
+                    // Make a wall if it's a '1', otherwise Water cell
                     if (ch == '1') {
-                        cells[row][col] = new Wall(row, col);
+                        cells[row][col] = new Wall(x, y, cellSize);
                     } else {
-                        cells[row][col] = new Water(row, col);
+                        cells[row][col] = new Water(x, y, cellSize);
                     }
                 }
                 row++;
@@ -122,6 +131,5 @@ public class MazeGrid{
         } catch (IOException e) {
             System.out.println("Can't read line");
         }
-
     }
 }

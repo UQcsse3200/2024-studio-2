@@ -17,24 +17,11 @@ public class MazeGridRenderer implements MinigameRenderable {
     private Texture waterTexture;
     private Texture wallTexture;
 
-    // Screen dimensions
-    private final float screenWidth = 1920f;
-    private final float screenHeight = 1200f;
 
-    // Desired grid area size
-    private final float gridSize = 1000f;
-
-    // Calculated starting positions for centering the grid
-    private final float gridX = (screenWidth - gridSize) / 2; // Horizontal center
-    private final float gridY = (screenHeight - gridSize) / 2; // Vertical center
-
-    // The size of each cell
-    private final float cellSize;
 
     public MazeGridRenderer(MazeGrid grid, MinigameRenderer renderer) {
         this.maze = grid.getMaze();
         this.renderer = renderer;
-        this.cellSize = gridSize / grid.getMaze().length;  // Divide the grid size by the number of rows/columns
         loadAssets();
     }
 
@@ -42,18 +29,22 @@ public class MazeGridRenderer implements MinigameRenderable {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[row].length; col++) {
                 MazeCell cell = maze[row][col];
-                // Calculate position of each cell based on grid position and cell size
-                float x = gridX + col * cellSize;
-                float y = gridY + (maze.length - row - 1) * cellSize;  // Inverted Y-axis for LibGDX
 
                 // Use renderer to draw the corresponding texture
                 if (cell instanceof Wall) {
-                    renderer.getSb().draw(wallTexture, x, y, cellSize, cellSize);
+                    renderer.getSb().draw(wallTexture, cell.getPosition().x,
+                            cell.getPosition().y,
+                            cell.getSize(),
+                            cell.getSize());
                 } else {
-                    renderer.getSb().draw(waterTexture, x, y, cellSize, cellSize);
+                    renderer.getSb().draw(waterTexture,cell.getPosition().x,
+                            cell.getPosition().y,
+                            cell.getSize(),
+                            cell.getSize());
                 }
             }
         }
+
     }
 
     /**
