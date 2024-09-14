@@ -1,6 +1,8 @@
-package com.csse3200.game.ui;
+package com.csse3200.game.ui.DialogueBox;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -273,10 +275,11 @@ public class DialogueBox {
         forwardButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleForwardButtonClick();
+                handleForwardButtonClick(); // Handle forward button click
                 return true;
             }
         });
+
 
         backwardButton.addListener(new InputListener() {
             @Override

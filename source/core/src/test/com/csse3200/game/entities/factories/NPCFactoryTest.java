@@ -3,7 +3,8 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.input.InputService;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.extensions.GameExtension;
@@ -76,6 +77,7 @@ class NPCFactoryTest {
         ServiceLocator.registerRenderService(render);
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
+        ServiceLocator.registerInputService(new InputService());
         resourceService.loadTextures(textures);
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
