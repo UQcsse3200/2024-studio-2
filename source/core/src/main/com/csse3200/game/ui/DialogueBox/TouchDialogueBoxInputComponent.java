@@ -55,7 +55,11 @@ public class TouchDialogueBoxInputComponent extends InputComponent {
         if (!this.enabled) {
             return false;
         }
-        return buttonPressed.containsKey(keycode) && buttonPressed.get(keycode).equals(false);
+        if (buttonPressed.containsKey(keycode)) {
+            buttonPressed.put(keycode, false);
+            return true;
+        }
+        return false;
     }
 
     private void triggerRightArrowPress() {
