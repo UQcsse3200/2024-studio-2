@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class MazeCell {
     protected Vector2 position;
     protected Rectangle collisionBox;
-    private final int TILE_SIZE = 50;
+    private final int TILE_SIZE = 100;
 
     public MazeCell(int x, int y) {
         this.position = new Vector2(x, y);

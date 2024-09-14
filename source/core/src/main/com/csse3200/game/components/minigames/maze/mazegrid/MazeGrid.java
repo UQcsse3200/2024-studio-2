@@ -18,6 +18,13 @@ public class MazeGrid{
     private final int size; // Size of the grid
     private final MazeCell[][] cells; // 2D array representing the cells
 
+    // Screen size
+    private final float screenWidth = 1920f;
+    private final float screenHeight = 1200f;
+    private final float gridWidth = 1000;
+    private final float gridHeight = 1000;
+    private float gridX;
+    private float gridY;
 
     /**
      * Creates a new MazeGrid with the specified dimensions.
@@ -32,6 +39,12 @@ public class MazeGrid{
         this.file = file;
         this.cells = new MazeCell[size][size];
         createMaze();
+        calculateCellDimensions();
+    }
+
+    private void calculateCellDimensions() {
+        this.gridX = (screenWidth - gridWidth) / 2; // Center the grid horizontally
+        this.gridY = (screenHeight - gridHeight) / 2; // Center the grid vertically
     }
 
     /***
@@ -74,6 +87,8 @@ public class MazeGrid{
             setUpInTest();
         }
     }
+
+
 
     /**
      * Private method to check if in game or junit test
