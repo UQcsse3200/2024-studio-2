@@ -9,11 +9,16 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class MazeCell {
     protected Vector2 position;
     protected Rectangle collisionBox;
+    private final int TILE_SIZE = 50;
 
     public MazeCell(int x, int y) {
         this.position = new Vector2(x, y);
         // Arbitrary height and width for now. will change
-        this.collisionBox = new Rectangle(x, y, 50, 50);
+        this.collisionBox = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
+    }
+
+    public int getSize() {
+        return TILE_SIZE;
     }
 
     public Vector2 getPosition() {

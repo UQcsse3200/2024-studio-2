@@ -1,5 +1,6 @@
 package com.csse3200.game.components.minigames.maze.mazegrid;
 
+import com.csse3200.game.components.minigames.maze.MazeAssetPaths;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +12,8 @@ public class MazeGridTest {
 
     @Before
     public void setup() {
-        this.mazeGrid = new MazeGrid(10, MazeFilePaths.TEST_MAZE);
+
+        this.mazeGrid = new MazeGrid(10, MazeAssetPaths.TEST_MAZE);
     }
 
     /**
@@ -49,8 +51,8 @@ public class MazeGridTest {
                     assertTrue("Expected Wall at (" + row + ", " + col + ") but found NotWall.",
                             mazeGrid.getCell(row, col) instanceof Wall);
                 } else {
-                    assertTrue("Expected NotWall at (" + row + ", " + col + ") but found Wall.",
-                            mazeGrid.getCell(row, col) instanceof NotWall);
+                    assertTrue("Expected Water at (" + row + ", " + col + ") but found Wall.",
+                            mazeGrid.getCell(row, col) instanceof Water);
                 }
             }
         }
