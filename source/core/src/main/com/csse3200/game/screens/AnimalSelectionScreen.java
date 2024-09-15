@@ -32,16 +32,22 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
 
         display = createDisplay(stage, skin);
         actions = new AnimalSelectionActions(display, dialogHelper, game);
-
-        // Add buttons to switch to other animal selection screens
-        addButtonToSwitchScreen("Water Animals", WaterAnimalSelectionScreen.class, skin);
-        addButtonToSwitchScreen("Air Animals", AirAnimalSelectionScreen.class, skin);
+        createUI(skin);
 
         actions.resetSelection();
     }
 
     // Abstract method to be implemented by subclasses
     protected abstract AnimalSelectionDisplay createDisplay(Stage stage, Skin skin);
+
+    private void createUI(Skin skin) {
+        waterAnimalsButton = new TextButton("Water Animals", skin);
+        airAnimalsButton = new TextButton("Air Animals", skin);
+
+        addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen.class);
+        addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
+    }
+
 
     @Override
     public void render(float delta) {
@@ -61,9 +67,7 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     }
 
     // Method to add buttons to switch between different screens
-    protected void addButtonToSwitchScreen(String buttonText, final Class<? extends ScreenAdapter> screenClass, Skin skin) {
-        TextButton button = new TextButton(buttonText, skin);
-
+    protected void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
         // Define button dimensions
         float buttonWidth = 200;
         float buttonHeight = 50;
@@ -73,9 +77,9 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         float xPos = padding;
         float yPos;
 
-        if (buttonText.equals("Water Animals")) {
+        if (button.getText().toString().equals("Water Animals")) {
             yPos = padding;
-        } else if (buttonText.equals("Air Animals")) {
+        } else if (button.getText().toString().equals("Air Animals")) {
             yPos = padding + buttonHeight + padding;
         } else {
             return;
