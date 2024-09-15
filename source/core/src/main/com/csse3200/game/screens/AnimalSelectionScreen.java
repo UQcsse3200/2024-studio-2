@@ -61,6 +61,22 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         stage.getViewport().update(width, height, true);
     }
 
+    private void updateButtonPositions() {
+        // Define button dimensions
+        float buttonWidth = 200;
+        float buttonHeight = 50;
+        float padding = 20;
+
+        // Position buttons dynamically
+        float xPos = padding;
+        float yPosWater = stage.getViewport().getScreenHeight() - buttonHeight - padding;
+        float yPosAir = yPosWater - buttonHeight - padding;
+
+        waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
+        airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
+    }
+
+
     @Override
     public void dispose() {
         stage.dispose();
