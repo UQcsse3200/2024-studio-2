@@ -96,7 +96,6 @@ public class PauseTask extends ChaseTask {
             // NPC pauses when close enough to the target
             hasApproached = true;
             movementTask.stop();
-            logger.info("Pausing");
         }
 
         if (hasApproached == true && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())) {

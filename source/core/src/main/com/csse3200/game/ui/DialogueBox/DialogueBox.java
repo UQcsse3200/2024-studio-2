@@ -155,6 +155,12 @@ public class DialogueBox {
         backwardButton.setSize(newWidth, desiredHeight);
         backwardButton.setPosition(screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
 
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2;
+        float centerY = (screenHeight - buttonHeight) / 2;
+        playButton.setPosition(centerX, centerY - screenHeight * 0.09f);
+
         resizeOptionButtons();
     }
 
@@ -229,7 +235,7 @@ public class DialogueBox {
         float centerX = (screenWidth - buttonWidth) / 2;
         float centerY = (screenHeight - buttonHeight) / 2;
 
-        playButton.setPosition(centerX, centerY - 300);
+        playButton.setPosition(centerX, centerY - screenHeight * 0.09f);
     }
 
     /**
