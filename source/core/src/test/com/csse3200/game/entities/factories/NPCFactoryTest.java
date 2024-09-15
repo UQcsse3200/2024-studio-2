@@ -4,11 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventActions;
-import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.input.InputFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
@@ -20,18 +17,16 @@ import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.DialogueBox.TouchDialogueBoxInputComponent;
+import com.csse3200.game.ui.DialogueBox.KeyboardDialogueBoxInputComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
@@ -130,7 +125,7 @@ class NPCFactoryTest {
         DialogueBoxService entityChatService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(entityChatService);
 
-        InputComponent inputComponent = cow.getComponent(TouchDialogueBoxInputComponent.class);
+        InputComponent inputComponent = cow.getComponent(KeyboardDialogueBoxInputComponent.class);
         Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
 
         cow.getEvents().trigger("CowPauseStart");

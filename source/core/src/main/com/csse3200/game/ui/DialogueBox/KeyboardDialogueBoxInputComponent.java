@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TouchDialogueBoxInputComponent extends InputComponent {
+public class KeyboardDialogueBoxInputComponent extends InputComponent {
     private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
 
-    public TouchDialogueBoxInputComponent() {
+    public KeyboardDialogueBoxInputComponent() {
         super(5);
     }
-    private static final Logger logger = LoggerFactory.getLogger(TouchDialogueBoxInputComponent.class);
+    private static final Logger logger = LoggerFactory.getLogger(KeyboardDialogueBoxInputComponent.class);
 
 
     /**
