@@ -59,7 +59,9 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        updateButtonPositions();
     }
+
 
     private void updateButtonPositions() {
         // Define button dimensions
