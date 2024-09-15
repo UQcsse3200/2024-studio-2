@@ -187,6 +187,7 @@ public class AnimationRenderComponent extends RenderComponent {
     this.flipX = flipX;
   }
 
+
   @Override
   public void dispose() {
     atlas.dispose();

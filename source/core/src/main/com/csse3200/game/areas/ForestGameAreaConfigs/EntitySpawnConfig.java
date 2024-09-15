@@ -17,8 +17,7 @@ public class EntitySpawnConfig {
 
     // Enemies
     public int NUM_CHICKENS;
-    public int NUM_FROGS;
-    public int NUM_MONKEYS;
+    public int NUM_FROGS;    public int NUM_MONKEYS;
     public int NUM_BEARS;
 
     // NPCs
