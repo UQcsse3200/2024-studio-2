@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.animal.AnimalSelectionDisplay;
@@ -21,10 +22,9 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     private TextButton waterAnimalsButton;
     private TextButton airAnimalsButton;
 
-
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
-        stage = new Stage();
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -32,6 +32,7 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
 
         display = createDisplay(stage, skin);
         actions = new AnimalSelectionActions(display, dialogHelper, game);
+
         createUI(skin);
 
         actions.resetSelection();
@@ -48,7 +49,6 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
     }
 
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -62,6 +62,27 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         updateButtonPositions();
     }
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    // Method to add buttons to switch between different screens
+    private void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    // Switch to the new screen
+                    ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
+                    game.setScreen(newScreen);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        stage.addActor(button);
+    }
 
     private void updateButtonPositions() {
         // Define button dimensions
@@ -76,48 +97,5 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
 
         waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
         airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
-    }
-
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-    }
-
-    // Method to add buttons to switch between different screens
-    protected void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
-        // Define button dimensions
-        float buttonWidth = 200;
-        float buttonHeight = 50;
-        float padding = 20;
-
-        // Position buttons on the left side, bottom of the screen
-        float xPos = padding;
-        float yPos;
-
-        if (button.getText().toString().equals("Water Animals")) {
-            yPos = padding;
-        } else if (button.getText().toString().equals("Air Animals")) {
-            yPos = padding + buttonHeight + padding;
-        } else {
-            return;
-        }
-
-        button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    // Switch to the new screen
-                    ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
-                    game.setScreen(newScreen);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        stage.addActor(button);
     }
 }
