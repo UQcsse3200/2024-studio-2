@@ -13,13 +13,12 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int speed = 1;
     private int experience = 100;
     private int stamina = 100;
-
-    public final Map<Integer, String[]> hints = null;
+    private Boolean isBoss = false;
+    public Map<Integer, String[]> hints;
     public int hintLevel = 0;
     public int currentHint = 0;
     public int currentHintLine = 0;
     protected String animalName = "";
-
     protected String[][] baseHint;
     protected String spritePath;
     protected final float animationSpeed = 0.1f;
@@ -192,6 +191,9 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     // Getter and setter for experience
     public int getExperience() {
         return experience;
+    }
+    public Boolean isBoss() {
+        return isBoss;
     }
 
     public void setExperience(int experience) {

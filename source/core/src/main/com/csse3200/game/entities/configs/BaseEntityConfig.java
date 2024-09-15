@@ -11,7 +11,7 @@ public class BaseEntityConfig {
     public int speed = 1;
     public int experience = 10;
     public boolean isPlayer = false;
-    public int isEnemy = 0;
+    public int isEnemy;
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;

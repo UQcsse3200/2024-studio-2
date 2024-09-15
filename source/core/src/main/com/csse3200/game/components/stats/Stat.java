@@ -3,45 +3,47 @@ package com.csse3200.game.components.stats;
 /** A simple class to hold values for stats to be tracked through the game.
  *
  */
+//public class Stat implements Json.Serializable {
 public class Stat {
+
 
     /** The name of the stat, used as the string within the events system
      */
-    private final String statName;
+    private String statName;
 
     /** The description of the stat, this is how the stat will be displayed in menus/logs
      */
-    private final String description;
+    private String statDescription;
     /** the Current value of the stat
      */
     private int current;
 
     /** The max value of the stat, if it has one
      */
-    private int max;
+    private Integer statMax;
 
     /** True if the stat has a max, false otherwise
      */
-    private final boolean hasMax;
+    private boolean hasMax;
+    /** The type of stat
+     */
+    private StatType type;
 
     /**
-     * Constructor for stat with no max value e.g. snake high score
+     * Create no arg function for serialisation
      */
-    public Stat(String statName, String description) {
-        this.statName = statName;
-        this.description = description;
-        this.hasMax = false;
-        this.current = 0;
-    }
+    public Stat(){}
+
     /**
-     * Constructor for stat with a max value e.g. number of bosses killed
+     * Constructor for a stat
      */
-    public Stat(String statName, String description, int max) {
+    public Stat(String statName, String description, int current, Integer statMax, Boolean hasMax, StatType type) {
         this.statName = statName;
-        this.description = description;
-        this.max = max;
-        this.hasMax = true;
-        this.current = 0;
+        this.statDescription = description;
+        this.current = current;
+        this.statMax = statMax;
+        this.hasMax = hasMax;
+        this.type = type;
     }
 
     /**
@@ -56,8 +58,8 @@ public class Stat {
      * Getter for the description
      * @return string description
      */
-    public String getDescription() {
-        return description;
+    public String getStatDescription() {
+        return statDescription;
     }
 
     /**
@@ -73,9 +75,9 @@ public class Stat {
      *
      * @return the value of max, or -1 if hasMax == false
      */
-    public int getMax() {
+    public Integer getStatMax() {
         if (this.hasMax) {
-            return max;
+            return statMax;
         } else {
             return -1;
         }
@@ -94,22 +96,23 @@ public class Stat {
      * @param value the new value to set the stat to
      */
     private void setCurrent(int value) {
-        if (this.hasMax()){
-            this.current = Math.min((this.current + value), this.max);
+        if (this.hasMax) {
+            this.current = Math.min(value, this.statMax);
         } else {
             this.current = value;
         }
     }
+
 
     /**
      * Increase the stat by the given value to a max of max if the stat has one
      * @param value amount to increase the stat by
      */
     private void addValue(int value) {
-        if (this.hasMax()){
-            this.setCurrent(Math.min((this.current + value), this.max));
+        if (this.hasMax) {
+            this.current = Math.min(this.current + value, this.statMax);
         } else {
-            this.setCurrent(this.current + value);
+            this.current += value;
         }
     }
 
@@ -118,8 +121,9 @@ public class Stat {
      * @param value the amount
      */
     private void subtractValue(int value) {
-        this.setCurrent(Math.max((this.current - value), 0));
+        this.current = Math.max(this.current - value, 0);
     }
+
 
     /**
      * Event handling method that is called when an event is triggered
@@ -132,5 +136,68 @@ public class Stat {
             case "add" -> this.addValue(value);
             case "subtract" -> this.subtractValue(value);
         }
+    }
+
+    /**
+     * Define types for end game stats
+     * */
+    public enum StatType{
+        ITEM,ENEMY,PLAYER
+    }
+
+    public Stat.StatType getType() {
+        return this.type;
+    }
+
+    /**
+     * Perform json write actions on the end game stats config file
+     *
+     * @param json The config containing stats to be tracked
+     */
+//    @Override
+//    public void write(Json json) {
+//        json.writeValue("statName", statName);
+//        json.writeValue("statDescription", statDescription);
+//        json.writeValue("statCurrent", current);
+//        json.writeValue("statMax", max);
+//        json.writeValue("statHasMax", hasMax);
+//        json.writeValue("type", type.name());
+//    }
+//
+//    /**
+//     * Perform json read actions on the end game stats config file
+//     *
+//     * @param json The config containing stats to be tracked
+//     */
+//    @Override
+//    public void read(Json json, JsonValue jsonData) {
+//        this.statName = jsonData.getString("statName");
+//        this.statDescription = jsonData.getString("statDescription");
+//        this.current = jsonData.getInt("statCurrent");
+//        this.hasMax = jsonData.getBoolean("statHasMax");
+//        // Check if json statMax is null
+//        if (this.hasMax) {
+//            this.max = jsonData.getInt("statMax");
+//        } else {
+//            this.max = null;
+//        }
+//        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
+//    }
+
+    /**
+     * Convert stats json to a human-readable string
+     *
+     * @return human-readable stats string
+     */
+    @Override
+    public String toString() {
+        return "Stat{" +
+                "statName='" + statName + '\'' +
+                ", statDescription='" + statDescription + '\'' +
+                ", statCurrent=" + current +
+                ", statMax=" + statMax +
+                ", statHasMax=" + hasMax +
+                ", type=" + type +
+                '}';
     }
 }

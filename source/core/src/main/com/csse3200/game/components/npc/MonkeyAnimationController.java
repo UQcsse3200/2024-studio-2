@@ -22,6 +22,7 @@ public class MonkeyAnimationController extends Component {
     entity.getEvents().addListener("runRightDown", this::animateRunRightDown);
     entity.getEvents().addListener("runLeftUp", this::animateRunLeftUp);
     entity.getEvents().addListener("runRightUp", this::animateRunRightUp);
+    entity.getEvents().addListener("wait", this::animateWait);
   }
 
   //The following methods will be updated with new animations in future sprints,
@@ -57,6 +58,10 @@ public class MonkeyAnimationController extends Component {
 
   private void animateRunRightUp() {
     animator.startAnimation("run_right_up");
+  }
+
+  private void animateWait() {
+    animator.startAnimation("wait");
   }
 
 }

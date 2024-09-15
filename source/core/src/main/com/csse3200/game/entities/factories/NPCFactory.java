@@ -62,7 +62,7 @@ public class NPCFactory {
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
-    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, 100, false))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, 100, false, false))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(new ConfigComponent<>(config));
@@ -134,6 +134,21 @@ public class NPCFactory {
    */
   public static Entity createMagpie(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.magpie;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createChicken(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyChicken;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createFrog(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyFrog;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createMonkey(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyMonkey;
     return createFriendlyNPC(target, enemies, config);
   }
 

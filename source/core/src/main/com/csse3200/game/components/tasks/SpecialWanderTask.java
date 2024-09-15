@@ -120,16 +120,20 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
     float deltaY = targetPos.y - startPos.y;
     if (deltaY > 0) { // Moving Up
       if (deltaX > 0) {
+        this.owner.getEntity().getEvents().trigger("wanderRight");
         this.owner.getEntity().getEvents().trigger("runRightUp");
       } else if (deltaX < 0) {
+        this.owner.getEntity().getEvents().trigger("wanderLeft");
         this.owner.getEntity().getEvents().trigger("runLeftUp");
       } else {
         this.owner.getEntity().getEvents().trigger("runUp");
       }
     } else if (deltaY < 0) { // Moving Down
       if (deltaX > 0) {
+        this.owner.getEntity().getEvents().trigger("wanderRight");
         this.owner.getEntity().getEvents().trigger("runRightDown");
       } else if (deltaX < 0) {
+        this.owner.getEntity().getEvents().trigger("wanderLeft");
         this.owner.getEntity().getEvents().trigger("runLeftDown");
       } else {
         this.owner.getEntity().getEvents().trigger("runDown");

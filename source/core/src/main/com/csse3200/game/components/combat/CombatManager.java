@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
 
+
 /**
  * The CombatManager class is responsible for managing the turn-based combat loop between two entities (player and enemy).
  * It handles the selection of moves, the sequence in which they are performed, and applies the effects of moves such as
@@ -30,6 +31,7 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -220,8 +222,6 @@ public class CombatManager extends Component {
 
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
-
-        checkCombatEnd();
     }
 
     /**
@@ -241,7 +241,7 @@ public class CombatManager extends Component {
         if (playerStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatLoss");
         } else if (enemyStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatWin");
+            this.getEntity().getEvents().trigger("combatWin", enemy);
         }
     }
 

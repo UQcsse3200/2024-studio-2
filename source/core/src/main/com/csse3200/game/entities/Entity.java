@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ComponentType;
-import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +39,11 @@ public class Entity {
   private Array<Component> createdComponents;
   private EnemyType enemyType;
   public enum EnemyType {
-
-    CHICKEN,
-    FROG,
-    MONKEY,
-    BEAR,
     KANGAROO,
+    CHICKEN,
+    MONKEY,
+    FROG,
+    BEAR
   }
 
 
@@ -55,6 +54,19 @@ public class Entity {
 
     components = new IntMap<>(4);
     eventHandler = new EventHandler();
+  }
+
+  // Getter for enemy type
+  public EnemyType getEnemyType() {
+
+    // return enemyType;
+    return this.enemyType;
+  }
+
+  // Setter for enemy type
+  public Entity setEnemyType(EnemyType enemyType) {
+    this.enemyType = enemyType;
+    return this;
   }
 
   /**
@@ -215,11 +227,39 @@ public class Entity {
 
     return this;
   }
-
+  
+  /**
+   * Remove a component from the entity.
+   *
+   * @param type The component class to be removed, e.g., RenderComponent.class
+   */
+  public boolean removeComponent(Class<? extends Component> type) {
+    ComponentType componentType = ComponentType.getFrom(type);
+    Component component = components.remove(componentType.getId());
+    
+    if (component != null) {
+      logger.info("Removing {} from entity {}", component, this);
+      
+      // Dispose the component to clean up resources
+      component.dispose();
+      component.setEntity(null); // Clear the reference to the entity
+      
+      // Remove the component from createdComponents if the entity was already created
+      if (created) {
+        createdComponents.removeValue(component, true);
+      }
+      
+      return true;
+    }
+    
+    logger.warn("Attempted to remove non-existent component {} from entity {}", type, this);
+    return false;
+  }
+  
   /** Dispose of the entity. This will dispose of all components on this entity. */
   public void dispose() {
     for (Component component : createdComponents) {
-      component.dispose();
+      if(!component.getClass().equals(AnimationRenderComponent.class)) component.dispose();
     }
     ServiceLocator.getEntityService().unregister(this);
   }
@@ -309,22 +349,4 @@ public class Entity {
   public Boolean isEnabled(){
     return this.enabled;
   }
-  /**
-   * Retrieves the current enemy type for this entity.
-   *
-   * @return The current {@link EnemyType} of this entity.
-   */
-  public EnemyType getEnemyType() {
-    return this.enemyType;
-  }
-
-  /**
-   * Sets the enemy type for this entity.
-   *
-   * @param enemyType The {@link EnemyType} to be assigned to this entity.
-   */
-  public void setEnemyType(EnemyType enemyType) {
-    this.enemyType = enemyType;
-  }
 }
-

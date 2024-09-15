@@ -6,7 +6,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
 import com.csse3200.game.components.tasks.ChaseTask;
@@ -18,14 +20,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
 
-/**
- * Action component for interacting with the player. Player events should be initialised in create()
- * and when triggered should call methods within this class.
- */
 public class PlayerActions extends Component {
-  private static final Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private static final float BASE_SPEED = 3f; // Base speed in meters per second
+  private static final float SPEED_MULTIPLIER = 0.03f; // Adjust this to balance speed differences
 
   private PhysicsComponent physicsComponent;
+  private CombatStatsComponent combatStatsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
@@ -43,19 +43,38 @@ public class PlayerActions extends Component {
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
+    combatStatsComponent = entity.getComponent(CombatStatsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
     entity.getEvents().addListener("quest", this::quest);
+    entity.getEvents().addListener("statsInfo", this::statsInfo);
     entity.getEvents().addListener("startCombat", this::startCombat);
+    entity.getEvents().addListener("switchMap", this::switchMap);
+    entity.getEvents().addListener("stoF", this::stof);
 
     if ("images/dog.png".equals(selectedAnimal)) {
       Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
       Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
       dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
     }
-    // Handle other animals (e.g., cat) here
+  }
+
+  /**
+   * Switches to the forest map.
+   */
+  private void stof() {
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.FOREST);
+  }
+
+  /**
+   * Switches to the water map.
+   */
+  private void switchMap() {
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.setMap(MapHandler.MapType.WATER);
   }
 
   @Override
@@ -71,26 +90,20 @@ public class PlayerActions extends Component {
   private void updateSpeed() {
     Body body = physicsComponent.getBody();
     Vector2 velocity = body.getLinearVelocity();
-    Vector2 desiredVelocity = walkDirection.cpy().scl(MAX_SPEED);
+    float speedStat = combatStatsComponent.getSpeed();
+    float adjustedSpeed = BASE_SPEED + (speedStat * SPEED_MULTIPLIER);
+    Vector2 desiredVelocity = walkDirection.cpy().scl(adjustedSpeed);
     Vector2 impulse = desiredVelocity.sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
 
-  /**
-   * Moves the player towards a given direction.
-   *
-   * @param direction direction to move in
-   */
   void walk(Vector2 direction) {
-    this.walkDirection = direction;
+    this.walkDirection = direction.nor();
     moving = true;
     logger.info("Player started moving in direction: " + direction);
     player.getEvents().trigger("steps");
   }
 
-  /**
-   * Stops the player from walking.
-   */
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
@@ -98,9 +111,6 @@ public class PlayerActions extends Component {
     logger.info("Player stopped moving.");
   }
 
-  /**
-   * Makes the player attack.
-   */
   void attack() {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound(1.0f);
@@ -122,6 +132,12 @@ public class PlayerActions extends Component {
     mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);
   }
 
+  private void statsInfo() {
+    logger.debug("Triggering addOverlay for PlayerStatsOverlay");
+    MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
+    mainGameScreen.addOverlay(OverlayType.PLAYER_STATS_OVERLAY);
+  }
+
   public void startCombat(Entity enemy) {
     AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
     PriorityTask currentTask = aiTaskComponent.getCurrentTask();
@@ -131,7 +147,6 @@ public class PlayerActions extends Component {
       currentTask.stop();
       game.addBossCutsceneScreen(player, enemy);
     } else {
-      // game.enterCombatScreen(player, enemy);
       game.addEnemyCutsceneScreen(player, enemy);
     }
   }
