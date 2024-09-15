@@ -18,6 +18,9 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     protected AnimalSelectionDisplay display;
     protected AnimalSelectionActions actions;
     protected GdxGame game;
+    private TextButton waterAnimalsButton;
+    private TextButton airAnimalsButton;
+
 
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
