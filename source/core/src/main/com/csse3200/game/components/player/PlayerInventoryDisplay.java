@@ -3,6 +3,7 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -152,6 +153,15 @@ public class PlayerInventoryDisplay extends UIComponent {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(80, 80);
+                    // Create the subscript label
+                    Label.LabelStyle subscriptStyle = new Label.LabelStyle();
+                    subscriptStyle.font = new BitmapFont(); // Use an appropriate font
+                    subscriptStyle.fontColor = Color.BLACK;
+                    Label subscriptLabel = new Label( String.valueOf(item.getQuantity()), subscriptStyle); // Example subscript text
+                    subscriptLabel.setFontScale(1.5f); // Scale down the font size for subscript
+
+                    // Add the subscript label to the slot table
+                    slot.add(subscriptLabel).bottom().right().pad(5);
                 }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
