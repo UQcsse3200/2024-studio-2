@@ -46,7 +46,7 @@ public class MazeGrid{
         this.size = size * (pathingSize + 1) + 1;
         this.cells = new MazeCell[this.size][this.size];
         calculateCellDimensions();
-        generateRandomMaze(pathingSize, 5);
+        generateRandomMaze(pathingSize, 10);
     }
 
     private void calculateCellDimensions() {
