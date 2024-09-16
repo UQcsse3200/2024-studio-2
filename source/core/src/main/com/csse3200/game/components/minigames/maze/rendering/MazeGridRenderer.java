@@ -6,6 +6,7 @@ import com.csse3200.game.components.minigames.MinigameRenderer;
 import com.csse3200.game.components.minigames.maze.MazeAssetPaths;
 import com.csse3200.game.components.minigames.maze.mazegrid.MazeCell;
 import com.csse3200.game.components.minigames.maze.mazegrid.MazeGrid;
+import com.csse3200.game.components.minigames.maze.mazegrid.Spawn;
 import com.csse3200.game.components.minigames.maze.mazegrid.Wall;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -16,6 +17,7 @@ public class MazeGridRenderer implements MinigameRenderable {
     private final MinigameRenderer renderer;
     private Texture waterTexture;
     private Texture wallTexture;
+    private Texture spawnTexture;
 
 
 
@@ -36,6 +38,11 @@ public class MazeGridRenderer implements MinigameRenderable {
                             cell.getPosition().y,
                             cell.getSize(),
                             cell.getSize());
+                } else if (cell instanceof Spawn) {
+                    renderer.getSb().draw(spawnTexture,cell.getPosition().x,
+                            cell.getPosition().y,
+                            cell.getSize(),
+                            cell.getSize());
                 } else {
                     renderer.getSb().draw(waterTexture,cell.getPosition().x,
                             cell.getPosition().y,
@@ -52,10 +59,11 @@ public class MazeGridRenderer implements MinigameRenderable {
      */
     private void loadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
-        rs.loadTextures(new String[]{MazeAssetPaths.WATER, MazeAssetPaths.WALL});
+        rs.loadTextures(new String[]{MazeAssetPaths.WATER, MazeAssetPaths.WALL, MazeAssetPaths.SPAWN});
         ServiceLocator.getResourceService().loadAll();
         waterTexture = rs.getAsset(MazeAssetPaths.WATER, Texture.class);
         wallTexture = rs.getAsset(MazeAssetPaths.WALL, Texture.class);
+        spawnTexture = rs.getAsset(MazeAssetPaths.SPAWN, Texture.class);
     }
 
     /**
@@ -63,7 +71,7 @@ public class MazeGridRenderer implements MinigameRenderable {
      */
     private void unloadAssets() {
         ResourceService rs = ServiceLocator.getResourceService();
-        rs.unloadAssets(new String[]{MazeAssetPaths.WATER, MazeAssetPaths.WALL});
+        rs.unloadAssets(new String[]{MazeAssetPaths.WATER, MazeAssetPaths.WALL, MazeAssetPaths.SPAWN});
     }
 
     /**
@@ -73,5 +81,6 @@ public class MazeGridRenderer implements MinigameRenderable {
         unloadAssets();
         waterTexture.dispose();
         wallTexture.dispose();
+        spawnTexture.dispose();
     }
 }

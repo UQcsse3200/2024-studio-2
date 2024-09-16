@@ -2,9 +2,11 @@ package com.csse3200.game.components.minigames.maze.mazegrid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.components.minigames.GridCell;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * Represents a maze grid that is created from a file.
@@ -13,10 +15,7 @@ import java.io.*;
  * NotWall.
  */
 public class MazeGrid{
-
-
-    private final String file; // File path to the maze
-    private final int size; // Size of the grid
+    private final int size;
     private final MazeCell[][] cells; // 2D array representing the cells
 
     // Screen size
@@ -38,11 +37,16 @@ public class MazeGrid{
      */
     public MazeGrid(int size, String file) {
         this.size = size;
-        this.file = file;
         this.cells = new MazeCell[size][size];
         calculateCellDimensions();
-        createMaze();
+        readMazeFromFile(file);
+    }
 
+    public MazeGrid(int size, int pathingSize) {
+        this.size = size * (pathingSize + 1) + 1;
+        this.cells = new MazeCell[this.size][this.size];
+        calculateCellDimensions();
+        generateRandomMaze(pathingSize, 5);
     }
 
     private void calculateCellDimensions() {
@@ -66,10 +70,146 @@ public class MazeGrid{
     }
 
     /**
+     * Constructs a random maze using a recursive backtracking maze generator algorithm.
+     * Assumes maze has not been generated or read from a file previously.
+     */
+    private void generateRandomMaze(int pathingSize, int numSpawns) {
+        Random rand = new Random();
+        int r = rand.nextInt(size/(pathingSize+1) - 1) * (pathingSize+1) + 1;
+        int c = rand.nextInt(size/(pathingSize+1) - 1) * (pathingSize+1) + 1;
+
+        recursiveBacktracking(r, c, pathingSize, rand);
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (cells[i][j] == null) {
+                    createCellAtRowCol(i, j, Wall::new);
+                }
+            }
+        }
+
+        List<GridCell> spanningTree = new ArrayList<>();
+        spanningTree.add(new GridCell(c, r));
+
+        for (int i = 0; i < numSpawns; i++) {
+            BFS bfs = new BFS(spanningTree);
+            GridCell mostDistant = bfs.getMostDistant();
+            createCellAtRowCol(mostDistant.getY(), mostDistant.getX(), Spawn::new);
+            List<GridCell> path = bfs.getShortestPath(bfs.getMostDistant());
+            for (int cell = 1; cell < path.size(); cell++) {
+                spanningTree.add(path.get(cell));
+            }
+        }
+    }
+
+    private boolean notInBounds(int r, int c) {
+        return r < 0 || r >= size || c < 0 || c >= size;
+    }
+
+    @FunctionalInterface
+    interface CellConstructor{
+        MazeCell construct(float x, float y, float cellSize);
+    }
+    private void createCellAtRowCol(int r, int c, CellConstructor constructor) {
+        float x = gridX + c * cellSize;
+        float y = gridY + (size - r - 1) * cellSize;
+        cells[r][c] = constructor.construct(x, y, cellSize);
+    }
+
+    private void recursiveBacktracking(int r, int c, int pathingSize, Random rand) {
+        System.out.println(String.valueOf(r) + ", " + String.valueOf(c));
+        for (int i = 0; i < pathingSize; i++) {
+            for (int j = 0; j < pathingSize; j++) {
+                createCellAtRowCol(r+i, c+j, Water::new);
+            }
+        }
+        List<Direction> directions = Arrays.asList(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
+        Collections.shuffle(directions, rand);
+
+        for (Direction d : directions) {
+            int nr = r + d.dy * (pathingSize+1);
+            int nc = c + d.dx * (pathingSize+1);
+            if (notInBounds(nr, nc) || cells[nr][nc] != null) {
+                continue;
+            }
+            for (int i = 0; i < pathingSize; i++) {
+                switch (d) {
+                    case UP:
+                        createCellAtRowCol(r+pathingSize, c+i, Water::new);
+                        break;
+                    case DOWN:
+                        createCellAtRowCol(r-1, c+i, Water::new);
+                        break;
+                    case RIGHT:
+                        createCellAtRowCol(r+i, c+pathingSize, Water::new);
+                        break;
+                    case LEFT:
+                        createCellAtRowCol(r+i, c-1, Water::new);
+                        break;
+                }
+            }
+            recursiveBacktracking(nr, nc, pathingSize, rand);
+        }
+    }
+
+    class BFS {
+        int[][] distances;
+        GridCell[][] previous;
+
+        GridCell mostDistant;
+        static final Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+
+        BFS(List<GridCell> startCells) {
+            distances = new int[size][size];
+            previous = new GridCell[size][size];
+            for (int r = 0; r < size; r++) {
+                for (int c = 0; c < size; c++) {
+                    distances[r][c] = size*size;
+                }
+            }
+            for (GridCell cell: startCells) {
+                distances[cell.getY()][cell.getX()] = 0;
+            }
+            Queue<GridCell> queue = new ArrayDeque<>(startCells);
+            GridCell cell = null;
+            while (!queue.isEmpty()) {
+                cell = queue.remove();
+                for (Direction d : directions) {
+                    int nr = cell.getY() + d.dy;
+                    int nc = cell.getX() + d.dx;
+                    int dst = distances[cell.getY()][cell.getX()] + 1;
+                    if (notInBounds(nr, nc) || distances[nr][nc] <= dst || cells[nr][nc] instanceof Wall) {
+                        continue;
+                    }
+                    distances[nr][nc] = dst;
+                    previous[nr][nc] = cell;
+                    queue.add(new GridCell(nc, nr));
+                }
+            }
+            mostDistant = cell;
+        }
+
+        List<GridCell> getShortestPath(GridCell end) {
+            List<GridCell> path = new ArrayList<>();
+            while (end != null) {
+                path.add(end);
+                end = previous[end.getY()][end.getX()];
+            }
+            return path.reversed();
+        }
+
+        GridCell getMostDistant() {
+            return mostDistant;
+        }
+    }
+
+    /**
      * Reads the file and constructs the maze by filling the cells array.
      * Each character in the file is read, where '1' corresponds to a Wall and '0' to a NotWall.
+     *
+     * @param file   The file path to the maze text file.
      */
-    private void createMaze() {
+    private void readMazeFromFile(String file) {
         if (isLibGDXEnvironemnt()) {
             FileHandle fileHandle = Gdx.files.internal(file);  // Use Gdx.files to load the file
             String[] lines = fileHandle.readString().split("\n");  // Read the file content
@@ -78,20 +218,15 @@ public class MazeGrid{
                 String line = lines[row];
                 for (int col = 0; col < line.length() && col < size; col++) {
                     char ch = line.charAt(col);
-                    // Calculate the position for this cell
-                    float x = gridX + col * cellSize;
-                    float y = gridY + (size - row - 1) * cellSize;
-                    System.out.println(new Vector2(x,y));
-
                     if (ch == '1') {
-                        cells[row][col] = new Wall(x, y, cellSize);
+                        createCellAtRowCol(row, col, Wall::new);
                     } else {
-                        cells[row][col] = new Water(x, y, cellSize);
+                        createCellAtRowCol(row, col, Water::new);
                     }
                 }
             }
         } else {
-            setUpInTest();
+            setUpInTest(file);
         }
     }
 
@@ -103,7 +238,7 @@ public class MazeGrid{
         return Gdx.files != null;
     }
 
-    private void setUpInTest() {
+    private void setUpInTest(String file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;

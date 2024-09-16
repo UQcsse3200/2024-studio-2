@@ -13,6 +13,7 @@ public class MazeAssetPaths {
     // Images
     public static final String WATER = "images/minigames/water.png";
     public static final String WALL = "images/minigames/wall.png";
+    public static final String SPAWN = "images/minigames/spawn.png";
 
 
     private MazeAssetPaths() {
