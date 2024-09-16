@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.story.StoryActions;
@@ -25,6 +26,14 @@ public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
+    private final Texture[] backgroundTextures = {
+            new Texture("images/Story/DogStory1.png"),
+            new Texture("images/Story/DogStory2.png"),
+            new Texture("images/Story/DogStory3.png"),
+            new Texture("images/Story/DogStory4.png"),
+            new Texture("images/Story/DogStory5.png"),
+            new Texture("images/Story/DogStory6.png")
+    };
 
     public StoryScreen(GdxGame game) {
         this.game = game;
@@ -71,9 +80,9 @@ public class StoryScreen extends ScreenAdapter {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay(0))
+        ui.addComponent(new StoryDisplay(backgroundTextures, 0))
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new StoryActions(game));
+                .addComponent(new StoryActions(game, backgroundTextures));
         ServiceLocator.getEntityService().register(ui);
     }
 }

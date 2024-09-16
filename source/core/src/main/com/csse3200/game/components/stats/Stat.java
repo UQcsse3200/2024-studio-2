@@ -1,12 +1,11 @@
 package com.csse3200.game.components.stats;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
-
 /** A simple class to hold values for stats to be tracked through the game.
  *
  */
-public class Stat implements Json.Serializable {
+//public class Stat implements Json.Serializable {
+public class Stat {
+
 
     /** The name of the stat, used as the string within the events system
      */
@@ -21,7 +20,7 @@ public class Stat implements Json.Serializable {
 
     /** The max value of the stat, if it has one
      */
-    private Integer max;
+    private Integer statMax;
 
     /** True if the stat has a max, false otherwise
      */
@@ -38,11 +37,11 @@ public class Stat implements Json.Serializable {
     /**
      * Constructor for a stat
      */
-    public Stat(String statName, String description, int current,  Integer max, Boolean hasMax, StatType type) {
+    public Stat(String statName, String description, int current, Integer statMax, Boolean hasMax, StatType type) {
         this.statName = statName;
         this.statDescription = description;
         this.current = current;
-        this.max = max;
+        this.statMax = statMax;
         this.hasMax = hasMax;
         this.type = type;
     }
@@ -76,9 +75,9 @@ public class Stat implements Json.Serializable {
      *
      * @return the value of max, or -1 if hasMax == false
      */
-    public Integer getMax() {
+    public Integer getStatMax() {
         if (this.hasMax) {
-            return max;
+            return statMax;
         } else {
             return -1;
         }
@@ -98,7 +97,7 @@ public class Stat implements Json.Serializable {
      */
     private void setCurrent(int value) {
         if (this.hasMax) {
-            this.current = Math.min(value, this.max);
+            this.current = Math.min(value, this.statMax);
         } else {
             this.current = value;
         }
@@ -111,7 +110,7 @@ public class Stat implements Json.Serializable {
      */
     private void addValue(int value) {
         if (this.hasMax) {
-            this.current = Math.min(this.current + value, this.max);
+            this.current = Math.min(this.current + value, this.statMax);
         } else {
             this.current += value;
         }
@@ -155,35 +154,35 @@ public class Stat implements Json.Serializable {
      *
      * @param json The config containing stats to be tracked
      */
-    @Override
-    public void write(Json json) {
-        json.writeValue("statName", statName);
-        json.writeValue("statDescription", statDescription);
-        json.writeValue("statCurrent", current);
-        json.writeValue("statMax", max);
-        json.writeValue("statHasMax", hasMax);
-        json.writeValue("type", type.name());
-    }
-
-    /**
-     * Perform json read actions on the end game stats config file
-     *
-     * @param json The config containing stats to be tracked
-     */
-    @Override
-    public void read(Json json, JsonValue jsonData) {
-        this.statName = jsonData.getString("statName");
-        this.statDescription = jsonData.getString("statDescription");
-        this.current = jsonData.getInt("statCurrent");
-        this.hasMax = jsonData.getBoolean("statHasMax");
-        // Check if json statMax is null
-        if (this.hasMax) {
-            this.max = jsonData.getInt("statMax");
-        } else {
-            this.max = null;
-        }
-        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
-    }
+//    @Override
+//    public void write(Json json) {
+//        json.writeValue("statName", statName);
+//        json.writeValue("statDescription", statDescription);
+//        json.writeValue("statCurrent", current);
+//        json.writeValue("statMax", max);
+//        json.writeValue("statHasMax", hasMax);
+//        json.writeValue("type", type.name());
+//    }
+//
+//    /**
+//     * Perform json read actions on the end game stats config file
+//     *
+//     * @param json The config containing stats to be tracked
+//     */
+//    @Override
+//    public void read(Json json, JsonValue jsonData) {
+//        this.statName = jsonData.getString("statName");
+//        this.statDescription = jsonData.getString("statDescription");
+//        this.current = jsonData.getInt("statCurrent");
+//        this.hasMax = jsonData.getBoolean("statHasMax");
+//        // Check if json statMax is null
+//        if (this.hasMax) {
+//            this.max = jsonData.getInt("statMax");
+//        } else {
+//            this.max = null;
+//        }
+//        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
+//    }
 
     /**
      * Convert stats json to a human-readable string
@@ -196,7 +195,7 @@ public class Stat implements Json.Serializable {
                 "statName='" + statName + '\'' +
                 ", statDescription='" + statDescription + '\'' +
                 ", statCurrent=" + current +
-                ", statMax=" + max +
+                ", statMax=" + statMax +
                 ", statHasMax=" + hasMax +
                 ", type=" + type +
                 '}';

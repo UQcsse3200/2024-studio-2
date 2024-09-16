@@ -14,7 +14,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int experience = 100;
     private int stamina = 100;
     private Boolean isBoss = false;
-    public final Map<Integer, String[]> hints = null;
+    public Map<Integer, String[]> hints;
     public int hintLevel = 0;
     public int currentHint = 0;
     public int currentHintLine = 0;

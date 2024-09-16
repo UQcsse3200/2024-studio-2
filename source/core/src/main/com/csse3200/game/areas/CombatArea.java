@@ -3,16 +3,23 @@ package com.csse3200.game.areas;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.combat.CombatExitDisplay;
+import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
@@ -245,7 +252,7 @@ public class CombatArea extends GameArea {
         }
     }
 
-    private void unloadAssets() {
+    public void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(combatTexture);
@@ -260,5 +267,17 @@ public class CombatArea extends GameArea {
         super.dispose();
         ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
         this.unloadAssets();
+    }
+
+    @Override
+    public Entity getPlayer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
+    }
+
+    @Override
+    public List<Entity> getEnemies() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
     }
 }

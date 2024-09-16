@@ -136,6 +136,21 @@ public class NPCFactory {
     BaseFriendlyEntityConfig config = configs.magpie;
     return createFriendlyNPC(target, enemies, config);
   }
+  
+  public static Entity createChicken(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyChicken;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createFrog(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyFrog;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createMonkey(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyMonkey;
+    return createFriendlyNPC(target, enemies, config);
+  }
 
   private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(

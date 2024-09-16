@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.components.CameraComponent;
 
 import java.util.HashMap;
@@ -65,16 +66,16 @@ public class TerrainFactory {
    * @param playerPosition The current position of the player in the world
    * @return Terrain component which renders the terrain
    */
-  public TerrainComponent createTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize) {
+  public TerrainComponent createTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize, MapType mapType) {
     this.mapSize = mapSize;
     float tileWorldSize = 1.f;
 
     TiledMap tiledMap = new TiledMap();
-    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 500, 500);
+    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
     tiledMap.getLayers().add(layer);
 
-    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 500);
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
+    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 1000);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, mapType);
   }
 
 

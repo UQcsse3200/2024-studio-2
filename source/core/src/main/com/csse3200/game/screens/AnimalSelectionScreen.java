@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.animal.AnimalSelectionDisplay;
@@ -18,10 +19,12 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     protected AnimalSelectionDisplay display;
     protected AnimalSelectionActions actions;
     protected GdxGame game;
+    private TextButton waterAnimalsButton;
+    private TextButton airAnimalsButton;
 
     public AnimalSelectionScreen(GdxGame game) {
         this.game = game;
-        stage = new Stage();
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -30,15 +33,21 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         display = createDisplay(stage, skin);
         actions = new AnimalSelectionActions(display, dialogHelper, game);
 
-        // Add buttons to switch to other animal selection screens
-        addButtonToSwitchScreen("Water Animals", WaterAnimalSelectionScreen.class, skin);
-        addButtonToSwitchScreen("Air Animals", AirAnimalSelectionScreen.class, skin);
+        createUI(skin);
 
         actions.resetSelection();
     }
 
     // Abstract method to be implemented by subclasses
     protected abstract AnimalSelectionDisplay createDisplay(Stage stage, Skin skin);
+
+    private void createUI(Skin skin) {
+        waterAnimalsButton = new TextButton("Water Animals", skin);
+        airAnimalsButton = new TextButton("Air Animals", skin);
+
+        addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen.class);
+        addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
+    }
 
     @Override
     public void render(float delta) {
@@ -50,6 +59,7 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        updateButtonPositions();
     }
 
     @Override
@@ -58,28 +68,7 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     }
 
     // Method to add buttons to switch between different screens
-    protected void addButtonToSwitchScreen(String buttonText, final Class<? extends ScreenAdapter> screenClass, Skin skin) {
-        TextButton button = new TextButton(buttonText, skin);
-
-        // Define button dimensions
-        float buttonWidth = 200;
-        float buttonHeight = 50;
-        float padding = 20;
-
-        // Position buttons on the left side, bottom of the screen
-        float xPos = padding;
-        float yPos;
-
-        if (buttonText.equals("Water Animals")) {
-            yPos = padding;
-        } else if (buttonText.equals("Air Animals")) {
-            yPos = padding + buttonHeight + padding;
-        } else {
-            return;
-        }
-
-        button.setBounds(xPos, yPos, buttonWidth, buttonHeight);
-
+    private void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -92,7 +81,21 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
                 }
             }
         });
-
         stage.addActor(button);
+    }
+
+    private void updateButtonPositions() {
+        // Define button dimensions
+        float buttonWidth = 200;
+        float buttonHeight = 50;
+        float padding = 20;
+
+        // Position buttons dynamically
+        float xPos = padding;
+        float yPosWater = stage.getViewport().getScreenHeight() - buttonHeight - padding;
+        float yPosAir = yPosWater - buttonHeight - padding;
+
+        waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
+        airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
     }
 }

@@ -255,9 +255,9 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-        if(GameState.quests == null) {
-            GameState.quests = new QuestSave();
-        }
+//        if(GameState.quests == null) {
+//            GameState.quests = new QuestSave();
+//        }
         if(GameState.quests.quests.isEmpty()) {
             testQuests();
         }

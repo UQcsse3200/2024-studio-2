@@ -14,15 +14,22 @@ public class StatSaveManager {
     public StatSaveManager() {
         Json json = new Json();
 
-        // Load end game stats from config
+        // Load endgame stats from config
         FileHandle configFile = Gdx.files.local(CONFIG_PATH);
         Array<Stat> configStats = json.fromJson(Array.class, Stat.class, configFile);
 
-        // Check if save file exists and is not empty
+        // Check if the save directory exists, if not create it
+        FileHandle saveDirectory = Gdx.files.local("saves/");
+        if (!saveDirectory.exists()) {
+            saveDirectory.mkdirs(); // Create the directory if it doesn't exist
+        }
+
+        // Check if the save file exists
         FileHandle saveFile = Gdx.files.local(SAVE_PATH);
         if (!saveFile.exists() || saveFile.length() == 0) {
-            // Copy config stats to save file
-            saveFile.writeString(json.prettyPrint(configStats), false);
+            // Save file does not exist or is empty, initialize with config stats
+            stats = configStats;
+            saveFile.writeString(json.prettyPrint(stats), false);
         } else {
             // Load stats from save
             stats = json.fromJson(Array.class, Stat.class, saveFile);
@@ -53,15 +60,13 @@ public class StatSaveManager {
     }
 
     /**
-     * Function to save stats to 'saves/stats.json'.
+     * Function to save stats to 'saves/endgameStats.json'.
      */
     public static void saveStats(Array<Stat> stats) {
         Json json = new Json();
         FileHandle saveFile = Gdx.files.local(SAVE_PATH);
 
-        // Serialize the Array<Achievement> and write to file
+        // Serialize the Array<Stat> and write to file
         saveFile.writeString(json.prettyPrint(stats), false);
     }
-
-
 }
