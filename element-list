@@ -59,6 +59,7 @@ com.csse3200.game.rendering
 com.csse3200.game.screens
 com.csse3200.game.services
 com.csse3200.game.ui
+com.csse3200.game.ui.dialoguebox
 com.csse3200.game.ui.minigames
 com.csse3200.game.ui.PopUpDialogBox
 com.csse3200.game.ui.terminal

@@ -454,7 +454,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Moves away from a target entity until a safe distance is reached or line of sight is lost</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/AvoidTask.html#%3Cinit%3E(com.csse3200.game.entities.Entity,int,float,float,boolean)" class="member-name-link">AvoidTask(Entity, int, float, float, boolean)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/AvoidTask.html" title="class in com.csse3200.game.components.tasks">AvoidTask</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Initialises the avoid task.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:B">B</h2>
 <dl class="index">
@@ -865,6 +867,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/services/package-summary.html">com.csse3200.game.services</a> - package com.csse3200.game.services</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/package-summary.html">com.csse3200.game.ui</a> - package com.csse3200.game.ui</dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/package-summary.html">com.csse3200.game.ui.dialoguebox</a> - package com.csse3200.game.ui.dialoguebox</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/minigames/package-summary.html">com.csse3200.game.ui.minigames</a> - package com.csse3200.game.ui.minigames</dt>
 <dd>&nbsp;</dd>
@@ -1336,6 +1340,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an input handler for combat.</div>
 </dd>
+<dt><a href="com/csse3200/game/input/InputFactory.html#createForDialogue()" class="member-name-link">createForDialogue()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.html" title="class in com.csse3200.game.input">InputFactory</a></dt>
+<dd>
+<div class="block">Creates an input handler for dialogue box.</div>
+</dd>
+<dt><a href="com/csse3200/game/input/KeyboardInputFactory.html#createForDialogue()" class="member-name-link">createForDialogue()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/KeyboardInputFactory.html" title="class in com.csse3200.game.input">KeyboardInputFactory</a></dt>
+<dd>
+<div class="block">Creates an input handler for dialogue.</div>
+</dd>
+<dt><a href="com/csse3200/game/input/TouchInputFactory.html#createForDialogue()" class="member-name-link">createForDialogue()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/TouchInputFactory.html" title="class in com.csse3200.game.input">TouchInputFactory</a></dt>
+<dd>
+<div class="block">Dialogue Box Input Component</div>
+</dd>
 <dt><a href="com/csse3200/game/input/InputFactory.html#createForPlayer()" class="member-name-link">createForPlayer()</a> - Method in class com.csse3200.game.input.<a href="com/csse3200/game/input/InputFactory.html" title="class in com.csse3200.game.input">InputFactory</a></dt>
 <dd>
 <div class="block">Creates an input handler for the player</div>
@@ -1414,11 +1430,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new instance of the loot item using reflection, with the specified constructor parameters.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#createOptionButton(int)" class="member-name-link">createOptionButton(int)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#createOptionButton(int)" class="member-name-link">createOptionButton(int)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates the optionButton.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#createPlayButton()" class="member-name-link">createPlayButton()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#createPlayButton()" class="member-name-link">createPlayButton()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates the playButton for booting up mini-games</div>
 </dd>
@@ -1527,24 +1543,24 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/PhysicsEngine.html#destroyJoint(com.badlogic.gdx.physics.box2d.Joint)" class="member-name-link">destroyJoint(Joint)</a> - Method in class com.csse3200.game.physics.<a href="com/csse3200/game/physics/PhysicsEngine.html" title="class in com.csse3200.game.physics">PhysicsEngine</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html" class="type-name-link" title="class in com.csse3200.game.ui">DialogueBox</a> - Class in <a href="com/csse3200/game/ui/package-summary.html">com.csse3200.game.ui</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" class="type-name-link" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a> - Class in <a href="com/csse3200/game/ui/dialoguebox/package-summary.html">com.csse3200.game.ui.dialoguebox</a></dt>
 <dd>
 <div class="block">Represents a chat overlay UI component that displays a series of hint messages
  and allows navigation between them using forward and backward buttons.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">DialogueBox(Stage)</a> - Constructor for class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">DialogueBox(Stage)</a> - Constructor for class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates a new base DialogueBox with the given hint messages.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#%3Cinit%3E(java.lang.String%5B%5D%5B%5D)" class="member-name-link">DialogueBox(String[][])</a> - Constructor for class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#%3Cinit%3E(java.lang.String%5B%5D%5B%5D)" class="member-name-link">DialogueBox(String[][])</a> - Constructor for class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Creates a new DialogueBox with the given hint messages.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#dialogueBoxInitialisation(boolean)" class="member-name-link">dialogueBoxInitialisation(boolean)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#dialogueBoxInitialisation(boolean)" class="member-name-link">dialogueBoxInitialisation(boolean)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html" class="type-name-link" title="class in com.csse3200.game.entities">DialogueBoxService</a> - Class in <a href="com/csse3200/game/entities/package-summary.html">com.csse3200.game.entities</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html" class="type-name-link" title="class in com.csse3200.game.services">DialogueBoxService</a> - Class in <a href="com/csse3200/game/services/package-summary.html">com.csse3200.game.services</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">DialogueBoxService(Stage)</a> - Constructor for class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">DialogueBoxService(Stage)</a> - Constructor for class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Create a new chat overlay with the given hint text.</div>
 </dd>
@@ -1802,7 +1818,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/ResourceService.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ResourceService.html" title="class in com.csse3200.game.services">ResourceService</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Removes all components of the dialogue box from the stage.</div>
 </dd>
@@ -1812,7 +1828,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/ui/terminal/TerminalDisplay.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/TerminalDisplay.html" title="class in com.csse3200.game.ui.terminal">TerminalDisplay</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#disposeCurrentOverlay()" class="member-name-link">disposeCurrentOverlay()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#disposeCurrentOverlay()" class="member-name-link">disposeCurrentOverlay()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Dispose of the current chat overlay if it exists.</div>
 </dd>
@@ -2553,7 +2569,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/WaterAnimalSelectionDisplay.html#getBackgroundImagePath()" class="member-name-link">getBackgroundImagePath()</a> - Method in class com.csse3200.game.components.animal.<a href="com/csse3200/game/components/animal/WaterAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">WaterAnimalSelectionDisplay</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getBackwardButton()" class="member-name-link">getBackwardButton()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getBackwardButton()" class="member-name-link">getBackwardButton()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the TextButton instance used for the "Back" (backward) action.</div>
 </dd>
@@ -2647,11 +2663,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the name of the animation currently being played.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getCurrentHint()" class="member-name-link">getCurrentHint()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getCurrentHint()" class="member-name-link">getCurrentHint()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the index of the current hint being displayed.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getCurrentHintLine()" class="member-name-link">getCurrentHintLine()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getCurrentHintLine()" class="member-name-link">getCurrentHintLine()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the index of the current hint line being displayed.</div>
 </dd>
@@ -2659,7 +2675,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get current map</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#getCurrentOverlay()" class="member-name-link">getCurrentOverlay()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#getCurrentOverlay()" class="member-name-link">getCurrentOverlay()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Returns the currentOverlay which can be null or not null</div>
 </dd>
@@ -2793,7 +2809,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#getFixture()" class="member-name-link">getFixture()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getForwardButton()" class="member-name-link">getForwardButton()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getForwardButton()" class="member-name-link">getForwardButton()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the TextButton instance used for the "Continue" (forward) action.</div>
 </dd>
@@ -2849,11 +2865,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the hint for tasks.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#getHints()" class="member-name-link">getHints()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#getHints()" class="member-name-link">getHints()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Retrieves a copy of the hints array used in the chat overlay.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getHints()" class="member-name-link">getHints()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getHints()" class="member-name-link">getHints()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the array of hint messages.</div>
 </dd>
@@ -2929,6 +2945,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/minigames/snake/SnakeGame.html#getIsGameOver()" class="member-name-link">getIsGameOver()</a> - Method in class com.csse3200.game.components.minigames.snake.<a href="com/csse3200/game/components/minigames/snake/SnakeGame.html" title="class in com.csse3200.game.components.minigames.snake">SnakeGame</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#getIsVisible()" class="member-name-link">getIsVisible()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
+<dd>
+<div class="block">Returns if the current dialgoue box is visible</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getIsVisible()" class="member-name-link">getIsVisible()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
+<dd>
+<div class="block">Returns whether the dialogueBox is visible or not.</div>
+</dd>
 <dt><a href="com/csse3200/game/inventory/items/AbstractItem.html#getItemCode()" class="member-name-link">getItemCode()</a> - Method in class com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></dt>
 <dd>
 <div class="block">Gets the item code of the item.</div>
@@ -2945,7 +2969,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets the label associated with this tabButton.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Returns the Label object used for displaying hints.</div>
 </dd>
@@ -3073,6 +3097,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainComponent.html#getOldChunks()" class="member-name-link">getOldChunks()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getOptionButtons()" class="member-name-link">getOptionButtons()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
+<dd>
+<div class="block">Gets the option buttons.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/quests/Achievement.html#getPath()" class="member-name-link">getPath()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Achievement.html" title="class in com.csse3200.game.components.quests">Achievement</a></dt>
 <dd>
 <div class="block">Gets the icon path for the achievement.</div>
@@ -3593,7 +3621,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Removes the last character of the entered message.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#handleBackwardButtonClick()" class="member-name-link">handleBackwardButtonClick()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#handleBackwardButtonClick()" class="member-name-link">handleBackwardButtonClick()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Handles the backward button click event to navigate to the previous hint.</div>
 </dd>
@@ -3603,11 +3631,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Handles an event related to the task.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#handleForwardButtonClick()" class="member-name-link">handleForwardButtonClick()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#handleForwardButtonClick()" class="member-name-link">handleForwardButtonClick()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Handles the forward button click event to navigate to the next hint.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#handleOptionButtonClick(int)" class="member-name-link">handleOptionButtonClick(int)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#handleOptionButtonClick(int)" class="member-name-link">handleOptionButtonClick(int)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Handles the option button click event to navigate to the specific hint.</div>
 </dd>
@@ -3707,11 +3735,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the screen is hidden</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#hideCurrentOverlay()" class="member-name-link">hideCurrentOverlay()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#hideCurrentOverlay()" class="member-name-link">hideCurrentOverlay()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Dispose of the current chat overlay if it exists.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#hideDialogueBox()" class="member-name-link">hideDialogueBox()</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#hideDialogueBox()" class="member-name-link">hideDialogueBox()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.</div>
 </dd>
@@ -4024,6 +4052,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html#%3Cinit%3E()" class="member-name-link">KeyboardCombatInputComponent()</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/KeyboardCombatInputComponent.html" title="class in com.csse3200.game.components.combat">KeyboardCombatInputComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html" class="type-name-link" title="class in com.csse3200.game.ui.dialoguebox">KeyboardDialogueBoxInputComponent</a> - Class in <a href="com/csse3200/game/ui/dialoguebox/package-summary.html">com.csse3200.game.ui.dialoguebox</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html#%3Cinit%3E()" class="member-name-link">KeyboardDialogueBoxInputComponent()</a> - Constructor for class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html" title="class in com.csse3200.game.ui.dialoguebox">KeyboardDialogueBoxInputComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/input/KeyboardInputFactory.html" class="type-name-link" title="class in com.csse3200.game.input">KeyboardInputFactory</a> - Class in <a href="com/csse3200/game/input/package-summary.html">com.csse3200.game.input</a></dt>
 <dd>
 <div class="block">KeyboardInputFactory creates input handlers that process keyboard and touch support.</div>
@@ -4100,6 +4132,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed.</div>
 </dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html#keyDown(int)" class="member-name-link">keyDown(int)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html" title="class in com.csse3200.game.ui.dialoguebox">KeyboardDialogueBoxInputComponent</a></dt>
+<dd>
+<div class="block">Triggers combat events on specific keycodes.</div>
+</dd>
 <dt><a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html#keyDown(int)" class="member-name-link">keyDown(int)</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html" title="class in com.csse3200.game.ui.terminal">KeyboardTerminalInputComponent</a></dt>
 <dd>
 <div class="block">If the toggle key is pressed, the terminal will open / close.</div>
@@ -4151,6 +4187,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html#keyUp(int)" class="member-name-link">keyUp(int)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/KeyboardDialogueBoxInputComponent.html" title="class in com.csse3200.game.ui.dialoguebox">KeyboardDialogueBoxInputComponent</a></dt>
+<dd>
+<div class="block">Triggers player events on specific keycodes.</div>
 </dd>
 <dt><a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html#keyUp(int)" class="member-name-link">keyUp(int)</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/KeyboardTerminalInputComponent.html" title="class in com.csse3200.game.ui.terminal">KeyboardTerminalInputComponent</a></dt>
 <dd>
@@ -4424,7 +4464,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/GdxGame.ScreenType.html#MINI_GAME_MENU_SCREEN" class="member-name-link">MINI_GAME_MENU_SCREEN</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#minigameCheck(java.lang.String)" class="member-name-link">minigameCheck(String)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#minigameCheck(java.lang.String)" class="member-name-link">minigameCheck(String)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Checks if the current text on the label contains either of the following flags at the
  beginning of the string.</div>
@@ -4627,7 +4667,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Opens the loot box and returns a list of randomly selected items based on the specified number of rolls.</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#optionsCheck(java.lang.String)" class="member-name-link">optionsCheck(String)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#optionsCheck(java.lang.String)" class="member-name-link">optionsCheck(String)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Checks if the current text on the label contains either of the following flags at the
  beginning of the string.</div>
@@ -5186,7 +5226,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Register a new renderable.</div>
 </dd>
-<dt><a href="com/csse3200/game/services/ServiceLocator.html#registerDialogueBoxService(com.csse3200.game.entities.DialogueBoxService)" class="member-name-link">registerDialogueBoxService(DialogueBoxService)</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceLocator.html" title="class in com.csse3200.game.services">ServiceLocator</a></dt>
+<dt><a href="com/csse3200/game/services/ServiceLocator.html#registerDialogueBoxService(com.csse3200.game.services.DialogueBoxService)" class="member-name-link">registerDialogueBoxService(DialogueBoxService)</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceLocator.html" title="class in com.csse3200.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/ServiceLocator.html#registerEntityService(com.csse3200.game.entities.EntityService)" class="member-name-link">registerEntityService(EntityService)</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceLocator.html" title="class in com.csse3200.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
@@ -5450,6 +5490,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/CameraComponent.html#resize(int,int,float)" class="member-name-link">resize(int, int, float)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#resizeElements()" class="member-name-link">resizeElements()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
+<dd>
+<div class="block">Resizes the DialogueBox in the event the screen changes size</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#resizeElements()" class="member-name-link">resizeElements()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
+<dd>
+<div class="block">Resizes the background image for formatting</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#resizeOptionButtons()" class="member-name-link">resizeOptionButtons()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
+<dd>
+<div class="block">Resizes and spaces the buttons based on the number of currently visible options.</div>
+</dd>
 <dt><a href="com/csse3200/game/services/ResourceService.html" class="type-name-link" title="class in com.csse3200.game.services">ResourceService</a> - Class in <a href="com/csse3200/game/services/package-summary.html">com.csse3200.game.services</a></dt>
 <dd>
 <div class="block">Service for loading resources, e.g.</div>
@@ -6053,7 +6105,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the screen is shown for the first time</div>
 </dd>
-<dt><a href="com/csse3200/game/ui/DialogueBox.html#showDialogueBox(java.lang.String%5B%5D%5B%5D)" class="member-name-link">showDialogueBox(String[][])</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></dt>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#showAppropriateButtons()" class="member-name-link">showAppropriateButtons()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
+<dd>
+<div class="block">Determines when to hide and show forward / backward buttons on clicks.</div>
+</dd>
+<dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#showDialogueBox(java.lang.String%5B%5D%5B%5D)" class="member-name-link">showDialogueBox(String[][])</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
 <div class="block">Displays the dialogue box with the provided hint messages.</div>
 </dd>
@@ -7051,11 +7107,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Updates the position of the settings menu based on screen size.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#updateText(java.lang.String%5B%5D)" class="member-name-link">updateText(String[])</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#updateText(java.lang.String%5B%5D)" class="member-name-link">updateText(String[])</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Update the current chat overlay if it exists.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/DialogueBoxService.html#updateText(java.lang.String%5B%5D%5B%5D)" class="member-name-link">updateText(String[][])</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/DialogueBoxService.html" title="class in com.csse3200.game.entities">DialogueBoxService</a></dt>
+<dt><a href="com/csse3200/game/services/DialogueBoxService.html#updateText(java.lang.String%5B%5D%5B%5D)" class="member-name-link">updateText(String[][])</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
 <div class="block">Update the current chat overlay if it exists.</div>
 </dd>

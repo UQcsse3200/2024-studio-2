@@ -5,7 +5,7 @@
 <title>DialogueBoxService (core 1.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: com.csse3200.game.entities, class: DialogueBoxService">
+<meta name="description" content="declaration: package: com.csse3200.game.services, class: DialogueBoxService">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,11 +81,11 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.entities</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.services</a></div>
 <h1 title="Class DialogueBoxService" class="title">Class DialogueBoxService</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.csse3200.game.entities.DialogueBoxService</div>
+<div class="inheritance">com.csse3200.game.services.DialogueBoxService</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
@@ -125,7 +125,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose of the current chat overlay if it exists.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentOverlay()" class="member-name-link">getCurrentOverlay</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the currentOverlay which can be null or not null</div>
@@ -135,10 +135,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieves a copy of the hints array used in the chat overlay.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hideCurrentOverlay()" class="member-name-link">hideCurrentOverlay</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIsVisible()" class="member-name-link">getIsVisible</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns if the current dialgoue box is visible</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hideCurrentOverlay()" class="member-name-link">hideCurrentOverlay</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose of the current chat overlay if it exists.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resizeElements()" class="member-name-link">resizeElements</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resizes the DialogueBox in the event the screen changes size</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateText(java.lang.String%5B%5D)" class="member-name-link">updateText</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;text)</code></div>
@@ -198,7 +208,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getCurrentOverlay()">
 <h3>getCurrentOverlay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ui/DialogueBox.html" title="class in com.csse3200.game.ui">DialogueBox</a></span>&nbsp;<span class="element-name">getCurrentOverlay</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></span>&nbsp;<span class="element-name">getCurrentOverlay</span>()</div>
 <div class="block">Returns the currentOverlay which can be null or not null</div>
 </section>
 </li>
@@ -207,6 +217,13 @@ loadScripts(document, 'script');</script>
 <h3>disposeCurrentOverlay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">disposeCurrentOverlay</span>()</div>
 <div class="block">Dispose of the current chat overlay if it exists.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getIsVisible()">
+<h3>getIsVisible</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getIsVisible</span>()</div>
+<div class="block">Returns if the current dialgoue box is visible</div>
 </section>
 </li>
 <li>
@@ -228,6 +245,13 @@ loadScripts(document, 'script');</script>
 <h3>updateText</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateText</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;text)</span></div>
 <div class="block">Update the current chat overlay if it exists.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="resizeElements()">
+<h3>resizeElements</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resizeElements</span>()</div>
+<div class="block">Resizes the DialogueBox in the event the screen changes size</div>
 </section>
 </li>
 </ul>
