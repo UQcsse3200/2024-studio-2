@@ -44,9 +44,9 @@ public class KeyboardInputFactory extends InputFactory {
     }
 
     /**
-     * Creates an input handler for combat.
+     * Creates an input handler for dialogue.
      *
-     * @return combat input handler
+     * @return dialogue input handler
      */
     public InputComponent createForDialogue() {
         logger.debug("Creating dialogue box input handler");
