@@ -48,7 +48,7 @@ public class TouchInputFactory extends InputFactory {
    */
   @Override
   public InputComponent createForDialogue() {
-    logger.debug("Creating Dialgoue Box input handler");
-    return new KeyboardDialogueBoxInputComponent();
+    // There is no touch component
+    return null;
   }
 }
