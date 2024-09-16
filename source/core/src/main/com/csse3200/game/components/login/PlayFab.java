@@ -5,6 +5,10 @@ import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
 import com.playfab.PlayFabSettings;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PlayFab {
     // Constructor to initialize the PlayFab settings
     public PlayFab(String titleId) {
@@ -26,8 +30,16 @@ public class PlayFab {
         request.Password = password;
 
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
-        System.out.println(result.Result); //Continue work on this later.
-        System.out.println(result.Error); //Continue work on this later.
+        if (result.Result != null) {
+            System.out.println(result.Result.Username + " has successfully registered."); //Continue work on this later.
+        } else {
+            Collection<List<String>> errors = result.Error.errorDetails.values();
+            List<String> errorList = errors.stream().flatMap(List::stream).toList();
+            for (String error : errorList) {
+                System.out.println(error);
+            }
+        }
+
         //
     }
     // Method to login a new user
