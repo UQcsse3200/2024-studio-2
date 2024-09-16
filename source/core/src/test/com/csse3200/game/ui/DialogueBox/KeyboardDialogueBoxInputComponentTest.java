@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-class TouchDialogueBoxInputComponentTest {
+class KeyboardDialogueBoxInputComponentTest {
     private KeyboardDialogueBoxInputComponent inputComponent;
     private DialogueBoxService dialogueBoxService;
     private DialogueBox mockOverlay;
