@@ -115,6 +115,7 @@ public class EnemyFactory {
     bear
             .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
                     config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatMoveComponent(moveSet))
             .addComponent(animator)
             .addComponent(new BearAnimationController());
 
