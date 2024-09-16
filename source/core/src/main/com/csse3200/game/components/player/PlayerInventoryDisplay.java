@@ -161,7 +161,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                     subscriptLabel.setFontScale(1.5f); // Scale down the font size for subscript
 
                     // Add the subscript label to the slot table
-                    slot.add(subscriptLabel).bottom().right().pad(5);
+                    slot.add(subscriptLabel).bottom().right() ;
                 }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
