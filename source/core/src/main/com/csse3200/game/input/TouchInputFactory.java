@@ -6,7 +6,7 @@ import com.csse3200.game.ui.terminal.TouchTerminalInputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TouchInputFactory extends InputFactory{
+public class TouchInputFactory extends InputFactory {
   private static final Logger logger = LoggerFactory.getLogger(TouchInputFactory.class);
 
   /**
@@ -36,8 +36,18 @@ public class TouchInputFactory extends InputFactory{
    *
    * @return combat input handler
    */
+  @Override
   public InputComponent createForCombat() {
     logger.debug("Creating combat input handler");
     return new TouchCombatInputComponent();
+  }
+
+  /**
+   * Dialogue Box Input Component
+   */
+  @Override
+  public InputComponent createForDialogue() {
+    // There is no touch component
+    return null;
   }
 }
