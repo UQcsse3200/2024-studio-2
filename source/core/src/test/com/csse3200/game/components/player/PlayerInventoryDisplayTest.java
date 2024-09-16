@@ -36,6 +36,7 @@ class PlayerInventoryDisplayTest {
         Gdx.input.setInputProcessor(renderService.getStage());
     }
 
+    // Add test case if the potion items effect have been removed after two minutes
     @Test
     void testInitialisation() {
         // Should throw error since 7 does not divide 9

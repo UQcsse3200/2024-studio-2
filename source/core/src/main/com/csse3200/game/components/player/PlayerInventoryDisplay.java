@@ -41,6 +41,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     PlayerInventoryHotbarDisplay hotbar;
+    PlayerItemInUseDisplay indicationBox = new PlayerItemInUseDisplay(false, false, false);
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -85,6 +86,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
             hotbar.createHotbar();
+            //indicationBox.createIndicationBox();
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
             toggle = false;
@@ -93,6 +95,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             generateWindow();
             stage.addActor(window);
             hotbar.disposeTable();
+            //indicationBox.disposeBox();
             toggle = true;
         }
     }
@@ -199,7 +202,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 ItemUsageContext context = new ItemUsageContext(entity);
                 if (item instanceof TimedUseItem) {
                     aiComponent.addTask(
-                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
+                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context, indicationBox));
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
@@ -244,6 +247,8 @@ public class PlayerInventoryDisplay extends UIComponent {
         else {
             hotbar.disposeTable();
             hotbar.createHotbar();
+            indicationBox.disposeBox();
+            indicationBox.createIndicationBox();
         }
     }
 
@@ -255,6 +260,8 @@ public class PlayerInventoryDisplay extends UIComponent {
         disposeSlots();
         disposeTable();
         disposeWindow();
+
+        indicationBox.disposeBox();
         super.dispose();
     }
 
