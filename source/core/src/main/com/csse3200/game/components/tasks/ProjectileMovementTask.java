@@ -55,7 +55,7 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
       owner.getEntity().setEnabled(false);
       AnimationRenderComponent animationRenderComponent = owner.getEntity().getComponent(AnimationRenderComponent.class);
       animationRenderComponent.stopAnimation();
-      owner.getEntity().dispose();
+      owner.getEntity().specialDispose();
     }
     movementTask.update();
   }

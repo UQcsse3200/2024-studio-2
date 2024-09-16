@@ -132,7 +132,7 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
-        enemy.dispose();
+        enemy.specialDispose();
     }
 
     @Override

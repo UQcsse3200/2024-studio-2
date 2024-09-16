@@ -208,12 +208,12 @@ public class EnemyFactory {
 
     if (type == EnemyType.MONKEY) {
       // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-      aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 5f));
     } else {
       // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-      aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
     }
 
