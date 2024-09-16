@@ -13,7 +13,7 @@ public class MazeAssetPaths {
     // Images
     public static final String WATER = "images/minigames/water.png";
     public static final String WALL = "images/minigames/wall.png";
-
+    public static final String EGG = "images/minigames/egg.png";
 
     private MazeAssetPaths() {
         // Does not get initialised

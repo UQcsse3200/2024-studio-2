@@ -8,12 +8,11 @@ import java.io.*;
 
 /**
  * Represents a maze grid that is created from a file.
- * The grid contains cells of type MazeCell, which can either be Wall or NotWall.
- * The grid is built based on a text file where '1' represents a Wall and '0' represents a
- * NotWall.
+ * The grid contains cells of type MazeCell, which can either be Wall, Water, or Egg.
+ * The grid is built based on a text file where '1' represents a Wall, '0' represents a Water,
+ * and 'E' represents an Egg.
  */
-public class MazeGrid{
-
+public class MazeGrid {
 
     private final String file; // File path to the maze
     private final int size; // Size of the grid
@@ -30,11 +29,10 @@ public class MazeGrid{
 
     /**
      * Creates a new MazeGrid with the specified dimensions.
-     * The maze is constructed by reading from the file, which contains '1's for walls and '0's
-     * for paths.
+     * The maze is constructed by reading from the file, which contains '1's for walls, '0's for paths (water), and 'E's for eggs.
      *
      * @param size  The size of the maze grid.
-     * @param file   The file path to the maze text file.
+     * @param file  The file path to the maze text file.
      */
     public MazeGrid(int size, String file) {
         this.size = size;
@@ -42,7 +40,6 @@ public class MazeGrid{
         this.cells = new MazeCell[size][size];
         calculateCellDimensions();
         createMaze();
-
     }
 
     private void calculateCellDimensions() {
@@ -51,11 +48,11 @@ public class MazeGrid{
         this.cellSize = gridWidth / size;
     }
 
-    /***
+    /**
      * Method to get the cell at a specific coordinate
      * @param row the row
      * @param col the column
-     * @return
+     * @return the MazeCell at the specified position
      */
     public MazeCell getCell(int row, int col) {
         return cells[row][col];
@@ -67,10 +64,10 @@ public class MazeGrid{
 
     /**
      * Reads the file and constructs the maze by filling the cells array.
-     * Each character in the file is read, where '1' corresponds to a Wall and '0' to a NotWall.
+     * Each character in the file is read, where '1' corresponds to a Wall, '0' to Water, and 'E' to an Egg.
      */
     private void createMaze() {
-        if (isLibGDXEnvironemnt()) {
+        if (isLibGDXEnvironment()) {
             FileHandle fileHandle = Gdx.files.internal(file);  // Use Gdx.files to load the file
             String[] lines = fileHandle.readString().split("\n");  // Read the file content
 
@@ -81,10 +78,12 @@ public class MazeGrid{
                     // Calculate the position for this cell
                     float x = gridX + col * cellSize;
                     float y = gridY + (size - row - 1) * cellSize;
-                    System.out.println(new Vector2(x,y));
+                    System.out.println(new Vector2(x, y));
 
                     if (ch == '1') {
                         cells[row][col] = new Wall(x, y, cellSize);
+                    } else if (ch == 'E') {
+                        cells[row][col] = new Egg(x, y, cellSize);  // Egg placement
                     } else {
                         cells[row][col] = new Water(x, y, cellSize);
                     }
@@ -99,10 +98,13 @@ public class MazeGrid{
      * Private method to check if in-game or JUnit test
      * @return whether it is game or test environment
      */
-    private boolean isLibGDXEnvironemnt() {
+    private boolean isLibGDXEnvironment() {
         return Gdx.files != null;
     }
 
+    /**
+     * Sets up the maze grid in test environments by reading the maze file without LibGDX.
+     */
     private void setUpInTest() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -116,9 +118,11 @@ public class MazeGrid{
                     float x = gridX + col * cellSize;
                     float y = gridY + (size - row - 1) * cellSize;
 
-                    // Make a wall if it's a '1', otherwise Water cell
+                    // Making a wall if it's a '1', water if '0', or egg if 'E'
                     if (ch == '1') {
                         cells[row][col] = new Wall(x, y, cellSize);
+                    } else if (ch == 'E') {
+                        cells[row][col] = new Egg(x, y, cellSize);  // Egg placement
                     } else {
                         cells[row][col] = new Water(x, y, cellSize);
                     }

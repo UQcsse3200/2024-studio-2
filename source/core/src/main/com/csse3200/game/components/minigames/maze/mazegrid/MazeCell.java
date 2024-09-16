@@ -1,5 +1,6 @@
 package com.csse3200.game.components.minigames.maze.mazegrid;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,6 +11,7 @@ public abstract class MazeCell {
     protected Vector2 position;
     protected Rectangle collisionBox;
     private float tileSize;
+    protected Texture texture;
 
     public MazeCell(float x, float y, float size) {
         this.position = new Vector2(x, y);
@@ -33,5 +35,9 @@ public abstract class MazeCell {
 
     public Rectangle getCollisionBox() {
         return this.collisionBox;
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 }
