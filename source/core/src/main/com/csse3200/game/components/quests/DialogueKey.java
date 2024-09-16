@@ -9,9 +9,26 @@ public class DialogueKey {
         /** Name of each NPC*/
         private final String npcName;
         /** Progression level tracker. */
-        //private final Integer progressionLevel;
 
         private final String questName;
+
+        /**
+         * Retrieves the name of the NPC.
+         *
+         * @return the name of the NPC.
+         */
+        public String getNpcName() {
+            return npcName;
+        }
+
+        /**
+         * Retrieves the name of the quest.
+         *
+         * @return the name of the quest.
+         */
+        public String getQuestName() {
+            return questName;
+        }
 
         /**
          * Constructs a new DialogueKey.

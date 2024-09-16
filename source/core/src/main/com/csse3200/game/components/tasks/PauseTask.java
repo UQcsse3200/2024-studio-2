@@ -1,10 +1,14 @@
 package com.csse3200.game.components.tasks;
 
 import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.components.quests.DialogueKey;
+import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+
+import java.util.Objects;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.
@@ -52,23 +56,31 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-
         if (this.config != null) {
-            String[][] hintText = new String[0][];
+            String[][] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             if (questManager != null) {
-                for (AbstractQuest quest : questManager.getAllQuests()) {
-                    if (quest.isActive()) {
-                        hintText = this.config.getBaseHint(); // replace with the quest functionality to get a hint here
+                for (DialogueKey dialogueKey : questManager.getQuestDialogues().keySet()) {
+                    String npcName = dialogueKey.getNpcName();
+                    String questName = dialogueKey.getQuestName();
+                    if (Objects.equals(npcName, animalName)) {
+                        QuestBasic quest = questManager.getQuest(questName);
+                        if (quest.isActive()) {
+                            hintText = questManager.getQuestDialogues().get(dialogueKey);
+
+                            if (hintText.length == 0) {
+                                hintText = this.config.getBaseHint();
+                            }
+                        }
                     }
                 }
 
             } else {
                 // try reset it for next time
                 this.questManager = target.getComponent(QuestManager.class);
-                hintText = this.config.getBaseHint();
             }
+
             entity.getEvents().trigger(eventName, hintText);
         } else {
             entity.getEvents().trigger("PauseStart");

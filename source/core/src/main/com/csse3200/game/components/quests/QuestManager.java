@@ -44,7 +44,7 @@ public class QuestManager extends Component {
     private final Entity player;
 
     private final DialogueBoxService dialogueBoxService;
-
+    private Map<DialogueKey, String[][]> questDialogues;
 
 
     /**Constructs questManager instance */
@@ -58,6 +58,8 @@ public class QuestManager extends Component {
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
+        questDialogues = createQuestDialogues();
+
     }
 
     /**
@@ -80,6 +82,16 @@ public class QuestManager extends Component {
                 collectPotions, listenAdvice, exploreWild, retrieveWeapon
         };
     }
+
+    /**
+     * Retrieves the map of quest dialogues.
+     *
+     * @return a map where the key is of type DialogueKey and the value is a 2D array of strings representing questName and Dialogue.
+     */
+    public Map<DialogueKey, String[][]> getQuestDialogues() {
+        return questDialogues;
+    }
+
 
     /**Sets up the dialogue for quests. */
     private Map<DialogueKey, String[][]> createQuestDialogues() {
