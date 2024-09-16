@@ -53,6 +53,9 @@ class DialogueBoxServiceTest {
         entityChatService.updateText(new String[][] {{"1", "2"}});
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
+        entityChatService.getCurrentOverlay().handleForwardButtonClick();
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
         entityChatService.hideCurrentOverlay();
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());

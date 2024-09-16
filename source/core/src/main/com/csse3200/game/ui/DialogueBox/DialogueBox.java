@@ -618,6 +618,7 @@ public class DialogueBox {
             backgroundImage.setVisible(true);
         };
         if (label != null) this.label.setVisible(true);
+        showAppropriateButtons();
     }
 
     /**
