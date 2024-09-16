@@ -154,15 +154,13 @@ public class PlayerInventoryDisplay extends UIComponent {
                     addSlotListeners(slot, item, index);
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(80, 80);
-                    // Create the subscript label
                     Label.LabelStyle subscriptStyle = new Label.LabelStyle();
                     subscriptStyle.font = new BitmapFont(); // Use an appropriate font
                     subscriptStyle.fontColor = Color.BLACK;
                     Label subscriptLabel = new Label( String.valueOf(item.getQuantity()), subscriptStyle); // Example subscript text
-                    subscriptLabel.setFontScale(1.5f); // Scale down the font size for subscript
-
-                    // Add the subscript label to the slot table
-                    slot.add(subscriptLabel).bottom().right() ;
+                    subscriptLabel.setFontScale(1.5f);
+                    slot.add(subscriptLabel);
+//
                 }
                 dnd.addSource(new InventorySource(slot, item, index));
                 dnd.addTarget(new InventoryTarget(slot, index));
@@ -172,6 +170,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
             table.row(); // Move to the next row in the table
         }
+
         // Add the table to the window
         window.add(table).expand().fill();
         window.pack();
@@ -208,9 +207,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
             }
-        });
 
-        slot.addListener(new ChangeListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 long currentTime = System.currentTimeMillis();
