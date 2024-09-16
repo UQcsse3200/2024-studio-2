@@ -10,12 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.components.minigames.maze.MazeGame;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
@@ -68,6 +70,7 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
+        ServiceLocator.registerResourceService(new ResourceService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -87,9 +90,8 @@ public class MazeGameScreen extends PausableScreen {
 
         World world = new World(new Vector2(0,0),false);
         rayHandler = new RayHandler(world);
-        rayHandler.setCombinedMatrix(stage.getCamera().combined);   //<-- pass your camera combined matrix
         Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
-        new PointLight(rayHandler,1000, lightColor,180,700,600);
+        new PointLight(rayHandler,120, lightColor,180,1920/2,1200/2);
         RayHandler.useDiffuseLight(true);
 
         //LightSystem.rayHandler.setAmbientLight(lightColor)
@@ -109,6 +111,7 @@ public class MazeGameScreen extends PausableScreen {
 
         clearBackground();
         mazeGame.render();
+        rayHandler.setCombinedMatrix(mazeGame.getRenderer().getCam().combined);
         rayHandler.updateAndRender();
 
 //        scoreBoard.updateScore(birdGame.getScore());
@@ -134,7 +137,8 @@ public class MazeGameScreen extends PausableScreen {
      */
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        Viewport viewport = stage.getViewport();
+        viewport.update(width, height, true);
         float baseWidth = 1920;
         float baseHeight = 1200;
         float scaleWidth = width / baseWidth;
@@ -142,6 +146,11 @@ public class MazeGameScreen extends PausableScreen {
         scale = Math.min(scaleWidth, scaleHeight);
         setupExitButton();
         scoreBoard.resize();
+        /*if(viewport.getRightGutterWidth() > 0){
+            rayHandler.useCustomViewport(viewport.getRightGutterWidth()-5,viewport.getBottomGutterHeight()-5, (int)(height*1920f/1200)+10,height+10);
+        }else{
+            rayHandler.useCustomViewport(viewport.getRightGutterWidth()-5,viewport.getBottomGutterHeight()-5, width+10,(int)(width/1920f*1200)+10);
+        }*/
     }
 
     /**
@@ -154,12 +163,14 @@ public class MazeGameScreen extends PausableScreen {
         logger.debug("Disposing birdie dash screen");
 
         renderer.dispose();
+        mazeGame.dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
+        ServiceLocator.getResourceService().dispose();
         ServiceLocator.clear();
         font.dispose();
         skin.dispose();
-        stage.dispose();
+        rayHandler.dispose();
     }
 
     /**

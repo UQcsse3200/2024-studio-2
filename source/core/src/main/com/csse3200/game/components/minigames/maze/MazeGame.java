@@ -18,12 +18,19 @@ public class MazeGame {
     }
 
     private void initRenderers() {
-        ServiceLocator.registerResourceService(new ResourceService());
         renderer.addRenderable(new MazeGridRenderer(grid, renderer));
     }
 
     public void render() {
         renderer.render();
+    }
+
+    public void dispose() {
+        renderer.dispose();
+    }
+
+    public MinigameRenderer getRenderer() {
+        return renderer;
     }
 }
 
