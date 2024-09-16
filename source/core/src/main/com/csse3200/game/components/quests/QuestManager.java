@@ -114,10 +114,10 @@ public class QuestManager extends Component {
         //};
 
         return Map.of(
-                new DialogueKey("Cow", 1), cowInitialDialogue,
-                new DialogueKey("Cow", 2), cowAdviceDialogue,
-                new DialogueKey("Cow", 3), potionDialogue,
-                new DialogueKey("Cow", 4), listenDialogue
+                new DialogueKey("Cow", "First Steps"), cowInitialDialogue,
+                new DialogueKey("Cow", "Guide's Intro"), cowAdviceDialogue,
+                new DialogueKey("Cow", "Potion Collection"), potionDialogue,
+                new DialogueKey("Cow", "Guide's Advice"), listenDialogue
         );
 
     }
@@ -180,8 +180,8 @@ public class QuestManager extends Component {
         };
         List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(tasks[0], tasks[1]));
         Map<DialogueKey, String[][]> test2TaskQuestDialogues = Map.of(
-                new DialogueKey("Cow", 1), test2StepTextProg1,
-                new DialogueKey("Cow", 2), test2StepTextProg2
+                new DialogueKey("Cow", "2 Task Quest"), test2StepTextProg1,
+                new DialogueKey("Cow", "Final Boss"), test2StepTextProg2
         );
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogues, test2StepCompletionTriggers, false, false, 0);
         GameState.quests.quests.add(twoTaskQuest);
@@ -200,6 +200,10 @@ public class QuestManager extends Component {
         addQuests(tasks, questDialogues);
 
     }
+
+
+
+
 
     /** Setup potion collection task listener.
      * Note: limitation on item collection - 1 item collection per kingdom

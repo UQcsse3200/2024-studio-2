@@ -9,16 +9,18 @@ public class DialogueKey {
         /** Name of each NPC*/
         private final String npcName;
         /** Progression level tracker. */
-        private final Integer progressionLevel;
+        //private final Integer progressionLevel;
+
+        private final String questName;
 
         /**
          * Constructs a new DialogueKey.
          * @param npcName The name of the NPC.
-         * @param progressionLevel The progression level of dialogue.
+        // * @param progressionLevel The progression level of dialogue.
          */
-        public DialogueKey(String npcName, Integer progressionLevel) {
+        public DialogueKey(String npcName, String questName) {
             this.npcName = npcName;
-            this.progressionLevel = progressionLevel;
+            this.questName = questName;
         }
 
         /**
@@ -31,19 +33,19 @@ public class DialogueKey {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             DialogueKey dialogueKey = (DialogueKey) o;
-            return Objects.equals(npcName, dialogueKey.npcName) && Objects.equals(progressionLevel, dialogueKey.progressionLevel);
+            return Objects.equals(npcName, dialogueKey.npcName) && Objects.equals(questName, dialogueKey.questName);
         }
 
         /** Returns the hash code value for this DialogueKey */
         @Override
         public int hashCode() {
-            return Objects.hash(npcName, progressionLevel);
+            return Objects.hash(npcName, questName);
         }
 
         /**Returns a string representation of this DialogueKey.*/
         @Override
         public String toString() {
-            return String.format("TupleKey{str='%s', num=%d}", npcName, progressionLevel);
+            return String.format("TupleKey{str='%s', str=%d}", npcName, questName);
         }
 }
 
