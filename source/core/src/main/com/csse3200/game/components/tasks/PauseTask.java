@@ -66,7 +66,7 @@ public class PauseTask extends ChaseTask {
                     String questName = dialogueKey.getQuestName();
                     if (Objects.equals(npcName, animalName)) {
                         QuestBasic quest = questManager.getQuest(questName);
-                        if (quest.isActive()) {
+                        if (quest.isActive() && !quest.isQuestCompleted()) {
                             hintText = questManager.getQuestDialogues().get(dialogueKey);
 
                             if (hintText.length == 0) {
