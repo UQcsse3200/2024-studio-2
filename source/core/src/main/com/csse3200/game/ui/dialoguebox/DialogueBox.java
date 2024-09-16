@@ -216,8 +216,6 @@ public class DialogueBox {
 
     /**
      * Creates the playButton for booting up mini-games
-     *
-     * @return the playButton instance.
      */
     public void createPlayButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
