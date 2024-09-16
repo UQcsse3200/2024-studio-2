@@ -2,7 +2,6 @@ package com.csse3200.game.input;
 
 import com.csse3200.game.components.combat.TouchCombatInputComponent;
 import com.csse3200.game.components.player.TouchPlayerInputComponent;
-import com.csse3200.game.ui.DialogueBox.KeyboardDialogueBoxInputComponent;
 import com.csse3200.game.ui.terminal.TouchTerminalInputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -8,7 +8,7 @@ import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.DialogueBox.DialogueBox;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

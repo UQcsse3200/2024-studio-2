@@ -1,8 +1,6 @@
-package com.csse3200.game.ui.DialogueBox;
+package com.csse3200.game.ui.dialoguebox;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -137,33 +135,24 @@ public class DialogueBox {
         backgroundImage.setSize(newWidth * 0.9f, desiredHeight);
         backgroundImage.setPosition(newWidth * 0.05f, screenHeight * 0.09f);
 
-        newWidth = screenWidth * 0.9f;  // Background label width (littler than image)
-
         updateLabelPosition();
-        // Shrink label text if too large
-//        if (label.getPrefWidth() > newWidth) {
-//            float scaleFactor = newWidth / label.getPrefWidth();
-//            label.setFontScale(scaleFactor);
-//        } else {
-//            // Reset font scale to default if no shrinking is needed
-//            label.setFontScale(1f);
-//        }
 
         // resize and replace the buttons
         desiredHeight = screenHeight * 0.05f;  // button image height
         newWidth = screenWidth * 0.10f;  // button image width
 
         forwardButton.setSize(newWidth, desiredHeight);
-        forwardButton.setPosition(screenWidth / 2 + screenWidth * 0.1f, screenHeight * 0.03f);
+        forwardButton.setPosition((float) screenWidth / 2 + screenWidth * 0.1f, screenHeight * 0.03f);
 
         backwardButton.setSize(newWidth, desiredHeight);
-        backwardButton.setPosition(screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
+        backwardButton.setPosition((float) screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
 
         float buttonWidth = playButton.getWidth();
         float buttonHeight = playButton.getHeight();
         float centerX = (screenWidth - buttonWidth) / 2;
         float centerY = (screenHeight - buttonHeight) / 2;
         playButton.setPosition(centerX, centerY - screenHeight * 0.09f);
+        playButton.setSize(newWidth, desiredHeight);
 
         resizeOptionButtons();
     }
@@ -204,7 +193,7 @@ public class DialogueBox {
         forwardButton = new TextButton("Continue", buttonStyle);
 
         forwardButton.setSize(newWidth, desiredHeight);
-        forwardButton.setPosition(screenWidth / 2 + screenWidth * 0.1f, screenHeight * 0.03f);
+        forwardButton.setPosition(((float) screenWidth / 2) + screenWidth * 0.1f, screenHeight * 0.03f);
         forwardButton.getLabel().setAlignment(Align.center);
     }
 
@@ -221,7 +210,7 @@ public class DialogueBox {
         backwardButton = new TextButton("Back", buttonStyle);
 
         backwardButton.setSize(newWidth, desiredHeight);
-        backwardButton.setPosition(screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
+        backwardButton.setPosition(((float) screenWidth / 2) - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
         backwardButton.getLabel().setAlignment(Align.center);
     }
 
@@ -458,16 +447,16 @@ public class DialogueBox {
                 optionButton.setPosition(xPosition, buttonYPosition);
 
                 // Shrink label text if too large
-                Label label = optionButton.getLabel();
+                Label optionLabel = optionButton.getLabel();
                 float newWidth = optionButton.getWidth() - 100; // Add padding to prevent text overflow at the edges
 
-                if (label.getPrefWidth() > newWidth) {
+                if (optionLabel.getPrefWidth() > newWidth) {
                     // Scale down font size proportionally to fit the button width
-                    float scaleFactor = newWidth / label.getPrefWidth();
-                    label.setFontScale(scaleFactor);
+                    float scaleFactor = newWidth / optionLabel.getPrefWidth();
+                    optionLabel.setFontScale(scaleFactor);
                 } else {
                     // Reset font scale to default if no shrinking is needed
-                    label.setFontScale(1f);
+                    optionLabel.setFontScale(1f);
                 }
 
                 buttonIndex++;
@@ -616,7 +605,7 @@ public class DialogueBox {
         }
         if (backgroundImage != null) {
             backgroundImage.setVisible(true);
-        };
+        }
         if (label != null) this.label.setVisible(true);
         showAppropriateButtons();
     }

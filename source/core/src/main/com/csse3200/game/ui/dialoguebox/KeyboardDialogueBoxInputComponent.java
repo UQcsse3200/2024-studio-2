@@ -1,4 +1,4 @@
-package com.csse3200.game.ui.DialogueBox;
+package com.csse3200.game.ui.dialoguebox;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;

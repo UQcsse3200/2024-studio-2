@@ -1,6 +1,6 @@
 package com.csse3200.game.services;
 
-import com.csse3200.game.ui.DialogueBox.DialogueBox;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

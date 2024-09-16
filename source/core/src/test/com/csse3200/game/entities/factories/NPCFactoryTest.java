@@ -21,7 +21,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.DialogueBox.KeyboardDialogueBoxInputComponent;
+import com.csse3200.game.ui.dialoguebox.KeyboardDialogueBoxInputComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
