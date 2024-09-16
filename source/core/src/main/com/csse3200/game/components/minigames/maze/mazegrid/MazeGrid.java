@@ -117,7 +117,6 @@ public class MazeGrid{
     }
 
     private void recursiveBacktracking(int r, int c, int pathingSize, Random rand) {
-        System.out.println(String.valueOf(r) + ", " + String.valueOf(c));
         for (int i = 0; i < pathingSize; i++) {
             for (int j = 0; j < pathingSize; j++) {
                 createCellAtRowCol(r+i, c+j, Water::new);
