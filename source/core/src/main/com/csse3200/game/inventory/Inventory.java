@@ -447,7 +447,7 @@ public class Inventory implements InventoryInterface {
      *
      * @param index the index of the item to remove.
      */
-    private void removeAt(int index) {
+    public void removeAt(int index) {
         AbstractItem item = memoryView[index];
         codeToIndices.get(item.getItemCode()).remove(index);
         nameToIndices.get(item.getName()).remove(index);
