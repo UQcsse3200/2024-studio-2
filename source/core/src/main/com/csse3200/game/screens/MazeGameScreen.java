@@ -1,6 +1,8 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -9,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.components.minigames.maze.MazeGame;
 import com.csse3200.game.input.InputComponent;
@@ -31,6 +32,8 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
+import box2dLight.RayHandler;
+import box2dLight.PointLight;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
 
@@ -50,6 +53,8 @@ public class MazeGameScreen extends PausableScreen {
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final MazeGame mazeGame;
+
+    private final RayHandler rayHandler;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -79,6 +84,15 @@ public class MazeGameScreen extends PausableScreen {
 
         setupExitButton();
         createUI();
+
+        World world = new World(new Vector2(0,0),false);
+        rayHandler = new RayHandler(world);
+        rayHandler.setCombinedMatrix(stage.getCamera().combined);   //<-- pass your camera combined matrix
+        Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
+        new PointLight(rayHandler,1000, lightColor,180,700,600);
+        RayHandler.useDiffuseLight(true);
+
+        //LightSystem.rayHandler.setAmbientLight(lightColor)
     }
 
     /**
@@ -95,6 +109,7 @@ public class MazeGameScreen extends PausableScreen {
 
         clearBackground();
         mazeGame.render();
+        rayHandler.updateAndRender();
 
 //        scoreBoard.updateScore(birdGame.getScore());
 
