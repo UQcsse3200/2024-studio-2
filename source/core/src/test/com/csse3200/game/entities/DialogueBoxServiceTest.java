@@ -76,10 +76,6 @@ class DialogueBoxServiceTest {
             }
             entityChatService.getCurrentOverlay().handleForwardButtonClick();
             Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-            entityChatService.getCurrentOverlay().handleForwardButtonClick();
-            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
-            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
             entityChatService.getCurrentOverlay().handleBackwardButtonClick();
             Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
         }

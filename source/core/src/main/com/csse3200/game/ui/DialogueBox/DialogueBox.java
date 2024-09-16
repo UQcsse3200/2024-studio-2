@@ -45,6 +45,7 @@ public class DialogueBox {
     private TextButton[] optionButtons;
     private int screenWidth = Gdx.graphics.getWidth();
     private int screenHeight = Gdx.graphics.getHeight();
+    private boolean isVisible;
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -74,6 +75,9 @@ public class DialogueBox {
 
         if (hide) {
             hideDialogueBox();
+            isVisible = false;
+        } else {
+            isVisible = true;
         }
 
         stage.addActor(backgroundImage);
@@ -137,13 +141,13 @@ public class DialogueBox {
 
         updateLabelPosition();
         // Shrink label text if too large
-        if (label.getPrefWidth() > newWidth) {
-            float scaleFactor = newWidth / label.getPrefWidth();
-            label.setFontScale(scaleFactor);
-        } else {
-            // Reset font scale to default if no shrinking is needed
-            label.setFontScale(1f);
-        }
+//        if (label.getPrefWidth() > newWidth) {
+//            float scaleFactor = newWidth / label.getPrefWidth();
+//            label.setFontScale(scaleFactor);
+//        } else {
+//            // Reset font scale to default if no shrinking is needed
+//            label.setFontScale(1f);
+//        }
 
         // resize and replace the buttons
         desiredHeight = screenHeight * 0.05f;  // button image height
@@ -378,12 +382,20 @@ public class DialogueBox {
         for (TextButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
+
+        if (currentHint + 1 == hints[currentHintLine].length) {
+            hideDialogueBox();
+            return;
+        }
+
         currentHint = (currentHint + 1) % hints[currentHintLine].length;
+
         String text = hints[currentHintLine][currentHint];
         text = minigameCheck(text);
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
     }
 
     /**
@@ -400,6 +412,7 @@ public class DialogueBox {
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
     }
 
     /**
@@ -463,6 +476,24 @@ public class DialogueBox {
     }
 
     /**
+     * Determines when to hide and show forward / backward buttons on clicks.
+     */
+    public void showAppropriateButtons() {
+        // Hide the continue button if there are options to pick
+        if (optionButtons[0].isVisible() && currentHint == hints[currentHintLine].length - 1) {
+            forwardButton.setVisible(false);
+        } else if (!forwardButton.isVisible()) {
+            forwardButton.setVisible(true);
+        }
+
+        if (currentHint == 0) {
+            backwardButton.setVisible(false);
+        } else if (!backwardButton.isVisible()) {
+            backwardButton.setVisible(true);
+        }
+    }
+
+    /**
      * Handles the option button click event to navigate to the specific hint.
      * Updates the label text to the certain hint in the array and repositions the label.
      */
@@ -477,6 +508,7 @@ public class DialogueBox {
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
     }
 
     /**
@@ -539,6 +571,7 @@ public class DialogueBox {
      * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
      */
     public void hideDialogueBox() {
+        this.isVisible = false;
         if (backgroundImage != null) backgroundImage.setVisible(false);
         if (label != null) label.setVisible(false);
         if (forwardButton != null) forwardButton.setVisible(false);
@@ -557,6 +590,7 @@ public class DialogueBox {
      * @param hints An array of strings containing the hint messages to display.
      */
     public void showDialogueBox(String[][] hints) {
+        this.isVisible = true;
         if ( ServiceLocator.getRenderService().getStage().getViewport() != null) {
             screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
             screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
@@ -614,5 +648,14 @@ public class DialogueBox {
      */
     public TextButton getBackwardButton() {
         return backwardButton;
+    }
+
+    /**
+     * Returns whether the dialogueBox is visible or not.
+     *
+     * @return boolean representing if the dialogue box is visible.
+     */
+    public boolean getIsVisible() {
+       return isVisible;
     }
 }
