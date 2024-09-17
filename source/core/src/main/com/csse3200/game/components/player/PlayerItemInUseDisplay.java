@@ -1,26 +1,15 @@
 package com.csse3200.game.components.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.inventory.Inventory;
-import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PlayerItemInUseDisplay extends UIComponent {
     private final Texture indicatebox = new Texture("Inventory/item-indication.png");

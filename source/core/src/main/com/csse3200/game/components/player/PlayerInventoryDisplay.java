@@ -16,6 +16,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     PlayerInventoryHotbarDisplay hotbar;
     PlayerItemInUseDisplay indicationBox = new PlayerItemInUseDisplay(false, false, false);
+    private GameTime gameTime;
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -202,7 +204,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 ItemUsageContext context = new ItemUsageContext(entity);
                 if (item instanceof TimedUseItem) {
                     aiComponent.addTask(
-                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context, indicationBox));
+                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context, indicationBox, gameTime));
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
