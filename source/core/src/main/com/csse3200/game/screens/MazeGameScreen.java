@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,8 +35,6 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import box2dLight.RayHandler;
-import box2dLight.PointLight;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
 
@@ -55,8 +54,6 @@ public class MazeGameScreen extends PausableScreen {
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final MazeGame mazeGame;
-
-    private final RayHandler rayHandler;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -87,14 +84,6 @@ public class MazeGameScreen extends PausableScreen {
 
         setupExitButton();
         createUI();
-
-        World world = new World(new Vector2(0,0),false);
-        rayHandler = new RayHandler(world);
-        Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
-        new PointLight(rayHandler,120, lightColor,180,1920/2,1200/2);
-        RayHandler.useDiffuseLight(true);
-
-        //LightSystem.rayHandler.setAmbientLight(lightColor)
     }
 
     /**
@@ -111,8 +100,6 @@ public class MazeGameScreen extends PausableScreen {
 
         clearBackground();
         mazeGame.render();
-        rayHandler.setCombinedMatrix(mazeGame.getRenderer().getCam().combined);
-        rayHandler.updateAndRender();
 
 //        scoreBoard.updateScore(birdGame.getScore());
 
@@ -170,7 +157,6 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.clear();
         font.dispose();
         skin.dispose();
-        rayHandler.dispose();
     }
 
     /**

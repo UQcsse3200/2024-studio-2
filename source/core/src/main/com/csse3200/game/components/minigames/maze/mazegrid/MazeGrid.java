@@ -266,4 +266,8 @@ public class MazeGrid{
             System.out.println("Can't read line");
         }
     }
+
+    public int getSize() {
+        return size;
+    }
 }
