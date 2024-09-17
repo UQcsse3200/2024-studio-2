@@ -18,19 +18,35 @@ public abstract class MazeCell {
         this.collisionBox = new Rectangle(x, y, tileSize, tileSize);
     }
 
+    /**
+     * Gets the size of each tile in the maze
+     * @return the size of each tile in the maze
+     */
     public float getSize() {
         return tileSize;
     }
 
+    /**
+     * set the position of the maze tile
+     * @param x the x coordinate
+     * @param y the y coordinate
+     */
     public void setPosition(float x, float y) {
         position.set(x, y);
     }
 
+    /**
+     * Gets the tiles position
+     * @return
+     */
     public Vector2 getPosition() {
         return this.position;
     }
 
-
+    /**
+     * Determines if this tile has a collision
+     * @return tru if collision, otherwise false
+     */
     public Rectangle getCollisionBox() {
         return this.collisionBox;
     }

@@ -11,6 +11,9 @@ import com.csse3200.game.components.minigames.maze.mazegrid.Wall;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
+/**
+ * Render for the underwater maze mini-game
+ */
 public class MazeGridRenderer implements MinigameRenderable {
 
     private final MazeCell[][] maze;
@@ -20,13 +23,15 @@ public class MazeGridRenderer implements MinigameRenderable {
     private Texture spawnTexture;
 
 
-
     public MazeGridRenderer(MazeGrid grid, MinigameRenderer renderer) {
         this.maze = grid.getMaze();
         this.renderer = renderer;
         loadAssets();
     }
 
+    /**
+     * Renders the maze
+     */
     public void render() {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[row].length; col++) {

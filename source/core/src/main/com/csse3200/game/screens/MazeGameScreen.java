@@ -1,9 +1,6 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,9 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.components.minigames.maze.MazeGame;
-import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ResourceService;
@@ -37,13 +32,14 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.components.minigames.MiniGameNames.MAZE;
 
 /**
- * Class for Birdie Dash Game Screen
+ * Class for Underwater Maze Game Screen
  */
 public class MazeGameScreen extends PausableScreen {
 
-    private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
     private final Renderer renderer;
     private final BitmapFont font;
     private final Skin skin;
@@ -62,7 +58,7 @@ public class MazeGameScreen extends PausableScreen {
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-        logger.debug("Initialising birdie dash screen services");
+        logger.debug("Initialising maze game screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
@@ -78,9 +74,9 @@ public class MazeGameScreen extends PausableScreen {
         this.stage = ServiceLocator.getRenderService().getStage();
         this.mazeGame = new MazeGame();
 
-        this.scoreBoard = new ScoreBoard(0, BIRD);
+        this.scoreBoard = new ScoreBoard(0, MAZE);
 
-//        logger.debug("Initialising birdie dash entities");
+//        logger.debug("Initialising maze game entities");
 
         setupExitButton();
         createUI();
@@ -92,22 +88,14 @@ public class MazeGameScreen extends PausableScreen {
      */
     @Override
     public void render(float delta) {
-        if (!resting) {
-            for (int i = 0; i < 20; i++) {
-//                birdGame.update(delta / 20);
-            }
-        }
-
         clearBackground();
         mazeGame.render();
 
-//        scoreBoard.updateScore(birdGame.getScore());
+//        scoreBoard.updateScore(mazeGame.getScore());
 
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
     }
-
-
 
     /**
      * Clears the screen background
@@ -147,7 +135,7 @@ public class MazeGameScreen extends PausableScreen {
     public void dispose() {
         Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
 
-        logger.debug("Disposing birdie dash screen");
+        logger.debug("Disposing underwater maze screen");
 
         renderer.dispose();
         mazeGame.dispose();
@@ -185,19 +173,19 @@ public class MazeGameScreen extends PausableScreen {
      * set up ui for key inputs
      */
     private void createUI() {
-        logger.debug("Creating birdie dash ui");
+        logger.debug("Creating maze ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent = new KeyboardBirdInputComponent();
+        //InputComponent inputComponent = new KeyboardBirdInputComponent();
 
         Entity ui = new Entity();
         ui
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(inputComponent)
+                //.addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
 
-        ui.getEvents().addListener("addOverlay", this::addOverlay);
-        ui.getEvents().addListener("removeOverlay", this::removeOverlay);
+//        ui.getEvents().addListener("addOverlay", this::addOverlay);
+//        ui.getEvents().addListener("removeOverlay", this::removeOverlay);
         ui.getEvents().addListener("restart", this::restartGame);
         ui.getEvents().addListener("exit", this::exitGame);
 

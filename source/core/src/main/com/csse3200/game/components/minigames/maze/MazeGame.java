@@ -15,6 +15,9 @@ import com.csse3200.game.services.ServiceLocator;
 import box2dLight.RayHandler;
 import box2dLight.PointLight;
 
+/**
+ * CLass for the underwater maze game functionality
+ */
 public class MazeGame {
 
     private final MazeGrid grid;
@@ -54,24 +57,30 @@ public class MazeGame {
         }
     }
 
+    /**
+     * Renders the maze
+     */
     private void initRenderers() {
         renderer.addRenderable(new MazeGridRenderer(grid, renderer));
     }
 
+    /**
+     * Updates the maze rendering
+     */
     public void render() {
         renderer.render();
         float x = pl.getPosition().x, y = pl.getPosition().y;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             y += 4;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
             y -= 4;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
             x -= 4;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             x += 4;
         }
 
@@ -85,6 +94,9 @@ public class MazeGame {
         rayHandler.updateAndRender();
     }
 
+    /**
+     * Disposes
+     */
     public void dispose() {
         renderer.dispose();
         rayHandler.dispose();
@@ -92,10 +104,22 @@ public class MazeGame {
         world.dispose();
     }
 
+    /**
+     * Uses the mini-game renderer
+     * @return the mini-game renderer
+     */
     public MinigameRenderer getRenderer() {
         return renderer;
     }
 
+    /**
+     * Creates a player in the maze
+     * @param x start x coordinate
+     * @param y start y coordinate
+     * @param width player width
+     * @param height player height
+     * @return the players body
+     */
     private Body createPlayer(float x, float y, float width, float height) {
         Body pBody;
         BodyDef def = new BodyDef();

@@ -1,5 +1,8 @@
 package com.csse3200.game.components.minigames.maze;
 
+/**
+ * Class for assets for underwater maze mini-game
+ */
 public class MazeAssetPaths {
 
     // Mazes

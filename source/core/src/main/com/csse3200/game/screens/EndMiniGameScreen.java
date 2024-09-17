@@ -74,13 +74,11 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
 
+        // Rewarding achievement to player
         if (oldScreen instanceof MainGameScreen) {
-            MainGameScreen forestGameArea = (MainGameScreen) oldScreen;
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
-                logger.info("Adding loot box to player's inventory.");
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
-                // Rewarding achievement to player
                 logger.info("Achievement trigger {} {}", gameName.name(),getMedal(score).name());
                 player.getEvents().trigger("miniGame",gameName,getMedal(score));
             }
@@ -91,52 +89,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
-    }
-
-    /**
-     * Puts the exit button in the top right of the screen.
-     * Will take the user back to the Main menu screen
-     */
-    private void setupExitButton() {
-
-        TextButton exitButton = new TextButton("Exit", skin);
-        // Scale the button's font
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Return to main menu and original screen colour
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                getLootBox();
-                game.setOldScreen(oldScreen, oldScreenServices);
-            }
-        });
-
-        // Set up the table for UI layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.top().right();
-        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
-
-        // Add the table to the stage
-        stage.addActor(table);
-    }
-
-    /**
-     * Gives the player a loot box
-     */
-    private void getLootBox() {
-        //TODO: change this only so when the medal changes
-        switch(getMedal(score)) {
-            case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
-                    new EarlyGameLootTable(),3 , player));
-            case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
-                    new MediumGameLootTable(),3 , player));
-            case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
-                    new LateGameLootTable(),3 , player));
-        }
     }
 
     /**
@@ -158,6 +110,53 @@ public class EndMiniGameScreen extends ScreenAdapter {
         stage.addActor(contentTable);
 
         handleKeyPress();
+    }
+
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen
+     */
+    private void setupExitButton() {
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        // Scale the button's font
+        exitButton.getLabel().setFontScale(scale);
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main menu and original screen colour
+                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                giveLootBox();
+                game.setOldScreen(oldScreen, oldScreenServices);
+            }
+        });
+
+        // Set up the table for UI layout
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top().right();
+        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
+
+        // Add the table to the stage
+        stage.addActor(table);
+    }
+
+    /**
+     * Gives the player a loot box
+     */
+    private void giveLootBox() {
+        logger.info("Adding loot box to player's inventory.");
+        //TODO: change this only so when the medal changes
+        switch(getMedal(score)) {
+            case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
+                    new EarlyGameLootTable(),3 , player));
+            case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
+                    new MediumGameLootTable(),3 , player));
+            case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
+                    new LateGameLootTable(),3 , player));
+        }
     }
 
     /**
@@ -279,7 +278,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                    getLootBox();
+                    giveLootBox();
                     game.setOldScreen(oldScreen, oldScreenServices);
                 }
             });

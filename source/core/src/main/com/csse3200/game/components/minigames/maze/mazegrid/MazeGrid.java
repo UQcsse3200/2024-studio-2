@@ -49,6 +49,9 @@ public class MazeGrid{
         generateRandomMaze(pathingSize, 10);
     }
 
+    /**
+     * Calculates the size a cell should be based on screen dimensions
+     */
     private void calculateCellDimensions() {
         this.gridX = (screenWidth - gridWidth) / 2; // Center the grid horizontally
         this.gridY = (screenHeight - gridHeight) / 2; // Center the grid vertically
@@ -59,12 +62,16 @@ public class MazeGrid{
      * Method to get the cell at a specific coordinate
      * @param row the row
      * @param col the column
-     * @return
+     * @return the cell of the maze at the coordinate
      */
     public MazeCell getCell(int row, int col) {
         return cells[row][col];
     }
 
+    /**
+     * Gets the maze
+     * @return the maze
+     */
     public MazeCell[][] getMaze() {
         return cells;
     }
@@ -92,7 +99,7 @@ public class MazeGrid{
         spanningTree.add(new GridCell(c, r));
 
         for (int i = 0; i < numSpawns; i++) {
-            BFS bfs = new BFS(spanningTree);
+            breadthFirstSearchMaze bfs = new breadthFirstSearchMaze(spanningTree);
             GridCell mostDistant = bfs.getMostDistant();
             createCellAtRowCol(mostDistant.getY(), mostDistant.getX(), Spawn::new);
             List<GridCell> path = bfs.getShortestPath(bfs.getMostDistant());
@@ -102,6 +109,12 @@ public class MazeGrid{
         }
     }
 
+    /**
+     * Determines a position is in bounds of the maze
+     * @param r row
+     * @param c column
+     * @return true if not in bounds, otherwise false
+     */
     private boolean notInBounds(int r, int c) {
         return r < 0 || r >= size || c < 0 || c >= size;
     }
@@ -133,32 +146,26 @@ public class MazeGrid{
             }
             for (int i = 0; i < pathingSize; i++) {
                 switch (d) {
-                    case UP:
-                        createCellAtRowCol(r+pathingSize, c+i, Water::new);
-                        break;
-                    case DOWN:
-                        createCellAtRowCol(r-1, c+i, Water::new);
-                        break;
-                    case RIGHT:
-                        createCellAtRowCol(r+i, c+pathingSize, Water::new);
-                        break;
-                    case LEFT:
-                        createCellAtRowCol(r+i, c-1, Water::new);
-                        break;
+                    case UP -> createCellAtRowCol(r + pathingSize, c + i, Water::new);
+                    case DOWN -> createCellAtRowCol(r - 1, c + i, Water::new);
+                    case RIGHT -> createCellAtRowCol(r + i, c + pathingSize, Water::new);
+                    case LEFT -> createCellAtRowCol(r + i, c - 1, Water::new);
                 }
             }
             recursiveBacktracking(nr, nc, pathingSize, rand);
         }
     }
 
-    class BFS {
+    /**
+     * Class for bfs
+     */
+    class breadthFirstSearchMaze {
         int[][] distances;
         GridCell[][] previous;
-
         GridCell mostDistant;
         static final Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
 
-        BFS(List<GridCell> startCells) {
+        breadthFirstSearchMaze(List<GridCell> startCells) {
             distances = new int[size][size];
             previous = new GridCell[size][size];
             for (int r = 0; r < size; r++) {
@@ -188,6 +195,11 @@ public class MazeGrid{
             mostDistant = cell;
         }
 
+        /**
+         * get shorted path from initial grid cell to current
+         * @param end the grid cell to search for
+         * @return the shortest path
+         */
         List<GridCell> getShortestPath(GridCell end) {
             List<GridCell> path = new ArrayList<>();
             while (end != null) {
