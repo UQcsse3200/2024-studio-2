@@ -53,6 +53,9 @@ public class StoryScreen extends ScreenAdapter {
         ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
+        // Load background textures based on selected animal
+        backgroundTextures = loadStoryTextures(selectedAnimal);
+
 
         createUI();
     }
@@ -77,6 +80,10 @@ public class StoryScreen extends ScreenAdapter {
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
 
+        for (Texture texture : backgroundTextures) {
+            texture.dispose();
+        }
+
         ServiceLocator.clear();
     }
 
@@ -93,4 +100,39 @@ public class StoryScreen extends ScreenAdapter {
                 .addComponent(new StoryActions(game, backgroundTextures));
         ServiceLocator.getEntityService().register(ui);
     }
+    /**
+     * Loads the appropriate story textures based on the selected animal.
+     *
+     * @param selectedAnimal the animal chosen by the player
+     * @return an array of background textures for the story
+     */
+    private Texture[] loadStoryTextures(String selectedAnimal) {
+        String[] storyPaths;
+
+        switch (selectedAnimal.toLowerCase()) {
+            case "dog":
+                storyPaths = DOG_STORY_PATHS;
+                break;
+            case "croc":
+                storyPaths = CROC_STORY_PATHS;
+                break;
+            case "bird":
+                storyPaths = BIRD_STORY_PATHS;
+                break;
+            default:
+                // Default to dog story if no valid animal is selected
+                logger.warn("Invalid animal selection: {}. Defaulting to dog story.", selectedAnimal);
+                storyPaths = DOG_STORY_PATHS;
+                break;
+        }
+
+        Texture[] textures = new Texture[storyPaths.length];
+        for (int i = 0; i < storyPaths.length; i++) {
+            textures[i] = new Texture(storyPaths[i]);
+        }
+        return textures;
+    }
+
+
+
 }
