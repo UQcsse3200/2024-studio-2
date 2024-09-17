@@ -35,7 +35,7 @@ public class StoryScreen extends ScreenAdapter {
             new Texture("images/Story/DogStory6.png")
     };
 
-    public StoryScreen(GdxGame game) {
+    public StoryScreen(GdxGame game, String selectedAnimal) {
         this.game = game;
 
         logger.debug("Initialising story screen services");
