@@ -90,7 +90,19 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(GdxGame.ScreenType.STORY);
+                    switch (selectedAnimalImagePath) {
+                        case "images/dog.png":
+                            game.setScreen(new StoryScreen(game, "dog")); // Pass "dog" to StoryScreen
+                            break;
+                        case "images/croc.png":
+                            game.setScreen(new StoryScreen(game, "croc")); // Pass "croc" to StoryScreen
+                            break;
+                        case "images/bird.png":
+                            game.setScreen(new StoryScreen(game, "bird")); // Pass "bird" to StoryScreen
+                            break;
+                        default:
+                            logger.debug("Unknown animal selected");
+                    }
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert(); // Show an alert if no animal is selected
@@ -98,26 +110,13 @@ public class AnimalSelectionActions {
             }
         });
 
+
         // Add listener to the "Back" button to return to the main menu
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.debug("Go back button clicked");
-                switch (selectedAnimalImagePath) {
-                    case "images/dog.png":
-                        game.setScreen(new StoryScreen(game, "dog")); // Pass "dog" to StoryScreen
-                        break;
-                    case "images/croc.png":
-                        game.setScreen(new StoryScreen(game, "croc")); // Pass "croc" to StoryScreen
-                        break;
-                    case "images/bird.png":
-                        game.setScreen(new StoryScreen(game, "bird")); // Pass "bird" to StoryScreen
-                        break;
-                    default:
-                        logger.debug("Unknown animal selected");
-                }
-
-
+                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
             }
         });
     }
@@ -189,3 +188,4 @@ public class AnimalSelectionActions {
     }
 
 }
+
