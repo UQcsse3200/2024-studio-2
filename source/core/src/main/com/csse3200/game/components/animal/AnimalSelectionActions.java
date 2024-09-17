@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
+import com.csse3200.game.screens.StoryScreen;
 import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
@@ -102,7 +103,21 @@ public class AnimalSelectionActions {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.debug("Go back button clicked");
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+                switch (selectedAnimalImagePath) {
+                    case "images/dog.png":
+                        game.setScreen(new StoryScreen(game, "dog")); // Pass "dog" to StoryScreen
+                        break;
+                    case "images/croc.png":
+                        game.setScreen(new StoryScreen(game, "croc")); // Pass "croc" to StoryScreen
+                        break;
+                    case "images/bird.png":
+                        game.setScreen(new StoryScreen(game, "bird")); // Pass "bird" to StoryScreen
+                        break;
+                    default:
+                        logger.debug("Unknown animal selected");
+                }
+
+
             }
         });
     }
