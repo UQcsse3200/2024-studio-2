@@ -94,6 +94,16 @@
       "id": "sand1MM",
       "fp": "images/sand_tile_1_around_grass/middle_sand_1_around_grass.jpg",
       "edges": ["AAA", "AAA", "AAA", "AAA"]
+    },
+    {
+      "id": "gwsc",
+      "fp": "images/tiles_with_corners/Grass_tile_with_sand_corner.png",
+      "edges": ["BBA", "ABB", "ABB", "BBA"]
+    },
+    {
+      "id": "swgc",
+      "fp": "images/tiles_with_corners/Sand_tile_with_grass_corner.png",
+      "edges": ["AAB", "BAA", "BAA", "AAB"]
     }
   ]
 }
