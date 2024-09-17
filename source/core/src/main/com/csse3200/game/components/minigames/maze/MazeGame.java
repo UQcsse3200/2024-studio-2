@@ -10,8 +10,6 @@ import com.csse3200.game.components.minigames.maze.mazegrid.MazeCell;
 import com.csse3200.game.components.minigames.maze.mazegrid.MazeGrid;
 import com.csse3200.game.components.minigames.maze.mazegrid.Wall;
 import com.csse3200.game.components.minigames.maze.rendering.MazeGridRenderer;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
 import box2dLight.RayHandler;
 import box2dLight.PointLight;
 
@@ -25,11 +23,11 @@ public class MazeGame {
 
     private final RayHandler rayHandler;
 
-    private Box2DDebugRenderer b2dr;
-    private World world;
+    private final Box2DDebugRenderer b2dr;
+    private final World world;
     private Body player;
-    private PointLight pl;
-    private PointLight pl2;
+    private final PointLight pl;
+    private final PointLight pl2;
 
     public MazeGame() {
         this.grid = new MazeGrid(12, 6);
