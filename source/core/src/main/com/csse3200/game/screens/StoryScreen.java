@@ -26,14 +26,8 @@ public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
-    private final Texture[] backgroundTextures = {
-            new Texture("images/Story/DogStory1.png"),
-            new Texture("images/Story/DogStory2.png"),
-            new Texture("images/Story/DogStory3.png"),
-            new Texture("images/Story/DogStory4.png"),
-            new Texture("images/Story/DogStory5.png"),
-            new Texture("images/Story/DogStory6.png")
-    };
+    private Texture[] backgroundTextures;
+
 
     public StoryScreen(GdxGame game, String selectedAnimal) {
         this.game = game;
