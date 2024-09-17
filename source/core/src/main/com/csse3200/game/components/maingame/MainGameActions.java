@@ -3,6 +3,8 @@ package com.csse3200.game.components.maingame;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,26 +43,6 @@ public class MainGameActions extends Component {
   private void onReturnToMainGame(Screen screen, ServiceContainer container) {
     logger.info("Returning to main game screen");
     // change to new GDXgame function
-    game.setOldScreen(screen, container);
-  }
-  
-  /**
-   * Swaps from combat screen to Main Game screen in the event of a won combat sequence.
-   */
-  private void onCombatWin(Screen screen, ServiceContainer container) {
-    logger.info("Returning to main game screen after combat win.");
-    // Set current screen to original MainGameScreen
-    // game.setOldScreen(screen, container);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_WIN);
-  }
-
-  /**
-   * Swaps from combat screen to Main Game screen in the event of a lost combat sequence.
-   */
-  private void onCombatLoss(Screen screen, ServiceContainer container) {
-    logger.info("Returning to main game screen after combat loss.");
-    // Set current screen to original MainGameScreen
-    //game.setOldScreen(screen, container);
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
   }
 }

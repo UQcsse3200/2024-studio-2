@@ -5,6 +5,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.npc.BearAnimationController;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
@@ -24,6 +25,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,32 +41,36 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class EnemyFactoryTest {
 
-    private Entity chicken;
-    private Entity frog;
-    private Entity monkey;
-    private Entity kanga;
+    private static Entity chicken;
+    private static Entity frog;
+    private static Entity monkey;
+    private static Entity kanga;
+    private static Entity bear;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
-    private String[] textures = {
+    private static String[] textures = {
             "images/chicken.png",
             "images/monkey.png",
             "images/frog.png",
-
+            "images/bear.png"
     };
 
-    private String[] atlas = {
+    private static String[] atlas = {
             "images/chicken.atlas",
             "images/enemy-chicken.atlas",
             "images/monkey.atlas",
+            "images/enemy-monkey.atlas",
             "images/frog.atlas",
+            "images/enemy-frog.atlas",
+            "images/bear.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
 
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
@@ -82,6 +88,7 @@ class EnemyFactoryTest {
         chicken = EnemyFactory.createChicken(player);
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
+        bear = EnemyFactory.createBear(player);
         kanga = EnemyFactory.createKangaBossEntity(player);
     }
 
@@ -119,11 +126,11 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyStats() {
-        assertEquals(100, monkey.getComponent(CombatStatsComponent.class).getHealth(),
-                "Cow should have 100 HP.");
-        assertEquals(0,
+        assertTrue((monkey.getComponent(CombatStatsComponent.class).getHealth() > 8) && (monkey.getComponent(CombatStatsComponent.class).getHealth() < 12),
+                "Monkey should have between 9 and 11 HP inclusive.");
+        assertEquals(1,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
-                "monkey should have 0 Base Attack.");
+                "monkey should have 1 speed.");
     }
 
     /**
@@ -194,11 +201,11 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenStats() {
-        assertEquals(10, chicken.getComponent(CombatStatsComponent.class).getHealth(),
-                "chicken should have 10 HP.");
-        assertEquals(0,
+        assertTrue((chicken.getComponent(CombatStatsComponent.class).getHealth() > 3) && (chicken.getComponent(CombatStatsComponent.class).getHealth() < 7),
+                "chicken should have between 4 and 6 HP.");
+        assertEquals(2,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
-                "chicken should have 0 speed.");
+                "chicken should have 3 speed.");
     }
 
     /**
@@ -256,11 +263,11 @@ class EnemyFactoryTest {
      */
     @Test
     void TestFrogStats() {
-        assertEquals(100, frog.getComponent(CombatStatsComponent.class).getHealth(),
-                "frog should have 1 HP.");
-        assertEquals(0,
+        assertTrue((frog.getComponent(CombatStatsComponent.class).getHealth() > 2) && (frog.getComponent(CombatStatsComponent.class).getHealth() < 6),
+                "frog should have between 3 and 5 HP.");
+        assertEquals(1,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
-                "frog should have 0 speed.");
+                "frog should have 1 speed.");
     }
 
     /**
@@ -283,6 +290,69 @@ class EnemyFactoryTest {
         frog.setPosition(pos);
         assertEquals(pos, frog.getPosition());
     }
+
+    /**
+     * Tests Creation of a bear.
+     */
+    @Test
+    void TestBearCreation() {
+        assertNotNull(bear, "Bear should not be null.");
+    }
+
+    /**
+     * Tests that the bear is an Entity.
+     */
+    @Test
+    void TestBearIsEntity() {
+        assertEquals(bear.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the bear has the correct components.
+     */
+    @Test
+    void TestBearHasComponents() {
+        assertNotNull(bear.getComponent(PhysicsComponent.class));
+        assertNotNull(bear.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(bear.getComponent(BearAnimationController.class));
+        assertNotNull(bear.getComponent(CombatStatsComponent.class));
+        assertNotNull(bear.getComponent(HitboxComponent.class));
+        assertNotNull(bear.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the bear has the correct stats.
+     */
+    @Test
+    void TestBearStats() {
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 12) && (bear.getComponent(CombatStatsComponent.class).getHealth() < 18),
+                "bear should have between 13 and 17 HP.");
+        assertEquals(0,
+                bear.getComponent(CombatStatsComponent.class).getSpeed(),
+                "bear should have 0 speed.");
+    }
+
+    /**
+     * Tests that the bear has correct animations.
+     */
+    @Test
+    void TestBearAnimation() {
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "bear should have chase animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bear should have float animation.");
+    }
+
+    /**
+     * Tests that the bear is in the correct spot when placed.
+     */
+    @Test
+    void TestBearSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        bear.setPosition(pos);
+        assertEquals(pos, bear.getPosition());
+    }
+
 
     static class TestComponent1 extends Component {}
 
@@ -331,8 +401,8 @@ class EnemyFactoryTest {
      */
     @Test
     void TestKangaHasCorrectHP() {
-        assertEquals(100, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 100 HP.");
+        assertEquals(150, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 150 HP.");
     }
 
     /**

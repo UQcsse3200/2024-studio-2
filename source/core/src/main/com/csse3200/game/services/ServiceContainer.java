@@ -4,7 +4,6 @@ import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.entities.DialogueBoxService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +13,13 @@ import org.slf4j.LoggerFactory;
  */
 public class ServiceContainer {
     private static final Logger logger = LoggerFactory.getLogger(ServiceContainer.class);
-    private final DialogueBoxService dialogueBoxService;
     private EntityService entityService;
     private RenderService renderService;
     private PhysicsService physicsService;
     private GameTime timeSource;
     private InputService inputService;
     private ResourceService resourceService;
+    private DialogueBoxService dialogueBoxService;
 
     public ServiceContainer() {
         this.entityService = ServiceLocator.getEntityService();
@@ -64,10 +63,11 @@ public class ServiceContainer {
      */
     public ResourceService getResourceService() {return resourceService;}
     /**
-     * Gets the EntityService stored in this container
-     * @return the EntityService stored in this container
+     * Gets the DialogueBoxService stored in this container
+     * @return the DialogueBoxService stored in this container
      */
     public DialogueBoxService getDialogueBoxService() {
         return dialogueBoxService;
     }
+
 }

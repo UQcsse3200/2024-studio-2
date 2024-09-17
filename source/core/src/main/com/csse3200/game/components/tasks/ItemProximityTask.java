@@ -2,7 +2,7 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -95,7 +95,7 @@ public class ItemProximityTask extends ProximityTask {
 
     @Override
     public void handleTargetMovedClose() {
-        String[] itemText = {item.getDescription() + " - press P to pick it up."};
+        String[][] itemText = {{item.getDescription() + " - press P to pick it up."}};
         ServiceLocator.getDialogueBoxService().updateText(itemText);
     }
 
