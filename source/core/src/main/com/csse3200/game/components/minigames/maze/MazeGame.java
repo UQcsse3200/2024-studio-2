@@ -1,5 +1,7 @@
 package com.csse3200.game.components.minigames.maze;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -23,6 +25,8 @@ public class MazeGame {
     private Box2DDebugRenderer b2dr;
     private World world;
     private Body player;
+    private PointLight pl;
+    private PointLight pl2;
 
     public MazeGame() {
         this.grid = new MazeGrid(12, 6);
@@ -31,9 +35,12 @@ public class MazeGame {
         world = new World(new Vector2(0,0),false);
         rayHandler = new RayHandler(world);
         Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
-        PointLight pl = new PointLight(rayHandler,180, lightColor,350,1920/2,1200/2);
+        pl = new PointLight(rayHandler,180, lightColor,350,1920/2,1200/2);
+        pl2 = new PointLight(rayHandler,180, lightColor,180,1920/2,1200/2);
         RayHandler.useDiffuseLight(true);
         pl.setPosition(800, 500);
+        pl2.setPosition(800, 500);
+        pl2.setXray(true);
         //rayHandler.setAmbientLight(lightColor);
         b2dr = new Box2DDebugRenderer();
         //player = createPlayer();
@@ -53,11 +60,29 @@ public class MazeGame {
 
     public void render() {
         renderer.render();
+        float x = pl.getPosition().x, y = pl.getPosition().y;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            y += 4;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            y -= 4;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            x -= 4;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            x += 4;
+        }
+
+        pl.setPosition(x, y);
+        pl2.setPosition(x, y);
+
         //update(Gdx.graphics.getDeltaTime());
 
         //b2dr.render(world, renderer.getCam().combined);
-        //rayHandler.setCombinedMatrix(renderer.getCam().combined);
-        //rayHandler.updateAndRender();
+        rayHandler.setCombinedMatrix(renderer.getCam().combined);
+        rayHandler.updateAndRender();
     }
 
     public void dispose() {
