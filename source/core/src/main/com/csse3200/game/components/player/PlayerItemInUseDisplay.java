@@ -76,28 +76,27 @@ public class PlayerItemInUseDisplay extends UIComponent {
         box.setSize(ITEM_BOX_WIDTH * 3, ITEM_BOX_HEIGHT);
 
         if (!speedExpired) {
-            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         } else {
-            box.add(createColoredBox(Color.PURPLE)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.PURPLE)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         }
 
         if (!attackExpired) {
-            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         } else {
-            box.add(createColoredBox(Color.YELLOW)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.YELLOW)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         }
 
         if (!defenseExpired) {
-            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.GRAY)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         } else {
-            box.add(createColoredBox(Color.BLUE)).size(ITEM_BOX_WIDTH, ITEM_BOX_HEIGHT);
+            box.add(createColoredBox(Color.BLUE)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         }
 
 
         box.row();
 
-        float gap = 10;
-        float tableX = 20;
+        float tableX = stage.getWidth() - box.getWidth() - 20;;
         float tableY = 50;
         box.setPosition(tableX, tableY);
         stage.addActor(box);
