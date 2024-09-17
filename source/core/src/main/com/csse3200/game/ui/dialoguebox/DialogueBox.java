@@ -200,7 +200,6 @@ public class DialogueBox {
     /**
      * Creates the backward button for navigating to the previous hint.
      *
-     * @return The TextButton instance.
      */
     private void createBackwardButton() {
         float desiredHeight = screenHeight * 0.05f;  // button image height
@@ -299,7 +298,7 @@ public class DialogueBox {
                 } else if (currentMinigame == BIRD) {
                     gdxGame.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
-                    // TODO: Implement underwater maze (sprint 4)
+                    gdxGame.enterMazeGameScreen();
                 }
                 return true;
             }
