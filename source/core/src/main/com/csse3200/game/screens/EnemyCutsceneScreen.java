@@ -183,23 +183,9 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Set background image to cover the whole screen
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        // Create black bars
-        Texture topBarTexture = new Texture("images/black_bar.png");
-        Texture bottomBarTexture = new Texture("images/black_bar.png");
-
-        Image topBar = new Image(topBarTexture);
-        Image bottomBar = new Image(bottomBarTexture);
-
-        topBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-        bottomBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-
-        topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
-        bottomBar.setPosition(0, 0);
-
         // Add actors to stage
         stage.addActor(backgroundImage);
-        stage.addActor(topBar);
-        stage.addActor(bottomBar);
+//
     }
 
     /**
@@ -237,6 +223,10 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
             case BEAR:
                 enemyImageTexture = new Texture("images/bear_idle.png");
                 enemyNameLabel = new Label("Bear", labelStyle);
+                break;
+            case PIRANHA:
+                enemyImageTexture = new Texture("images/piranha_idle.png");
+                enemyNameLabel = new Label("Piranha", labelStyle);
                 break;
             default:
                 enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");

@@ -32,6 +32,15 @@
     "experience": 50,
     "isEnemy": 1
   },
+  "piranha": {
+    "spritePath": "images/piranha.atlas",
+    "health": 100,
+    "baseAttack": 20,
+    "defense": 30,
+    "speed": 1,
+    "experience": 50,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
     "health": 150,

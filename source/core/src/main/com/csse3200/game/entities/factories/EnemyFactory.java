@@ -12,6 +12,7 @@ import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.npc.BearAnimationController;
+import com.csse3200.game.components.npc.PiranhaAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -54,23 +55,13 @@ public class EnemyFactory {
   );
 
   /**
-   * types of enemies
-   */
-  private enum EnemyType {
-    FROG,
-    CHICKEN,
-    MONKEY,
-    BEAR;
-  }
-
-  /**
    * Creates a chicken enemy.
    *
    * @param target entity to chase (player in most cases, but does not have to be)
    * @return enemy chicken entity
    */
   public static Entity createChicken(Entity target) {
-    Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
+    Entity chicken = createBaseEnemy(target, Entity.EnemyType.CHICKEN);
     BaseEnemyEntityConfig config = configs.chicken;
     chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
@@ -95,13 +86,44 @@ public class EnemyFactory {
   }
 
   /**
+   * Creates a piranha enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy piranha entity
+   */
+  public static Entity createPiranha(Entity target) {
+    Entity piranha = createBaseEnemy(target, Entity.EnemyType.PIRANHA);
+    BaseEnemyEntityConfig config = configs.piranha;
+    piranha.setEnemyType(Entity.EnemyType.PIRANHA);
+
+    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
+
+    animator.addAnimation("float", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+
+    piranha
+            .addComponent(animator)
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(new ChickenAnimationController());
+
+    piranha.getComponent(AnimationRenderComponent.class).scaleEntity();
+    piranha.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return piranha;
+  }
+
+  /**
    * Creates a bear enemy.
    *
    * @param target entity to chase (player in most cases, but does not have to be)
    * @return enemy bear entity
    */
   public static Entity createBear(Entity target) {
-    Entity bear = createBaseEnemy(target, EnemyType.BEAR);
+    Entity bear = createBaseEnemy(target, Entity.EnemyType.BEAR);
     BaseEnemyEntityConfig config = configs.bear;
     bear.setEnemyType(Entity.EnemyType.BEAR);
 
@@ -134,7 +156,7 @@ public class EnemyFactory {
    * @return enemy frog entity
    */
   public static Entity createFrog(Entity target) {
-    Entity frog = createBaseEnemy(target, EnemyType.FROG);
+    Entity frog = createBaseEnemy(target, Entity.EnemyType.FROG);
     BaseEnemyEntityConfig config = configs.frog;
     frog.setEnemyType(Entity.EnemyType.FROG);
 
@@ -164,7 +186,7 @@ public class EnemyFactory {
    * @return enemy monkey entity
    */
   public static Entity createMonkey(Entity target) {
-    Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
+    Entity monkey = createBaseEnemy(target, Entity.EnemyType.MONKEY);
     BaseEnemyEntityConfig config = configs.monkey;
     monkey.setEnemyType(Entity.EnemyType.MONKEY);
 
@@ -201,7 +223,7 @@ public class EnemyFactory {
    * @param type the enemy type
    * @return entity
    */
-  private static Entity createBaseEnemy(Entity target, EnemyType type) {
+  private static Entity createBaseEnemy(Entity target, Entity.EnemyType type) {
     AITaskComponent aiComponent = new AITaskComponent();
 
     BaseEnemyEntityConfig configStats = switch (type) {
@@ -209,9 +231,11 @@ public class EnemyFactory {
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
       case BEAR -> configs.bear;
+      case PIRANHA -> configs.piranha;
+      case KANGAROO -> configs.kangarooBoss;
     };
 
-    if (type == EnemyType.MONKEY) {
+    if (type == Entity.EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 5f));

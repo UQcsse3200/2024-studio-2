@@ -1,0 +1,152 @@
+piranha.png
+size: 160, 64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 0, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 52, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy:104, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 156, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 3
+float
+  rotate: false
+  xy: 208, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 4
+float
+  rotate: false
+  xy: 260, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 5
+chase
+  rotate: false
+  xy: 0, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 0
+chase
+  rotate: false
+  xy: 52, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 1
+chase
+  rotate: false
+  xy: 104, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 2
+chase
+  rotate: false
+  xy: 156, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 3
+chase
+  rotate: false
+  xy: 208, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 4
+chase
+  rotate: false
+  xy: 260, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 5
+chase
+  rotate: false
+  xy: 312, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 6
+chase
+  rotate: false
+  xy: 364, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 7
+spawn
+  rotate: false
+  xy: 0, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 0
+spawn
+  rotate: false
+  xy: 52, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 1
+spawn
+  rotate: false
+  xy: 104, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 2
+spawn
+  rotate: false
+  xy: 156, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 3
+spawn
+  rotate: false
+  xy: 208, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 4
+spawn
+  rotate: false
+  xy: 260, 0
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 5

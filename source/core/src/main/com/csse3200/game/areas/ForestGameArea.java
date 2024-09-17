@@ -311,6 +311,10 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     //Bear
     generator = () -> EnemyFactory.createBear(player);
     spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
+
+    //Piranha
+    generator = () -> EnemyFactory.createPiranha(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_PIRANHAS, 0.04);
   }
 
   private void spawnFriendlyNPCs() {
