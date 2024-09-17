@@ -28,6 +28,20 @@ public class StoryScreen extends ScreenAdapter {
     private final Renderer renderer;
     private Texture[] backgroundTextures;
 
+    // Different story backgrounds for each animal
+    private static final String[] DOG_STORY_PATHS = {
+            "images/Story/DogStory1.png", "images/Story/DogStory2.png",
+            "images/Story/DogStory3.png", "images/Story/DogStory4.png",
+            "images/Story/DogStory5.png", "images/Story/DogStory6.png"
+    };
+    private static final String[] CROC_STORY_PATHS = {
+            "images/bird.png", "images/bird.png",
+    };
+    private static final String[] BIRD_STORY_PATHS = {
+            "images/bird.png", "images/bird.png",
+    };
+
+
 
     public StoryScreen(GdxGame game, String selectedAnimal) {
         this.game = game;
