@@ -108,7 +108,7 @@ public class EnemyFactory {
             .addComponent(animator)
             .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
             .addComponent(new CombatMoveComponent(moveSet))
-            .addComponent(new ChickenAnimationController());
+            .addComponent(new PiranhaAnimationController());
 
     piranha.getComponent(AnimationRenderComponent.class).scaleEntity();
     piranha.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
