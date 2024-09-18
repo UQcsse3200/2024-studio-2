@@ -2,6 +2,7 @@ package com.csse3200.game.services;
 
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.physics.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
+  private static LightingService lightingService;
 
 
   public static EntityService getEntityService() {
@@ -47,6 +49,10 @@ public class ServiceLocator {
 
   public static ResourceService getResourceService() {
     return resourceService;
+  }
+
+  public static LightingService getLightingService() {
+    return lightingService;
   }
 
   public static void registerEntityService(EntityService service) {
@@ -77,6 +83,11 @@ public class ServiceLocator {
   public static void registerResourceService(ResourceService source) {
     logger.debug("Registering resource service {}", source);
     resourceService = source;
+  }
+
+  public static void registerLightingService(LightingService source) {
+    logger.debug("Registering lighhting service {}", source);
+    lightingService = source;
   }
 
   public static void clear() {
