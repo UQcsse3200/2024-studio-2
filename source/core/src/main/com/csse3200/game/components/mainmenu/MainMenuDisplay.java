@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -51,6 +52,7 @@ public class MainMenuDisplay extends UIComponent {
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture birdTexture;
+    private Texture cursorTexture;
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
@@ -62,6 +64,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button loadBtn;
     private Button minigamesBtn;
     private Button settingsBtn;
+    private Cursor customCursor;
     private TextButton achievementsBtn;
     private Button helpBtn;
     private Button exitBtn;
@@ -90,9 +93,29 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Creating MainMenuDisplay");
         loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
+        setupCustomCursor();
         addActors();
         animateAnimals();
         applyUserSettings();
+    }
+
+    /**
+     * Sets up the custom cursor.
+     */
+    private void setupCustomCursor() {
+        try {
+            Pixmap pixmap = new Pixmap(Gdx.files.internal("images/CustomCursor.png"));
+
+            customCursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 4, pixmap.getHeight() / 4);
+
+            Gdx.graphics.setCursor(customCursor);
+
+            pixmap.dispose();
+
+            logger.info("Custom cursor set successfully.");
+        } catch (Exception e) {
+            logger.error("Failed to set custom cursor", e);
+        }
     }
 
     /**
@@ -106,6 +129,7 @@ public class MainMenuDisplay extends UIComponent {
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
         dog2Texture = new Texture("images/dog2.png");
         crocTexture = new Texture("images/croc.png");
+        cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
@@ -248,6 +272,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+
                 // Apply move and scale actions to both button and label
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, 5, 0.1f),
@@ -261,7 +286,9 @@ public class MainMenuDisplay extends UIComponent {
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+                // Restore the custom cursor when the mouse exits the button
+                applyCustomCursor();
+
                 // Return to original position and scale for both button and label
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
@@ -273,6 +300,12 @@ public class MainMenuDisplay extends UIComponent {
                 ));
             }
         });
+    }
+
+    private void applyCustomCursor() {
+        if (customCursor != null) {
+            Gdx.graphics.setCursor(customCursor); // Reapply the custom cursor
+        }
     }
 
     /**
@@ -448,7 +481,7 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Add the button to the top left table with size and padding.
-        topLeftTable.add(nightToggleButton).size(150, 50).pad(10);
+        topLeftTable.add(nightToggleButton).size(200, 70).pad(10);
 
         // Add the table to the stage to render it on the screen.
         stage.addActor(topLeftTable);
@@ -933,5 +966,11 @@ public class MainMenuDisplay extends UIComponent {
         birdTexture.dispose();
         super.dispose();
         clickSound.dispose();
+        if (customCursor != null) {
+            customCursor.dispose(); // Dispose of the custom cursor to avoid memory leaks
+        }
+        if (cursorTexture != null) {
+            cursorTexture.dispose();
+        }
     }
 }
