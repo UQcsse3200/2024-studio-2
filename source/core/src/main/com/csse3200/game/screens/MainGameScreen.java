@@ -1,13 +1,9 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.badlogic.gdx.graphics.Color;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.MazeGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.maingame.MainGameActions;
@@ -17,8 +13,8 @@ import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
-import com.csse3200.game.physics.LightingEngine;
-import com.csse3200.game.physics.LightingService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -87,17 +83,6 @@ public class MainGameScreen extends ScreenAdapter {
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
     renderer.render();
-
-    Color dayColour = new Color(1f, 1f, 0.95f, 1);
-    Color nightColour = new Color(0.4f, 0.35f, 0.45f, 1);
-
-    if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-      lightingEngine.getRayHandler().setAmbientLight(dayColour);
-    }
-    if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-      lightingEngine.getRayHandler().setAmbientLight(nightColour);
-    }
-
     lightingEngine.render();
   }
 

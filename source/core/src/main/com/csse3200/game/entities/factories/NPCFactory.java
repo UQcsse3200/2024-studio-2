@@ -1,10 +1,12 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.MazeEntityAnimationController;
@@ -110,7 +112,8 @@ public class NPCFactory {
     angler
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
-            .addComponent(new MazeEntityAnimationController());
+            .addComponent(new MazeEntityAnimationController())
+            .addComponent(new LightingComponent(LightingComponent.createPointLight(5, Color.YELLOW)));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
     angler.setScale(2,2);

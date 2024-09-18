@@ -1,10 +1,12 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
@@ -107,6 +109,7 @@ public class MazeGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
+    newPlayer.addComponent(new LightingComponent(LightingComponent.createPointLight(2, Color.WHITE)));
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

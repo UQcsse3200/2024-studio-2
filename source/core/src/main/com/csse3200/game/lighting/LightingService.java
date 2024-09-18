@@ -1,6 +1,6 @@
-package com.csse3200.game.physics;
+package com.csse3200.game.lighting;
 
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.lighting.LightingEngine;
 
 /**
  * Provides a global access point to the physics engine. This is necessary for physics-based
