@@ -104,16 +104,12 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void setupCustomCursor() {
         try {
-            // Create a Pixmap from the custom cursor texture
             Pixmap pixmap = new Pixmap(Gdx.files.internal("images/CustomCursor.png"));
 
-            // Set the custom cursor (hotspot in the center)
             customCursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 2, pixmap.getHeight() / 2);
 
-            // Apply the custom cursor to the game
             Gdx.graphics.setCursor(customCursor);
 
-            // Dispose of the Pixmap to free resources
             pixmap.dispose();
 
             logger.info("Custom cursor set successfully.");
@@ -274,7 +270,6 @@ public class MainMenuDisplay extends UIComponent {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                // Optional: Apply system cursor here (like a hand)
                 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
 
                 // Apply move and scale actions to both button and label
