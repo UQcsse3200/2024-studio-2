@@ -47,6 +47,21 @@ public class ObstacleFactory {
     return wall;
   }
 
+  /**
+   * Creates a visible physics wall for the maze.
+   * @param width Wall width in world units
+   * @param height Wall height in world units
+   * @return Wall entity of given width and height
+   */
+  public static Entity createMazeWall(float width, float height) {
+    Entity wall = new Entity()
+            .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+            .addComponent(new TextureRenderComponent("images/minigames/wall.png"));
+    wall.setScale(width, height);
+    return wall;
+  }
+
   private ObstacleFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }

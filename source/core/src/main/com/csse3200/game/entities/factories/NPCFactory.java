@@ -113,10 +113,11 @@ public class NPCFactory {
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
-            .addComponent(new LightingComponent(LightingComponent.createPointLight(5, Color.YELLOW)));
+            .addComponent(new LightingComponent(LightingComponent.createPointLight(1, Color.GREEN)));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
-    angler.setScale(2,2);
+    angler.setScale(.5f,.5f);
+    PhysicsUtils.setScaledCollider(angler, 1, 1);
     return angler;
   }
 
