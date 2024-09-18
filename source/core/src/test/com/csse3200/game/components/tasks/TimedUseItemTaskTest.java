@@ -2,6 +2,7 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.PlayerItemInUseDisplay;
 import com.csse3200.game.entities.DialogueBoxService;
@@ -16,18 +17,13 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 public class TimedUseItemTaskTest {
-    private Entity mockTarget;
-    private DefensePotion mockPotion;
-    private ItemUsageContext mockContext;
-    private PlayerItemInUseDisplay mockItemDisplay;
-    private GameTime mockGameTime;
-    private TimedUseItemTask task;
 
     @BeforeEach
     void beforeEach() {
@@ -55,7 +51,20 @@ public class TimedUseItemTaskTest {
     }
 
     @Test
-    public void testActivePotion()
+    public void testInitialisation() {
+//        Entity target = new Entity();
+//        PlayerItemInUseDisplay itemDisplay = new PlayerItemInUseDisplay(false, false, false);
+//        DefensePotion potion = new DefensePotion(2);
+//        ItemUsageContext context = new ItemUsageContext(target);
+//        GameTime gameTime = new GameTime();
+//        TimedUseItemTask task = new TimedUseItemTask(target, 1, potion, context, itemDisplay, gameTime);
+//
+//        AITaskComponent component = new AITaskComponent().addTask(task);
+//        Entity player = new Entity().addComponent(component);
+//
+//        Assertions.assertEquals(1, task.getPriority());
+
+    }
 
 //    @Test
 //    public void testActivatePotionSetsDefenseExpired() {
