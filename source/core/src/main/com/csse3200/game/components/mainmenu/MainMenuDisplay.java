@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,11 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
-import com.csse3200.game.ui.DialogueBox;
 import com.csse3200.game.ui.UIComponent;
-import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -75,14 +72,12 @@ public class MainMenuDisplay extends UIComponent {
     private final float fullScreenuttonHeight = 90;
     private final float fullScreenButtonSpacing = 45;
 
-    private Button testButton;
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
     private Label helpLabel;
     private Label settingLabel;
     private Label exitLabel;
-
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -163,6 +158,9 @@ public class MainMenuDisplay extends UIComponent {
         initializeTables();
         initializeImages();
         initializeMenuButtons();
+        initializeLabels();
+
+        stage.addActor(NotifManager.addNotificationTable());
 
         addMenuButtonEffects();
         addMenuButtonsListeners();
@@ -173,13 +171,16 @@ public class MainMenuDisplay extends UIComponent {
         addSettingMenu();
         addUserTable();
         addLoginRegisterTable();
-        testButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+    }
+
+    private void initializeLabels() {
         startLabel = new Label("Start", skin, "button-red");
         loadLabel = new Label("Load", skin, "button-red");
         minigameLabel = new Label("Minigame", skin, "button-red");
         helpLabel = new Label("Help", skin, "button-red");
         settingLabel = new Label("Setting", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
+
     }
 
 
@@ -234,6 +235,30 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(achievementsBtn);
         addButtonElevationEffect(helpBtn);
         addButtonElevationEffect(exitBtn);
+    }
+
+    /**
+     * Adds an elevation effect to buttons when hovered.
+     */
+    private void addButtonElevationEffect(Button button) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, 5, 0.1f),
+                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
+                ));
+                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                button.addAction(Actions.parallel(
+                        Actions.moveBy(0, -5, 0.1f),
+                        Actions.scaleTo(1f, 1f, 0.1f)
+                ));
+            }
+        });
     }
 
     /**
@@ -812,30 +837,6 @@ public class MainMenuDisplay extends UIComponent {
                     (screenHeight - settingMenu.getHeight()) / 2
             );
         }
-    }
-
-    /**
-     * Adds an elevation effect to buttons when hovered.
-     */
-    private void addButtonElevationEffect(Button button) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, 5, 0.1f),
-                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-                ));
-                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, -5, 0.1f),
-                        Actions.scaleTo(1f, 1f, 0.1f)
-                ));
-            }
-        });
     }
 
     /**
