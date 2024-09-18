@@ -341,7 +341,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: color
 	},
 	button-red: {
-		font: font_large,
+		font: font,
 		fontColor: crimson
 	}
 	title: {
