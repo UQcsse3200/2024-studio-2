@@ -4,6 +4,7 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
@@ -222,6 +223,7 @@ public class CombatManager extends Component {
 
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        displayCombatResults();
     }
 
     /**
@@ -288,5 +290,16 @@ public class CombatManager extends Component {
      */
     public CombatStatsComponent getEnemyStats() {
         return enemyStats;
+    }
+
+    /**
+     * Displays the results of the combat moves in that turn on the game screen in a DialogueBox
+     */
+    private void displayCombatResults() {
+        String playerMoveDetails = playerAction.name();
+        String enemyMoveDetails = enemyAction.name();
+        String[][] moveText = {{String.format("The player decided to %s", playerMoveDetails),
+                String.format("The enemy decided to %s", enemyMoveDetails)}};
+        ServiceLocator.getDialogueBoxService().updateText(moveText);
     }
 }
