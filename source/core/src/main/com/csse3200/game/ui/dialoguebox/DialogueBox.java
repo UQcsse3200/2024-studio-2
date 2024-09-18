@@ -1,4 +1,4 @@
-package com.csse3200.game.ui;
+package com.csse3200.game.ui.dialoguebox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,14 +36,14 @@ public class DialogueBox {
     private TextButton forwardButton;
     private TextButton backwardButton;
     private TextButton playButton;
-    private TextButton[] optionButtons;
-    private final int screenWidth = Gdx.graphics.getWidth();
-    private final int screenHeight = Gdx.graphics.getHeight();
-
     private String[][] hints;
     private int currentHint;
     private int currentHintLine;
     private MiniGameNames currentMinigame;
+    private TextButton[] optionButtons;
+    private int screenWidth = Gdx.graphics.getWidth();
+    private int screenHeight = Gdx.graphics.getHeight();
+    private boolean isVisible;
 
     /**
      * Creates a new base DialogueBox with the given hint messages.
@@ -59,16 +59,23 @@ public class DialogueBox {
         this.currentHintLine = 0;
         this.currentMinigame = SNAKE;
 
-        this.backgroundImage = createBackgroundImage();
-        this.label = createLabel();
-        this.forwardButton = createForwardButton();
-        this.backwardButton = createBackwardButton();
-        this.playButton = createPlayButton();
-        this.optionButtons = new TextButton[]{createOptionButton(0), createOptionButton(1), createOptionButton(2),
-                createOptionButton(3), createOptionButton(4)};
+        createBackgroundImage();
+        createLabel();
+        createForwardButton();
+        createBackwardButton();
+        createPlayButton();
+
+        int totalOptions = 5;
+        optionButtons = new TextButton[totalOptions];
+        for (int i = 0; i < optionButtons.length; i++) {
+            optionButtons[i] = createOptionButton(i); // Call createOptionButton with the index i
+        }
 
         if (hide) {
             hideDialogueBox();
+            isVisible = false;
+        } else {
+            isVisible = true;
         }
 
         stage.addActor(backgroundImage);
@@ -101,29 +108,59 @@ public class DialogueBox {
 
     /**
      * Creates the background image.
-     *
-     * @return The Image instance.
      */
-    private Image createBackgroundImage() {
-        float desiredHeight = 700;
-        float imageWidth = BACKGROUND_TEXTURE.getWidth();
-        float imageHeight = BACKGROUND_TEXTURE.getHeight();
-        float ratio = imageWidth / imageHeight;
-        float newWidth = desiredHeight * ratio;
+    private void createBackgroundImage() {
+        backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
 
-        Image backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
-        backgroundImage.setSize(newWidth, desiredHeight);
-        backgroundImage.setPosition((screenWidth - newWidth) / 2, -125);
+        float desiredHeight = screenHeight * 0.08f;  // 7% of the screen height
+        float newWidth = screenWidth;  // Full screen width
 
-        return backgroundImage;
+        backgroundImage.setSize(newWidth * 0.9f, desiredHeight);
+        backgroundImage.setPosition(newWidth * 0.05f, screenHeight * 0.09f);
+    }
+
+    /**
+     * Resizes the background image for formatting
+     */
+    public void resizeElements() {
+        // resize background image
+        if (ServiceLocator.getRenderService().getStage().getViewport() != null) {
+            screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
+            screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
+        }
+
+        float desiredHeight = screenHeight * 0.08f;  // 7% of the screen height
+        float newWidth = screenWidth;  // Full screen width
+
+        backgroundImage.setSize(newWidth * 0.9f, desiredHeight);
+        backgroundImage.setPosition(newWidth * 0.05f, screenHeight * 0.09f);
+
+        updateLabelPosition();
+
+        // resize and replace the buttons
+        desiredHeight = screenHeight * 0.05f;  // button image height
+        newWidth = screenWidth * 0.10f;  // button image width
+
+        forwardButton.setSize(newWidth, desiredHeight);
+        forwardButton.setPosition((float) screenWidth / 2 + screenWidth * 0.1f, screenHeight * 0.03f);
+
+        backwardButton.setSize(newWidth, desiredHeight);
+        backwardButton.setPosition((float) screenWidth / 2 - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
+
+        float buttonWidth = playButton.getWidth();
+        float buttonHeight = playButton.getHeight();
+        float centerX = (screenWidth - buttonWidth) / 2;
+        float centerY = (screenHeight - buttonHeight) / 2;
+        playButton.setPosition(centerX, centerY - screenHeight * 0.09f);
+        playButton.setSize(newWidth, desiredHeight);
+
+        resizeOptionButtons();
     }
 
     /**
      * Creates the label for displaying hints.
-     *
-     * @return The Label instance.
      */
-    private Label createLabel() {
+    private void createLabel() {
         if (hints.length > 0) {
             label = new Label(hints[currentHintLine][currentHint], SKIN, "default-white");
         } else {
@@ -132,38 +169,32 @@ public class DialogueBox {
         label.setFontScale(1.5f);
 
         updateLabelPosition();
-
-        return label;
     }
 
     /**
      * Moves the labels position ot fit the dialogue box
      */
     private void updateLabelPosition() {
-        float middle = stage.getWidth();
-        float labelWidth = label.getPrefWidth();
-        float labelHeight = label.getPrefHeight();
-        float labelX = (middle - labelWidth) / 2;
-        float labelY = -210 + (backgroundImage.getHeight() - labelHeight) / 2;
-        label.setPosition(labelX, labelY, Align.center);
+        float desiredHeight = screenHeight * 0.10f;  // Background image height
+        float newWidth = screenWidth * 0.9f;  // Background image width
+        label.setSize(newWidth, desiredHeight);
+        label.setPosition((screenWidth - label.getWidth()) / 2, screenHeight * 0.08f);
+        label.setAlignment(Align.center);
     }
 
     /**
      * Creates the forward button for navigating to the next hint.
-     *
-     * @return The TextButton instance.
      */
-    private TextButton createForwardButton() {
+    private void createForwardButton() {
+        float desiredHeight = screenHeight * 0.05f;  // button image height
+        float newWidth = screenWidth * 0.10f;  // button image width
+
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        TextButton forwardButton = new TextButton("Continue", buttonStyle);
+        forwardButton = new TextButton("Continue", buttonStyle);
+
+        forwardButton.setSize(newWidth, desiredHeight);
+        forwardButton.setPosition(((float) screenWidth / 2) + screenWidth * 0.1f, screenHeight * 0.03f);
         forwardButton.getLabel().setAlignment(Align.center);
-
-        float buttonWidth = forwardButton.getWidth();
-        float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
-
-        forwardButton.setPosition(centerX + buttonWidth + 20, label.getY() - 100);
-
-        return forwardButton;
     }
 
     /**
@@ -171,40 +202,36 @@ public class DialogueBox {
      *
      * @return The TextButton instance.
      */
-    private TextButton createBackwardButton() {
+    private void createBackwardButton() {
+        float desiredHeight = screenHeight * 0.05f;  // button image height
+        float newWidth = screenWidth * 0.10f;  // button image width
+
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        TextButton backwardButton = new TextButton("Back", buttonStyle);
+        backwardButton = new TextButton("Back", buttonStyle);
+
+        backwardButton.setSize(newWidth, desiredHeight);
+        backwardButton.setPosition(((float) screenWidth / 2) - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
         backwardButton.getLabel().setAlignment(Align.center);
-
-        float buttonWidth = backwardButton.getWidth();
-        float centerX = (screenWidth - (2 * buttonWidth + 35)) / 2; // 35 is spacing between buttons
-
-        backwardButton.setPosition(centerX, label.getY() - 100);
-
-        return backwardButton;
     }
 
     /**
      * Creates the playButton for booting up mini-games
-     *
-     * @return the playButton instance.
      */
-    public TextButton createPlayButton() {
+    public void createPlayButton() {
         TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        TextButton playButton = new TextButton("Play Game", buttonStyle);
+        playButton = new TextButton("Play Game", buttonStyle);
         playButton.getLabel().setAlignment(Align.center);
         float buttonWidth = playButton.getWidth();
         float buttonHeight = playButton.getHeight();
         float centerX = (screenWidth - buttonWidth) / 2;
         float centerY = (screenHeight - buttonHeight) / 2;
 
-        playButton.setPosition(centerX, centerY - 300);
-        return playButton;
+        playButton.setPosition(centerX, centerY - screenHeight * 0.09f);
     }
 
     /**
      * Creates the optionButton.
-     *
+     * @param index
      * @return the optionButton instance.
      */
     public TextButton createOptionButton(int index) {
@@ -235,7 +262,6 @@ public class DialogueBox {
         buttonStyle.up = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
         buttonStyle.down = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
         buttonStyle.over = new TextureRegionDrawable(BUTTON_HOVER_TEXTURE);
-
         return buttonStyle;
     }
 
@@ -246,10 +272,11 @@ public class DialogueBox {
         forwardButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleForwardButtonClick();
+                handleForwardButtonClick(); // Handle forward button click
                 return true;
             }
         });
+
 
         backwardButton.addListener(new InputListener() {
             @Override
@@ -300,6 +327,14 @@ public class DialogueBox {
     }
 
     /**
+     * Gets the option buttons.
+     * @return the array of option buttons.
+     */
+    public TextButton[] getOptionButtons() {
+        return optionButtons;
+    }
+
+    /**
      * Returns the index of the current hint being displayed.
      *
      * @return The index of the current hint.
@@ -334,12 +369,20 @@ public class DialogueBox {
         for (TextButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
+
+        if (currentHint + 1 == hints[currentHintLine].length) {
+            hideDialogueBox();
+            return;
+        }
+
         currentHint = (currentHint + 1) % hints[currentHintLine].length;
+
         String text = hints[currentHintLine][currentHint];
         text = minigameCheck(text);
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
     }
 
     /**
@@ -356,6 +399,85 @@ public class DialogueBox {
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
+    }
+
+    /**
+     * Resizes and spaces the buttons based on the number of currently visible options.
+     */
+    public void resizeOptionButtons() {
+        // Determine the number of visible buttons (i.e., buttons that have been set to visible in optionsCheck)
+        int visibleButtonCount = 0;
+        for (TextButton button : optionButtons) {
+            if (button.isVisible()) {
+                visibleButtonCount++;
+            }
+        }
+
+        if (visibleButtonCount == 0) {
+            return; // No buttons to resize or space if none are visible
+        }
+
+        // Get the background image dimensions and position
+        float backgroundXPosition = screenWidth * 0.05f; // LHS of the background image
+        float backgroundWidth = screenWidth * 0.9f;      // Width of the background image
+
+        // Calculate the button width based on the number of visible buttons and available space
+        float buttonWidth = (backgroundWidth * 0.8f) / visibleButtonCount; // Adjust width relative to background
+        float spacing = (backgroundWidth - visibleButtonCount * buttonWidth) / (visibleButtonCount - 1); // Space between buttons
+
+        // Set a fixed y position for the buttons above the background image
+        float backgroundHeight = screenHeight * 0.08f;  // Height of the background image
+        float backgroundYPosition = screenHeight * 0.09f; // Y position of the background image
+        float buttonYPosition = backgroundYPosition + backgroundHeight + 10; // Spacing above background
+
+        // Resize and reposition each visible button
+        int buttonIndex = 0;
+        for (TextButton optionButton : optionButtons) {
+            if (optionButton.isVisible()) {
+                // Set the new width for the button
+                optionButton.setWidth(buttonWidth);
+
+                // Calculate the x position for evenly spacing the buttons
+                float xPosition = backgroundXPosition + buttonIndex * (buttonWidth + spacing);
+
+                // Set the button's position
+                optionButton.setPosition(xPosition, buttonYPosition);
+
+                // Shrink label text if too large
+                Label optionLabel = optionButton.getLabel();
+                float newWidth = optionButton.getWidth() - 100; // Add padding to prevent text overflow at the edges
+
+                if (optionLabel.getPrefWidth() > newWidth) {
+                    // Scale down font size proportionally to fit the button width
+                    float scaleFactor = newWidth / optionLabel.getPrefWidth();
+                    optionLabel.setFontScale(scaleFactor);
+                } else {
+                    // Reset font scale to default if no shrinking is needed
+                    optionLabel.setFontScale(1f);
+                }
+
+                buttonIndex++;
+            }
+        }
+    }
+
+    /**
+     * Determines when to hide and show forward / backward buttons on clicks.
+     */
+    public void showAppropriateButtons() {
+        // Hide the continue button if there are options to pick
+        if (optionButtons[0].isVisible() && currentHint == hints[currentHintLine].length - 1) {
+            forwardButton.setVisible(false);
+        } else if (!forwardButton.isVisible()) {
+            forwardButton.setVisible(true);
+        }
+
+        if (currentHint == 0) {
+            backwardButton.setVisible(false);
+        } else if (!backwardButton.isVisible()) {
+            backwardButton.setVisible(true);
+        }
     }
 
     /**
@@ -373,6 +495,7 @@ public class DialogueBox {
         text = optionsCheck(text);
         label.setText(text);
         updateLabelPosition();
+        showAppropriateButtons();
     }
 
     /**
@@ -420,6 +543,8 @@ public class DialogueBox {
                 optionButtons[i - 1].setText(options[i].substring(2));
                 optionButtons[i - 1].setVisible(true);
             }
+
+            resizeOptionButtons();
             return options[0].substring(2);
         } else {
             for (TextButton button : optionButtons) {
@@ -433,6 +558,7 @@ public class DialogueBox {
      * Hides the dialogue box by setting all its components (background image, label, and buttons) to invisible.
      */
     public void hideDialogueBox() {
+        this.isVisible = false;
         if (backgroundImage != null) backgroundImage.setVisible(false);
         if (label != null) label.setVisible(false);
         if (forwardButton != null) forwardButton.setVisible(false);
@@ -451,11 +577,23 @@ public class DialogueBox {
      * @param hints An array of strings containing the hint messages to display.
      */
     public void showDialogueBox(String[][] hints) {
+        this.isVisible = true;
+        if ( ServiceLocator.getRenderService().getStage().getViewport() != null) {
+            screenWidth = ServiceLocator.getRenderService().getStage().getViewport().getScreenWidth();
+            screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
+        }
+
         this.hints = hints;
         this.currentHint = 0; // Reset to the first hint
         this.currentHintLine = 0; // Reset to the first hint
         this.label.setText(hints[currentHintLine][currentHint]);
-        updateLabelPosition(); // Update position after setting text
+
+        // Update positions in case screen resize
+        updateLabelPosition();
+        if (ServiceLocator.getRenderService().getStage().getViewport() != null) {
+            resizeElements();
+        }
+
         if (hints[currentHintLine].length > 1) {
             if (forwardButton != null) forwardButton.setVisible(true);
             if (backwardButton != null) backwardButton.setVisible(true);
@@ -463,8 +601,11 @@ public class DialogueBox {
             if (forwardButton != null) forwardButton.setVisible(false);
             if (backwardButton != null) backwardButton.setVisible(false);
         }
-        if (backgroundImage != null) backgroundImage.setVisible(true);
+        if (backgroundImage != null) {
+            backgroundImage.setVisible(true);
+        }
         if (label != null) this.label.setVisible(true);
+        showAppropriateButtons();
     }
 
     /**
@@ -495,5 +636,14 @@ public class DialogueBox {
      */
     public TextButton getBackwardButton() {
         return backwardButton;
+    }
+
+    /**
+     * Returns whether the dialogueBox is visible or not.
+     *
+     * @return boolean representing if the dialogue box is visible.
+     */
+    public boolean getIsVisible() {
+       return isVisible;
     }
 }
