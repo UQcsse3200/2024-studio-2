@@ -71,7 +71,7 @@ public abstract class AnimalSelectionDisplay {
             animalButtons[i] = new TextButton("Animal " + (i + 1), skin);
 
             Table animalTable = new Table();
-            animalTable.add(animalImages[i]).pad(20).padLeft(180);
+            animalTable.add(animalImages[i]).pad(65).padLeft(180);
             animalTable.row();
             animalTable.add(animalButtons[i]).pad(10).padLeft(180);
 
