@@ -358,11 +358,19 @@ public class MainMenuDisplay extends UIComponent {
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
             padTopSpacing = 700;
+            startLabel = new Label("Start", skin, "title-red");
+            loadLabel = new Label("Load", skin, "title-red");
+            minigameLabel = new Label("Minigame", skin, "title-red");
+            helpLabel = new Label("Help", skin, "title-red");
+            settingLabel = new Label("Setting", skin, "title-red");
+            exitLabel = new Label("Exit", skin, "title-red");
+            versionLabel = new Label("Version 1.0", skin, "title-white");
         } else {
             buttonWidth = windowButtonWidth;
             buttonHeight = windowButtonHeight;
             buttonSpacing = windowButtonSpacing;
             padTopSpacing = 350;
+            initializeMenuButtons();
         }
 
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
