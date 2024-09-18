@@ -7,7 +7,9 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.GameTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,10 +70,29 @@ public class TimedUseItemTask extends DefaultTask implements PriorityTask {
             logger.debug("Potion expired: " + potion.getName());
             this.potion.update(this.context);
             if (this.potion instanceof DefensePotion) {
-                //itemDisplay.setDefenseExpired(false);
-                //itemDisplay.createIndicationBox();
+                itemDisplay.setDefenseExpired(false);
+                itemDisplay.createIndicationBox();
+            } else if (this.potion instanceof AttackPotion) {
+                itemDisplay.setAttackExpired(false);
+                itemDisplay.createIndicationBox();
+            } else if (this.potion instanceof SpeedPotion) {
+                itemDisplay.setSpeedExpired(false);
+                itemDisplay.createIndicationBox();
             }
             startTime = -1; // Reset start time
+        }
+
+        if (!(startTime > 0) || !((gameTime.getTime() - startTime) >= duration)) {
+            if (this.potion instanceof DefensePotion) {ssssssssssssssssss
+                itemDisplay.setDefenseExpired(true);
+                itemDisplay.createIndicationBox();
+            } else if (this.potion instanceof AttackPotion) {
+                itemDisplay.setAttackExpired(true);
+                itemDisplay.createIndicationBox();
+            } else if (this.potion instanceof SpeedPotion) {
+                itemDisplay.setSpeedExpired(true);
+                itemDisplay.createIndicationBox();
+            }
         }
     }
 

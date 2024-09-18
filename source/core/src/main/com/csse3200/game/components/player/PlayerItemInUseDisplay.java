@@ -37,6 +37,22 @@ public class PlayerItemInUseDisplay extends UIComponent {
     }
 
     /**
+     * Set the attack expired bool value
+     * @param attackExpired bool indicator if the attack is expired
+     */
+    public void setAttackExpired(boolean attackExpired) {
+        this.attackExpired = attackExpired;
+    }
+
+    /**
+     * Set the Speed expire bool value
+     * @param speedExpired bool indicator if the attack is expired
+     */
+    public void setSpeedExpired(boolean speedExpired) {
+        this.speedExpired = speedExpired;
+    }
+
+    /**
      * To initialise the stage
      */
     public void create() {super.create();}
@@ -82,9 +98,7 @@ public class PlayerItemInUseDisplay extends UIComponent {
             box.add(createColoredBox(Color.BLUE)).size(ITEM_BOX_WIDTH - 10, ITEM_BOX_HEIGHT - 15);
         }
 
-
         box.row();
-
         float tableX = stage.getWidth() - box.getWidth() - 20;;
         float tableY = 50;
         box.setPosition(tableX, tableY);
