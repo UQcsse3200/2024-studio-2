@@ -157,7 +157,7 @@ public class QuestManager extends Component {
 
         List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
         QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
-        setupPotionsTask(); // Set up potion collection logic here
+        setupPotionsTask(); // Set up potion collection logic here on a new game
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
@@ -290,14 +290,16 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-//        if(GameState.quests == null) {
-//            GameState.quests = new QuestSave();
-//        }
         if(GameState.quests.quests.isEmpty()) {
             testQuests();
         }
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
+
+            // Setup potion collection task is not completed already in saved GameState 
+            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
+                setupPotionsTask();
+            }
         }
     }
 
