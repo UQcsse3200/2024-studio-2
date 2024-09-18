@@ -117,6 +117,7 @@ public class MainMenuDisplay extends UIComponent {
             logger.error("Failed to set custom cursor", e);
         }
     }
+
     /**
      * Load the textures for the mute and unmute button states.
      */
