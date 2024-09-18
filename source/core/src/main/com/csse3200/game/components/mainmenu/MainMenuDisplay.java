@@ -209,7 +209,7 @@ public class MainMenuDisplay extends UIComponent {
         helpLabel = new Label("Help", skin, "button-red");
         settingLabel = new Label("Settings", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
-
+        versionLabel = new Label("Version 1.0", skin, "default-white");
     }
 
 
@@ -379,6 +379,16 @@ public class MainMenuDisplay extends UIComponent {
         });
     }
 
+    private void setMenuLabelsStyle(String style) {
+        startLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        loadLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        minigameLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        helpLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        settingLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        exitLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        versionLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+    }
+
     /**
      * Add menu buttons icons and update the positions.
      */
@@ -393,19 +403,13 @@ public class MainMenuDisplay extends UIComponent {
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
             padTopSpacing = 700;
-            startLabel = new Label("Start", skin, "title-red");
-            loadLabel = new Label("Load", skin, "title-red");
-            minigameLabel = new Label("Minigame", skin, "title-red");
-            helpLabel = new Label("Help", skin, "title-red");
-            settingLabel = new Label("Setting", skin, "title-red");
-            exitLabel = new Label("Exit", skin, "title-red");
-            versionLabel = new Label("Version 1.0", skin, "title-white");
+            setMenuLabelsStyle("title-red");
         } else {
             buttonWidth = windowButtonWidth;
             buttonHeight = windowButtonHeight;
             buttonSpacing = windowButtonSpacing;
             padTopSpacing = 350;
-            initializeMenuButtons();
+            setMenuLabelsStyle("button-red");
         }
 
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
