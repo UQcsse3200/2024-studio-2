@@ -9,6 +9,7 @@ import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
 
 import java.util.Objects;
+
 /**
  * Pauses near a target entity until they move too far away or out of sight.
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
