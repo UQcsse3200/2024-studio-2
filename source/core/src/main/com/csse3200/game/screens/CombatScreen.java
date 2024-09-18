@@ -11,6 +11,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.combat.CombatStatsDisplay;
 import com.csse3200.game.components.combat.CombatActions;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -76,6 +77,10 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerRenderService(new RenderService());
     renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
+
+    // Load the DialogueBoxService Into Stage
+    Stage stage = ServiceLocator.getRenderService().getStage();
+    ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
     loadAssets();
     createUI();
