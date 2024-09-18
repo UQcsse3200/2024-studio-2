@@ -20,6 +20,7 @@ import com.csse3200.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(30, 30);
+  private static final GridPoint2 UNDERWATER_MAZE_SIZE = new GridPoint2(12, 12);
   private static final int TUFT_TILE_COUNT = 30;
   private static final int ROCK_TILE_COUNT = 30;
 
@@ -80,9 +81,34 @@ public class TerrainFactory {
         TextureRegion hexRocks =
             new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
         return createForestDemoTerrain(1f, hexGrass, hexTuft, hexRocks);
+      case UNDERWATER_MAZE:
+        TextureRegion water =
+                new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
+        return createUnderWaterTerrain(1f, water);
       default:
         return null;
     }
+  }
+
+  private TerrainComponent createUnderWaterTerrain(
+          float tileWorldSize, TextureRegion water) {
+    GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
+    TiledMap tiledMap = createWaterTiles(tilePixelSize, water);
+    TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
+  }
+  private TiledMap createWaterTiles(
+          GridPoint2 tileSize, TextureRegion water) {
+    TiledMap tiledMap = new TiledMap();
+    TerrainTile waterTile = new TerrainTile(water);
+    TiledMapTileLayer layer = new TiledMapTileLayer(
+            UNDERWATER_MAZE_SIZE.x, UNDERWATER_MAZE_SIZE.y, tileSize.x, tileSize.y);
+
+    // Create base water
+    fillTiles(layer, UNDERWATER_MAZE_SIZE, waterTile);
+
+    tiledMap.getLayers().add(layer);
+    return tiledMap;
   }
 
   private TerrainComponent createForestDemoTerrain(
@@ -155,6 +181,7 @@ public class TerrainFactory {
   public enum TerrainType {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
-    FOREST_DEMO_HEX
+    FOREST_DEMO_HEX,
+    UNDERWATER_MAZE
   }
 }

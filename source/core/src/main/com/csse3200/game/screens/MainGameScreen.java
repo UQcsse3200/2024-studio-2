@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.MazeGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
@@ -35,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
   private static final String[] mainGameTextures = {"images/heart.png"};
-  private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(6f, 6f);
 
   private final GdxGame game;
   private final Renderer renderer;
@@ -66,8 +67,8 @@ public class MainGameScreen extends ScreenAdapter {
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
-    forestGameArea.create();
+    MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
+    mazeGameArea.create();
   }
 
   @Override
