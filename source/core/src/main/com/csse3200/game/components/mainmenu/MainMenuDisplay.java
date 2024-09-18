@@ -106,7 +106,7 @@ public class MainMenuDisplay extends UIComponent {
         try {
             Pixmap pixmap = new Pixmap(Gdx.files.internal("images/CustomCursor.png"));
 
-            customCursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 2, pixmap.getHeight() / 2);
+            customCursor = Gdx.graphics.newCursor(pixmap, pixmap.getWidth() / 4, pixmap.getHeight() / 4);
 
             Gdx.graphics.setCursor(customCursor);
 
@@ -473,7 +473,7 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Add the button to the top left table with size and padding.
-        topLeftTable.add(nightToggleButton).size(150, 50).pad(10);
+        topLeftTable.add(nightToggleButton).size(200, 70).pad(10);
 
         // Add the table to the stage to render it on the screen.
         stage.addActor(topLeftTable);
