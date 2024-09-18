@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
@@ -241,11 +242,13 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an elevation effect to buttons when hovered.
      */
-    private void addButtonElevationEffect(Button button, Label label) {
+    private void addButtonElevationEffect(final Button button, final Label label) {
+        // Add hover listener to the button
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+                // Apply move and scale actions to both button and label
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
@@ -259,6 +262,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+                // Return to original position and scale for both button and label
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
                         Actions.scaleTo(1f, 1f, 0.1f)
@@ -348,63 +352,61 @@ public class MainMenuDisplay extends UIComponent {
         float buttonHeight;
         float buttonSpacing;
         float padTopSpacing;
-        float labelSpacing;
+
         if (Gdx.graphics.isFullscreen()) {
             buttonWidth = fullScreenButtonWidth;
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
             padTopSpacing = 700;
-            labelSpacing = -100;
-            startLabel = new Label("Start", skin, "title-red");
-            loadLabel = new Label("Load", skin, "title-red");
-            minigameLabel = new Label("Minigame", skin, "title-red");
-            helpLabel = new Label("Help", skin, "title-red");
-            settingLabel = new Label("Setting", skin, "title-red");
-            exitLabel = new Label("Exit", skin, "title-red");
-            versionLabel = new Label("Version 1.0", skin, "title-white");
         } else {
             buttonWidth = windowButtonWidth;
             buttonHeight = windowButtonHeight;
             buttonSpacing = windowButtonSpacing;
             padTopSpacing = 350;
-            labelSpacing = -48;
-            startLabel = new Label("Start", skin, "button-red");
-            loadLabel = new Label("Load", skin, "button-red");
-            minigameLabel = new Label("Minigame", skin, "button-red");
-            helpLabel = new Label("Help", skin, "button-red");
-            settingLabel = new Label("Setting", skin, "button-red");
-            exitLabel = new Label("Exit", skin, "button-red");
-            versionLabel = new Label("Version 1.0", skin, "default-white");
         }
+
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         menuButtonTable.clear();
-        menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
+
+        Stack startStack = createButtonWithLabelStack(startBtn, startLabel, buttonWidth, buttonHeight);
+        Stack loadStack = createButtonWithLabelStack(loadBtn, loadLabel, buttonWidth, buttonHeight);
+        Stack minigamesStack = createButtonWithLabelStack(minigamesBtn, minigameLabel, buttonWidth, buttonHeight);
+        Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
+        Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
+        Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
+
+        menuButtonTable.add(startStack).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(startLabel).padTop(labelSpacing);
+        menuButtonTable.add(loadStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(loadLabel).padTop(labelSpacing);
+        menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(helpStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(minigameLabel).padTop(labelSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(settingLabel).padTop(labelSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(helpLabel).padTop(labelSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(exitLabel).padTop(labelSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(versionLabel).padTop(buttonSpacing);
+        menuButtonTable.add(exitStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+
         stage.addActor(menuButtonTable);
     }
+
+    /**
+     * Helper method to create a stack with a button and label, properly centered.
+     */
+    private Stack createButtonWithLabelStack(Button button, Label label, float buttonWidth, float buttonHeight) {
+        Stack stack = new Stack();
+
+        label.setTouchable(Touchable.disabled);
+        label.setAlignment(Align.center);
+        label.setSize(buttonWidth, buttonHeight);
+        label.setFontScale(1.2f);
+
+        stack.add(button);
+        stack.add(label);
+
+        return stack;
+    }
+
 
     /**
      * Adds a toggle button to the top left corner of the screen that allows switching
