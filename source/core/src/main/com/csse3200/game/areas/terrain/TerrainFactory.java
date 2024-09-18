@@ -83,7 +83,7 @@ public class TerrainFactory {
         return createForestDemoTerrain(1f, hexGrass, hexTuft, hexRocks);
       case UNDERWATER_MAZE:
         TextureRegion water =
-                new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
+                new TextureRegion(resourceService.getAsset("images/minigames/water.png", Texture.class));
         return createUnderWaterTerrain(1f, water);
       default:
         return null;
