@@ -477,7 +477,7 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Add the image to the top left corner
-        topLeftTable.add(toggleImage).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.add(toggleImage).size(175, 175).pad(10); // Adjust the size as needed
 
         // Add the table to the stage
         stage.addActor(topLeftTable);
