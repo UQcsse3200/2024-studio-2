@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -228,32 +229,40 @@ public class MainMenuDisplay extends UIComponent {
      * Adds UI component (hover over buttons)
      */
     private void addMenuButtonEffects() {
-        addButtonElevationEffect(startBtn);
-        addButtonElevationEffect(loadBtn);
-        addButtonElevationEffect(minigamesBtn); // Apply the elevation effect to Minigames button
-        addButtonElevationEffect(settingsBtn);
-        addButtonElevationEffect(achievementsBtn);
-        addButtonElevationEffect(helpBtn);
-        addButtonElevationEffect(exitBtn);
+        addButtonElevationEffect(startBtn, startLabel);
+        addButtonElevationEffect(loadBtn, loadLabel);
+        addButtonElevationEffect(minigamesBtn, minigameLabel);
+        addButtonElevationEffect(settingsBtn, settingLabel);
+        addButtonElevationEffect(helpBtn, helpLabel);
+        addButtonElevationEffect(exitBtn, exitLabel);
     }
 
     /**
      * Adds an elevation effect to buttons when hovered.
      */
-    private void addButtonElevationEffect(Button button) {
+    private void addButtonElevationEffect(Button button, Label label) {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
                 ));
-                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
+                label.addAction(Actions.parallel(
+                        Actions.moveBy(0, 5, 0.1f),
+                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
+                ));
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
                 button.addAction(Actions.parallel(
+                        Actions.moveBy(0, -5, 0.1f),
+                        Actions.scaleTo(1f, 1f, 0.1f)
+                ));
+                label.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
                         Actions.scaleTo(1f, 1f, 0.1f)
                 ));
