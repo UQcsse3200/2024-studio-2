@@ -7,6 +7,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
@@ -77,8 +78,8 @@ public class NPCFactory {
         new AnimationRenderComponent(
             ServiceLocator.getResourceService()
                 .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
     ghostKing
         .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -87,6 +88,33 @@ public class NPCFactory {
 
     ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
     return ghostKing;
+  }
+
+  /**
+   * Creates a ghost king entity.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
+  public static Entity createAngler(Entity target) {
+    Entity angler = createBaseNPC(target);
+    GhostKingConfig config = configs.angler;
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService()
+                            .getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
+    animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+    animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
+
+    angler
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(animator)
+            .addComponent(new MazeEntityAnimationController());
+
+    angler.getComponent(AnimationRenderComponent.class).scaleEntity();
+    angler.setScale(2,2);
+    return angler;
   }
 
   /**

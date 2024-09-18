@@ -30,13 +30,15 @@ public class MazeGameArea extends GameArea {
     "images/minigames/water.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/ghost.atlas", "images/ghostKing.atlas"
+    "images/ghost.atlas", "images/minigames/Angler.atlas"
   };
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
   private final TerrainFactory terrainFactory;
+
+  //private final Maze maze;
 
   private Entity player;
 
@@ -75,6 +77,8 @@ public class MazeGameArea extends GameArea {
     terrain = terrainFactory.createTerrain(TerrainType.UNDERWATER_MAZE);
     spawnEntity(new Entity().addComponent(terrain));
 
+    //spawnMazeWalls();
+
     // Terrain walls
     float tileSize = terrain.getTileSize();
     GridPoint2 tileBounds = terrain.getMapBounds(0);
@@ -111,7 +115,7 @@ public class MazeGameArea extends GameArea {
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createGhostKing(player);
+    Entity ghostKing = NPCFactory.createAngler(player);
     spawnEntityAt(ghostKing, randomPos, true, true);
   }
 
