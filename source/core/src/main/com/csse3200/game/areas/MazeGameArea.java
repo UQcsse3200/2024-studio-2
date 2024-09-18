@@ -106,6 +106,7 @@ public class MazeGameArea extends GameArea {
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
+    newPlayer.addComponent(terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

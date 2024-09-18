@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -26,6 +27,7 @@ public class TerrainFactory {
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
+  private CameraComponent cameraComponent;
 
   /**
    * Create a terrain factory with Orthogonal orientation
@@ -44,6 +46,7 @@ public class TerrainFactory {
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
+    this.cameraComponent = cameraComponent;
     this.orientation = orientation;
   }
 
@@ -171,6 +174,15 @@ public class TerrainFactory {
         layer.setCell(x, y, cell);
       }
     }
+  }
+
+  /**
+   * Retrieve the component to which the camera is attached
+   *
+   * @return the camera component
+   */
+  public CameraComponent getCameraComponent() {
+    return this.cameraComponent;
   }
 
   /**
