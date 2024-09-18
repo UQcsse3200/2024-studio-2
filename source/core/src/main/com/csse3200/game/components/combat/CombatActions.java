@@ -81,8 +81,6 @@ public class CombatActions extends Component {
    */
   private void onAttack(Screen screen, ServiceContainer container) {
       manager.onPlayerActionSelected("ATTACK");
-      String[][] moveText = {{"The player attacked a helpless animal.", "The enemy just took it like a champ", "Player lost 8HP, enemy lost a lot of HP"}};
-      ServiceLocator.getDialogueBoxService().updateText(moveText);
       entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
