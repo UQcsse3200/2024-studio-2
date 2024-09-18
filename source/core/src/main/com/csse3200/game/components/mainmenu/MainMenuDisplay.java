@@ -79,6 +79,7 @@ public class MainMenuDisplay extends UIComponent {
     private Label helpLabel;
     private Label settingLabel;
     private Label exitLabel;
+
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -133,9 +134,9 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an animation to the specified animal image to move from left to right across the screen and repeat forever.
      *
-     * @param image       The animal image to animate.
-     * @param startY      The starting Y position of the animal.
-     * @param moveTime    The time it takes for the animal to move across the screen.
+     * @param image    The animal image to animate.
+     * @param startY   The starting Y position of the animal.
+     * @param moveTime The time it takes for the animal to move across the screen.
      */
     private void animateAnimal(Image image, float startY, float moveTime) {
         float screenWidth = Gdx.graphics.getWidth();
@@ -216,13 +217,13 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void initializeMenuButtons() {
         // Initialises buttons
-        startBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        loadBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        minigamesBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        settingsBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         achievementsBtn = new TextButton("Achievements", skin);
-        helpBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        exitBtn = new Button (new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
     }
 
     /**
@@ -375,7 +376,7 @@ public class MainMenuDisplay extends UIComponent {
             exitLabel = new Label("Exit", skin, "button-red");
             versionLabel = new Label("Version 1.0", skin, "default-white");
         }
-        menuButtonTable.setPosition((float) Gdx.graphics.getWidth() /2, (float) Gdx.graphics.getHeight() /2);
+        menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         menuButtonTable.clear();
         menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
         menuButtonTable.row();
