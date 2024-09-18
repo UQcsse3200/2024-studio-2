@@ -1,9 +1,14 @@
 package com.csse3200.game.components.tasks;
 
+import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.components.quests.DialogueKey;
+import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
 
+import java.util.Objects;
 /**
  * Pauses near a target entity until they move too far away or out of sight.
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
@@ -13,6 +18,7 @@ public class PauseTask extends ChaseTask {
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
+    QuestManager questManager;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -27,6 +33,7 @@ public class PauseTask extends ChaseTask {
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.questManager = target.getComponent(QuestManager.class);
     }
 
     /**
@@ -48,11 +55,32 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
+            if (questManager != null) {
+                for (DialogueKey dialogueKey : questManager.getQuestDialogues().keySet()) {
+                    String npcName = dialogueKey.getNpcName();
+                    String questName = dialogueKey.getQuestName();
+                    QuestBasic quest = questManager.getQuest(questName);
+                    boolean rightTask = quest.getTasks().get(quest.getProgression()).getTaskName().equals(dialogueKey.getTaskName());
+                    if (Objects.equals(npcName, animalName) && rightTask) {
+                        if (quest.isActive() && !quest.isQuestCompleted()) {
+                            hintText = questManager.getQuestDialogues().get(dialogueKey);
+
+                            if (hintText.length == 0) {
+                                hintText = this.config.getBaseHint();
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                // try reset it for next time
+                this.questManager = target.getComponent(QuestManager.class);
+            }
+
             entity.getEvents().trigger(eventName, hintText);
         } else {
             entity.getEvents().trigger("PauseStart");
