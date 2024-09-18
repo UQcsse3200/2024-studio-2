@@ -45,6 +45,7 @@ public class MainMenuDisplay extends UIComponent {
     private TextButton toggleWindowBtn;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
+    private Texture toggleTexture;
     private Texture userTableBackground;
     private Button muteButton;  // Mute toggle button with texture
     private Texture muteTexture;  // Texture for mute state
@@ -129,6 +130,7 @@ public class MainMenuDisplay extends UIComponent {
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
         dog2Texture = new Texture("images/dog2.png");
         crocTexture = new Texture("images/croc.png");
+        toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
@@ -447,35 +449,29 @@ public class MainMenuDisplay extends UIComponent {
      * current mode (Night Mode or Day Mode).
      */
     private void addTopLeftToggle() {
-        // Create a new Table to position the toggle button at the top left of the screen.
         Table topLeftTable = new Table();
         topLeftTable.top().left();
         topLeftTable.setFillParent(true);
 
-        // Create a toggle button with the initial label as "Night Mode".
-        TextButton nightToggleButton = new TextButton("Night Mode", skin);
+        Image toggleImage = new Image(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
 
-        // Add a listener to handle button clicks and switch between Night and Day modes.
-        nightToggleButton.addListener(new ChangeListener() {
+        toggleImage.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                isNightMode = !isNightMode;  // Toggle the Night Mode state.
+            public void clicked(InputEvent event, float x, float y) {
+                isNightMode = !isNightMode;
 
-                // Update the button text and apply the corresponding mode.
                 if (isNightMode) {
-                    nightToggleButton.setText("Day Mode");  // Change text to "Day Mode".
-                    applyNightMode();  // Apply Night Mode settings.
+                    applyNightMode();
                 } else {
-                    nightToggleButton.setText("Night Mode");  // Change text to "Night Mode".
-                    applyDayMode();  // Apply Day Mode settings.
+                    applyDayMode();
                 }
             }
         });
 
-        // Add the button to the top left table with size and padding.
-        topLeftTable.add(nightToggleButton).size(200, 70).pad(10);
+        // Add the image to the top left corner
+        topLeftTable.add(toggleImage).size(100, 100).pad(10); // Adjust the size as needed
 
-        // Add the table to the stage to render it on the screen.
+        // Add the table to the stage
         stage.addActor(topLeftTable);
     }
 
