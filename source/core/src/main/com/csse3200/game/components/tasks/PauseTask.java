@@ -105,6 +105,8 @@ public class PauseTask extends ChaseTask {
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseEnd%s", animalName);
             entity.getEvents().trigger(eventName);
+            // dialogue task end - checking logic
+            // target.getEvents().trigger(taskName);  //replace taskName w actual value
         } else {
             entity.getEvents().trigger("pauseEnd");
         }
