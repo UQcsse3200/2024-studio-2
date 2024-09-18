@@ -83,7 +83,7 @@ public class TimedUseItemTask extends DefaultTask implements PriorityTask {
         }
 
         if (!(startTime > 0) || !((gameTime.getTime() - startTime) >= duration)) {
-            if (this.potion instanceof DefensePotion) {ssssssssssssssssss
+            if (this.potion instanceof DefensePotion) {
                 itemDisplay.setDefenseExpired(true);
                 itemDisplay.createIndicationBox();
             } else if (this.potion instanceof AttackPotion) {
