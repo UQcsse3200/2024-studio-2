@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -66,6 +67,8 @@ public class MainGameScreen extends ScreenAdapter {
 
     lightingEngine = new LightingEngine(physicsEngine.getWorld(),
             renderer.getCamera().getCamera());
+
+    lightingEngine.getRayHandler().setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.1f));
 
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 

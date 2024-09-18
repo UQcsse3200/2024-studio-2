@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Disposable;
 import box2dLight.RayHandler;
 import box2dLight.PointLight;
 import box2dLight.ConeLight;
+import box2dLight.Light;
+import com.csse3200.game.physics.PhysicsLayer;
 
 public class LightingEngine implements Disposable {
     private static final int RAY_COUNT = 128;
@@ -56,7 +58,7 @@ public class LightingEngine implements Disposable {
      */
     public PointLight createPointLight(float x, float y, float dist, Color color) {
         PointLight pl = new PointLight(rayHandler, RAY_COUNT, color, dist, x, y);
-        pl.setXray(true);
+        applyDefaultLightingSettings(pl);
         return pl;
     }
 
@@ -73,6 +75,23 @@ public class LightingEngine implements Disposable {
      * @return A reference to the created ConeLight.
      */
     public ConeLight createConeLight(float x, float y, float dist, float dir, float cone, Color color) {
-        return new ConeLight(rayHandler, RAY_COUNT, color, dist, x, y, dir, cone);
+        ConeLight cl = new ConeLight(rayHandler, RAY_COUNT, color, dist, x, y, dir, cone);
+        applyDefaultLightingSettings(cl);
+        return cl;
+    }
+
+    /**
+     * Applies default lighting settings to a light source.
+     * The default settings are:
+     * - setIgnoreAttachedBody(true) which will ensure light does not collide with fixtures
+     * of the body it is attached to
+     * - setSoftnessLength(3f) which will mean the light will bleed through objects to some degree
+     * - setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.ALL) which will
+     * make the light collide with all physics bodies.
+     */
+    public static void applyDefaultLightingSettings(Light light) {
+        light.setIgnoreAttachedBody(true);
+        light.setSoftnessLength(3f);
+        light.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.ALL);
     }
 }

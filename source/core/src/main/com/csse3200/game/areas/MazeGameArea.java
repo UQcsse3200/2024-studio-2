@@ -64,6 +64,7 @@ public class MazeGameArea extends GameArea {
     spawnTerrain();
     player = spawnPlayer();
     spawnGhostKing();
+    spawnTrees();
 
     playMusic();
   }
@@ -72,6 +73,17 @@ public class MazeGameArea extends GameArea {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     spawnEntity(ui);
+  }
+
+  private void spawnTrees() {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    for (int i = 0; i < 2; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity tree = ObstacleFactory.createTree();
+      spawnEntityAt(tree, randomPos, true, false);
+    }
   }
 
   private void spawnTerrain() {
@@ -109,7 +121,7 @@ public class MazeGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
-    newPlayer.addComponent(new LightingComponent(LightingComponent.createPointLight(2, Color.WHITE)));
+    newPlayer.addComponent(new LightingComponent(LightingComponent.createConeLight(4, 50, Color.CORAL)));
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
