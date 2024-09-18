@@ -11,17 +11,28 @@ import box2dLight.PointLight;
 import box2dLight.ConeLight;
 import box2dLight.Light;
 import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.rendering.Renderable;
 
-public class LightingEngine implements Disposable {
+public class LightingEngine implements Disposable, Renderable {
     private static final int RAY_COUNT = 128;
     private final RayHandler rayHandler;
     private final Camera camera;
     World world;
+    private static final int LIGHTING_LAYER = 3;
+
     public LightingEngine(World world, Camera camera) {
         this.world = world;
         this.camera = camera;
         rayHandler = new RayHandler(world);
         RayHandler.useDiffuseLight(true);
+    }
+
+    @Override
+    public void render(SpriteBatch sb){
+        // need to make sure everything is done drawing first
+        sb.end();
+        render();
+        sb.begin();
     }
 
     /**
@@ -37,6 +48,23 @@ public class LightingEngine implements Disposable {
      */
     public RayHandler getRayHandler() {
         return rayHandler;
+    }
+
+
+    @Override
+    public int compareTo(Renderable o) {
+        return Float.compare(getZIndex(), o.getZIndex());
+    }
+
+    @Override
+    public int getLayer() {
+        return LIGHTING_LAYER;
+    }
+
+    @Override
+    public float getZIndex() {
+        // lighting is all treated equally and can be rendered in any order
+        return 0;
     }
 
     /**

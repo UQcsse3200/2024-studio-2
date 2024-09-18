@@ -70,6 +70,8 @@ public class MainGameScreen extends ScreenAdapter {
 
     lightingEngine.getRayHandler().setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.1f));
 
+    ServiceLocator.getRenderService().register(lightingEngine);
+
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
     loadAssets();
@@ -86,7 +88,6 @@ public class MainGameScreen extends ScreenAdapter {
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
     renderer.render();
-    lightingEngine.render();
   }
 
   @Override
