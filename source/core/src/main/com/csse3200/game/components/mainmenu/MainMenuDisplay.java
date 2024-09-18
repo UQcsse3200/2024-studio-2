@@ -207,7 +207,7 @@ public class MainMenuDisplay extends UIComponent {
         loadLabel = new Label("Load", skin, "button-red");
         minigameLabel = new Label("Minigame", skin, "button-red");
         helpLabel = new Label("Help", skin, "button-red");
-        settingLabel = new Label("Setting", skin, "button-red");
+        settingLabel = new Label("Settings", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
 
     }
