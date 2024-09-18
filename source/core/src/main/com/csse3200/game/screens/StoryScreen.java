@@ -35,7 +35,7 @@ public class StoryScreen extends ScreenAdapter {
             "images/Story/DogStory5.png", "images/Story/DogStory6.png"
     };
     private static final String[] CROC_STORY_PATHS = {
-            "images/bird.png", "images/bird.png",
+            "images/croc.png", "images/croc.png",
     };
     private static final String[] BIRD_STORY_PATHS = {
             "images/bird.png", "images/bird.png",
