@@ -10,6 +10,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +81,8 @@ public class CombatActions extends Component {
    */
   private void onAttack(Screen screen, ServiceContainer container) {
       manager.onPlayerActionSelected("ATTACK");
+      String[][] moveText = {{"The player attacked a helpless animal.", "The enemy just took it like a champ", "Player lost 8HP, enemy lost a lot of HP"}};
+      ServiceLocator.getDialogueBoxService().updateText(moveText);
       entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
