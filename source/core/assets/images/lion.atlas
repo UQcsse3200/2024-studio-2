@@ -1,54 +1,158 @@
-lion.png
-size: 768, 128
+friendly-npcs.png
+size: 2915, 4560
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 float
   rotate: false
-  xy: 0, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 283, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 0
+  index: -1
 float
   rotate: false
-  xy: 128, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 548, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 1
+  index: -1
 float
   rotate: false
-  xy: 256, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 813, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 2
+  index: -1
 float
   rotate: false
-  xy: 384, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 1078, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 3
+  index: -1
 float
   rotate: false
-  xy: 512, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 1343, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 4
+  index: -1
 float
   rotate: false
-  xy: 640, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 1608, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 5
+float
+  rotate: false
+  xy: 1873, 1824
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2138, 1824
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2403, 1824
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2668, 1824
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 18, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 283, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 548, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 813, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1078, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1343, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1608, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1873, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2138, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2403, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2668, 2052
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
 default
   rotate: false
-  xy: 0, 0
-  size: 128, 128
-  orig: 128, 128
+  xy: 283, 1824
+  size: 228, 228
+  orig: 228, 228
   offset: 0, 0
-  index: 0
+  index: -1

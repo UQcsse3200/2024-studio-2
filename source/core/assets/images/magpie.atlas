@@ -1,201 +1,201 @@
-magpie.png
-size: 4185, 125
+friendly-npcs.png
+size: 2915, 4560
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 float
- rotate: false
-  xy: 0, 0
+  rotate: false
+  xy: 2175, 507
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 0
+  index: -1
 float
- rotate: false
-  xy: 155, 0
+  rotate: false
+  xy: 2440, 507
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 1
+  index: -1
 float
- rotate: false
-  xy: 310, 0
+  rotate: false
+  xy: 2705, 507
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 2
+  index: -1
 float
- rotate: false
-  xy: 465, 0
+  rotate: false
+  xy: 55, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 3
+  index: -1
 float
- rotate: false
-  xy: 620, 0
+  rotate: false
+  xy: 320, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 4
+  index: -1
 float
- rotate: false
-  xy: 775, 0
+  rotate: false
+  xy: 585, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 5
+  index: -1
 float
- rotate: false
-  xy: 930, 0
+  rotate: false
+  xy: 850, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 6
+  index: -1
 float
- rotate: false
-  xy: 1085, 0
+  rotate: false
+  xy: 1115, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 7
+  index: -1
 float
- rotate: false
-  xy: 1240, 0
+  rotate: false
+  xy: 1380, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 8
+  index: -1
 float
- rotate: false
-  xy: 1395, 0
+  rotate: false
+  xy: 1645, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 9
+  index: -1
 float
- rotate: false
-  xy: 1550, 0
+  rotate: false
+  xy: 1910, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 10
+  index: -1
 float
- rotate: false
-  xy: 1705, 0
+  rotate: false
+  xy: 2175, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 11
+  index: -1
 float
- rotate: false
-  xy: 1860, 0
+  rotate: false
+  xy: 2440, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 12
+  index: -1
 float
- rotate: false
-  xy: 2015, 0
+  rotate: false
+  xy: 2705, 735
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 13
+  index: -1
 float
- rotate: false
-  xy: 2170, 0
+  rotate: false
+  xy: 55, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 14
+  index: -1
 float
- rotate: false
-  xy: 2325, 0
+  rotate: false
+  xy: 320, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 15
+  index: -1
 float
- rotate: false
-  xy: 2480, 0
+  rotate: false
+  xy: 585, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 16
+  index: -1
 float
- rotate: false
-  xy: 2635, 0
+  rotate: false
+  xy: 850, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 17
+  index: -1
 float
- rotate: false
-  xy: 2790, 0
+  rotate: false
+  xy: 1115, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 18
+  index: -1
 float
- rotate: false
-  xy: 2945, 0
+  rotate: false
+  xy: 1380, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 19
+  index: -1
 float
- rotate: false
-  xy: 3100, 0
+  rotate: false
+  xy: 1645, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 20
+  index: -1
 float
- rotate: false
-  xy: 3255, 0
+  rotate: false
+  xy: 1910, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 21
+  index: -1
 float
- rotate: false
-  xy: 3410, 0
+  rotate: false
+  xy: 2175, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 22
+  index: -1
 float
- rotate: false
-  xy: 3565, 0
+  rotate: false
+  xy: 2440, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 23
+  index: -1
 float
- rotate: false
-  xy: 3720, 0
+  rotate: false
+  xy: 2705, 963
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 24
+  index: -1
 float
- rotate: false
-  xy: 3875, 0
+  rotate: false
+  xy: 55, 1191
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 25
+  index: -1
 float
- rotate: false
-  xy: 4030, 0
+  rotate: false
+  xy: 320, 1191
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 26
+  index: -1
 default
   rotate: false
-  xy: 0, 0
+  xy: 2175, 507
   size: 155, 125
   orig: 155, 125
   offset: 0, 0
-  index: 0
+  index: -1
