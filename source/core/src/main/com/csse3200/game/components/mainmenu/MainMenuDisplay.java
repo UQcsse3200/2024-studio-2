@@ -379,6 +379,10 @@ public class MainMenuDisplay extends UIComponent {
         });
     }
 
+    /**
+     * set the label styles of menu buttons' labels
+     * @param style the style that is set
+     */
     private void setMenuLabelsStyle(String style) {
         startLabel.setStyle(skin.get(style, Label.LabelStyle.class));
         loadLabel.setStyle(skin.get(style, Label.LabelStyle.class));
