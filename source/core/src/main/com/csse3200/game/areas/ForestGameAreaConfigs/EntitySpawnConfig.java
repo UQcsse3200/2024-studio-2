@@ -20,6 +20,7 @@ public class EntitySpawnConfig {
     public int NUM_FROGS;
     public int NUM_MONKEYS;
     public int NUM_BEARS;
+    public int NUM_PIGEONS;
 
     // NPCs
     public int NUM_COWS;

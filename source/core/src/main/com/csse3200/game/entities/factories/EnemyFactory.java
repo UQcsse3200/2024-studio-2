@@ -12,6 +12,7 @@ import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.npc.BearAnimationController;
+import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -60,7 +61,8 @@ public class EnemyFactory {
     FROG,
     CHICKEN,
     MONKEY,
-    BEAR;
+    BEAR,
+    PIGEON;
   }
 
   /**
@@ -123,6 +125,36 @@ public class EnemyFactory {
     bear.setScale(2f,1.38f);
 
     return bear;
+  }
+
+  /**
+   * Creates a pigeon enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy pigeon entity
+   */
+  public static Entity createPigeon(Entity target) {
+    Entity pigeon = createBaseEnemy(target, EnemyType.PIGEON);
+    BaseEnemyEntityConfig config = configs.pigeon;
+    pigeon.setEnemyType(Entity.EnemyType.PIGEON);
+
+    TextureAtlas pigeonAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
+
+    animator.addAnimation("float", 0.06f, Animation.PlayMode.LOOP);
+
+    pigeon
+            .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                    config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 2) - 1, config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(animator)
+            .addComponent(new PigeonAnimationController());
+
+    pigeon.setScale(0.842f,0.55f);
+    //pigeon.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+    return pigeon;
   }
 
   /**
@@ -205,6 +237,7 @@ public class EnemyFactory {
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
       case BEAR -> configs.bear;
+      case PIGEON -> configs.pigeon;
     };
 
     if (type == EnemyType.MONKEY) {
@@ -389,6 +422,22 @@ public class EnemyFactory {
     //bearEnemy.scaleHeight(150.0f);
 
     return bearEnemy;
+  }
+
+  /**
+   * Creates pigeon enemy as NPC entity for static combat
+   * */
+  public static Entity createPigeonCombatEnemy() {
+    Entity pigeonEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.pigeon;
+    pigeonEnemy.setEnemyType(Entity.EnemyType.PIGEON);
+
+    pigeonEnemy
+            .addComponent(new TextureRenderComponent("images/pigeon_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+    pigeonEnemy.setScale(100f,70f);
+
+    return pigeonEnemy;
   }
 
   private EnemyFactory() {
