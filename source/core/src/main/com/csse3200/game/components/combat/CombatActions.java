@@ -114,6 +114,7 @@ public class CombatActions extends Component {
    */
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
+    manager.getPlayer().getEvents().trigger("toggleInventory");
   }
 
   /**
