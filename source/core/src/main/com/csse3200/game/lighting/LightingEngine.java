@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
-import box2dLight.RayHandler;
-import box2dLight.PointLight;
-import box2dLight.ConeLight;
-import box2dLight.Light;
+import box2dLight.*;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.rendering.Renderable;
 
@@ -98,12 +95,42 @@ public class LightingEngine implements Disposable, Renderable {
      * @param dist The distance the light travels or radius if it's not blocked
      * @param dir The direction the light should face in degrees
      * @param cone The sector angle in degrees
-     * @param color The color of the point light
+     * @param color The color of the light
      *
      * @return A reference to the created ConeLight.
      */
     public ConeLight createConeLight(float x, float y, float dist, float dir, float cone, Color color) {
         ConeLight cl = new ConeLight(rayHandler, RAY_COUNT, color, dist, x, y, dir, cone);
+        applyDefaultLightingSettings(cl);
+        return cl;
+    }
+
+    /**
+     * Create a new directional light. Infinite distance light source coming from a certain direction.
+     *
+     * @param dir The direction the light should face in degrees
+     * @param color The color of the light
+     *
+     * @return A reference to the created DirectionalLight.
+     */
+    public DirectionalLight createDirectionalLight(float dir, Color color) {
+        DirectionalLight dl = new DirectionalLight(rayHandler, RAY_COUNT, color, dir);
+        applyDefaultLightingSettings(dl);
+        return dl;
+    }
+
+    /**
+     * Create a new chain light. Infinite distance light source coming from a certain direction.
+     *
+     * @param chain float array of (x, y) vertices from which rays will be evenly distributed
+     * @param dist The distance the light travels or radius if it's not blocked
+     * @param dir The direction of rays: 1 is left, -1 is right
+     * @param color The color of the light
+     *
+     * @return A reference to the created ChainLight.
+     */
+    public ChainLight createChainLight(float[] chain, float dist, int dir, Color color) {
+        ChainLight cl = new ChainLight(rayHandler, RAY_COUNT, color, dist, dir, chain);
         applyDefaultLightingSettings(cl);
         return cl;
     }
