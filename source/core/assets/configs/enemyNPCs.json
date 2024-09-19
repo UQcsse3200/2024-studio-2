@@ -35,6 +35,15 @@
     "experience": 100,
     "isEnemy": 1
   },
+  "pigeon": {
+    "spritePath": "images/pigeon.atlas",
+    "health": 10,
+    "baseAttack": 5,
+    "defense": 5,
+    "speed": 200,
+    "experience": 25,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
     "health": 150,
