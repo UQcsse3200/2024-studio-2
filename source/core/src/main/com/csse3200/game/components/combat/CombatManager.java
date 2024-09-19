@@ -26,6 +26,8 @@ public class CombatManager extends Component {
 
     private final Entity player;
     private final Entity enemy;
+    private CombatStatsComponent copyPlayerStats;
+    private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
     private Action playerAction;
@@ -48,11 +50,34 @@ public class CombatManager extends Component {
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
+        initStatsCopies();
+
         this.playerAction = null;
         this.enemyAction = null;
 
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
+    }
+
+    /**
+     * Initialises copies of the CombatStatsComponents of the player and enemy for DialogueBox use
+     */
+    private void initStatsCopies() {
+        this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
+                playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
+                playerStats.getMaxExperience(), playerStats.getMaxStamina(), playerStats.isPlayer(),
+                playerStats.isBoss());
+        copyPlayerStats.setHealth(playerStats.getHealth());
+        copyPlayerStats.setExperience(playerStats.getExperience());
+        copyPlayerStats.setHunger(playerStats.getHunger());
+
+        this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
+                enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
+                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss());
+        copyEnemyStats.setHealth(enemyStats.getHealth());
+        copyEnemyStats.setExperience(enemyStats.getExperience());
+        copyEnemyStats.setHunger(enemyStats.getHunger());
+
     }
 
     /**
@@ -298,7 +323,8 @@ public class CombatManager extends Component {
     private void displayCombatResults() {
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
-        String[][] moveText = {{String.format("The player decided to %s", playerMoveDetails),
+
+        String[][] moveText = {{String.format("You decided to %s", playerMoveDetails),
                 String.format("The enemy decided to %s", enemyMoveDetails)}};
         ServiceLocator.getDialogueBoxService().updateText(moveText);
         entity.getEvents().trigger("displayCombatResults");
