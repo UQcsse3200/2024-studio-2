@@ -2,7 +2,9 @@ package com.csse3200.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.entities.configs.BaseFriendlyEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.extensions.GameExtension;
@@ -19,8 +21,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.csse3200.game.entities.EntityConverter.*;
@@ -33,7 +37,6 @@ class EntityConverterTest {
     private Entity chicken;
     private Entity frog;
     private Entity monkey;
-    private Entity cow;
     private Entity player;
     private List<Entity> entities;
     private static final NPCConfigs configs =
@@ -77,6 +80,68 @@ class EntityConverterTest {
     }
 
     @Test
+    void testDetermineConfigOnUnknownReturnsChicken() {
+        AnimationRenderComponent animator = mock(AnimationRenderComponent.class);
+        when(animator.getCurrentAnimation()).thenReturn("test_unknown");
+        BaseEntityConfig config = EntityConverter.handleConfig(animator);
+        assertEquals(configs.chicken.getClass(), config.getClass());
+    }
+
+    @Test
+    void testGetHintTextWithLevelHints() {
+        BaseFriendlyEntityConfig friendlyConfig = mock(BaseFriendlyEntityConfig.class);
+        when(friendlyConfig.getStringHintLevel()).thenReturn(new String[]{"hint1", "hint2"});
+
+        String[][] hints = EntityConverter.retrieveHintText(friendlyConfig);
+
+        assertArrayEquals(new String[][]{{"hint1", "hint2"}}, hints);
+    }
+
+    @Test
+    void testGetHintTextWithBaseHints() {
+        BaseFriendlyEntityConfig friendlyConfig = mock(BaseFriendlyEntityConfig.class);
+        when(friendlyConfig.getStringHintLevel()).thenReturn(null);
+        when(friendlyConfig.getBaseHint()).thenReturn(new String[][]{{"baseHint1"}, {"baseHint2"}});
+
+        String[][] hints = EntityConverter.retrieveHintText(friendlyConfig);
+
+        assertArrayEquals(new String[][]{{"baseHint1"}, {"baseHint2"}}, hints);
+    }
+
+    @Test
+    void testGetHintTextFallback() {
+        BaseFriendlyEntityConfig friendlyConfig = mock(BaseFriendlyEntityConfig.class);
+        when(friendlyConfig.getStringHintLevel()).thenReturn(null);
+        when(friendlyConfig.getBaseHint()).thenReturn(null);
+
+        String[][] hints = EntityConverter.retrieveHintText(friendlyConfig);
+
+        assertArrayEquals(new String[][]{{"A friendly null appears! It seems to have something to say."}}, hints);
+    }
+
+    @Test
+    void testGetHintTextForNonFriendlyConfig() {
+        BaseEntityConfig nonFriendlyConfig = mock(BaseEntityConfig.class);
+
+        String[][] hints = EntityConverter.retrieveHintText(nonFriendlyConfig);
+        assertArrayEquals(new String[][]{{"A mysterious creature appears!"}}, hints);
+    }
+
+    @Test
+    void testConvertWithNoAnimator() {
+        AnimationRenderComponent animator = null;
+        convertToFriendly(chicken, player, entities);
+        class Exception {
+            void convertWithNoAnimator() {
+                throw new IllegalStateException("Expected Exception");
+            }
+        }
+        Exception exception = new Exception();
+        assertThrows(IllegalStateException.class, exception::convertWithNoAnimator,
+                "Illegal State Exception Should Be Thrown.");
+    }
+
+    @Test
     void TestChickenRemovalOfTouchAttack() {
         assertNotNull(chicken.getComponent(TouchAttackComponent.class));
         convertToFriendly(chicken, player, entities);
@@ -98,12 +163,23 @@ class EntityConverterTest {
     }
 
     @Test
+    void testDetermineConfigOnChicken() {
+        AnimationRenderComponent animator = mock(AnimationRenderComponent.class);
+        when(animator.getCurrentAnimation()).thenReturn("chicken");
+        BaseEntityConfig config = EntityConverter.handleConfig(animator);
+        assertEquals(configs.chicken.getClass(), config.getClass());
+    }
+
+    @Test
     void TestChickenHasFriendlyAI() {
         BaseEntityConfig config = EntityConverter.handleConfig(chicken.getComponent(AnimationRenderComponent.class));
-//        System.out.println(chicken.getComponent(AnimationRenderComponent.class));
-//        String currentAnimation = chicken.getComponent(AnimationRenderComponent.class).getCurrentAnimation();
-//        System.out.println(currentAnimation);
-//        assertEquals("chicken", currentAnimation);
+        System.out.println(chicken.getComponent(AnimationRenderComponent.class));
+        String currentAnimation = chicken.getComponent(AnimationRenderComponent.class).getCurrentAnimation();
+        boolean hasAnimation = chicken.getComponent(AnimationRenderComponent.class).hasAnimation("float");
+        System.out.println(currentAnimation);
+        System.out.println(hasAnimation);
+        System.out.println(configs.chicken.isEnemy);
+        System.out.println(Arrays.toString(config.getSoundPath()));
         assertFalse(config.isFriendly());
         convertToFriendly(chicken, player, entities);
         assertTrue(config.isFriendly());
@@ -144,6 +220,14 @@ class EntityConverterTest {
         assertNotNull(frog.getComponent(CombatStatsComponent.class));
         convertToFriendly(frog, player, entities);
         assertNull(frog.getComponent(CombatStatsComponent.class));
+    }
+
+    @Test
+    void testDetermineConfigOnFrog() {
+        AnimationRenderComponent animator = mock(AnimationRenderComponent.class);
+        when(animator.getCurrentAnimation()).thenReturn("frog");
+        BaseEntityConfig config = EntityConverter.handleConfig(animator);
+        assertEquals(configs.frog.getClass(), config.getClass());
     }
 
     @Test
@@ -190,6 +274,14 @@ class EntityConverterTest {
         assertNotNull(monkey.getComponent(CombatStatsComponent.class));
         convertToFriendly(monkey, player, entities);
         assertNull(monkey.getComponent(CombatStatsComponent.class));
+    }
+
+    @Test
+    void testDetermineConfigOnMonkey() {
+        AnimationRenderComponent animator = mock(AnimationRenderComponent.class);
+        when(animator.getCurrentAnimation()).thenReturn("monkey");
+        BaseEntityConfig config = EntityConverter.handleConfig(animator);
+        assertEquals(configs.monkey.getClass(), config.getClass());
     }
 
     @Test

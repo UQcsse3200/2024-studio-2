@@ -46,7 +46,7 @@ public class EntityConverter {
 			configs.chicken.setFriendly(false);
 			return configs.chicken; // Default to chicken if no animation is set
 		}
-		
+
 		if (currentAnimation.contains("chicken")) {
 			//configs.chicken.setFriendly(false);
 			return configs.chicken;
@@ -117,7 +117,7 @@ public class EntityConverter {
 		if (config instanceof BaseFriendlyEntityConfig) {
 			BaseFriendlyEntityConfig friendlyConfig = (BaseFriendlyEntityConfig) config;
 			String animalName = friendlyConfig.getAnimalName();
-			
+
 			// Check for hints in order of priority
 			String[] currentLevelHints = friendlyConfig.getStringHintLevel();
 			if (currentLevelHints != null && currentLevelHints.length > 0) {
