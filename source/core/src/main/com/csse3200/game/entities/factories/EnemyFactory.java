@@ -7,11 +7,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.MonkeyAnimationController;
-import com.csse3200.game.components.npc.BearAnimationController;
+import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -60,7 +56,8 @@ public class EnemyFactory {
     FROG,
     CHICKEN,
     MONKEY,
-    BEAR;
+    BEAR,
+    JOEY,
   }
 
   /**
@@ -193,6 +190,35 @@ public class EnemyFactory {
     return monkey;
   }
 
+  /**
+   * Creates a joey enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy joey entity
+   */
+  public static Entity createJoey(Entity target) {
+    Entity joey = createBaseEnemy(target, EnemyType.JOEY);
+    BaseEnemyEntityConfig config = configs.joey;
+    joey.setEnemyType(Entity.EnemyType.JOEY);
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+
+    joey
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(animator)
+            .addComponent(new JoeyAnimationController());
+
+    joey.getComponent(AnimationRenderComponent.class).scaleEntity();
+    joey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return joey;
+  }
 
   /**
    * Creates a generic Enemy with specific tasks depending on the enemy type.
@@ -209,12 +235,16 @@ public class EnemyFactory {
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
       case BEAR -> configs.bear;
+      case JOEY -> configs.joey;
     };
 
     if (type == EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 5f));
+    } else if (type == EnemyType.JOEY) {
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+      aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, false));
     } else {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
@@ -241,7 +271,7 @@ public class EnemyFactory {
    * @return entity
    */
   public static Entity createKangaBossEntity(Entity target) {
-    Entity kangarooBoss = createBossNPC(target);
+    Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO);
     BaseEnemyEntityConfig config = configs.kangarooBoss;
     kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
 
@@ -289,11 +319,16 @@ public class EnemyFactory {
    *
    * @return entity
    */
-  public static Entity createBossNPC(Entity target) {
-    AITaskComponent aiComponent =
-            new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
-                    .addTask(new ChaseTask(target, 10, 6f, 8f, true));
+  public static Entity createBossNPC(Entity target, Entity.EnemyType type) {
+    AITaskComponent aiComponent = new AITaskComponent();
+
+    aiComponent.addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
+            .addTask(new ChaseTask(target, 10, 8f, 10f, true));
+
+    if (type == Entity.EnemyType.KANGAROO) {
+      aiComponent.addTask(new KangaJoeyTask(target, 6f, 2));
+    }
+
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())

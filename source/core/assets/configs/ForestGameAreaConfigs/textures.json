@@ -3,6 +3,7 @@
     "images/box_boy_leaf.png",
     "images/tree.png",
     "images/final_boss_kangaroo.png",
+    "images/joey.png",
     "images/Cow.png",
     "images/snake.png",
     "images/eagle.png",
@@ -183,6 +184,7 @@
     "images/turtle.atlas",
     "images/magpie.atlas",
     "images/final_boss_kangaroo.atlas",
+    "images/joey.atlas",
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
     "images/enemy-chicken.atlas"

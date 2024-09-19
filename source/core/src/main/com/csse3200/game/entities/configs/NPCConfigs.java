@@ -19,6 +19,7 @@ public class NPCConfigs {
   public BaseEnemyEntityConfig frog = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig monkey = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig kangarooBoss = new BaseEnemyEntityConfig();
+  public BaseEnemyEntityConfig joey = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig bear = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig banana = new BaseEnemyEntityConfig();
 }

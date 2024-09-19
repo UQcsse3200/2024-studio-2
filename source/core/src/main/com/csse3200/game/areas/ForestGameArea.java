@@ -194,13 +194,15 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-    private void spawnKangarooBoss() {
-        if (!kangarooBossSpawned) {
-            Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
-            spawnEntityOnMap(kangarooBoss);
-            kangarooBossSpawned = true;
-        }
-    }
+  private void spawnKangarooBoss() {
+      if (!kangarooBossSpawned) {
+          Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
+          kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+          spawnEntityOnMap(kangarooBoss);
+          enemies.add(kangarooBoss);
+          kangarooBossSpawned = true;
+      }
+  }
 
   private void spawnEntityOnMap(Entity entity) {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
@@ -428,6 +430,23 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     
     //spawns
     spawnEntityAtVector(banana, pos);
+  }
+
+  private void spawnJoeyEnemy(Entity kanga) {
+    if (kanga != null) {
+      Entity joey = EnemyFactory.createJoey(player);
+
+      Vector2 kangarooBossPos = kanga.getPosition();
+
+      // Define the area around the Kangaroo boss where the Joey can be spawned
+      GridPoint2 minPos = new GridPoint2((int) kangarooBossPos.x - 2, (int) kangarooBossPos.y - 2);
+      GridPoint2 maxPos = new GridPoint2((int) kangarooBossPos.x + 2, (int) kangarooBossPos.y + 2);
+
+      GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+      spawnEntityAt(joey, spawnPos, true, false);
+      enemies.add(joey);
+    }
   }
 
   /**

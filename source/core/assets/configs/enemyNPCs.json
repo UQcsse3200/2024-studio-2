@@ -40,6 +40,14 @@
     "speed": 25,
     "isEnemy": 1
   },
+  "joey": {
+    "spritePath": "images/joey.atlas",
+    "health": 50,
+    "baseAttack": 25,
+    "defense": 25,
+    "speed": 3,
+    "isEnemy": 1
+  },
   "banana": {
     "spritePath": "images/banana.atlas",
     "health": 100,
