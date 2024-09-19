@@ -9,11 +9,10 @@ import com.csse3200.game.components.player.PlayerInventoryDisplay;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.data.QuestSave;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.services.DialogueBoxService;
 
 
 import org.slf4j.Logger;

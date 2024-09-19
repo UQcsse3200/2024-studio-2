@@ -10,6 +10,8 @@ public class AvoidTask extends ChaseTask {
     private final float minAvoidDistance;
 
     /**
+     * Initialises the avoid task.
+     *
      * @param target The entity to avoid.
      * @param priority Task priority when avoiding (0 when not avoiding).
      * @param safeDistance Minimum distance to maintain from the target.
