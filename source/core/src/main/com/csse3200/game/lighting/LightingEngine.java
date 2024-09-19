@@ -121,5 +121,6 @@ public class LightingEngine implements Disposable, Renderable {
         light.setIgnoreAttachedBody(true);
         light.setSoftnessLength(3f);
         light.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.ALL);
+        light.setXray(true);
     }
 }

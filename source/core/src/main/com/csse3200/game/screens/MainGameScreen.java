@@ -68,7 +68,7 @@ public class MainGameScreen extends ScreenAdapter {
     lightingEngine = new LightingEngine(physicsEngine.getWorld(),
             renderer.getCamera().getCamera());
 
-    lightingEngine.getRayHandler().setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.1f));
+    // lightingEngine.getRayHandler().setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.1f));
 
     ServiceLocator.getRenderService().register(lightingEngine);
 

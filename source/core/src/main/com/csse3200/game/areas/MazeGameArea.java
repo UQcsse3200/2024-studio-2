@@ -12,6 +12,8 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.GridPoint2Utils;
@@ -23,10 +25,11 @@ import static com.csse3200.game.areas.terrain.TerrainFactory.UNDERWATER_MAZE_SIZ
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 import static com.csse3200.game.utils.math.GridPoint2Utils.UP;
 
+import box2dLight.PointLight;
+
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class MazeGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(6, 6);
   private static final float WALL_THICKNESS = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -74,7 +77,7 @@ public class MazeGameArea extends GameArea {
     spawnGhostKing();
     spawnTrees();
 
-    playMusic();
+    //playMusic();
   }
 
   private void displayUI() {
@@ -87,10 +90,9 @@ public class MazeGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    for (int i = 0; i < 2; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    for (int i = 0; i < 0; i++) {
       Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
+      spawnEntityAt(tree, maze.getNextStartLocation(), true, false);
     }
   }
 
@@ -120,18 +122,23 @@ public class MazeGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
-    newPlayer.addComponent(new LightingComponent(LightingComponent.createConeLight(4, 50, Color.CORAL)));
-    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
+    PointLight pl1 = LightingComponent.createPointLight(5, lightColor);
+    PointLight pl2 = LightingComponent.createPointLight(2, lightColor);
+    newPlayer.addComponent(new LightingComponent(pl1));
+    pl1.setXray(false);
+    pl1.setSoftnessLength(0f);
+    pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
+    spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
+    pl2.attachToBody(newPlayer.getComponent(PhysicsComponent.class).getBody());
     return newPlayer;
   }
 
   private void spawnGhostKing() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity ghostKing = NPCFactory.createAngler(player);
-    spawnEntityAt(ghostKing, randomPos, true, true);
+    for (int i = 0; i < 6; i++) {
+      Entity ghostKing = NPCFactory.createAngler(player);
+      spawnEntityAt(ghostKing, maze.getNextStartLocation(), true, true);
+    }
   }
 
   private void playMusic() {
