@@ -5,10 +5,8 @@ import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
 import com.playfab.PlayFabSettings;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
 public class PlayFab {
     // Constructor to initialize the PlayFab settings
     public PlayFab(String titleId) {
@@ -23,33 +21,53 @@ public class PlayFab {
 
     }
     // Method to register a new user
-    public void registerUser(String username, String email, String password) {
+    public static Response registerUser(String username, String email, String password) {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = username;
         request.Email = email;
         request.Password = password;
 
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
         if (result.Result != null) {
-            System.out.println(result.Result.Username + " has successfully registered."); //Continue work on this later.
+            String succeedMsg = result.Result.Username + " has successfully registered.";
+            return new Response(succeedMsg, true);
         } else {
             Collection<List<String>> errors = result.Error.errorDetails.values();
             List<String> errorList = errors.stream().flatMap(List::stream).toList();
             for (String error : errorList) {
                 System.out.println(error);
             }
+            return new Response(errorList.getFirst(), false);
         }
-
         //
     }
     // Method to login a new user
-    public void loginUser(String username, String password) {
+    public static void loginUser(String username, String password) {
         LoginWithPlayFabRequest request = new LoginWithPlayFabRequest();
         request.Username = username;
         request.Password = password;
 
         PlayFabClientAPI.LoginWithPlayFab(request);
         //
+    }
+
+    public static class Response {
+        private String result;
+        private Boolean isSucceed;
+
+        public Response(String result, Boolean isSucceed) {
+            this.result = result;
+            this.isSucceed = isSucceed;
+        }
+
+        public String getResult() {
+            return result;
+        }
+
+        public Boolean getIsSucceed() {
+            return isSucceed;
+        }
     }
 }
 
