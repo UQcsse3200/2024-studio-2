@@ -25,8 +25,8 @@ public class PauseTask extends ChaseTask {
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
-    private String animalName;
     QuestManager questManager;
+    private String animalName;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -71,11 +71,18 @@ public class PauseTask extends ChaseTask {
                 for (DialogueKey dialogueKey : questManager.getQuestDialogues().keySet()) {
                     String npcName = dialogueKey.getNpcName();
                     String questName = dialogueKey.getQuestName();
-                    if (Objects.equals(npcName, animalName)) {
-                        QuestBasic quest = questManager.getQuest(questName);
+                    QuestBasic quest = questManager.getQuest(questName);
+
+                    int progression = quest.getProgression();
+                    if (progression == quest.getNumQuestTasks()) {
+                        continue;
+                    }
+
+                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
+
+                    if (Objects.equals(npcName, animalName) && rightTask) {
                         if (quest.isActive() && !quest.isQuestCompleted()) {
                             hintText = questManager.getQuestDialogues().get(dialogueKey);
-
                             if (hintText.length == 0) {
                                 hintText = this.config.getBaseHint();
                             }

@@ -125,10 +125,10 @@ public class QuestManager extends Component {
         //};
 
         return Map.of(
-                new DialogueKey("Cow", "First Steps"), cowInitialDialogue,
-                new DialogueKey("Cow", "Guide's Intro"), cowAdviceDialogue,
-                new DialogueKey("Cow", "Potion Collection"), potionDialogue,
-                new DialogueKey("Cow", "Guide's Advice"), listenDialogue
+                new DialogueKey("Cow", "First Steps", "stepsTask"), cowInitialDialogue,
+                new DialogueKey("Cow", "Guide's Intro", "talkToGuide"), cowAdviceDialogue,
+                new DialogueKey("Cow", "Potion Collection", "collectPotions"), potionDialogue,
+                new DialogueKey("Cow", "Guide's Advice", "listenAdvice"), listenDialogue
         );
 
     }
@@ -157,7 +157,7 @@ public class QuestManager extends Component {
 
         List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
         QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
-        setupPotionsTask(); // Set up potion collection logic here
+        setupPotionsTask(); // Set up potion collection logic here on a new game
         addQuest(guideQuest3);
         GameState.quests.quests.add(guideQuest3);
 
@@ -191,8 +191,8 @@ public class QuestManager extends Component {
         };
         List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(tasks[0], tasks[1]));
         Map<DialogueKey, String[][]> test2TaskQuestDialogues = Map.of(
-                new DialogueKey("Cow", "2 Task Quest"), test2StepTextProg1,
-                new DialogueKey("Cow", "Final Boss"), test2StepTextProg2
+                new DialogueKey("Cow", "2 Task Quest", "stepsTask"), test2StepTextProg1,
+                new DialogueKey("Cow", "Final Boss", "testKangaTask"), test2StepTextProg2
         );
         QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogues, test2StepCompletionTriggers, false, false, 0);
         GameState.quests.quests.add(twoTaskQuest);
@@ -290,14 +290,16 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-//        if(GameState.quests == null) {
-//            GameState.quests = new QuestSave();
-//        }
         if(GameState.quests.quests.isEmpty()) {
             testQuests();
         }
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
+
+            // Setup potion collection task is not completed already in saved GameState 
+            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
+                setupPotionsTask();
+            }
         }
     }
 

@@ -13,9 +13,9 @@ class DialogueKeyTest {
 
     @BeforeEach
     void setUp() {
-        key1 = new DialogueKey("Cow", "First Steps");
-        key2 = new DialogueKey("Cow", "Guide's Intro");
-        key3 = new DialogueKey("Cow", "Potion Collection");
+        key1 = new DialogueKey("Cow", "First Steps", "stepsTask");
+        key2 = new DialogueKey("Cow", "Guide's Intro", "talkToGuide");
+        key3 = new DialogueKey("Cow", "Potion Collection", "collectPotions");
     }
 
 
