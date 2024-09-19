@@ -30,6 +30,7 @@ public class PlayFabTest {
         System.out.println(request.Username);
         request.Email = "test" + random + "@gmail.com";
         request.Password = "123456";
+        request.DisplayName = "test" + random;
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
 
         // Assert that result.Result is not null

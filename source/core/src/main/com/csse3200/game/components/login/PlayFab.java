@@ -26,6 +26,7 @@ public class PlayFab {
         request.Username = username;
         request.Email = email;
         request.Password = password;
+        request.DisplayName = username;
 
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
 
