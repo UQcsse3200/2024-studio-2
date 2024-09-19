@@ -58,6 +58,13 @@ public class MoonActor extends Actor {
     public void setOpacity(float opacity) {
         this.opacity = opacity;
     }
+    public float getOpacity() {
+        return opacity;
+    }
+
+    public float getProgress() {
+        return progress;
+    }
 
     public void dispose() {
         moonTexture.dispose();  // Dispose of the moon texture when done

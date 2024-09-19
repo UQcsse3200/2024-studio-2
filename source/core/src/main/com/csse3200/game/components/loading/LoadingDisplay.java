@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A UI component for displaying the loading screen with a moon representing the loading progress.
  */
@@ -106,6 +110,17 @@ public class LoadingDisplay extends UIComponent {
     public float getZIndex() {
         return Z_INDEX;
     }
+    public MoonActor getMoonActor() {
+        return moonActor;
+    }
+
+    public List<String> getAllMessages() {
+        return Arrays.asList(loadingMessages);
+    }
+    public String getCurrentMessage() {
+        return currentMessage;
+    }
+
 
     @Override
     protected void draw(SpriteBatch batch) {
