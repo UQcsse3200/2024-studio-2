@@ -33,14 +33,13 @@ public class TerrainChunk {
   public Array<BitSet> grid;
   private BitSet collapsedTiles;
 
-  public Array<TileType> chunkTiles;
-  public HashMap<String, Integer> tileTypeCount = new HashMap<String, Integer>();
+  public HashMap<String, Integer> tileTypeCount;
 
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
 
-    this.chunkTiles = new Array<TileType>(256);
+    this.tileTypeCount = new HashMap<String, Integer>();
     this.grid = new Array<BitSet>(256);
     this.collapsedTiles = new BitSet(256);
 
