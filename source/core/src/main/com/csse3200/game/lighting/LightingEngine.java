@@ -120,6 +120,6 @@ public class LightingEngine implements Disposable, Renderable {
     public static void applyDefaultLightingSettings(Light light) {
         light.setIgnoreAttachedBody(true);
         light.setSoftnessLength(3f);
-        light.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.ALL);
+        light.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.NONE);
     }
 }
