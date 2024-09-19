@@ -301,5 +301,6 @@ public class CombatManager extends Component {
         String[][] moveText = {{String.format("The player decided to %s", playerMoveDetails),
                 String.format("The enemy decided to %s", enemyMoveDetails)}};
         ServiceLocator.getDialogueBoxService().updateText(moveText);
+        entity.getEvents().trigger("displayCombatResults");
     }
 }
