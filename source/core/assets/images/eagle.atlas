@@ -1,33 +1,68 @@
-eagle.png
-size: 96, 256
+friendly-npcs.png
+size: 2915, 4560
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 float
   rotate: false
-  xy: 0, 96
-  size: 32, 32
-  orig: 32, 32
+  xy: 831, 246
+  size: 192, 192
+  orig: 192, 192
   offset: 0, 0
-  index: 0
+  index: -1
 float
   rotate: false
-  xy: 32, 96
-  size: 32, 32
-  orig: 32, 32
+  xy: 1096, 246
+  size: 192, 192
+  orig: 192, 192
   offset: 0, 0
-  index: 1
+  index: -1
 float
   rotate: false
-  xy: 64, 96
-  size: 32, 32
-  orig: 32, 32
+  xy: 1361, 246
+  size: 192, 192
+  orig: 192, 192
   offset: 0, 0
-  index: 2
+  index: -1
+float
+  rotate: false
+  xy: 1626, 246
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1891, 246
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2156, 246
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2421, 246
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2686, 246
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
 default
   rotate: false
-  xy: 0, 96
-  size: 32, 32
-  orig: 32, 32
+  xy: 831, 246
+  size: 192, 192
+  orig: 192, 192
   offset: 0, 0
-  index: 0
+  index: -1
