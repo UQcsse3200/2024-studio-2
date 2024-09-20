@@ -122,22 +122,31 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a>&gt;<br>T</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCurrentMap()" class="member-name-link">getCurrentMap</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createNewMap(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame)" class="member-name-link">createNewMap</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
+ <a href="../rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a>&nbsp;renderer,
+ <a href="../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Generates a new map - intended for use when a game is loaded, ie, so that
+ the new map can be set without attempting to dispose of an old map
+ (this should be handled by the screen).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a>&gt;<br>T</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCurrentMap()" class="member-name-link">getCurrentMap</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get current map</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMap(com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">getMap</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMap(com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">getMap</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get map by type</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#switchMapTo(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame,boolean)" class="member-name-link">switchMapTo</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#switchMapTo(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame,boolean)" class="member-name-link">switchMapTo</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
  <a href="../rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a>&nbsp;renderer,
  <a href="../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game,
  boolean&nbsp;saveState)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Switch to a NEW map
 
  Set saveState to true will remember the previous map state, which can
@@ -177,6 +186,25 @@ loadScripts(document, 'script');</script>
 <dd><code>renderer</code> - renderer</dd>
 <dd><code>game</code> - game</dd>
 <dd><code>saveState</code> - save state</dd>
+<dt>Returns:</dt>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createNewMap(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame)">
+<h3>createNewMap</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></span>&nbsp;<span class="element-name">createNewMap</span><wbr><span class="parameters">(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
+ <a href="../rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a>&nbsp;renderer,
+ <a href="../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game)</span></div>
+<div class="block">Generates a new map - intended for use when a game is loaded, ie, so that
+ the new map can be set without attempting to dispose of an old map
+ (this should be handled by the screen).
+ NOTE: Erases reference to old map without disposing of it.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mapType</code> - - the type of map to initiaise to</dd>
+<dd><code>renderer</code> - renderer</dd>
+<dd><code>game</code> - game</dd>
 <dt>Returns:</dt>
 </dl>
 </section>
