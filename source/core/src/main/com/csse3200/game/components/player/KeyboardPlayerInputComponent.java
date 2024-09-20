@@ -83,14 +83,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      // >  temporary keybinds for switching maps
-      case Keys.L:
-        entity.getEvents().trigger("switchMap");
-        return true;
-      case Keys.K:
-        entity.getEvents().trigger("stoF");
-        return true;
-      // > end 
       case Keys.I:
         entity.getEvents().trigger("statsInfo");
         return true;

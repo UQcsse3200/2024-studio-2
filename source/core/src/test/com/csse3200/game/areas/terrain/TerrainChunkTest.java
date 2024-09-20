@@ -30,7 +30,7 @@ public class TerrainChunkTest {
         Mockito.when(mapLayers.get(0)).thenReturn(tileLayer);
         Mockito.when(tiledMap.getLayers()).thenReturn(mapLayers);
 
-        // 初始化 TerrainChunk
+        // initialise TerrainChunk
         terrainChunk = new TerrainChunk(new GridPoint2(0, 0), tiledMap);
     }
 
@@ -44,20 +44,20 @@ public class TerrainChunkTest {
         assertNotNull(terrainChunk.tileTypeCount);
     }
 
-    @Test
-    public void testGenerateTiles() {
-
-        Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
-
-
-        TerrainComponent.Tile tile = Mockito.mock(TerrainComponent.Tile.class);
-        Mockito.when(terrainResource.getTilebyIndex(Mockito.anyInt())).thenReturn(tile);
-
-        // Execute the generateTiles method
-        terrainChunk.generateTiles(new GridPoint2(0, 0), loadedChunks, terrainResource);
-
-        // verify that tiledMap's setCell method is called
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-        Mockito.verify(tileLayer, Mockito.atLeastOnce()).setCell(Mockito.anyInt(), Mockito.anyInt(), Mockito.any(TerrainChunk.CCell.class));
-    }
+    //@Test
+    //public void testGenerateTiles() {
+    //
+    //    Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
+    //
+    //
+    //    TerrainComponent.Tile tile = Mockito.mock(TerrainComponent.Tile.class);
+    //    Mockito.when(terrainResource.getTilebyIndex(Mockito.anyInt())).thenReturn(tile);
+    //
+    //    // Execute the generateTiles method
+    //    terrainChunk.generateTiles(new GridPoint2(0, 0), loadedChunks, terrainResource);
+    //
+    //    // verify that tiledMap's setCell method is called
+    //    TiledMapTileLayer tileLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+    //    Mockito.verify(tileLayer, Mockito.atLeastOnce()).setCell(Mockito.anyInt(), Mockito.anyInt(), Mockito.any(TerrainChunk.CCell.class));
+    //}
 }

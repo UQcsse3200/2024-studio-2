@@ -15,6 +15,7 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
@@ -46,6 +47,8 @@ public class TerrainComponent extends RenderComponent {
 
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
+
+  private int unlockedArea = 1;
 
   private TiledMapRenderer renderer;
 
@@ -148,7 +151,6 @@ public class TerrainComponent extends RenderComponent {
     }
     //fillChunk(chunkPos);
 
-
     updateChunkStatus();
   }
 
@@ -246,28 +248,55 @@ public class TerrainComponent extends RenderComponent {
    */
   public class TerrainResource {
     private ArrayList<Tile> tiles;
+    private ArrayList<Tile> forestTiles;
+    private ArrayList<Tile> waterTiles;
+    private ArrayList<Tile> airTiles;
 
     // total number of tiles
     public static int TILE_SIZE = 0;
+    public static int FOREST_SIZE = 0;
+    public static int WATER_SIZE = 0;
+    public static int AIR_SIZE = 0;
 
     public TerrainResource(MapType mapType) {
       ResourceService resourceService = ServiceLocator.getResourceService();
       tiles = new ArrayList<Tile>();
+      forestTiles = new ArrayList<Tile>();
+      waterTiles = new ArrayList<Tile>();
+      airTiles = new ArrayList<Tile>();
       switch(mapType) {
         case FOREST:
+          // load forest tiles
           ForestMapTiles tileConfig;
           tileConfig = FileLoader.readClass(ForestMapTiles.class, "configs/ForestGameAreaConfigs/forestTiles.json");
-          System.out.println("Tile Config: " + tileConfig);
-
-         for (ForestTileConfig tile : tileConfig.forestMapTiles) {
+          for (ForestTileConfig tile : tileConfig.forestMapTiles) {
             // edge: TOP, RIGHT, BOTTOM, LEFT
             // A: sand, B: grass, C: water
             // =======================
             tiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
-            TILE_SIZE = tiles.size();
+            forestTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
           }
-          break;
-        case WATER:
+          TILE_SIZE = tiles.size();
+          FOREST_SIZE = tiles.size();
+
+          // load water tiles
+          //WaterMapTiles waterTileConfig;
+          //waterTileConfig = FileLoader.readClass(WaterMapTiles.class, "configs/WaterGameAreaConfigs/waterTiles.json");
+          //for (WaterTileConfig tile : waterTileConfig.waterMapTiles) {
+          //  // edge: TOP, RIGHT, BOTTOM, LEFT
+          //  waterTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
+          //}
+          //WATER_SIZE = waterTiles.size();
+
+          // load air tiles
+          //AirMapTiles airTileConfig;
+          //airTileConfig = FileLoader.readClass(AirMapTiles.class, "configs/AirGameAreaConfigs/airTiles.json");
+          //for (AirTileConfig tile : airTileConfig.airMapTiles) {
+          //  // edge: TOP, RIGHT, BOTTOM, LEFT
+          //  airTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
+          //  tiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
+          //}
+          //AIR_SIZE = airTiles.size();
           break;
         case COMBAT:
           break;
