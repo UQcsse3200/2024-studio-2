@@ -61,13 +61,13 @@ class NPCFactoryTest {
     };
 
     private static String[] atlas = {
-            "images/Cow.atlas",
-            "images/lion.atlas",
-            "images/snake.atlas",
-            "images/eagle.atlas",
-            "images/turtle.atlas",
-            "images/magpie.atlas",
-            "images/Fish.atlas",
+            "images/friendly_npcs/Cow.atlas",
+            "images/friendly_npcs/lion.atlas",
+            "images/friendly_npcs/snake.atlas",
+            "images/friendly_npcs/eagle.atlas",
+            "images/friendly_npcs/turtle.atlas",
+            "images/friendly_npcs/magpie.atlas",
+            "images/friendly_npcs/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 

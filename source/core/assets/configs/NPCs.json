@@ -6,7 +6,7 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/lion.atlas",
+    "spritePath": "images/friendly_npcs/lion.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Lion"
@@ -16,7 +16,7 @@
       "We will be your guides",
       "but before you can roam free...",
       "you must complete the first steps and 2 step quests."]],
-    "spritePath": "images/Cow.atlas",
+    "spritePath": "images/friendly_npcs/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
     "animalName": "Cow"
@@ -28,7 +28,7 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/turtle.atlas",
+    "spritePath": "images/friendly_npcs/turtle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/turtle-hiss.wav"],
     "animalName": "Turtle"
@@ -40,7 +40,7 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/eagle.atlas",
+    "spritePath": "images/friendly_npcs/eagle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eagle-scream.wav"],
     "animalName": "Eagle"
@@ -49,7 +49,7 @@
     "baseHint": [
       ["HHIISSSSSSS, I am the mighty Snake of the Jungle!","You look very tasty and I am very hungry","Go play a game and collect me some apples...","/msOr I will eat you whole!"]
     ],
-    "spritePath": "images/snake.atlas",
+    "spritePath": "images/friendly_npcs/snake.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.wav"],
     "animalName": "Snake"
@@ -60,7 +60,7 @@
                  "If you want to get past me you must pay",
                  "Go play a game and collect me some coins",
                  "/mbOr I will claw your eyes out!"]],
-    "spritePath": "images/magpie.atlas",
+    "spritePath": "images/friendly_npcs/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
     "animalName": "Magpie"
@@ -70,7 +70,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Finny the Fish."]
     ],
-    "spritePath": "images/Fish.atlas",
+    "spritePath": "images/friendly_npcs/Fish.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Fish"

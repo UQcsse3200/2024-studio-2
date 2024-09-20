@@ -73,7 +73,7 @@ public class CombatArea extends GameArea {
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
-            "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
+            "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
