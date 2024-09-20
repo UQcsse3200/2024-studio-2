@@ -13,7 +13,7 @@ import com.csse3200.game.ui.UIComponent;
  */
 public class LoadingDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
-    private static final float LOADING_DURATION = 6f;
+    private static final float LOADING_DURATION = 0.1f;
     private static final float MESSAGE_INTERVAL = 2f;
     private Table table;
     public ProgressBar progressBar;
