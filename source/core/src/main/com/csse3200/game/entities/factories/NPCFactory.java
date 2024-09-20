@@ -70,7 +70,8 @@ public class NPCFactory {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-      npc.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedStart, (String[][] hintText, Entity entity) -> initiateDialogue(animalSoundPaths, hintText, entity));
+
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
@@ -191,7 +192,7 @@ public class NPCFactory {
       dialogueBoxService = ServiceLocator.getDialogueBoxService();
     }
 
-    dialogueBoxService.updateText(hintText);
+    dialogueBoxService.updateText(hintText, entity);
 
     if (animalSoundPaths != null) {
       for (String animalSoundPath : animalSoundPaths) {

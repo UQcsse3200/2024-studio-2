@@ -56,16 +56,11 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-        AnimationRenderComponent animator =  entity.getComponent(AnimationRenderComponent.class);
-        if (animator != null) {
-            animator.startAnimation("selected");
-        }
-
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
             animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
-            entity.getEvents().trigger(eventName, hintText);
+            entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
         }
