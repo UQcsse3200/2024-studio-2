@@ -30,6 +30,7 @@ public class MiniMapDisplay extends UIComponent {
     private Image greenDotPointImage;
     private List<Image> redDotPointImages;
     private GameArea gameArea;
+    private int scaleFactor = 50;
     private float miniMapX = 300;  // Minimap's X position on the screen
     private float miniMapY = 400;  // Minimap's Y position on the screen
     private int miniMapSize = 300;  // Size of the minimap
@@ -78,7 +79,10 @@ public class MiniMapDisplay extends UIComponent {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
 
-        Vector2 enityMiniMapPos = new Vector2((entityPos.x - playerPos.x) /100 * miniMapSize, (entityPos.y - playerPos.y) / 100 * miniMapSize);
+        Vector2 enityMiniMapPos = new Vector2(
+                (entityPos.x - playerPos.x) / scaleFactor * miniMapSize,
+                (entityPos.y - playerPos.y) / scaleFactor * miniMapSize
+        );
         enityMiniMapPos.add(miniMapX + miniMapSize/2, miniMapY + miniMapSize/2);
 
         return enityMiniMapPos;
@@ -96,8 +100,10 @@ public class MiniMapDisplay extends UIComponent {
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
             redDotPointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
             System.out.println(enemyMiniMapPos);
+            //Hide enemyDotPoints if these are outside the minimap
         }
 
+        // Try to take check enemies and put to the minimap
 
     }
     @Override
