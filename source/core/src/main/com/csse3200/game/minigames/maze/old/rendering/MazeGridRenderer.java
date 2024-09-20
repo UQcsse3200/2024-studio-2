@@ -1,13 +1,13 @@
-package com.csse3200.game.minigames.maze.rendering;
+package com.csse3200.game.minigames.maze.old.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
-import com.csse3200.game.minigames.maze.MazeAssetPaths;
-import com.csse3200.game.minigames.maze.mazegrid.MazeCell;
-import com.csse3200.game.minigames.maze.mazegrid.MazeGrid;
-import com.csse3200.game.minigames.maze.mazegrid.Spawn;
-import com.csse3200.game.minigames.maze.mazegrid.Wall;
+import com.csse3200.game.minigames.maze.old.MazeAssetPaths;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.MazeCell;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.MazeGrid;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.Spawn;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.Wall;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 

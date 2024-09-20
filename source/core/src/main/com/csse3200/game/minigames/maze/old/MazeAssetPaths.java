@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.maze;
+package com.csse3200.game.minigames.maze.old;
 
 /**
  * Class for assets for underwater maze mini-game

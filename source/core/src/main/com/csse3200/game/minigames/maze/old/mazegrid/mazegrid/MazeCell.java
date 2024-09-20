@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.maze.mazegrid;
+package com.csse3200.game.minigames.maze.old.mazegrid.mazegrid;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

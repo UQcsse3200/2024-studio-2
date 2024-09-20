@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.maze.mazegrid;
+package com.csse3200.game.minigames.maze.old.mazegrid.mazegrid;
 
 /**
  * Class to spawn the maze of the underwater maze game

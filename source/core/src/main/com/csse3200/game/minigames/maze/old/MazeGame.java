@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.maze;
+package com.csse3200.game.minigames.maze.old;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.csse3200.game.minigames.MinigameRenderer;
-import com.csse3200.game.minigames.maze.mazegrid.MazeCell;
-import com.csse3200.game.minigames.maze.mazegrid.MazeGrid;
-import com.csse3200.game.minigames.maze.mazegrid.Wall;
-import com.csse3200.game.minigames.maze.rendering.MazeGridRenderer;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.MazeCell;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.MazeGrid;
+import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.Wall;
+import com.csse3200.game.minigames.maze.old.rendering.MazeGridRenderer;
 import box2dLight.RayHandler;
 import box2dLight.PointLight;
 
