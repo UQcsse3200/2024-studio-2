@@ -54,6 +54,8 @@ com.csse3200.game.inventory.items.lootbox
 com.csse3200.game.inventory.items.lootbox.configs
 com.csse3200.game.inventory.items.lootbox.rarities
 com.csse3200.game.inventory.items.potions
+com.csse3200.game.lighting
+com.csse3200.game.lighting.components
 com.csse3200.game.overlays
 com.csse3200.game.physics
 com.csse3200.game.physics.components
