@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
+import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
+import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;

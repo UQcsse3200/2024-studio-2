@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.OceanGameAreaConfigs.OceanGameAreaConfig;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.ProximityComponent;
@@ -32,7 +33,7 @@ import java.util.function.Supplier;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class WaterGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(WaterGameArea.class);
-  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
+  private static final OceanGameAreaConfig config = new OceanGameAreaConfig();
   private static final GridPoint2 MAP_SIZE = new GridPoint2(100, 100);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2, 2);
   private final TerrainFactory terrainFactory;
@@ -139,7 +140,7 @@ public class WaterGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
+    terrain = terrainFactory.createTerrain(TerrainType.Ocean_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.Ocean);
     spawnEntity(new Entity().addComponent(terrain));
   }
 
@@ -300,8 +301,8 @@ public class WaterGameArea extends GameArea {
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(config.textures.forestTextures);
-    resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
+    resourceService.loadTextures(config.textures.OceanTextures);
+    resourceService.loadTextureAtlases(config.textures.OceanTextureAtlases);
     resourceService.loadSounds(config.sounds.gameSounds);
     resourceService.loadMusic(config.sounds.gameMusic);
 
@@ -314,8 +315,8 @@ public class WaterGameArea extends GameArea {
   public void unloadAssets() {
     logger.debug("UNLOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(config.textures.forestTextures);
-    resourceService.unloadAssets(config.textures.forestTextureAtlases);
+    resourceService.unloadAssets(config.textures.OceanTextures);
+    resourceService.unloadAssets(config.textures.OceanTextureAtlases);
     resourceService.unloadAssets(config.sounds.gameSounds);
     resourceService.unloadAssets(config.sounds.gameMusic);
   }
