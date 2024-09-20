@@ -1,5 +1,7 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -23,6 +25,8 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -104,6 +108,10 @@ public class PlayerFactory {
         player.getComponent(TextureRenderComponent.class).scaleEntity();
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
+
+        LightingComponent light = new LightingComponent(LightingComponent.createPointLight(4f, Color.CORAL));
+        light.getLight().setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
+        player.addComponent(light);
 
         return player;
     }
