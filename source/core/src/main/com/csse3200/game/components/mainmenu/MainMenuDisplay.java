@@ -74,9 +74,9 @@ public class MainMenuDisplay extends UIComponent {
     private final float windowButtonHeight = 45;
     private final float windowButtonSpacing = 15;
 
-    private final float fullScreenButtonWidth = 360;
-    private final float fullScreenuttonHeight = 90;
-    private final float fullScreenButtonSpacing = 45;
+    private final float fullScreenButtonWidth = 320;
+    private final float fullScreenuttonHeight = 80;
+    private final float fullScreenButtonSpacing = 30;
 
     private Label startLabel;
     private Label loadLabel;
@@ -406,7 +406,7 @@ public class MainMenuDisplay extends UIComponent {
             buttonWidth = fullScreenButtonWidth;
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
-            padTopSpacing = 700;
+            padTopSpacing = 500;
             setMenuLabelsStyle("title-red");
         } else {
             buttonWidth = windowButtonWidth;
