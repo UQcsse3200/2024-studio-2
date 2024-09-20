@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
+import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
+import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
@@ -266,6 +268,17 @@ public class TerrainComponent extends RenderComponent {
           }
           break;
         case WATER:
+          OceanMapTiles tileConfig1;
+          tileConfig1 = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/OceanTiles.json");
+          System.out.println("Tile Config: " + tileConfig1);
+
+          for (OceanTileConfig tile : tileConfig1.OceanMapTiles1) {
+            // edge: TOP, RIGHT, BOTTOM, LEFT
+            // A: sand, B: grass, C: water
+            // =======================
+            tiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges));
+            TILE_SIZE = tiles.size();
+          }
           break;
         case COMBAT:
           break;

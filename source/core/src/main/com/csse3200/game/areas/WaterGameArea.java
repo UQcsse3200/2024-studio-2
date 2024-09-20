@@ -140,7 +140,7 @@ public class WaterGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
+    terrain = terrainFactory.createTerrain(TerrainType.Ocean_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.Ocean);
     spawnEntity(new Entity().addComponent(terrain));
   }
 
