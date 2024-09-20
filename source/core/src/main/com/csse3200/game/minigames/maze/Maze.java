@@ -8,29 +8,14 @@ import java.util.*;
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
 /**
- * Represents a maze grid that is created from a file.
- * The grid contains cells of type MazeCell, which can either be Wall or NotWall.
- * The grid is built based on a text file where '1' represents a Wall and '0' represents a
- * NotWall.
+ * Represents a maze on a 2d grid. Allows for generation of random mazes, finding reasonable spawn
+ * locations of objects in the maze and querying shortest paths.
  */
 public class Maze {
     private final int width;
     private final int height;
     public final List<GridPoint2>[][] adjacency;
     List<GridPoint2> startLocationSpanningTree;
-
-    /**
-     * Creates a new MazeGrid with the specified dimensions.
-     * The maze is constructed by reading from the file, which contains '1's for walls and '0's
-     * for paths.
-     *
-     * Odd cells are always pathing, even cells are walls that may or may not be broken.
-     *
-     * The first line of the file contains two integers - the width and
-     *
-     * @param file   The file path to the maze text file.
-     */
-    //public Maze(String file) {}
 
     public Maze(int size) {
         this(size, size);
