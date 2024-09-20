@@ -86,7 +86,7 @@ public class MazeCombatStatsComponent extends Component {
     }
   }
 
-  public void hit(CombatStatsComponent attacker) {
+  public void hit(MazeCombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
   }

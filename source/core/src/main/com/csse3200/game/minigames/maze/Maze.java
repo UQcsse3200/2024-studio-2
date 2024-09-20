@@ -1,4 +1,4 @@
-package com.csse3200.game.areas;
+package com.csse3200.game.minigames.maze;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.utils.math.RandomUtils;
@@ -17,6 +17,7 @@ public class Maze {
     private final int width;
     private final int height;
     public final List<GridPoint2>[][] adjacency;
+    List<GridPoint2> startLocationSpanningTree;
 
     /**
      * Creates a new MazeGrid with the specified dimensions.
@@ -49,6 +50,10 @@ public class Maze {
             }
         }
         generateRandomMaze();
+
+        GridPoint2 start = getRandomCell();
+        startLocationSpanningTree = new ArrayList<>();
+        startLocationSpanningTree.add(start);
     }
 
     /**
@@ -143,25 +148,18 @@ public class Maze {
         recursiveBacktracking(getRandomCell(), new Random());
     }
 
-    public List<GridPoint2> generateStartLocations(int count) {
-        GridPoint2 start = getRandomCell();
-
-        List<GridPoint2> spanningTree = new ArrayList<>();
-        spanningTree.add(start);
+    public GridPoint2 getNextStartLocation() {
         List<GridPoint2> startLocations = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
-            breadthFirstSearch bfs = new breadthFirstSearch(spanningTree);
-            GridPoint2 mostDistant = bfs.getMostDistant();
-            startLocations.add(mostDistant);
-            List<GridPoint2> path = bfs.getShortestPath(bfs.getMostDistant());
-            // don't add first cell of path because it is already in the tree
-            for (int cell = 1; cell < path.size(); cell++) {
-                spanningTree.add(path.get(cell));
-            }
+        breadthFirstSearch bfs = new breadthFirstSearch(startLocationSpanningTree);
+        GridPoint2 mostDistant = bfs.getMostDistant();
+        List<GridPoint2> path = bfs.getShortestPath(mostDistant);
+        // don't add first cell of path because it is already in the tree
+        for (int cell = 1; cell < path.size(); cell++) {
+            startLocationSpanningTree.add(path.get(cell));
         }
 
-        return startLocations;
+        return mostDistant;
     }
 
     private void recursiveBacktracking(GridPoint2 cell, Random rand) {

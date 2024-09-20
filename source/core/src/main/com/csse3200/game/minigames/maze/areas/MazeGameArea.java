@@ -1,28 +1,30 @@
-package com.csse3200.game.areas;
+package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.areas.terrain.MazeMinigameTerrainFactory;
-import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.NPCFactory;
-import com.csse3200.game.entities.factories.ObstacleFactory;
-import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.minigames.maze.Maze;
+import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
+import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
+import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
+import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
+import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import box2dLight.PointLight;
 
-import static com.csse3200.game.areas.terrain.TerrainFactory.UNDERWATER_MAZE_SIZE;
+import java.util.List;
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
-import static com.csse3200.game.utils.math.GridPoint2Utils.UP;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class MazeGameArea extends GameArea {
@@ -43,7 +45,7 @@ public class MazeGameArea extends GameArea {
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
-  private final TerrainFactory terrainFactory;
+  private final MazeTerrainFactory terrainFactory;
 
   private Maze maze;
 
@@ -54,7 +56,7 @@ public class MazeGameArea extends GameArea {
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
    * @requires terrainFactory != null
    */
-  public MazeGameArea(TerrainFactory terrainFactory) {
+  public MazeGameArea(MazeTerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
   }
@@ -66,7 +68,7 @@ public class MazeGameArea extends GameArea {
 
     displayUI();
 
-    maze = new Maze(MazeMinigameTerrainFactory.MAP_SIZE);
+    maze = new Maze(MazeTerrainFactory.MAP_SIZE);
 
     spawnTerrain();
     spawnWalls();
@@ -78,23 +80,23 @@ public class MazeGameArea extends GameArea {
 
   private void displayUI() {
     Entity ui = new Entity();
-    ui.addComponent(new GameAreaDisplay("Box Forest"));
+    ui.addComponent(new MazeGameAreaDisplay("Underwater Maze"));
     spawnEntity(ui);
   }
 
   private void spawnWalls() {
     for (int x = 0; x < maze.getWidth(); x++) {
       for (int y = 0; y < maze.getHeight(); y++) {
-          for (GridPoint2 direction : GRID_DIRECTIONS) {
-              if (maze.isWall(x, y, direction)) {
-                  System.out.println(String.valueOf(x) + " " + String.valueOf(y) + " " + direction);
-                  float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
-                  float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
-                  float xPos = x + .5f * (1 + direction.x);
-                  float yPos = y + .5f * (1 + direction.y);
-                  spawnEntityCenteredAt(ObstacleFactory.createMazeWall(width, height), new Vector2(xPos, yPos));
-              }
+        for (GridPoint2 direction : GRID_DIRECTIONS) {
+          if (maze.isWall(x, y, direction)) {
+            System.out.println(String.valueOf(x) + " " + String.valueOf(y) + " " + direction);
+            float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
+            float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
+            float xPos = x + .5f * (1 + direction.x);
+            float yPos = y + .5f * (1 + direction.y);
+            spawnEntityCenteredAt(MazeObstacleFactory.createMazeWall(width, height), new Vector2(xPos, yPos));
           }
+        }
       }
     }
   }
@@ -106,10 +108,17 @@ public class MazeGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer();
+    Entity newPlayer = MazePlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
-    newPlayer.addComponent(new LightingComponent(LightingComponent.createConeLight(4, 50, Color.CORAL)));
-    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
+    PointLight pl1 = LightingComponent.createPointLight(4, lightColor);
+    PointLight pl2 = LightingComponent.createPointLight(1.5f, lightColor);
+    newPlayer.addComponent(new LightingComponent(pl1));
+    pl1.setXray(false);
+    pl1.setSoftnessLength(0f);
+    pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
+    spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
+    pl2.attachToBody(newPlayer.getComponent(PhysicsComponent.class).getBody());
     return newPlayer;
   }
 
@@ -118,15 +127,17 @@ public class MazeGameArea extends GameArea {
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity angler = NPCFactory.createAngler(player);
+    Entity angler = MazeNPCFactory.createAngler(player);
     spawnEntityAt(angler, randomPos, true, true);
   }
 
-  private void playMusic() {
-    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-    music.setLooping(true);
-    music.setVolume(0.3f);
-    music.play();
+  @Override
+  public void playMusic() {
+    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+  }
+
+  public void pauseMusic() {
+    AudioManager.stopMusic();  // Stop the music
   }
 
   private void loadAssets() {
@@ -143,7 +154,8 @@ public class MazeGameArea extends GameArea {
     }
   }
 
-  private void unloadAssets() {
+  @Override
+  public void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);
@@ -157,5 +169,18 @@ public class MazeGameArea extends GameArea {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+
+  /**
+   * gets the player
+   * @return player entity
+   */
+  @Override
+  public Entity getPlayer () {
+    return player;
+  }
+
+  public List<Entity> getEnemies() {
+    return null;
   }
 }

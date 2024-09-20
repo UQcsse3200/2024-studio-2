@@ -10,6 +10,7 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
+import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -46,7 +47,7 @@ public class MazePlayerFactory {
             .addComponent(new MazePlayerActions())
             .addComponent(new MazeCombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(inputComponent)
-            .addComponent(new PlayerStatsDisplay());
+            .addComponent(new MazePlayerStatsDisplay());
 
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(TextureRenderComponent.class).scaleEntity();

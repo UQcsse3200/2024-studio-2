@@ -1,36 +1,24 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.csse3200.game.areas.MazeGameArea;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
-import com.csse3200.game.components.maingame.MainGameActions;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.minigames.maze.MazeGame;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.ui.minigames.ScoreBoard;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -41,19 +29,14 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
-import static com.csse3200.game.minigames.MiniGameNames.MAZE;
-
 /**
  * Class for Underwater Maze Game Screen
  */
 public class MazeGameScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
-    private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
     private static final String[] mainGameTextures = {"images/heart.png"};
     private static final Vector2 CAMERA_POSITION = new Vector2(6f, 6f);
-
-    private final GdxGame game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private final LightingEngine lightingEngine;
@@ -62,7 +45,8 @@ public class MazeGameScreen extends PausableScreen {
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
-        this.game = game;
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -94,7 +78,7 @@ public class MazeGameScreen extends PausableScreen {
         createUI();
 
         logger.debug("Initialising main game screen entities");
-        TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
+        MazeTerrainFactory terrainFactory = new MazeTerrainFactory(renderer.getCamera());
         MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
     }
@@ -162,8 +146,6 @@ public class MazeGameScreen extends PausableScreen {
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new MainGameActions(this.game))
-                .addComponent(new MainGameExitDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());

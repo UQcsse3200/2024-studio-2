@@ -6,7 +6,6 @@ import com.csse3200.game.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.minigames.birdieDash.entities.Spike;
-import com.csse3200.game.components.minigames.birdieDash.rendering.*;
 import com.csse3200.game.minigames.birdieDash.rendering.*;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;

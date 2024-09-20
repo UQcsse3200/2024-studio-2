@@ -1,4 +1,4 @@
-package com.csse3200.game.areas.terrain;
+package com.csse3200.game.minigames.maze.areas.terrain;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,13 +7,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
+import com.csse3200.game.areas.terrain.TerrainFactory;
+import com.csse3200.game.areas.terrain.TerrainTile;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrain for the maze mini-game. */
-public class MazeMinigameTerrainFactory extends TerrainFactory {
+public class MazeTerrainFactory extends TerrainFactory {
   public static final GridPoint2 MAP_SIZE = new GridPoint2(12, 12);
   public static final float TILE_SIZE = 1;
 
@@ -22,7 +25,7 @@ public class MazeMinigameTerrainFactory extends TerrainFactory {
    *
    * @param cameraComponent Camera to render terrains to. Must be ortographic.
    */
-  public MazeMinigameTerrainFactory(CameraComponent cameraComponent) {
+  public MazeTerrainFactory(CameraComponent cameraComponent) {
     super(cameraComponent);
   }
 

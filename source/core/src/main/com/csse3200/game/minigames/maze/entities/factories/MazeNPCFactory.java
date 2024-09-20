@@ -5,17 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.GhostAnimationController;
 import com.csse3200.game.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.GhostKingConfig;
-import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.lighting.components.LightingComponent;
+import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
+import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -35,7 +34,7 @@ import com.csse3200.game.services.ServiceLocator;
  * <p>If needed, this factory can be separated into more specific factories for entities with
  * similar characteristics.
  */
-public class MazeEnemyFactory {
+public class MazeNPCFactory {
   private static final MazeNPCConfigs configs =
       FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
 
@@ -47,7 +46,7 @@ public class MazeEnemyFactory {
    */
   public static Entity createAngler(Entity target) {
     Entity angler = createBaseNPC(target);
-    GhostKingConfig config = configs.angler;
+    MazeEntityConfig config = configs.angler;
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -57,7 +56,7 @@ public class MazeEnemyFactory {
     animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
 
     angler
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
             .addComponent(new LightingComponent(LightingComponent.createPointLight(0.5f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
@@ -91,7 +90,7 @@ public class MazeEnemyFactory {
     return npc;
   }
 
-  private MazeEnemyFactory() {
+  private MazeNPCFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
 }
