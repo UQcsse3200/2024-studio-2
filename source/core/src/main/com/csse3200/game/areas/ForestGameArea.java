@@ -452,6 +452,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
   public void loadAssets() {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
     //resourceService.loadMusic(forestMusic);
 
     resourceService.loadTextures(config.textures.forestTextures);
