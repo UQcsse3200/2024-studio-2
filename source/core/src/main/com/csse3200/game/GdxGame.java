@@ -105,6 +105,10 @@ public class GdxGame extends Game {
         addScreen(ScreenType.BIRD_MINI_GAME, getScreen(), null, null);
     }
 
+    public void enterMazeGameScreen() {
+        addScreen(ScreenType.MAZE_MINI_GAME, getScreen(), null, null);
+    }
+
     /**
      * Overloaded to add new combat screen
      * Changes to a new screen, does NOT dispose of old screen
@@ -175,6 +179,8 @@ public class GdxGame extends Game {
                 return new SnakeScreen(this, screen, container);
             case BIRD_MINI_GAME:
                 return new BirdieDashScreen(this, screen, container);
+            case MAZE_MINI_GAME:
+                return new MazeGameScreen(this, screen, container);
             case LOADING_SCREEN:
                 return new LoadingScreen(this);
             case ANIMAL_SELECTION:
@@ -198,7 +204,7 @@ public class GdxGame extends Game {
     public enum ScreenType {
         MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
-        BIRD_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, STORY
+        BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, STORY
     }
 
     /**
