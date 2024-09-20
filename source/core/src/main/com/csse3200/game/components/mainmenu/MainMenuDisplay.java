@@ -65,6 +65,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button loadBtn;
     private Button minigamesBtn;
     private Button settingsBtn;
+    private Button logbookBtn;
     private Cursor customCursor;
     private TextButton achievementsBtn;
     private Button helpBtn;
@@ -81,6 +82,7 @@ public class MainMenuDisplay extends UIComponent {
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
+    private Label logbookLabel;
     private Label helpLabel;
     private Label settingLabel;
     private Label exitLabel;
@@ -207,6 +209,7 @@ public class MainMenuDisplay extends UIComponent {
         loadLabel = new Label("Load", skin, "button-red");
         minigameLabel = new Label("Minigame", skin, "button-red");
         helpLabel = new Label("Help", skin, "button-red");
+        logbookLabel = new Label("Logbook", skin, "button-red");
         settingLabel = new Label("Settings", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
         versionLabel = new Label("Version 1.0", skin, "default-white");
@@ -248,6 +251,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        logbookBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         achievementsBtn = new TextButton("Achievements", skin);
         helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
@@ -260,6 +264,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(startBtn, startLabel);
         addButtonElevationEffect(loadBtn, loadLabel);
         addButtonElevationEffect(minigamesBtn, minigameLabel);
+        addButtonElevationEffect(logbookBtn, logbookLabel);
         addButtonElevationEffect(settingsBtn, settingLabel);
         addButtonElevationEffect(helpBtn, helpLabel);
         addButtonElevationEffect(exitBtn, exitLabel);
@@ -355,6 +360,15 @@ public class MainMenuDisplay extends UIComponent {
                 clickSound.play();
             }
         });
+        // Added handles for when clicked
+        logbookBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.info("Logbook button clicked");
+                entity.getEvents().trigger("achievements");
+
+            }
+        });
 
         // Added handles for when clicked
         achievementsBtn.addListener(new ChangeListener() {
@@ -422,6 +436,7 @@ public class MainMenuDisplay extends UIComponent {
         Stack startStack = createButtonWithLabelStack(startBtn, startLabel, buttonWidth, buttonHeight);
         Stack loadStack = createButtonWithLabelStack(loadBtn, loadLabel, buttonWidth, buttonHeight);
         Stack minigamesStack = createButtonWithLabelStack(minigamesBtn, minigameLabel, buttonWidth, buttonHeight);
+        Stack logbookStack = createButtonWithLabelStack(logbookBtn, logbookLabel, buttonWidth, buttonHeight);
         Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
         Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
         Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
@@ -431,6 +446,8 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.add(loadStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(logbookStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();

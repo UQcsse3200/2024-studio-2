@@ -94,4 +94,40 @@ public class PlayFabTest {
         assertEquals("Email address is not valid.", errorList.getFirst());
         assertEquals("Password must be between 6 and 100 characters.", errorList.get(1));
     }
+
+    @Test
+    public void testRegisterUserEmailExistFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+
+        Collection<List<String>> errors = result.Error.errorDetails.values();
+        List<String> errorList = errors.stream().flatMap(List::stream).toList();
+
+        assertEquals("Email address already exists. ", errorList.getFirst());
+    }
+
+    @Test
+    public void testRegisterUserEmailExistAndPasswordFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+
+        Collection<List<String>> errors = result.Error.errorDetails.values();
+        List<String> errorList = errors.stream().flatMap(List::stream).toList();
+
+        assertEquals("Email address already exists. ", errorList.getFirst());
+    }
 }

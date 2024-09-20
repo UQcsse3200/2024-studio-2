@@ -17,7 +17,7 @@ public class PlayFab {
         PlayFab playFab = new PlayFab("DBB26");
 
         // Call the registration method
-        playFab.registerUser("long122133", "long11221@gmail.com", "password125");
+        playFab.registerUser("long1221", "long11221@gmail.com", "password125");
 
     }
     // Method to register a new user
