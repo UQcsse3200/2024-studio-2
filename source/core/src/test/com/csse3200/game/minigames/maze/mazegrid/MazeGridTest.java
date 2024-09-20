@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.maze.mazegrid;
+package com.csse3200.game.minigames.maze.mazegrid;
 
 import com.csse3200.game.minigames.maze.old.MazeAssetPaths;
 import com.csse3200.game.minigames.maze.old.mazegrid.mazegrid.MazeGrid;

@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.snake;
+package com.csse3200.game.minigames.snake;
 
 import com.csse3200.game.minigames.Grid;
 import com.csse3200.game.minigames.snake.Apple;

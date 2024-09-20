@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.snake;
+package com.csse3200.game.minigames.snake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

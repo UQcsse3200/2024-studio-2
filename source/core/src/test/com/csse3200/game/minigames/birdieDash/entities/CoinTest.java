@@ -1,4 +1,4 @@
-package com.csse3200.game.components.minigames.birdieDash.entities;
+package com.csse3200.game.minigames.birdieDash.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
