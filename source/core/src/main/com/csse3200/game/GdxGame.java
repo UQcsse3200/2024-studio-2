@@ -190,7 +190,9 @@ public class GdxGame extends Game {
             case GAME_OVER_LOSE:
                 return new GameOverLoseScreen(this);
             case STORY:
-                return new StoryScreen(this);
+                String selectedAnimal = "dog";  // Replace with actual logic for getting selected animal
+                return new StoryScreen(this, selectedAnimal);
+
             case QUICK_TIME_EVENT:
                 return new QuickTimeEventScreen(this);
             default:
@@ -214,3 +216,4 @@ public class GdxGame extends Game {
         app.exit();
     }
 }
+
