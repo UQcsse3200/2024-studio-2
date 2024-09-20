@@ -17,9 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
-import com.csse3200.game.components.minigames.MiniGameConstants;
-import com.csse3200.game.components.minigames.MiniGameMedals;
-import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.minigames.MiniGameConstants;
+import com.csse3200.game.minigames.MiniGameMedals;
+import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
@@ -32,8 +32,8 @@ import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
+import static com.csse3200.game.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
 
 /**
  * Makes a new screen when the snake game is over.

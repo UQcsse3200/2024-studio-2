@@ -1,6 +1,8 @@
 package com.csse3200.game.components.minigames.snake;
 
-import com.csse3200.game.components.minigames.Direction;
+import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.minigames.snake.Snake;
+import com.csse3200.game.minigames.snake.SnakeGrid;
 import org.junit.Before;
 import org.junit.Test;
 

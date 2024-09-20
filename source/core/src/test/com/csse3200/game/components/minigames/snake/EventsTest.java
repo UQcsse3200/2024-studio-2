@@ -1,6 +1,6 @@
 package com.csse3200.game.components.minigames.snake;
 
-import com.csse3200.game.components.minigames.snake.controller.Events;
+import com.csse3200.game.minigames.snake.controller.Events;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

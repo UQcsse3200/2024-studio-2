@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
-import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
+import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
@@ -31,7 +31,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 
 /**
  * Class for Birdie Dash Game Screen

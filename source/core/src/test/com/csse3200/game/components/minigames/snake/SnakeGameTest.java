@@ -1,7 +1,9 @@
 package com.csse3200.game.components.minigames.snake;
 
-import com.csse3200.game.components.minigames.*;
-
+import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.minigames.snake.Apple;
+import com.csse3200.game.minigames.snake.Snake;
+import com.csse3200.game.minigames.snake.SnakeGame;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

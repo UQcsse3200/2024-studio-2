@@ -1,6 +1,9 @@
 package com.csse3200.game.components.minigames.maze.mazegrid;
 
-import com.csse3200.game.components.minigames.maze.MazeAssetPaths;
+import com.csse3200.game.minigames.maze.MazeAssetPaths;
+import com.csse3200.game.minigames.maze.mazegrid.MazeGrid;
+import com.csse3200.game.minigames.maze.mazegrid.Wall;
+import com.csse3200.game.minigames.maze.mazegrid.Water;
 import org.junit.Before;
 import org.junit.Test;
 

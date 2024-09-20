@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.maze.MazeGame;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.maze.MazeGame;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ResourceService;
@@ -31,8 +31,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.components.minigames.MiniGameNames.MAZE;
+import static com.csse3200.game.minigames.MiniGameNames.MAZE;
 
 /**
  * Class for Underwater Maze Game Screen

@@ -5,12 +5,14 @@ import static org.mockito.Mockito.*;
 
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.PlayerFactory;
 
 
+import com.csse3200.game.minigames.MiniGameConstants;
+import com.csse3200.game.minigames.MiniGameMedals;
+import com.csse3200.game.minigames.MiniGamesScores;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
+
 public class MiniGameScoresTest {
     private MiniGamesScores miniGamesScores;
     private Entity mockPlayer;
