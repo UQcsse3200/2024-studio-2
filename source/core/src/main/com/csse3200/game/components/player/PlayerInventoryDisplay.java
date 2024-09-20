@@ -32,6 +32,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
+    private final Inventory hotbar;
     AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
     private Window window;
@@ -41,8 +42,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     //created by @PratulW5:
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    PlayerInventoryHotbarDisplay hotbar;
-    private final DragAndDrop dnd = new DragAndDrop();
+    private final DragAndDrop dnd ;
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -52,7 +52,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public PlayerInventoryDisplay(Inventory inventory, int numCols) {
+    public PlayerInventoryDisplay(Inventory inventory,Inventory hotbar, int numCols) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
@@ -63,6 +63,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
+        this.hotbar=hotbar;
+        this.dnd= DragAndDropService.getDragAndDrop();
         this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
@@ -86,7 +88,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void toggleInventory() {
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
-            hotbar.createHotbar();
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
             toggle = false;
@@ -94,7 +95,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
-            hotbar.disposeTable();
             toggle = true;
         }
     }
@@ -162,9 +162,8 @@ public class PlayerInventoryDisplay extends UIComponent {
                     slot.add(subscriptLabel);
 //
                 }
-                dnd.addSource(new InventorySource(slot, item, index));
+                dnd.addSource(new InventorySource(slot,item, index));
                 dnd.addTarget(new InventoryTarget(slot, index));
-
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
@@ -251,9 +250,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         });
     }
 
-    private class InventorySource extends DragAndDrop.Source {
+    class InventorySource extends DragAndDrop.Source {
         private final AbstractItem item;
-        private final int index;
+        final int index;
         public InventorySource(ImageButton slot, AbstractItem item, int index) {
             super(slot);
             this.item = item;
@@ -269,61 +268,14 @@ public class PlayerInventoryDisplay extends UIComponent {
             payload.setDragActor(img);
             return payload;
         }
-    }
-    private class InventoryTarget extends DragAndDrop.Target {
-        private final ImageButton slot;
-        private final int index;
-
-        public InventoryTarget(ImageButton slot, int index) {
-            super(slot);
-            this.slot = slot;
-            this.index = index;
-        }
-
         @Override
-        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            AbstractItem draggedItem = (AbstractItem) payload.getObject();
-            // Check if the slot can accept the dragged item
-            if (inventory.getAt(index) == null || !inventory.getAt(index).equals(draggedItem)) {
-                slot.setColor(Color.LIGHT_GRAY); // Indicate valid drop target
-                return true; // Allow the drop
-            } else {
-                slot.setColor(Color.RED); // Indicate invalid drop target
-                return false; // Reject the drop
+        public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
+            if (target == null) {
+                regenerateInventory();
             }
         }
-        @Override
-        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-            AbstractItem draggedItem = (AbstractItem) payload.getObject();
-            if (draggedItem != null && index < inventory.getCapacity()) {
-                // Get the item currently in the target slot
-                AbstractItem itemInSlot = inventory.getAt(index);
-                int sourceIndex = ((InventorySource) source).index;
-                inventory.removeAt(sourceIndex);
-                // Check if the slot is occupied
-                if (itemInSlot != null) {
-                    // Get the source index from the source object
-                    // Remove the item in the target slot and the dragged item from their respective slots
-                    inventory.removeAt(index);
-                    // Add the dragged item to the target slot and the item that was in the target slot to the source slot
-                    inventory.addAt(index, draggedItem);
-                    inventory.addAt(sourceIndex, itemInSlot);
-                    regenerateInventory();
-                } else {
-                    // If the target slot is empty, simply add the dragged item to the slot
-                    inventory.addAt(index, draggedItem);
-                }
-
-                regenerateInventory(); // Refresh the inventory display
-            }
-        }
-
-        @Override
-        public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
-            // Reset the slot color when dragging leaves the target
-            slot.setColor(Color.WHITE);
-        }
     }
+
 
 
     /**
@@ -350,6 +302,48 @@ public class PlayerInventoryDisplay extends UIComponent {
         regenerateInventory();
     }
 
+    private class InventoryTarget extends DragAndDrop.Target {
+        private final ImageButton slot;
+        private final int index;
+
+        public InventoryTarget(ImageButton slot, int index) {
+            super(slot);
+            this.slot = slot;
+            this.index = index;
+        }
+
+        @Override
+        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            AbstractItem draggedItem = (AbstractItem) payload.getObject();
+            if (inventory.getAt(index) == null || !inventory.getAt(index).equals(draggedItem)) {
+                slot.setColor(Color.LIGHT_GRAY); // Indicate valid drop target
+                return true; // Allow the drop
+            } else {
+                slot.setColor(Color.RED); // Invalid drop target
+                return false;
+            }
+        }
+
+        @Override
+        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            AbstractItem draggedItem = (AbstractItem) payload.getObject();
+            if (draggedItem != null && index < inventory.getCapacity()) {
+                AbstractItem itemInSlot = inventory.getAt(index);
+                int sourceIndex = ((InventorySource) source).index;
+
+                // Handle swapping items in the inventory
+                inventory.removeAt(sourceIndex);
+                if (itemInSlot != null) {
+                    inventory.removeAt(index);
+                    inventory.addAt(sourceIndex, itemInSlot);
+                }
+                inventory.addAt(index, draggedItem);
+
+                regenerateInventory();
+            }
+        }
+    }
+
     /**
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
@@ -358,10 +352,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();
-        }
-        else {
-            hotbar.disposeTable();
-            hotbar.createHotbar();
         }
     }
 
@@ -425,7 +415,6 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void loadInventoryFromSave() {
         inventory.loadInventoryFromSave();
-        hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
     }
 
     /** Returns inventory - for quests. */

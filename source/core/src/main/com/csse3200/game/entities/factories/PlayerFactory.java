@@ -1,15 +1,13 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
-import com.csse3200.game.components.player.InventoryComponent;
-import com.csse3200.game.components.player.PlayerActions;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.components.player.PlayerStatsDisplay;
+import com.csse3200.game.components.player.*;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.quests.AchievementPopup;
@@ -88,12 +86,18 @@ public class PlayerFactory {
                 .addComponent(new QuestPopup())
 
                 .addComponent((new StatManager(player)));
-
-        // Add inventory from player (in future this will provide shared interface for memory
+        DragAndDrop dnd = new DragAndDrop();
+        // Add inventory from player (in future this will provide shared interface for memory)
         InventoryComponent inventoryComponent = new InventoryComponent(45);
+        InventoryComponent hotbarComponent = new InventoryComponent(5);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), hotbarComponent.getInventory(),9))
                 .addComponent(new LootBoxOverlayComponent());
+        //add hotbar from player
+        
+
+        player.addComponent(hotbarComponent)
+                .addComponent(new PlayerInventoryHotbarDisplay(hotbarComponent.getInventory(),inventoryComponent.getInventory()));
         player.addComponent(new AchievementPopup());
 
         // Add QuestManager to player

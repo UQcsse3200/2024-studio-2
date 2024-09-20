@@ -1,13 +1,25 @@
 package com.csse3200.game.components.player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.inventory.items.TimedUseItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * UI component for displaying the player's quick-selection hotbar.
@@ -18,41 +30,38 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
 
     private final Skin skinSlots = new Skin(Gdx.files.internal("Inventory/skinforslot.json")); //created by @PratulW5
     private final Table table = new Table();
+    private final Inventory hotbar;
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
+    AITaskComponent aiComponent = new AITaskComponent();
+    private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryHotbarDisplay.class);
+    private static final int timedUseItemPriority = 23;
     private final int capacity;
+    private final DragAndDrop dnd;
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
-    private final PlayerInventoryDisplay inventoryUI;
 
     /**
      * Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.
      *
-     * @param capacity Number of slots in the hotbar
-     * @param inventory      Player's inventory
-     * @param InventoryUI Inventory display manager
+     * @param hotbar Player's inventory
      */
-    public PlayerInventoryHotbarDisplay(int capacity, Inventory inventory,
-                                        PlayerInventoryDisplay InventoryUI) {
-        if (capacity < 1) {
-            throw new IllegalArgumentException("Inventory Hotbar dimensions must be more than one!");
-        }
-        if(capacity >= inventory.getCapacity()) {
-            throw new IllegalArgumentException(
-                    "Inventory Hotbar capacity must be less than inventory capacity!");
-        }
-        this.inventory = inventory;
-        this.capacity = capacity;
-        this.inventoryUI = InventoryUI;
-        this.hotBarSlots = new ImageButton[capacity];
+    public PlayerInventoryHotbarDisplay(Inventory hotbar,Inventory inventory) {
+        this.hotbar=hotbar;
+        this.inventory= inventory;
+        this.capacity = hotbar.getCapacity();
+        this.hotBarSlots=new ImageButton[capacity];
+        this.dnd= DragAndDropService.getDragAndDrop();
         create();
         createHotbar();
-
     }
 
     /**
      * To initialise the stage
      */
-    public void create() {super.create();}
+    @Override
+    public void create() {
+        super.create();
+    }
 
     /**
      * Drawing is handled by the super class
@@ -71,21 +80,52 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.setBackground(new TextureRegionDrawable(hotBarTexture));
         table.setSize(160, 517);
         for (int i = 0; i < capacity; i++) {
-            AbstractItem item = inventory.getAt(i);
+            AbstractItem item = hotbar.getAt(i);
             ImageButton slot = new ImageButton(skinSlots);
             if (item != null) {
-                inventoryUI.addSlotListeners(slot, item, i);
+                addSlotListeners(slot, item, i);
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
                 slot.add(itemImage).center().size(75, 75);
             }
             table.add(slot).size(80, 80).pad(5).padRight(45);
             table.row();
             hotBarSlots[i] = slot;
+            // Add drag source and target for this hotbar slot
+            dnd.addSource(new InventorySource(slot, i));
+            dnd.addTarget(new InventoryTarget(slot, i));
         }
         float tableX = stage.getWidth() - table.getWidth() - 20;
         float tableY = (stage.getHeight() - table.getHeight()) / 2;
         table.setPosition(tableX, tableY);
         stage.addActor(table);
+    }
+    // Add InventorySource class as before
+    public class InventorySource extends DragAndDrop.Source {
+        private final int index;
+
+        public InventorySource(Actor actor, int index) {
+            super(actor);
+            this.index = index;
+        }
+
+        @Override
+        public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+            DragAndDrop.Payload payload = new DragAndDrop.Payload();
+            AbstractItem item = hotbar.getAt(index);
+            if (item != null) {
+                payload.setObject(item);
+                Image dragImage = new Image(new Texture(item.getTexturePath()));
+                payload.setDragActor(dragImage);
+            }
+            return payload;
+        }
+
+        @Override
+        public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
+            if (target == null) {
+                regenerateHotbar();
+            }
+        }
     }
 
     @Override
@@ -101,6 +141,136 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     void disposeTable() {
         table.clear();
         table.remove();
+    }
+    public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
+        // Time interval to determine double-click
+        final int DOUBLE_CLICK_TIME = 300; // 300 milliseconds (adjust as needed)
+        final int[] clickCount = {0};
+        final long[] lastClickTime = {0};
+
+        slot.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //double calls when mouse held, to be fixed
+                String[][] itemText = {{item.getDescription() + ". Quantity: "
+                        + item.getQuantity() + "/" + item.getLimit()}};
+                ServiceLocator.getDialogueBoxService().updateText(itemText);
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                long currentTime = System.currentTimeMillis();
+                clickCount[0]++;
+
+                if (clickCount[0] == 1) {
+                    lastClickTime[0] = currentTime;
+                } else if (clickCount[0] == 2) {
+                    if (currentTime - lastClickTime[0] <= DOUBLE_CLICK_TIME) {
+                        // Double-click detected
+                        clickCount[0] = 0; // Reset click count
+                        handleItemUse(); // Handle item usage on double-click
+                    } else {
+                        handleSingleClick();
+                        clickCount[0] = 1;
+                        lastClickTime[0] = currentTime;
+                    }
+                }
+
+                return true; // Return true to indicate that the event was handled
+            }
+
+
+            private void handleItemUse() {
+                logger.debug("Item {} was used", item.getName()); // Log the item usage
+                ItemUsageContext context = new ItemUsageContext(entity); // Create a context for item usage
+                if (item instanceof TimedUseItem) {
+                    // If the item is a TimedUseItem, add a task to the AI component
+                    aiComponent.addTask(
+                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
+                }
+                hotbar.useItemAt(index, context); // Use the item in the inventory
+                entity.getEvents().trigger("itemUsed", item); // Trigger an event indicating the item was used
+                regenerateHotbar(); // Update the inventory display
+            }
+
+            private void handleSingleClick() {
+                logger.debug("Item {} was selected", item.getName());
+            }
+
+
+        });
+    }
+    private class InventoryTarget extends DragAndDrop.Target {
+        private final ImageButton slot;
+        private final int index;
+
+        public InventoryTarget(ImageButton slot, int index) {
+            super(slot);
+            this.slot = slot;
+            this.index = index;
+        }
+
+        @Override
+        public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            AbstractItem draggedItem = (AbstractItem) payload.getObject();
+            // Check if the slot can accept the dragged item
+            if (hotbar.getAt(index) == null || !hotbar.getAt(index).equals(draggedItem)) {
+                slot.setColor(Color.LIGHT_GRAY); // Indicate valid drop target
+                return true; // Allow the drop
+            } else {
+                slot.setColor(Color.RED); // Indicate invalid drop target
+                return false; // Reject the drop
+            }
+        }
+        @Override
+        public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+            AbstractItem draggedItem = (AbstractItem) payload.getObject();
+            if (draggedItem != null && index < hotbar.getCapacity()) {
+                // Get the item currently in the target slot
+                AbstractItem itemInSlot = hotbar.getAt(index);
+                int sourceIndex = ((PlayerInventoryDisplay.InventorySource) source).index;
+                hotbar.removeAt(sourceIndex);
+                // Check if the slot is occupied
+                if (itemInSlot != null) {
+                    // Get the source index from the source object
+                    // Remove the item in the target slot and the dragged item from their respective slots
+                    hotbar.removeAt(index);
+                    // Add the dragged item to the target slot and the item that was in the target slot to the source slot
+                    hotbar.addAt(index, draggedItem);
+                    hotbar.addAt(sourceIndex, itemInSlot);
+                    regenerateHotbar();
+                } else {
+                    // If the target slot is empty, simply add the dragged item to the slot
+                    hotbar.addAt(index, draggedItem);
+                }
+
+                regenerateHotbar(); // Refresh the inventory display
+            }
+        }
+
+        @Override
+        public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
+            // Reset the slot color when dragging leaves the target
+            slot.setColor(Color.WHITE);
+        }
+    }
+
+    private void regenerateHotbar() {
+        if (stage.getActors().contains(table, true)) {
+            disposeTable();
+            createHotbar();
+        }
+    }
+
+    /**
+     * loads inventory from previous save
+     */
+    public void loadInventoryFromSave() {
+        hotbar.loadInventoryFromSave();
     }
 
     /**
