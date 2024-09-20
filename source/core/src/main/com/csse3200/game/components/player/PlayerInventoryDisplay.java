@@ -158,25 +158,18 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
             table.row(); // Move to the next row in the table
         }
-        // Create the "Sort" button
-        TextButton sortButton = new TextButton("Sort", skin);
 
-        // Add listener to handle button click
+        // Add sort button:
+        TextButton sortButton = new TextButton("Sort", skin);
         sortButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // Add your sorting logic here
                 inventory.sortByCode();
                 regenerateInventory();
             }
         });
-
         table.row();
         table.add(sortButton);
-
-        // Add the button to the bottom of the window
-//        window.row(); // Move to the next row in the window
-//        window.add(sortButton).expandX().fillX().pad(10);
 
         // Add the table to the window
         window.add(table).expand().fill();
