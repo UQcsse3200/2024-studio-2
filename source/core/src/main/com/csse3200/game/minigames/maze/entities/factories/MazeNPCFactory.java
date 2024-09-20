@@ -59,7 +59,8 @@ public class MazeNPCFactory {
             .addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
-            .addComponent(new LightingComponent(LightingComponent.createPointLight(0.5f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
+            .addComponent(new LightingComponent()
+                    .attach(LightingComponent.createPointLight(0.5f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
     angler.setScale(.1f,.1f);

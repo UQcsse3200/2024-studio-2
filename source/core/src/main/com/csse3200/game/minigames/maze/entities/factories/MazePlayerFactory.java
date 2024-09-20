@@ -1,5 +1,8 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.player.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
@@ -8,6 +11,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
@@ -53,6 +57,15 @@ public class MazePlayerFactory {
     player.getComponent(TextureRenderComponent.class).scaleEntity();
     player.setScale(player.getScale().scl(0.3f));
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+
+    Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
+    RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
+    PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
+    PointLight pl2 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
+    player.addComponent(new LightingComponent().attach(pl1).attach(pl2));
+    pl1.setSoftnessLength(0f);
+    pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
+    pl2.setXray(true);
     return player;
   }
 

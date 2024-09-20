@@ -110,15 +110,7 @@ public class MazeGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = MazePlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
-    Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
-    PointLight pl1 = LightingComponent.createPointLight(4, lightColor);
-    PointLight pl2 = LightingComponent.createPointLight(1.5f, lightColor);
-    newPlayer.addComponent(new LightingComponent(pl1));
-    pl1.setXray(false);
-    pl1.setSoftnessLength(0f);
-    pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
     spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
-    pl2.attachToBody(newPlayer.getComponent(PhysicsComponent.class).getBody());
     return newPlayer;
   }
 

@@ -9,88 +9,56 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LightingComponent extends Component {
-    private final PositionalLight light;
-    private Vector2 offset;
-    private final boolean attachToPhysicsBody;
+    private final List<PositionalLight> lights;
+    private final List<Vector2> offsets;
 
     /**
-     * Create a component which places a light source on an entity.
-     * @param light The light source.
-     */
-    public LightingComponent(PositionalLight light) {
-        this(light, Vector2.Zero, false);
-    }
-
-    /**
-     * Create a component which places a light source on an entity.
-     * Optionally attaches that light to the entity's physics body.
+     * Attaches a light source to the entity's center position.
      *
      * @param light The light source.
-     * @param offset Relative offset of light from entity center.
      */
-    public LightingComponent(PositionalLight light, Vector2 offset) {
-        this(light, offset, false);
+    public LightingComponent attach(PositionalLight light) {
+        return attach(light, Vector2.Zero);
     }
 
     /**
-     * Create a component which places a light source on an entity.
-     * Optionally attaches that light to the entity's physics body.
+     * Attaches a light source to the entity with an offset from its center position.
      *
      * @param light The light source.
      * @param offset Relative offset from entity/physics body center.
-     * @param attachToPhysicsBody Whether to attach the light source to the entity physics body.
      */
-    public LightingComponent(PositionalLight light, Vector2 offset, boolean attachToPhysicsBody) {
-        this.light = light;
-        this.offset = offset;
-        this.attachToPhysicsBody = attachToPhysicsBody;
+    public LightingComponent attach(PositionalLight light, Vector2 offset) {
+        lights.add(light);
+        offsets.add(offset);
+        return this;
     }
 
     /**
-     * Create a component which places a light source on an entity.
-     * Optionally attaches that light to the entity's physics body.
-     *
-     * @param light The light source.
-     * @param attachToPhysicsBody Whether to attach the light source to the entity physics body.
+     * Create a component which allows light sources to be attached to an entity.
      */
-    public LightingComponent(PositionalLight light, boolean attachToPhysicsBody) {
-        this(light, Vector2.Zero, attachToPhysicsBody);
+    public LightingComponent() {
+        this.lights = new ArrayList<>();
+        this.offsets = new ArrayList<>();
     }
 
     /**
      * Get the light source corresponding to this LightComponent
      * @return LightComponent Light source
      */
-    public PositionalLight getLight() {
-        return light;
+    public List<PositionalLight> getLights() {
+        return lights;
     }
 
     /**
      * Get the offset of the light from the entity/physics body center
      * @return Light offset
      */
-    public Vector2 getOffset() {
-        return offset.cpy();
-    }
-
-    /**
-     * Update the offset of the light from the entity/physics body center
-     * @param offset the new offset to be used
-     */
-    public void setOffset(Vector2 offset) {
-        this.offset = offset;
-        create();
-    }
-
-    /**
-     * Attach the light to the entity's physics body if that option was specified.
-     */
-    @Override
-    public void create() {
-        if (attachToPhysicsBody) {
-            light.attachToBody(entity.getComponent(PhysicsComponent.class).getBody(), offset.x, offset.y, 0);
-        }
+    public List<Vector2> getOffsets() {
+        return offsets;
     }
 
     /**
@@ -99,8 +67,8 @@ public class LightingComponent extends Component {
      */
     @Override
     public void update() {
-        if (!attachToPhysicsBody) {
-            light.setPosition(entity.getCenterPosition().add(offset));
+        for (int i = 0; i < lights.size(); i++) {
+            lights.get(i).setPosition(entity.getCenterPosition().add(offsets.get(i)));
         }
     }
 
