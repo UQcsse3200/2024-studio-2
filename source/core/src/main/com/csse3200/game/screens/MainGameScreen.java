@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.MiniMapDisplay;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
@@ -104,10 +105,10 @@ public class MainGameScreen extends PausableScreen {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
+    setMap(MapHandler.MapType.FOREST);
     createUI();
     logger.debug("Initialising main game screen entities");
 
-    setMap(MapHandler.MapType.FOREST);
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
@@ -225,7 +226,8 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new MainGameExitDisplay(mainGameActions))
               .addComponent(new Terminal())
               .addComponent(inputComponent)
-              .addComponent(new TerminalDisplay());
+              .addComponent(new TerminalDisplay())
+              .addComponent(new MiniMapDisplay(gameArea));
       
       ServiceLocator.getEntityService().register(ui);
   }
