@@ -61,7 +61,7 @@ public class MazePlayerFactory {
     Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
     RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
     PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
-    PointLight pl2 = new PointLight(rayHandler, 1000, lightColor, 1.5f, 0, 0);
+    PointLight pl2 = new PointLight(rayHandler, 300, lightColor, 1.5f, 0, 0);
     player.addComponent(new LightingComponent().attach(pl1).attach(pl2));
     pl1.setSoftnessLength(0f);
     pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);

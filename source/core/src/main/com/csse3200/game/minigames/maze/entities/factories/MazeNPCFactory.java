@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.npc.MazeEntityAnimationController;
+import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
@@ -22,6 +22,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
@@ -60,11 +61,11 @@ public class MazeNPCFactory {
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
             .addComponent(new LightingComponent()
-                    .attach(LightingComponent.createPointLight(0.5f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
+                    .attach(LightingComponent.createPointLight(2f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
-    angler.setScale(.1f,.1f);
-    PhysicsUtils.setScaledCollider(angler, 0.1f, 0.1f);
+    angler.setScale(.7f,.7f);
+    PhysicsUtils.setScaledCollider(angler, 0.2f, 0.2f);
     return angler;
   }
 
@@ -85,6 +86,7 @@ public class MazeNPCFactory {
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+            .addComponent(new FaceMoveDirectionXComponent())
             .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);

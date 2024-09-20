@@ -1,4 +1,4 @@
-package com.csse3200.game.components.npc;
+package com.csse3200.game.minigames.maze.components.npc;
 
 import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
@@ -16,6 +16,10 @@ public class MazeEntityAnimationController extends Component {
     animator = this.entity.getComponent(AnimationRenderComponent.class);
     entity.getEvents().addListener("wanderStart", this::animateWander);
     entity.getEvents().addListener("chaseStart", this::animateChase);
+    entity.getEvents().addListener("faceLeft", this::faceLeft);
+    entity.getEvents().addListener("faceRight", this::faceRight);
+    entity.getEvents().addListener("chaseLeft", this::faceLeft);
+    entity.getEvents().addListener("chaseRight", this::faceRight);
   }
 
   void animateWander() {
@@ -24,5 +28,13 @@ public class MazeEntityAnimationController extends Component {
 
   void animateChase() {
     animator.startAnimation("Attack");
+  }
+
+  void faceLeft() {
+    animator.setFlipX(true);
+  }
+
+  void faceRight() {
+    animator.setFlipX(false);
   }
 }

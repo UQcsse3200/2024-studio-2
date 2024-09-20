@@ -89,7 +89,6 @@ public class MazeGameArea extends GameArea {
       for (int y = 0; y < maze.getHeight(); y++) {
         for (GridPoint2 direction : GRID_DIRECTIONS) {
           if (maze.isWall(x, y, direction)) {
-            System.out.println(String.valueOf(x) + " " + String.valueOf(y) + " " + direction);
             float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
             float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
             float xPos = x + .5f * (1 + direction.x);
@@ -115,12 +114,10 @@ public class MazeGameArea extends GameArea {
   }
 
   private void spawnAngler() {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    Entity angler = MazeNPCFactory.createAngler(player);
-    spawnEntityAt(angler, randomPos, true, true);
+    for (int i = 0; i < 5; i++) {
+      Entity angler = MazeNPCFactory.createAngler(player);
+      spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
+    }
   }
 
   @Override
