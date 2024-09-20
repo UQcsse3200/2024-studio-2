@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.Objects;
@@ -55,6 +56,10 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
+        AnimationRenderComponent animator =  entity.getComponent(AnimationRenderComponent.class);
+        if (animator != null) {
+            animator.startAnimation("selected");
+        }
 
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
