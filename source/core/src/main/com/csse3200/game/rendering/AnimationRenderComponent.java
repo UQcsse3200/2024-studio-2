@@ -192,4 +192,8 @@ public class AnimationRenderComponent extends RenderComponent {
     atlas.dispose();
     super.dispose();
   }
+
+  public TextureAtlas getAtlas() {
+    return atlas;
+  }
 }
