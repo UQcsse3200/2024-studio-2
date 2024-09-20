@@ -1,6 +1,8 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -47,6 +49,10 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
     entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
+      game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
+    });
+
   }
 
   /**
@@ -58,14 +64,17 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatDisplay update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfCombatDialogue", enemy);
 //    if (previousScreen instanceof MainGameScreen mainGameScreen) {
 //      ForestGameArea gameArea = mainGameScreen.getGameArea();
 //      List<Entity> enemies = gameArea.getEnemies();
 //
 //      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
 //    }
-    game.returnFromCombat(previousScreen, previousServices, enemy);
+//    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**

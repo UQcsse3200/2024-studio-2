@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -25,6 +26,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton GuardButton;
     TextButton SleepButton;
     TextButton ItemsButton;
+    ChangeListener dialogueBoxListener;
 
 
     /**
@@ -46,17 +48,19 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
+        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy) -> displayEndCombatDialogue(enemy));
         // Add a listener to the stage to monitor the DialogueBox visibility
-        stage.addListener(new ChangeListener() {
+        dialogueBoxListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // Check if the DialogueBox is not visible
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.info("DialogueBox is no longer visible, adding actors back.");
                     addActors();
                 }
             }
-        });
+        };
+
+        stage.addListener(dialogueBoxListener);
     }
 
     /**
@@ -130,6 +134,26 @@ public class CombatButtonDisplay extends UIComponent {
     public void hideButtons() {
         logger.info(String.format("The dialog box is present in CombatButDispl: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
         table.remove();
+    }
+
+    public void displayEndCombatDialogue(Entity enemyEntity) {
+        stage.removeListener(dialogueBoxListener);
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                    entity.getEvents().trigger("finishedEndCombatDialogue", enemyEntity);
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+        String[][] endText = {{"You killed the enemy you monster. They had kids."}};
+        ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 
     @Override
