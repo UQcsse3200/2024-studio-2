@@ -333,7 +333,7 @@ public class CombatStatsComponent extends Component {
    * @return entity's max experience
    */
   public int getMaxExperience() {
-    return maxExperience;
+    return this.maxExperience;
   }
 
   /**

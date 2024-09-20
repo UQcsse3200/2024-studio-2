@@ -136,6 +136,10 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
+        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
+        //player.getComponent(CombatStatsComponent.addExperience())
+        //enemy.getComponent(CombatStatsComponent.getExperience());
+        //
         enemy.dispose();
     }
 

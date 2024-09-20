@@ -66,10 +66,14 @@ public class CombatActions extends Component {
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
-
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
     // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
+
+
 //    if (previousScreen instanceof MainGameScreen mainGameScreen) {
 //      ForestGameArea gameArea = mainGameScreen.getGameArea();
 //      List<Entity> enemies = gameArea.getEnemies();

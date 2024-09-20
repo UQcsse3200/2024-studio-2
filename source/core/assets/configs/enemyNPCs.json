@@ -5,6 +5,7 @@
     "baseAttack": 1,
     "defense": 2,
     "speed": 2,
+    "experience": 50,
     "isEnemy": 1
   },
   "frog": {
@@ -13,6 +14,7 @@
     "baseAttack": 25,
     "defense": 25,
     "speed": 1,
+    "experience": 50,
     "isEnemy": 1
   },
   "monkey": {
@@ -21,6 +23,7 @@
     "baseAttack": 25,
     "defense": 25,
     "speed": 1.5,
+    "experience": 50,
     "isEnemy": 1
   },
   "bear": {
