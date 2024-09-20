@@ -79,8 +79,8 @@ class TimedUseItemTest  {
         defensePotion.useItem(player1);
 
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
-        //defensePotion.update(player1);
-        //assertEquals(originalDefense + defensePotion.getEffectAmount(), player1.player.getComponent(CombatStatsComponent.class).getDefense(), "should be 25");
+        defensePotion.update(player1);
+        assertEquals(originalDefense + defensePotion.getEffectAmount(), player1.player.getComponent(CombatStatsComponent.class).getDefense(), "should be 25");
 
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION + 1);
         defensePotion.update(player1);
