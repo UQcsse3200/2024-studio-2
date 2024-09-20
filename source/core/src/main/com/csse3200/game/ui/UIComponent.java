@@ -35,5 +35,4 @@ public abstract class UIComponent extends RenderComponent implements Renderable 
   public void setStage(Stage stage) {
     this.stage = stage;
   }
-
 }
