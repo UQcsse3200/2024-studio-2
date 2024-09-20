@@ -18,6 +18,7 @@ import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.areas.MapHandler;
 import org.lwjgl.opengl.Drawable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MiniMapDisplay extends UIComponent {
@@ -26,9 +27,11 @@ public class MiniMapDisplay extends UIComponent {
     private List<Entity> enemies;
     private Texture miniMapBackground;
     private Image greenDotPointImage;
-    private Image redDotPointImage;
-    private Table table;
+    private List<Image> redDotPointImages;
     private GameArea gameArea;
+    private float miniMapX = 500;  // Minimap's X position on the screen
+    private float miniMapY = 500;  // Minimap's Y position on the screen
+    private int miniMapSize = 100;  // Size of the minimap
 
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
@@ -43,50 +46,33 @@ public class MiniMapDisplay extends UIComponent {
     }
     private void addActors() {
         initializeImages();
-        initializeTables();
-        addPointsToMiniMap();
-
-        stage.addActor(table);
     }
 
     private void initializeImages() {
-        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(miniMapSize, miniMapSize, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
-        pixmap.fillRectangle(0, 0, 100, 100);
+        pixmap.fillRectangle(0, 0, miniMapSize, miniMapSize);
         // Convert the Pixmap to a texture
         miniMapBackground = new Texture(pixmap);
 
         // Dispose the Pixmap after creating the texture (no longer needed)
         pixmap.dispose();
         greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
-        redDotPointImage = new Image(new Texture("images/minimap/redDotPoint.png"));
-
-    }
-
-    public Table initializeTables() {
-        initializeImages();
-        table = new Table();
-        table.setBackground(new TextureRegionDrawable(new TextureRegion(miniMapBackground)));
-        table.setSize(200, 200);
-        table.setPosition(500, 500);
-        table.setVisible(true);
-        stage.addActor(table);
-        return table;
-    }
-
-    private void addPointsToMiniMap() {
-        table.add(greenDotPointImage).size(15,15);
-        for (Entity enemy : enemies) {
-            table.add(redDotPointImage).size(5,5);
+        redDotPointImages = new ArrayList<>();
+        for(Entity enemy : enemies) {
+            Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
+            redDotPointImages.add(redDotImage);
         }
+
     }
 
 
-    private Vector2 transformEnityToDotPoint(Entity entity, int size) {
+    private Vector2 transferToMiniMapPos(Entity entity) {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
 
-        Vector2 enityMiniMapPos = new Vector2((entityPos.x - playerPos.x)/size, (entityPos.y - playerPos.y)/size);
+        Vector2 enityMiniMapPos = new Vector2((entityPos.x - playerPos.x) / 5000 * miniMapSize, (entityPos.y - playerPos.y) / 5000 * miniMapSize);
+        enityMiniMapPos.add(miniMapX, miniMapY);
 
         return enityMiniMapPos;
     }
@@ -94,13 +80,14 @@ public class MiniMapDisplay extends UIComponent {
     @Override
     public void update() {
         //Update green point position (player in minimap)
-        Vector2 playerMiniMapPos = transformEnityToDotPoint(player, 200);
+        Vector2 playerMiniMapPos = transferToMiniMapPos(player);
         greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
         //Update red points position (enemies in minimap)
 
-        for (Entity enemy : enemies) {
-            Vector2 enemyMiniMapPos = transformEnityToDotPoint(enemy, 100);
-            redDotPointImage.setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
+        for (int i = 0; i < enemies.size(); i++) {
+            Entity enemy = enemies.get(i);
+            Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
+            redDotPointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
         }
 
         //Update big red points position (boss in minimap)
@@ -108,6 +95,9 @@ public class MiniMapDisplay extends UIComponent {
     }
     @Override
     protected void draw(SpriteBatch batch) {
-
+        batch = new SpriteBatch();
+        batch.begin();
+        batch.draw(miniMapBackground, miniMapX, miniMapY, miniMapSize, miniMapSize);
+        batch.end();
     }
 }
