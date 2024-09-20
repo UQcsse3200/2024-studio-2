@@ -14,7 +14,7 @@ import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.rendering.Renderable;
 
 public class LightingEngine implements Disposable, Renderable {
-    private static final int RAY_COUNT = 128;
+    private static final int RAY_COUNT = 1000;
     private final RayHandler rayHandler;
     private final Camera camera;
     World world;

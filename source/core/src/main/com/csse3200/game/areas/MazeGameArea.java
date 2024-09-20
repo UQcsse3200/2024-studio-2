@@ -123,8 +123,8 @@ public class MazeGameArea extends GameArea {
     Entity newPlayer = PlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
     Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
-    PointLight pl1 = LightingComponent.createPointLight(5, lightColor);
-    PointLight pl2 = LightingComponent.createPointLight(2, lightColor);
+    PointLight pl1 = LightingComponent.createPointLight(4, lightColor);
+    PointLight pl2 = LightingComponent.createPointLight(1.5f, lightColor);
     newPlayer.addComponent(new LightingComponent(pl1));
     pl1.setXray(false);
     pl1.setSoftnessLength(0f);
