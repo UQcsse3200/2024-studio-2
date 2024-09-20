@@ -50,13 +50,7 @@ class NPCFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private static String[] textures = {
-            "images/Cow.png",
-            "images/Lion-Spritesheet.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/turtle.png",
-            "images/magpie.png",
-            "images/Fish.png",
+            "images/friendly_npcs/friendly-npcs.png",
             "images/final_boss_kangaroo.png"
     };
 

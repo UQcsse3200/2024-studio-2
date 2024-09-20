@@ -59,6 +59,62 @@ float
   orig: 100, 100
   offset: 0, 0
   index: -1
+selected
+  rotate: false
+  xy: 1060, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 1325, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 1590, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 1855, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 2120, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 2385, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 2650, 3876
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 0, 4104
+  size: 265, 228
+  size: 265, 228
+  offset: 0, 0
+  index: -1
 default
   rotate: false
   xy: 1142, 1660

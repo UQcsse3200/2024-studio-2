@@ -59,6 +59,8 @@ float
   orig: 168, 96
   offset: 0, 0
   index: -1
+22-29
+
 default
   rotate: false
   xy: 48, 522
