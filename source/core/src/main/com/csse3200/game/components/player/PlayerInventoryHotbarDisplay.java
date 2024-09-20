@@ -95,6 +95,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         super.dispose();
     }
 
+
     /**
      * Disposes of the table by clearing its contents and removing it from the stage.
      */

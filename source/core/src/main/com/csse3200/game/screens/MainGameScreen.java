@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -16,6 +17,8 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -71,6 +74,7 @@ public class MainGameScreen extends PausableScreen {
    * Physics engine for handling physics simulations in the game.
    */
   private final PhysicsEngine physicsEngine;
+  private final LightingEngine lightingEngine;
 
   /**
    * The game area containing the main game.
@@ -102,6 +106,15 @@ public class MainGameScreen extends PausableScreen {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
+
+    lightingEngine = new LightingEngine(physicsEngine.getWorld(),
+            renderer.getCamera().getCamera());
+
+    lightingEngine.getRayHandler().setAmbientLight(new Color(0.5f, 0.45f, 0.3f, 0.6f));
+
+    ServiceLocator.getRenderService().register(lightingEngine);
+
+    ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
     loadAssets();
     createUI();

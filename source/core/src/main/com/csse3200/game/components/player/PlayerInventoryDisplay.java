@@ -139,7 +139,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Create the table for inventory slots
         window.getTitleLabel().setStyle(titleStyle);
         table = new Table();
-        window.getTitleTable().padBottom(20);
+        window.getTitleTable().padBottom(10);
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -158,8 +158,22 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
             table.row(); // Move to the next row in the table
         }
+
+        // Add sort button:
+        TextButton sortButton = new TextButton("Sort", skin);
+        sortButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                inventory.sortByCode();
+                regenerateInventory();
+            }
+        });
+        table.row();
+        table.add(sortButton);
+
         // Add the table to the window
         window.add(table).expand().fill();
+
         window.pack();
         // Set position in stage top-center
         window.setPosition(
