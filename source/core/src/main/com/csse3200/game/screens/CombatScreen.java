@@ -100,6 +100,12 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
+    // CombatArea.spawnTerrain();
+    // CombatTerrainFactory.createBackgroundTerrain2(CombatTerrainFactory.TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+
+    // gameArea.clear(); // Clear the old terrain to avoid overlapping
+    gameArea.spawnTerrain();
+
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 

@@ -136,7 +136,7 @@ public class CombatArea extends GameArea {
     /** Spawns the official backgrond terrain for
      * combat using combat terrain factory
      */
-    private void spawnTerrain() {
+    public void spawnTerrain() {
         terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
