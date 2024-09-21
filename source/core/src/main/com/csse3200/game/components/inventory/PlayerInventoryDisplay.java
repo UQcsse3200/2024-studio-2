@@ -91,7 +91,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
-            generateWindow();
+            generateInventory();
             stage.addActor(inventoryDisplay);
             stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
             InventoryUtils.disposeGroupRecursively(hotBarDisplay);
@@ -120,7 +120,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     /**
      * Generates the inventory window and populates it with inventory slots.
      */
-    private void generateWindow() {
+    private void generateInventory() {
         // Create the window (pop-up)
         inventoryDisplay = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
@@ -246,7 +246,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void removeItem(AbstractItem item) {
         inventory.deleteItem(item.getItemCode());
-        generateWindow();
+        generateInventory();
     }
 
     /**
