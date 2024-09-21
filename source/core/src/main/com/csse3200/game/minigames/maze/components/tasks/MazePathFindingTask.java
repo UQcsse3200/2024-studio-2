@@ -53,9 +53,7 @@ public class MazePathFindingTask extends DefaultTask implements PriorityTask {
       }
       path.removeLast();
     }
-    logger.info("Starting movement towards {}", targetWorldPos);
-    logger.info("Starting movement towards {}", entityWorldPos);
-    return targetWorldPos.sub(owner.getEntity().getCenterPosition().sub(owner.getEntity().getPosition()));
+    return MovementRelativeToCenterPos.adjustPos(targetWorldPos, owner.getEntity());
   }
 
   @Override
@@ -93,6 +91,6 @@ public class MazePathFindingTask extends DefaultTask implements PriorityTask {
 
   @Override
   public int getPriority() {
-    return 100;
+    return 2;
   }
 }

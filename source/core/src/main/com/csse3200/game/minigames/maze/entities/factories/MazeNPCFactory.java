@@ -13,6 +13,7 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -79,7 +80,7 @@ public class MazeNPCFactory {
     AITaskComponent aiComponent =
         new AITaskComponent()
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-            .addTask(new ChaseTask(target, 10, 3f, 4f, false));
+            .addTask(new MazeChaseTask(target, 10, 1f, 2f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
