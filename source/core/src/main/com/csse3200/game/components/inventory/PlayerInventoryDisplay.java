@@ -255,11 +255,8 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param item The item to be added to the inventory.
      */
     private void addItem(AbstractItem item) {
-        if (this.inventory.add(item)) {
-            entity.getEvents().trigger("itemPickedUp", true);
-        } else {
-            entity.getEvents().trigger("itemPickedUp", false);
-        }
+        boolean wasAdded = this.inventory.add(item); // Keeping this line to avoid side effects
+        entity.getEvents().trigger("itemPickedUp", wasAdded);
         regenerateInventory();
     }
 
