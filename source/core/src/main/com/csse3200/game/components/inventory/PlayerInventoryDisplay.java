@@ -35,15 +35,13 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final float Z_INDEX = 3f;
     AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
-    private Window window;
-    private Table table;
-    private  Table hotbarTable;
+    private Window inventoryDisplay;
+    private  Table hotBarDisplay;
     private boolean toggle = false; // Whether inventory is toggled on;
     //created by @PratulW5:
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
-//    PlayerInventoryHotbarDisplay hotbar;
+    private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -59,7 +57,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             throw new IllegalArgumentException(msg);
         }
 
-        int capacity = inventory.getCapacity() - 5; // 5 for hotbar (refactor this later)
+        int capacity = inventory.getCapacity() - 5; // 5 for hot-bar (refactor this later)
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
@@ -76,7 +74,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        generateHotbar();
+        generateHotBar();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("addItem", this::addItem);
     }
@@ -85,20 +83,18 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
-        if (stage.getActors().contains(window, true)) {
+        if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
-//            hotbar.createHotbar();
-            generateHotbar();
-            stage.getActors().removeValue(window, true); // close inventory
-            InventoryUtils.disposeGroupRecursively(window);
+            generateHotBar();
+            stage.getActors().removeValue(inventoryDisplay, true); // close inventory
+            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
             generateWindow();
-            stage.addActor(window);
-//            hotbar.disposeTable();
-            stage.getActors().removeValue(hotbarTable, true); // close hotbar
-            InventoryUtils.disposeGroupRecursively(hotbarTable);
+            stage.addActor(inventoryDisplay);
+            stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
+            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
             toggle = true;
         }
     }
@@ -137,16 +133,16 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     private void generateWindow() {
         // Create the window (pop-up)
-        window = new Window("Inventory", inventorySkin);
-        Label.LabelStyle titleStyle = new Label.LabelStyle(window.getTitleLabel().getStyle());
+        inventoryDisplay = new Window("Inventory", inventorySkin);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
-        window.getTitleLabel().setAlignment(Align.center);
-        window.getTitleTable().padTop(150); // Adjust the value to move the title lower
+        inventoryDisplay.getTitleLabel().setAlignment(Align.center);
+        inventoryDisplay.getTitleTable().padTop(150); // Adjust the value to move the title lower
         // Create the table for inventory slots
-        window.getTitleLabel().setStyle(titleStyle);
-        window.getTitleTable().padBottom(10);
+        inventoryDisplay.getTitleLabel().setStyle(titleStyle);
+        inventoryDisplay.getTitleTable().padBottom(10);
 
-        table = new Table();
+        Table table = new Table();
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -178,25 +174,25 @@ public class PlayerInventoryDisplay extends UIComponent {
         table.add(sortButton);
 
         // Add the table to the window
-        window.add(table).expand().fill();
+        inventoryDisplay.add(table).expand().fill();
 
-        window.pack();
+        inventoryDisplay.pack();
         // Set position in stage top-center
-        window.setPosition(
-                (stage.getWidth() - window.getWidth()) / 2,  // Center horizontally
-                (stage.getHeight() - window.getHeight()) / 2 // Center vertically
+        inventoryDisplay.setPosition(
+                (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
+                (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
 
     /**
-     * Creates the hotbar UI, populates it with slots, and positions it on the stage.
+     * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
      */
-    void generateHotbar() {
-        hotbarTable = new Table();
-        hotbarTable.clear();
-        hotbarTable.center().right();
-        hotbarTable.setBackground(new TextureRegionDrawable(hotBarTexture));
-        hotbarTable.setSize(160, 517);
+    void generateHotBar() {
+        hotBarDisplay = new Table();
+        hotBarDisplay.clear();
+        hotBarDisplay.center().right();
+        hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
+        hotBarDisplay.setSize(160, 517);
         for (int i = 0; i < 5; i++) { // TODO: REMOVE MAGIC NUMBER 5
             AbstractItem item = inventory.getAt(i);
             ImageButton slot = new ImageButton(slotSkin);
@@ -205,13 +201,13 @@ public class PlayerInventoryDisplay extends UIComponent {
                 Image itemImage = new Image(new Texture(item.getTexturePath()));
                 slot.add(itemImage).center().size(75, 75);
             }
-            hotbarTable.add(slot).size(80, 80).pad(5).padRight(45);
-            hotbarTable.row();
+            hotBarDisplay.add(slot).size(80, 80).pad(5).padRight(45);
+            hotBarDisplay.row();
         }
-        float tableX = stage.getWidth() - hotbarTable.getWidth() - 20;
-        float tableY = (stage.getHeight() - hotbarTable.getHeight()) / 2;
-        hotbarTable.setPosition(tableX, tableY);
-        stage.addActor(hotbarTable);
+        float tableX = stage.getWidth() - hotBarDisplay.getWidth() - 20;
+        float tableY = (stage.getHeight() - hotBarDisplay.getHeight()) / 2;
+        hotBarDisplay.setPosition(tableX, tableY);
+        stage.addActor(hotBarDisplay);
     }
 
     /**
@@ -292,11 +288,14 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        if (window != null) {
-            InventoryUtils.disposeGroupRecursively(window);
-            window=null;
+        if (inventoryDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
+            inventoryDisplay =null;
         }
-        table = null;
+        if (hotBarDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
+            hotBarDisplay = null;
+        }
 
         super.dispose();
     }
