@@ -163,12 +163,16 @@ public class Maze {
     /**
      * Class for bfs
      */
-    class breadthFirstSearch {
+    public class breadthFirstSearch {
         int[][] distances;
         GridPoint2[][] previous;
         GridPoint2 mostDistant;
 
-        breadthFirstSearch(List<GridPoint2> startCells) {
+        public breadthFirstSearch(GridPoint2 startCell) {
+            this(Collections.singletonList(startCell));
+        }
+
+        public breadthFirstSearch(List<GridPoint2> startCells) {
             distances = new int[width][height];
             previous = new GridPoint2[width][height];
             for (int x = 0; x < width; x++) {
@@ -200,7 +204,7 @@ public class Maze {
          * @param end the grid cell to search for
          * @return the shortest path
          */
-        List<GridPoint2> getShortestPath(GridPoint2 end) {
+        public List<GridPoint2> getShortestPath(GridPoint2 end) {
             List<GridPoint2> path = new ArrayList<>();
             while (end != null) {
                 path.add(end);
@@ -209,7 +213,7 @@ public class Maze {
             return path.reversed();
         }
 
-        GridPoint2 getMostDistant() {
+        public GridPoint2 getMostDistant() {
             return mostDistant;
         }
     }

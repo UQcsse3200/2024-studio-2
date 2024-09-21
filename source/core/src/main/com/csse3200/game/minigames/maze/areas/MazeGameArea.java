@@ -4,12 +4,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.Maze;
 import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
+import com.csse3200.game.minigames.maze.components.tasks.MazePathFindingTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
@@ -114,9 +116,11 @@ public class MazeGameArea extends GameArea {
   }
 
   private void spawnAngler() {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; i++) {
       Entity angler = MazeNPCFactory.createAngler(player);
       spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
+      angler.getComponent(AITaskComponent.class).addTask(
+              new MazePathFindingTask(MazeTerrainFactory.worldPosToGridPos(player.getCenterPosition()), maze));
     }
   }
 

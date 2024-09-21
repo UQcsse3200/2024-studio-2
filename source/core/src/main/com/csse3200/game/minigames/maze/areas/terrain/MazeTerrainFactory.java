@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
@@ -17,7 +18,7 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrain for the maze mini-game. */
 public class MazeTerrainFactory extends TerrainFactory {
-  public static final GridPoint2 MAP_SIZE = new GridPoint2(12, 12);
+  public static final GridPoint2 MAP_SIZE = new GridPoint2(6, 6);
   public static final float TILE_SIZE = 1;
 
   /**
@@ -72,5 +73,9 @@ public class MazeTerrainFactory extends TerrainFactory {
         layer.setCell(x, y, cell);
       }
     }
+  }
+
+  public static GridPoint2 worldPosToGridPos(Vector2 worldPos) {
+    return new GridPoint2((int) (worldPos.x / TILE_SIZE), (int) (worldPos.y / TILE_SIZE));
   }
 }
