@@ -12,15 +12,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.Time;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
@@ -43,6 +53,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     PlayerInventoryHotbarDisplay hotbar;
     PlayerItemInUseDisplay indicationBox = new PlayerItemInUseDisplay(false, false, false);
+    private final Map<String, GameTime> usedItems = new HashMap<>();
+
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -157,6 +169,10 @@ public class PlayerInventoryDisplay extends UIComponent {
                     Image itemImage = new Image(new Texture(item.getTexturePath()));
                     slot.add(itemImage).center().size(80, 80);
                 }
+                ItemUsageContext timeItemContext = new ItemUsageContext(entity);
+                if (item instanceof TimedUseItem) {
+                    managePastUsedItems((TimedUseItem) item, timeItemContext, indicationBox);
+                }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
                 slots[index] = slot;
             }
@@ -201,15 +217,62 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                if (item instanceof TimedUseItem) {
-                    aiComponent.addTask(
-                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context, indicationBox));
-                }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();
             }
         });
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean activePotion() {
+        EventHandler eventHandler = new EventHandler();
+        return Objects.equals(eventHandler.getLastTriggeredEvent(), "itemUsed");
+    }
+
+    /**
+     *
+     * @param item
+     * @param context
+     * @param itemDisplay
+     */
+    public void managePastUsedItems(TimedUseItem item, ItemUsageContext context, PlayerItemInUseDisplay itemDisplay) {
+        if (activePotion()) {
+            usedItems.put(item.getName(), item.getGameTime());
+            updateIndicationBox(item, itemDisplay, true); // Refactor to manage indication
+
+            Iterator<Map.Entry<String, GameTime>> iterator = usedItems.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry<String, GameTime> entry = iterator.next();
+                String itemName = entry.getKey();
+                if (item.isExpired(context)) {
+                    logger.debug(itemName + " has expired.");
+                    item.update(context);
+                    updateIndicationBox(item, itemDisplay, false); // Reset indication on expiration
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param item
+     * @param itemDisplay
+     * @param expired
+     */
+    private void updateIndicationBox(TimedUseItem item, PlayerItemInUseDisplay itemDisplay, boolean expired) {
+        switch (item) {
+            case DefensePotion defensePotion -> itemDisplay.setDefenseExpired(expired);
+            case SpeedPotion speedPotion -> itemDisplay.setSpeedExpired(expired);
+            case AttackPotion attackPotion -> itemDisplay.setAttackExpired(expired);
+            default -> {}
+        }
+        itemDisplay.createIndicationBox(); // Refresh the box
     }
 
     /**
