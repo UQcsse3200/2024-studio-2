@@ -68,13 +68,14 @@ public class SnakeGame {
      * If the snake can eat the apple then a new apple will spawn, the snake will grow
      * and the score will increase.
      */
-    public void attemptEatFruit() {
+    public boolean attemptEatFruit() {
         if (apple.isTouchingSnakeHead(snake)) {
             apple.spawn();
             snake.grow();
             score += 1;
-            AudioManager.playSound("sounds/minigames/snake-apple.mp3");
+            return true;
         }
+        return false;
     }
 
     /**
@@ -94,7 +95,9 @@ public class SnakeGame {
      * @param delta The time elapsed since the last update.
      */
     public void snakeMove(float delta) {
-        attemptEatFruit();
+        if (attemptEatFruit()) {
+            AudioManager.playSound("sounds/minigames/snake-apple.mp3");
+        }
         this.snake.update(delta);
         if(boundaryDetection() || snakeCollisionDetection()) {
             setIsGameOver();

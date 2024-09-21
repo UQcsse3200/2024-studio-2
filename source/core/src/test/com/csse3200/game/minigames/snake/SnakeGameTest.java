@@ -4,6 +4,8 @@ import com.csse3200.game.minigames.Direction;
 import com.csse3200.game.minigames.snake.Apple;
 import com.csse3200.game.minigames.snake.Snake;
 import com.csse3200.game.minigames.snake.SnakeGame;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -36,7 +38,6 @@ public class SnakeGameTest {
      */
     @Test
     public void testScoreSnakeLengthIncrease() {
-
         Snake snake = snakeGame.getSnake();
         Apple apple = snakeGame.getApple();
 
