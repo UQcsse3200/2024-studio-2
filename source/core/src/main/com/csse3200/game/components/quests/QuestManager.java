@@ -6,8 +6,6 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
-
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
