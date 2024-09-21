@@ -25,6 +25,7 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -52,13 +53,15 @@ public class MazeNPCFactory {
     Entity angler = createBaseNPC(target);
     MazeEntityConfig config = configs.angler;
 
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
+    AnimationRenderWithAudioComponent animator =
+            new AnimationRenderWithAudioComponent(
                     ServiceLocator.getResourceService()
                             .getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
     animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
     animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
     animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+
+    animator.addSound("sounds/minigames/angler-chomp.mp3", "Attack", 4);
 
     angler
             .addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
@@ -67,7 +70,7 @@ public class MazeNPCFactory {
             .addComponent(new LightingComponent()
                     .attach(LightingComponent.createPointLight(3f, Color.GREEN)));
 
-    angler.getComponent(AnimationRenderComponent.class).scaleEntity();
+    angler.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
     angler.setScale(.2f,.2f);
     PhysicsUtils.setScaledCollider(angler, 1f, 1f);
     return angler;

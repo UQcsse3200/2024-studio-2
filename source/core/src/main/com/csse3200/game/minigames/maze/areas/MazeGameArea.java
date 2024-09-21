@@ -48,7 +48,7 @@ public class MazeGameArea extends GameArea {
   private static final String[] forestTextureAtlases = {
     "images/minigames/Angler.atlas"
   };
-  private static final String[] forestSounds = {};
+  private static final String[] forestSounds = {"sounds/minigames/angler-chomp.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
