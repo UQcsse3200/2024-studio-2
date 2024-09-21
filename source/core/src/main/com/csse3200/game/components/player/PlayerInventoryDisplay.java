@@ -139,8 +139,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.getTitleTable().padTop(150); // Adjust the value to move the title lower
         // Create the table for inventory slots
         window.getTitleLabel().setStyle(titleStyle);
-        table = new Table();
         window.getTitleTable().padBottom(10);
+
+        table = new Table();
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -275,7 +276,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.dispose();
     }
 
-    public void disposeGroupRecursively(Group group) {
+    private void disposeGroupRecursively(Group group) {
         for (Actor child : group.getChildren()) {
             // Dispose if child implements Disposable
             if (child instanceof Disposable) {
