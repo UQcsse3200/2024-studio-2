@@ -4,8 +4,6 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +18,6 @@ import static java.util.Arrays.fill;
  * players retrieve from the game.
  */
 public class Inventory implements InventoryInterface {
-    private static final Logger logger = LoggerFactory.getLogger(Inventory.class);
     private int capacity; // The maximum number of items the inventory can hold.
     private int freeSlots; // The current number of available slots in the inventory.
     private int nextIndex = 0; // The index where the next item can be stored.
@@ -66,7 +63,6 @@ public class Inventory implements InventoryInterface {
 //        }
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);
-            logger.info("INVENTORY CAPACITY AFTER RECONSTRUCTION" + memoryView.length);
         } else {
             GameState.inventory.inventoryContent = this.memoryView;
         }
