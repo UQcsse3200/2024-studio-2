@@ -1,7 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
@@ -48,10 +48,10 @@ public class ItemProximityTask extends ProximityTask {
      */
     public void addToInventory() {
         if (!itemPickedUp && targetInProximity()) { // Check if the item hasn't been picked up and player is near
-            PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
-            if (display != null) {
-                if (!display.hasSpaceFor()) {
-                    display.getEntity().getEvents().trigger("addItem", item);
+            InventoryComponent inventory = this.target.getComponent(InventoryComponent.class);
+            if (inventory != null) {
+                if (!inventory.getInventory().isFull()) {
+                    this.target.getEvents().trigger("addItem", item);
                     logger.debug("Item added to inventory.");
                     itemPickedUp = true; // Set flag to prevent further triggering
                     owner.getEntity().dispose();
