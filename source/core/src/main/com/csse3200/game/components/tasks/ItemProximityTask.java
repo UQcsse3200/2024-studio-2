@@ -55,7 +55,6 @@ public class ItemProximityTask extends ProximityTask {
                     logger.debug("Item added to inventory.");
                     itemPickedUp = true; // Set flag to prevent further triggering
                     owner.getEntity().dispose();
-                    logger.debug("I WAS DISPOSED OF!");
                     ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
                 }
             } else {
