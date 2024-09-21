@@ -22,6 +22,7 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Arrays;
 
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
@@ -89,7 +90,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled off.");
             hotbar.createHotbar();
             stage.getActors().removeValue(window, true); // close inventory
-            disposeWindow();
+            disposeGroupRecursively(window);
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
@@ -269,46 +270,14 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        disposeSlots();
-        disposeTable();
-        disposeWindow();
-        super.dispose();
-    }
-
-    /**
-     * Disposes of the inventory window, clearing its contents and removing it from the stage.
-     */
-    private void disposeWindow() {
-        // Delete old window
         if (window != null) {
-            window.clear();
-            window.remove();
-            window = null;
+            disposeGroupRecursively(window);
+            window=null;
         }
-    }
+        table = null;
+        Arrays.fill(slots, null);
 
-    /**
-     * Disposes of the inventory table, clearing its contents and removing it from the stage.
-     */
-    private void disposeTable() {
-        if (table != null) {
-            table.clear();
-            table.remove();
-            table = null;
-        }
-    }
-
-    /**
-     * Disposes of the inventory slots, clearing their contents and removing them from the stage.
-     */
-    private void disposeSlots() {
-        for (int i = 0; i < inventory.getCapacity() - 5; i++) {
-            if (slots[i] != null) {
-                slots[i].clear();
-                slots[i].remove();
-                slots[i] = null;
-            }
-        }
+        super.dispose();
     }
 
     public void disposeGroupRecursively(Group group) {
@@ -323,6 +292,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
         }
         group.clearChildren(); // Remove all children from the group
+        group.remove();
     }
 
     /**
