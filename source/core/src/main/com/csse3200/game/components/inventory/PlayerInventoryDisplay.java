@@ -31,14 +31,13 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
     private static final float Z_INDEX = 3f;
-    private static final int hotBarCapacity = 5;
 
     private final Inventory inventory;
     private Window inventoryDisplay;
     private  Table hotBarDisplay;
     AITaskComponent aiComponent = new AITaskComponent();
 
-    private final int numCols, numRows;
+    private final int numCols, numRows, hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
 
     // Skins (created by @PratulW5):
@@ -54,11 +53,17 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public PlayerInventoryDisplay(Inventory inventory, int numCols) {
+    public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
         }
+
+        if (hotBarCapacity < 1) {
+            String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
+            throw new IllegalArgumentException(msg);
+        }
+        this.hotBarCapacity = hotBarCapacity;
 
         int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {

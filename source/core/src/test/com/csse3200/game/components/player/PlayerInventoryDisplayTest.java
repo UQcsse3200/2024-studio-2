@@ -40,14 +40,12 @@ class PlayerInventoryDisplayTest {
     void testInitialisation() {
         // Should throw error since 7 does not divide 9
         assertThrows(IllegalArgumentException.class,
-                () -> new PlayerInventoryDisplay(new Inventory(9), 7));
+                () -> new PlayerInventoryDisplay(new Inventory(9), 7, 1));
         assertThrows(IllegalArgumentException.class, () -> {
-            // Call the method that is expected to throw the exception
-            new PlayerInventoryDisplay(new Inventory(10), 0);
+            new PlayerInventoryDisplay(new Inventory(10), 0, 1);
         });
 
-
-        // Shouldn't throw error since 3 divides 9
-        new PlayerInventoryDisplay(new Inventory(9), 3);
+        // Shouldn't throw error since 3 divides 12
+        new PlayerInventoryDisplay(new Inventory(9), 3, 3);
     }
 }
