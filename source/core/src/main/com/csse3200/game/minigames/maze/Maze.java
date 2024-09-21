@@ -243,7 +243,7 @@ public class Maze {
             if (walledCells.isEmpty()) {
                 continue;
             }
-            GridPoint2 other = walledCells.get(rand.nextInt(walledCells.size()-1));
+            GridPoint2 other = walledCells.get(rand.nextInt(walledCells.size()));
             connect(cell, other);
             count--;
         }

@@ -36,7 +36,7 @@ import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 public class MazeGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
   public static final float WALL_THICKNESS = 0.1f;
-  public static final int NUM_WALL_BREAKS = 5;
+  public static final int NUM_WALL_BREAKS = 6;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
