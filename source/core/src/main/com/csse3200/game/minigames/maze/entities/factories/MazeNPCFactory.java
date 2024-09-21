@@ -53,15 +53,16 @@ public class MazeNPCFactory {
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService()
                             .getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
-    animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+    animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
     animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
+    animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
 
     angler
             .addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
             .addComponent(new LightingComponent()
-                    .attach(LightingComponent.createPointLight(2f, new Color(0.7f, 0.7f, 0.7f, 0.7f))));
+                    .attach(LightingComponent.createPointLight(3f, Color.GREEN)));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
     angler.setScale(.5f,.5f);
