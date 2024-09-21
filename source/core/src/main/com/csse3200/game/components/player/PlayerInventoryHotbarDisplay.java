@@ -278,13 +278,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     }
 
     /**
-     * loads inventory from previous save
-     */
-    public void loadInventoryFromSave() {
-        inventory.loadInventoryFromSave();
-    }
-
-    /**
      * Disposes of each slot in the hotbar by clearing and removing them.
      */
     private void disposeSlots() {

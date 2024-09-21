@@ -63,6 +63,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
+        logger.info("Capacity: " + capacity);
+
         this.dnd= DragAndDropService.getDragAndDrop();
         this.inventory = inventory;
         this.numCols = numCols;
@@ -141,11 +143,12 @@ public class PlayerInventoryDisplay extends UIComponent {
         window.getTitleLabel().setStyle(titleStyle);
         table = new Table();
         window.getTitleTable().padBottom(20);
+        logger.info("Inventory capacity:" + inventory.getCapacity());
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col +hotbarCapacity;
-                System.out.println(inventory.getCapacity());
+                int index = row * numCols + col + hotbarCapacity - 1;
+                logger.info("Doing: " + index);
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(slotSkin);
@@ -165,7 +168,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 dnd.addSource(new InventorySource(slot,item, index));
                 dnd.addTarget(new InventoryTarget(slot, index));
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
-                slots[index] = slot;
+                slots[index - hotbarCapacity + 1] = slot;
             }
             table.row(); // Move to the next row in the table
         }
@@ -410,13 +413,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
-    }
-
-    /**
-     * Loads the inventory attached to the player from a save.
-     */
-    public void loadInventoryFromSave() {
-        inventory.loadInventoryFromSave();
     }
 
     /** Returns inventory - for quests. */

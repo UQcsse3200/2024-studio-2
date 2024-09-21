@@ -30,6 +30,8 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import java.util.List;
  */
 
 public class PlayerFactory {
+    private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
     public static Entity createPlayer(GdxGame game) {
@@ -88,6 +91,7 @@ public class PlayerFactory {
                 .addComponent((new StatManager(player)));
         // Add inventory from player (in future this will provide shared interface for memory)
         InventoryComponent inventoryComponent = new InventoryComponent(50);
+        logger.info("INVENTORY CAPACITY: " + inventoryComponent.getInventory().getCapacity());
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(),9, 5))
                 .addComponent(new PlayerInventoryHotbarDisplay(inventoryComponent.getInventory(),5))
