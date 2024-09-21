@@ -4,6 +4,7 @@ import com.csse3200.game.minigames.birdieDash.entities.Bird;
 import com.csse3200.game.minigames.birdieDash.entities.Coin;
 import com.csse3200.game.minigames.birdieDash.entities.Pipe;
 import com.csse3200.game.minigames.birdieDash.entities.Spike;
+import com.csse3200.game.services.AudioManager;
 
 import java.util.List;
 
@@ -83,6 +84,7 @@ public class CollisionHandler{
             if (bird.getBoundingBox().overlaps(coin.getBoundary())) {
                 score++;
                 coin.respawnCoin();
+                AudioManager.playSound("sounds/minigames/coin-collected.mp3");
             }
         }
     }

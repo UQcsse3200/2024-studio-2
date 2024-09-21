@@ -84,6 +84,8 @@ public class SnakeScreen extends PausableScreen {
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
+
+        // ensure sounds are loaded
         ServiceLocator.getResourceService().loadSounds(SOUNDS);
         ServiceLocator.getResourceService().loadAll();
 

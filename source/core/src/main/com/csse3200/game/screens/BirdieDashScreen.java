@@ -14,6 +14,7 @@ import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputCompon
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
@@ -75,6 +76,10 @@ public class BirdieDashScreen extends PausableScreen {
         this.scoreBoard = new ScoreBoard(0, BIRD);
 
         logger.debug("Initialising birdie dash entities");
+
+        //ensure sounds are loaded
+        ServiceLocator.getResourceService().loadSounds(new String[]{"sounds/minigames/birdie-flap.mp3", "sounds/minigames/coin-collected.mp3"});
+        ServiceLocator.getResourceService().loadAll();
 
         setupExitButton();
         createUI();
@@ -207,6 +212,7 @@ public class BirdieDashScreen extends PausableScreen {
     private void flap() {
             // Trigger the flap action in BirdieDashGame
             birdGame.flapBird();
+            AudioManager.playSound("sounds/minigames/birdie-flap.mp3");
     }
 
     /**
