@@ -44,7 +44,7 @@ public class MazeGameScreen extends PausableScreen {
     private final LightingEngine lightingEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
-    private static final float GAME_WIDTH = 30f;
+    private static final float GAME_WIDTH = 5f;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);

@@ -36,7 +36,7 @@ import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 public class MazeGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
   public static final float WALL_THICKNESS = 0.1f;
-  public static final int NUM_WALL_BREAKS = 6;
+  public static final int NUM_WALL_BREAKS = 10;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
@@ -122,7 +122,7 @@ public class MazeGameArea extends GameArea {
   }
 
   private void spawnAngler() {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 1; i++) {
       Entity angler = MazeNPCFactory.createAngler(player);
       spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
       angler.getComponent(AITaskComponent.class).addTask(

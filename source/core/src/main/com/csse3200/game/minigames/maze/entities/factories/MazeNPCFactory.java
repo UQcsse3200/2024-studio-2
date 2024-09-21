@@ -89,11 +89,12 @@ public class MazeNPCFactory {
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent().setGroupIndex((short)-1)) // NPC's don't collide with each other
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+            .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, .8f))
             .addComponent(new FaceMoveDirectionXComponent())
             .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    npc.getComponent(ColliderComponent.class).setDensity(1.5f);
 
     return npc;
   }
