@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
@@ -307,6 +309,20 @@ public class PlayerInventoryDisplay extends UIComponent {
                 slots[i] = null;
             }
         }
+    }
+
+    public void disposeGroupRecursively(Group group) {
+        for (Actor child : group.getChildren()) {
+            // Dispose if child implements Disposable
+            if (child instanceof Disposable) {
+                ((Disposable) child).dispose();
+            }
+            // If the child is a Group (including Table), dispose of its children as well
+            if (child instanceof Group) {
+                disposeGroupRecursively((Group) child);
+            }
+        }
+        group.clearChildren(); // Remove all children from the group
     }
 
     /**
