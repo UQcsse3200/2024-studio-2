@@ -28,7 +28,6 @@ public class MazeHuntTask extends DefaultTask implements PriorityTask {
   private final int priority;
 
   public MazeHuntTask(Entity target, Maze maze, int priority) {
-    // , int viewDistance, int maxChaseDistance
     this.target = target;
     this.maze = maze;
     this.priority = priority;
@@ -64,26 +63,6 @@ public class MazeHuntTask extends DefaultTask implements PriorityTask {
     logger.debug("Stopping movement");
   }
 
-  /*
-  private float getDistanceToTarget() {
-    return owner.getEntity().getPosition().dst(target.getPosition());
-  }
-
-  private int getActivePriority() {
-    float dst = getDistanceToTarget();
-    if (dst > maxChaseDistance || !isTargetVisible()) {
-      return -1; // Too far, stop chasing
-    }
-    return priority;
-  }
-
-  private int getInactivePriority() {
-    float dst = getDistanceToTarget();
-    if (dst < viewDistance && isTargetVisible()) {
-      return priority;
-    }
-    return -1;
-  }*/
   @Override
   public int getPriority() {
     return priority;

@@ -53,7 +53,7 @@ public class MazeChaseTask extends ChaseTask {
   private Vector2 targetReachablePoint() {
     Vector2 reachablePoint = null;
     Entity e = owner.getEntity();
-    float PADDING = 0.01f;
+    float PADDING = 0.03f;
     Vector2[] from = {
             e.getPosition().add(-PADDING, -PADDING),
             e.getPosition().add(e.getScale().x, 0).add(PADDING, -PADDING),

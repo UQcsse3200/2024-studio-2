@@ -35,7 +35,7 @@ import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class MazeGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
-  private static final float WALL_THICKNESS = 0.1f;
+  public static final float WALL_THICKNESS = 0.1f;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
