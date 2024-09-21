@@ -90,7 +90,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        disposeGroupRecursively(table);
+        InventoryUtils.disposeGroupRecursively(table);
 
         super.dispose();
     }
@@ -100,21 +100,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
      * Disposes of the table by clearing its contents and removing it from the stage.
      */
     void disposeTable() {
-        disposeGroupRecursively(table);
-    }
-
-    private void disposeGroupRecursively(Group group) {
-        for (Actor child : group.getChildren()) {
-            // Dispose if child implements Disposable
-            if (child instanceof Disposable) {
-                ((Disposable) child).dispose();
-            }
-            // If the child is a Group (including Table), dispose of its children as well
-            if (child instanceof Group) {
-                disposeGroupRecursively((Group) child);
-            }
-        }
-        group.clearChildren(); // Remove all children from the group
-        group.remove();
+        InventoryUtils.disposeGroupRecursively(table);
     }
 }
