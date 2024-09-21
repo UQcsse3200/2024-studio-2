@@ -56,7 +56,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             throw new IllegalArgumentException(msg);
         }
 
-        int capacity = inventory.getCapacity();
+        int capacity = inventory.getCapacity() - 5; // 5 for hotbar (refactor this later)
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
@@ -65,6 +65,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.numCols = numCols;
         this.numRows = capacity / numCols;
         slots = new ImageButton[numRows * numCols];
+        hotbar = new PlayerInventoryHotbarDisplay(5, inventory, this);
     }
 
     /**
@@ -143,7 +144,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col;
+                int index = row * numCols + col + 5;
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(slotSkin);
@@ -154,7 +155,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                     slot.add(itemImage).center().size(80, 80);
                 }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
-                slots[index] = slot;
+                slots[index - 5] = slot;
             }
             table.row(); // Move to the next row in the table
         }
@@ -299,7 +300,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Disposes of the inventory slots, clearing their contents and removing them from the stage.
      */
     private void disposeSlots() {
-        for (int i = 0; i < inventory.getCapacity(); i++) {
+        for (int i = 0; i < inventory.getCapacity() - 5; i++) {
             if (slots[i] != null) {
                 slots[i].clear();
                 slots[i].remove();
@@ -314,14 +315,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
-    }
-
-    /**
-     * Loads the inventory attached to the player from a save.
-     */
-    public void loadInventoryFromSave() {
-        inventory.loadInventoryFromSave();
-        hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
     }
   
     /** Returns inventory - for quests. */
