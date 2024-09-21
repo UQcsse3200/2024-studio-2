@@ -57,7 +57,9 @@ public class MazeChaseTask extends ChaseTask {
     Vector2[] points = {
             e.getPosition(),
             e.getCenterPosition(),
-            e.getCenterPosition().scl(2).sub(e.getPosition())
+            e.getPosition().add(e.getScale().x, 0),
+            e.getPosition().add(0, e.getScale().y),
+            e.getPosition().add(e.getScale().x, e.getScale().y)
     };
     for (Vector2 from : points) {
       // If there is an obstacle in the path to the player, not visible.

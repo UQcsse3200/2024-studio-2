@@ -67,7 +67,7 @@ public class MazeNPCFactory {
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
     angler.setScale(.5f,.5f);
-    PhysicsUtils.setScaledCollider(angler, 1f, 1f);
+    PhysicsUtils.setScaledCollider(angler, .4f, .4f);
     return angler;
   }
 
@@ -80,7 +80,7 @@ public class MazeNPCFactory {
     AITaskComponent aiComponent =
         new AITaskComponent()
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-            .addTask(new MazeChaseTask(target, 10, 1f, 2f));
+            .addTask(new MazeChaseTask(target, 10, 2f, 3f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())

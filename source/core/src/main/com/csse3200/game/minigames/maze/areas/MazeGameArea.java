@@ -11,6 +11,7 @@ import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.Maze;
 import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
+import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
 import com.csse3200.game.minigames.maze.components.tasks.MazePathFindingTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
@@ -120,7 +121,7 @@ public class MazeGameArea extends GameArea {
       Entity angler = MazeNPCFactory.createAngler(player);
       spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
       angler.getComponent(AITaskComponent.class).addTask(
-              new MazePathFindingTask(MazeTerrainFactory.worldPosToGridPos(player.getCenterPosition()), maze));
+              new MazeHuntTask(player, maze, 2));
     }
   }
 

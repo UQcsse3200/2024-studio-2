@@ -21,7 +21,7 @@ import java.util.List;
  * Move to a given position, finishing when you get close enough. Requires an entity with a
  * PhysicsMovementComponent.
  */
-public class MazePathFindingTask extends DefaultTask implements PriorityTask {
+public class MazePathFindingTask extends DefaultTask {
   private static final Logger logger = LoggerFactory.getLogger(MazePathFindingTask.class);
   private GridPoint2 target;
 
@@ -37,10 +37,17 @@ public class MazePathFindingTask extends DefaultTask implements PriorityTask {
   }
 
   private void computePath() {
+    GridPoint2 currentCheckPoint = null;
+    if (path != null) {
+        currentCheckPoint = path.getLast();
+    }
     Vector2 entityWorldPos = owner.getEntity().getCenterPosition();
     GridPoint2 entityGridPos = MazeTerrainFactory.worldPosToGridPos(entityWorldPos);
     Maze.breadthFirstSearch bfs = maze.new breadthFirstSearch(entityGridPos);
     path = bfs.getShortestPath(target).reversed();
+    if (path.size() > 1 && path.get(path.size()-2).equals(currentCheckPoint)) {
+      path.removeLast();
+    }
   }
 
   private Vector2 getNextMovement() {
@@ -63,8 +70,6 @@ public class MazePathFindingTask extends DefaultTask implements PriorityTask {
     movementTask = new MovementTask(getNextMovement());
     movementTask.create(owner);
     movementTask.start();
-    this.owner.getEntity().getEvents().trigger("wanderStart");
-    logger.debug("Starting movement towards {}", target);
   }
 
   @Override
@@ -87,10 +92,5 @@ public class MazePathFindingTask extends DefaultTask implements PriorityTask {
     super.stop();
     movementTask.stop();
     logger.debug("Stopping movement");
-  }
-
-  @Override
-  public int getPriority() {
-    return 2;
   }
 }
