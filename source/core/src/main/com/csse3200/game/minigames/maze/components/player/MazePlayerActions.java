@@ -23,7 +23,6 @@ public class MazePlayerActions extends Component {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
-    entity.getEvents().addListener("attack", this::attack);
   }
 
   @Override
@@ -59,13 +58,5 @@ public class MazePlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
-  }
-
-  /**
-   * Makes the player attack.
-   */
-  void attack() {
-    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
-    attackSound.play();
   }
 }

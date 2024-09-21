@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.input.InputComponent;
@@ -29,6 +30,8 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
+import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
+
 /**
  * Class for Underwater Maze Game Screen
  */
@@ -36,12 +39,12 @@ public class MazeGameScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
     private static final String[] mainGameTextures = {"images/heart.png"};
-    private static final Vector2 CAMERA_POSITION = new Vector2(6f, 6f);
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private final LightingEngine lightingEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private static final float GAME_WIDTH = 40f;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -61,14 +64,15 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
-        renderer = RenderFactory.createRenderer();
-        renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+        Entity camera = createCamera();
+        ServiceLocator.getEntityService().register(camera);
+        CameraComponent camComponent = camera.getComponent(CameraComponent.class);
+
+        renderer = new Renderer(camComponent, GAME_WIDTH);
+
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-        lightingEngine = new LightingEngine(physicsEngine.getWorld(),
-                renderer.getCamera().getCamera());
-
-        // lightingEngine.getRayHandler().setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.1f));
+        lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
 
         ServiceLocator.getRenderService().register(lightingEngine);
 
@@ -78,7 +82,7 @@ public class MazeGameScreen extends PausableScreen {
         createUI();
 
         logger.debug("Initialising main game screen entities");
-        MazeTerrainFactory terrainFactory = new MazeTerrainFactory(renderer.getCamera());
+        MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
         MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
     }

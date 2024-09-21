@@ -18,7 +18,7 @@ import com.csse3200.game.services.ServiceLocator;
 
 /** Factory for creating game terrain for the maze mini-game. */
 public class MazeTerrainFactory extends TerrainFactory {
-  public static final GridPoint2 MAP_SIZE = new GridPoint2(6, 6);
+  public static final GridPoint2 MAP_SIZE = new GridPoint2(20, 20);
   public static final float TILE_SIZE = 1;
 
   /**

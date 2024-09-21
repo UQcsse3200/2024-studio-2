@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.components.tasks.ChaseTask;
@@ -85,13 +87,14 @@ public class MazeNPCFactory {
         new Entity()
             .addComponent(new PhysicsComponent())
             .addComponent(new PhysicsMovementComponent())
-            .addComponent(new ColliderComponent())
+            .addComponent(new ColliderComponent().setGroupIndex((short)-1)) // NPC's don't collide with each other
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
             .addComponent(new FaceMoveDirectionXComponent())
             .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+
     return npc;
   }
 
