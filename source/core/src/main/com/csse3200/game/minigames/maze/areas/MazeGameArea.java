@@ -120,7 +120,7 @@ public class MazeGameArea extends GameArea {
   }
 
   private void spawnAngler() {
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 8; i++) {
       Entity angler = MazeNPCFactory.createAngler(player);
       spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
       angler.getComponent(AITaskComponent.class).addTask(

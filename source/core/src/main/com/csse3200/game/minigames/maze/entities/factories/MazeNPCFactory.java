@@ -69,7 +69,7 @@ public class MazeNPCFactory {
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
     angler.setScale(.5f,.5f);
-    PhysicsUtils.setScaledCollider(angler, .4f, .4f);
+    PhysicsUtils.setScaledCollider(angler, 1f, 1f);
     return angler;
   }
 

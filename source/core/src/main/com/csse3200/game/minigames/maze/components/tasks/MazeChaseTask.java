@@ -38,7 +38,7 @@ public class MazeChaseTask extends ChaseTask {
 
   @Override
   public void update() {
-    movementTask.setTarget(MovementRelativeToCenterPos.adjustPos(target.getCenterPosition(), owner.getEntity()));
+    movementTask.setTarget(targetReachablePoint());
     movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
@@ -50,26 +50,64 @@ public class MazeChaseTask extends ChaseTask {
     return owner.getEntity().getCenterPosition().dst(target.getCenterPosition());
   }
 
+  private Vector2 targetReachablePoint() {
+    Vector2 reachablePoint = null;
+    Entity e = owner.getEntity();
+    float PADDING = 0.01f;
+    Vector2[] from = {
+            e.getPosition().add(-PADDING, -PADDING),
+            e.getPosition().add(e.getScale().x, 0).add(PADDING, -PADDING),
+            e.getPosition().add(e.getScale().x, e.getScale().y).add(PADDING, PADDING),
+            e.getPosition().add(0, e.getScale().y).add(-PADDING, PADDING)
+    };
+    Vector2[] to = {
+            target.getPosition().add(PADDING, PADDING),
+            target.getPosition().add(target.getScale().x, 0).add(-PADDING, PADDING),
+            target.getPosition().add(target.getScale().x, target.getScale().y).add(-PADDING, -PADDING),
+            target.getPosition().add(0, target.getScale().y).add(PADDING, -PADDING)
+    };
+
+    Vector2[] resultRect = new Vector2[4];
+
+
+    for (Vector2 a : from) {
+      for (Vector2 b : to) {
+        int success = 0;
+        int i = 0;
+        for (Vector2 test : from) {
+          resultRect[i] = b.cpy().sub(a.cpy().sub(test));
+          // If there is an obstacle in the path to the player, not visible.
+          if (physics.raycast(test, resultRect[i], PhysicsLayer.OBSTACLE, hit)) {
+            debugRenderer.drawLine(test, hit.point);
+            break;
+          }
+          success++;
+          debugRenderer.drawLine(test, resultRect[i]);
+          i++;
+        }
+
+        if (success == from.length) {
+          for (int rectPoint = 0; rectPoint < 4; rectPoint++) {
+            // If there is an obstacle in the path to the player, not visible.
+            if (physics.raycast(resultRect[rectPoint], resultRect[(rectPoint+1)%4], PhysicsLayer.OBSTACLE, hit)) {
+              debugRenderer.drawLine(resultRect[rectPoint], hit.point);
+              break;
+            }
+            success++;
+            debugRenderer.drawLine(resultRect[rectPoint], resultRect[(rectPoint+1)%4]);
+          }
+          if (success == from.length + 4) {
+            if (reachablePoint == null || a.dst(b) < e.getPosition().dst(reachablePoint))
+              reachablePoint = e.getPosition().sub(a.cpy().sub(b));
+          }
+        }
+      }
+    }
+    return reachablePoint;
+  }
+
   @Override
   protected boolean isTargetVisible() {
-    Vector2 to = target.getCenterPosition();
-    Entity e = owner.getEntity();
-    Vector2[] points = {
-            e.getPosition(),
-            e.getCenterPosition(),
-            e.getPosition().add(e.getScale().x, 0),
-            e.getPosition().add(0, e.getScale().y),
-            e.getPosition().add(e.getScale().x, e.getScale().y)
-    };
-    for (Vector2 from : points) {
-      // If there is an obstacle in the path to the player, not visible.
-      Vector2 offsetTo = to.cpy().sub(e.getCenterPosition().sub(from));
-      if (physics.raycast(from, offsetTo, PhysicsLayer.OBSTACLE, hit)) {
-        debugRenderer.drawLine(from, hit.point);
-        return false;
-      }
-      debugRenderer.drawLine(from, offsetTo);
-    }
-    return true;
+    return targetReachablePoint() != null;
   }
 }

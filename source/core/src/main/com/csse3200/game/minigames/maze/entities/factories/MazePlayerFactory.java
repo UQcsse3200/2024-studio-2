@@ -55,8 +55,8 @@ public class MazePlayerFactory {
 
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(TextureRenderComponent.class).scaleEntity();
-    player.setScale(player.getScale().scl(0.3f));
-    PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+    player.setScale(player.getScale().scl(0.2f));
+    PhysicsUtils.setScaledCollider(player, 1f, 1f);
 
     Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
     RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
