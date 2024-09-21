@@ -1,7 +1,7 @@
 package com.csse3200.game.inventory.items.lootbox;
 
 import java.util.List;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;

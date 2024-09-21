@@ -1,9 +1,9 @@
 package com.csse3200.game.components.player;
 
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.inventory.Inventory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
