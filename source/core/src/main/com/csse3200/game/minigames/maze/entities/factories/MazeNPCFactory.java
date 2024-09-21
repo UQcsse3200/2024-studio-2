@@ -68,7 +68,7 @@ public class MazeNPCFactory {
                     .attach(LightingComponent.createPointLight(3f, Color.GREEN)));
 
     angler.getComponent(AnimationRenderComponent.class).scaleEntity();
-    angler.setScale(.5f,.5f);
+    angler.setScale(.2f,.2f);
     PhysicsUtils.setScaledCollider(angler, 1f, 1f);
     return angler;
   }

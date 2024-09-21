@@ -1,6 +1,7 @@
 package com.csse3200.game.minigames.maze;
 
 import com.badlogic.gdx.math.GridPoint2;
+import com.csse3200.game.minigames.Grid;
 import com.csse3200.game.utils.math.RandomUtils;
 
 import java.util.*;
@@ -64,9 +65,10 @@ public class Maze {
     public List<GridPoint2> getNotMazeAdjacent(int x, int y) {
         return getNotMazeAdjacent(new GridPoint2(x, y));
     }
+
     public List<GridPoint2> getNotMazeAdjacent(GridPoint2 cell) {
         List<GridPoint2> cells = new ArrayList<>();
-        for (GridPoint2 adjacentCell : getMazeAdjacent(cell)) {
+        for (GridPoint2 adjacentCell : getAdjacent(cell)) {
             if (!getMazeAdjacent(cell).contains(adjacentCell)) {
                 cells.add(adjacentCell);
             }
@@ -118,6 +120,16 @@ public class Maze {
     }
 
     /**
+     * Connect two cells by breaking the wall between then. Assumes they are not already connected.
+     * @param u first cell
+     * @param v second cell
+     */
+    public void connect(GridPoint2 u, GridPoint2 v) {
+        getMazeAdjacent(u).add(v);
+        getMazeAdjacent(v).add(u);
+    }
+
+    /**
      * @return A random maze cell
      */
     public GridPoint2 getRandomCell() {
@@ -153,8 +165,7 @@ public class Maze {
 
         for (GridPoint2 newCell : adjacent) {
             if (getMazeAdjacent(newCell).isEmpty()) {
-                getMazeAdjacent(cell).add(newCell);
-                getMazeAdjacent(newCell).add(cell);
+                connect(cell, newCell);
                 recursiveBacktracking(newCell, rand);
             }
         }
@@ -215,6 +226,26 @@ public class Maze {
 
         public GridPoint2 getMostDistant() {
             return mostDistant;
+        }
+
+    }
+
+    /**
+     * Break some walls in the maze to create cycles and multiple paths between cells.
+     *
+     * @param count the number of walls to break
+     */
+    public void breakWalls(int count) {
+        Random rand = new Random();
+        while (count > 0) {
+            GridPoint2 cell = getRandomCell();
+            List<GridPoint2> walledCells = getNotMazeAdjacent(cell);
+            if (walledCells.isEmpty()) {
+                continue;
+            }
+            GridPoint2 other = walledCells.get(rand.nextInt(walledCells.size()-1));
+            connect(cell, other);
+            count--;
         }
     }
 
