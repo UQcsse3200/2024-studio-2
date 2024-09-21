@@ -94,7 +94,7 @@ public class PlayerFactory {
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
-        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());

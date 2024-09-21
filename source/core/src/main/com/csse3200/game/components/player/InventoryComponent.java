@@ -18,4 +18,11 @@ public class InventoryComponent extends Component {
      * @return The player's current inventory
      */
     public Inventory getInventory() {return this.inventory;}
+
+    /**
+     * Loads the inventory attached to the player from a save.
+     */
+    public void loadInventoryFromSave() {
+        inventory.loadInventoryFromSave();
+    }
 }
