@@ -88,11 +88,11 @@ public class Maze {
      * @param y y-position/row
      * @return true if not in bounds, otherwise false
      */
-    private boolean inBounds(int x, int y) {
+    public boolean inBounds(int x, int y) {
         return y >= 0 && y < height && x >= 0 && x < width;
     }
 
-    private boolean inBounds(GridPoint2 cell) {
+    public boolean inBounds(GridPoint2 cell) {
         return inBounds(cell.x, cell.y);
     }
 
