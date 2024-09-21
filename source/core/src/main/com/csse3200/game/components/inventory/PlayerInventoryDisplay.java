@@ -87,7 +87,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled off.");
             hotbar.createHotbar();
             stage.getActors().removeValue(window, true); // close inventory
-            disposeGroupRecursively(window);
+            InventoryUtils.disposeGroupRecursively(window);
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
@@ -268,27 +268,12 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public void dispose() {
         if (window != null) {
-            disposeGroupRecursively(window);
+            InventoryUtils.disposeGroupRecursively(window);
             window=null;
         }
         table = null;
 
         super.dispose();
-    }
-
-    private void disposeGroupRecursively(Group group) {
-        for (Actor child : group.getChildren()) {
-            // Dispose if child implements Disposable
-            if (child instanceof Disposable) {
-                ((Disposable) child).dispose();
-            }
-            // If the child is a Group (including Table), dispose of its children as well
-            if (child instanceof Group) {
-                disposeGroupRecursively((Group) child);
-            }
-        }
-        group.clearChildren(); // Remove all children from the group
-        group.remove();
     }
 
     /**
@@ -297,10 +282,5 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
-    }
-  
-    /** Returns inventory - for quests. */
-    public Inventory getInventory() {
-        return inventory;
     }
 }

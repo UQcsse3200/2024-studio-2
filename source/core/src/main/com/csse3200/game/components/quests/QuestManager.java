@@ -3,6 +3,7 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
@@ -184,7 +185,7 @@ public class QuestManager extends Component {
      * Note: limitation on item collection - 1 item collection per kingdom
      *      w completion string "item collection task successful"  */
     private void setupPotionsTask() {
-        Inventory inventory = entity.getComponent(PlayerInventoryDisplay.class).getInventory();
+        Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
         inventory.questItemListen("Defense Potion", 5);
     }
 
