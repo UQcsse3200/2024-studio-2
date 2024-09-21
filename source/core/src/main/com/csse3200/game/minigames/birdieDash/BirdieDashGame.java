@@ -2,10 +2,7 @@ package com.csse3200.game.minigames.birdieDash;
 
 import com.csse3200.game.minigames.MinigameRenderer;
 import com.csse3200.game.minigames.birdieDash.collision.CollisionHandler;
-import com.csse3200.game.minigames.birdieDash.entities.Bird;
-import com.csse3200.game.minigames.birdieDash.entities.Coin;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
-import com.csse3200.game.minigames.birdieDash.entities.Spike;
+import com.csse3200.game.minigames.birdieDash.entities.*;
 import com.csse3200.game.minigames.birdieDash.rendering.*;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -26,6 +23,7 @@ public class BirdieDashGame {
     private final List<Coin> coins;
     private final Bird bird;
     private final Spike spike;
+    private final Background background;
 
     private final MinigameRenderer renderer;  // Mini-game renderer
     private final CollisionHandler collisionHandler; // Collision detection
@@ -38,6 +36,7 @@ public class BirdieDashGame {
         this.coins = createCoins();
         this.bird = new Bird(920, 600);
         this.spike = new Spike(0);
+        this.background = new Background(START_SPEED / 3, 1920);
         this.renderer = new MinigameRenderer();
         this.isGameOver = false;
         this.collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
@@ -49,7 +48,7 @@ public class BirdieDashGame {
      */
     private void initRenderers() {
         ServiceLocator.registerResourceService(new ResourceService());
-        renderer.addRenderable(new BackgroundRenderer(renderer));
+        renderer.addRenderable(new BackgroundRenderer(background, renderer));
         renderer.addRenderable(new PipeRenderer(pipes, renderer));
         renderer.addRenderable(new CoinRenderer(coins, renderer));
         renderer.addRenderable(new BirdRenderer(bird, renderer));
@@ -119,6 +118,7 @@ public class BirdieDashGame {
         }
         changePipePosition(dt * speedMultiplier);
         changeCoinPosition(dt * speedMultiplier);
+        background.update(dt * speedMultiplier);
         bird.update(dt, speedMultiplier);
         // Add all other change positions here e.g. bird, coins etc.
     }

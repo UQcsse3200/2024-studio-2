@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
+import com.csse3200.game.minigames.birdieDash.entities.Background;
 import com.csse3200.game.minigames.snake.AssetPaths;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -18,10 +19,12 @@ public class BackgroundRenderer implements MinigameRenderable {
     private final MinigameRenderer renderer;
     private final float GAME_WIDTH = 1920;
     private final float GAME_HEIGHT = 1200;
+    Background background;
 
-    public BackgroundRenderer(MinigameRenderer renderer) {
+    public BackgroundRenderer(Background background, MinigameRenderer renderer) {
         this.renderer = renderer;
         loadAssets();
+        this.background = background;
     }
 
     /**
@@ -29,7 +32,12 @@ public class BackgroundRenderer implements MinigameRenderable {
      */
     public void render() {
         renderer.getSb().draw(backgroundRegion,
+                background.xBG1,
                 0,
+                GAME_WIDTH,
+                GAME_HEIGHT);
+        renderer.getSb().draw(backgroundRegion,
+                background.xBG2,
                 0,
                 GAME_WIDTH,
                 GAME_HEIGHT);
