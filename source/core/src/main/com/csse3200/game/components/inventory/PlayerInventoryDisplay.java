@@ -95,7 +95,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         } else {
             logger.debug("Inventory toggled on.");
             generateInventory();
-            stage.addActor(inventoryDisplay);
             stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
             InventoryUtils.disposeGroupRecursively(hotBarDisplay);
             toggle = true;
@@ -124,15 +123,15 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Generates the inventory window and populates it with inventory slots.
      */
     private void generateInventory() {
-        // Create the window (pop-up)
+        // Create the inventory window (pop-up)
         inventoryDisplay = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
         inventoryDisplay.getTitleLabel().setAlignment(Align.center);
-        inventoryDisplay.getTitleTable().padTop(150); // Adjust the value to move the title lower
+        inventoryDisplay.getTitleTable().padTop(150).padBottom(10);
+
         // Create the table for inventory slots
         inventoryDisplay.getTitleLabel().setStyle(titleStyle);
-        inventoryDisplay.getTitleTable().padBottom(10);
 
         Table table = new Table();
         // Iterate over the inventory and add slots
@@ -141,7 +140,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 int index = row * numCols + col + hotBarCapacity - 1;
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
-                final ImageButton slot = new ImageButton(slotSkin);
+                ImageButton slot = new ImageButton(slotSkin);
                 // Add the item image to the slot
                 if (item != null) {
                     addSlotListeners(slot, item, index);
@@ -174,6 +173,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
                 (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
         );
+        stage.addActor(inventoryDisplay);
     }
 
     /**
