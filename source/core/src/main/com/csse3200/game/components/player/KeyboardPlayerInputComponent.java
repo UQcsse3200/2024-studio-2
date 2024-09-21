@@ -3,10 +3,10 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.utils.math.Vector2Utils;
-import com.csse3200.game.areas.MapHandler;
 
 import java.util.HashMap;
 import java.util.Map;

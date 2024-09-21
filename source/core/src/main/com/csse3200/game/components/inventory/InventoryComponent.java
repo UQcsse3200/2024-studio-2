@@ -1,4 +1,4 @@
-package com.csse3200.game.components.player;
+package com.csse3200.game.components.inventory;
 
 import com.csse3200.game.components.Component;
 import com.csse3200.game.inventory.Inventory;

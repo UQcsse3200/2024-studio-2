@@ -1,7 +1,5 @@
 package com.csse3200.game.inventory;
 
-import com.badlogic.gdx.Game;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
