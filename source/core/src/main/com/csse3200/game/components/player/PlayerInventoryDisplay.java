@@ -22,7 +22,6 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Arrays;
 
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
@@ -38,7 +37,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final int numCols, numRows;
     private Window window;
     private Table table;
-    private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
     //created by @PratulW5:
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
@@ -67,7 +65,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
-        slots = new ImageButton[numRows * numCols];
         hotbar = new PlayerInventoryHotbarDisplay(5, inventory, this);
     }
 
@@ -158,7 +155,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                     slot.add(itemImage).center().size(80, 80);
                 }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
-                slots[index - 5] = slot;
             }
             table.row(); // Move to the next row in the table
         }
@@ -275,7 +271,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             window=null;
         }
         table = null;
-        Arrays.fill(slots, null);
 
         super.dispose();
     }
