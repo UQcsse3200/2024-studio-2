@@ -63,11 +63,12 @@ public class MazeChaseTask extends ChaseTask {
     };
     for (Vector2 from : points) {
       // If there is an obstacle in the path to the player, not visible.
-      if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
+      Vector2 offsetTo = to.cpy().sub(e.getCenterPosition().sub(from));
+      if (physics.raycast(from, offsetTo, PhysicsLayer.OBSTACLE, hit)) {
         debugRenderer.drawLine(from, hit.point);
         return false;
       }
-      debugRenderer.drawLine(from, to);
+      debugRenderer.drawLine(from, offsetTo);
     }
     return true;
   }
