@@ -30,7 +30,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
 
     private final Skin skinSlots = new Skin(Gdx.files.internal("Inventory/skinforslot.json")); //created by @PratulW5
     private final Table table = new Table();
-    private final Inventory hotbar;
     private final Inventory inventory;
     private final ImageButton[] hotBarSlots;
     AITaskComponent aiComponent = new AITaskComponent();
@@ -43,16 +42,15 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     /**
      * Constructs a PlayerInventoryHotbarDisplay with the specified hotbar capacity and inventory.
      *
-     * @param hotbar Player's inventory
+     * @param inventory Player's inventory
+     * @param capacity Hotbar's capacity
      */
-    public PlayerInventoryHotbarDisplay(Inventory hotbar,Inventory inventory) {
-        this.hotbar=hotbar;
+    public PlayerInventoryHotbarDisplay(Inventory inventory,int capacity) {
         this.inventory= inventory;
-        this.capacity = hotbar.getCapacity();
+        this.capacity=capacity;
         this.hotBarSlots=new ImageButton[capacity];
         this.dnd= DragAndDropService.getDragAndDrop();
-        create();
-        createHotbar();
+
     }
 
     /**
@@ -61,6 +59,8 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+        entity.getEvents().addListener("addItem", this::addItem);
+        createHotbar();
     }
 
     /**
@@ -80,7 +80,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.setBackground(new TextureRegionDrawable(hotBarTexture));
         table.setSize(160, 517);
         for (int i = 0; i < capacity; i++) {
-            AbstractItem item = hotbar.getAt(i);
+            AbstractItem item = inventory.getAt(i);
             ImageButton slot = new ImageButton(skinSlots);
             if (item != null) {
                 addSlotListeners(slot, item, i);
@@ -99,6 +99,8 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         table.setPosition(tableX, tableY);
         stage.addActor(table);
     }
+
+
     // Add InventorySource class as before
     public class InventorySource extends DragAndDrop.Source {
         private final int index;
@@ -111,7 +113,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         @Override
         public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
             DragAndDrop.Payload payload = new DragAndDrop.Payload();
-            AbstractItem item = hotbar.getAt(index);
+            AbstractItem item = inventory.getAt(index);
             if (item != null) {
                 payload.setObject(item);
                 Image dragImage = new Image(new Texture(item.getTexturePath()));
@@ -192,7 +194,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
                     aiComponent.addTask(
                             new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
                 }
-                hotbar.useItemAt(index, context); // Use the item in the inventory
+                inventory.useItemAt(index, context); // Use the item in the inventory
                 entity.getEvents().trigger("itemUsed", item); // Trigger an event indicating the item was used
                 regenerateHotbar(); // Update the inventory display
             }
@@ -218,7 +220,7 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
             AbstractItem draggedItem = (AbstractItem) payload.getObject();
             // Check if the slot can accept the dragged item
-            if (hotbar.getAt(index) == null || !hotbar.getAt(index).equals(draggedItem)) {
+            if (inventory.getAt(index) == null || !inventory.getAt(index).equals(draggedItem)) {
                 slot.setColor(Color.LIGHT_GRAY); // Indicate valid drop target
                 return true; // Allow the drop
             } else {
@@ -229,23 +231,23 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         @Override
         public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
             AbstractItem draggedItem = (AbstractItem) payload.getObject();
-            if (draggedItem != null && index < hotbar.getCapacity()) {
+            if (draggedItem != null && index < inventory.getCapacity()) {
                 // Get the item currently in the target slot
-                AbstractItem itemInSlot = hotbar.getAt(index);
+                AbstractItem itemInSlot = inventory.getAt(index);
                 int sourceIndex = ((PlayerInventoryDisplay.InventorySource) source).index;
-                hotbar.removeAt(sourceIndex);
+                inventory.removeAt(sourceIndex);
                 // Check if the slot is occupied
                 if (itemInSlot != null) {
                     // Get the source index from the source object
                     // Remove the item in the target slot and the dragged item from their respective slots
-                    hotbar.removeAt(index);
+                    inventory.removeAt(index);
                     // Add the dragged item to the target slot and the item that was in the target slot to the source slot
-                    hotbar.addAt(index, draggedItem);
-                    hotbar.addAt(sourceIndex, itemInSlot);
+                    inventory.addAt(index, draggedItem);
+                    inventory.addAt(sourceIndex, itemInSlot);
                     regenerateHotbar();
                 } else {
                     // If the target slot is empty, simply add the dragged item to the slot
-                    hotbar.addAt(index, draggedItem);
+                    inventory.addAt(index, draggedItem);
                 }
 
                 regenerateHotbar(); // Refresh the inventory display
@@ -265,12 +267,21 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             createHotbar();
         }
     }
+    private void addItem(AbstractItem item) {
+        if (this.inventory.add(item)) {
+            entity.getEvents().trigger("itemPickedUp", true);
+        } else {
+            entity.getEvents().trigger("itemPickedUp", false);
+        }
+        createHotbar();
+
+    }
 
     /**
      * loads inventory from previous save
      */
     public void loadInventoryFromSave() {
-        hotbar.loadInventoryFromSave();
+        inventory.loadInventoryFromSave();
     }
 
     /**

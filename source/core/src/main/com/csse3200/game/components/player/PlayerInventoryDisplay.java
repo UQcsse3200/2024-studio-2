@@ -32,7 +32,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
-    private final Inventory hotbar;
     AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
     private Window window;
@@ -43,6 +42,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final DragAndDrop dnd ;
+    private int hotbarCapacity;
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -52,18 +52,17 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public PlayerInventoryDisplay(Inventory inventory,Inventory hotbar, int numCols) {
+    public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotbarCapacity) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
         }
-
-        int capacity = inventory.getCapacity();
+        this.hotbarCapacity=hotbarCapacity;
+        int capacity = inventory.getCapacity()-5;//removing first 5 for hotbar
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
         }
-        this.hotbar=hotbar;
         this.dnd= DragAndDropService.getDragAndDrop();
         this.inventory = inventory;
         this.numCols = numCols;
@@ -145,7 +144,8 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col;
+                int index = row * numCols + col +hotbarCapacity;
+                System.out.println(inventory.getCapacity());
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(slotSkin);
@@ -296,10 +296,12 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void addItem(AbstractItem item) {
         if (this.inventory.add(item)) {
             entity.getEvents().trigger("itemPickedUp", true);
-        } else {
+        }
+        else {
             entity.getEvents().trigger("itemPickedUp", false);
         }
         regenerateInventory();
+
     }
 
     private class InventoryTarget extends DragAndDrop.Target {

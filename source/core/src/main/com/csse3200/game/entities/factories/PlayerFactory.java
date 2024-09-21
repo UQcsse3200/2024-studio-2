@@ -86,18 +86,12 @@ public class PlayerFactory {
                 .addComponent(new QuestPopup())
 
                 .addComponent((new StatManager(player)));
-        DragAndDrop dnd = new DragAndDrop();
         // Add inventory from player (in future this will provide shared interface for memory)
-        InventoryComponent inventoryComponent = new InventoryComponent(45);
-        InventoryComponent hotbarComponent = new InventoryComponent(5);
+        InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), hotbarComponent.getInventory(),9))
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(),9, 5))
+                .addComponent(new PlayerInventoryHotbarDisplay(inventoryComponent.getInventory(),5))
                 .addComponent(new LootBoxOverlayComponent());
-        //add hotbar from player
-        
-
-        player.addComponent(hotbarComponent)
-                .addComponent(new PlayerInventoryHotbarDisplay(hotbarComponent.getInventory(),inventoryComponent.getInventory()));
         player.addComponent(new AchievementPopup());
 
         // Add QuestManager to player

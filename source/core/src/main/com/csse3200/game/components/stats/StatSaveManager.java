@@ -26,24 +26,24 @@ public class StatSaveManager {
 
         // Check if the save file exists
         FileHandle saveFile = Gdx.files.local(SAVE_PATH);
-        if (!saveFile.exists() || saveFile.length() == 0) {
+//        if (!saveFile.exists() || saveFile.length() == 0) {
             // Save file does not exist or is empty, initialize with config stats
             stats = configStats;
             saveFile.writeString(json.prettyPrint(stats), false);
-        } else {
-            // Load stats from save
-            stats = json.fromJson(Array.class, Stat.class, saveFile);
-
-            // Ensure all config stats are in save stats
-            for (Stat configStat : configStats) {
-                if (!containsStat(stats, configStat.getStatName())) {
-                    stats.add(configStat);
-                }
-            }
-
-            // Save the updated stats back to the save file
-            saveFile.writeString(json.prettyPrint(stats), false);
-        }
+//        } else {
+//            // Load stats from save
+//            stats = json.fromJson(Array.class, Stat.class, saveFile);
+//
+//            // Ensure all config stats are in save stats
+//            for (Stat configStat : configStats) {
+//                if (!containsStat(stats, configStat.getStatName())) {
+//                    stats.add(configStat);
+//                }
+//            }
+//
+//            // Save the updated stats back to the save file
+//            saveFile.writeString(json.prettyPrint(stats), false);
+//        }
     }
 
     boolean containsStat(Array<Stat> stats, String name) {
