@@ -33,6 +33,8 @@ import com.csse3200.game.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.csse3200.game.minigames.MiniGameNames;
 
+import static com.csse3200.game.minigames.snake.AssetPaths.SOUNDS;
+
 /**
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
@@ -82,6 +84,8 @@ public class SnakeScreen extends PausableScreen {
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
+        ServiceLocator.getResourceService().loadSounds(SOUNDS);
+        ServiceLocator.getResourceService().loadAll();
 
         setupExitButton();
         createUI();

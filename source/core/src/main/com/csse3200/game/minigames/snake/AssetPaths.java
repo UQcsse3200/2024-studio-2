@@ -35,4 +35,8 @@ public class AssetPaths {
             "images/QuestsOverlay/Quest_SBG.png",
             BIRD
     };
+
+    public static final String[] SOUNDS = {
+            "sounds/minigames/snake-apple.mp3"
+    };
 }

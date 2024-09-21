@@ -1,6 +1,7 @@
 package com.csse3200.game.minigames.snake;
 
 import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.services.AudioManager;
 
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class SnakeGame {
             apple.spawn();
             snake.grow();
             score += 1;
+            AudioManager.playSound("sounds/minigames/snake-apple.mp3");
         }
     }
 
