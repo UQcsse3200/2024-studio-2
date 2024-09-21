@@ -46,7 +46,7 @@ public class Bird {
 
             // Ensure bird does not increase velocity if flown into pipe
             if(collideTopOfPipe) {
-                if (velocity.y != 0) {
+                if (velocity.y < 0) {
                     velocity.y = 0;
                 }
             } else {
