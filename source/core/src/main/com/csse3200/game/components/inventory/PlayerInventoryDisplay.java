@@ -22,7 +22,6 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: REMOVE ALL MAGIC NUMBERS (THE 5'S)
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
  * It creates a window with a table of inventory slots that can display items, handle item usage,
@@ -31,14 +30,18 @@ import org.slf4j.LoggerFactory;
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
-    private final Inventory inventory;
     private static final float Z_INDEX = 3f;
-    AITaskComponent aiComponent = new AITaskComponent();
-    private final int numCols, numRows;
+    private static final int hotBarCapacity = 5;
+
+    private final Inventory inventory;
     private Window inventoryDisplay;
     private  Table hotBarDisplay;
+    AITaskComponent aiComponent = new AITaskComponent();
+
+    private final int numCols, numRows;
     private boolean toggle = false; // Whether inventory is toggled on;
-    //created by @PratulW5:
+
+    // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
@@ -57,7 +60,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             throw new IllegalArgumentException(msg);
         }
 
-        int capacity = inventory.getCapacity() - 5; // 5 for hot-bar (refactor this later)
+        int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
@@ -135,7 +138,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col + 5;
+                int index = row * numCols + col + hotBarCapacity - 1;
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
                 final ImageButton slot = new ImageButton(slotSkin);
@@ -182,7 +185,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         hotBarDisplay.center().right();
         hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
         hotBarDisplay.setSize(160, 517);
-        for (int i = 0; i < 5; i++) { // TODO: REMOVE MAGIC NUMBER 5
+        for (int i = 0; i < hotBarCapacity; i++) {
             AbstractItem item = inventory.getAt(i);
             ImageButton slot = new ImageButton(slotSkin);
             if (item != null) {
