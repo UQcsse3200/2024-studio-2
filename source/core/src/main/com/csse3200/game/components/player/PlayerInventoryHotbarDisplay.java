@@ -2,8 +2,11 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
@@ -19,7 +22,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
     private final Skin skinSlots = new Skin(Gdx.files.internal("Inventory/skinforslot.json")); //created by @PratulW5
     private final Table table = new Table();
     private final Inventory inventory;
-    private final ImageButton[] hotBarSlots;
     private final int capacity;
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");//created by @PratulW5
     private final PlayerInventoryDisplay inventoryUI;
@@ -43,16 +45,16 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         this.inventory = inventory;
         this.capacity = capacity;
         this.inventoryUI = InventoryUI;
-        this.hotBarSlots = new ImageButton[capacity];
         create();
-        createHotbar();
-
     }
 
     /**
      * To initialise the stage
      */
-    public void create() {super.create();}
+    public void create() {
+        super.create();
+        createHotbar();
+    }
 
     /**
      * Drawing is handled by the super class
@@ -80,7 +82,6 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
             }
             table.add(slot).size(80, 80).pad(5).padRight(45);
             table.row();
-            hotBarSlots[i] = slot;
         }
         float tableX = stage.getWidth() - table.getWidth() - 20;
         float tableY = (stage.getHeight() - table.getHeight()) / 2;
@@ -90,8 +91,8 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        disposeSlots();
-        disposeTable();
+        disposeGroupRecursively(table);
+
         super.dispose();
     }
 
@@ -100,17 +101,21 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
      * Disposes of the table by clearing its contents and removing it from the stage.
      */
     void disposeTable() {
-        table.clear();
-        table.remove();
+        disposeGroupRecursively(table);
     }
 
-    /**
-     * Disposes of each slot in the hotbar by clearing and removing them.
-     */
-    private void disposeSlots() {
-        for (ImageButton slot : hotBarSlots) {
-            slot.clear();
-            slot.remove();
+    private void disposeGroupRecursively(Group group) {
+        for (Actor child : group.getChildren()) {
+            // Dispose if child implements Disposable
+            if (child instanceof Disposable) {
+                ((Disposable) child).dispose();
+            }
+            // If the child is a Group (including Table), dispose of its children as well
+            if (child instanceof Group) {
+                disposeGroupRecursively((Group) child);
+            }
         }
+        group.clearChildren(); // Remove all children from the group
+        group.remove();
     }
 }
