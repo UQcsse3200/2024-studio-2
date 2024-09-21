@@ -99,23 +99,12 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
-
     /**
      * Determines if the toggle is active
      * @return returns the toggle
      */
     public boolean getToggle() {
         return toggle;
-    }
-
-    /**
-     * Checks to see if inventory is full
-     * @return boolean for if inventory is full
-     */
-    public boolean hasSpaceFor() {
-        // Logic to check if there's space in the inventory for all the items
-        // For simplicity, assume each item takes one slot and check if enough slots are available
-        return inventory.isFull();
     }
 
     /**
