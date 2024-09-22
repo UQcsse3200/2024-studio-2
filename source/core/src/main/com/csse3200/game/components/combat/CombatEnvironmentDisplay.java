@@ -27,17 +27,17 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private Entity player;
   private final GdxGame game;
 
-    public CombatEnvironmentDisplay(GdxGame game) {
+    public CombatEnvironmentDisplay(GdxGame game, Entity player) {
         this.game = game;
+        this.player = player;
     }
 
     @Override
   public void create() {
     super.create();
     addActors();
-    Entity newPlayer = PlayerFactory.createPlayer(game);
-    player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
-    player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
+    this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+    this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
 
   }
 
