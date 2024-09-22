@@ -118,7 +118,6 @@ public class CombatButtonDisplay extends UIComponent {
 
     /**
      * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
-     *
      * @param iHealthCheck an integer representing the health of the entity
      * @param AttackStatus a boolean stating if the current entity has attacked
      * @param GuardStatus  a boolean stating if the current entity has guarded
@@ -152,7 +151,7 @@ public class CombatButtonDisplay extends UIComponent {
 
         // New listener for end of game
         stage.addListener(endDialogueListener);
-        String[][] endText = {{"You have tamed the wild enemy. Say hi to your new friend!"}};
+        String[][] endText = {{"You killed the enemy you monster. They had kids."}};
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 
