@@ -79,8 +79,6 @@ public class MapHandler {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
     } else if (mapType == MapType.WATER) {
-      currentGameArea = new WaterGameArea(terrainFactory, game);
-      currentGameArea.create();
     }
 
     return currentGameArea;
@@ -95,7 +93,6 @@ public class MapHandler {
     currentGameArea = null;
     isSavedPrevious = false;
     forestGameArea = null;
-    waterGameArea = null;
   }
 
   /**

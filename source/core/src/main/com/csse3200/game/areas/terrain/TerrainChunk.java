@@ -79,7 +79,7 @@ public class TerrainChunk {
       this.grid.add(bitset);
     }
 
-    updateGrid();
+    updateGrid(terrainResource);
 
     while (true)
       if (collapseAll(cPosX, cPosY, terrainResource, inArea))
@@ -131,7 +131,6 @@ public class TerrainChunk {
         break;
 
       Integer randomTile = minentropyTiles.random();
-      // int randomTile = t;
 
       // ranodm pick a tile
       int numTrueBits = grid.get(randomTile).cardinality();
@@ -149,7 +148,7 @@ public class TerrainChunk {
       collapseTile(cPosX + randomTile % 16, cPosY + randomTile / 16, terrainResource, randomTrueBitIndex);
       collapsedTiles.set(randomTile);
 
-      updateGrid();
+      updateGrid(terrainResource);
     }
     // set the rest of the empty tiles
     int currentBit = 0;
@@ -200,22 +199,22 @@ public class TerrainChunk {
   /**
    * Update the grid of possible tiles for each cell in the chunk.
    */
-  private void updateGrid() {
+  private void updateGrid(TerrainResource terrainResource) {
     for (int i = 0; i < grid.size; ++i) {
-      // for (int i = 0; i < 32; ++i) {
       int x = position.x * 16 + (i % 16);
       int y = position.y * 16 + (i / 16);
       CCell thisCell = ((CCell) ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getCell(x, y));
       if (thisCell != null)
         continue;
-      BitSet up = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet down = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet left = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet right = new BitSet(TerrainResource.TILE_SIZE);
-      up.set(0, TerrainResource.TILE_SIZE, true);
-      down.set(0, TerrainResource.TILE_SIZE, true);
-      left.set(0, TerrainResource.TILE_SIZE, true);
-      right.set(0, TerrainResource.TILE_SIZE, true);
+      int tSize = terrainResource.getMapTiles(inArea).size();
+      BitSet up = new BitSet(tSize);
+      BitSet down = new BitSet(tSize);
+      BitSet left = new BitSet(tSize);
+      BitSet right = new BitSet(tSize);
+      up.set(0, tSize, true);
+      down.set(0, tSize, true);
+      left.set(0, tSize, true);
+      right.set(0, tSize, true);
 
       // position is the chunk position, needs to be converted to world position
       // System.out.println("position: " + x + " " + y + " i: " + i);
@@ -280,18 +279,18 @@ public class TerrainChunk {
     private BitSet possibleRight;
 
     public boolean isCollapsed;
-    private BitSet options;
+    //private BitSet options;
 
     CCell() {
       super();
-      this.possibleUp = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleDown = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleLeft = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleRight = new BitSet(TerrainResource.TILE_SIZE);
+      this.possibleUp = new BitSet();
+      this.possibleDown = new BitSet();
+      this.possibleLeft = new BitSet();
+      this.possibleRight = new BitSet();
       this.isCollapsed = false;
 
-      this.options = new BitSet(TerrainResource.TILE_SIZE);
-      this.options.set(0, TerrainResource.TILE_SIZE, true);
+      //this.options = new BitSet(TerrainResource.TILE_SIZE);
+      //this.options.set(0, TerrainResource.TILE_SIZE, true);
     }
 
     /**
