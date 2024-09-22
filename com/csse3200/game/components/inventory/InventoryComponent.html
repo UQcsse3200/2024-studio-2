@@ -5,7 +5,7 @@
 <title>InventoryComponent (core 1.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: com.csse3200.game.components.player, class: InventoryComponent">
+<meta name="description" content="declaration: package: com.csse3200.game.components.inventory, class: InventoryComponent">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,19 +81,21 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.components.player</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.components.inventory</a></div>
 <h1 title="Class InventoryComponent" class="title">Class InventoryComponent</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="../Component.html" title="class in com.csse3200.game.components">com.csse3200.game.components.Component</a>
-<div class="inheritance">com.csse3200.game.components.player.InventoryComponent</div>
+<div class="inheritance">com.csse3200.game.components.inventory.InventoryComponent</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">InventoryComponent</span>
 <span class="extends-implements">extends <a href="../Component.html" title="class in com.csse3200.game.components">Component</a></span></div>
-<div class="block">Data class to store the player's inventory separately from the display components</div>
+<div class="block">Data class to store the player's inventory separately from the display components
+ All other objects which do not explicitly need to use the display but need to access the
+ inventory should access this component only.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -134,6 +136,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInventory()" class="member-name-link">getInventory</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the player's current inventory from this attached InventoryComponent</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadInventoryFromSave()" class="member-name-link">loadInventoryFromSave</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Loads the inventory attached to the player from a save.</div>
 </div>
 </div>
 </div>
@@ -178,6 +185,13 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>The player's current inventory</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="loadInventoryFromSave()">
+<h3>loadInventoryFromSave</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadInventoryFromSave</span>()</div>
+<div class="block">Loads the inventory attached to the player from a save.</div>
 </section>
 </li>
 </ul>

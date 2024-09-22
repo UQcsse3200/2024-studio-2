@@ -5,7 +5,7 @@
 <title>PlayerInventoryDisplay (core 1.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: com.csse3200.game.components.player, class: PlayerInventoryDisplay">
+<meta name="description" content="declaration: package: com.csse3200.game.components.inventory, class: PlayerInventoryDisplay">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,14 +81,14 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.components.player</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.csse3200.game.components.inventory</a></div>
 <h1 title="Class PlayerInventoryDisplay" class="title">Class PlayerInventoryDisplay</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="../Component.html" title="class in com.csse3200.game.components">com.csse3200.game.components.Component</a>
 <div class="inheritance"><a href="../../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">com.csse3200.game.rendering.RenderComponent</a>
 <div class="inheritance"><a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">com.csse3200.game.ui.UIComponent</a>
-<div class="inheritance">com.csse3200.game.components.player.PlayerInventoryDisplay</div>
+<div class="inheritance">com.csse3200.game.components.inventory.PlayerInventoryDisplay</div>
 </div>
 </div>
 </div>
@@ -127,8 +127,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int)" class="member-name-link">PlayerInventoryDisplay</a><wbr>(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
- int&nbsp;numCols)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int)" class="member-name-link">PlayerInventoryDisplay</a><wbr>(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
+ int&nbsp;numCols,
+ int&nbsp;hotBarCapacity)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.</div>
 </div>
@@ -169,34 +170,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Handles drawing of the component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInventory()" class="member-name-link">getInventory</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getToggle()" class="member-name-link">getToggle</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns inventory - for quests.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getToggle()" class="member-name-link">getToggle</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determines if the toggle is active</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZIndex()" class="member-name-link">getZIndex</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZIndex()" class="member-name-link">getZIndex</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Z index controls rendering order within a layer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasSpaceFor()" class="member-name-link">hasSpaceFor</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks to see if inventory is full</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadInventoryFromSave()" class="member-name-link">loadInventoryFromSave</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeItem(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">removeItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Loads the inventory attached to the player from a save.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeItem(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">removeItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes an item from the inventory and updates the display.</div>
 </div>
 </div>
@@ -232,10 +218,11 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.csse3200.game.inventory.Inventory,int)">
+<section class="detail" id="&lt;init&gt;(com.csse3200.game.inventory.Inventory,int,int)">
 <h3>PlayerInventoryDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayerInventoryDisplay</span><wbr><span class="parameters">(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
- int&nbsp;numCols)</span></div>
+ int&nbsp;numCols,
+ int&nbsp;hotBarCapacity)</span></div>
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
  The capacity must be evenly divisible by the number of columns.</div>
 <dl class="notes">
@@ -275,17 +262,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>returns the toggle</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="hasSpaceFor()">
-<h3>hasSpaceFor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasSpaceFor</span>()</div>
-<div class="block">Checks to see if inventory is full</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>boolean for if inventory is full</dd>
 </dl>
 </section>
 </li>
@@ -356,20 +332,6 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>The z-index for this component.</dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="loadInventoryFromSave()">
-<h3>loadInventoryFromSave</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadInventoryFromSave</span>()</div>
-<div class="block">Loads the inventory attached to the player from a save.</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getInventory()">
-<h3>getInventory</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></span>&nbsp;<span class="element-name">getInventory</span>()</div>
-<div class="block">Returns inventory - for quests.</div>
 </section>
 </li>
 </ul>

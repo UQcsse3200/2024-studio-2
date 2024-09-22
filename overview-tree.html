@@ -65,6 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="com/csse3200/game/components/combat/quicktimeevent/package-tree.html">com.csse3200.game.components.combat.quicktimeevent</a>, </li>
 <li><a href="com/csse3200/game/components/gamearea/package-tree.html">com.csse3200.game.components.gamearea</a>, </li>
 <li><a href="com/csse3200/game/components/gameover/package-tree.html">com.csse3200.game.components.gameover</a>, </li>
+<li><a href="com/csse3200/game/components/inventory/package-tree.html">com.csse3200.game.components.inventory</a>, </li>
 <li><a href="com/csse3200/game/components/loading/package-tree.html">com.csse3200.game.components.loading</a>, </li>
 <li><a href="com/csse3200/game/components/login/package-tree.html">com.csse3200.game.components.login</a>, </li>
 <li><a href="com/csse3200/game/components/lootboxview/package-tree.html">com.csse3200.game.components.lootboxview</a>, </li>
@@ -311,7 +312,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/TouchTerminalInputComponent.html" class="type-name-link" title="class in com.csse3200.game.ui.terminal">TouchTerminalInputComponent</a></li>
 </ul>
 </li>
-<li class="circle">com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/InventoryComponent.html" class="type-name-link" title="class in com.csse3200.game.components.player">InventoryComponent</a></li>
+<li class="circle">com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryComponent.html" class="type-name-link" title="class in com.csse3200.game.components.inventory">InventoryComponent</a></li>
 <li class="circle">com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/KangaBossAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">KangaBossAnimationController</a></li>
 <li class="circle">com.csse3200.game.lighting.components.<a href="com/csse3200/game/lighting/components/LightingComponent.html" class="type-name-link" title="class in com.csse3200.game.lighting.components">LightingComponent</a></li>
 <li class="circle">com.csse3200.game.components.maingame.<a href="com/csse3200/game/components/maingame/MainGameActions.html" class="type-name-link" title="class in com.csse3200.game.components.maingame">MainGameActions</a></li>
@@ -348,8 +349,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.services.<a href="com/csse3200/game/services/NotifManager.html" class="type-name-link" title="class in com.csse3200.game.services">NotifManager</a></li>
 <li class="circle">com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/PauseDisplay.html" class="type-name-link" title="class in com.csse3200.game.overlays">PauseDisplay</a></li>
 <li class="circle">com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/PerformanceDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.gamearea">PerformanceDisplay</a></li>
-<li class="circle">com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerInventoryDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.player">PlayerInventoryDisplay</a></li>
-<li class="circle">com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerInventoryHotbarDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.player">PlayerInventoryHotbarDisplay</a></li>
+<li class="circle">com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.inventory">PlayerInventoryDisplay</a></li>
 <li class="circle">com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></li>
 <li class="circle">com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/PlayerStatsDisplay2.html" class="type-name-link" title="class in com.csse3200.game.overlays">PlayerStatsDisplay2</a></li>
 <li class="circle">com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/QuestDisplay.html" class="type-name-link" title="class in com.csse3200.game.overlays">QuestDisplay</a></li>
@@ -444,6 +444,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.csse3200.game.input.<a href="com/csse3200/game/input/InputService.html" class="type-name-link" title="class in com.csse3200.game.input">InputService</a> (implements com.badlogic.gdx.input.GestureDetector.GestureListener, com.badlogic.gdx.InputProcessor)</li>
 <li class="circle">com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" class="type-name-link" title="class in com.csse3200.game.inventory">Inventory</a> (implements com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a>)</li>
 <li class="circle">com.csse3200.game.gamestate.data.<a href="com/csse3200/game/gamestate/data/InventorySave.html" class="type-name-link" title="class in com.csse3200.game.gamestate.data">InventorySave</a> (implements com.badlogic.gdx.utils.Json.Serializable)</li>
+<li class="circle">com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryUtils.html" class="type-name-link" title="class in com.csse3200.game.components.inventory">InventoryUtils</a></li>
 <li class="circle">com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ItemFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">ItemFactory</a></li>
 <li class="circle">com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/ItemUsageContext.html" class="type-name-link" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a></li>
 <li class="circle">com.csse3200.game.concurrency.<a href="com/csse3200/game/concurrency/JobSystem.html" class="type-name-link" title="class in com.csse3200.game.concurrency">JobSystem</a></li>
