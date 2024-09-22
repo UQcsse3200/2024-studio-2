@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -24,6 +27,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton GuardButton ;
     TextButton SleepButton;
     TextButton ItemsButton;
+    private Entity player;
 
 
     /**
@@ -31,9 +35,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
+    public  CombatButtonDisplay(Screen screen, ServiceContainer container, Entity player) {
         this.screen = screen;
         this.container = container;
+        this.player = player;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class CombatButtonDisplay extends UIComponent {
         super.create();
             logger.info("CombatButtonDisplay::Create() , before calling addActors");
             addActors();
-
+        this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
     }
 
     /**
