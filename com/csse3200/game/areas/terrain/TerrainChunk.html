@@ -110,6 +110,9 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">The CCell class holds the possible tiles for the cell.</div>
 </div>
+<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="TerrainChunk.TileType.html" class="type-name-link" title="enum class in com.csse3200.game.areas.terrain">TerrainChunk.TileType</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -128,8 +131,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>com.badlogic.gdx.utils.Array<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/BitSet.html" title="class or interface in java.util" class="external-link">BitSet</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#grid" class="member-name-link">grid</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>com.badlogic.gdx.utils.Array<wbr>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#tiles" class="member-name-link">tiles</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#tileTypeCount" class="member-name-link">tileTypeCount</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -151,6 +154,11 @@ loadScripts(document, 'script');</script>
  <a href="TerrainComponent.TerrainResource.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainResource</a>&nbsp;terrainResource)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generate the tiles for this chunk of terrain.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileTypeCount(java.lang.String)" class="member-name-link">getTileTypeCount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tileType)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the tile type count for a given tile type.</div>
 </div>
 </div>
 </div>
@@ -184,15 +192,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="tiles">
-<h3>tiles</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</span>&nbsp;<span class="element-name">tiles</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="grid">
 <h3>grid</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/BitSet.html" title="class or interface in java.util" class="external-link">BitSet</a>&gt;</span>&nbsp;<span class="element-name">grid</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="tileTypeCount">
+<h3>tileTypeCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">tileTypeCount</span></div>
 </section>
 </li>
 </ul>
@@ -215,6 +223,20 @@ loadScripts(document, 'script');</script>
 <dd><code>chunkPos</code> - The position of this chunk in the world</dd>
 <dd><code>loadedChunks</code> - The chunks of terrain that are currently loaded</dd>
 <dd><code>terrainResource</code> - The terrain resource to use for generating the terrain</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTileTypeCount(java.lang.String)">
+<h3>getTileTypeCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getTileTypeCount</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tileType)</span></div>
+<div class="block">Get the tile type count for a given tile type. 
+ Returns null if the tile type does not exist.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>tileType</code> - The tile type to get the count for</dd>
+<dt>Returns:</dt>
+<dd>The count of the tile type</dd>
 </dl>
 </section>
 </li>
