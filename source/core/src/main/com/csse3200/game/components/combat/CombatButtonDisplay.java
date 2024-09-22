@@ -48,7 +48,8 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
-        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy) -> displayEndCombatDialogue(enemy));
+        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
+                displayEndCombatDialogue(enemy, winStatus));
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -135,7 +136,8 @@ public class CombatButtonDisplay extends UIComponent {
         table.remove();
     }
 
-    public void displayEndCombatDialogue(Entity enemyEntity) {
+    public void displayEndCombatDialogue(Entity enemyEntity, boolean winStatus) {
+        String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
         ChangeListener endDialogueListener = new ChangeListener() {
@@ -151,7 +153,12 @@ public class CombatButtonDisplay extends UIComponent {
 
         // New listener for end of game
         stage.addListener(endDialogueListener);
-        String[][] endText = {{"You tamed the wild animal. Say hi to your new friend!"}};
+        if (winStatus) {
+            endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
+        } else {
+            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
+                    "before battling again."}};
+        }
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 

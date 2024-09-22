@@ -64,10 +64,12 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
-    // For CombatStatDisplay update
+    // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
     // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfCombatDialogue", enemy);
+    entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
+
+    // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
 //    if (previousScreen instanceof MainGameScreen mainGameScreen) {
 //      ForestGameArea gameArea = mainGameScreen.getGameArea();
 //      List<Entity> enemies = gameArea.getEnemies();
@@ -80,9 +82,12 @@ public class CombatActions extends Component {
   /**
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
-  private void onCombatLoss() {
+  private void onCombatLoss(Entity enemy) {
     logger.info("Returning to main game screen after combat loss.");
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfCombatDialogue", enemy, false);
   }
 
   /**
