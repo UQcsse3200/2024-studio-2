@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.DialogueBoxService;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -84,6 +85,8 @@ public class CombatScreen extends ScreenAdapter {
     loadAssets();
     createUI();
 
+    this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+    this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
     logger.debug("Initialising main game dup screen entities");
     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera()); // create new combat terrain factory
     this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
@@ -173,7 +176,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(playerCombatStats)
         .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
-        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, manager.getPlayer()));
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices)); //manager.getPlayer()));
 
     ServiceLocator.getEntityService().register(ui);
   }
