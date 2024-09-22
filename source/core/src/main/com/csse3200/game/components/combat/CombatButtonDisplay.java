@@ -47,6 +47,7 @@ public class CombatButtonDisplay extends UIComponent {
             logger.info("CombatButtonDisplay::Create() , before calling addActors");
             addActors();
         this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+        this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
     }
 
     /**
