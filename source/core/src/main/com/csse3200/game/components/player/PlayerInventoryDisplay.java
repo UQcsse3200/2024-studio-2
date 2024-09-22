@@ -106,9 +106,8 @@ public class PlayerInventoryDisplay extends UIComponent {
             inventory.useItemAt(index, context);
             entity.getEvents().trigger("itemUsed", item);
         }
-
         // Otherwise, allow item use
-        item.useItem(context);
+        inventory.useItemAt(index, context);
     }
 
     /**
