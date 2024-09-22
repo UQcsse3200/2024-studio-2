@@ -112,6 +112,9 @@ public class ForestGameArea extends GameArea {
       //Initialise inventory and quests with loaded data
       player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
+
+      //return state of  inCombat to false
+      player.getComponent(PlayerInventoryDisplay.class).setCombatState(false);
   }
 
   private void handleNewChunks(Vector2 playerPos) {

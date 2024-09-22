@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -20,11 +24,21 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(CombatEnvironmentDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+  private Entity player;
+  private final GdxGame game;
 
-  @Override
+    public CombatEnvironmentDisplay(GdxGame game) {
+        this.game = game;
+    }
+
+    @Override
   public void create() {
     super.create();
     addActors();
+    Entity newPlayer = PlayerFactory.createPlayer(game);
+    player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+    player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
+
   }
 
   /**
