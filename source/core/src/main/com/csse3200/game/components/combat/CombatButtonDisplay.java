@@ -136,6 +136,11 @@ public class CombatButtonDisplay extends UIComponent {
         table.remove();
     }
 
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * @param enemyEntity Entity of the enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
     public void displayEndCombatDialogue(Entity enemyEntity, boolean winStatus) {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);

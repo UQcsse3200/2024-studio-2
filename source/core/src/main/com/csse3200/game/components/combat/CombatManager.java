@@ -320,6 +320,10 @@ public class CombatManager extends Component {
         return enemyStats;
     }
 
+    /**
+     * A function used to calculate and construct the strings describing player and enemy changes
+     * @return A string array containing the stat change details of the player and enemy
+     */
     private String[] calculateStatChanges () {
         int arraySize = 2;
         String[] statChanges = new String[arraySize];
