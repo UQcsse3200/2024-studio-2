@@ -26,7 +26,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton GuardButton ;
     TextButton SleepButton;
     TextButton ItemsButton;
-    private Entity player;
+    //private Entity player;
 
 
     /**
@@ -34,10 +34,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container, Entity player) {
+    public  CombatButtonDisplay(Screen screen, ServiceContainer container) {
         this.screen = screen;
         this.container = container;
-        this.player = player;
+       //this.player = player;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class CombatButtonDisplay extends UIComponent {
         super.create();
             logger.info("CombatButtonDisplay::Create() , before calling addActors");
             addActors();
-        this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
-        this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
+//        this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+//        this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
     }
 
     /**
