@@ -282,13 +282,12 @@ public class TerrainComponent extends RenderComponent {
           FOREST_SIZE = tiles.size();
 
           // load water tiles
-          //WaterMapTiles waterTileConfig;
-          //waterTileConfig = FileLoader.readClass(WaterMapTiles.class, "configs/WaterGameAreaConfigs/waterTiles.json");
-          //for (WaterTileConfig tile : waterTileConfig.waterMapTiles) {
-          //  // edge: TOP, RIGHT, BOTTOM, LEFT
-          //  waterTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
-          //}
-          //WATER_SIZE = waterTiles.size();
+          OceanMapTiles oceanTileConfig;
+          oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
+          for (OceanTileConfig tile: oceanTileConfig.waterMapTiles) {
+            waterTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
+          }
+          WATER_SIZE = waterTiles.size();
 
           // load air tiles
           //AirMapTiles airTileConfig;
@@ -309,16 +308,52 @@ public class TerrainComponent extends RenderComponent {
       this.setPossibleTiles();
     }
 
+    public ArrayList<Tile> getMapTiles(MapType mapType) {
+      switch(mapType) {
+        case FOREST:
+          return forestTiles;
+        case WATER:
+          return waterTiles;
+        case AIR:
+          return airTiles;
+        case COMBAT:
+          return null;
+        default:
+          throw new IllegalArgumentException("No such map type:" + mapType);
+      }
+    }
+
     /**
      * Set all possible tiles for each tile for all directions.
      */
     public void setPossibleTiles() {
       for (int i = 0; i < this.tiles.size(); i++) {
-        setPossibleUp(this.tiles.get(i));
-        setPossibleRight(this.tiles.get(i));
-        setPossibleDown(this.tiles.get(i));
-        setPossibleLeft(this.tiles.get(i));
+        setPossibleUp(this.tiles.get(i), this.tiles);
+        setPossibleRight(this.tiles.get(i), this.tiles);
+        setPossibleDown(this.tiles.get(i), this.tiles);
+        setPossibleLeft(this.tiles.get(i), this.tiles);
       }
+
+      for (int i = 0; i < this.forestTiles.size(); i++) {
+        setPossibleUp(this.forestTiles.get(i), this.forestTiles);
+        setPossibleRight(this.forestTiles.get(i), this.forestTiles);
+        setPossibleDown(this.forestTiles.get(i), this.forestTiles);
+        setPossibleLeft(this.forestTiles.get(i), this.forestTiles);
+      }
+
+      for (int i = 0; i < this.waterTiles.size(); i++) {
+        setPossibleUp(this.waterTiles.get(i), this.waterTiles);
+        setPossibleRight(this.waterTiles.get(i), this.waterTiles);
+        setPossibleDown(this.waterTiles.get(i), this.waterTiles);
+        setPossibleLeft(this.waterTiles.get(i), this.waterTiles);
+      }
+
+      //for (int i = 0; i < this.airTiles.size(); i++) {
+      //  setPossibleUp(this.airTiles.get(i), this.airTiles);
+      //  setPossibleRight(this.airTiles.get(i), this.airTiles);
+      //  setPossibleDown(this.airTiles.get(i), this.airTiles);
+      //  setPossibleLeft(this.airTiles.get(i), this.airTiles);
+      //}
     }
 
     /**
@@ -326,10 +361,10 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleUp(Tile tile) {
+    public void setPossibleUp(Tile tile, ArrayList<Tile> areaTiles) {
       BitSet up = new BitSet(TILE_SIZE);
-      for (int i = 0; i < this.tiles.size(); i++) {
-        if (this.tiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0))) {
+      for (int i = 0; i < areaTiles.size(); i++) {
+        if (areaTiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0))) {
           up.set(i, true);
         }
       }
@@ -341,10 +376,10 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleRight(Tile tile) {
+    public void setPossibleRight(Tile tile, ArrayList<Tile> areaTiles) {
       BitSet right = new BitSet(TILE_SIZE);
-      for (int i = 0; i < this.tiles.size(); i++) {
-        if (this.tiles.get(i).getEdgeTiles().get(3).equals(tile.getEdgeTiles().get(1))) {
+      for (int i = 0; i < areaTiles.size(); i++) {
+        if (areaTiles.get(i).getEdgeTiles().get(3).equals(tile.getEdgeTiles().get(1))) {
           right.set(i, true);
         }
       }
@@ -356,10 +391,10 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleDown(Tile tile) {
+    public void setPossibleDown(Tile tile, ArrayList<Tile> areaTiles) {
       BitSet down = new BitSet(TILE_SIZE);
-      for (int i = 0; i < this.tiles.size(); i++) {
-        if (this.tiles.get(i).getEdgeTiles().get(0).equals(tile.getEdgeTiles().get(2))) {
+      for (int i = 0; i < areaTiles.size(); i++) {
+        if (areaTiles.get(i).getEdgeTiles().get(0).equals(tile.getEdgeTiles().get(2))) {
           down.set(i, true);
         }
       }
@@ -371,10 +406,10 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleLeft(Tile tile) {
+    public void setPossibleLeft(Tile tile, ArrayList<Tile> areaTiles) {
       BitSet left = new BitSet(TILE_SIZE);
-      for (int i = 0; i < this.tiles.size(); i++) {
-        if (this.tiles.get(i).getEdgeTiles().get(1).equals(tile.getEdgeTiles().get(3))) {
+      for (int i = 0; i < areaTiles.size(); i++) {
+        if (areaTiles.get(i).getEdgeTiles().get(1).equals(tile.getEdgeTiles().get(3))) {
           left.set(i, true);
         }
       }
@@ -403,7 +438,30 @@ public class TerrainComponent extends RenderComponent {
      * @return The tile with the given index
      */
     public Tile getTilebyIndex(int index) {
+      //return this.tiles.get(index);
       return this.tiles.get(index);
+    }
+
+    /**
+     * Get a tile by index and map type.
+     * 
+     * @param index The index of the tile
+     * @param mapType The map type of the tile
+     * @return The tile with the given index and map type
+     */
+    public Tile getMapTilebyIndex(int index, MapType mapType) {
+      switch(mapType) {
+        case FOREST:
+          return forestTiles.get(index);
+        case WATER:
+          return waterTiles.get(index);
+        case AIR:
+          return airTiles.get(index);
+        case COMBAT:
+          return null;
+        default:
+          throw new IllegalArgumentException("No such map type:" + mapType);
+      }
     }
 
     /**

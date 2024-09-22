@@ -38,7 +38,7 @@ public class TerrainChunkTest {
     public void testInitialization() {
         // Check that the grid is initialized
         assertNotNull(terrainChunk.grid);
-        assertEquals(256, terrainChunk.grid.size);
+        assertEquals(0, terrainChunk.grid.size);
 
         // Check that the tile is initialized
         assertNotNull(terrainChunk.tileTypeCount);

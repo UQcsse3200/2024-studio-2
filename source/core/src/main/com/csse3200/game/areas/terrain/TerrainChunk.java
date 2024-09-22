@@ -39,24 +39,15 @@ public class TerrainChunk {
   private BitSet collapsedTiles;
 
   public HashMap<String, Integer> tileTypeCount;
-
+  public int totalTiles = 0;
+  public MapType inArea; 
+ 
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
-
     this.tileTypeCount = new HashMap<String, Integer>();
     this.grid = new Array<BitSet>(256);
     this.collapsedTiles = new BitSet(256);
-
-    for (int i = 0; i < 256; ++i) {
-      // TODO: tile size ciuld be different based on the area
-
-      BitSet bitset = new BitSet(TerrainResource.TILE_SIZE);
-      bitset.set(0, TerrainResource.TILE_SIZE, true);
-      this.grid.add(bitset);
-    }
-
-    updateGrid();
   }
 
   /**
@@ -73,9 +64,25 @@ public class TerrainChunk {
 
     // if chunk is in another area, then terrainResource load assest for that area
     // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
+    inArea = checkAreaType(position);
+    if (inArea == MapType.FOREST) {
+      totalTiles = TerrainResource.FOREST_SIZE;
+    } else if (inArea == MapType.WATER) {
+      totalTiles = TerrainResource.WATER_SIZE;
+    } else {
+      totalTiles = TerrainResource.AIR_SIZE;
+    }
+
+    for (int i = 0; i < 256; ++i) {
+      BitSet bitset = new BitSet(totalTiles);
+      bitset.set(0, totalTiles, true);
+      this.grid.add(bitset);
+    }
+
+    updateGrid();
 
     while (true)
-      if (collapseAll(cPosX, cPosY, terrainResource, checkAreaType(chunkPos)))
+      if (collapseAll(cPosX, cPosY, terrainResource, inArea))
         break;
   }
 
@@ -85,7 +92,8 @@ public class TerrainChunk {
     } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
       return MapType.WATER;
     } else {
-      return MapType.AIR;
+      // TODO: change to air 
+      return MapType.WATER;
     }
   }
 
@@ -138,7 +146,6 @@ public class TerrainChunk {
       // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
 
-      // TODO: change parameter take in the source corresponding to the type
       collapseTile(cPosX + randomTile % 16, cPosY + randomTile / 16, terrainResource, randomTrueBitIndex);
       collapsedTiles.set(randomTile);
 
@@ -166,7 +173,8 @@ public class TerrainChunk {
    */
   private void collapseTile(int x, int y, TerrainResource terrainResource, int tileIndex) {
     CCell cell = new CCell();
-    Tile tile = terrainResource.getTilebyIndex(tileIndex);
+    Tile tile = terrainResource.getMapTilebyIndex(tileIndex, inArea);
+    //Tile tile = terrainResource.getTilebyIndex(tileIndex);
     cell.setTile(tile, terrainResource);
     ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
 

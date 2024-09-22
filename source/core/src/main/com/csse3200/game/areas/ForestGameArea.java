@@ -45,10 +45,8 @@ import java.util.function.Supplier;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
-  // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
+  // INFO: The Map is equally divied into three areaas. Each area is 160x48 tiles wide.
   //
-  //public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * 10, 16 * 30);
-  //private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(80, 16);
   private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
   public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);

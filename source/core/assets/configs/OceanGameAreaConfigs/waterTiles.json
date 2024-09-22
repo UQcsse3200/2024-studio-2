@@ -3,92 +3,112 @@
     {
       "id": "water2TL",
       "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
-      "edges": ["AAA", "ABB", "ABB", "AAA"]
+      "edges": ["AAA", "ACC", "ACC", "AAA"]
     },
     {
       "id": "water2TM",
       "fp": "images/water_tile_2_around_sand/upper_middle_water_2_around_sand.jpg",
-      "edges": ["AAA", "ABB", "BBB", "ABB"]
+      "edges": ["AAA", "ACC", "CCC", "ACC"]
     },
     {
       "id": "water2TR",
       "fp": "images/water_tile_2_around_sand/upper_right_corner_water_2_around_sand.jpg",
-      "edges": ["AAA", "AAA", "BBA", "ABB"]
+      "edges": ["AAA", "AAA", "CCA", "ACC"]
     },
     {
       "id": "water2ML",
       "fp": "images/water_tile_2_around_sand/left_middle_water_2_around_sand.jpg",
-      "edges": ["ABB", "BBB", "ABB", "AAA"]
+      "edges": ["ACC", "CCC", "ACC", "AAA"]
     },
     {
       "id": "water2MM",
       "fp": "images/water_tile_2_around_sand/middle_water_2_around_sand.jpg",
-      "edges": ["BBB", "BBB", "BBB", "BBB"]
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "water2MM",
+      "fp": "images/water_tile_2_around_sand/middle_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "water2MM",
+      "fp": "images/water_tile_2_around_sand/middle_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "water2MM",
+      "fp": "images/water_tile_2_around_sand/middle_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "water2MM",
+      "fp": "images/water_tile_2_around_sand/middle_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
     },
     {
       "id": "water2MR",
       "fp": "images/water_tile_2_around_sand/right_middle_water_2_around_sand.jpg",
-      "edges": ["BBA", "AAA", "BBA", "BBB"]
+      "edges": ["CCA", "AAA", "CCA", "CCC"]
     },
     {
       "id": "water2BL",
       "fp": "images/water_tile_2_around_sand/lower_left_corner_water_2_around_sand.jpg",
-      "edges": ["ABB", "BBA", "AAA", "AAA"]
+      "edges": ["ACC", "CCA", "AAA", "AAA"]
     },
     {
       "id": "water2BM",
       "fp": "images/water_tile_2_around_sand/lower_middle_water_2_around_sand.jpg",
-      "edges": ["BBB", "BBA", "AAA", "BBA"]
+      "edges": ["CCC", "CCA", "AAA", "CCA"]
     },
     {
       "id": "water2BR",
       "fp": "images/water_tile_2_around_sand/lower_right_corner_water_2_around_sand.jpg",
-      "edges": ["BBA", "AAA", "AAA", "BBA"]
+      "edges": ["CCA", "AAA", "AAA", "CCA"]
     },
     {
       "id": "water1TL",
       "fp": "images/water_tile_1_around_sand/upper_left_corner_water_1_around_sand.jpg",
-      "edges": ["AAA", "AAB", "AAB", "AAA"]
+      "edges": ["AAA", "AAC", "AAC", "AAA"]
     },
     {
       "id": "water1TM",
       "fp": "images/water_tile_1_around_sand/upper_middle_water_1_around_sand.jpg",
-      "edges": ["AAA", "AAB", "BBB", "AAB"]
+      "edges": ["AAA", "AAC", "CCC", "AAC"]
     },
     {
       "id": "water1TR",
       "fp": "images/water_tile_1_around_sand/upper_right_corner_water_1_around_sand.jpg",
-      "edges": ["AAA", "AAA", "BAA", "AAB"]
+      "edges": ["AAA", "AAA", "CAA", "AAC"]
     },
     {
       "id": "water1ML",
       "fp": "images/water_tile_1_around_sand/left_middle_water_1_around_sand.jpg",
-      "edges": ["AAB", "BBB", "AAB", "AAA"]
+      "edges": ["AAC", "CCC", "AAC", "AAA"]
     },
     {
       "id": "water1MM",
       "fp": "images/water_tile_1_around_sand/middle_water_1_around_sand.jpg",
-      "edges": ["BBB", "BBB", "BBB", "BBB"]
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
     },
     {
       "id": "water1MR",
       "fp": "images/water_tile_1_around_sand/right_middle_water_1_around_sand.jpg",
-      "edges": ["BAA", "AAA", "BAA", "BBB"]
+      "edges": ["CAA", "AAA", "CAA", "CCC"]
     },
     {
       "id": "water1BL",
       "fp": "images/water_tile_1_around_sand/lower_left_corner_water_1_around_sand.jpg",
-      "edges": ["AAB", "BAA", "AAA", "AAA"]
+      "edges": ["AAC", "CAA", "AAA", "AAA"]
     },
     {
       "id": "water1BM",
-      "fp": "images/grass_tile_1_around_sand/lower_middle_grass_1_around_sand.jpg",
-      "edges": ["BBB", "BAA", "AAA", "BAA"]
+      "fp": "images/water_tile_1_around_sand/lower_middle_water_1_around_sand.jpg",
+      "edges": ["CCC", "CAA", "AAA", "CAA"]
     },
     {
       "id": "water1BR",
       "fp": "images/water_tile_1_around_sand/lower_right_corner_water_1_around_sand.jpg",
-      "edges": ["BAA", "AAA", "AAA", "BAA"]
+      "edges": ["CAA", "AAA", "AAA", "CAA"]
     },
     {
       "id": "sand1MM",

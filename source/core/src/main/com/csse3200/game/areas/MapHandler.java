@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.WaterGameArea;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.rendering.Renderer;
@@ -16,7 +15,6 @@ public class MapHandler {
   private static MapType previousMap = MapType.NONE;
 
   private static ForestGameArea forestGameArea;
-  private static WaterGameArea waterGameArea;
 
   private static boolean isSavedPrevioud;
   // private static GameArea savedPrevioud;
@@ -53,10 +51,7 @@ public class MapHandler {
     if (mapType == MapType.FOREST) {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
-    } else if (mapType == MapType.WATER) {
-      currentGameArea = new WaterGameArea(terrainFactory, game);
-      currentGameArea.create();
-    }
+    } 
 
     previousMap = currentMap;
     currentMap = mapType;
@@ -84,8 +79,6 @@ public class MapHandler {
     switch (mapType) {
       case FOREST:
         return (ForestGameArea) currentGameArea;
-      case WATER:
-        return (WaterGameArea) currentGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
     }
