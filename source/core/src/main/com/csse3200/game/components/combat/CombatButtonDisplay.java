@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CombatButtonDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
-    private static final float Z_INDEX = 2f;
+    private static final float Z_INDEX = 3f;
     private Table table;
     private Screen screen;
     private ServiceContainer container;
