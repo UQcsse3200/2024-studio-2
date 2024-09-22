@@ -16,11 +16,11 @@ public class MapHandler {
 
   private static ForestGameArea forestGameArea;
 
-  private static boolean isSavedPrevioud;
+  private static boolean isSavedPrevious;
   // private static GameArea savedPrevioud;
 
   private MapHandler() {
-    isSavedPrevioud = false;
+    isSavedPrevious = false;
   }
 
   /**
@@ -39,7 +39,7 @@ public class MapHandler {
     // TODO: save state
     if (saveState && currentMap != MapType.NONE) {
       // currentMap.saveState();
-      isSavedPrevioud = true;
+      isSavedPrevious = true;
     }
 
     if (currentMap != MapType.NONE) {
@@ -56,6 +56,46 @@ public class MapHandler {
     previousMap = currentMap;
     currentMap = mapType;
     return currentGameArea;
+  }
+
+  /**
+   * Generates a new map - intended for use when a game is loaded, ie, so that
+   * the new map can be set without attempting to dispose of an old map
+   * (this should be handled by the screen).
+   * NOTE: Erases reference to old map without disposing of it.
+   *
+   * @param mapType - the type of map to initiaise to
+   * @param renderer renderer
+   * @param game game
+   * @return
+   */
+  public static GameArea createNewMap(MapType mapType, Renderer renderer, GdxGame game) {
+    resetMapHandler();
+    currentMap = mapType;
+
+    TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
+
+    if (mapType == MapType.FOREST) {
+      currentGameArea = new ForestGameArea(terrainFactory, game);
+      currentGameArea.create();
+    } else if (mapType == MapType.WATER) {
+      currentGameArea = new WaterGameArea(terrainFactory, game);
+      currentGameArea.create();
+    }
+
+    return currentGameArea;
+  }
+
+  /**
+   * Deletes references to all maps and resets to original state.
+   */
+  private static void resetMapHandler() {
+    currentMap = MapType.NONE;
+    previousMap = MapType.NONE;
+    currentGameArea = null;
+    isSavedPrevious = false;
+    forestGameArea = null;
+    waterGameArea = null;
   }
 
   /**
