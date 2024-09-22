@@ -152,7 +152,7 @@ public class CombatButtonDisplay extends UIComponent {
 
         // New listener for end of game
         stage.addListener(endDialogueListener);
-        String[][] endText = {{"You killed the enemy you monster. They had kids."}};
+        String[][] endText = {{"You have tamed the wild enemy. Say hi to your new friend!"}};
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 
