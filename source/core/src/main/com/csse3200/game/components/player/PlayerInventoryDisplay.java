@@ -16,6 +16,8 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * and update dynamically when the inventory changes.
  */
 public class PlayerInventoryDisplay extends UIComponent {
+    private boolean isInCombat = false;
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
@@ -68,6 +71,22 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
+     * Sets the state of inCombat
+     * @param inCombat boolean value of if the player is in combat or not
+     */
+    public void setCombatState(boolean inCombat) {
+        this.isInCombat = inCombat;
+    }
+
+    /**
+     * Checks if player is in combat
+     * @return the state of iff player is in combat or not
+     */
+    public boolean isInCombat() {
+        return isInCombat;
+    }
+
+    /**
      * Initializes the component by setting up event listeners for toggling the inventory display
      * and adding items.
      */
@@ -76,6 +95,20 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("addItem", this::addItem);
+    }
+
+    private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
+        if (item instanceof DefensePotion || item instanceof AttackPotion) {
+            if (!isInCombat) {
+                logger.warn("Cannot use defense or attack potions outside of combat.");
+                return;
+            }
+            inventory.useItemAt(index, context);
+            entity.getEvents().trigger("itemUsed", item);
+        }
+
+        // Otherwise, allow item use
+        item.useItem(context);
     }
 
     /**
@@ -197,15 +230,26 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                if (item instanceof TimedUseItem) {
-                    aiComponent.addTask(
-                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
-                }
-                inventory.useItemAt(index, context);
-                entity.getEvents().trigger("itemUsed", item);
+                tryUseItem(item, context, index);
+                //if (entity.get)
+//                if (item instanceof TimedUseItem) {
+//                    aiComponent.addTask(
+//                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
+//                }
+//                inventory.useItemAt(index, context);
+//                entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();
+
             }
         });
+    }
+
+    /**
+     * Return the player inventory display
+     * @return player inventory display
+     */
+    public PlayerInventoryDisplay getPlayerInventoryDisplay() {
+        return this;
     }
 
     /**
