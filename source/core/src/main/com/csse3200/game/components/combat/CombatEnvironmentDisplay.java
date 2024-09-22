@@ -25,10 +25,8 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table table;
   private Entity player;
-  private final GdxGame game;
 
-    public CombatEnvironmentDisplay(GdxGame game, Entity player) {
-        this.game = game;
+    public CombatEnvironmentDisplay(Entity player) {
         this.player = player;
     }
 
