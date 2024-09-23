@@ -1,26 +1,26 @@
 package com.csse3200.game.entities.factories;
 
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
-import com.csse3200.game.components.player.*;
+import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.player.PlayerActions;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.quests.AchievementPopup;
-import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -29,9 +29,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import java.util.ArrayList;
@@ -45,7 +42,6 @@ import java.util.List;
  */
 
 public class PlayerFactory {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
     public static Entity createPlayer(GdxGame game) {
@@ -89,12 +85,11 @@ public class PlayerFactory {
                 .addComponent(new QuestPopup())
 
                 .addComponent((new StatManager(player)));
-        // Add inventory from player (in future this will provide shared interface for memory)
+
+        // Add inventory from player (in future this will provide shared interface for memory
         InventoryComponent inventoryComponent = new InventoryComponent(50);
-        logger.info("INVENTORY CAPACITY: " + inventoryComponent.getInventory().getCapacity());
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(),9, 5))
-                .addComponent(new PlayerInventoryHotbarDisplay(inventoryComponent.getInventory(),5))
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9, 5))
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
@@ -106,6 +101,10 @@ public class PlayerFactory {
         player.getComponent(TextureRenderComponent.class).scaleEntity();
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
+
+        LightingComponent light = new LightingComponent(LightingComponent.createPointLight(4f, Color.CORAL));
+        light.getLight().setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
+        player.addComponent(light);
 
         return player;
     }
