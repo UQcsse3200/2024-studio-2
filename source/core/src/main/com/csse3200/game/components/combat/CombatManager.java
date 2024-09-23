@@ -8,7 +8,8 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The CombatManager class is responsible for managing the turn-based combat loop between two entities (player and enemy).
@@ -396,10 +397,38 @@ public class CombatManager extends Component {
     }
 
     /**
+     * A function used to construct the strings describing Status Effects applied to the Player
+     * @return A string array containing the details of status effects, where the first element is for Confusion
+     * and the second element is for Status Ailments (Bleeding, Shocked, Poisoned).
+     */
+    private String[] playerStatusEffects() {
+        int arraySize = 2;
+        String[] statusEffects = new String[arraySize];
+        String confusionDetails = "";
+        String ailmentsDetails = "";
+
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
+            confusionDetails += "The enemy confused you into casting a random move.";
+        }
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
+            ailmentsDetails += "You are bleeding, Guarding will block only 30% of incoming damage.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+            ailmentsDetails += "You were poisoned, Sleeping will not heal you this round.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
+            ailmentsDetails += "You were shocked, your Attacks will be weakened by 30%.";
+        }
+
+        statusEffects[0] = confusionDetails;
+        statusEffects[1] = ailmentsDetails;
+
+        return statusEffects;
+    }
+
+    /**
      * Displays the results of the combat moves in that turn on the game screen in a DialogueBox
      */
     private void displayCombatResults() {
-        String[][] moveText;
+        List<String> moveTextList = new ArrayList<>();
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
         Boolean playerStatChange = false;
@@ -415,22 +444,33 @@ public class CombatManager extends Component {
         }
         logger.info(entityStatChanges[1]);
         logger.info(String.format("The enemyStat change value is %b", enemyStatChange));
-        if (playerStatChange && enemyStatChange) {
-            logger.info("THERE'S STATS CHANGES FOR PLAYER AND ENEMY");
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0],
-                    entityStatChanges[1]}};
-        } else if (playerStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0]}};
-        } else if (enemyStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[1]}};
-        } else {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails),
-                    "No stats were changed, try again!"}};
+
+        String[] statusEffects = playerStatusEffects();
+
+        if (!statusEffects[0].isEmpty()) {
+            moveTextList.add(statusEffects[0]);
         }
+        if (!statusEffects[1].isEmpty()) {
+            moveTextList.add(statusEffects[1]);
+        }
+
+        moveTextList.add(String.format("You decided to %s", playerMoveDetails));
+        moveTextList.add(String.format("The enemy decided to %s", enemyMoveDetails));
+
+        if (playerStatChange) {
+            moveTextList.add(entityStatChanges[0]);
+        }
+        if (enemyStatChange) {
+            moveTextList.add(entityStatChanges[1]);
+        }
+
+        if (!playerStatChange && !enemyStatChange) {
+            moveTextList.add("No stats were changed, try again!");
+        }
+
+        // Convert the ArrayList to a 2D array for updateText
+        String[][] moveText = new String[1][moveTextList.size()];
+        moveText[0] = moveTextList.toArray(new String[0]);
 
         ServiceLocator.getDialogueBoxService().updateText(moveText);
         entity.getEvents().trigger("displayCombatResults");
