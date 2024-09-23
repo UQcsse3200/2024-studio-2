@@ -64,10 +64,10 @@ public class MazeTouchAttackComponent extends Component {
     Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
     Entity meEntity = ((BodyUserData) me.getBody().getUserData()).entity;
 
-    if (meEntity instanceof MazePlayer) {
+    //if (meEntity instanceof MazePlayer) {
       // Means it is the player. player should not attack or knockback npcs
-      return;
-    }
+      //return;
+    //}
 
     // Change to maze combat stats
     MazeCombatStatsComponent targetStats = targetEntity.getComponent(MazeCombatStatsComponent.class);
