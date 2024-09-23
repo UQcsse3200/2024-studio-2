@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-//import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -27,12 +26,9 @@ import org.slf4j.LoggerFactory;
  * and update dynamically when the inventory changes.
  */
 public class CombatInventoryDisplay extends UIComponent {
-    //private boolean isInCombat = false;
     private static final Logger logger = LoggerFactory.getLogger(CombatInventoryDisplay.class);
-    //private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
-    //AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
     private Window window;
     private Table table;
@@ -41,7 +37,6 @@ public class CombatInventoryDisplay extends UIComponent {
     //created by @PratulW5:
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    //PlayerInventoryHotbarDisplay hotbar;
 
     /**
      * Constructs a CombatInventoryDisplay with the specified capacity and number of columns.
@@ -83,10 +78,6 @@ public class CombatInventoryDisplay extends UIComponent {
 
     private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
         if (item instanceof DefensePotion || item instanceof AttackPotion) {
-//            if (!isInCombat) {
-//                logger.warn("Cannot use defense or attack potions outside of combat.");
-//                return;
-//            }
             inventory.useItemAt(index, context);
             entity.getEvents().trigger("itemUsed", item);
         }

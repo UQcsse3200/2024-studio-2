@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.UIComponent;
