@@ -20,8 +20,6 @@ public class MazeEntityAnimationController extends Component {
     entity.getEvents().addListener("spawnStart", this::animateSpawn);
     entity.getEvents().addListener("faceLeft", this::faceLeft);
     entity.getEvents().addListener("faceRight", this::faceRight);
-    entity.getEvents().addListener("chaseLeft", this::faceLeft);
-    entity.getEvents().addListener("chaseRight", this::faceRight);
   }
 
   void animateSpawn() {
@@ -37,10 +35,10 @@ public class MazeEntityAnimationController extends Component {
   }
 
   void faceLeft() {
-    animator.setFlipX(true);
+      animator.setFlipX(true);
   }
 
   void faceRight() {
-    animator.setFlipX(false);
+      animator.setFlipX(false);
   }
 }

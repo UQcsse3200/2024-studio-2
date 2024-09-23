@@ -12,6 +12,8 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  *  Differs from the main game ChaseTask in that all movement is relative to the center
  *  of both the entity this is attached to and the entity being chased. */
 public class MazeChaseTask extends ChaseTask {
+  private Vector2 bestTargetPoint;
+
   /**
    * @param target The entity to chase.
    * @param priority Task priority when chasing (0 when not chasing).
@@ -25,7 +27,7 @@ public class MazeChaseTask extends ChaseTask {
   @Override
   public void start() {
     super.start();
-    movementTask = new MovementTask(MazeMovementUtils.adjustPos(target.getCenterPosition(), owner.getEntity()));
+    movementTask = new MovementTask(bestTargetPoint);
     movementTask.create(owner);
     movementTask.start();
 
@@ -34,8 +36,13 @@ public class MazeChaseTask extends ChaseTask {
 
   @Override
   public void update() {
-    movementTask.setTarget(targetReachablePoint());
+    movementTask.setTarget(bestTargetPoint);
     movementTask.update();
+    if (target.getCenterPosition().x < owner.getEntity().getCenterPosition().x) {
+      this.owner.getEntity().getEvents().trigger("faceLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("faceRight");
+    }
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
     }
@@ -46,10 +53,9 @@ public class MazeChaseTask extends ChaseTask {
     return owner.getEntity().getCenterPosition().dst(target.getCenterPosition());
   }
 
-
-
-  private Vector2 targetReachablePoint() {
-    Vector2 bestTargetPoint = null;
+  @Override
+  protected boolean isTargetVisible() {
+    bestTargetPoint = null;
     Entity e = owner.getEntity();
 
     Vector2[] from = {
@@ -82,11 +88,6 @@ public class MazeChaseTask extends ChaseTask {
 
       }
     }
-    return bestTargetPoint;
-  }
-
-  @Override
-  protected boolean isTargetVisible() {
-    return targetReachablePoint() != null;
+    return bestTargetPoint != null;
   }
 }
