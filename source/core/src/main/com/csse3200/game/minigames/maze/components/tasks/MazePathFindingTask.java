@@ -3,25 +3,19 @@ package com.csse3200.game.minigames.maze.components.tasks;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.components.tasks.MovementTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.minigames.Grid;
 import com.csse3200.game.minigames.maze.Maze;
-import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
-import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Move to a given position, finishing when you get close enough. Requires an entity with a
@@ -59,7 +53,7 @@ public class MazePathFindingTask extends DefaultTask {
     if (path.size() > 1) {
       Entity e = owner.getEntity();
       Vector2 centerTo = new Vector2(path.get(path.size() - 2).x + .5f, path.get(path.size() - 2).y + .5f);
-      float PADDING = 0.03f;
+      float PADDING = MazeMovementUtils.PADDING;
       int success = 0;
       Vector2[] corners = {
               e.getPosition().add(-PADDING, -PADDING),
@@ -83,7 +77,7 @@ public class MazePathFindingTask extends DefaultTask {
       }
     }
 
-    return MovementRelativeToCenterPos.adjustPos(new Vector2(path.getLast().x + .5f, path.getLast().y + .5f), owner.getEntity());
+    return MazeMovementUtils.adjustPos(new Vector2(path.getLast().x + .5f, path.getLast().y + .5f), owner.getEntity());
   }
 
   @Override
