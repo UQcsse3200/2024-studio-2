@@ -1,7 +1,11 @@
 {
   "angler": {
     "health": 100,
-    "baseAttack": 25
+    "baseAttack": 20
+  },
+  "jellyfish": {
+    "health": 100,
+    "baseAttack": 10
   }
 }
 
