@@ -63,9 +63,26 @@ public class MazeTouchAttackComponent extends Component {
 
     // Try to attack target.
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
+    if (target != null) {
+      // Print the simple class name (without package)
+      System.out.println("Target simple class name: " + target.getClass().getSimpleName());
+    }
+
+
+    // Change to maze combat stats
+    MazeCombatStatsComponent targetStats = target.getComponent(MazeCombatStatsComponent.class);
+    System.out.println("CombatStatsComponent for target: " + targetStats);
+
+    if (targetStats == null) {
+      System.out.println("CombatStatsComponent is null for the target entity.");
+    } else {
+      System.out.println("CombatStatsComponent found.");
+    }
     if (targetStats != null) {
-      targetStats.hit(combatStats);
+//      targetStats.hit(combatStats);
+      System.out.println("Attacking");
+
+
     }
 
     // Apply knockback
