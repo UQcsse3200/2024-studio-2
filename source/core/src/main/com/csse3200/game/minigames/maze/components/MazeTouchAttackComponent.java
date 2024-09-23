@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -55,9 +56,13 @@ public class MazeTouchAttackComponent extends Component {
       // Not triggered by hitbox, ignore
       return;
     }
-
     if (!PhysicsLayer.contains(targetLayer, other.getFilterData().categoryBits)) {
       // Doesn't match our target layer, ignore
+      return;
+    }
+
+    if (((BodyUserData) me.getBody().getUserData()).entity instanceof MazePlayer) {
+      // Means it is the player. player should not attack or knockback npcs
       return;
     }
 
@@ -85,7 +90,7 @@ public class MazeTouchAttackComponent extends Component {
 
     }
 
-    // Apply knockback
+    // Apply knockback (We can adjust knockback now based off what type of entity it is)
     PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
     if (physicsComponent != null && knockbackForce > 0f) {
       Body targetBody = physicsComponent.getBody();
