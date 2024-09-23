@@ -1,11 +1,9 @@
 package com.csse3200.game.services;
 
-import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.entities.DialogueBoxService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
