@@ -251,6 +251,15 @@ public class EnemyFactory {
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
+    List<CombatMove> moveSet = new ArrayList<>(
+            Arrays.asList(
+                    new AttackMove("Enemy Attack", 10),
+                    new GuardMove("Enemy Guard", 5),
+                    new SleepMove("Enemy Sleep", 0),
+                    new SpecialKangaMove("Enemy Special", 25)
+            )
+    );
+
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
             .addComponent(new CombatMoveComponent(moveSet))
