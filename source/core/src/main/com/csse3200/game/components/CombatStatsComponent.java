@@ -15,7 +15,7 @@ public class CombatStatsComponent extends Component {
 
   // Enum for status effects
   public enum StatusEffect {
-    CONFUSION, BLEEDING
+    CONFUSION, BLEEDING, POISONED, SHOCKED
   }
 
   // Set to hold active status effects
@@ -404,5 +404,23 @@ public class CombatStatsComponent extends Component {
    */
   public boolean hasStatusEffect(StatusEffect effect) {
     return statusEffects.contains(effect);
+  }
+
+  /**
+   * Gets the duration of a StatusEffect type
+   *
+   * @param effect The status effect to check
+   * @return the number of rounds a StatusEffect will be applied
+   */
+  public int getStatusEffectDuration(StatusEffect effect) {
+    switch (effect) {
+      case BLEEDING, SHOCKED -> {
+        return 3;
+      }
+      case POISONED -> {
+        return 2;
+      }
+    }
+    return 0;
   }
 }
