@@ -81,8 +81,8 @@ public class MazeGameArea extends GameArea {
     spawnTerrain();
     spawnWalls();
     player = spawnPlayer();
-    spawnAngler();
-    spawnJellyfish();
+    spawnAngler(1);
+    spawnJellyfish(10);
 
     playMusic();
   }
@@ -122,8 +122,12 @@ public class MazeGameArea extends GameArea {
     return newPlayer;
   }
 
-  private void spawnAngler() {
-    for (int i = 0; i < 1; i++) {
+  /**
+   * Spawns in the angler npc.
+   * @param number The number of angler to be spawned in
+   */
+  private void spawnAngler(int number) {
+    for (int i = 0; i < number; i++) {
       Entity angler = MazeNPCFactory.createAngler(player);
       spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
       angler.getComponent(AITaskComponent.class).addTask(
@@ -134,9 +138,10 @@ public class MazeGameArea extends GameArea {
   /**
    * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
    * the player.
+   * @param number The number of jellyfish to be spawned in
    */
-  private void spawnJellyfish() {
-    for (int i = 0; i < 1; i++) {
+  private void spawnJellyfish(int number) {
+    for (int i = 0; i < number; i++) {
       Entity jellyfish = MazeNPCFactory.createJellyfish();
       spawnEntityAt(jellyfish, maze.getNextStartLocation(), true, true);
     }

@@ -89,7 +89,7 @@ public class MazeNPCFactory {
     Entity jellyfish = createBaseNPC();
     MazeEntityConfig config = configs.jellyfish;
 
-    // Jellyfish only has Wander task
+    // Jellyfish only has WanderTask
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
@@ -113,7 +113,7 @@ public class MazeNPCFactory {
             .addComponent(animator)
             .addComponent(new MazeEntityAnimationController())
             .addComponent(new LightingComponent()
-                    .attach(LightingComponent.createPointLight(3f, Color.GREEN)))
+                    .attach(LightingComponent.createPointLight(1f, Color.BLUE)))
             .addComponent(aiComponent);
 
     // Will need to change these based off jellyfish sprite
