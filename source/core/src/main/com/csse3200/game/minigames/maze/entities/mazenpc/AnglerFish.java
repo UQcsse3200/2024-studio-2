@@ -16,8 +16,18 @@ import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+/**
+ * AnglerFish represents a non-playable character (NPC) in the maze minigame.
+ * It is a hostile entity that chases the player and attacks it.
+ */
 public class AnglerFish extends MazeEntity {
 
+    /**
+     * Constructs an AnglerFish entity with the given target and configuration.
+     *
+     * @param target The entity that this AnglerFish will chase (e.g., the player).
+     * @param config The configuration stats for this NPC, such as health and attack power.
+     */
     public AnglerFish(Entity target, MazeEntityConfig config) {
         // Add AI tasks specific to AnglerFish
         AITaskComponent aiComponent = new AITaskComponent()

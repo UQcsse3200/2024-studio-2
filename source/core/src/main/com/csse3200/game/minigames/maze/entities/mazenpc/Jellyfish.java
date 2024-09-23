@@ -14,8 +14,18 @@ import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+/**
+ * Jellyfish represents a non-playable character (NPC) in the maze minigame.
+ * Unlike more aggressive entities, the Jellyfish only wanders around and does not chase the player.
+ */
 public class Jellyfish extends MazeEntity {
 
+    /**
+     * Constructs a Jellyfish entity with the given configuration.
+     *
+     * @param config The configuration stats for the Jellyfish entity, including health and
+     *               attack power.
+     */
     public Jellyfish(MazeEntityConfig config) {
         // Add AI tasks specific to Jellyfish (no chasing, only wandering)
         AITaskComponent aiComponent = new AITaskComponent()

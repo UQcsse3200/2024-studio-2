@@ -18,8 +18,19 @@ import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+
+/**
+ * MazePlayer represents the player entity in the maze minigame.
+ * It defines the components and behavior specific to the player.
+ */
 public class MazePlayer extends Entity {
 
+    /**
+     * Constructs a MazePlayer entity with the given player configuration stats.
+     *
+     * @param stats The configuration stats for the player entity, including health and
+     *              attack power.
+     */
     public MazePlayer(MazePlayerConfig stats) {
         super();
 
@@ -45,6 +56,10 @@ public class MazePlayer extends Entity {
         addLightingComponents();
     }
 
+    /**
+     * Adds lighting components to the player entity. The player is given two point lights
+     * of different ranges and properties for enhanced visual effects.
+     */
     private void addLightingComponents() {
         Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();

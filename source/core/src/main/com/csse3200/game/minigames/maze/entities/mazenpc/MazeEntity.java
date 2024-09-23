@@ -10,7 +10,16 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 
+/**
+ * MazeEntity is an abstract base class for all non-playable character (NPC) entities
+ * in the maze minigame. It provides common components and functionality for maze NPCs.
+ */
 public abstract class MazeEntity extends Entity {
+
+    /**
+     * Constructs a MazeEntity with common components for physics, movement, collision,
+     * and attack interactions. This constructor sets up the basic entity configuration.
+     */
     public MazeEntity() {
         // Common components for all maze entities
         this.addComponent(new PhysicsComponent())
