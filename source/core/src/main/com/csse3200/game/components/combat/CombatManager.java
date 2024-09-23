@@ -395,11 +395,11 @@ public class CombatManager extends Component {
         String effectDetails = "";
 
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            effectDetails += "You are bleeding, GUARD will block only 30% of incoming damage";
+            effectDetails += "You're bleeding! Your GUARD is less effective this round.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-            effectDetails += "You were poisoned, SLEEP will not heal you this round";
+            effectDetails += "You've been poisoned! SLEEP won't heal you this round.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
-            effectDetails += "You were shocked, your ATTACK will be weakened by 30%";
+            effectDetails += "You've been shocked! Your ATTACK is weakened this round.";
         }
 
         return effectDetails;
@@ -428,11 +428,15 @@ public class CombatManager extends Component {
 
 
         if (moveChangedByConfusion) {
-            moveTextList.add(String.format("The enemy confused you into casting %s", playerMoveDetails));
+            moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
         } else {
-            moveTextList.add(String.format("You decided to cast %s", playerMoveDetails));
+            moveTextList.add(String.format("You decided to %s.", playerMoveDetails));
         }
-        moveTextList.add(String.format("The enemy casted %s", enemyMoveDetails));
+        if (enemyMoveDetails.equals("SLEEP") || enemyMoveDetails.equals("GUARD")) {
+            moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
+        } else {
+            moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
+        }
 
         if (playerStatChange) {
             moveTextList.add(entityStatChanges[0]);
