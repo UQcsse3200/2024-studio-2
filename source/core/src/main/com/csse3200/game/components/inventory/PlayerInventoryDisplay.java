@@ -93,15 +93,12 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void toggleInventory() {
         if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
-            generateHotBar();
             stage.getActors().removeValue(inventoryDisplay, true); // close inventory
             InventoryUtils.disposeGroupRecursively(inventoryDisplay);
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
             generateInventory();
-            stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
-            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
             toggle = true;
         }
     }
@@ -275,7 +272,15 @@ public class PlayerInventoryDisplay extends UIComponent {
     void regenerateInventory() {
         toggleInventory(); // Hacky way to regenerate inventory without duplicating code
         toggleInventory();
+        regenerateHotbar();
     }
+    void regenerateHotbar()
+    {
+        stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
+        InventoryUtils.disposeGroupRecursively(hotBarDisplay);
+        generateHotBar();
+    }
+
 
     /**
      * Disposes of the resources used by the component, including the window, table, and slots.
