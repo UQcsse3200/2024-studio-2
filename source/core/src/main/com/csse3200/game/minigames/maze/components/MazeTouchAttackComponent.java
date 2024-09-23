@@ -61,40 +61,31 @@ public class MazeTouchAttackComponent extends Component {
       return;
     }
 
-    if (((BodyUserData) me.getBody().getUserData()).entity instanceof MazePlayer) {
+    Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
+    Entity meEntity = ((BodyUserData) me.getBody().getUserData()).entity;
+
+    if (meEntity instanceof MazePlayer) {
       // Means it is the player. player should not attack or knockback npcs
       return;
     }
 
-    // Try to attack target.
-    Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    if (target != null) {
-      // Print the simple class name (without package)
-      System.out.println("Target simple class name: " + target.getClass().getSimpleName());
-    }
-
-
     // Change to maze combat stats
-    MazeCombatStatsComponent targetStats = target.getComponent(MazeCombatStatsComponent.class);
-    System.out.println("CombatStatsComponent for target: " + targetStats);
+    MazeCombatStatsComponent targetStats = targetEntity.getComponent(MazeCombatStatsComponent.class);
+    MazeCombatStatsComponent myStats = meEntity.getComponent(MazeCombatStatsComponent.class);
 
-    if (targetStats == null) {
-      System.out.println("CombatStatsComponent is null for the target entity.");
-    } else {
-      System.out.println("CombatStatsComponent found.");
-    }
-    if (targetStats != null) {
-//      targetStats.hit(combatStats);
-      System.out.println("Attacking");
+    if (targetStats != null && myStats != null) {
 
+      System.out.println(targetStats.getHealth());
+      targetStats.hit(myStats);
+      System.out.println(targetStats.getHealth());
 
     }
 
     // Apply knockback (We can adjust knockback now based off what type of entity it is)
-    PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
+    PhysicsComponent physicsComponent = targetEntity.getComponent(PhysicsComponent.class);
     if (physicsComponent != null && knockbackForce > 0f) {
       Body targetBody = physicsComponent.getBody();
-      Vector2 direction = target.getCenterPosition().sub(entity.getCenterPosition());
+      Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }

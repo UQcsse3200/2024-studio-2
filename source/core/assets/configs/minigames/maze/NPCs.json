@@ -5,7 +5,7 @@
   },
   "jellyfish": {
     "health": 100,
-    "baseAttack": 10
+    "baseAttack": 5
   }
 }
 

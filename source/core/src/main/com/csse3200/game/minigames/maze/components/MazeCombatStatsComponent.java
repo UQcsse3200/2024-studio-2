@@ -15,19 +15,22 @@ public class MazeCombatStatsComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
   private int baseAttack;
+  private boolean dead;
 
   public MazeCombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    this.dead = false;
   }
 
   /**
    * Returns true if the entity's has 0 health, otherwise false.
    *
-   * @return is player dead
    */
-  public Boolean isDead() {
-    return health == 0;
+  public void isDead() {
+    dead = true;
+    System.out.println("Player is dead");
+    // Now do someting to end game
   }
 
   /**
@@ -45,10 +48,11 @@ public class MazeCombatStatsComponent extends Component {
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       this.health = health;
     } else {
       this.health = 0;
+      isDead();
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
