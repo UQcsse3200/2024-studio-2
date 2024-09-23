@@ -86,8 +86,10 @@ public class MazeTouchAttackComponent extends Component {
     if (physicsComponent != null && knockbackForce > 0f) {
       Body targetBody = physicsComponent.getBody();
       Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
-      Vector2 impulse = direction.setLength(knockbackForce);
-      targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
+      // Knockback can be changed. tried doing velocity instead of impulse for more consistency
+      // I imagine we also give the player invincibility for a few seconds after getting hit
+      Vector2 knockbackVelocity = direction.scl(knockbackForce);
+      targetBody.setLinearVelocity(knockbackVelocity);
     }
   }
 }

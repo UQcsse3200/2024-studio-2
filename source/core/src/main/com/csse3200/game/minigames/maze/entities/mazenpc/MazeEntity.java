@@ -26,7 +26,7 @@ public abstract class MazeEntity extends Entity {
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent().setGroupIndex((short) -1)) // NPCs don’t collide with each other
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, .8f))
+                .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, 15f))
                 .addComponent(new FaceMoveDirectionXComponent());
 
         PhysicsUtils.setScaledCollider(this, 0.9f, 0.4f);
