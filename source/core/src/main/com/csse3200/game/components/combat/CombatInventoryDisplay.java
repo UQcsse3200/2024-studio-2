@@ -34,7 +34,6 @@ public class CombatInventoryDisplay extends UIComponent {
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
-    //created by @PratulW5:
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
 
@@ -74,15 +73,6 @@ public class CombatInventoryDisplay extends UIComponent {
     public void create() {
         super.create();
         entity.getEvents().addListener("toggleCombatInventory", this::toggleInventory);
-    }
-
-    private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
-        if (item instanceof DefensePotion || item instanceof AttackPotion) {
-            inventory.useItemAt(index, context);
-            entity.getEvents().trigger("itemUsed", item);
-        }
-        // Otherwise, allow item use
-        inventory.useItemAt(index, context);
     }
 
     /**
@@ -202,7 +192,8 @@ public class CombatInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                tryUseItem(item, context, index);
+                inventory.useItemAt(index, context);
+                entity.getEvents().trigger("itemUsed", item);
                 regenerateInventory();
             }
         });
