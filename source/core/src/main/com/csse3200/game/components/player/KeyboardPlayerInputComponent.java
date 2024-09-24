@@ -16,7 +16,7 @@ import java.util.Map;
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
-  private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private final Vector2 walkDirection = new Vector2();
   private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
 
   /**
@@ -32,9 +32,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
 
   /**
-   * resets the players velocity to 0, 'unpresses' all keys
+   * Resets the player's velocity to 0, 'unpresses' all keys.
    */
-  public void resetVelocity () {
+  public void resetVelocity() {
     walkDirection.set(Vector2.Zero);
     buttonPressed.put(Keys.W, false);
     buttonPressed.put(Keys.A, false);
@@ -50,7 +50,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
-    if(!this.enabled){
+    if (!this.enabled) {
       return false;
     }
     switch (keycode) {
@@ -91,13 +91,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         entity.getEvents().trigger("stoF");
         return true;
       // > end 
+      case Keys.I:
+        entity.getEvents().trigger("statsInfo");
+        return true;
       default:
         return false;
     }
   }
-
-
-
 
   /**
    * Triggers player events on specific keycodes.
@@ -107,29 +107,15 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
-    if(!this.enabled) {
+    if (!this.enabled) {
       return false;
     }
-      if (buttonPressed.containsKey(keycode) && buttonPressed.get(keycode).equals(false)) {
+    if (buttonPressed.containsKey(keycode)) {
+      buttonPressed.put(keycode, false);
+      updateWalkDirection();
       return true;
     }
     switch (keycode) {
-      case Keys.W:
-        walkDirection.sub(Vector2Utils.UP);
-        triggerWalkEvent();
-        return true;
-      case Keys.A:
-        walkDirection.sub(Vector2Utils.LEFT);
-        triggerWalkEvent();
-        return true;
-      case Keys.S:
-        walkDirection.sub(Vector2Utils.DOWN);
-        triggerWalkEvent();
-        return true;
-      case Keys.D:
-        walkDirection.sub(Vector2Utils.RIGHT);
-        triggerWalkEvent();
-        return true;
       case Keys.E:
         entity.getEvents().trigger("toggleInventory");
         return true;
@@ -161,10 +147,28 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
 
   private void triggerWalkEvent() {
-    if (walkDirection.epsilonEquals(Vector2.Zero)) {
-      entity.getEvents().trigger("walkStop");
-    } else {
+    if (walkDirection.len() > 0) {
+      walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
+    } else {
+      entity.getEvents().trigger("walkStop");
     }
+  }
+
+  private void updateWalkDirection() {
+    walkDirection.set(Vector2.Zero);
+    if (buttonPressed.get(Keys.W)) {
+      walkDirection.add(Vector2Utils.UP);
+    }
+    if (buttonPressed.get(Keys.A)) {
+      walkDirection.add(Vector2Utils.LEFT);
+    }
+    if (buttonPressed.get(Keys.S)) {
+      walkDirection.add(Vector2Utils.DOWN);
+    }
+    if (buttonPressed.get(Keys.D)) {
+      walkDirection.add(Vector2Utils.RIGHT);
+    }
+    triggerWalkEvent();
   }
 }

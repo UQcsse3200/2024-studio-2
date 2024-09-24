@@ -3,6 +3,7 @@ package com.csse3200.game.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.MathUtils;
 
 public class CameraZoomComponent extends Component {
     private static final float ZOOM_AMOUNT = 1f;
@@ -48,7 +49,7 @@ public class CameraZoomComponent extends Component {
         float gameWidth = camera.viewportWidth;
         gameWidth = gameWidth + ZOOM_AMOUNT * amountY;
         // Ensure that camera doesn't exceed zoom amount
-        gameWidth = Math.clamp(gameWidth, minZoom, maxZoom);
+        gameWidth = MathUtils.clamp(gameWidth, minZoom, maxZoom);
         cameraComponent.resize(screenWidth, screenHeight, gameWidth);
     }
 }

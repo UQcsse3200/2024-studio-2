@@ -1,9 +1,13 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.input.InputService;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.extensions.GameExtension;
@@ -13,15 +17,17 @@ import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.dialoguebox.KeyboardDialogueBoxInputComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,19 +73,34 @@ class NPCFactoryTest {
 
     @BeforeAll
     static void setup() {
+        // Mock GameTime and register it
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
+
+        // Register services
         ServiceLocator.registerPhysicsService(new PhysicsService());
-        RenderService render = new RenderService();
-        render.setDebug(mock(DebugRenderer.class));
-        ServiceLocator.registerRenderService(render);
+
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
+        ServiceLocator.registerInputService(new InputService());
+
+        // Load resources
         resourceService.loadTextures(textures);
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
 
+        ServiceLocator.registerRenderService(renderService);
+
+        // Create and register the Stage
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        when(renderService.getStage()).thenReturn(stage);
+        DialogueBoxService entityChatService = new DialogueBoxService(stage);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
+
+        // Create NPCs
         Entity player = new Entity();
         List<Entity> enemies = new ArrayList<>();
         cow = NPCFactory.createCow(player, enemies);
@@ -89,6 +110,32 @@ class NPCFactoryTest {
         snake = NPCFactory.createSnake(player, enemies);
         magpie = NPCFactory.createMagpie(player, enemies);
         fish = NPCFactory.createFish(player, enemies);
+    }
+
+    /**
+     * Test keys control an animals dialogue appropriately
+     */
+    @Test
+    @Order(1)
+    public void testDialogueInputTriggersForwardAndBackward() {
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
+        ServiceLocator.registerRenderService(renderService);
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        DialogueBoxService entityChatService = new DialogueBoxService(stage);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
+
+        InputComponent inputComponent = cow.getComponent(KeyboardDialogueBoxInputComponent.class);
+        Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
+
+        cow.getEvents().trigger("CowPauseStart");
+        ServiceLocator.getDialogueBoxService().updateText(new String[] {"1", "2"});
+        String firstHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
+        inputComponent.keyDown(Input.Keys.RIGHT);
+        String secondHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
+        Assertions.assertNotEquals(firstHint, secondHint);
+        inputComponent.keyDown(Input.Keys.LEFT);
+        Assertions.assertEquals(firstHint, ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString());
     }
 
     /**
@@ -135,9 +182,13 @@ class NPCFactoryTest {
      */
     @Test
     void TestFishHasCorrectBaseHint() {
-        String[] baseHint = configs.fish.getBaseHint();
+        String[][] baseHint = configs.fish.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"Welcome to Animal Kingdom!", "I am Finny the Fish."}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Help me please!",
+                "A strong current just scattered all my eggs and now I am lost",
+                "It is getting dark now, they are in great danger!",
+                "I must get them back and find my way home!",
+                "/muHelp me collect all the fish eggs an get back home before it is too late"}}, baseHint);
     }
 
     /**
@@ -213,12 +264,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestCowHasCorrectBaseHint() {
-        String[] baseHint = configs.cow.getBaseHint();
+        String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Moo there, adventurer! Welcome to the kingdom.",
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
                 "We will be your guides",
                 "but before you can roam free...",
-                "you must complete the first steps and 2 step quests."}));
+                "you must complete the first steps and 2 step quests."}});
     }
 
     /**
@@ -294,9 +345,14 @@ class NPCFactoryTest {
      */
     @Test
     void TestLionHasCorrectBaseHint() {
-        String[] baseHint = configs.lion.getBaseHint();
+        String[][] baseHint = configs.lion.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Lenny the Lion."}));
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
     }
 
     /**
@@ -372,9 +428,14 @@ class NPCFactoryTest {
      */
     @Test
     void TestEagleHasCorrectBaseHint() {
-        String[] baseHint = configs.eagle.getBaseHint();
+        String[][] baseHint = configs.eagle.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"Welcome to Animal Kingdom!", "I am Ethan the Eagle."}));
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!", "I am Ethan the Eagle.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!", "I hope this helped."},
+                {"Final boss?? That Kangaroo??", "idk"},
+                {"Good luck!"}
+        });
     }
 
     /**
@@ -518,12 +579,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestSnakeHasCorrectBaseHint() {
-        String[] baseHint = configs.snake.getBaseHint();
+        String[][] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        assert(Arrays.equals(baseHint, new String[]{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
                 "You look very tasty and I am very hungry",
                 "Go play a game and collect me some apples...",
-                "/msOr I will eat you whole!"}));
+                "/msOr I will eat you whole!"}});
     }
 
     /**
@@ -599,12 +660,12 @@ class NPCFactoryTest {
      */
     @Test
     void TestMagpieHasCorrectBaseHint() {
-        String[] baseHint = configs.magpie.getBaseHint();
+        String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[]{"WHO GOES THERE!!",
+        Assertions.assertArrayEquals(new String[][]{{"WHO GOES THERE!!",
                 "If you want to get past me you must pay",
                 "Go play a game and collect me some coins",
-                "/mbOr I will claw your eyes out!"}, baseHint);
+                "/mbOr I will claw your eyes out!"}}, baseHint);
     }
 
     /**
@@ -651,7 +712,7 @@ class NPCFactoryTest {
 
         // Given
         String[] animalSoundPaths = {"sound1.wav", "sound2.wav"};
-        String[] hintText = {"Hint 1", "Hint 2"};
+        String[][] hintText = {{"Hint 1", "Hint 2"}};
 
         Sound sound1 = mock(Sound.class);
         Sound sound2 = mock(Sound.class);

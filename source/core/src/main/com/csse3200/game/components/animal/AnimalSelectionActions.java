@@ -6,7 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
+import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +89,7 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(new LoadingScreen(game));
+                    game.setScreen(GdxGame.ScreenType.STORY);
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert(); // Show an alert if no animal is selected
@@ -119,6 +121,7 @@ public class AnimalSelectionActions {
 
         selectedAnimalImage = animalImage;
         selectedAnimalImagePath = animalImagePath;
+        GameState.player.selectedAnimalPath = animalImagePath;
         selectedAnimalImage.setColor(1, 0, 0, 1); // Highlight the selected image
 
         logger.debug("Animal selected: {}", animalImage.getName());
@@ -129,17 +132,10 @@ public class AnimalSelectionActions {
      */
 
     private void showSelectionAlert() {
-        Dialog dialog = new Dialog("Alert", display.getSkin()) {
-            @Override
-            protected void result(Object object) {
-                // No specific action required after dismissing the alert
-            }
-        };
-
-        dialog.text("Please select an animal first.");
-        dialog.button("OK", true);
-        dialog.show(display.getStage());
+        AlertBox alertBox = new AlertBox("Please select an animal first.", display.getSkin(), 400f, 200f);
+        alertBox.display(display.getStage());
     }
+
 
     /**
      * Displays a dialog with information about the selected animal.
@@ -161,7 +157,7 @@ public class AnimalSelectionActions {
                     "It possesses special abilities.";
         };
 
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f, animalIndex);
     }
 
     /**

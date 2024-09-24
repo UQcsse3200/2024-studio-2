@@ -265,6 +265,10 @@ public class TerrainComponent extends RenderComponent {
             TILE_SIZE = tiles.size();
           }
           break;
+        case WATER:
+          break;
+        case COMBAT:
+          break;
         default:
           throw new IllegalArgumentException("Map type not supported: " + mapType);
       }

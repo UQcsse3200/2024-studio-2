@@ -100,13 +100,16 @@ public class AnimalSelectionActionsTest {
         ArgumentCaptor<String> imagePathCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Float> widthCaptor = ArgumentCaptor.forClass(Float.class);
         ArgumentCaptor<Float> heightCaptor = ArgumentCaptor.forClass(Float.class);
+        ArgumentCaptor<Integer> animalCaptor = ArgumentCaptor.forClass(Integer.class);
+
 
         verify(mockDialogHelper).displayDialog(
                 titleCaptor.capture(),
                 contentCaptor.capture(),
                 imagePathCaptor.capture(),
                 widthCaptor.capture(),
-                heightCaptor.capture()
+                heightCaptor.capture(),
+                animalCaptor.capture()
         );
 
         assertEquals(expectedTitle, titleCaptor.getValue());
