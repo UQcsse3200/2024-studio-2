@@ -71,7 +71,7 @@ public class MazeMovementUtils {
         if (testRay(corners[quadrant].cpy().add(delta), corners[corner2].cpy().add(delta))) return false;
 
         // check rays spaced MIN_LENGTH_FACE apart within the path of the shape
-        for (int c = corner2; c != corner1; c = nextCorner(c)) {
+        for (int c = 0; ; c = nextCorner(c)) {
             int numRays = (int) (corners[c].dst(corners[nextCorner(c)]) / MIN_LENGTH_FACE) + 2;
             Vector2 from = corners[c].cpy();
             Vector2 to = from.cpy().add(delta);
@@ -81,6 +81,7 @@ public class MazeMovementUtils {
                 from.add(inc);
                 to.add(inc);
             }
+            if (c == 3) break;
         }
         return true;
     }
