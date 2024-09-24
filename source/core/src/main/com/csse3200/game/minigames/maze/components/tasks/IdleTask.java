@@ -30,7 +30,7 @@ public class IdleTask extends DefaultTask implements PriorityTask {
    */
   @Override
   public void start() {
-    owner.getEntity().getEvents().trigger("idleStart");
+    owner.getEntity().getEvents().trigger("chaseStart");
   }
 
   @Override
