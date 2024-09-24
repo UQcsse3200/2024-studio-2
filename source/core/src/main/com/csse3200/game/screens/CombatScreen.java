@@ -19,6 +19,7 @@ import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -164,10 +165,13 @@ public class CombatScreen extends ScreenAdapter {
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);
+    PlayerInventoryDisplay playerInvDisplay = player.getComponent(PlayerInventoryDisplay.class);
+    Inventory playerInv = playerInvDisplay.getInventory();
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatExitDisplay(enemy))
+        .addComponent(new CombatInventoryDisplay(playerInv, playerInvDisplay.getNumCols()))
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))

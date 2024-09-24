@@ -115,8 +115,8 @@ public class CombatActions extends Component {
    */
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
-    manager.getPlayer().getEvents().trigger("toggleCombatInventory");
-    manager.getPlayer().getComponent(CombatInventoryDisplay.class).regenerateInventory();
+    entity.getEvents().trigger("toggleCombatInventory");
+    entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
   }
 
   /**
