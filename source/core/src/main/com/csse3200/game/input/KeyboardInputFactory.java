@@ -2,6 +2,7 @@ package com.csse3200.game.input;
 
 import com.csse3200.game.components.combat.KeyboardCombatInputComponent;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
+import com.csse3200.game.ui.dialoguebox.KeyboardDialogueBoxInputComponent;
 import com.csse3200.game.ui.terminal.KeyboardTerminalInputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,5 +41,15 @@ public class KeyboardInputFactory extends InputFactory {
     public InputComponent createForCombat() {
         logger.debug("Creating combat input handler");
         return new KeyboardCombatInputComponent();
+    }
+
+    /**
+     * Creates an input handler for dialogue.
+     *
+     * @return dialogue input handler
+     */
+    public InputComponent createForDialogue() {
+        logger.debug("Creating dialogue box input handler");
+        return new KeyboardDialogueBoxInputComponent();
     }
 }

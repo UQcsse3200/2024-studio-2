@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
+import com.csse3200.game.screens.StoryScreen;
+import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,13 +90,26 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    game.setScreen(GdxGame.ScreenType.STORY);
+                    switch (selectedAnimalImagePath) {
+                        case "images/dog.png":
+                            game.setScreen(new StoryScreen(game, "dog")); // Pass "dog" to StoryScreen
+                            break;
+                        case "images/croc.png":
+                            game.setScreen(new StoryScreen(game, "croc")); // Pass "croc" to StoryScreen
+                            break;
+                        case "images/bird.png":
+                            game.setScreen(new StoryScreen(game, "bird")); // Pass "bird" to StoryScreen
+                            break;
+                        default:
+                            logger.debug("Unknown animal selected");
+                    }
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert(); // Show an alert if no animal is selected
                 }
             }
         });
+
 
         // Add listener to the "Back" button to return to the main menu
         display.getBackButton().addListener(new ClickListener() {
@@ -131,17 +146,10 @@ public class AnimalSelectionActions {
      */
 
     private void showSelectionAlert() {
-        Dialog dialog = new Dialog("Alert", display.getSkin()) {
-            @Override
-            protected void result(Object object) {
-                // No specific action required after dismissing the alert
-            }
-        };
-
-        dialog.text("Please select an animal first.");
-        dialog.button("OK", true);
-        dialog.show(display.getStage());
+        AlertBox alertBox = new AlertBox("Please select an animal first.", display.getSkin(), 400f, 200f);
+        alertBox.display(display.getStage());
     }
+
 
     /**
      * Displays a dialog with information about the selected animal.
@@ -180,3 +188,4 @@ public class AnimalSelectionActions {
     }
 
 }
+

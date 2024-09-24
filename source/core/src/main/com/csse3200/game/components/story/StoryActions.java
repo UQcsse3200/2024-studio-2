@@ -1,5 +1,6 @@
 package com.csse3200.game.components.story;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
@@ -16,10 +17,13 @@ import org.slf4j.LoggerFactory;
 public class StoryActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(StoryActions.class);
     private final GdxGame game;
-    private final int finalScreen = 5;
+    private final Texture[] backgroundTextures;
+    private final int finalScreen;
 
-    public StoryActions(GdxGame game) {
+    public StoryActions(GdxGame game, Texture[] backgroundTextures) {
         this.game = game;
+        this.backgroundTextures = backgroundTextures;
+        finalScreen = backgroundTextures.length - 1;
     }
 
     @Override
@@ -41,9 +45,9 @@ public class StoryActions extends Component {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay(screenNum))
+        ui.addComponent(new StoryDisplay(backgroundTextures, screenNum))
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new StoryActions(game));
+                .addComponent(new StoryActions(game, backgroundTextures));
         ServiceLocator.getEntityService().register(ui);
     }
 
@@ -55,9 +59,9 @@ public class StoryActions extends Component {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay(screenNum))
+        ui.addComponent(new StoryDisplay(backgroundTextures, screenNum))
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new StoryActions(game));
+                .addComponent(new StoryActions(game, backgroundTextures));
         ServiceLocator.getEntityService().register(ui);
     }
 

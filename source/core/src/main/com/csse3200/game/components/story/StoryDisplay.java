@@ -23,18 +23,15 @@ public class StoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StoryDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-    private final Texture backgroundTexture0 = new Texture("images/Story/DogStory1.png");
-    private final Texture backgroundTexture1 = new Texture("images/Story/DogStory2.png");
-    private final Texture backgroundTexture2 = new Texture("images/Story/DogStory3.png");
-    private final Texture backgroundTexture3 = new Texture("images/Story/DogStory4.png");
-    private final Texture backgroundTexture4 = new Texture("images/Story/DogStory5.png");
-    private final Texture backgroundTexture5 = new Texture("images/Story/DogStory6.png");
+    private final Texture[] backgroundTextures;
     private final int screenNum;
-    private final int finalScreen = 5;
+    private final int finalScreen;
 
-    public StoryDisplay(int screenNum) {
+    public StoryDisplay(Texture[] backgroundTextures, int screenNum) {
         super();
+        this.backgroundTextures = backgroundTextures;
         this.screenNum = screenNum;
+        finalScreen = backgroundTextures.length - 1;
     }
 
     /**
@@ -46,7 +43,6 @@ public class StoryDisplay extends UIComponent {
         logger.info("Creating StoryDisplay");
         addActors();
         applyUserSettings();
-        logger.info("Background texture loaded");
 
         entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
         entity.getEvents().addListener("backDisplay", this::onBackDisplay);
@@ -185,14 +181,7 @@ public class StoryDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        switch (screenNum) {
-            case 0 -> batch.draw(backgroundTexture0, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            case 1 -> batch.draw(backgroundTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            case 2 -> batch.draw(backgroundTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            case 3 -> batch.draw(backgroundTexture3, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            case 4 -> batch.draw(backgroundTexture4, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            case 5 -> batch.draw(backgroundTexture5, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
+        batch.draw(backgroundTextures[screenNum], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
