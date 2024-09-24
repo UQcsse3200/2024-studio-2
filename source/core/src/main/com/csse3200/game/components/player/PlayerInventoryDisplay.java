@@ -103,8 +103,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                 logger.warn("Cannot use defense or attack potions outside of combat.");
                 return;
             }
-            inventory.useItemAt(index, context);
-            entity.getEvents().trigger("itemUsed", item);
         }
         // Otherwise, allow item use
         inventory.useItemAt(index, context);
