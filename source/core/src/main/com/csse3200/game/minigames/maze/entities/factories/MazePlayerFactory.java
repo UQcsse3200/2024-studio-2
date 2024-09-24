@@ -14,7 +14,7 @@ import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
  */
 public class MazePlayerFactory {
   private static final MazePlayerConfig stats =
-      FileLoader.readClass(MazePlayerConfig.class, "configs/minigames/maze/player.json");
+          FileLoader.readClass(MazePlayerConfig.class, "configs/minigames/maze/player.json");
 
   public static MazePlayer createPlayer() {
     return new MazePlayer(stats);

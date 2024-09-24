@@ -46,7 +46,8 @@ public class MazeGameArea extends GameArea {
     "images/minigames/wall.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/minigames/Angler.atlas"
+    "images/minigames/Angler.atlas","images/minigames/fish.atlas"
+
   };
   private static final String[] forestSounds = {"sounds/minigames/angler-chomp.mp3"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
@@ -119,6 +120,7 @@ public class MazeGameArea extends GameArea {
     Entity newPlayer = MazePlayerFactory.createPlayer();
     newPlayer.addComponent(terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
+    newPlayer.getEvents().trigger("wanderStart");
     return newPlayer;
   }
 
