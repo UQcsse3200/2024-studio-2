@@ -76,6 +76,13 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void setCombatState(boolean inCombat) {
         this.isInCombat = inCombat;
+        if (hotbar != null) {
+            if (inCombat) {
+                hotbar.disposeTable(); // Hide hotbar during combat
+            } else {
+                hotbar.createHotbar(); // Show hotbar after combat
+            }
+        }
     }
 
     /**
@@ -115,7 +122,9 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void toggleInventory() {
         if (stage.getActors().contains(window, true)) {
             logger.debug("Inventory toggled off.");
-            hotbar.createHotbar();
+            if (!isInCombat) {
+                hotbar.createHotbar();
+            }
             stage.getActors().removeValue(window, true); // close inventory
             disposeWindow();
             toggle = false;
@@ -123,7 +132,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled on.");
             generateWindow();
             stage.addActor(window);
-            hotbar.disposeTable();
+            if (!isInCombat) {
+                hotbar.disposeTable();
+            }
             toggle = true;
         }
     }
