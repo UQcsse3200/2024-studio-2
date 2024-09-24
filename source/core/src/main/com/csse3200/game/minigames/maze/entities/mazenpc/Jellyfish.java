@@ -41,11 +41,11 @@ public class Jellyfish extends MazeEntity {
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
-                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.BLUE)))
+                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, Color.BLUE)))
                 .addComponent(aiComponent);
 
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
-        this.setScale(.2f, .2f);
+        this.setScale(.3f, .3f);
         PhysicsUtils.setScaledCollider(this, 1f, 1f);
     }
 }

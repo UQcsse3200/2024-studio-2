@@ -72,7 +72,7 @@ public class MazeGameArea extends GameArea {
     spawnWalls();
     player = spawnPlayer();
     spawnAngler(1);
-    spawnJellyfish(10);
+    spawnJellyfish(20);
 
     playMusic();
   }
