@@ -33,11 +33,11 @@ public class MazeGameArea extends GameArea {
     "images/ghost_king.png",
     "images/ghost_1.png",
     "images/minigames/water.png",
-    "images/minigames/wall.png", // "images/minigames/fishegg.png",
-
+    "images/minigames/wall.png"
   };
   private static final String[] forestTextureAtlases = {
-    "images/minigames/Angler.atlas","images/minigames/fish.atlas"
+    "images/minigames/Angler.atlas","images/minigames/fish.atlas",
+          "images/minigames/Jellyfish.atlas"
 
   };
   private static final String[] forestSounds = {"sounds/minigames/angler-chomp.mp3"};
@@ -75,7 +75,6 @@ public class MazeGameArea extends GameArea {
     player = spawnPlayer();
     spawnAngler(1);
     spawnJellyfish(10);
-    // spawnFishEgg(1);
 
     playMusic();
   }
@@ -140,24 +139,6 @@ public class MazeGameArea extends GameArea {
       spawnEntityAt(jellyfish, maze.getNextStartLocation(), true, true);
     }
   }
-
-  /**
-   * Spawns in the fish egg npc.
-   * @param number The number of fish egg to be spawned in
-   */
-  /*private void spawnFishEgg(int number) {
-    for (int i = 0; i < number; i++) {
-      Entity fishEgg = MazeNPCFactory.createFishEgg();
-      spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
-    }
-  }
-   */
-
-
-
-
-
-
 
   @Override
   public void playMusic() {

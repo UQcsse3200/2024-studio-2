@@ -79,7 +79,7 @@ public class MazePlayer extends Entity {
      * of different ranges and properties for enhanced visual effects.
      */
     private void addLightingComponents() {
-        Color lightColor = new Color(0.55f, 0.45f, 0.75f, 1);
+        Color lightColor = new Color(0.45f, 0.35f, 0.85f, 1);
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
         PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
         PointLight pl2 = new PointLight(rayHandler, 300, lightColor, 1.5f, 0, 0);
