@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
+ * CombatInventoryDisplay is a UI component that displays the player's inventory in a grid format.
  * It creates a window with a table of inventory slots that can display items, handle item usage,
  * and update dynamically when the inventory changes.
  */
