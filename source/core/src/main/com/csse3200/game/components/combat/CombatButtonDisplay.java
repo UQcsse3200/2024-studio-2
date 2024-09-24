@@ -33,10 +33,9 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container, Entity player) {
+    public  CombatButtonDisplay(Screen screen, ServiceContainer container) {
         this.screen = screen;
         this.container = container;
-        this.player = player;
     }
 
     @Override
