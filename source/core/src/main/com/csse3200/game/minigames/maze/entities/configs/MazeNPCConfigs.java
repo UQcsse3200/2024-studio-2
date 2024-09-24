@@ -6,4 +6,6 @@ package com.csse3200.game.minigames.maze.entities.configs;
 public class MazeNPCConfigs {
   public MazeEntityConfig angler = new MazeEntityConfig();
   public MazeEntityConfig jellyfish = new MazeEntityConfig();
+
+  public MazeEntityConfig eels = new MazeEntityConfig();
 }
