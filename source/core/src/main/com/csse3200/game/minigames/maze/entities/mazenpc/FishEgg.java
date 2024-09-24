@@ -1,17 +1,20 @@
-/*package com.csse3200.game.minigames.maze.entities.mazenpc;
+package com.csse3200.game.minigames.maze.entities.mazenpc;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.lighting.components.LightingComponent;
-//import com.csse3200.game.minigames.maze.entities.MazeEntity;
+import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
+import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.rendering.TextureRenderComponent;
 
  // FishEgg represents an entity in the maze minigame that can be collected or interacted with.
  // It does not actively chase or attack the player.
 
-public class FishEgg extends MazeEntity {
+public class FishEgg extends Entity {
     private Texture fishEggTexture;
     private float scaleX; // Scale in the X direction
     private float scaleY; // Scale in the Y direction
@@ -21,29 +24,18 @@ public class FishEgg extends MazeEntity {
 
     public FishEgg() {
         // Load the PNG image as a Texture
-        fishEggTexture = ServiceLocator.getResourceService().getAsset("images/minigames/fishegg.png", Texture.class);
 
         // Add lighting component
-        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.YELLOW)));
+        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.YELLOW)))
+            .addComponent(new PhysicsComponent())
+            .addComponent(new ColliderComponent().setGroupIndex((short) -1)) // don’t collide with NPCs (although can still get affected by knockback)
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+            .addComponent(new TextureRenderComponent("images/minigames/fishegg.png"));
 
         // Initialize scale
-        this.scaleX = 0.5f; // Adjust size of FishEgg in X direction
-        this.scaleY = 0.5f; // Adjust size of FishEgg in Y direction
-        PhysicsUtils.setScaledCollider(this, scaleX, scaleY); // Adjust collider size
-    }
-
-
-     // Renders the FishEgg texture.
-
-    public void render(SpriteBatch spriteBatch) {
-        spriteBatch.draw(fishEggTexture, getPosition().x, getPosition().y,
-                fishEggTexture.getWidth() * scaleX,
-                fishEggTexture.getHeight() * scaleY);
-    }
-
-    @Override
-    public void dispose() {
-        fishEggTexture.dispose(); // Dispose of the texture when no longer needed
+        this.scaleX = 0.1f; // Adjust size of FishEgg in X direction
+        this.scaleY = 0.1f; // Adjust size of FishEgg in Y direction
+        this.setScale(scaleX, scaleY);
     }
 
     // Optionally, you can add methods to get the scale if needed
@@ -55,5 +47,5 @@ public class FishEgg extends MazeEntity {
         return scaleY;
     }
 }
-*/
+
 
