@@ -42,7 +42,10 @@ public class AnimationRenderWithAudioComponent extends AnimationRenderComponent 
   @Override
   protected void draw(SpriteBatch batch) {
     super.draw(batch);
-
+    if (currentAnimation == null)
+    {
+      return;
+    }
     int index = currentAnimation.getKeyFrameIndex(animationPlayTime);
     if (index == lastIndex) {
       return;

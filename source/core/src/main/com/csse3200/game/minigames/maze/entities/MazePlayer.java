@@ -3,11 +3,15 @@ package com.csse3200.game.minigames.maze.entities;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
+import com.csse3200.game.minigames.maze.components.npc.MazePlayerAnimationController;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
@@ -16,6 +20,9 @@ import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
+import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -36,20 +43,31 @@ public class MazePlayer extends Entity {
 
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-        this.addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+        AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
+        ServiceLocator.getResourceService().getAsset("images/minigames/fish.atlas", TextureAtlas.class));
+        animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+
+        this.addComponent(animator)
                 .addComponent(new PhysicsComponent())
+
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new MazePlayerActions())
                 .addComponent(new MazeCombatStatsComponent(stats.health, stats.baseAttack))
                 .addComponent(new MazeTouchAttackComponent(PhysicsLayer.NPC, 15f))
                 .addComponent(inputComponent)
+                .addComponent(new FaceMoveDirectionXComponent())
                 .addComponent(new MazePlayerStatsDisplay());
+        this.addComponent(new MazeEntityAnimationController());
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
-        this.getComponent(TextureRenderComponent.class).scaleEntity();
-        this.setScale(this.getScale().scl(0.2f));
+
+        // Scale the AnimationRenderComponent, not TextureRenderComponent
+        this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();  // Scale the animation
+        this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
         PhysicsUtils.setScaledCollider(this, 1f, 1f);
 
         // Add lighting components
