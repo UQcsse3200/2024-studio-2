@@ -85,7 +85,9 @@ public class PlayerInventoryHotbarDisplay extends UIComponent {
         float tableX = stage.getWidth() - table.getWidth() - 20;
         float tableY = (stage.getHeight() - table.getHeight()) / 2;
         table.setPosition(tableX, tableY);
-        stage.addActor(table);
+        if (!stage.getActors().contains(table, true)) {
+            stage.addActor(table);
+        }
     }
 
     @Override
