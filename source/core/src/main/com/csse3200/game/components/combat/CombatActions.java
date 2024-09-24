@@ -6,6 +6,7 @@ import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.screens.MainGameScreen;
@@ -115,6 +116,7 @@ public class CombatActions extends Component {
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
     entity.getEvents().trigger("toggleCombatInventory");
+    entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
   }
 
   /**

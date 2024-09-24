@@ -24,19 +24,11 @@ public class CombatEnvironmentDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(CombatEnvironmentDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
-  private Entity player;
 
-    public CombatEnvironmentDisplay(Entity player) {
-        this.player = player;
-    }
-
-    @Override
+  @Override
   public void create() {
     super.create();
     addActors();
-    this.player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
-    this.player.getComponent(PlayerInventoryDisplay.class).setCombatState(true);
-
   }
 
   /**
