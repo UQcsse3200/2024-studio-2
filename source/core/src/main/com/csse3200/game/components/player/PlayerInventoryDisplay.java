@@ -33,7 +33,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
     private final Inventory inventory;
-    private static final float Z_INDEX = 3f;
+    private static final float Z_INDEX = 10f;
     AITaskComponent aiComponent = new AITaskComponent();
     private final int numCols, numRows;
     private Window window;
@@ -106,6 +106,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
         // Otherwise, allow item use
         inventory.useItemAt(index, context);
+        entity.getEvents().trigger("itemUsed", item);
     }
 
     /**
