@@ -9,6 +9,7 @@ public class DialogueBoxService {
     private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[][] hints;
+    private int curPriority;
 
     /**
      * Create a new chat overlay with the given hint text.
@@ -16,6 +17,7 @@ public class DialogueBoxService {
     public DialogueBoxService(Stage stage) {
         currentOverlay = new DialogueBox(stage);
         hints = null;
+        curPriority = 0;
     }
 
     /**
@@ -61,6 +63,7 @@ public class DialogueBoxService {
      */
     public void hideCurrentOverlay() {
         if (currentOverlay != null) {
+            curPriority = 0;
             currentOverlay.hideDialogueBox();
             hints = null;
         }
@@ -69,27 +72,16 @@ public class DialogueBoxService {
     /**
      * Update the current chat overlay if it exists.
      */
-    public void updateText(String[][] text) {
+    public void updateText(String[][] text, int priority) {
         hints = text;
-        if (currentOverlay == null) {
-            // handling if it ever gets deleted when not supposed to
-            currentOverlay = new DialogueBox(hints);
-        } else {
-            currentOverlay.showDialogueBox(text);
-        }
-
-    }
-
-    /**
-     * Update the current chat overlay if it exists.
-     */
-    public void updateText(String[] text) {
-        hints = new String[][]{text};
-        if (currentOverlay == null) {
-            // handling if it ever gets deleted when not supposed to
-            currentOverlay = new DialogueBox(hints);
-        } else {
-            currentOverlay.showDialogueBox(new String[][]{text});
+        if (priority <= curPriority) {
+            curPriority = priority;
+            if (currentOverlay == null) {
+                // handling if it ever gets deleted when not supposed to
+                currentOverlay = new DialogueBox(hints);
+            } else {
+                currentOverlay.showDialogueBox(text);
+            }
         }
 
     }

@@ -164,7 +164,7 @@ public class CombatButtonDisplay extends UIComponent {
             endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
                     "before battling again."}};
         }
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, -3);
     }
 
     @Override
