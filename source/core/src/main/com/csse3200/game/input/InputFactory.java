@@ -62,4 +62,11 @@ public abstract class InputFactory {
    * @return combat input handler
    */
   public abstract InputComponent createForCombat();
+
+  /**
+   * Creates an input handler for dialogue box.
+   *
+   * @return dialogue box input handler
+   */
+  public abstract InputComponent createForDialogue();
 }

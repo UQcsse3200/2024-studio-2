@@ -2,24 +2,25 @@ package com.csse3200.game.components.loading;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * A UI component for displaying the Main menu.
+ * A UI component for displaying the loading screen with a moon representing the loading progress.
  */
 public class LoadingDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private static final float LOADING_DURATION = 6f;
     private static final float MESSAGE_INTERVAL = 2f;
     private Table table;
-    public ProgressBar progressBar;
     private Label loadingLabel;
     private final String[] loadingMessages = {
-            "Fetching the best bones... please wait!",
+                "Fetching the best bones... please wait!",
             "The jungle is waking up... loading soon!",
             "Watering the game plants... almost done!",
             "Wagging tails, flapping wings, hang tight!",
@@ -45,9 +46,9 @@ public class LoadingDisplay extends UIComponent {
     private String currentMessage;
     private int currentMessageIndex;
 
+    private MoonActor moonActor;  // Moon actor to represent loading progress
+
     public LoadingDisplay() {
-        progressBar = new ProgressBar(0, 1, 0.01f, false, skin);
-        progressBar.setValue(0);
         elapsedTime = 0;
         currentMessageIndex = (int) (Math.random() * loadingMessages.length);
         currentMessage = loadingMessages[currentMessageIndex];
@@ -60,20 +61,24 @@ public class LoadingDisplay extends UIComponent {
     }
 
     private void addActors() {
+        // Create and add the moon actor
+        moonActor = new MoonActor();
+        moonActor.setOpacity(0.7f);  // Set the opacity to blend into the background
+        stage.addActor(moonActor);
         table = new Table();
         table.setFillParent(true);
 
         loadingLabel = new Label(currentMessage, skin);
-
         table.add(loadingLabel).expandX().padTop(50);
         table.row();
-        table.add(progressBar).width(300).padTop(20);
 
-        stage.addActor(table);
+        stage.addActor(table);  // Add the table to the stage
+
+
     }
 
     public boolean isLoadingFinished() {
-        return progressBar.getValue() >= 1;
+        return elapsedTime >= LOADING_DURATION;
     }
 
     @Override
@@ -83,6 +88,7 @@ public class LoadingDisplay extends UIComponent {
         elapsedTime += deltaTime;
         messageElapsedTime += deltaTime;
 
+        // Update loading messages
         if (messageElapsedTime >= MESSAGE_INTERVAL) {
             int newMessageIndex;
             do {
@@ -95,25 +101,36 @@ public class LoadingDisplay extends UIComponent {
             messageElapsedTime = 0;
         }
 
+        // Update the progress
         float progress = Math.min(elapsedTime / LOADING_DURATION, ServiceLocator.getResourceService().getProgress() / 100f);
-        progressBar.setValue(progress);
-
-
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
+        moonActor.setProgress(progress);  // Update moon actor progress
     }
 
     @Override
     public float getZIndex() {
         return Z_INDEX;
     }
+    public MoonActor getMoonActor() {
+        return moonActor;
+    }
+
+    public List<String> getAllMessages() {
+        return Arrays.asList(loadingMessages);
+    }
+    public String getCurrentMessage() {
+        return currentMessage;
+    }
+
+
+    @Override
+    protected void draw(SpriteBatch batch) {
+
+    }
 
     @Override
     public void dispose() {
         table.clear();
+        //moonActor.dispose();  // Dispose the moon actor
         super.dispose();
     }
 }

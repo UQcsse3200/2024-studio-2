@@ -64,6 +64,13 @@ com.badlogic.gdx.graphics.Color: {
 		g: 0.4509804
 		b: 0
 		a: 1
+	},
+
+	crimson: {
+		r: 0.81568627
+		g: 0.28627451
+		b: 0.15294118
+		a: 1
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
@@ -332,10 +339,19 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	button: {
 		font: button
 		fontColor: color
+	},
+	button-red: {
+		font: font,
+		fontColor: crimson
 	}
 	title: {
 		font: title
 		fontColor: color
+	},
+
+	title-red: {
+		font: title,
+		fontColor: crimson
 	}
 	small: {
 		font: font_small,

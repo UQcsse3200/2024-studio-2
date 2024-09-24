@@ -2,8 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
@@ -24,10 +23,7 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.*;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -80,6 +76,7 @@ public class CombatScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
+    // Load the DialogueBoxService Into Stage
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
@@ -172,7 +169,7 @@ public class CombatScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatExitDisplay(enemy))
-        .addComponent(new CombatInventoryDisplay(playerInv, playerInvDisplay.getNumCols()))
+        .addComponent(new CombatInventoryDisplay(playerInv, playerInvDisplay.getNumCols(), 5))
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))

@@ -29,7 +29,7 @@ public class CombatInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatInventoryDisplay.class);
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
-    private final int numCols, numRows;
+    private final int numCols, numRows, hotBarCapacity;
     private Window window;
     private Table table;
     private final ImageButton[] slots;
@@ -48,13 +48,19 @@ public class CombatInventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public CombatInventoryDisplay(Inventory inventory, int numCols) {
+    public CombatInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
         }
 
-        int capacity = inventory.getCapacity();
+        if (hotBarCapacity < 1) {
+            String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
+            throw new IllegalArgumentException(msg);
+        }
+        this.hotBarCapacity = hotBarCapacity;
+
+        int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);

@@ -1,12 +1,16 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
@@ -28,19 +32,36 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class PauseTaskTest {
     ResourceService resourceService;
+
     @BeforeEach
     void beforeEach() {
-        // Mock rendering, physics, game time
-        RenderService renderService = new RenderService();
-        renderService.setDebug(mock(DebugRenderer.class));
-        ServiceLocator.registerRenderService(renderService);
+        EntityService entityService = new EntityService();
         resourceService = new ResourceService();
-        ServiceLocator.registerResourceService(resourceService);
+        resourceService.loadSounds(new String[]{"sounds/QuestComplete.wav"});
+
+        // Mock RenderService and set DebugRenderer mock
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
+        when(renderService.getDebug()).thenReturn(mock(DebugRenderer.class)); // Add DebugRenderer
+
+        // Mock GameTime to control time in the test
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(20f / 1000);
         ServiceLocator.registerTimeSource(gameTime);
-        ServiceLocator.registerPhysicsService(new PhysicsService());
-        resourceService.loadSounds(new String[]{"sounds/QuestComplete.wav"});
+
+        // Register InputService and PhysicsService
+        InputService inputService = new InputService();
+        ServiceLocator.registerInputService(inputService);
+        ServiceLocator.registerEntityService(entityService);
+        ServiceLocator.registerResourceService(resourceService);
+        ServiceLocator.registerRenderService(renderService);
+        ServiceLocator.registerPhysicsService(new PhysicsService()); // Add PhysicsService
+
+        // Retrieve and set stage for DialogueBoxService
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        DialogueBoxService dialogueBoxService = new DialogueBoxService(stage);
+        ServiceLocator.registerDialogueBoxService(dialogueBoxService);
+
         while (!resourceService.loadForMillis(10)) {
             continue;
         }

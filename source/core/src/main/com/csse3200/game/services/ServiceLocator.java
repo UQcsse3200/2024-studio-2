@@ -1,9 +1,9 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import org.slf4j.Logger;
@@ -27,6 +27,7 @@ public class ServiceLocator {
   private static InputService inputService;
   private static ResourceService resourceService;
   private static DialogueBoxService dialogueBoxService;
+  private static LightingService lightingService;
   // static field for GameArea
   private static GameArea gameArea;
 
@@ -56,6 +57,10 @@ public class ServiceLocator {
 
   public static ResourceService getResourceService() {
     return resourceService;
+  }
+
+  public static LightingService getLightingService() {
+    return lightingService;
   }
 
   // Getter for GameArea
@@ -105,10 +110,16 @@ public class ServiceLocator {
     resourceService = source;
   }
 
+  public static void registerLightingService(LightingService source) {
+    logger.debug("Registering lighting service {}", source);
+    lightingService = source;
+  }
+
   public static void clear() {
     entityService = null;
     renderService = null;
     physicsService = null;
+    lightingService = null;
     timeSource = null;
     inputService = null;
     resourceService = null;
