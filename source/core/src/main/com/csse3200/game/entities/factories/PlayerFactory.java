@@ -3,6 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.CombatInventoryDisplay;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
@@ -93,6 +94,7 @@ public class PlayerFactory {
         InventoryComponent inventoryComponent = new InventoryComponent(45);
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new CombatInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
