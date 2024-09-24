@@ -37,7 +37,7 @@ public class MazeGameArea extends GameArea {
   };
   private static final String[] forestTextureAtlases = {
     "images/minigames/Angler.atlas","images/minigames/fish.atlas",
-          "images/minigames/Jellyfish.atlas"
+          "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas"
 
   };
   private static final String[] forestSounds = {"sounds/minigames/angler-chomp.mp3"};
