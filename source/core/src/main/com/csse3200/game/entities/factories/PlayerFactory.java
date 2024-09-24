@@ -94,7 +94,6 @@ public class PlayerFactory {
         InventoryComponent inventoryComponent = new InventoryComponent(45);
         player.addComponent(inventoryComponent)
                 .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
-                .addComponent(new CombatInventoryDisplay(inventoryComponent.getInventory(), 9))
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 

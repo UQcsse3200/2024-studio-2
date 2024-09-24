@@ -357,4 +357,11 @@ public class PlayerInventoryDisplay extends UIComponent {
     public Inventory getInventory() {
         return inventory;
     }
+
+    /**
+     * @return number of columns of current inventory display.
+     */
+    public int getNumCols() {
+        return numCols;
+    }
 }
