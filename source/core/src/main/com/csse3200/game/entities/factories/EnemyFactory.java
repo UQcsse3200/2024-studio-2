@@ -274,21 +274,21 @@ public class EnemyFactory {
         
         if (type == EnemyType.MONKEY) {
             // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-            aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+            aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
             aiComponent.addTask(new RunTask(target, 10, 3f));
             aiComponent.addTask(new ShootTask(1000, target, 5f));
         } else if (type == EnemyType.BEAR) {
             //BlindBear makes bears wonder away from the player when the player isn't moving
-            aiComponent.addTask(new BlindBearTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 1f, 3, target, 6f, 7f));
-            aiComponent.addTask(new WanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f, false));
-            aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2(configStats.getSpeed() * 3, configStats.getSpeed() * 3), false));
+            aiComponent.addTask(new BlindBearTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 1f, 3, target, 6f, 7f));
+            aiComponent.addTask(new WanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f, false));
+            aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float)configStats.getSpeed()/100 * 4, (float)configStats.getSpeed()/100 * 4), false));
         } else if (type == EnemyType.EEL) {
-            aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
-            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2(configStats.getSpeed(), configStats.getSpeed()), false));
+            aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
+            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), false));
         } else {
             // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-            aiComponent.addTask(new WanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f, false));
-            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2(configStats.getSpeed(), configStats.getSpeed()), false));
+            aiComponent.addTask(new WanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f, false));
+            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), false));
         }
         
         Entity npc =

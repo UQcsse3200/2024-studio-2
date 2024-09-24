@@ -140,9 +140,9 @@ class EnemyFactoryTest {
         assertTrue((monkey.getComponent(CombatStatsComponent.class).getDefense() > 6)
                         && (monkey.getComponent(CombatStatsComponent.class).getDefense() < 10),
                 "Monkey should have defense between 7 and 9 inclusive.");
-        assertEquals(1,
+        assertEquals(150,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
-                "monkey should have 1 speed.");
+                "monkey should have 150 speed.");
         assertEquals(25,
                 monkey.getComponent(CombatStatsComponent.class).getExperience(),
                 "monkey should have 25 experience.");
@@ -225,7 +225,7 @@ class EnemyFactoryTest {
         assertTrue((chicken.getComponent(CombatStatsComponent.class).getDefense() > 0)
                         && (chicken.getComponent(CombatStatsComponent.class).getDefense() < 4),
                 "chicken should have between 1 and 3 defense.");
-        assertEquals(2,
+        assertEquals(200,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
                 "chicken should have 200 speed.");
         assertEquals(10,
@@ -297,7 +297,7 @@ class EnemyFactoryTest {
         assertTrue((frog.getComponent(CombatStatsComponent.class).getDefense() > 0)
                         && (frog.getComponent(CombatStatsComponent.class).getDefense() < 3),
                 "frog should have between 1 and 2 defense.");
-        assertEquals(1,
+        assertEquals(50,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
                 "frog should have 50 speed.");
         assertEquals(20,
@@ -369,7 +369,7 @@ class EnemyFactoryTest {
         assertTrue((bear.getComponent(CombatStatsComponent.class).getDefense() > 12)
                         && (bear.getComponent(CombatStatsComponent.class).getDefense() < 18),
                 "bear should have between 13 and 17 defense.");
-        assertEquals(1,
+        assertEquals(75,
                 bear.getComponent(CombatStatsComponent.class).getSpeed(),
                 "bear should have 75 speed.");
         assertEquals(100,
