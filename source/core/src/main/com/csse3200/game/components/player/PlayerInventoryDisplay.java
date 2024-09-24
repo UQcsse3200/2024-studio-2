@@ -277,7 +277,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    void regenerateInventory() {
+    public void regenerateInventory() {
         if (toggle) {
             toggleInventory(); // Hacky way to regenerate inventory without duplicating code
             toggleInventory();

@@ -6,6 +6,7 @@ import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.screens.MainGameScreen;
@@ -64,6 +65,7 @@ public class CombatActions extends Component {
 //
 //      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
 //    }
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateInventory();
     game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
