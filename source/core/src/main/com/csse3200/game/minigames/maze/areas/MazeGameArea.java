@@ -74,9 +74,18 @@ public class MazeGameArea extends GameArea {
     spawnWalls();
     player = spawnPlayer();
     spawnAngler(1);
-    spawnJellyfish(10);
+    spawnJellyfish(20);
 
     playMusic();
+  }
+
+  private GridPoint2 getSimpleStartLocation() {
+    while (true) {
+      GridPoint2 start = maze.getRandomCell();
+      if (new Vector2(start.x, start.y).dst(player.getCenterPosition()) > 1f) {
+        return start;
+      }
+    }
   }
 
   private void displayUI() {
@@ -136,7 +145,7 @@ public class MazeGameArea extends GameArea {
   private void spawnJellyfish(int number) {
     for (int i = 0; i < number; i++) {
       Entity jellyfish = MazeNPCFactory.createJellyfish();
-      spawnEntityAt(jellyfish, maze.getNextStartLocation(), true, true);
+      spawnEntityAt(jellyfish, getSimpleStartLocation(), true, true);
     }
   }
 
