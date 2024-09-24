@@ -137,6 +137,7 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
+    player.getComponent(PlayerInventoryDisplay.class).setCombatState(false);
     ServiceLocator.clear();
   }
 

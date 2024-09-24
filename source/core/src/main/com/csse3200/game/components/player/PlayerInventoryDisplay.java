@@ -104,6 +104,13 @@ public class PlayerInventoryDisplay extends UIComponent {
         entity.getEvents().addListener("addItem", this::addItem);
     }
 
+    /**
+     * Checks if the player is in combat or not to restrict certain actions i.e. using defense and attack potion when
+     * not in combat or ensuring hotbar does not appear during combat
+     * @param item the item in inventory
+     * @param context context of the item usage
+     * @param index index of the item in inventory
+     */
     private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
         if (item instanceof DefensePotion || item instanceof AttackPotion) {
             if (!isInCombat) {
@@ -362,7 +369,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         inventory.loadInventoryFromSave();
         hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
     }
-  
+
     /** Returns inventory - for quests. */
     public Inventory getInventory() {
         return inventory;
