@@ -198,6 +198,7 @@ public class ForestGameArea extends GameArea {
       if (!kangarooBossSpawned) {
           Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
           kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+//          kangarooBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
           spawnEntityOnMap(kangarooBoss);
           enemies.add(kangarooBoss);
           kangarooBossSpawned = true;
@@ -446,6 +447,19 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
       spawnEntityAt(joey, spawnPos, true, false);
       enemies.add(joey);
+    }
+  }
+
+  private void spawnWaterSpiral(Entity boss) {
+    if (boss != null) {
+      Entity waterSpiral = ProjectileFactory.createWaterSpiral(player);
+
+      float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+      float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+      Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+
+      spawnEntityAtVector(waterSpiral, pos);
     }
   }
 

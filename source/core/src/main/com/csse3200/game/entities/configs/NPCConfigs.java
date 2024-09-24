@@ -22,4 +22,5 @@ public class NPCConfigs {
   public BaseEnemyEntityConfig joey = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig bear = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig banana = new BaseEnemyEntityConfig();
+  public BaseEnemyEntityConfig waterSpiral = new BaseEnemyEntityConfig();
 }

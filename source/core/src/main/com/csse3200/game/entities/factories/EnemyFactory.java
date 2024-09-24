@@ -322,11 +322,16 @@ public class EnemyFactory {
   public static Entity createBossNPC(Entity target, Entity.EnemyType type) {
     AITaskComponent aiComponent = new AITaskComponent();
 
-    aiComponent.addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
-            .addTask(new ChaseTask(target, 10, 8f, 10f, true));
+    aiComponent.addTask(new WanderTask(new Vector2(2f, 2f), 2f, true));
 
     if (type == Entity.EnemyType.KANGAROO) {
-      aiComponent.addTask(new KangaJoeyTask(target, 6f, 2));
+      aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, true))
+              .addTask(new KangaJoeyTask(target, 6f, 2));
+    } else if (type == Entity.EnemyType.WATER_BOSS) {
+      aiComponent.addTask(new ChaseTask(target, 10, 1f, 2f, true))
+              .addTask(new WaterSpiralTask(500, target, 100f));
+    } else if (type == Entity.EnemyType.AIR_BOSS) {
+      aiComponent.addTask(new ChaseTask(target, 10, 12f, 14f, true));
     }
 
     Entity npc =

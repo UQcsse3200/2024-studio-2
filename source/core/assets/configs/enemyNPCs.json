@@ -55,6 +55,14 @@
     "defense": 100,
     "speed": 2,
     "isEnemy": 1
+  },
+  "waterSpiral": {
+    "spritePath": "images/effects.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 2,
+    "isEnemy": 1
   }
 }
 
