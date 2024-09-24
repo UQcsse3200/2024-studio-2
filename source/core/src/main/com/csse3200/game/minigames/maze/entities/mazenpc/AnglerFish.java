@@ -42,6 +42,15 @@ public class AnglerFish extends MazeEntity {
         animator.addSound("sounds/minigames/angler-chomp.mp3", "Attack", 4);
 
         // Set other unique components for AnglerFish
+
+        /* TODO difficulty scaling
+        angler should get faster each fish egg that is collected.
+        Also, the angler could change colours from
+        Color.GREEN -> Color.YELLOW -> new Color(1f, 0.3f, 0.1f, 1f) -> Color.RED
+        spawn in more entities over time as well?
+        decrease sight radius over time?
+         */
+
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
