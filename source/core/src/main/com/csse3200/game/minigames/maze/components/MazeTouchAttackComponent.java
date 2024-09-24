@@ -62,12 +62,12 @@ public class MazeTouchAttackComponent extends Component {
     }
 
     Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
-    Entity meEntity = ((BodyUserData) me.getBody().getUserData()).entity;
+    Entity meEntity = entity;
 
-    //if (meEntity instanceof MazePlayer) {
-      // Means it is the player. player should not attack or knockback npcs
-      //return;
-    //}
+    if (meEntity instanceof MazePlayer) {
+      // Means it is the player who is attacking. Should stun enemies for a short duration
+      targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", 0.8f);
+    }
 
     // Change to maze combat stats
     MazeCombatStatsComponent targetStats = targetEntity.getComponent(MazeCombatStatsComponent.class);

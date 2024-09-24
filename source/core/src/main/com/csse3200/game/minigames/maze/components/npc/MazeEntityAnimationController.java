@@ -17,12 +17,13 @@ public class MazeEntityAnimationController extends Component {
     animator = this.entity.getComponent(AnimationRenderWithAudioComponent.class);
     entity.getEvents().addListener("wanderStart", this::animateWander);
     entity.getEvents().addListener("chaseStart", this::animateChase);
-    entity.getEvents().addListener("spawnStart", this::animateSpawn);
+    entity.getEvents().addListener("idleStart", this::animateIdle);
+    entity.getEvents().addListener("spawnStart", this::animateIdle);
     entity.getEvents().addListener("faceLeft", this::faceLeft);
     entity.getEvents().addListener("faceRight", this::faceRight);
   }
 
-  void animateSpawn() {
+  void animateIdle() {
     animator.startAnimation("Idle");
   }
 

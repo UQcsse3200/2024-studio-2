@@ -1,33 +1,23 @@
 package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
-import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.Maze;
 import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
 import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
-import com.csse3200.game.minigames.maze.components.tasks.MazePathFindingTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
-import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.components.ColliderComponent;
-import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import box2dLight.PointLight;
 
 import java.util.List;
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
@@ -50,7 +40,7 @@ public class MazeGameArea extends GameArea {
 
   };
   private static final String[] forestSounds = {"sounds/minigames/angler-chomp.mp3"};
-  private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
+  private static final String backgroundMusic = "sounds/minigames/maze-bg.mp3";
   private static final String[] forestMusic = {backgroundMusic};
 
   private final MazeTerrainFactory terrainFactory;
@@ -151,7 +141,8 @@ public class MazeGameArea extends GameArea {
 
   @Override
   public void playMusic() {
-    AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
+    AudioManager.setMusicVolume(AudioManager.getDesiredMusicVolume() / 2);
   }
 
   public void pauseMusic() {
