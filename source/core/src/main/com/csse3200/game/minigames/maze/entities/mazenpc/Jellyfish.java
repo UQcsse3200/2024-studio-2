@@ -33,11 +33,10 @@ public class Jellyfish extends MazeEntity {
 
         // Add animations specific to Jellyfish in the future please
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
-                ServiceLocator.getResourceService().getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
+                ServiceLocator.getResourceService().getAsset("images/minigames/Jellyfish.atlas", TextureAtlas.class));
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addSound("sounds/minigames/angler-chomp.mp3", "Attack", 4);
 
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
                 .addComponent(animator)

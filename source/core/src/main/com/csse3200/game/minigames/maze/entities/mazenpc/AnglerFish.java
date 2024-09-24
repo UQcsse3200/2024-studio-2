@@ -68,7 +68,7 @@ public class AnglerFish extends MazeEntity {
                 .addComponent(aiComponent);
 
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
-        this.setScale(.2f, .2f);
+        this.setScale(.4f, .4f);
         PhysicsUtils.setScaledCollider(this, 1f, 1f);
     }
 }

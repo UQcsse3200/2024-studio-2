@@ -30,8 +30,6 @@ public class IdleTask extends DefaultTask implements PriorityTask {
    */
   @Override
   public void start() {
-    System.out.println("stun");
-
     owner.getEntity().getEvents().trigger("idleStart");
   }
 
