@@ -83,6 +83,11 @@ public class WanderTask extends DefaultTask implements PriorityTask {
   }
 
   @Override
+  public void stop() {
+    currentTask.stop();
+  }
+
+  @Override
   public void update() {
     if (currentTask.getStatus() != Status.ACTIVE) {
       if (currentTask == waitTask && isSpawned && !isBoss) {

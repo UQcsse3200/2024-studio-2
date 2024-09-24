@@ -2,6 +2,8 @@ package com.csse3200.game.minigames.maze.entities.mazenpc;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.components.NPCStunStatusEffect;
+import com.csse3200.game.minigames.maze.components.StatusEffectComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -27,7 +29,8 @@ public abstract class MazeEntity extends Entity {
                 .addComponent(new ColliderComponent().setGroupIndex((short) -1)) // NPCs don’t collide with each other
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new MazeTouchAttackComponent(PhysicsLayer.PLAYER, 15f))
-                .addComponent(new FaceMoveDirectionXComponent());
+                .addComponent(new FaceMoveDirectionXComponent())
+                .addComponent(new StatusEffectComponent().registerStatusEffect("stun", new NPCStunStatusEffect()));
 
         PhysicsUtils.setScaledCollider(this, 0.9f, 0.4f);
         this.getComponent(ColliderComponent.class).setDensity(1.5f);
