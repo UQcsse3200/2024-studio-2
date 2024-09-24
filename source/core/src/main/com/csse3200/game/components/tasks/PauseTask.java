@@ -27,6 +27,7 @@ public class PauseTask extends ChaseTask {
     private BaseFriendlyEntityConfig config;
     QuestManager questManager;
     private String animalName;
+    private String taskName;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -42,6 +43,7 @@ public class PauseTask extends ChaseTask {
         this.hasApproached = false;
         this.config = null;
         this.questManager = target.getComponent(QuestManager.class);
+        this.taskName = "";
     }
 
     /**
@@ -85,6 +87,8 @@ public class PauseTask extends ChaseTask {
                             hintText = questManager.getQuestDialogues().get(dialogueKey);
                             if (hintText.length == 0) {
                                 hintText = this.config.getBaseHint();
+                            } else {
+                                this.taskName = dialogueKey.getTaskName();
                             }
                         }
                     }
@@ -111,6 +115,7 @@ public class PauseTask extends ChaseTask {
             String animalName = (config).getAnimalName();
             String eventName = String.format("PauseEnd%s", animalName);
             entity.getEvents().trigger(eventName);
+            this.target.getEvents().trigger(this.taskName);
         } else {
             entity.getEvents().trigger("pauseEnd");
         }
