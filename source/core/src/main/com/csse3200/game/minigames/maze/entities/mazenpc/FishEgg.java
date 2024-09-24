@@ -33,8 +33,8 @@ public class FishEgg extends Entity {
             .addComponent(new TextureRenderComponent("images/minigames/fishegg.png"));
 
         // Initialize scale
-        this.scaleX = 0.3f; // Adjust size of FishEgg in X direction
-        this.scaleY = 0.3f; // Adjust size of FishEgg in Y direction
+        this.scaleX = 0.1f; // Adjust size of FishEgg in X direction
+        this.scaleY = 0.1f; // Adjust size of FishEgg in Y direction
         this.setScale(scaleX, scaleY);
     }
 
