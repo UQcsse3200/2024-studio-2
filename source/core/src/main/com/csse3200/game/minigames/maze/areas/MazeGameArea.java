@@ -13,6 +13,7 @@ import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
+import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -33,7 +34,8 @@ public class MazeGameArea extends GameArea {
     "images/ghost_king.png",
     "images/ghost_1.png",
     "images/minigames/water.png",
-    "images/minigames/wall.png"
+    "images/minigames/wall.png",
+    "images/minigames/fishegg.png"
   };
   private static final String[] forestTextureAtlases = {
     "images/minigames/Angler.atlas","images/minigames/fish.atlas",
@@ -75,6 +77,11 @@ public class MazeGameArea extends GameArea {
     player = spawnPlayer();
     spawnAngler(1);
     spawnJellyfish(20);
+
+    //temporary test code
+    for (int i = 0; i < 10; i++) {
+      spawnEntityAt(new FishEgg(), getSimpleStartLocation(), true, true);
+    }
 
     playMusic();
   }
