@@ -194,6 +194,7 @@ public class CombatInventoryDisplay extends UIComponent {
                 ItemUsageContext context = new ItemUsageContext(entity);
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
+                entity.getEvents().trigger("toggleCombatInventory");
                 regenerateInventory();
             }
         });
