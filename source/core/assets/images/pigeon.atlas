@@ -66,6 +66,13 @@ float
   orig: 138, 82
   offset: 0, 0
   index: 8
+spawn
+  rotate: false
+  xy: 58, 48
+  size: 141, 92
+  orig: 141, 92
+  offset: 0, 0
+  index: 0
 default
   rotate: false
   xy: 58, 48

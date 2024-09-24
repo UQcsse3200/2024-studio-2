@@ -302,7 +302,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     generator = () -> EnemyFactory.createMonkey(player);
     spawnMonkeyEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
 
-    // Frog
+    // Pigeon
     generator = () -> EnemyFactory.createPigeon(player);
     spawnRandomEnemy(generator, config.spawns.NUM_PIGEONS, 0.06);
 
@@ -313,6 +313,10 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     //Bear
     generator = () -> EnemyFactory.createBear(player);
     spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
+
+    //Eel
+    generator = () -> EnemyFactory.createEel(player);
+    spawnRandomEnemy(generator, config.spawns.NUM_EELS, 0.1);
   }
 
   private void spawnFriendlyNPCs() {

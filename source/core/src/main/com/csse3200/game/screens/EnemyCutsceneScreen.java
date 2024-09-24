@@ -245,6 +245,10 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 enemyImageTexture = new Texture("images/pigeon_idle.png");
                 enemyNameLabel = new Label("Pigeon", labelStyle);
                 break;
+            case EEL:
+                enemyImageTexture = new Texture("images/eel_idle.png");
+                enemyNameLabel = new Label("Eel", labelStyle);
+                break;
             default:
                 enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
                 enemyNameLabel = new Label("Kanga", labelStyle);
@@ -372,6 +376,10 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
             case BEAR -> {
                 this.labelBuffer = 220;
                 this.imagebuffer = -55;
+            }
+            case EEL -> {
+                this.labelBuffer = 230;
+                this.imagebuffer = -30;
             }
             default -> {
                 this.labelBuffer =  200;

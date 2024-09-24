@@ -35,6 +35,15 @@
     "experience": 100,
     "isEnemy": 1
   },
+  "eel" : {
+    "spritePath": "images/eel.atlas",
+    "health": 5,
+    "baseAttack": 1,
+    "defense": 2,
+    "speed": 2,
+    "experience": 10,
+    "isEnemy": 1
+  },
   "pigeon": {
     "spritePath": "images/pigeon.atlas",
     "health": 10,

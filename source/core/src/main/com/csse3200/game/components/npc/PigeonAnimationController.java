@@ -19,6 +19,7 @@ public class PigeonAnimationController extends Component {
         entity.getEvents().addListener("wanderRight", this::animateWanderRight);
         entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
         entity.getEvents().addListener("chaseRight", this::animateChaseRight);
+        entity.getEvents().addListener("spawn", this::animateSpawn);
     }
 
     private void animateSpawn() {

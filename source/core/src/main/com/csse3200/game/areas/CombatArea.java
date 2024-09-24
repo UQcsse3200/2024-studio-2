@@ -65,6 +65,7 @@ public class CombatArea extends GameArea {
             "images/combat_background.png",
             "images/chicken_idle.png",
             "images/bear_idle.png",
+            "images/eel_idle.png",
             "images/pigeon_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
@@ -124,6 +125,8 @@ public class CombatArea extends GameArea {
             spawnBear();
         } else if (enemy.getEnemyType() == Entity.EnemyType.PIGEON) {
             spawnPigeon();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
+            spawnEel();
         } else { // Kangaroo Boss
             spawnCombatEnemy();
         }
@@ -227,6 +230,14 @@ public class CombatArea extends GameArea {
      */
     private void spawnPigeon() {
         Entity combatEnemyNPC = EnemyFactory.createPigeonCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns an eel enemy, with the player entity as its target
+     */
+    private void spawnEel() {
+        Entity combatEnemyNPC = EnemyFactory.createEelCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 

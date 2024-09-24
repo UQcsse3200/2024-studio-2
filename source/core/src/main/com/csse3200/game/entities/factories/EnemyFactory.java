@@ -59,6 +59,7 @@ public class EnemyFactory {
         CHICKEN,
         MONKEY,
         BEAR,
+        EEL,
         PIGEON;
     }
     
@@ -140,6 +141,7 @@ public class EnemyFactory {
         AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
         
         animator.addAnimation("float", 0.06f, Animation.PlayMode.LOOP);
+        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
         
         pigeon
                 .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
@@ -180,6 +182,39 @@ public class EnemyFactory {
         frog.getComponent(AnimationRenderComponent.class).scaleEntity();
         
         return frog;
+    }
+
+    /**
+     * Creates a eel enemy.
+     *
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy frog entity
+     */
+    public static Entity createEel(Entity target) {
+        Entity eel = createBaseEnemy(target, EnemyType.EEL);
+        BaseEnemyEntityConfig config = configs.eel;
+        eel.setEnemyType(Entity.EnemyType.EEL);
+
+        AnimationRenderComponent animator =
+                new AnimationRenderComponent(
+                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+        animator.addAnimation("swim_down", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation("swim_down_right", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation("swim_right", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation("swim_up_right", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation("swim_up", 0.25f, Animation.PlayMode.LOOP);
+        //animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
+
+        eel
+                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 5) - 2, config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
+                .addComponent(new CombatMoveComponent(moveSet))
+                .addComponent(animator)
+                .addComponent(new EelAnimationController());
+
+        //eel.setScale(0.373f,1f);
+        eel.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+        return eel;
     }
     
     /**
@@ -233,6 +268,7 @@ public class EnemyFactory {
             case CHICKEN -> configs.chicken;
             case MONKEY -> configs.monkey;
             case BEAR -> configs.bear;
+            case EEL -> configs.eel;
             case PIGEON -> configs.pigeon;
         };
         
@@ -245,7 +281,10 @@ public class EnemyFactory {
             //BlindBear makes bears wonder away from the player when the player isn't moving
             aiComponent.addTask(new BlindBearTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 1f, 3, target, 6f, 7f));
             aiComponent.addTask(new WanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f, false));
-            aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2(configStats.getSpeed()*3, configStats.getSpeed()*3), false));
+            aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2(configStats.getSpeed() * 3, configStats.getSpeed() * 3), false));
+        } else if (type == EnemyType.EEL) {
+            aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2(configStats.getSpeed(), configStats.getSpeed()), false));
         } else {
             // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
             aiComponent.addTask(new WanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f, false));
@@ -441,6 +480,22 @@ public class EnemyFactory {
         pigeonEnemy.setScale(100f,70f);
         
         return pigeonEnemy;
+    }
+
+    /**
+     * Creates pigeon enemy as NPC entity for static combat
+     * */
+    public static Entity createEelCombatEnemy() {
+        Entity eelEnemy = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.eel;
+        eelEnemy.setEnemyType(Entity.EnemyType.EEL);
+
+        eelEnemy
+                .addComponent(new TextureRenderComponent("images/eel_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+        eelEnemy.setScale(100f,70f);
+
+        return eelEnemy;
     }
     
     private EnemyFactory() {
