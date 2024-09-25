@@ -45,6 +45,7 @@ public class PlayerActions extends Component {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     combatStatsComponent = entity.getComponent(CombatStatsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
+    entity.getEvents().addListener("talkToGuide", this::talkToGuide);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("restMenu", this::restMenu);
@@ -101,7 +102,14 @@ public class PlayerActions extends Component {
     this.walkDirection = direction.nor();
     moving = true;
     logger.info("Player started moving in direction: " + direction);
-    player.getEvents().trigger("steps");
+    player.getEvents().trigger("steps");// something like this
+
+  }
+  //talks to cow how to make it trigger only when talking to a cow
+  void talkToGuide() {
+
+    logger.info("Player talked to the guide.");
+    player.getEvents().trigger("talkToGuide");
   }
 
   void stopWalking() {
