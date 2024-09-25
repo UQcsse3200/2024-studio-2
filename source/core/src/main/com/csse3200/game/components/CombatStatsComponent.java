@@ -53,7 +53,7 @@ public class CombatStatsComponent extends Component {
   public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
-    this.maxExperience=100;
+    this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     this.maxStamina = stamina;
     this.isPlayer = isPlayer;
     this.isBoss = isBoss;
@@ -275,7 +275,7 @@ public class CombatStatsComponent extends Component {
 
     if (this.experience >= this.maxExperience && isPlayer && (this.level < this.maxLevel)) {
       int experienceDiff = this.experience - this.maxExperience;
-      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+
       setExperience(experienceDiff);
 
 
@@ -285,6 +285,7 @@ public class CombatStatsComponent extends Component {
       addDefense(1);
       addSpeed(1);
       addLevel(1);
+      this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     }
 
     if (this.experience >= this.maxExperience && !isPlayer) {
