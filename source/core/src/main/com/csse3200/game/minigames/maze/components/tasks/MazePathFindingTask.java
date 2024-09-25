@@ -56,7 +56,7 @@ public class MazePathFindingTask extends DefaultTask {
       Entity e = owner.getEntity();
       Vector2 centerTo = new Vector2(path.get(path.size() - 2).x + .5f, path.get(path.size() - 2).y + .5f);
       int success = 0;
-      Vector2[] corners = getHitBoxCorners(e, MazeMovementUtils.PADDING);
+      Vector2[] corners = getHitBoxCorners(e, 0);
       for (Vector2 from : corners) {
         Vector2 to = centerTo.cpy().sub(e.getCenterPosition().sub(from));
 

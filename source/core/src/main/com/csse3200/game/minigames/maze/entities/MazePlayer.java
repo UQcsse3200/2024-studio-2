@@ -71,20 +71,7 @@ public class MazePlayer extends Entity {
         // Scale the AnimationRenderComponent, not TextureRenderComponent
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();  // Scale the animation
         this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
-        MazePhysicsUtils.setScaledHitBox(this, 0.85f, 0.45f);
-
-
-        // Use oval shape for player to remove ghost collisions
-        PolygonShape clipped = new PolygonShape();
-        Vector2[] vertices = new Vector2[8];
-        Vector2 center = this.getScale().scl(0.5f);
-        Vector2 delta = center.cpy().scl(0.85f, 0.45f);
-        for (int i = 0; i < vertices.length; i++) {
-            double angle = 2*Math.PI / vertices.length * i;
-            vertices[i] = new Vector2((float) Math.cos(angle), (float) Math.sin(angle)).scl(delta).add(center);
-        }
-        clipped.set(vertices);
-        this.getComponent(ColliderComponent.class).setShape(clipped);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.85f, 0.45f);
 
         // Add lighting components
         addLightingComponents();

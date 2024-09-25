@@ -61,7 +61,7 @@ public class MazeMovementUtils {
     }
 
     public static boolean canBeeLineTo(Vector2 pos, Entity entity) {
-        Vector2[] corners = getHitBoxCorners(entity, PADDING);
+        Vector2[] corners = getHitBoxCorners(entity, 0);
 
         Vector2 delta = pos.cpy().sub(entity.getPosition());
 
@@ -78,7 +78,7 @@ public class MazeMovementUtils {
         if (testRay(corners[quadrant].cpy().add(delta), corners[corner2].cpy().add(delta))) return false;
 
         // check rays spaced MIN_LENGTH_FACE apart within the path of the shape
-        for (int c = 0; ; c = nextCorner(c)) {
+        for (int c = corner2; ; c = nextCorner(c)) {
             int numRays = (int) (corners[c].dst(corners[nextCorner(c)]) / MIN_LENGTH_FACE) + 2;
             Vector2 from = corners[c].cpy();
             Vector2 to = from.cpy().add(delta);
@@ -88,7 +88,7 @@ public class MazeMovementUtils {
                 from.add(inc);
                 to.add(inc);
             }
-            if (c == 3) break;
+            if (c == quadrant) break;
         }
         return true;
     }
