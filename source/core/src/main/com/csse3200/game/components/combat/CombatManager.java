@@ -127,6 +127,7 @@ public class CombatManager extends Component {
                 case 0 -> Action.ATTACK;
                 case 1 -> Action.GUARD;
                 case 2 -> Action.SLEEP;
+                case 3 -> Action.ITEM;
                 default -> null;
             };
         }

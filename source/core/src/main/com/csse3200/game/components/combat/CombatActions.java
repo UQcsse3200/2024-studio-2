@@ -131,6 +131,7 @@ public class CombatActions extends Component {
    */
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
+    manager.onPlayerActionSelected("ITEM");
     entity.getEvents().trigger("toggleCombatInventory");
     entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
     if (Objects.equals(entity.getEvents().getLastTriggeredEvent(), "itemUsed")) {
