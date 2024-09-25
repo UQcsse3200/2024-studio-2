@@ -71,7 +71,7 @@ public class DialogueKey {
     /**Returns a string representation of this DialogueKey.*/
     @Override
     public String toString() {
-        return String.format("TupleKey{str='%s', str=%d}", npcName, questName);
+        return String.format("TupleKey{str='%s', str=%s}", taskName, questName);
     }
     /** Returns the name of the dialogue quest. */
     public String getQuestName() {
