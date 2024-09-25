@@ -1,4 +1,4 @@
-package com.csse3200.game.components.player;
+package com.csse3200.game.components.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
@@ -29,18 +30,20 @@ import org.slf4j.LoggerFactory;
 public class PlayerInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
-    private final Inventory inventory;
     private static final float Z_INDEX = 3f;
+
+    private final Inventory inventory;
+    private Window inventoryDisplay;
+    private  Table hotBarDisplay;
     AITaskComponent aiComponent = new AITaskComponent();
-    private final int numCols, numRows;
-    private Window window;
-    private Table table;
-    private final ImageButton[] slots;
+
+    private final int numCols, numRows, hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
-    //created by @PratulW5:
+
+    // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
-    PlayerInventoryHotbarDisplay hotbar;
+    private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -50,13 +53,19 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public PlayerInventoryDisplay(Inventory inventory, int numCols) {
+    public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
         }
 
-        int capacity = inventory.getCapacity();
+        if (hotBarCapacity < 1) {
+            String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
+            throw new IllegalArgumentException(msg);
+        }
+        this.hotBarCapacity = hotBarCapacity;
+
+        int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
             throw new IllegalArgumentException(msg);
@@ -64,7 +73,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
-        slots = new ImageButton[numRows * numCols];
     }
 
     /**
@@ -74,6 +82,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+        generateHotBar();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("addItem", this::addItem);
     }
@@ -82,21 +91,20 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
-        if (stage.getActors().contains(window, true)) {
+        if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
-            hotbar.createHotbar();
-            stage.getActors().removeValue(window, true); // close inventory
-            disposeWindow();
+            generateHotBar();
+            stage.getActors().removeValue(inventoryDisplay, true); // close inventory
+            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
-            generateWindow();
-            stage.addActor(window);
-            hotbar.disposeTable();
+            generateInventory();
+            stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
+            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
             toggle = true;
         }
     }
-
 
     /**
      * Determines if the toggle is active
@@ -104,16 +112,6 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public boolean getToggle() {
         return toggle;
-    }
-
-    /**
-     * Checks to see if inventory is full
-     * @return boolean for if inventory is full
-     */
-    public boolean hasSpaceFor() {
-        // Logic to check if there's space in the inventory for all the items
-        // For simplicity, assume each item takes one slot and check if enough slots are available
-        return inventory.isFull();
     }
 
     /**
@@ -129,24 +127,25 @@ public class PlayerInventoryDisplay extends UIComponent {
     /**
      * Generates the inventory window and populates it with inventory slots.
      */
-    private void generateWindow() {
-        // Create the window (pop-up)
-        window = new Window("Inventory", inventorySkin);
-        Label.LabelStyle titleStyle = new Label.LabelStyle(window.getTitleLabel().getStyle());
+    private void generateInventory() {
+        // Create the inventory window (pop-up)
+        inventoryDisplay = new Window("Inventory", inventorySkin);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
-        window.getTitleLabel().setAlignment(Align.center);
-        window.getTitleTable().padTop(150); // Adjust the value to move the title lower
+        inventoryDisplay.getTitleLabel().setAlignment(Align.center);
+        inventoryDisplay.getTitleTable().padTop(150).padBottom(10);
+
         // Create the table for inventory slots
-        window.getTitleLabel().setStyle(titleStyle);
-        table = new Table();
-        window.getTitleTable().padBottom(20);
+        inventoryDisplay.getTitleLabel().setStyle(titleStyle);
+
+        Table table = new Table();
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col;
+                int index = row * numCols + col + hotBarCapacity - 1;
                 AbstractItem item = inventory.getAt(index);
                 // Create the slot with the inventory background
-                final ImageButton slot = new ImageButton(slotSkin);
+                ImageButton slot = new ImageButton(slotSkin);
                 // Add the item image to the slot
                 if (item != null) {
                     addSlotListeners(slot, item, index);
@@ -154,18 +153,58 @@ public class PlayerInventoryDisplay extends UIComponent {
                     slot.add(itemImage).center().size(80, 80);
                 }
                 table.add(slot).size(90, 90).pad(5); // Add the slot to the table
-                slots[index] = slot;
             }
             table.row(); // Move to the next row in the table
         }
+
+        // Add sort button:
+        TextButton sortButton = new TextButton("Sort", skin);
+        sortButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                inventory.sortByCode();
+                regenerateInventory();
+            }
+        });
+        table.row();
+        table.add(sortButton);
+
         // Add the table to the window
-        window.add(table).expand().fill();
-        window.pack();
+        inventoryDisplay.add(table).expand().fill();
+
+        inventoryDisplay.pack();
         // Set position in stage top-center
-        window.setPosition(
-                (stage.getWidth() - window.getWidth()) / 2,  // Center horizontally
-                (stage.getHeight() - window.getHeight()) / 2 // Center vertically
+        inventoryDisplay.setPosition(
+                (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
+                (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
         );
+        stage.addActor(inventoryDisplay);
+    }
+
+    /**
+     * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
+     */
+    void generateHotBar() {
+        hotBarDisplay = new Table();
+        hotBarDisplay.clear();
+        hotBarDisplay.center().right();
+        hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
+        hotBarDisplay.setSize(160, 517);
+        for (int i = 0; i < hotBarCapacity; i++) {
+            AbstractItem item = inventory.getAt(i);
+            ImageButton slot = new ImageButton(slotSkin);
+            if (item != null) {
+                addSlotListeners(slot, item, i);
+                Image itemImage = new Image(new Texture(item.getTexturePath()));
+                slot.add(itemImage).center().size(75, 75);
+            }
+            hotBarDisplay.add(slot).size(80, 80).pad(5).padRight(45);
+            hotBarDisplay.row();
+        }
+        float tableX = stage.getWidth() - hotBarDisplay.getWidth() - 20;
+        float tableY = (stage.getHeight() - hotBarDisplay.getHeight()) / 2;
+        hotBarDisplay.setPosition(tableX, tableY);
+        stage.addActor(hotBarDisplay);
     }
 
     /**
@@ -215,7 +254,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void removeItem(AbstractItem item) {
         inventory.deleteItem(item.getItemCode());
-        generateWindow();
+        generateInventory();
     }
 
     /**
@@ -224,11 +263,8 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param item The item to be added to the inventory.
      */
     private void addItem(AbstractItem item) {
-        if (this.inventory.add(item)) {
-            entity.getEvents().trigger("itemPickedUp", true);
-        } else {
-            entity.getEvents().trigger("itemPickedUp", false);
-        }
+        boolean wasAdded = this.inventory.add(item); // Keeping this line to avoid side effects
+        entity.getEvents().trigger("itemPickedUp", wasAdded);
         regenerateInventory();
     }
 
@@ -237,14 +273,8 @@ public class PlayerInventoryDisplay extends UIComponent {
      * This method is used to refresh the inventory UI without duplicating code.
      */
     void regenerateInventory() {
-        if (toggle) {
-            toggleInventory(); // Hacky way to regenerate inventory without duplicating code
-            toggleInventory();
-        }
-        else {
-            hotbar.disposeTable();
-            hotbar.createHotbar();
-        }
+        toggleInventory(); // Hacky way to regenerate inventory without duplicating code
+        toggleInventory();
     }
 
     /**
@@ -252,46 +282,16 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        disposeSlots();
-        disposeTable();
-        disposeWindow();
+        if (inventoryDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
+            inventoryDisplay =null;
+        }
+        if (hotBarDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
+            hotBarDisplay = null;
+        }
+
         super.dispose();
-    }
-
-    /**
-     * Disposes of the inventory window, clearing its contents and removing it from the stage.
-     */
-    private void disposeWindow() {
-        // Delete old window
-        if (window != null) {
-            window.clear();
-            window.remove();
-            window = null;
-        }
-    }
-
-    /**
-     * Disposes of the inventory table, clearing its contents and removing it from the stage.
-     */
-    private void disposeTable() {
-        if (table != null) {
-            table.clear();
-            table.remove();
-            table = null;
-        }
-    }
-
-    /**
-     * Disposes of the inventory slots, clearing their contents and removing them from the stage.
-     */
-    private void disposeSlots() {
-        for (int i = 0; i < inventory.getCapacity(); i++) {
-            if (slots[i] != null) {
-                slots[i].clear();
-                slots[i].remove();
-                slots[i] = null;
-            }
-        }
     }
 
     /**
@@ -300,18 +300,5 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
-    }
-
-    /**
-     * Loads the inventory attached to the player from a save.
-     */
-    public void loadInventoryFromSave() {
-        inventory.loadInventoryFromSave();
-        hotbar = new PlayerInventoryHotbarDisplay(5, inventory,this);
-    }
-  
-    /** Returns inventory - for quests. */
-    public Inventory getInventory() {
-        return inventory;
     }
 }
