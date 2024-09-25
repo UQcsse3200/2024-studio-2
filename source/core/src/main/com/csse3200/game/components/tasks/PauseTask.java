@@ -84,18 +84,15 @@ public class PauseTask extends ChaseTask {
                     if (progression == quest.getNumQuestTasks()) {
                         continue;
                     }
-
-                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
-
-                    if (Objects.equals(npcName, animalName) && rightTask) {
-                        if (quest.isActive() && !quest.isQuestCompleted()) {
+                    if (Objects.equals(npcName, animalName) && this.taskName == "") {
+                        if (!quest.isQuestCompleted()) {
                             logger.info("Checking right quest progression for dialogue");
-                            hintText = this.questManager.getQuestDialogues().get(dialogueKey);
-                            //if (hintText.length == 0) {
-                                //hintText = this.config.getBaseHint();
-                            //}
-                            this.taskName = dialogueKey.getTaskName();
-                            break; // no need to keep looking
+                            boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
+                            if (rightTask) {
+                                hintText = this.questManager.getQuestDialogues().get(dialogueKey);
+                                this.taskName = dialogueKey.getTaskName();
+                                break; // no need to keep looking
+                            }
                         }
 
                     }
