@@ -227,7 +227,7 @@ public class CombatManager extends Component {
                     }
                 }
             }
-            case SLEEP -> {
+            case SLEEP, ITEM -> {
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
@@ -242,9 +242,6 @@ public class CombatManager extends Component {
                         enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                 }
-            }
-            case ITEM -> {
-
             }
         }
 
@@ -342,6 +339,16 @@ public class CombatManager extends Component {
         } else if (playerStats.getStamina() < copyPlayerStats.getStamina()) {
             playerStatsDetails += String.format("You lost %d stamina. ", copyPlayerStats.getStamina() -
                     playerStats.getStamina());
+        }
+
+        if (playerStats.getStrength() > copyPlayerStats.getStrength()) {
+            playerStatsDetails += String.format("You gained %d strength. ", playerStats.getStrength() -
+                    copyPlayerStats.getStrength());
+        }
+
+        if (playerStats.getDefense() > copyPlayerStats.getDefense()) {
+            playerStatsDetails += String.format("You gained %d defense. ", playerStats.getDefense() -
+                    copyPlayerStats.getDefense());
         }
 
         if (enemyStats.getHealth() > copyEnemyStats.getHealth()) {
