@@ -68,7 +68,7 @@ public class MazePlayer extends Entity {
         // Scale the AnimationRenderComponent, not TextureRenderComponent
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();  // Scale the animation
         this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
-        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.9f, 0.5f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.85f, 0.45f);
 
         // Add lighting components
         addLightingComponents();

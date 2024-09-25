@@ -40,7 +40,7 @@ public class ElectricEel extends MazeEntity {
 
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
-        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.9f, 0.3f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.8f, 0.25f);
     }
 }
 

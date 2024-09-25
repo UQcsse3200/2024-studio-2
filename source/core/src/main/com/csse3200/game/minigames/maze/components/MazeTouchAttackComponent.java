@@ -7,6 +7,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
+import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -66,7 +67,11 @@ public class MazeTouchAttackComponent extends Component {
 
     if (meEntity instanceof MazePlayer) {
       // Means it is the player who is attacking. Should stun enemies for a short duration
-      targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", 0.8f);
+      float stunDuration = 0.8f;
+      if (targetEntity instanceof AnglerFish) {
+        stunDuration = 1;
+      }
+      targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
     }
 
     // Change to maze combat stats

@@ -46,7 +46,7 @@ public class Jellyfish extends MazeEntity {
                 .addComponent(aiComponent);
 
         this.setScale(.3f, .3f);
-        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.4f, 0.6f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.3f, 0.5f);
     }
 }
 
