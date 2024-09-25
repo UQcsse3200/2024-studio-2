@@ -12,6 +12,7 @@ public class DialogueKey {
 
     private final String taskName;
     private final String questName;
+    private final String[][] dialogue;
 
     /**
      * Retrieves the name of the NPC.
@@ -30,16 +31,23 @@ public class DialogueKey {
         return this.taskName;
     }
 
+    /** Returns the dialogue for the dialogue task.*/
+    public String[][] getDialogue() {
+        return dialogue;
+    }
+
     /**
      * Constructs a new DialogueKey.
      * @param npcName The name of the NPC.
      * @param questName The name of the dialogue quest.
      * @param taskName The name of the dialogue task.
+     * @param dialogue The dialogue for the task.
      */
-    public DialogueKey(String npcName, String questName, String taskName) {
+    public DialogueKey(String npcName, String questName, String taskName, String[][] dialogue) {
         this.npcName = npcName;
         this.taskName = taskName;
         this.questName = questName;
+        this.dialogue = dialogue;
     }
 
     /**

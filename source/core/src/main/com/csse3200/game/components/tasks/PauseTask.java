@@ -74,7 +74,7 @@ public class PauseTask extends ChaseTask {
             if (questManager != null) {
                 org.slf4j.Logger logger = LoggerFactory.getLogger(PauseTask.class);
                 logger.info("Getting quest dialogue");
-                for (DialogueKey dialogueKey : questManager.getQuestDialogues().keySet()) {
+                for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
                     logger.info("Checking right quest for dialogue");
                     String npcName = dialogueKey.getNpcName();
                     String questName = dialogueKey.getQuestName();
@@ -89,7 +89,7 @@ public class PauseTask extends ChaseTask {
                             logger.info("Checking right quest progression for dialogue");
                             boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
                             if (rightTask) {
-                                hintText = this.questManager.getQuestDialogues().get(dialogueKey);
+                                hintText = dialogueKey.getDialogue();
                                 this.taskName = dialogueKey.getTaskName();
                                 break; // no need to keep looking
                             }
@@ -121,6 +121,7 @@ public class PauseTask extends ChaseTask {
             String eventName = String.format("PauseEnd%s", animalName);
             entity.getEvents().trigger(eventName);
             this.target.getEvents().trigger(this.taskName);
+            this.taskName = "";
         } else {
             entity.getEvents().trigger("pauseEnd");
         }
