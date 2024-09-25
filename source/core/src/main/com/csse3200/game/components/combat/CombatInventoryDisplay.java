@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.components.inventory.InventoryUtils;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -30,7 +31,7 @@ public class CombatInventoryDisplay extends UIComponent {
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
     private final int numCols, numRows, hotBarCapacity;
-    private Window window;
+    private Window inventoryDisplay;
     private Table table;
     private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
@@ -86,15 +87,14 @@ public class CombatInventoryDisplay extends UIComponent {
      */
     private void toggleInventory() {
         logger.info(String.format("CombatInventoryDisplay toggled. Display is: %s", getToggleState()));
-        if (stage.getActors().contains(window, true)) {
+        if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
-            stage.getActors().removeValue(window, true); // close inventory
-            disposeWindow();
+            stage.getActors().removeValue(inventoryDisplay, true); // close inventory
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
             generateWindow();
-            stage.addActor(window);
+            stage.addActor(inventoryDisplay);
             toggle = true;
         }
     }
@@ -132,15 +132,15 @@ public class CombatInventoryDisplay extends UIComponent {
      */
     private void generateWindow() {
         // Create the window (pop-up)
-        window = new Window("Inventory", inventorySkin);
-        Label.LabelStyle titleStyle = new Label.LabelStyle(window.getTitleLabel().getStyle());
+        inventoryDisplay = new Window("Inventory", inventorySkin);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
-        window.getTitleLabel().setAlignment(Align.center);
-        window.getTitleTable().padTop(150); // Adjust the value to move the title lower
+        inventoryDisplay.getTitleLabel().setAlignment(Align.center);
+        inventoryDisplay.getTitleTable().padTop(150); // Adjust the value to move the title lower
         // Create the table for inventory slots
-        window.getTitleLabel().setStyle(titleStyle);
+        inventoryDisplay.getTitleLabel().setStyle(titleStyle);
         table = new Table();
-        window.getTitleTable().padBottom(20);
+        inventoryDisplay.getTitleTable().padBottom(20);
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -160,12 +160,12 @@ public class CombatInventoryDisplay extends UIComponent {
             table.row(); // Move to the next row in the table
         }
         // Add the table to the window
-        window.add(table).expand().fill();
-        window.pack();
+        inventoryDisplay.add(table).expand().fill();
+        inventoryDisplay.pack();
         // Set position in stage top-center
-        window.setPosition(
-                (stage.getWidth() - window.getWidth()) / 2,  // Center horizontally
-                (stage.getHeight() - window.getHeight()) / 2 // Center vertically
+        inventoryDisplay.setPosition(
+                (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
+                (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
 
@@ -240,22 +240,11 @@ public class CombatInventoryDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        disposeSlots();
-        disposeTable();
-        disposeWindow();
-        super.dispose();
-    }
-
-    /**
-     * Disposes of the inventory window, clearing its contents and removing it from the stage.
-     */
-    private void disposeWindow() {
-        // Delete old window
-        if (window != null) {
-            window.clear();
-            window.remove();
-            window = null;
+        if (inventoryDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
+            inventoryDisplay =null;
         }
+        super.dispose();
     }
 
     /**
@@ -266,19 +255,6 @@ public class CombatInventoryDisplay extends UIComponent {
             table.clear();
             table.remove();
             table = null;
-        }
-    }
-
-    /**
-     * Disposes of the inventory slots, clearing their contents and removing them from the stage.
-     */
-    private void disposeSlots() {
-        for (int i = 0; i < inventory.getCapacity(); i++) {
-            if (slots[i] != null) {
-                slots[i].clear();
-                slots[i].remove();
-                slots[i] = null;
-            }
         }
     }
 
