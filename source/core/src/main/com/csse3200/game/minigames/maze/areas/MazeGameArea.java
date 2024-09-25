@@ -74,6 +74,7 @@ public class MazeGameArea extends GameArea {
 
     spawnTerrain();
     spawnWalls();
+    spawneels(10);
     player = spawnPlayer();
     spawnAngler(1);
     spawnJellyfish(20);
@@ -156,6 +157,12 @@ public class MazeGameArea extends GameArea {
     }
   }
 
+  private void spawneels(int number) {
+    for (int i = 0; i < number; i++) {
+      Entity eels = MazeNPCFactory.createeels();
+      spawnEntityAt(eels, maze.getNextStartLocation(), true, true);
+    }
+  }
   @Override
   public void playMusic() {
     AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);

@@ -8,6 +8,7 @@ import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
 import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 //import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
+import com.csse3200.game.minigames.maze.entities.mazenpc.eels;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -31,6 +32,11 @@ public class MazeNPCFactory {
   public static Jellyfish createJellyfish() {
     MazeEntityConfig config = configs.jellyfish;
     return new Jellyfish(config);
+  }
+
+  public static eels createeels() {
+    MazeEntityConfig config = configs.jellyfish;
+    return new eels(config);
   }
 
   //public static FishEgg createFishEgg() {

@@ -20,7 +20,7 @@ public class MazePlayerFactory {
     return new MazePlayer(stats);
   }
 
-  private MazePlayerFactory() {
+  public MazePlayerFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
 }
