@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.MovementTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.physics.PhysicsLayer;
 
 import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils.PADDING;
+import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils.getHitBoxCorners;
 
 /** Chases a target entity until they get too far away or line of sight is lost.
  *  Differs from the main game ChaseTask in that all movement is relative to the center
@@ -58,21 +58,8 @@ public class MazeChaseTask extends ChaseTask {
     bestTargetPoint = null;
     Entity e = owner.getEntity();
 
-    Vector2[] from = {
-            e.getPosition(),
-            e.getPosition().add(e.getScale().x, 0),
-            e.getPosition().add(e.getScale().x, e.getScale().y),
-            e.getPosition().add(0, e.getScale().y),
-            e.getCenterPosition()
-    };
-
-    Vector2[] to = {
-            target.getPosition().add(PADDING, PADDING),
-            target.getPosition().add(target.getScale().x, 0).add(-PADDING, PADDING),
-            target.getPosition().add(target.getScale().x, target.getScale().y).add(-PADDING, -PADDING),
-            target.getPosition().add(0, target.getScale().y).add(PADDING, -PADDING),
-            target.getCenterPosition()
-    };
+    Vector2[] from = getHitBoxCorners(e, 0);
+    Vector2[] to = getHitBoxCorners(target, -PADDING);
 
     // for each corner of this entity and each corner of target entity
     // is it possible to move in a straight line so that these corners collide?

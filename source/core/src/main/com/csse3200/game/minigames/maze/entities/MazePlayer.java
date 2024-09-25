@@ -15,6 +15,7 @@ import com.csse3200.game.minigames.maze.components.npc.MazePlayerAnimationContro
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
+import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -51,8 +52,7 @@ public class MazePlayer extends Entity {
 
         this.addComponent(animator)
                 .addComponent(new PhysicsComponent())
-
-                .addComponent(new ColliderComponent())
+                .addComponent(new ColliderComponent().setFriction(0))
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new MazePlayerActions())
                 .addComponent(new MazeCombatStatsComponent(stats.health, stats.baseAttack))
@@ -68,7 +68,7 @@ public class MazePlayer extends Entity {
         // Scale the AnimationRenderComponent, not TextureRenderComponent
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();  // Scale the animation
         this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
-        PhysicsUtils.setScaledCollider(this, 1f, 1f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.9f, 0.5f);
 
         // Add lighting components
         addLightingComponents();
@@ -81,8 +81,8 @@ public class MazePlayer extends Entity {
     private void addLightingComponents() {
         Color lightColor = new Color(0.45f, 0.35f, 0.85f, 1);
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
-        PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
-        PointLight pl2 = new PointLight(rayHandler, 300, lightColor, 1.5f, 0, 0);
+        PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 2f, 0, 0);
+        PointLight pl2 = new PointLight(rayHandler, 300, lightColor, .75f, 0, 0);
 
         this.addComponent(new LightingComponent().attach(pl1).attach(pl2));
 

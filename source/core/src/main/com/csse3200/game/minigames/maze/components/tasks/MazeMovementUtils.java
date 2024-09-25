@@ -1,17 +1,16 @@
 package com.csse3200.game.minigames.maze.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
-import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MazeMovementUtils {
     public static final float PADDING = 0.03f;
@@ -33,7 +32,7 @@ public class MazeMovementUtils {
         DebugRenderer debugRenderer = ServiceLocator.getRenderService().getDebug();
         RaycastHit hit = new RaycastHit();
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.point.cpy());
             return true;
         }
         debugRenderer.drawLine(from, to);
@@ -48,15 +47,23 @@ public class MazeMovementUtils {
         return (corner + 3) % 4;
     }
 
-    public static boolean canBeeLineTo(Vector2 pos, Entity entity) {
-        Vector2[] corners = {
-                entity.getPosition().add(entity.getScale().x, entity.getScale().y).add(PADDING, PADDING),
-                entity.getPosition().add(0, entity.getScale().y).add(-PADDING, PADDING),
-                entity.getPosition().add(-PADDING, -PADDING),
-                entity.getPosition().add(entity.getScale().x, 0).add(PADDING, -PADDING)
-        };
+    public static Vector2[] getHitBoxCorners(Entity entity, float padding) {
+        PolygonShape shape = (PolygonShape) entity.getComponent(HitboxComponent.class).getFixture().getShape();
+        Vector2[] corners = new Vector2[4];
+        for (int i = 0; i < 4; i++) {
+            corners[i] = new Vector2();
+            // box vertices start from bottom-left and go anti-clockwise but we want top-right anti-clockwise
+            shape.getVertex(i ^ 2, corners[i]);
+            corners[i].add(entity.getPosition())
+                    .add(((i & 1) ^ ((i & 2) >> 1)) == 0 ? padding : -padding, (i & 2) == 0 ? padding : -padding);
+        }
+        return corners;
+    }
 
-        Vector2 delta = pos.cpy().sub(corners[2]);
+    public static boolean canBeeLineTo(Vector2 pos, Entity entity) {
+        Vector2[] corners = getHitBoxCorners(entity, PADDING);
+
+        Vector2 delta = pos.cpy().sub(entity.getPosition());
 
         // get quadrant of pos, anticlockwise with top-right = 0, bottom-right = 3
         int quadrant = (delta.x < 0 ? 1 : 0) ^ (delta.y < 0 ? 3 : 0);

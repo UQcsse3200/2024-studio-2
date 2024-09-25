@@ -32,7 +32,6 @@ public abstract class MazeEntity extends Entity {
                 .addComponent(new FaceMoveDirectionXComponent())
                 .addComponent(new StatusEffectComponent().registerStatusEffect("stun", new NPCStunStatusEffect()));
 
-        PhysicsUtils.setScaledCollider(this, 0.9f, 0.4f);
         this.getComponent(ColliderComponent.class).setDensity(1.5f);
     }
 }

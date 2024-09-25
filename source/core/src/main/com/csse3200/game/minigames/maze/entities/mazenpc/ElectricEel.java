@@ -10,16 +10,17 @@ import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
+import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 
-public class eels extends MazeEntity {
+public class ElectricEel extends MazeEntity {
 
 
 
-    public eels(MazeEntityConfig config) {
+    public ElectricEel(MazeEntityConfig config) {
 
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
@@ -39,7 +40,7 @@ public class eels extends MazeEntity {
 
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
-        PhysicsUtils.setScaledCollider(this, 1f, 1f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.9f, 0.3f);
     }
 }
 

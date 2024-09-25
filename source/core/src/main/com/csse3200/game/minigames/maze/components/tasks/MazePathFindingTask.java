@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils.getHitBoxCorners;
+
 /**
  * Move to a given position, finishing when you get close enough. Requires an entity with a
  * PhysicsMovementComponent.
@@ -53,14 +55,8 @@ public class MazePathFindingTask extends DefaultTask {
     if (path.size() > 1) {
       Entity e = owner.getEntity();
       Vector2 centerTo = new Vector2(path.get(path.size() - 2).x + .5f, path.get(path.size() - 2).y + .5f);
-      float PADDING = MazeMovementUtils.PADDING;
       int success = 0;
-      Vector2[] corners = {
-              e.getPosition().add(-PADDING, -PADDING),
-              e.getPosition().add(e.getScale().x, 0).add(PADDING, -PADDING),
-              e.getPosition().add(e.getScale().x, e.getScale().y).add(PADDING, PADDING),
-              e.getPosition().add(0, e.getScale().y).add(-PADDING, PADDING)
-      };
+      Vector2[] corners = getHitBoxCorners(e, MazeMovementUtils.PADDING);
       for (Vector2 from : corners) {
         Vector2 to = centerTo.cpy().sub(e.getCenterPosition().sub(from));
 

@@ -10,6 +10,7 @@ import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
+import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -44,9 +45,8 @@ public class Jellyfish extends MazeEntity {
                 .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, Color.BLUE)))
                 .addComponent(aiComponent);
 
-        this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
-        PhysicsUtils.setScaledCollider(this, 1f, 1f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.4f, 0.6f);
     }
 }
 

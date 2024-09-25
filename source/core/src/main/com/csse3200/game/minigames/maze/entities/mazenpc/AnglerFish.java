@@ -13,6 +13,7 @@ import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
+import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
@@ -67,8 +68,7 @@ public class AnglerFish extends MazeEntity {
                 .addComponent(new LightingComponent().attach(pl))
                 .addComponent(aiComponent);
 
-        this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.4f, .4f);
-        PhysicsUtils.setScaledCollider(this, 1f, 1f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.55f, 0.45f);
     }
 }
