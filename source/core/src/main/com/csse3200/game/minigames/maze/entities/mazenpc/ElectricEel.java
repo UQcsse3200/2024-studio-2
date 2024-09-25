@@ -26,7 +26,7 @@ public class ElectricEel extends MazeEntity {
 
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                .addTask(new MazeChaseTask(target, 10, 2f, 3f,speed));
+                .addTask(new MazeChaseTask(target, 10, 2f, 3f));
 
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(

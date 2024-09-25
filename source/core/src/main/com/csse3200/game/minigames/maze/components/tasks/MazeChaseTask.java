@@ -17,7 +17,7 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  */
 public class MazeChaseTask extends ChaseTask {
     private Vector2 bestTargetPoint;
-    private final Vector2 speed;
+    private final Vector2 speed = null;
 
     /**
      * @param target           The entity to chase.
@@ -25,9 +25,8 @@ public class MazeChaseTask extends ChaseTask {
      * @param viewDistance     Maximum distance from the entity at which chasing can start.
      * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
      */
-    public MazeChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance, Vector2 speed) {
+    public MazeChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
         super(target, priority, viewDistance, maxChaseDistance, false);
-        this.speed = speed;
     }
 
     @Override
