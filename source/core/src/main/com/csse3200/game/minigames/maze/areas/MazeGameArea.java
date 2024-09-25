@@ -28,6 +28,10 @@ public class MazeGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
   public static final float WALL_THICKNESS = 0.1f;
   public static final int NUM_WALL_BREAKS = 10;
+  public static final int NUM_ANGLERS = 1;
+  public static final int NUM_EELS = 5;
+  public static final int NUM_JELLYFISH = 15;
+  public static final int NUM_EGGS = 10;
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
@@ -74,23 +78,19 @@ public class MazeGameArea extends GameArea {
 
     spawnTerrain();
     spawnWalls();
-    spawneels(10);
     player = spawnPlayer();
-    spawnAngler(1);
-    spawnJellyfish(20);
-
-    //temporary test code
-    for (int i = 0; i < 10; i++) {
-      spawnEntityAt(new FishEgg(), getSimpleStartLocation(), true, true);
-    }
+    spawnAngler(NUM_ANGLERS);
+    spawnJellyfish(NUM_JELLYFISH);
+    spawnEels(NUM_EELS);
+    spawnFishEggs(NUM_EGGS);
 
     playMusic();
   }
 
-  private GridPoint2 getSimpleStartLocation() {
+  private GridPoint2 getSimpleStartLocation(float minDistToPlayer) {
     while (true) {
       GridPoint2 start = maze.getRandomCell();
-      if (new Vector2(start.x, start.y).dst(player.getCenterPosition()) > 1f) {
+      if (new Vector2(start.x, start.y).dst(player.getCenterPosition()) > minDistToPlayer) {
         return start;
       }
     }
@@ -153,16 +153,28 @@ public class MazeGameArea extends GameArea {
   private void spawnJellyfish(int number) {
     for (int i = 0; i < number; i++) {
       Entity jellyfish = MazeNPCFactory.createJellyfish();
-      spawnEntityAt(jellyfish, getSimpleStartLocation(), true, true);
+      spawnEntityAt(jellyfish, getSimpleStartLocation(1f), true, true);
     }
   }
 
-  private void spawneels(int number) {
+  private void spawnEels(int number) {
     for (int i = 0; i < number; i++) {
-      Entity eels = MazeNPCFactory.createeels();
-      spawnEntityAt(eels, maze.getNextStartLocation(), true, true);
+      Entity eel = MazeNPCFactory.createEel(player);
+      spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
     }
   }
+
+  /**
+   * Spawns in the fish egg npc.
+   * @param number The number of fish egg to be spawned in
+   */
+  private void spawnFishEggs(int number) {
+    for (int i = 0; i < number; i++) {
+      Entity fishEgg = MazeNPCFactory.createFishEgg();
+      spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
+    }
+  }
+
   @Override
   public void playMusic() {
     AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);

@@ -7,6 +7,7 @@ import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
 import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 //import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 
@@ -34,14 +35,14 @@ public class MazeNPCFactory {
     return new Jellyfish(config);
   }
 
-  public static ElectricEel createeels() {
+  public static ElectricEel createEel(Entity target) {
     MazeEntityConfig config = configs.jellyfish;
-    return new ElectricEel(config);
+    return new ElectricEel(target, config);
   }
 
-  //public static FishEgg createFishEgg() {
-    //return new FishEgg();
-  //}
+  public static FishEgg createFishEgg() {
+    return new FishEgg();
+  }
 
   private MazeNPCFactory() {
     throw new IllegalStateException("Instantiating static util class");
