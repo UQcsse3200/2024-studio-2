@@ -179,6 +179,29 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * Swaps the items between two inventory slots. If the target slot is empty,
+     * the item from the source slot is moved to the target slot. If the target slot
+     * contains an item, the items between the source and target slots are swapped.
+     *
+     * @param src    The index of the source slot from which the item is being moved.
+     * @param target The index of the target slot to which the item is being moved.
+     */
+    public void swap(int src, int target)
+    {
+        if (getAt(target) == null) {
+            addAt(target, getAt(src));
+            deleteItemAt(src);
+        } else {
+            AbstractItem temp=getAt(src);
+            deleteItemAt(src);
+            addAt(src, getAt(target));
+            deleteItemAt(target);
+            addAt(target, temp);
+        }
+
+    }
+
+    /**
      * Deletes the first occurrence of an item with the specified code from the inventory.
      * <p>Currently removes the item entirely. Needs to be updated to reduce quantity if
      * applicable - ie if we only want to delete <b>n</b> of the item.</p>

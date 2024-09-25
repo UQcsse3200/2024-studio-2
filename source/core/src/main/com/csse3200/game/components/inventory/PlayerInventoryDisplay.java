@@ -3,12 +3,14 @@ package com.csse3200.game.components.inventory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.TimedUseItemTask;
@@ -44,6 +46,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
+
+    private DragAndDrop dragAndDrop;
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -82,6 +86,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+        dragAndDrop = new DragAndDrop();
         generateHotBar();
         entity.getEvents().addListener("toggleInventory", this::toggleInventory);
         entity.getEvents().addListener("addItem", this::addItem);
@@ -102,6 +107,60 @@ public class PlayerInventoryDisplay extends UIComponent {
             toggle = true;
         }
     }
+
+    /**
+     * Sets up drag-and-drop functionality for the inventory system using the provided slot and item.
+     * The method defines both the drag source and the drop target, allowing users to drag items between slots.
+     * The items are swapped between the source and target slots upon successful drop.
+     *
+     * @param slot        The {@link ImageButton} that represents the inventory slot where the item is being dragged from or dropped into.
+     * @param targetIndex The target index of the slot in the inventory where the item will be dropped.
+     * @param item        The {@link AbstractItem} representing the item in the source slot being dragged.
+     */
+    private void setupDragAndDrop (ImageButton slot,int targetIndex, AbstractItem item) {
+        // Define the source
+        dragAndDrop.addSource(new DragAndDrop.Source(slot) {
+            @Override
+            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                DragAndDrop.Payload payload = new DragAndDrop.Payload();
+                if(item != null) {
+                    payload.setObject(item);
+                    Image draggedImage = new Image(new Texture(item.getTexturePath()));
+                    draggedImage.setSize(80, 80);
+                    payload.setDragActor(draggedImage);
+                }
+                return payload;
+            }
+        });
+
+        // Define the target
+        dragAndDrop.addTarget(new DragAndDrop.Target(slot) {
+            @Override
+            public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                // Optional: Highlight the target slot to indicate a valid drop zone
+                getActor().setColor(Color.LIGHT_GRAY);
+                return true; // Return true to indicate the slot is a valid target
+            }
+
+            @Override
+            public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
+                // Reset the color of the slot when dragging is reset
+                getActor().setColor(Color.WHITE);
+            }
+
+            @Override
+            public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                AbstractItem draggedItem = (AbstractItem) payload.getObject();
+                if(draggedItem != null) {
+                    int sourceIndex= inventory.getIndex(draggedItem.getItemCode());
+                    inventory.swap(sourceIndex,targetIndex);
+                    regenerateInventory();
+
+                }
+            }
+        });
+    }
+
 
     /**
      * Determines if the toggle is active
@@ -140,16 +199,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col + hotBarCapacity - 1;
-                AbstractItem item = inventory.getAt(index);
-                // Create the slot with the inventory background
-                ImageButton slot = new ImageButton(slotSkin);
-                // Add the item image to the slot
-                if (item != null) {
-                    addSlotListeners(slot, item, index);
-                    Image itemImage = new Image(new Texture(item.getTexturePath()));
-                    slot.add(itemImage).center().size(80, 80);
-                }
-                table.add(slot).size(90, 90).pad(5); // Add the slot to the table
+                table.add(createSlot(index)).size(90, 90).pad(5); // Add the slot to the table
             }
             table.row(); // Move to the next row in the table
         }
@@ -187,15 +237,9 @@ public class PlayerInventoryDisplay extends UIComponent {
         hotBarDisplay.center().right();
         hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
         hotBarDisplay.setSize(160, 517);
+        //creating slots
         for (int i = 0; i < hotBarCapacity; i++) {
-            AbstractItem item = inventory.getAt(i);
-            ImageButton slot = new ImageButton(slotSkin);
-            if (item != null) {
-                addSlotListeners(slot, item, i);
-                Image itemImage = new Image(new Texture(item.getTexturePath()));
-                slot.add(itemImage).center().size(75, 75);
-            }
-            hotBarDisplay.add(slot).size(80, 80).pad(5).padRight(45);
+            hotBarDisplay.add(createSlot(i)).size(80, 80).pad(5).padRight(45);
             hotBarDisplay.row();
         }
         float tableX = stage.getWidth() - hotBarDisplay.getWidth() - 20;
@@ -203,6 +247,26 @@ public class PlayerInventoryDisplay extends UIComponent {
         hotBarDisplay.setPosition(tableX, tableY);
         stage.addActor(hotBarDisplay);
     }
+
+
+    private ImageButton createSlot(int index) {
+        ImageButton slot = new ImageButton(slotSkin);
+        AbstractItem item = inventory.getAt(index);
+        if (item != null) {
+            addSlotListeners(slot, item, index);
+            Image itemImage = new Image(new Texture(item.getTexturePath()));
+            slot.add(itemImage).center().size(70, 70);
+            // Add a label for item quantity (subscript)
+            int itemCount = item.getQuantity(); // Assuming there's a method for getting item count
+            Label itemCountLabel = new Label(String.valueOf(itemCount), new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+            itemCountLabel.setFontScale(1.2f); // Scale the font size of the label
+            slot.add(itemCountLabel).bottom().right(); // Position the label at the bottom right
+        }
+
+        setupDragAndDrop(slot, index, item); // Setup drag and drop between hotbar and inventory
+        return slot;
+    }
+
 
     /**
      * Adds listeners to the inventory slots for handling hover and click events.
