@@ -5,6 +5,8 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
@@ -14,6 +16,7 @@ import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationContro
 import com.csse3200.game.minigames.maze.components.npc.MazePlayerAnimationController;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
+import com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -68,7 +71,20 @@ public class MazePlayer extends Entity {
         // Scale the AnimationRenderComponent, not TextureRenderComponent
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();  // Scale the animation
         this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
-        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.85f, 0.45f);
+        MazePhysicsUtils.setScaledHitBox(this, 0.85f, 0.45f);
+
+
+        // Use oval shape for player to remove ghost collisions
+        PolygonShape clipped = new PolygonShape();
+        Vector2[] vertices = new Vector2[8];
+        Vector2 center = this.getScale().scl(0.5f);
+        Vector2 delta = center.cpy().scl(0.85f, 0.45f);
+        for (int i = 0; i < vertices.length; i++) {
+            double angle = 2*Math.PI / vertices.length * i;
+            vertices[i] = new Vector2((float) Math.cos(angle), (float) Math.sin(angle)).scl(delta).add(center);
+        }
+        clipped.set(vertices);
+        this.getComponent(ColliderComponent.class).setShape(clipped);
 
         // Add lighting components
         addLightingComponents();
@@ -81,8 +97,8 @@ public class MazePlayer extends Entity {
     private void addLightingComponents() {
         Color lightColor = new Color(0.45f, 0.35f, 0.85f, 1);
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
-        PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 2f, 0, 0);
-        PointLight pl2 = new PointLight(rayHandler, 300, lightColor, .75f, 0, 0);
+        PointLight pl1 = new PointLight(rayHandler, 1000, lightColor, 4f, 0, 0);
+        PointLight pl2 = new PointLight(rayHandler, 300, lightColor, 1.5f, 0, 0);
 
         this.addComponent(new LightingComponent().attach(pl1).attach(pl2));
 
