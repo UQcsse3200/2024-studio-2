@@ -3,6 +3,7 @@ package com.csse3200.game.entities;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.GameTime;
@@ -45,6 +46,97 @@ class DialogueBoxServiceTest {
         entityChatService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(entityChatService);
     }
+
+    @Test
+    void shouldReturnCorrectVisibilityBoolean() {
+        DialogueBox mockCurrentOverlay = mock(DialogueBox.class);
+
+        when(mockCurrentOverlay.getIsVisible()).thenReturn(true);
+        Assertions.assertTrue(mockCurrentOverlay.getIsVisible());
+        when(mockCurrentOverlay.getIsVisible()).thenReturn(false);
+        Assertions.assertFalse(mockCurrentOverlay.getIsVisible());
+    }
+
+    @Test
+    void shouldHighlightEntitySprite() {
+        String[][] text = {{"Test 1"}, {"Test 2"}};
+
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(text, mockEntity);
+
+        verify(mockAnimator).startAnimation("selected");
+        Assertions.assertArrayEquals(text, entityChatService.getHints());
+
+    }
+
+    @Test
+    void shouldUnhighlightEntitySprite() {
+        String[][] oldText = {{"Old Test"}};
+        String[][] newText = {{"New Test"}};
+
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(oldText, mockEntity);
+
+        entityChatService.updateText(newText);
+
+        verify(mockAnimator).startAnimation("float");
+    }
+
+    @Test
+    void shouldNotStartFloatAnimationIfNoPreviousEntity() {
+        String[][] oldText = {{"Old Test"}};
+        String[][] newText = {{"New Test"}};
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(oldText);
+        entityChatService.updateText(newText);
+
+        verify(mockAnimator, never()).startAnimation("float");
+    }
+
+    @Test
+    void shouldUnhighlightEntitySpriteAndHighlightNewEntity() {
+        String[][] oldText = {{"Test 1"}, {"Test 2"}};
+        String[][] newText = {{"Test 3"}, {"Test 4"}};
+
+        Entity previousEntity = mock(Entity.class);
+        AnimationRenderComponent previousAnimator = mock(AnimationRenderComponent.class);
+        when(previousEntity.getComponent(AnimationRenderComponent.class)).thenReturn(previousAnimator);
+        entityChatService.updateText(oldText, previousEntity);
+
+        Entity newEntity = mock(Entity.class);
+        AnimationRenderComponent newAnimator = mock(AnimationRenderComponent.class);
+        when(newEntity.getComponent(AnimationRenderComponent.class)).thenReturn(newAnimator);
+
+        entityChatService.updateText(newText, newEntity);
+
+        verify(previousAnimator).startAnimation("float");
+        verify(newAnimator).startAnimation("selected");
+        Assertions.assertArrayEquals(newText, entityChatService.getHints());
+    }
+
+
+    @Test
+    void shouldStartAnimationWhenAnimatorIsNotNull() {
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        Entity mockEntity = mock(Entity.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(new String[][] {{"Test 1"}});
+        entityChatService.updateText(new String[][] {{"Test 2"}}, mockEntity);
+
+        verify(mockAnimator).startAnimation("selected");
+    }
+
+
 
     @Test
     void hideChatBox() {
