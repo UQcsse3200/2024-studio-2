@@ -124,10 +124,10 @@ public class QuestManager extends Component {
         //};
 
         return Map.of(
-                new DialogueKey("Cow", "First Steps", "stepsTask"), cowInitialDialogue,
+                new DialogueKey("Cow", "First Steps", "steps"), cowInitialDialogue,
                 new DialogueKey("Cow", "Guide's Intro", "talkToGuide"), cowAdviceDialogue,
                 new DialogueKey("Cow", "Potion Collection", "collectPotions"), potionDialogue,
-                new DialogueKey("Cow", "Guide's Advice", "listenAdvice"), listenDialogue
+                new DialogueKey("Cow", "Guide's Advice", "listenToGuide"), listenDialogue
         );
 
     }

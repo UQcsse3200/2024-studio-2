@@ -8,7 +8,9 @@ import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.overlays.PauseDisplay;
 import com.csse3200.game.services.ServiceLocator;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -70,10 +72,13 @@ public class PauseTask extends ChaseTask {
             animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             if (questManager != null) {
+                org.slf4j.Logger logger = LoggerFactory.getLogger(PauseTask.class);
+                logger.info("Getting quest dialogue");
                 for (DialogueKey dialogueKey : questManager.getQuestDialogues().keySet()) {
+                    logger.info("Checking right quest for dialogue");
                     String npcName = dialogueKey.getNpcName();
                     String questName = dialogueKey.getQuestName();
-                    QuestBasic quest = questManager.getQuest(questName);
+                    QuestBasic quest = this.questManager.getQuest(questName);
 
                     int progression = quest.getProgression();
                     if (progression == quest.getNumQuestTasks()) {
@@ -84,14 +89,17 @@ public class PauseTask extends ChaseTask {
 
                     if (Objects.equals(npcName, animalName) && rightTask) {
                         if (quest.isActive() && !quest.isQuestCompleted()) {
-                            hintText = questManager.getQuestDialogues().get(dialogueKey);
-                            if (hintText.length == 0) {
-                                hintText = this.config.getBaseHint();
-                            } else {
-                                this.taskName = dialogueKey.getTaskName();
-                            }
+                            logger.info("Checking right quest progression for dialogue");
+                            hintText = this.questManager.getQuestDialogues().get(dialogueKey);
+                            //if (hintText.length == 0) {
+                                //hintText = this.config.getBaseHint();
+                            //}
+                            this.taskName = dialogueKey.getTaskName();
+                            break; // no need to keep looking
                         }
+
                     }
+
                 }
 
             } else {

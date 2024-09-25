@@ -67,15 +67,15 @@ public abstract class AbstractQuest {
     }
     /** Returns task array for quest subtasks. */
     public List<Task> getTasks() {
-        return tasks;
+        return this.tasks;
     }
     /** Returns true if quest is completed. */
     public boolean isQuestCompleted() {
-        return currentTaskIndex >= tasks.size() && tasks.stream().allMatch(Task::isCompleted);
+        return currentTaskIndex >= tasks.size();
     }
     /** Returns number of quest subtasks completed. */
     public int getProgression() {
-        return currentTaskIndex;
+        return this.currentTaskIndex;
     }
 
     /**
