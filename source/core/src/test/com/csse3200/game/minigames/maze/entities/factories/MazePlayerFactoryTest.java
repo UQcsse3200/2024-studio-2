@@ -1,9 +1,7 @@
-package com.csse3200.game.minigames.maze.entity.factory;
+package com.csse3200.game.minigames.maze.entities.factories;
 
 import com.csse3200.game.files.FileLoader;
-import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
-import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
