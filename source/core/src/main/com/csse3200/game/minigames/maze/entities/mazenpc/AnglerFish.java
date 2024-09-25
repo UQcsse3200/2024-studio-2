@@ -32,10 +32,13 @@ public class AnglerFish extends MazeEntity {
      * @param config The configuration stats for this NPC, such as health and attack power.
      */
     public AnglerFish(Entity target, MazeEntityConfig config) {
+        // Set Angular fish speed
+        Vector2 speed = new Vector2(0.1f, 0.1f);
+
         // Add AI tasks specific to AnglerFish
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                .addTask(new MazeChaseTask(target, 10, 2f, 3f, null));
+                .addTask(new MazeChaseTask(target, 10, 2f, 3f, speed));
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
                 ServiceLocator.getResourceService().getAsset("images/minigames/Angler.atlas", TextureAtlas.class));

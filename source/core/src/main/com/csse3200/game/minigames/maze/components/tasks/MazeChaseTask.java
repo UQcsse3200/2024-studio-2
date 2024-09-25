@@ -17,7 +17,7 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  */
 public class MazeChaseTask extends ChaseTask {
     private Vector2 bestTargetPoint;
-    private Vector2 speed;
+    private final Vector2 speed;
 
     /**
      * @param target           The entity to chase.
