@@ -10,7 +10,9 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
+import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
+import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -19,7 +21,7 @@ import com.csse3200.game.services.ServiceLocator;
 
 
 public class ElectricEel extends MazeEntity {
-
+    private static final float STUN_DURATION = 2f;
 
 
     public ElectricEel(Entity target, MazeEntityConfig config) {
@@ -40,10 +42,17 @@ public class ElectricEel extends MazeEntity {
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(1f, .85f, .7f, 1f))))
                 .addComponent(aiComponent);
-
+        this.getEvents().addListener("collision", this::onCollision);
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
         MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.8f, 0.25f);
+    }
+
+    private void onCollision(Entity entity) {
+        if (entity instanceof MazePlayer) {
+            MazePlayer player = (MazePlayer) entity;
+            player.getComponent(MazePlayerActions.class).stun(STUN_DURATION);
+        }
     }
 }
 

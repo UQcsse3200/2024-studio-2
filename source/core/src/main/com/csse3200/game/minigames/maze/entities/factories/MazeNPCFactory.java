@@ -36,7 +36,7 @@ public class MazeNPCFactory {
   }
 
   public static ElectricEel createEel(Entity target) {
-    MazeEntityConfig config = configs.jellyfish;
+    MazeEntityConfig config = configs.eels;
     return new ElectricEel(target, config);
   }
 

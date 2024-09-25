@@ -18,6 +18,8 @@ public class MazePlayerActions extends Component {
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
 
+  private boolean stunned = false;
+
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
@@ -50,6 +52,21 @@ public class MazePlayerActions extends Component {
     this.walkDirection = direction;
     moving = true;
   }
+
+  public void stun(float duration) {
+    stunned = true;
+    stopWalking();
+
+
+    getEntity().getEvents().trigger("startStunTimer", duration);
+  }
+
+
+  public void endStun() {
+    stunned = false;
+
+  }
+
 
   /**
    * Stops the player from walking.
