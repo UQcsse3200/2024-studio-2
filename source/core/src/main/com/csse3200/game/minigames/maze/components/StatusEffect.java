@@ -1,6 +1,5 @@
 package com.csse3200.game.minigames.maze.components;
 
-import com.csse3200.game.ai.tasks.TaskRunner;
 import com.csse3200.game.entities.Entity;
 
 /**

@@ -4,9 +4,11 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.components.tasks.IdleTask;
 
+/**
+ * Class for the NPC stun affect
+ */
 public class NPCStunStatusEffect implements StatusEffect {
     private IdleTask idleTask;
-    private Entity entity;
 
     /**
      * Create the status effect and attach it to the entity.
@@ -33,6 +35,9 @@ public class NPCStunStatusEffect implements StatusEffect {
         idleTask.setInactive();
     }
 
+    /**
+     * unused
+     */
     @Override
     public void update() {}
 }

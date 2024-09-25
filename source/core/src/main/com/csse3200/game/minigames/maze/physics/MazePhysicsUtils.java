@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
-import com.csse3200.game.physics.components.PhysicsComponent;
 
 public class MazePhysicsUtils {
 

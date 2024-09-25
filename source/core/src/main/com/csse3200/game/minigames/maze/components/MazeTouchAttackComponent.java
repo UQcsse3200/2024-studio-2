@@ -22,79 +22,87 @@ import com.csse3200.game.physics.components.PhysicsComponent;
  * if target entity has a PhysicsComponent.
  */
 public class MazeTouchAttackComponent extends Component {
-  private short targetLayer;
-  private float knockbackForce = 0f;
-  private CombatStatsComponent combatStats;
-  private HitboxComponent hitboxComponent;
+    private final short targetLayer;
+    private float knockbackForce = 0f;
+    private CombatStatsComponent combatStats;
+    private HitboxComponent hitboxComponent;
 
-  /**
-   * Create a component which attacks entities on collision, without knockback.
-   * @param targetLayer The physics layer of the target's collider.
-   */
-  public MazeTouchAttackComponent(short targetLayer) {
-    this.targetLayer = targetLayer;
-  }
-
-  /**
-   * Create a component which attacks entities on collision, with knockback.
-   * @param targetLayer The physics layer of the target's collider.
-   * @param knockback The magnitude of the knockback applied to the entity.
-   */
-  public MazeTouchAttackComponent(short targetLayer, float knockback) {
-    this.targetLayer = targetLayer;
-    this.knockbackForce = knockback;
-  }
-
-  @Override
-  public void create() {
-    entity.getEvents().addListener("collisionStart", this::onCollisionStart);
-    combatStats = entity.getComponent(CombatStatsComponent.class);
-    hitboxComponent = entity.getComponent(HitboxComponent.class);
-  }
-
-  private void onCollisionStart(Fixture me, Fixture other) {
-    if (hitboxComponent.getFixture() != me) {
-      // Not triggered by hitbox, ignore
-      return;
-    }
-    if (!PhysicsLayer.contains(targetLayer, other.getFilterData().categoryBits)) {
-      // Doesn't match our target layer, ignore
-      return;
+    /**
+     * Create a component which attacks entities on collision, without knockback.
+     * @param targetLayer The physics layer of the target's collider.
+     */
+    public MazeTouchAttackComponent(short targetLayer) {
+        this.targetLayer = targetLayer;
     }
 
-    Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
-    Entity meEntity = entity;
-
-    if (meEntity instanceof MazePlayer) {
-      // Means it is the player who is attacking. Should stun enemies for a short duration
-      float stunDuration = 0.8f;
-      if (targetEntity instanceof AnglerFish) {
-        stunDuration = 1;
-      }
-      targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
+    /**
+     * Create a component which attacks entities on collision, with knockback.
+     * @param targetLayer The physics layer of the target's collider.
+     * @param knockback The magnitude of the knockback applied to the entity.
+     */
+    public MazeTouchAttackComponent(short targetLayer, float knockback) {
+        this.targetLayer = targetLayer;
+        this.knockbackForce = knockback;
     }
 
-    // Change to maze combat stats
-    MazeCombatStatsComponent targetStats = targetEntity.getComponent(MazeCombatStatsComponent.class);
-    MazeCombatStatsComponent myStats = meEntity.getComponent(MazeCombatStatsComponent.class);
-
-    if (targetStats != null && myStats != null) {
-
-      System.out.println(targetStats.getHealth());
-      targetStats.hit(myStats);
-      System.out.println(targetStats.getHealth());
-
+    /**
+     * Creates event for combat when there is a collision
+     */
+    @Override
+    public void create() {
+        entity.getEvents().addListener("collisionStart", this::onCollisionStart);
+        combatStats = entity.getComponent(CombatStatsComponent.class);
+        hitboxComponent = entity.getComponent(HitboxComponent.class);
     }
 
-    // Apply knockback (We can adjust knockback now based off what type of entity it is)
-    PhysicsComponent physicsComponent = targetEntity.getComponent(PhysicsComponent.class);
-    if (physicsComponent != null && knockbackForce > 0f) {
-      Body targetBody = physicsComponent.getBody();
-      Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
-      // Knockback can be changed. tried doing velocity instead of impulse for more consistency
-      // I imagine we also give the player invincibility for a few seconds after getting hit
-      Vector2 knockbackVelocity = direction.scl(knockbackForce);
-      targetBody.setLinearVelocity(knockbackVelocity);
+    /**
+     * TODO: James pls write this i have no clue what its doing
+     * @param me
+     * @param other
+     */
+    private void onCollisionStart(Fixture me, Fixture other) {
+        if (hitboxComponent.getFixture() != me) {
+            // Not triggered by hitbox, ignore
+            return;
+        }
+        if (!PhysicsLayer.contains(targetLayer, other.getFilterData().categoryBits)) {
+            // Doesn't match our target layer, ignore
+            return;
+        }
+
+        Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
+        Entity meEntity = entity;
+
+        if (meEntity instanceof MazePlayer) {
+            // Means it is the player who is attacking. Should stun enemies for a short duration
+            float stunDuration = 0.8f;
+            if (targetEntity instanceof AnglerFish) {
+                stunDuration = 1;
+            }
+            targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
+        }
+
+        // Change to maze combat stats
+        MazeCombatStatsComponent targetStats = targetEntity.getComponent(MazeCombatStatsComponent.class);
+        MazeCombatStatsComponent myStats = meEntity.getComponent(MazeCombatStatsComponent.class);
+
+        if (targetStats != null && myStats != null) {
+
+            System.out.println(targetStats.getHealth());
+            targetStats.hit(myStats);
+            System.out.println(targetStats.getHealth());
+
+        }
+
+        // Apply knockback (We can adjust knockback now based off what type of entity it is)
+        PhysicsComponent physicsComponent = targetEntity.getComponent(PhysicsComponent.class);
+        if (physicsComponent != null && knockbackForce > 0f) {
+            Body targetBody = physicsComponent.getBody();
+            Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
+            // Knockback can be changed. tried doing velocity instead of impulse for more consistency
+            // I imagine we also give the player invincibility for a few seconds after getting hit
+            Vector2 knockbackVelocity = direction.scl(knockbackForce);
+            targetBody.setLinearVelocity(knockbackVelocity);
+        }
     }
-  }
 }

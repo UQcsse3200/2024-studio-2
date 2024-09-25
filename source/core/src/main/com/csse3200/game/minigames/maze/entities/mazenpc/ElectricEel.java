@@ -20,13 +20,11 @@ import com.csse3200.game.services.ServiceLocator;
 
 public class ElectricEel extends MazeEntity {
 
-
-
     public ElectricEel(Entity target, MazeEntityConfig config) {
 
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                .addTask(new MazeChaseTask(target, 10, 2f, 3f));
+                .addTask(new MazeChaseTask(target, 10, 2f, 3f, null));
 
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(

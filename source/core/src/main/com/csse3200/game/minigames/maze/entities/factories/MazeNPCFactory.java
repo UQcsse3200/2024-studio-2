@@ -22,29 +22,48 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
  * similar characteristics.
  */
 public class MazeNPCFactory {
-  private static final MazeNPCConfigs configs =
-      FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
 
-  public static AnglerFish createAngler(Entity target) {
-    MazeEntityConfig config = configs.angler;
-    return new AnglerFish(target, config);
-  }
+    private MazeNPCFactory() {
+        throw new IllegalStateException("Instantiating static util class");
+    }
 
-  public static Jellyfish createJellyfish() {
-    MazeEntityConfig config = configs.jellyfish;
-    return new Jellyfish(config);
-  }
+    private static final MazeNPCConfigs configs =
+            FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
 
-  public static ElectricEel createEel(Entity target) {
-    MazeEntityConfig config = configs.jellyfish;
-    return new ElectricEel(target, config);
-  }
+    /**
+     * Creates the angler fish NPC
+     * @param target entity associated with angular fish
+     * @return the angular fish
+     */
+    public static AnglerFish createAngler(Entity target) {
+        MazeEntityConfig config = configs.angler;
+        return new AnglerFish(target, config);
+    }
 
-  public static FishEgg createFishEgg() {
-    return new FishEgg();
-  }
+    /**
+     * Creates the jellyfish NPC
+     * @return the jellyfish
+     */
+    public static Jellyfish createJellyfish() {
+        MazeEntityConfig config = configs.jellyfish;
+        return new Jellyfish(config);
+    }
 
-  private MazeNPCFactory() {
-    throw new IllegalStateException("Instantiating static util class");
-  }
+    /**
+     * Creates the eel NPC
+     * @param target entity associated with eel
+     * @return the eel
+     */
+    public static ElectricEel createEel(Entity target) {
+        MazeEntityConfig config = configs.jellyfish;
+        return new ElectricEel(target, config);
+    }
+
+    /**
+     * Creates the fish egg NPC
+     * @return the fish egg
+     */
+    public static FishEgg createFishEgg() {
+        return new FishEgg();
+    }
 }

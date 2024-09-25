@@ -26,7 +26,7 @@ public class FishEgg extends Entity {
         // Load the PNG image as a Texture
 
         // Add lighting component
-        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.YELLOW)))
+        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.WHITE)))
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setGroupIndex((short) -1)) // don’t collide with NPCs (although can still get affected by knockback)
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
