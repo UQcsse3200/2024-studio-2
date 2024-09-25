@@ -101,7 +101,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">GameAreaDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">Displays the player icon and a larger minimap frame based on the player's image corresponding to its kingdom.</div>
+<div class="block">Displays the player icon and a larger minimap frame based on the player's image corresponding to its kingdom.
+ Also handles rendering the secondary minimap view using a different camera.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -125,7 +126,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String)" class="member-name-link">GameAreaDisplay</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameAreaName)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,com.badlogic.gdx.graphics.g2d.SpriteBatch,com.badlogic.gdx.graphics.OrthographicCamera,com.csse3200.game.components.CameraComponent)" class="member-name-link">GameAreaDisplay</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameAreaName,
+ com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch,
+ com.badlogic.gdx.graphics.OrthographicCamera&nbsp;mainCamera,
+ <a href="../CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;minimapCameraComponent)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a GameAreaDisplay component.</div>
 </div>
@@ -156,7 +160,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draws the UI component on the screen.</div>
+<div class="block">Draws the UI component on the screen, including the main game area and the minimap.</div>
 </div>
 </div>
 </div>
@@ -191,13 +195,19 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,com.badlogic.gdx.graphics.g2d.SpriteBatch,com.badlogic.gdx.graphics.OrthographicCamera,com.csse3200.game.components.CameraComponent)">
 <h3>GameAreaDisplay</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GameAreaDisplay</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameAreaName)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GameAreaDisplay</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameAreaName,
+ com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch,
+ com.badlogic.gdx.graphics.OrthographicCamera&nbsp;mainCamera,
+ <a href="../CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;minimapCameraComponent)</span></div>
 <div class="block">Constructs a GameAreaDisplay component.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>gameAreaName</code> - the name of the current game area to be displayed</dd>
+<dd><code>batch</code> - the SpriteBatch used for rendering</dd>
+<dd><code>mainCamera</code> - the main game camera</dd>
+<dd><code>minimapCameraComponent</code> - the component providing the minimap camera</dd>
 </dl>
 </section>
 </li>
@@ -224,7 +234,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
-<div class="block">Draws the UI component on the screen.</div>
+<div class="block">Draws the UI component on the screen, including the main game area and the minimap.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">draw</a></code>&nbsp;in class&nbsp;<code><a href="../../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></code></dd>
