@@ -6,39 +6,53 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.csse3200.game.ui.UIComponent;
 
 /**
- * Displays the name of the current game area.
+ * Displays the name of the mini-game maze game area.
  */
 public class MazeGameAreaDisplay extends UIComponent {
-  private String gameAreaName = "";
-  private Label title;
+    private final String gameAreaName;
+    private Label title;
 
-  public MazeGameAreaDisplay(String gameAreaName) {
-    this.gameAreaName = gameAreaName;
-  }
+    public MazeGameAreaDisplay(String gameAreaName) {
+        this.gameAreaName = gameAreaName;
+    }
 
-  @Override
-  public void create() {
-    super.create();
-    addActors();
-  }
+    /**
+     * Makes the maze game area
+     */
+    @Override
+    public void create() {
+        super.create();
+        addActors();
+    }
 
-  private void addActors() {
-    title = new Label(this.gameAreaName, skin, "large");
-    stage.addActor(title);
-  }
+    /**
+     * Makes the actor for the maze game area
+     */
+    private void addActors() {
+        title = new Label(this.gameAreaName, skin, "large");
+        stage.addActor(title);
+    }
 
-  @Override
-  public void draw(SpriteBatch batch)  {
-    int screenHeight = Gdx.graphics.getHeight();
-    float offsetX = 10f;
-    float offsetY = 30f;
+    //TODO: James idk what this does can you edit method comment pls
+    /**
+     * Method to draw sprites onto the game?
+     * @param batch Batch to render to.
+     */
+    @Override
+    public void draw(SpriteBatch batch) {
+        int screenHeight = Gdx.graphics.getHeight();
+        float offsetX = 10f;
+        float offsetY = 30f;
 
-    title.setPosition(offsetX, screenHeight - offsetY);
-  }
+        title.setPosition(offsetX, screenHeight - offsetY);
+    }
 
-  @Override
-  public void dispose() {
-    super.dispose();
-    title.remove();
-  }
+    /**
+     * Disposes of the maze game area
+     */
+    @Override
+    public void dispose() {
+        super.dispose();
+        title.remove();
+    }
 }

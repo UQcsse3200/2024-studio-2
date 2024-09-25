@@ -1,11 +1,9 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
-import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
@@ -38,7 +35,7 @@ import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 public class MazeGameScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
-    private static final String[] mainGameTextures = {"images/heart.png"};
+    private static final String[] mazeGameTextures = {"images/heart.png"};
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private final LightingEngine lightingEngine;
@@ -51,7 +48,7 @@ public class MazeGameScreen extends PausableScreen {
         this.oldScreen = screen;
         this.oldScreenServices = container;
 
-        logger.debug("Initialising main game screen services");
+        logger.debug("Initialising maze game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
 
         PhysicsService physicsService = new PhysicsService();
@@ -81,7 +78,7 @@ public class MazeGameScreen extends PausableScreen {
         loadAssets();
         createUI();
 
-        logger.debug("Initialising main game screen entities");
+        logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
         MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
@@ -127,14 +124,14 @@ public class MazeGameScreen extends PausableScreen {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainGameTextures);
+        resourceService.loadTextures(mazeGameTextures);
         ServiceLocator.getResourceService().loadAll();
     }
 
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainGameTextures);
+        resourceService.unloadAssets(mazeGameTextures);
     }
 
     /**
