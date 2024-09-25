@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Component used to store information related to combat such as health, attack, etc. Any entities
- * which engage it combat should have an instance of this class registered. This class can be
+ * which engage in combat should have an instance of this class registered. This class can be
  * extended for more specific combat needs.
  */
 public class MazeCombatStatsComponent extends Component {
@@ -31,6 +31,7 @@ public class MazeCombatStatsComponent extends Component {
     dead = true;
     System.out.println("Player is dead");
     // Now do someting to end game
+    //TODO: Ella
   }
 
   /**

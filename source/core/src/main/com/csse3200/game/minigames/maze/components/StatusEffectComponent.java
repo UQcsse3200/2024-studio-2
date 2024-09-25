@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+//TODO: James pls comment this class
 public class StatusEffectComponent extends Component {
     private static final float FOREVER = 1e6f;
     private final GameTime timeSource;

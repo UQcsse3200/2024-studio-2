@@ -1,7 +1,6 @@
 package com.csse3200.game.minigames.maze.components.npc;
 
 import com.csse3200.game.components.Component;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 
 /**
@@ -9,37 +8,55 @@ import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
  * of the events is triggered.
  */
 public class MazeEntityAnimationController extends Component {
-  AnimationRenderWithAudioComponent animator;
+    AnimationRenderWithAudioComponent animator;
 
-  @Override
-  public void create() {
-    super.create();
-    animator = this.entity.getComponent(AnimationRenderWithAudioComponent.class);
-    entity.getEvents().addListener("wanderStart", this::animateWander);
-    entity.getEvents().addListener("chaseStart", this::animateChase);
-    entity.getEvents().addListener("idleStart", this::animateIdle);
-    entity.getEvents().addListener("spawnStart", this::animateIdle);
-    entity.getEvents().addListener("faceLeft", this::faceLeft);
-    entity.getEvents().addListener("faceRight", this::faceRight);
-  }
+    /**
+     * Creates events for animations
+     */
+    @Override
+    public void create() {
+        super.create();
+        animator = this.entity.getComponent(AnimationRenderWithAudioComponent.class);
+        entity.getEvents().addListener("wanderStart", this::animateWander);
+        entity.getEvents().addListener("chaseStart", this::animateChase);
+        entity.getEvents().addListener("idleStart", this::animateIdle);
+        entity.getEvents().addListener("spawnStart", this::animateIdle);
+        entity.getEvents().addListener("faceLeft", this::faceLeft);
+        entity.getEvents().addListener("faceRight", this::faceRight);
+    }
 
-  void animateIdle() {
-    animator.startAnimation("Idle");
-  }
+    /**
+     * Animation for the idle state
+     */
+    void animateIdle() {
+        animator.startAnimation("Idle");
+    }
 
-  void animateWander() {
-    animator.startAnimation("Walk");
-  }
+    /**
+     * Animation for the walking state
+     */
+    void animateWander() {
+        animator.startAnimation("Walk");
+    }
 
-  void animateChase() {
-    animator.startAnimation("Attack");
-  }
+    /**
+     * Animation for the attack state
+     */
+    void animateChase() {
+        animator.startAnimation("Attack");
+    }
 
-  void faceLeft() {
-      animator.setFlipX(true);
-  }
+    /**
+     * Animation for the facing left state
+     */
+    void faceLeft() {
+        animator.setFlipX(true);
+    }
 
-  void faceRight() {
-      animator.setFlipX(false);
-  }
+    /**
+     * Animation for the facing right state
+     */
+    void faceRight() {
+        animator.setFlipX(false);
+    }
 }

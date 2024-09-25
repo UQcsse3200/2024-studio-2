@@ -15,13 +15,12 @@ import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 import box2dLight.PointLight;
 
 /**
- * AnglerFish represents a non-playable character (NPC) in the maze minigame.
+ * AnglerFish represents a non-playable character (NPC) in the maze mini-game.
  * It is a hostile entity that chases the player and attacks it.
  */
 public class AnglerFish extends MazeEntity {
@@ -33,10 +32,13 @@ public class AnglerFish extends MazeEntity {
      * @param config The configuration stats for this NPC, such as health and attack power.
      */
     public AnglerFish(Entity target, MazeEntityConfig config) {
+        // Set Angular fish speed
+        Vector2 speed = new Vector2(0.1f, 0.1f);
+
         // Add AI tasks specific to AnglerFish
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
-                .addTask(new MazeChaseTask(target, 10, 2f, 3f));
+                .addTask(new MazeChaseTask(target, 10, 2f, 3f, speed));
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
                 ServiceLocator.getResourceService().getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
@@ -57,8 +59,9 @@ public class AnglerFish extends MazeEntity {
         decrease sight radius over time?
          */
 
+        // Lighting around anguler fish
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
-        PointLight pl = new PointLight(rayHandler, 1000, Color.GREEN, 3f, 0, 0);
+        PointLight pl = new PointLight(rayHandler, 1000, Color.SCARLET, 3f, 0, 0);
         pl.setSoftnessLength(0f);
         pl.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
 
@@ -69,6 +72,6 @@ public class AnglerFish extends MazeEntity {
                 .addComponent(aiComponent);
 
         this.setScale(.4f, .4f);
-        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.5f, 0.4f);
+        MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.6f, 0.4f);
     }
 }
