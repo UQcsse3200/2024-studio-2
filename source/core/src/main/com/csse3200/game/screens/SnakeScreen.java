@@ -12,6 +12,7 @@ import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,9 @@ public class SnakeScreen extends PausableScreen {
 
         // ensure sounds are loaded
         ServiceLocator.getResourceService().loadSounds(SOUNDS);
+        ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/snake-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
+        AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
         setupExitButton();
         createUI();

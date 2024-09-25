@@ -79,10 +79,13 @@ public class BirdieDashScreen extends PausableScreen {
 
         //ensure sounds are loaded
         ServiceLocator.getResourceService().loadSounds(new String[]{"sounds/minigames/birdie-flap.mp3", "sounds/minigames/coin-collected.mp3"});
+        ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
 
         setupExitButton();
         createUI();
+
+        AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
     }
 
     /**
