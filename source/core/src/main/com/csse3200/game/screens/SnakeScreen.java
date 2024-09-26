@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -32,6 +32,9 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.csse3200.game.components.minigames.MiniGameNames;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 /**
  * Represents the screen for the Snake game.
@@ -50,6 +53,8 @@ public class SnakeScreen extends PausableScreen {
     private final Table exitButtonTable;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private final Texture backgroundTexture;
+    private final SpriteBatch spriteBatch;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -62,6 +67,10 @@ public class SnakeScreen extends PausableScreen {
         this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
+
+        this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
+
+        this.spriteBatch = new SpriteBatch();
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         logger.debug("Initialising snake minigame screen services");
@@ -95,9 +104,10 @@ public class SnakeScreen extends PausableScreen {
      */
     @Override
     public void render(float delta) {
-        clearBackground();
 
         renderer.render();
+
+        drawBackground();
 
         updateGame(delta);
 
@@ -112,9 +122,13 @@ public class SnakeScreen extends PausableScreen {
     /**
      * Clears the screen with a specific background color.
      */
-    public void clearBackground() {
+    public void drawBackground() {
         Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // Draw the background image
+        spriteBatch.begin();
+        spriteBatch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        spriteBatch.end();
     }
 
     /**
@@ -163,6 +177,8 @@ public class SnakeScreen extends PausableScreen {
 
         renderer.dispose();
         snakeRenderer.dispose();
+        backgroundTexture.dispose();
+        spriteBatch.dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.clear();
