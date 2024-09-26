@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
-import com.csse3200.game.minigames.maze.components.MazeGameManagerComponent;
-import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.components.*;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
@@ -23,7 +21,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 
 /**
  * MazePlayer represents the player entity in the maze mini-game.
@@ -58,9 +55,10 @@ public class MazePlayer extends Entity {
                 .addComponent(inputComponent)
                 .addComponent(new FaceMoveDirectionXComponent())
                 .addComponent(new MazePlayerStatsDisplay())
-                .addComponent(new MazePlayerScoreDisplay());
-        this.addComponent(new MazeEntityAnimationController());
-        this.addComponent(new MazeGameManagerComponent());
+                .addComponent(new MazePlayerScoreDisplay())
+                .addComponent(new StatusEffectComponent().registerStatusEffect("stun", new PlayerStunStatusEffect()))
+                .addComponent(new MazeEntityAnimationController())
+                .addComponent(new MazeGameManagerComponent());
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
