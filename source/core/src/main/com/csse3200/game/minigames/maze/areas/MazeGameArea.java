@@ -29,11 +29,15 @@ import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 public class MazeGameArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(MazeGameArea.class);
     public static final float WALL_THICKNESS = 0.1f;
+
+    // Number of entities spawned onto the maze
     public static final int NUM_WALL_BREAKS = 10;
     public static final int NUM_ANGLERS = 1;
     public static final int NUM_EELS = 5;
     public static final int NUM_JELLYFISH = 15;
     public static final int NUM_EGGS = 10;
+
+    // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
             "images/box_boy_leaf.png",
             "images/tree.png",
@@ -51,12 +55,9 @@ public class MazeGameArea extends GameArea {
     private static final String[] mazeSounds = {"sounds/minigames/angler-chomp.mp3"};
     private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
     private static final String[] mazeMusic = {mazeBackgroundMusic};
-
-    private final MazeTerrainFactory terrainFactory;
-
-    private Maze maze;
-
-    private Entity player;
+    private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
+    private Maze maze;  // The maze instance
+    private Entity player;  // THe player instance
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -92,8 +93,8 @@ public class MazeGameArea extends GameArea {
     }
 
     //TODO: James pls fill in
+
     /**
-     *
      * @param minDistToPlayer
      * @return
      */
@@ -145,6 +146,7 @@ public class MazeGameArea extends GameArea {
 
     /**
      * Spawns and makes the player entity
+     *
      * @return the player entity
      */
     private Entity spawnPlayer() {
@@ -266,6 +268,7 @@ public class MazeGameArea extends GameArea {
 
     /**
      * Gets the list of enemies (angler fish)
+     *
      * @return the list of enemies
      */
     public List<Entity> getEnemies() {

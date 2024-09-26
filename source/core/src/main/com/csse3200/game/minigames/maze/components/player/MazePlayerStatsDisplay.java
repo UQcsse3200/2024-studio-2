@@ -13,6 +13,8 @@ import com.csse3200.game.ui.UIComponent;
  * A UI component for displaying player stats, e.g. health.
  */
 public class MazePlayerStatsDisplay extends UIComponent {
+
+    // Used for the display of health stats
     Table table;
     private Image heartImage;
     private Label healthLabel;
@@ -55,6 +57,7 @@ public class MazePlayerStatsDisplay extends UIComponent {
 
     /**
      * Draw is handles by the stage
+     *
      * @param batch Batch to render to.
      */
     @Override
