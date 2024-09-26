@@ -15,19 +15,19 @@ public class MazeCombatStatsComponent extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
     private int health;
     private int baseAttack;
-    //private boolean dead;  //TODO: use for game termination
+    private boolean dead;  //TODO: use for game termination
 
     public MazeCombatStatsComponent(int health, int baseAttack) {
         setHealth(health);
         setBaseAttack(baseAttack);
-        //this.dead = false;
+        this.dead = false;
     }
 
     /**
      * Returns true if the entity's has 0 health, otherwise false.
      */
     public void isDead() {
-        //dead = true;
+        dead = true;
         System.out.println("Player is dead");
         //TODO: End game
     }
@@ -90,8 +90,8 @@ public class MazeCombatStatsComponent extends Component {
     }
 
     /**
-     *
-     * @param attacker
+     * Used when the player is hit by an entity and reduced health based on attackers base attack
+     * @param attacker the entity attacking the player
      */
     public void hit(MazeCombatStatsComponent attacker) {
         int newHealth = getHealth() - attacker.getBaseAttack();
