@@ -30,8 +30,7 @@ public class StatSaveManager {
             // Save file does not exist or is empty, initialize with config stats
             stats = configStats;
             saveFile.writeString(json.prettyPrint(stats), false);
-        }
-        else {
+        } else {
             // Load stats from save
             stats = json.fromJson(Array.class, Stat.class, saveFile);
 
