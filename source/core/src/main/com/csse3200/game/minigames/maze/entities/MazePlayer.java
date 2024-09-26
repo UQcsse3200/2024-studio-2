@@ -23,6 +23,7 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.rendering.FaceMoveDirectionXComponent;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 
 /**
  * MazePlayer represents the player entity in the maze mini-game.
@@ -56,7 +57,8 @@ public class MazePlayer extends Entity {
                 .addComponent(new MazeTouchAttackComponent(PhysicsLayer.NPC, 15f))
                 .addComponent(inputComponent)
                 .addComponent(new FaceMoveDirectionXComponent())
-                .addComponent(new MazePlayerStatsDisplay());
+                .addComponent(new MazePlayerStatsDisplay())
+                .addComponent(new MazePlayerScoreDisplay());
         this.addComponent(new MazeEntityAnimationController());
         this.addComponent(new MazeGameManagerComponent());
 

@@ -33,7 +33,6 @@ public class MazeCombatStatsComponent extends Component {
      */
     public void isDead() {
         dead = true;
-        //System.out.println("Player is dead");
         if (entity instanceof MazePlayer) {
             entity.getEvents().trigger("endGame", entity.getComponent(MazeGameManagerComponent.class).getScore());
         }

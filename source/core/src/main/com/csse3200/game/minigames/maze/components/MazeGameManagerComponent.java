@@ -19,6 +19,7 @@ public class MazeGameManagerComponent extends Component {
 
     public void incrementScore(int increment) {
         score += increment;
+        entity.getEvents().trigger("UpdateScore", this.score);
         if (score == MazeGameArea.NUM_EGGS) {
             entity.getEvents().trigger("endGame", this.score);
         }

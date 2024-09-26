@@ -110,7 +110,7 @@ public class MazeGameArea extends GameArea {
     /**
      * Displays the maze game area
      */
-    private void displayUI() {
+    public void displayUI() {
         Entity ui = new Entity();
         ui.addComponent(new MazeGameAreaDisplay("Underwater Maze"));
         spawnEntity(ui);

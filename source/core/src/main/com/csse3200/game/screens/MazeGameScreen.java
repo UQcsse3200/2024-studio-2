@@ -16,6 +16,8 @@ import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
+import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
+import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.Renderer;
@@ -45,14 +47,13 @@ public class MazeGameScreen extends PausableScreen {
     private static final String[] mazeGameTextures = {"images/heart.png"};
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
-    private final LightingEngine lightingEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private static final float GAME_WIDTH = 5f;
     private final Stage stage;
     private final Skin skin;
     private float scale;
-    private MazeGameArea mazeGameArea;
+    private final MazeGameArea mazeGameArea;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -83,7 +84,7 @@ public class MazeGameScreen extends PausableScreen {
 
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-        lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
+        LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
 
         ServiceLocator.getRenderService().register(lightingEngine);
 
@@ -98,7 +99,6 @@ public class MazeGameScreen extends PausableScreen {
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
 
-        //TODO make private variable
         this.mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
         mazeGameArea.getPlayer().getEvents().addListener("endGame", this::endGame);
@@ -138,7 +138,7 @@ public class MazeGameScreen extends PausableScreen {
     }
 
     private void endGame(int score) {
-        System.out.println("MADE IT");
+        logger.info("End of Maze Mini-Game");
         game.setScreen(new EndMiniGameScreen(game, score, MiniGameNames.MAZE, oldScreen, oldScreenServices));
     }
 
@@ -202,8 +202,7 @@ public class MazeGameScreen extends PausableScreen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setOldScreen(oldScreen, oldScreenServices);
+                exitGame();
             }
         });
 
@@ -235,7 +234,10 @@ public class MazeGameScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
-        stage.clear();
+        stage.clear();  // Clears exit button, title, health and score
+        mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
+        mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
+        mazeGameArea.displayUI();  // Reloads Title
         setupExitButton();
     }
 }
