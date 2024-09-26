@@ -37,6 +37,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Inventory inventory;
     private Window inventoryDisplay;
     private  Table hotBarDisplay;
+    private DragAndDrop dragAndDrop;
     AITaskComponent aiComponent = new AITaskComponent();
 
     private final int numCols, numRows, hotBarCapacity;
@@ -46,8 +47,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
-
-    private DragAndDrop dragAndDrop;
 
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
@@ -97,7 +96,6 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     private void toggleDisplay() {
         toggle = !stage.getActors().contains(inventoryDisplay, true);
-        logger.info("TOGGLING!");
         if (!toggle) { // Toggle off
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(inventoryDisplay, true); // close inventory
@@ -106,24 +104,10 @@ public class PlayerInventoryDisplay extends UIComponent {
             logger.debug("Inventory toggled on.");
             generateInventory();
         }
-        // Regenerate the hotbar in either case
+        // Regenerate the hotBar in either case
         stage.getActors().removeValue(hotBarDisplay, true);
         InventoryUtils.disposeGroupRecursively(hotBarDisplay);
         generateHotBar();
-
-
-//        if (stage.getActors().contains(inventoryDisplay, true)) { // Toggle off
-//            logger.debug("Inventory toggled off.");
-//            stage.getActors().removeValue(inventoryDisplay, true); // close inventory
-//            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
-//            toggle = false;
-//        } else { // Toggle on
-//            logger.debug("Inventory toggled on.");
-//            generateInventory();
-//            stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
-//            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
-//            toggle = true;
-//        }
     }
 
     /**
@@ -174,7 +158,6 @@ public class PlayerInventoryDisplay extends UIComponent {
             }
         });
     }
-
 
     /**
      * Determines if the toggle is active
@@ -262,7 +245,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         stage.addActor(hotBarDisplay);
     }
 
-
     private ImageButton createSlot(int index) {
         ImageButton slot = new ImageButton(slotSkin);
         AbstractItem item = inventory.getAt(index);
@@ -277,10 +259,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             slot.add(itemCountLabel).bottom().right(); // Position the label at the bottom right
         }
 
-        setupDragAndDrop(slot, index, item); // Setup drag and drop between hotbar and inventory
+        setupDragAndDrop(slot, index, item); // Setup drag and drop between hotBar and inventory
         return slot;
     }
-
 
     /**
      * Adds listeners to the inventory slots for handling hover and click events.
@@ -323,16 +304,6 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
-     * Removes an item from the inventory and updates the display.
-     *
-     * @param item The item to be removed from the inventory.
-     */
-    public void removeItem(AbstractItem item) {
-        inventory.deleteItem(item.getItemCode());
-        generateInventory();
-    }
-
-    /**
      * Adds an item to the inventory and triggers an event if successful.
      *
      * @param item The item to be added to the inventory.
@@ -351,7 +322,6 @@ public class PlayerInventoryDisplay extends UIComponent {
         toggleDisplay(); // Hacky way to regenerate inventory without duplicating code
         toggleDisplay();
 }
-
 
     /**
      * Disposes of the resources used by the component, including the window, table, and slots.

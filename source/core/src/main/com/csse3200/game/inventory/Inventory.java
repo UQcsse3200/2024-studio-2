@@ -4,7 +4,6 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.Map;
 import java.util.Optional;

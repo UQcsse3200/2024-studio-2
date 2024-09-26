@@ -276,7 +276,6 @@ class InventoryTest {
     @Test
     void testSwap() {
         Inventory inventory = new Inventory(3);
-        inventory.loadInventoryFromSave();
         AbstractItem itemInS0;
         AbstractItem itemInS1;
 
