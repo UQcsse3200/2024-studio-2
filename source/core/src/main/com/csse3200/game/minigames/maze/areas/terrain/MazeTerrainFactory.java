@@ -94,9 +94,9 @@ public class MazeTerrainFactory extends TerrainFactory {
     }
 
     /**
-     * Gets the co-ordinates??? TODO: Check with james
-     * @param worldPos vecotr to represent a position in the world
-     * @return the coordinate position of the vector in the world
+     * Gets the maze grid cell containing the given point in world coordinates.
+     * @param worldPos vector to represent a position in the world
+     * @return the coordinate of the grid cell this point is contained in
      */
     public static GridPoint2 worldPosToGridPos(Vector2 worldPos) {
         return new GridPoint2((int) (worldPos.x / TILE_SIZE), (int) (worldPos.y / TILE_SIZE));

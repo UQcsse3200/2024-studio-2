@@ -53,7 +53,7 @@ public class MazeNPCFactory {
      * @return the eel npc
      */
     public static ElectricEel createEel(Entity target) {
-        MazeEntityConfig config = configs.eels;
+        MazeEntityConfig config = configs.eel;
         return new ElectricEel(target, config);
     }
 

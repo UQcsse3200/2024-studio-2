@@ -91,11 +91,11 @@ public class MazeGameArea extends GameArea {
         playMusic();
     }
 
-    //TODO: James pls fill in
     /**
-     *
+     * Picks a random cell in the maze that is at least minDistToPlayer (euclidean distance) away
+     * from the player to spawn an entity.
      * @param minDistToPlayer
-     * @return
+     * @return Grid cell to spawn entity at
      */
     private GridPoint2 getSimpleStartLocation(float minDistToPlayer) {
         while (true) {

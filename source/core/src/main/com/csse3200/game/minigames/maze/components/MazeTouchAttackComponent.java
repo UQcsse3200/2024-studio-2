@@ -56,9 +56,15 @@ public class MazeTouchAttackComponent extends Component {
     }
 
     /**
-     * TODO: James pls write this i have no clue what its doing
-     * @param me
-     * @param other
+     * Callback when a fixture of this entity collides with another entity.
+     * In particular, this callback will handle collisions between the hitbox of this component
+     * with other entities and "attack" the other entity.
+     *
+     * "attacking" the other entity includes decreasing hit-points, stunning, and applying a
+     * knock-back depending on the types of entities involved.
+     *
+     * @param me the fixture of this entity
+     * @param other the other fixture that collided
      */
     private void onCollisionStart(Fixture me, Fixture other) {
         if (hitboxComponent.getFixture() != me) {
