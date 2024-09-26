@@ -30,7 +30,7 @@ import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 
 /**
- * Class for Underwater Maze Game Screen
+ * Class for Underwater Maze Mini-Game Screen
  */
 public class MazeGameScreen extends PausableScreen {
 
