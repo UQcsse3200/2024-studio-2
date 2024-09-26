@@ -6,7 +6,6 @@ import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
@@ -51,6 +50,22 @@ public class LightingComponent extends Component {
      */
     public List<PositionalLight> getLights() {
         return lights;
+    }
+
+    /**
+     * Detaches a light source from the entity.
+     *
+     * @param light The light source.
+     * @return true if the light source was attached to the entity
+     */
+    public boolean detach(PositionalLight light) {
+        int index = lights.indexOf(light);
+        if (index != -1) {
+            lights.remove(index);
+            offsets.remove(index);
+            return true;
+        }
+        return false;
     }
 
     /**

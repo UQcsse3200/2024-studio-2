@@ -40,6 +40,7 @@ public class ElectricEel extends MazeEntity {
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addSound("sounds/minigames/eel-electricity.mp3", "Attack", 0);
 
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)

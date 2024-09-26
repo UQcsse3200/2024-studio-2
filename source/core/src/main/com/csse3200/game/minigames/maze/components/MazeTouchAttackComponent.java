@@ -13,6 +13,7 @@ import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.services.AudioManager;
 
 /**
  * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
@@ -88,6 +89,7 @@ public class MazeTouchAttackComponent extends Component {
 
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
             targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("stun", 2f);
+            AudioManager.playSound("sounds/minigames/eel-zap.mp3");
         }
 
         // Change to maze combat stats
