@@ -13,9 +13,7 @@
   },
   "cow": {
     "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
-      "We will be your guides",
-      "but before you can roam free...",
-      "you must complete the first steps and 2 step quests."]],
+    "Complete your first quest"]],
     "spritePath": "images/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],

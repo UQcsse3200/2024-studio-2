@@ -60,24 +60,50 @@ public class QuestManager extends Component {
 
     }
 
+    //change some description and things later on
+    //do potions need 5 triggers???
     /**
      * Sets up the tasks for the quests and dialogues.
      */
 
     private Task[] createTasks() {
-        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
-        Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
-        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
-        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
-        Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", "Complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
-        Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 defense potions scattered around the kingdom.", 1, 0, false, false);
-        Task listenAdvice = new Task("listenToGuide", "Visit cow again", "Go visit the cow!", 1, 0, false, false);
-        Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
-        Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
+        Task talkToGuide = new Task(
+                "talkToGuide",
+                "Talk to the Guide",
+                "Speak with the Guide to begin your adventure.",
+                1, 0, false, false
+        );
+
+        Task collectPotions = new Task(
+                "collectPotions",
+                "Collect Potions",
+                "Find 5 defense potions scattered throughout the kingdom.",
+                1, 0, false, false
+        );
+
+        Task defeatEnemies = new Task(
+                "defeatEnemies",
+                "Defeat the Enemies",
+                "Defeat the creatures threatening the kingdom.",
+                1, 0, false, false
+        );
+
+        Task playSnakeMinigame = new Task(
+                "playSnakeMinigame",
+                "Play the Snake Minigame",
+                "Complete the minigame to retrieve the Eucalyptus sword.",
+                1, 0, false, false
+        );
+
+        Task defeatKangarooBoss = new Task(
+                "defeatKangarooBoss",
+                "Defeat the Kangaroo Boss",
+                "Face the Kangaroo Boss to bring peace to the kingdom.",
+                1, 0, false, false
+        );
 
         return new Task[] {
-                stepsTask, attackTask, testKangaTask, talkToGuide, followCowsTeachings,
-                collectPotions, listenAdvice, exploreWild, retrieveWeapon
+                talkToGuide, collectPotions, defeatEnemies, playSnakeMinigame, defeatKangarooBoss
         };
     }
 
@@ -90,46 +116,47 @@ public class QuestManager extends Component {
         return this.questDialogues;
     }
 
-
+    //change names later on
     /**
      * Sets up the dialogue for quests.
      */
     private List<DialogueKey> createQuestDialogues() {
 
+        List<DialogueKey> dialogues = new ArrayList<>();
+
+
         String[][] cowInitialDialogue = {
-                {
-                        "Moo there, adventurer! Welcome to the kingdom.",
-                        "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
-                }
+                {"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide. To prove your worth, you’ll need to complete a few tasks. Are you ready?"}
         };
 
-        String[][] cowAdviceDialogue = {
-                {
-                        "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-                }
-        };
+
         String[][] potionDialogue = {
-                {
-                        "I need five potions! They’re scattered around. Keep your eyes peeled."
-                }
+                {"I need five potions to help our people! They’re scattered throughout the kingdom. Can you find them?"}
         };
-        String[][] listenDialogue = {
-                {
-                        "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-                }
+
+
+        String[][] defeatEnemiesDialogue = {
+                {"Defeat the wild creatures that threaten the peace of our land."}
         };
-       // String[] exploreDialogue = {
-         //       "Oh the Kanga? Yeah, he was once a sweet little joey. Hard to imagine he’d go to the dark side.",
-           //     "Word on the street is he snapped after his wife and daughter died in the flood.",
-             //   "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
-               // "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
-        //};
 
-        return List.of(
-                new DialogueKey("Cow", "Guide's Intro", "talkToGuide", cowAdviceDialogue),
-                new DialogueKey("Cow", "Guide's Advice", "listenToGuide", listenDialogue)
-        );
 
+        String[][] snakeMinigameDialogue = {
+                {"Help the snake eat apples to train for your upcoming final battle!"}  // Alternate dialogue for the minigame
+        };
+
+
+        String[][] kangaBossDialogue = {
+                {"Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom."}
+        };
+
+
+        dialogues.add(new DialogueKey("Cow", "Guide's Intro", "talkToGuide", cowInitialDialogue));
+        dialogues.add(new DialogueKey("Cow", "Guide's Request", "collectPotions", potionDialogue));
+        dialogues.add(new DialogueKey("Cow", "Defeat Enemies", "defeatEnemies", defeatEnemiesDialogue));
+        dialogues.add(new DialogueKey("Cow", "Play Snake Minigame", "playSnakeMinigame", snakeMinigameDialogue));
+        dialogues.add(new DialogueKey("Cow", "Kangaroo Boss Challenge", "defeatKangaBoss", kangaBossDialogue));
+
+        return dialogues;
     }
 
 
