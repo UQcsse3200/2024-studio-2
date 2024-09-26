@@ -188,17 +188,18 @@ public class Inventory implements InventoryInterface {
      */
     public void swap(int src, int target)
     {
-        if (getAt(target) == null) {
-            addAt(target, getAt(src));
-            deleteItemAt(src);
-        } else {
-            AbstractItem temp=getAt(src);
-            deleteItemAt(src);
-            addAt(src, getAt(target));
-            deleteItemAt(target);
-            addAt(target, temp);
+        if(getAt(src)!=null) {
+            if (getAt(target) == null) {
+                addAt(target, getAt(src));
+                deleteItemAt(src);
+            } else {
+                AbstractItem temp = getAt(src);
+                deleteItemAt(src);
+                addAt(src, getAt(target));
+                deleteItemAt(target);
+                addAt(target, temp);
+            }
         }
-
     }
 
     /**
