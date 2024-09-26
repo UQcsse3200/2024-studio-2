@@ -124,8 +124,11 @@ public class LoginRegisterDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 PlayFab playFab = new PlayFab("DBB26");
-                playFab.loginUser(usernameField.getText(), passwordField.getText());
-                NotifManager.displayNotif("login");
+                PlayFab.Response response = playFab.loginUser(usernameField.getText(), passwordField.getText());
+                NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
+                if (response.getIsSucceed()) {
+                    table.setVisible(false);
+                }
 
             }
         });

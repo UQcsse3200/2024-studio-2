@@ -4,6 +4,7 @@ import com.playfab.PlayFabErrors.*;
 import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
 import com.playfab.PlayFabSettings;
+import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class PlayFab {
         PlayFab playFab = new PlayFab("DBB26");
 
         // Call the registration method
-        playFab.registerUser("long1221", "long11221@gmail.com", "password125");
+        playFab.loginUser("test41489874", "123456");
 
     }
     // Method to register a new user
@@ -44,13 +45,22 @@ public class PlayFab {
         //
     }
     // Method to login a new user
-    public static void loginUser(String username, String password) {
+    public static Response loginUser(String username, String password) {
         LoginWithPlayFabRequest request = new LoginWithPlayFabRequest();
         request.Username = username;
         request.Password = password;
 
-        PlayFabClientAPI.LoginWithPlayFab(request);
-        //
+        PlayFabResult<LoginResult> result = PlayFabClientAPI.LoginWithPlayFab(request);
+
+        if (result.Result != null) {
+            String succeedMsg = "Welcome " + request.Username + ".";
+            System.out.println(succeedMsg);
+            return new Response(succeedMsg, true);
+        } else {
+            String errorMsg = result.Error.errorMessage;
+            System.out.println(result.Error.errorMessage);
+            return new Response(errorMsg, false);
+        }
     }
 
     public static class Response {
