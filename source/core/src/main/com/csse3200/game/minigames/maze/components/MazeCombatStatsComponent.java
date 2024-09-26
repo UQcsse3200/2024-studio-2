@@ -12,87 +12,89 @@ import org.slf4j.LoggerFactory;
  */
 public class MazeCombatStatsComponent extends Component {
 
-  private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
-  private int health;
-  private int baseAttack;
-  private boolean dead;
+    private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+    private int health;
+    private int baseAttack;
+    //private boolean dead;  //TODO: use for game termination
 
-  public MazeCombatStatsComponent(int health, int baseAttack) {
-    setHealth(health);
-    setBaseAttack(baseAttack);
-    this.dead = false;
-  }
-
-  /**
-   * Returns true if the entity's has 0 health, otherwise false.
-   *
-   */
-  public void isDead() {
-    dead = true;
-    System.out.println("Player is dead");
-    // Now do someting to end game
-    //TODO: Ella
-  }
-
-  /**
-   * Returns the entity's health.
-   *
-   * @return entity's health
-   */
-  public int getHealth() {
-    return health;
-  }
-
-  /**
-   * Sets the entity's health. Health has a minimum bound of 0.
-   *
-   * @param health health
-   */
-  public void setHealth(int health) {
-    if (health > 0) {
-      this.health = health;
-    } else {
-      this.health = 0;
-      isDead();
+    public MazeCombatStatsComponent(int health, int baseAttack) {
+        setHealth(health);
+        setBaseAttack(baseAttack);
+        //this.dead = false;
     }
-    if (entity != null) {
-      entity.getEvents().trigger("updateHealth", this.health);
+
+    /**
+     * Returns true if the entity's has 0 health, otherwise false.
+     */
+    public void isDead() {
+        //dead = true;
+        System.out.println("Player is dead");
+        //TODO: End game
     }
-  }
 
-  /**
-   * Adds to the player's health. The amount added can be negative.
-   *
-   * @param health health to add
-   */
-  public void addHealth(int health) {
-    setHealth(this.health + health);
-  }
-
-  /**
-   * Returns the entity's base attack damage.
-   *
-   * @return base attack damage
-   */
-  public int getBaseAttack() {
-    return baseAttack;
-  }
-
-  /**
-   * Sets the entity's attack damage. Attack damage has a minimum bound of 0.
-   *
-   * @param attack Attack damage
-   */
-  public void setBaseAttack(int attack) {
-    if (attack >= 0) {
-      this.baseAttack = attack;
-    } else {
-      logger.error("Can not set base attack to a negative attack value");
+    /**
+     * Returns the entity's health.
+     *
+     * @return entity's health
+     */
+    public int getHealth() {
+        return health;
     }
-  }
 
-  public void hit(MazeCombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
-    setHealth(newHealth);
-  }
+    /**
+     * Sets the entity's health. Health has a minimum bound of 0.
+     *
+     * @param health health
+     */
+    public void setHealth(int health) {
+        if (health > 0) {
+            this.health = health;
+        } else {
+            this.health = 0;
+            isDead();
+        }
+        if (entity != null) {
+            entity.getEvents().trigger("updateHealth", this.health);
+        }
+    }
+
+    /**
+     * Adds to the player's health. The amount added can be negative.
+     *
+     * @param health health to add
+     */
+    public void addHealth(int health) {
+        setHealth(this.health + health);
+    }
+
+    /**
+     * Returns the entity's base attack damage.
+     *
+     * @return base attack damage
+     */
+    public int getBaseAttack() {
+        return baseAttack;
+    }
+
+    /**
+     * Sets the entity's attack damage. Attack damage has a minimum bound of 0.
+     *
+     * @param attack Attack damage
+     */
+    public void setBaseAttack(int attack) {
+        if (attack >= 0) {
+            this.baseAttack = attack;
+        } else {
+            logger.error("Can not set base attack to a negative attack value");
+        }
+    }
+
+    /**
+     *
+     * @param attacker
+     */
+    public void hit(MazeCombatStatsComponent attacker) {
+        int newHealth = getHealth() - attacker.getBaseAttack();
+        setHealth(newHealth);
+    }
 }

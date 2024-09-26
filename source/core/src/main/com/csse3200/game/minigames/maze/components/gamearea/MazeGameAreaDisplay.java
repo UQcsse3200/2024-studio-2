@@ -9,6 +9,8 @@ import com.csse3200.game.ui.UIComponent;
  * Displays the name of the mini-game maze game area.
  */
 public class MazeGameAreaDisplay extends UIComponent {
+
+    // Used for game title
     private final String gameAreaName;
     private Label title;
 
@@ -35,6 +37,7 @@ public class MazeGameAreaDisplay extends UIComponent {
 
     /**
      * Method to draw sprites onto the game?
+     *
      * @param batch Batch to render to.
      */
     @Override

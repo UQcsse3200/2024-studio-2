@@ -12,12 +12,10 @@ import com.csse3200.game.extensions.GameExtension;
 @ExtendWith(GameExtension.class)
 class MazePlayerFactoryTest {
 
-    private static MazePlayerConfig mockPlayerConfig;
-
     @BeforeAll
     static void setup() {
 
-        mockPlayerConfig = new MazePlayerConfig();
+        MazePlayerConfig mockPlayerConfig = new MazePlayerConfig();
         mockPlayerConfig.health = 100;
 
         mockStatic(FileLoader.class);
@@ -26,13 +24,9 @@ class MazePlayerFactoryTest {
                 .thenReturn(mockPlayerConfig);
     }
 
-
-
     @Test
     void testFactoryPrivateConstructor() {
 
-        assertThrows(IllegalStateException.class, () -> {
-            MazePlayerFactory factory = new MazePlayerFactory();
-        }, "Expected to throw IllegalStateException when instantiating MazePlayerFactory");
+        assertThrows(IllegalStateException.class, MazePlayerFactory::new, "Expected to throw IllegalStateException when instantiating MazePlayerFactory");
     }
 }

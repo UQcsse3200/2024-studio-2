@@ -12,8 +12,6 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  * Chases a target entity until they get too far away or line of sight is lost.
  * Differs from the main game ChaseTask in that all movement is relative to the center
  * of both the entity this is attached to and the entity being chased.
- * <p>
- * THis is used for the eel chasing. Anglular fish uses:
  */
 public class MazeChaseTask extends ChaseTask {
     private Vector2 bestTargetPoint;
@@ -59,11 +57,19 @@ public class MazeChaseTask extends ChaseTask {
         }
     }
 
+    /**
+     * Get the distance from this entity to the entity being chased
+     * @return the distance
+     */
     @Override
     protected float getDistanceToTarget() {
         return owner.getEntity().getCenterPosition().dst(target.getCenterPosition());
     }
 
+    /**
+     * Determines if the target is visible for the current entity (around walls etc.)
+     * @return true if visible, else false
+     */
     @Override
     protected boolean isTargetVisible() {
         bestTargetPoint = null;
