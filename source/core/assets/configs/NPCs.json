@@ -88,7 +88,7 @@
     ],
     "spritePath": "images/chicken.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/chicken.wav"],
     "animalName": "Chicken"
   },
   "friendlyFrog": {
@@ -97,7 +97,7 @@
     ],
     "spritePath": "images/frog.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/frog.wav"],
     "animalName": "Frog"
   },
   "friendlyMonkey": {
@@ -106,7 +106,7 @@
     ],
     "spritePath": "images/monkey.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/monkey.wav"],
     "animalName": "Monkey"
   }
 }
