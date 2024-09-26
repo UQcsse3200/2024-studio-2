@@ -71,16 +71,6 @@ public class StatusEffectComponent extends Component {
     }
 
     /**
-     * Unregisters the effect attached to a given status.
-     * @param status the status
-     * @return the removes effect (or null if does not exist)
-     */
-    //TODO: Implement (unused at the moment)
-    public StatusEffect unregisterStatusEffect(String status) {
-        return statusEffect.remove(status);
-    }
-
-    /**
      * Sets the time before a status expires. If the entity does not currently have this status,
      * the start method of the effect attached to this status will be called.
      * @param status the status
@@ -101,7 +91,7 @@ public class StatusEffectComponent extends Component {
      * @param status the status
      * @param duration the duration to add (in seconds)
      */
-    //TODO: Implement (unused at the moment)
+    // could be used for future status effects
     public void addStatusExpiry(String status, float duration) {
         if (hasStatus(status)) {
             statusExpiry.put(status, statusExpiry.get(status) + (int) (duration * 1000));
@@ -130,12 +120,16 @@ public class StatusEffectComponent extends Component {
      * Permanently applies a status to the entity (until removed).
      * @param status the status
      */
-    //TODO: Implement (unused at the moment)
+    // could be used for future status effects
     public void addStatus(String status) {
         setStatusExpiry(status, FOREVER);
     }
 
-    //TODO: Implement (unused at the moment)
+    /**
+     * Remove a status from being applied to the entity.
+     * @param status the status
+     */
+    // could be used to clear a status effect by some external event
     public Long removeStatus(String status) {
         if (hasStatus(status) && hasEffect(status)) {
             statusEffect.get(status).stop();
@@ -146,7 +140,7 @@ public class StatusEffectComponent extends Component {
     /**
      * Removes all status effects applied to the entity.
      */
-    //TODO: Implement (unused at the moment)
+    // could be used as a clear status effects ability or event
     public void clearStatus() {
         for (StatusEffect effect : statusEffect.values()) {
             effect.stop();

@@ -11,8 +11,9 @@ import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.ServiceLocator;
 
-
-//TODO: James can you comment this file pls I dont wanna look thru it thanksssss
+/**
+ * Some utility functions to help with movement tasks in the maze.
+ */
 public class MazeMovementUtils {
     public static final float PADDING = 0.03f;
     private static final float MIN_LENGTH_FACE = MazeGameArea.WALL_THICKNESS;
@@ -21,7 +22,7 @@ public class MazeMovementUtils {
      * Takes a position relative to the center of an entity and converts it to a position relative
      * to the bottom-left corner of the entity.
      *
-     * @param pos    Position relative to center of entity
+     * @param pos Position relative to center of entity
      * @param entity The entity
      * @return Position relative to bottom-left of entity
      */
@@ -29,6 +30,13 @@ public class MazeMovementUtils {
         return pos.cpy().sub(entity.getCenterPosition().sub(entity.getPosition()));
     }
 
+    /**
+     * Tests whether the line starting at from and ending at to intersects an obstacle.
+     * Draws ray lines on the debug renderer.
+     * @param from starting point of ray
+     * @param to ending point of ray
+     * @return whether the line starting at from and ending at to intersects an obstacle.
+     */
     private static boolean testRay(Vector2 from, Vector2 to) {
         PhysicsEngine physics = ServiceLocator.getPhysicsService().getPhysics();
         DebugRenderer debugRenderer = ServiceLocator.getRenderService().getDebug();
@@ -41,14 +49,30 @@ public class MazeMovementUtils {
         return false;
     }
 
+    /**
+     * Increment modulo 4
+     * @param corner integer
+     * @return the next corner mod 4
+     */
     private static int nextCorner(int corner) {
         return (corner + 1) % 4;
     }
 
+    /**
+     * Decrement modulo 4
+     * @param corner
+     * @return the previous corner mod 4
+     */
     private static int prevCorner(int corner) {
         return (corner + 3) % 4;
     }
 
+    /**
+     * Gets the corners of a rectangle hitbox of an entity adding padding around the box.
+     * @param entity the entity
+     * @param padding the padding to add around the hitbox
+     * @return an array of vertices representing the corners of the hitbox
+     */
     public static Vector2[] getHitBoxCorners(Entity entity, float padding) {
         PolygonShape shape = (PolygonShape) entity.getComponent(HitboxComponent.class).getFixture().getShape();
         Vector2[] corners = new Vector2[4];
@@ -62,6 +86,13 @@ public class MazeMovementUtils {
         return corners;
     }
 
+    /**
+     * Checks whether an entity can beeline to a position considering hitbox collisions and
+     * obstacles.
+     * @param pos the target destination
+     * @param entity the entity
+     * @return whether the entity can beeline to the target position without hitting and obstacle.
+     */
     public static boolean canBeeLineTo(Vector2 pos, Entity entity) {
         Vector2[] corners = getHitBoxCorners(entity, 0);
 

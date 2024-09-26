@@ -26,15 +26,6 @@ public class MazeTouchAttackComponent extends Component {
     private HitboxComponent hitboxComponent;
 
     /**
-     * Create a component which attacks entities on collision, without knockback.
-     * @param targetLayer The physics layer of the target's collider.
-     */
-    //TODO: James do we need this? says it's unused
-    public MazeTouchAttackComponent(short targetLayer) {
-        this.targetLayer = targetLayer;
-    }
-
-    /**
      * Create a component which attacks entities on collision, with knockback.
      * @param targetLayer The physics layer of the target's collider.
      * @param knockback The magnitude of the knockback applied to the entity.
