@@ -4,6 +4,7 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.Map;
 import java.util.Optional;
@@ -155,6 +156,21 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * Retrieves the exact index of the item in the inventory (checks for memory location equality)
+     *
+     * @param item the item to look for
+     * @return the index of the item, or -1 if the item is not found.
+     */
+    public int getPreciseIndex(AbstractItem item) {
+        for (int i = 0; i < capacity; i++) {
+            if (item == memoryView[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Retrieves the index of the first occurrence of an item with the given name.
      *
      * @param name the name of the item.
@@ -188,18 +204,10 @@ public class Inventory implements InventoryInterface {
      */
     public void swap(int src, int target)
     {
-        if(getAt(src)!=null) {
-            if (getAt(target) == null) {
-                addAt(target, getAt(src));
-                deleteItemAt(src);
-            } else {
-                AbstractItem temp = getAt(src);
-                deleteItemAt(src);
-                addAt(src, getAt(target));
-                deleteItemAt(target);
-                addAt(target, temp);
-            }
-        }
+        AbstractItem from = deleteItemAt(src);
+        AbstractItem to = deleteItemAt(target);
+        if (from != null) {addAt(target, from);}
+        if (to != null) {addAt(src, to);}
     }
 
     /**
@@ -222,12 +230,15 @@ public class Inventory implements InventoryInterface {
      * index.</p>
      *
      * @param index the index of the item to delete.
+     * @return the item that was removed (or null if there was no item at that index)
      */
     @Override
-    public void deleteItemAt(int index) {
-        if (memoryView[index] != null) {
+    public AbstractItem deleteItemAt(int index) {
+        AbstractItem item = memoryView[index];
+        if (item != null) {
             this.removeAt(index);
         }
+        return item;
     }
 
     /**
@@ -439,6 +450,7 @@ public class Inventory implements InventoryInterface {
     private Optional<Integer> getItemIndex(int code) {
         return this.hasItem(code) ? Optional.of(codeToIndices.get(code).first()) : Optional.empty();
     }
+
 
     /**
      * Retrieves the index of the first occurrence of an item with the specified name.
