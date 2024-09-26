@@ -9,6 +9,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
+import com.csse3200.game.minigames.maze.components.MazeGameManagerComponent;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
@@ -57,6 +58,7 @@ public class MazePlayer extends Entity {
                 .addComponent(new FaceMoveDirectionXComponent())
                 .addComponent(new MazePlayerStatsDisplay());
         this.addComponent(new MazeEntityAnimationController());
+        this.addComponent(new MazeGameManagerComponent());
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
@@ -86,5 +88,7 @@ public class MazePlayer extends Entity {
         pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
         pl2.setXray(true);
     }
+
+
 }
 

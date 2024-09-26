@@ -274,4 +274,5 @@ public class MazeGameArea extends GameArea {
     public List<Entity> getEnemies() {
         return null;
     }
+
 }

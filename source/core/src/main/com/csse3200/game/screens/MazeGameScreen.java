@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.input.InputComponent;
@@ -89,15 +88,16 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
         this.stage = ServiceLocator.getRenderService().getStage();
+
         loadAssets();
         createUI();
         setupExitButton();
-
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
         MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
+
     }
 
     @Override
@@ -182,7 +182,7 @@ public class MazeGameScreen extends PausableScreen {
 
     /**
      * Puts the exit button in the top right of the screen.
-     * Will take the user back to the Main menu screen
+     * Will take the user back to the Main menu screen or game
      */
     private void setupExitButton() {
 
@@ -193,21 +193,19 @@ public class MazeGameScreen extends PausableScreen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
                 game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
         // Set up the table for UI layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.top().right();
-        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
+        Table exitButtonTable = new Table();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
 
         // Add the table to the stage
-        stage.addActor(table);
+        stage.addActor(exitButtonTable);
     }
 
     /**

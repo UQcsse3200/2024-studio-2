@@ -16,7 +16,7 @@ public class MazeCombatStatsComponent extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
     private int health;
     private int baseAttack;
-    private boolean dead;  //TODO: use for game termination
+    private boolean dead;
     private Vector2 baseSpeed;
 
     public MazeCombatStatsComponent(int health, int baseAttack, float baseSpeed) {
@@ -32,6 +32,7 @@ public class MazeCombatStatsComponent extends Component {
     public void isDead() {
         dead = true;
         System.out.println("Player is dead");
+        entity.getEvents().trigger("endMazeGame");
         //TODO: End game
     }
 
@@ -92,6 +93,7 @@ public class MazeCombatStatsComponent extends Component {
         }
     }
 
+    //TODO: add comments here
     public Vector2 getBaseSpeed() {
         return baseSpeed;
     }
