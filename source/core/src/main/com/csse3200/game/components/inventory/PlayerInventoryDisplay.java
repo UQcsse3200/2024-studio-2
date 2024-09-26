@@ -212,7 +212,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         // Iterate over the inventory and add slots
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                int index = row * numCols + col + hotBarCapacity - 1;
+                int index = row * numCols + col + hotBarCapacity;
                 table.add(createSlot(index)).size(90, 90).pad(5); // Add the slot to the table
             }
             table.row(); // Move to the next row in the table
