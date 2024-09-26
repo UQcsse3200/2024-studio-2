@@ -46,7 +46,7 @@ public class MazePlayerStatsDisplay extends UIComponent {
         // Health text
         int health = entity.getComponent(MazeCombatStatsComponent.class).getHealth();
         CharSequence healthText = String.format("Health: %d", health);
-        healthLabel = new Label(healthText, skin, "large");
+        healthLabel = new Label(healthText, skin, "large-white");
 
         table.add(heartImage).size(heartSideLength).pad(5);
         table.add(healthLabel);

@@ -33,14 +33,16 @@ public class MazeNPCFactory {
             FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
 
     /**
-     * Creates the angler fish NPC
+     * Creates the angler fish NPC and sets the angular fish speed
      * @param target entity associated with angular fish
      * @return the angular fish
      */
     public static AnglerFish createAngler(Entity target) {
         MazeEntityConfig config = configs.angler;
         AnglerFish angler = new AnglerFish(target, config);
-        Vector2 speed = new Vector2(10f, 10f);
+
+        // Sets the angular fish speed
+        Vector2 speed = new Vector2(0.8f, 0.8f);
         angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
         return angler;
     }

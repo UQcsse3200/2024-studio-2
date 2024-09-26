@@ -29,11 +29,10 @@ public class MazeGameAreaDisplay extends UIComponent {
      * Makes the actor for the maze game area
      */
     private void addActors() {
-        title = new Label(this.gameAreaName, skin, "large");
+        title = new Label(this.gameAreaName, skin, "large-white");
         stage.addActor(title);
     }
 
-    //TODO: James idk what this does can you edit method comment pls
     /**
      * Method to draw sprites onto the game?
      * @param batch Batch to render to.

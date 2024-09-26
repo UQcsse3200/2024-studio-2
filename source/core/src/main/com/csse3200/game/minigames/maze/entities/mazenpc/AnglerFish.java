@@ -32,9 +32,6 @@ public class AnglerFish extends MazeEntity {
      * @param config The configuration stats for this NPC, such as health and attack power.
      */
     public AnglerFish(Entity target, MazeEntityConfig config) {
-        // Set Angular fish speed
-        //Vector2 speed = new Vector2(0.1f, 0.1f);
-
         // Add AI tasks specific to AnglerFish
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
@@ -59,7 +56,7 @@ public class AnglerFish extends MazeEntity {
         decrease sight radius over time?
          */
 
-        // Lighting around anguler fish
+        // Lighting around angular fish
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
         PointLight pl = new PointLight(rayHandler, 1000, Color.SCARLET, 3f, 0, 0);
         pl.setSoftnessLength(0f);
