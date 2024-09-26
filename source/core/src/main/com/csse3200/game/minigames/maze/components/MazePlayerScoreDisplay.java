@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.minigames.MiniGameConstants;
 
+/**
+ * Class to show the score and medal thresholds on the game screen
+ */
 public class MazePlayerScoreDisplay extends UIComponent {
 
     Table table;

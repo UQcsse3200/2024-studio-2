@@ -20,9 +20,9 @@ public final class MiniGameConstants {
     /**
      * Birdie Dash game GOLD, SILVER and BRONZE score thresholds
      */
-    public static final int BIRDIE_DASH_GOLD_THRESHOLD = 6;
-    public static final int BIRDIE_DASH_SILVER_THRESHOLD = 4;
-    public static final int BIRDIE_DASH_BRONZE_THRESHOLD = 2;
+    public static final int BIRDIE_DASH_GOLD_THRESHOLD = 20;
+    public static final int BIRDIE_DASH_SILVER_THRESHOLD = 10;
+    public static final int BIRDIE_DASH_BRONZE_THRESHOLD = 5;
 
     /**
      * Maze game GOLD, SILVER and BRONZE score thresholds
