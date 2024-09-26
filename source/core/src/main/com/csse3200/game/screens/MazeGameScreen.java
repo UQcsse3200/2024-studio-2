@@ -1,7 +1,14 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.input.InputComponent;
@@ -42,11 +49,17 @@ public class MazeGameScreen extends PausableScreen {
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private static final float GAME_WIDTH = 5f;
+    private final Stage stage;
+    private final Skin skin;
+    private float scale;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.oldScreen = screen;
         this.oldScreenServices = container;
+        this.scale = 1;
+
+        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         logger.debug("Initialising maze game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -75,8 +88,11 @@ public class MazeGameScreen extends PausableScreen {
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
+        this.stage = ServiceLocator.getRenderService().getStage();
         loadAssets();
         createUI();
+        setupExitButton();
+
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
@@ -89,12 +105,6 @@ public class MazeGameScreen extends PausableScreen {
         physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        renderer.resize(width, height);
-        logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
     @Override
@@ -119,6 +129,8 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.getResourceService().dispose();
 
         ServiceLocator.clear();
+        stage.dispose();
+        skin.dispose();
     }
 
     private void loadAssets() {
@@ -140,7 +152,6 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void createUI() {
         logger.debug("Creating ui");
-        Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
@@ -167,5 +178,57 @@ public class MazeGameScreen extends PausableScreen {
      */
     void exitGame() {
         game.setOldScreen(oldScreen, oldScreenServices);
+    }
+
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen
+     */
+    private void setupExitButton() {
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        // Scale the button's font
+        exitButton.getLabel().setFontScale(scale);
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main menu and original screen colour
+                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                game.setOldScreen(oldScreen, oldScreenServices);
+            }
+        });
+
+        // Set up the table for UI layout
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top().right();
+        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
+
+        // Add the table to the stage
+        stage.addActor(table);
+    }
+
+    /**
+     * Resize function that automatically gets called when the screen is resized.
+     * Resizes all components with a consistent scale to maintain the screen's
+     * original design.
+     * @param width The width of the resized screen.
+     * @param height The height of the resized screen.
+     */
+    @Override
+    public void resize(int width, int height) {
+        renderer.resize(width, height);
+        logger.trace("Resized renderer: ({} x {})", width, height);
+        // Update the stage viewport
+        stage.getViewport().update(width, height, true);
+        float baseWidth = 1920f;
+        float baseHeight = 1200f;
+        float scaleWidth = width / baseWidth;
+        float scaleHeight = height / baseHeight;
+        scale = Math.min(scaleWidth, scaleHeight);
+        stage.clear();
+        setupExitButton();
     }
 }
