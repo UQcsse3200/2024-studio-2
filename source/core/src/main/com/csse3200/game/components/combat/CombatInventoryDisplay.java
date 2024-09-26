@@ -16,6 +16,7 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -198,9 +199,14 @@ public class CombatInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
-                inventory.useItemAt(index, context);
-                entity.getEvents().trigger("itemUsed", item);
-                entity.getEvents().trigger("toggleCombatInventory");
+                if (!(item instanceof SpeedPotion)) {
+                    inventory.useItemAt(index, context);
+                    entity.getEvents().trigger("itemUsed", item);
+                    entity.getEvents().trigger("toggleCombatInventory");
+                } else {
+                    String[][] itemText = {{((SpeedPotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                }
                 regenerateInventory();
             }
         });

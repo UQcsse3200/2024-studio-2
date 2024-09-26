@@ -6,6 +6,8 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.Objects;
 
@@ -14,6 +16,7 @@ public class TimedUseItemTask extends DefaultTask implements PriorityTask {
     private final TimedUseItem potion;
     private final int priority;
     private final ItemUsageContext context;
+    private List<TimedUseItem> potions;
 
     public TimedUseItemTask(Entity target, int priority, TimedUseItem potion, ItemUsageContext context) {
         this.target = target;
@@ -39,9 +42,10 @@ public class TimedUseItemTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         super.update();
-        if(activePotion() && this.potion.isExpired(this.context)) {
-            if (this.potion.isExpired(this.context)) { //check if the item is in use
-                this.potion.update(this.context);
+        if (activePotion()) {
+            potions.add(potion);
+            if (true){
+
             }
         }
     }
