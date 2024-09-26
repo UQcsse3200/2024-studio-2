@@ -88,24 +88,42 @@ public class PlayerInventoryDisplay extends UIComponent {
         super.create();
         dragAndDrop = new DragAndDrop();
         generateHotBar();
-        entity.getEvents().addListener("toggleInventory", this::toggleInventory);
+        entity.getEvents().addListener("toggleInventory", this::toggleDisplay);
         entity.getEvents().addListener("addItem", this::addItem);
     }
 
     /**
      * Toggles the inventory display on or off based on its current state.
      */
-    private void toggleInventory() {
-        if (stage.getActors().contains(inventoryDisplay, true)) {
+    private void toggleDisplay() {
+        toggle = !stage.getActors().contains(inventoryDisplay, true);
+        logger.info("TOGGLING!");
+        if (!toggle) { // Toggle off
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(inventoryDisplay, true); // close inventory
             InventoryUtils.disposeGroupRecursively(inventoryDisplay);
-            toggle = false;
-        } else {
+        } else { // Toggle on
             logger.debug("Inventory toggled on.");
             generateInventory();
-            toggle = true;
         }
+        // Regenerate the hotbar in either case
+        stage.getActors().removeValue(hotBarDisplay, true);
+        InventoryUtils.disposeGroupRecursively(hotBarDisplay);
+        generateHotBar();
+
+
+//        if (stage.getActors().contains(inventoryDisplay, true)) { // Toggle off
+//            logger.debug("Inventory toggled off.");
+//            stage.getActors().removeValue(inventoryDisplay, true); // close inventory
+//            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
+//            toggle = false;
+//        } else { // Toggle on
+//            logger.debug("Inventory toggled on.");
+//            generateInventory();
+//            stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
+//            InventoryUtils.disposeGroupRecursively(hotBarDisplay);
+//            toggle = true;
+//        }
     }
 
     /**
@@ -154,7 +172,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 if(draggedItem != null) {
                     int sourceIndex= inventory.getIndex(draggedItem.getItemCode());
                     inventory.swap(sourceIndex,targetIndex);
-                    regenerateInventory();
+                    regenerateDisplay();
 
                 }
             }
@@ -210,7 +228,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 inventory.sortByCode();
-                regenerateInventory();
+                regenerateDisplay();
             }
         });
         table.row();
@@ -303,7 +321,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
-                regenerateInventory();
+                regenerateDisplay();
             }
         });
     }
@@ -326,24 +344,17 @@ public class PlayerInventoryDisplay extends UIComponent {
     private void addItem(AbstractItem item) {
         boolean wasAdded = this.inventory.add(item); // Keeping this line to avoid side effects
         entity.getEvents().trigger("itemPickedUp", wasAdded);
-        regenerateInventory();
+        regenerateDisplay();
     }
 
     /**
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    void regenerateInventory() {
-        toggleInventory(); // Hacky way to regenerate inventory without duplicating code
-        toggleInventory();
-        regenerateHotbar();
-    }
-    void regenerateHotbar()
-    {
-        stage.getActors().removeValue(hotBarDisplay, true); // close hot-bar
-        InventoryUtils.disposeGroupRecursively(hotBarDisplay);
-        generateHotBar();
-    }
+    void regenerateDisplay() {
+        toggleDisplay(); // Hacky way to regenerate inventory without duplicating code
+        toggleDisplay();
+}
 
 
     /**
