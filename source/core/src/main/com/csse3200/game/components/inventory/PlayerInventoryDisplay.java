@@ -86,23 +86,25 @@ public class PlayerInventoryDisplay extends UIComponent {
      * updates the potions effects if in or out of combat
      */
     public void updatePotions(ItemUsageContext context) {
-        if (!isInCombat) {
-            for (int i = 0; i < potions.size(); i++) {
-                if (potions.get(i) instanceof DefensePotion) {
-                    potions.get(i).update(context);
-                    potions.remove(i);
-                }
-                if (potions.get(i) instanceof AttackPotion) {
-                    potions.get(i).update(context);
-                    potions.remove(i);
+        if (this.potions != null) {
+            if (!isInCombat) {
+                for (int i = 0; i < potions.size(); i++) {
+                    if (potions.get(i) instanceof DefensePotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
+                    if (potions.get(i) instanceof AttackPotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
                 }
             }
-        }
 
-        for (int i = 0; i < potions.size(); i++) {
-            if (potions.get(i) instanceof SpeedPotion) {
-                potions.get(i).update(context);
-                potions.remove(i);
+            for (int i = 0; i < potions.size(); i++) {
+                if (potions.get(i) instanceof SpeedPotion) {
+                    potions.get(i).update(context);
+                    potions.remove(i);
+                }
             }
         }
     }
