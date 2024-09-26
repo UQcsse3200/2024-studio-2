@@ -71,36 +71,11 @@ public class PauseTask extends ChaseTask {
             String[][] hintText = this.config.getBaseHint();
             animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
+
             if (questManager != null) {
-                org.slf4j.Logger logger = LoggerFactory.getLogger(PauseTask.class);
-                logger.info("Getting quest dialogue");
-                for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
-                    logger.info("Checking right quest for dialogue");
-                    String npcName = dialogueKey.getNpcName();
-                    String questName = dialogueKey.getQuestName();
-                    QuestBasic quest = this.questManager.getQuest(questName);
-
-                    int progression = quest.getProgression();
-                    if (progression == quest.getNumQuestTasks()) {
-                        continue;
-                    }
-                    if (Objects.equals(npcName, animalName) && this.taskName == "") {
-                        if (!quest.isQuestCompleted()) {
-                            logger.info("Checking right quest progression for dialogue");
-                            boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
-                            if (rightTask) {
-                                hintText = dialogueKey.getDialogue();
-                                this.taskName = dialogueKey.getTaskName();
-                                break; // no need to keep looking
-                            }
-                        }
-
-                    }
-
-                }
-
+                hintText = findDialogueHint(hintText);
             } else {
-                // try reset it for next time
+                // Try resetting it for next time
                 this.questManager = target.getComponent(QuestManager.class);
             }
 
@@ -108,6 +83,34 @@ public class PauseTask extends ChaseTask {
         } else {
             entity.getEvents().trigger("PauseStart");
         }
+    }
+
+    /**
+     * Helper function to find the correct dialogue hint text from the quest manager.
+     */
+    private String[][] findDialogueHint(String[][] hintText) {
+        for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
+            logger.info("Checking right quest for dialogue");
+            String npcName = dialogueKey.getNpcName();
+            String questName = dialogueKey.getQuestName();
+            QuestBasic quest = this.questManager.getQuest(questName);
+
+            int progression = quest.getProgression();
+            if (progression == quest.getNumQuestTasks()) {
+                continue;
+            }
+
+            if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
+                    logger.info("Checking right quest progression for dialogue");
+                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
+                    if (rightTask) {
+                        this.taskName = dialogueKey.getTaskName();
+                        return dialogueKey.getDialogue();
+                    }
+                }
+
+        }
+        return hintText;
     }
 
     /**

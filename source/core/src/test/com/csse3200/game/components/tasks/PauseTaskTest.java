@@ -1,9 +1,16 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.components.quests.Task;
+import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -19,25 +26,42 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import com.csse3200.game.files.FileLoader;
 
 @ExtendWith(GameExtension.class)
 class PauseTaskTest {
     ResourceService resourceService;
+    private static final NPCConfigs configs =
+            FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+    private static String[] textures = {
+            "images/Cow.png",
+    };
+
+    private static String[] atlas = {
+            "images/Cow.atlas",
+    };
+
+    private static String[] sounds = {
+            "sounds/QuestComplete.wav", "sounds/achievement-sound.mp3", "sounds/mooing-cow.wav"
+    };
 
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();
         resourceService = new ResourceService();
-        resourceService.loadSounds(new String[]{"sounds/QuestComplete.wav"});
 
         // Mock RenderService and set DebugRenderer mock
         RenderService renderService = mock(RenderService.class);
@@ -62,6 +86,11 @@ class PauseTaskTest {
         DialogueBoxService dialogueBoxService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(dialogueBoxService);
 
+        resourceService.loadTextures(textures);
+        resourceService.loadTextureAtlases(atlas);
+        resourceService.loadSounds(sounds);
+        resourceService.loadAll();
+
         while (!resourceService.loadForMillis(10)) {
             continue;
         }
@@ -76,8 +105,6 @@ class PauseTaskTest {
     void shouldMoveTowardsTarget() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        NPCConfigs configs =
-                FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
         AITaskComponent ai = new AITaskComponent()
                 .addTask(new PauseTask(target, 10, 5, 2, false))
@@ -146,4 +173,33 @@ class PauseTaskTest {
         entity.update();
         assertTrue(pauseTask.getPriority() < 0, "Priority should be negative after moving out of view distance");
     }
+
+//    @Test
+//    void shouldDisplayCorrectDialogue() {
+//        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
+//
+//        Entity player = new Entity();
+//        QuestManager questManager = new QuestManager(player);
+//        player.addComponent(questManager);
+//        player.setPosition(2f, 2f);
+//
+//        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
+//        cow.setPosition(1.9f, 1.9f);
+//
+//        AITaskComponent ai = cow.getComponent(AITaskComponent.class);
+//        ai.update();
+//
+//        String[] cowInitialDialogue = {
+//                "Moo there, adventurer! Welcome to the kingdom.",
+//                "We will be your guides",
+//                "but before you can roam free...",
+//                "you must complete the first steps and 2 step quests.",
+//        };
+//
+//        for (String hint : cowInitialDialogue) {
+//            String hintDialogue = dialogueBox.getLabel().getText().toString();
+//            assertEquals(hint, hintDialogue);
+//            dialogueBox.handleForwardButtonClick();
+//        }
+//    }
 }
