@@ -24,16 +24,16 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
  * similar characteristics.
  */
 public class MazeNPCFactory {
+    private static final MazeNPCConfigs configs =
+            FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
 
     private MazeNPCFactory() {
         throw new IllegalStateException("Instantiating static util class");
     }
 
-    private static final MazeNPCConfigs configs =
-            FileLoader.readClass(MazeNPCConfigs.class, "configs/minigames/maze/NPCs.json");
-
     /**
      * Creates the angler fish NPC and sets the angular fish speed
+     *
      * @param target entity associated with angular fish
      * @return the angular fish
      */
@@ -48,7 +48,17 @@ public class MazeNPCFactory {
     }
 
     /**
-     * Creates the jellyfish NPC
+     * Creates the eel npc
+     * @param target the entity to be associated with the Eel npc
+     * @return the eel npc
+     */
+    public static ElectricEel createEel(Entity target) {
+        MazeEntityConfig config = configs.eels;
+        return new ElectricEel(target, config);
+    }
+
+    /**
+     * Creates the jellyfish npc
      * @return the jellyfish
      */
     public static Jellyfish createJellyfish() {
@@ -57,18 +67,8 @@ public class MazeNPCFactory {
     }
 
     /**
-     * Creates the eel NPC
-     * @param target entity associated with eel
-     * @return the eel
-     */
-    public static ElectricEel createEel(Entity target) {
-        MazeEntityConfig config = configs.jellyfish;
-        return new ElectricEel(target, config);
-    }
-
-    /**
-     * Creates the fish egg NPC
-     * @return the fish egg
+     * Creates the fish egg npc
+     * @return the fish egg npc
      */
     public static FishEgg createFishEgg() {
         return new FishEgg();

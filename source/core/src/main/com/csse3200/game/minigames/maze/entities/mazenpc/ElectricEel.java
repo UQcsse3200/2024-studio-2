@@ -20,6 +20,8 @@ import com.csse3200.game.services.ServiceLocator;
 
 public class ElectricEel extends MazeEntity {
 
+
+    Vector2 speed = new Vector2(0.1f, 0.1f);
     public ElectricEel(Entity target, MazeEntityConfig config) {
 
         AITaskComponent aiComponent = new AITaskComponent()
