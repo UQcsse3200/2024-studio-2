@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.components;
 
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 
 public class MazeGameManagerComponent extends Component {
 
@@ -18,6 +19,9 @@ public class MazeGameManagerComponent extends Component {
 
     public void incrementScore(int increment) {
         score += increment;
+        if (score == MazeGameArea.NUM_EGGS) {
+            entity.getEvents().trigger("endGame", this.score);
+        }
     }
 
 

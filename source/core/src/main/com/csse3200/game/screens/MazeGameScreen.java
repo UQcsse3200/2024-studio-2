@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.CameraComponent;
+import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.LightingEngine;
@@ -51,6 +52,7 @@ public class MazeGameScreen extends PausableScreen {
     private final Stage stage;
     private final Skin skin;
     private float scale;
+    private MazeGameArea mazeGameArea;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -95,9 +97,11 @@ public class MazeGameScreen extends PausableScreen {
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
-        MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
-        mazeGameArea.create();
 
+        //TODO make private variable
+        this.mazeGameArea = new MazeGameArea(terrainFactory);
+        mazeGameArea.create();
+        mazeGameArea.getPlayer().getEvents().addListener("endGame", this::endGame);
     }
 
     @Override
@@ -131,6 +135,11 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.clear();
         stage.dispose();
         skin.dispose();
+    }
+
+    private void endGame(int score) {
+        System.out.println("MADE IT");
+        game.setScreen(new EndMiniGameScreen(game, score, MiniGameNames.MAZE, oldScreen, oldScreenServices));
     }
 
     private void loadAssets() {

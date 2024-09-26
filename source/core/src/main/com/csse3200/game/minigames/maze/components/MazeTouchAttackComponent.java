@@ -12,7 +12,6 @@ import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
-import org.lwjgl.Sys;
 
 /**
  * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
