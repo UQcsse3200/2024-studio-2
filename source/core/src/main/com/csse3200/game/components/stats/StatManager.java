@@ -36,9 +36,9 @@ public class StatManager extends Component {
     void setupStats() {
         // Event for defeating an enemy
         player.getEvents().addListener("addItem", this::handleCollection);
-//        for (Stat stat : stats) {
-//            subscribeToStatEvents(stat);
-//        }
+        for (Stat stat : stats) {
+            subscribeToStatEvents(stat);
+        }
     }
 
     /**
