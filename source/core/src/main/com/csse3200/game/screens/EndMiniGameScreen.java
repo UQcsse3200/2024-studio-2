@@ -20,7 +20,7 @@ import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.minigames.MiniGameConstants;
 import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;

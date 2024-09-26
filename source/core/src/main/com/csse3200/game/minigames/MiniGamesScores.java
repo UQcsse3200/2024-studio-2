@@ -1,5 +1,4 @@
 package com.csse3200.game.minigames;
-
 /**
  * Class to store games high scores
  */

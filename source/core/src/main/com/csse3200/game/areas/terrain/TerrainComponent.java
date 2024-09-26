@@ -146,6 +146,8 @@ public class TerrainComponent extends RenderComponent {
         activeChunks.add(pos);
       }
     }
+    //fillChunk(chunkPos);
+
 
     updateChunkStatus();
   }
@@ -261,7 +263,7 @@ public class TerrainComponent extends RenderComponent {
             // edge: TOP, RIGHT, BOTTOM, LEFT
             // A: sand, B: grass, C: water
             // =======================
-            tiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges));
+            tiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
             TILE_SIZE = tiles.size();
           }
           break;
@@ -403,6 +405,7 @@ public class TerrainComponent extends RenderComponent {
     private TextureRegion texture;
     private ArrayList<String> edgeTiles;
     private String name;
+    private String centre;
 
     // all possible tiles
     private BitSet up = new BitSet(TerrainResource.TILE_SIZE);
@@ -412,10 +415,11 @@ public class TerrainComponent extends RenderComponent {
 
     public boolean collapsed = false;
 
-    public Tile(String name, TextureRegion texture, ArrayList<String> edgeTiles) {
+    public Tile(String name, TextureRegion texture, ArrayList<String> edgeTiles, String centre) {
       this.name = name;
       this.texture = texture;
       this.edgeTiles = edgeTiles;
+      this.centre = centre;
     }
 
     /**
@@ -443,6 +447,15 @@ public class TerrainComponent extends RenderComponent {
      */
     public ArrayList<String> getEdgeTiles() {
       return edgeTiles;
+    }
+
+    /**
+     * Get the centre tile of the tile.
+     * 
+     * @return The centre tile of the tile
+     */
+    public String getCentre() {
+      return centre;
     }
 
     /**
