@@ -11,7 +11,6 @@ import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
-import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 

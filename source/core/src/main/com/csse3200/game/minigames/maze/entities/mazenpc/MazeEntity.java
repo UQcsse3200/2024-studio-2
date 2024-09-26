@@ -5,7 +5,6 @@ import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
 import com.csse3200.game.minigames.maze.components.NPCStunStatusEffect;
 import com.csse3200.game.minigames.maze.components.StatusEffectComponent;
 import com.csse3200.game.physics.PhysicsLayer;
-import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
