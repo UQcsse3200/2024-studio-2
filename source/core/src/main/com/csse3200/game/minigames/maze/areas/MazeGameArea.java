@@ -206,7 +206,7 @@ public class MazeGameArea extends GameArea {
     @Override
     public void playMusic() {
         AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
-        AudioManager.setMusicVolume(AudioManager.getDesiredMusicVolume() / 2);
+        // AudioManager.setMusicVolume(AudioManager.getDesiredMusicVolume() / 2);
     }
 
     /**
