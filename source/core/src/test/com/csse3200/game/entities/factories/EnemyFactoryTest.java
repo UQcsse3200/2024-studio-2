@@ -52,11 +52,11 @@ class EnemyFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private static String[] textures = {
-            "images/chicken.png",
+            "images/chicken2.png",
             "images/monkey.png",
-            "images/frog.png",
-            "images/bear.png",
-            "images/pigeon.png"
+            "images/frog2.png",
+            "images/bear2.png",
+            "images/pigeon2.png"
     };
 
     private static String[] atlas = {

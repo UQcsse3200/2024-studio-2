@@ -5,78 +5,99 @@ filter: Nearest,Nearest
 repeat: none
 float
   rotate: false
-  xy: 58, 48
-  size: 141, 92
-  orig: 141, 92
+  xy: 52, 17
+  size: 143, 94
+  orig: 143, 94
   offset: 0, 0
   index: 0
 float
   rotate: false
-  xy: 215, 40
-  size: 136, 103
-  orig: 136, 103
+  xy: 205, 11
+  size: 143, 103
+  orig: 143, 103
   offset: 0, 0
   index: 1
 float
   rotate: false
-  xy: 362, 41
-  size: 136, 100
-  orig: 136, 100
+  xy: 352, 11
+  size: 143, 103
+  orig: 143, 103
   offset: 0, 0
   index: 2
 float
   rotate: false
-  xy: 53, 181
-  size: 137, 74
-  orig: 137, 74
+  xy: 46, 143
+  size: 143, 103
+  orig: 143, 103
   offset: 0, 0
   index: 3
 float
   rotate: false
-  xy: 204, 170
-  size: 145, 85
-  orig: 145, 385
+  xy: 198, 135
+  size: 145, 103
+  orig: 145, 103
   offset: 0, 0
   index: 4
 float
   rotate: false
-  xy: 360, 165
-  size: 126, 114
-  orig: 126, 114
+  xy: 340, 134
+  size: 145, 115
+  orig: 145, 115
   offset: 0, 0
   index: 5
 float
   rotate: false
-  xy: 55, 292
-  size: 142, 110
-  orig: 142, 110
+  xy: 48, 260
+  size: 145, 115
+  orig: 145, 115
   offset: 0, 0
   index: 6
 float
   rotate: false
-  xy: 199, 293
-  size: 136, 78
-  orig: 136, 78
+  xy: 207, 268
+  size: 143, 100
+  orig: 143, 100
   offset: 0, 0
   index: 7
 float
   rotate: false
-  xy: 354, 309
-  size: 138, 82
-  orig: 138, 82
+  xy: 373, 273
+  size: 143, 90
+  orig: 143, 90
   offset: 0, 0
   index: 8
 spawn
   rotate: false
-  xy: 58, 48
-  size: 141, 92
-  orig: 141, 92
+  xy: 50, 15
+  size: 145,100
+  orig: 145, 100
   offset: 0, 0
   index: 0
 default
   rotate: false
-  xy: 58, 48
-  size: 141, 92
-  orig: 141, 92
+  xy: 50, 15
+  size: 145,100
+  orig: 145, 100
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 39, 400
+  size: 145,160
+  orig: 145, 160
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 210, 447
+  size: 145,90
+  orig: 145, 90
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 380, 390
+  size: 145,160
+  orig: 145, 160
   offset: 0, 0
   index: 0
