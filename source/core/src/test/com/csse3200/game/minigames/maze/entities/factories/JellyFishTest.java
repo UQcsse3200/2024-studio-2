@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.maze.entities.mazenpc;
+package com.csse3200.game.minigames.maze.entities.factories;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.lighting.LightingEngine;
@@ -14,7 +15,8 @@ import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
 import com.csse3200.game.minigames.maze.components.StatusEffectComponent;
 import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
-import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
+import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactoryTest;
+import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
