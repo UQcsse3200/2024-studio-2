@@ -15,6 +15,7 @@ import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
 import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 import box2dLight.PointLight;
@@ -62,11 +63,14 @@ public class AnglerFish extends MazeEntity {
         pl.setSoftnessLength(0f);
         pl.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
 
-        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
+        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new LightingComponent().attach(pl))
                 .addComponent(aiComponent);
+
+        // Update entities speed
+        this.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(this.getComponent(MazeCombatStatsComponent.class).getBaseSpeed());
 
         this.setScale(.4f, .4f);
         MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.6f, 0.4f);

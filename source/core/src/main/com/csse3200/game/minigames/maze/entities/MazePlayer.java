@@ -51,7 +51,7 @@ public class MazePlayer extends Entity {
                 .addComponent(new ColliderComponent().setFriction(0))
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new MazePlayerActions())
-                .addComponent(new MazeCombatStatsComponent(stats.health, stats.baseAttack))
+                .addComponent(new MazeCombatStatsComponent(stats.health, stats.baseAttack, stats.speed))
                 .addComponent(new MazeTouchAttackComponent(PhysicsLayer.NPC, 15f))
                 .addComponent(inputComponent)
                 .addComponent(new FaceMoveDirectionXComponent())

@@ -1,5 +1,6 @@
 package com.csse3200.game.minigames.maze.components;
 
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import org.slf4j.Logger;
@@ -16,10 +17,12 @@ public class MazeCombatStatsComponent extends Component {
     private int health;
     private int baseAttack;
     private boolean dead;  //TODO: use for game termination
+    private Vector2 baseSpeed;
 
-    public MazeCombatStatsComponent(int health, int baseAttack) {
+    public MazeCombatStatsComponent(int health, int baseAttack, float baseSpeed) {
         setHealth(health);
         setBaseAttack(baseAttack);
+        setBaseSpeed(baseSpeed);
         this.dead = false;
     }
 
@@ -87,6 +90,14 @@ public class MazeCombatStatsComponent extends Component {
         } else {
             logger.error("Can not set base attack to a negative attack value");
         }
+    }
+
+    public Vector2 getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    public void setBaseSpeed(float speed) {
+        this.baseSpeed = new Vector2(speed, speed);
     }
 
     /**

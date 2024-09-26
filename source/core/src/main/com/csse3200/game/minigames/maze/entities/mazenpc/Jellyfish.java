@@ -11,6 +11,7 @@ import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -38,11 +39,14 @@ public class Jellyfish extends MazeEntity {
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
 
-        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
+        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, Color.BLUE)))
                 .addComponent(aiComponent);
+
+        // Update entities speed
+        this.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(this.getComponent(MazeCombatStatsComponent.class).getBaseSpeed());
 
         this.setScale(.3f, .3f);
         MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.3f, 0.5f);

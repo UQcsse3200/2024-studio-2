@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.components;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +15,8 @@ class MazeCombatStatsComponentTest {
 
     @BeforeEach
     void setUp() {
-        player = new MazeCombatStatsComponent(100, 15); // Player with 100 health and 15 base attack
-        enemy = new MazeCombatStatsComponent(50, 10);   // Enemy with 50 health and 10 base attack
+        player = new MazeCombatStatsComponent(100, 15, 1); // Player with 100 health and 15 base attack
+        enemy = new MazeCombatStatsComponent(50, 10, 1);   // Enemy with 50 health and 10 base attack
     }
 
     @Test

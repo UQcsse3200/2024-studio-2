@@ -13,6 +13,7 @@ import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationContro
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -40,11 +41,14 @@ public class ElectricEel extends MazeEntity {
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
 
-        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack))
+        this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(1f, .85f, .7f, 1f))))
                 .addComponent(aiComponent);
+
+        // Update entities speed
+        this.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(this.getComponent(MazeCombatStatsComponent.class).getBaseSpeed());
 
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
