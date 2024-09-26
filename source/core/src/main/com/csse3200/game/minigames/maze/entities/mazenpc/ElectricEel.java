@@ -13,21 +13,26 @@ import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationContro
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
-import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
-
+/**
+ * Eel represents a non-playable character (NPC) in the maze mini-game.
+ * The Eel will chase the player and cause a stun affect
+ */
 public class ElectricEel extends MazeEntity {
 
-
-    Vector2 speed = new Vector2(0.1f, 0.1f);
+    /**
+     * Constructs an Eel entity with the given target and configuration.
+     *
+     * @param target The entity that this AnglerFish will chase (e.g., the player).
+     * @param config The configuration stats for this NPC, such as health and attack power.
+     */
     public ElectricEel(Entity target, MazeEntityConfig config) {
 
         AITaskComponent aiComponent = new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false))
                 .addTask(new MazeChaseTask(target, 10, 2f, 3f));
-
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
                 ServiceLocator.getResourceService().getAsset("images/minigames/eels.atlas", TextureAtlas.class));

@@ -3,7 +3,6 @@ package com.csse3200.game.minigames.maze.components;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
@@ -24,13 +23,13 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 public class MazeTouchAttackComponent extends Component {
     private final short targetLayer;
     private float knockbackForce = 0f;
-    private CombatStatsComponent combatStats;
     private HitboxComponent hitboxComponent;
 
     /**
      * Create a component which attacks entities on collision, without knockback.
      * @param targetLayer The physics layer of the target's collider.
      */
+    //TODO: James do we need this? says it's unused
     public MazeTouchAttackComponent(short targetLayer) {
         this.targetLayer = targetLayer;
     }
@@ -51,7 +50,6 @@ public class MazeTouchAttackComponent extends Component {
     @Override
     public void create() {
         entity.getEvents().addListener("collisionStart", this::onCollisionStart);
-        combatStats = entity.getComponent(CombatStatsComponent.class);
         hitboxComponent = entity.getComponent(HitboxComponent.class);
     }
 
@@ -59,7 +57,6 @@ public class MazeTouchAttackComponent extends Component {
      * Callback when a fixture of this entity collides with another entity.
      * In particular, this callback will handle collisions between the hitbox of this component
      * with other entities and "attack" the other entity.
-     *
      * "attacking" the other entity includes decreasing hit-points, stunning, and applying a
      * knock-back depending on the types of entities involved.
      *

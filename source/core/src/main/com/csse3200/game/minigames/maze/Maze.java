@@ -1,7 +1,6 @@
 package com.csse3200.game.minigames.maze;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.csse3200.game.minigames.Grid;
 import com.csse3200.game.utils.math.RandomUtils;
 
 import java.util.*;
@@ -62,6 +61,7 @@ public class Maze {
      * @param y y-position/row
      * @return the cell of the maze at the coordinate
      */
+    //TODO: James do we need this?
     public List<GridPoint2> getNotMazeAdjacent(int x, int y) {
         return getNotMazeAdjacent(new GridPoint2(x, y));
     }
@@ -104,6 +104,7 @@ public class Maze {
      * @param y y-position/row
      * @return the cell of the maze at the coordinate
      */
+    //TODO: James do we need this?
     public List<GridPoint2> getAdjacent(int x, int y) {
         return getAdjacent(new GridPoint2(x, y));
     }
@@ -145,8 +146,11 @@ public class Maze {
         recursiveBacktracking(getRandomCell(), new Random());
     }
 
+    /**
+     * TODO: James can you fill this in thanks
+     * @return
+     */
     public GridPoint2 getNextStartLocation() {
-        List<GridPoint2> startLocations = new ArrayList<>();
 
         breadthFirstSearch bfs = new breadthFirstSearch(startLocationSpanningTree);
         GridPoint2 mostDistant = bfs.getMostDistant();
@@ -159,6 +163,11 @@ public class Maze {
         return mostDistant;
     }
 
+    /**
+     * TODO: James can you fill this in thankss
+     * @param cell
+     * @param rand
+     */
     private void recursiveBacktracking(GridPoint2 cell, Random rand) {
         List<GridPoint2> adjacent = getAdjacent(cell);
         Collections.shuffle(adjacent, rand);
@@ -172,17 +181,22 @@ public class Maze {
     }
 
     /**
-     * Class for bfs
+     * Class for bfs, used for finding paths in the maze (including the angular fish path to the player)
      */
     public class breadthFirstSearch {
         int[][] distances;
         GridPoint2[][] previous;
         GridPoint2 mostDistant;
 
+
         public breadthFirstSearch(GridPoint2 startCell) {
             this(Collections.singletonList(startCell));
         }
 
+        /**
+         * bfs algorithm
+         * @param startCells the initial position
+         */
         public breadthFirstSearch(List<GridPoint2> startCells) {
             distances = new int[width][height];
             previous = new GridPoint2[width][height];
@@ -224,6 +238,10 @@ public class Maze {
             return path.reversed();
         }
 
+        /**
+         * TODO: James can you fill this in
+         * @return
+         */
         public GridPoint2 getMostDistant() {
             return mostDistant;
         }
@@ -249,10 +267,18 @@ public class Maze {
         }
     }
 
+    /**
+     * Get the maze width
+     * @return the maze width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get the maze height
+     * @return the maze height
+     */
     public int getHeight() {
         return height;
     }

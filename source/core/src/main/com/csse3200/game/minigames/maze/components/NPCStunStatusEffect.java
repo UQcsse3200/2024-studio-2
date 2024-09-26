@@ -36,7 +36,7 @@ public class NPCStunStatusEffect implements StatusEffect {
     }
 
     /**
-     * unused
+     * unused at the moment
      */
     @Override
     public void update() {}

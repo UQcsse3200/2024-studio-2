@@ -75,6 +75,7 @@ public class StatusEffectComponent extends Component {
      * @param status the status
      * @return the removes effect (or null if does not exist)
      */
+    //TODO: Implement (unused at the moment)
     public StatusEffect unregisterStatusEffect(String status) {
         return statusEffect.remove(status);
     }
@@ -100,6 +101,7 @@ public class StatusEffectComponent extends Component {
      * @param status the status
      * @param duration the duration to add (in seconds)
      */
+    //TODO: Implement (unused at the moment)
     public void addStatusExpiry(String status, float duration) {
         if (hasStatus(status)) {
             statusExpiry.put(status, statusExpiry.get(status) + (int) (duration * 1000));
@@ -128,10 +130,12 @@ public class StatusEffectComponent extends Component {
      * Permanently applies a status to the entity (until removed).
      * @param status the status
      */
+    //TODO: Implement (unused at the moment)
     public void addStatus(String status) {
         setStatusExpiry(status, FOREVER);
     }
 
+    //TODO: Implement (unused at the moment)
     public Long removeStatus(String status) {
         if (hasStatus(status) && hasEffect(status)) {
             statusEffect.get(status).stop();
@@ -142,6 +146,7 @@ public class StatusEffectComponent extends Component {
     /**
      * Removes all status effects applied to the entity.
      */
+    //TODO: Implement (unused at the moment)
     public void clearStatus() {
         for (StatusEffect effect : statusEffect.values()) {
             effect.stop();
