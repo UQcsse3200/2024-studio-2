@@ -102,4 +102,14 @@ public class LightingComponent extends Component {
                 .getLighting()
                 .createConeLight(0, 0, dist, 0, cone, color);
     }
+
+    /**
+     * Remove light sources on dispose
+     */
+    @Override
+    public void dispose() {
+        for (PositionalLight light: getLights()) {
+            light.remove(true);
+        }
+    }
 }
