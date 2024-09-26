@@ -156,6 +156,21 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * Retrieves the exact index of the item in the inventory (checks for memory location equality)
+     *
+     * @param item the item to look for
+     * @return the index of the item, or -1 if the item is not found.
+     */
+    public int getPreciseIndex(AbstractItem item) {
+        for (int i = 0; i < capacity; i++) {
+            if (item == memoryView[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Retrieves the index of the first occurrence of an item with the given name.
      *
      * @param name the name of the item.
@@ -435,6 +450,7 @@ public class Inventory implements InventoryInterface {
     private Optional<Integer> getItemIndex(int code) {
         return this.hasItem(code) ? Optional.of(codeToIndices.get(code).first()) : Optional.empty();
     }
+
 
     /**
      * Retrieves the index of the first occurrence of an item with the specified name.

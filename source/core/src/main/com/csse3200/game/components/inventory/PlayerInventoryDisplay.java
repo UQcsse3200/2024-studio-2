@@ -135,7 +135,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @param targetIndex The target index of the slot in the inventory where the item will be dropped.
      * @param item        The {@link AbstractItem} representing the item in the source slot being dragged.
      */
-    private void setupDragAndDrop (ImageButton slot,int targetIndex, AbstractItem item) {
+    private void setupDragAndDrop (ImageButton slot, int targetIndex, AbstractItem item) {
         // Define the source
         dragAndDrop.addSource(new DragAndDrop.Source(slot) {
             @Override
@@ -169,11 +169,12 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 AbstractItem draggedItem = (AbstractItem) payload.getObject();
-                if(draggedItem != null) {
-                    int sourceIndex= inventory.getIndex(draggedItem.getItemCode());
-                    inventory.swap(sourceIndex,targetIndex);
+                if (draggedItem != null) {
+//                    int sourceIndex = inventory.getIndex(draggedItem.getItemCode());
+                    // Following assumes item is in the inventory.
+                    int sourceIndex = inventory.getPreciseIndex(draggedItem);
+                    inventory.swap(sourceIndex, targetIndex);
                     regenerateDisplay();
-
                 }
             }
         });
@@ -281,7 +282,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             slot.add(itemCountLabel).bottom().right(); // Position the label at the bottom right
         }
 
-        setupDragAndDrop(slot, index, item); // Setup drag and drop between hotbar and inventory
+        setupDragAndDrop(slot, index, item); // Setup drag and drop
         return slot;
     }
 
