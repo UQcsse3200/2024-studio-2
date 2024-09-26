@@ -108,6 +108,7 @@ public class QuestManager extends Component {
                         "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
                 }
         };
+
         String[][] potionDialogue = {
                 {
                         "I need five potions! They’re scattered around. Keep your eyes peeled."
