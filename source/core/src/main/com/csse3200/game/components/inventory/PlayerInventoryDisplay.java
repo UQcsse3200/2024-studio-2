@@ -257,7 +257,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             Image itemImage = new Image(new Texture(item.getTexturePath()));
             slot.add(itemImage).center().size(70, 70);
             // Add a label for item quantity (subscript)
-            int itemCount = item.getQuantity(); // Assuming there's a method for getting item count
+            int itemCount = item.getQuantity();
             Label itemCountLabel = new Label(String.valueOf(itemCount), new Label.LabelStyle(new BitmapFont(), Color.BLACK));
             itemCountLabel.setFontScale(1.2f); // Scale the font size of the label
             slot.add(itemCountLabel).bottom().right(); // Position the label at the bottom right
