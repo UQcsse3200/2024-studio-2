@@ -6,12 +6,8 @@ import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 
 public class MazeGameManagerComponent extends Component {
 
-    private int score;
+    private int score = 0;
     private Entity lastFishEgg;
-
-    public void MazeCombatStatsComponent () {
-        this.score = 0;
-    }
 
     public int getScore() {
         return score;

@@ -88,11 +88,7 @@ public class MazeTouchAttackComponent extends Component {
         MazeCombatStatsComponent myStats = meEntity.getComponent(MazeCombatStatsComponent.class);
 
         if (targetStats != null && myStats != null) {
-
-            System.out.println(targetStats.getHealth());
             targetStats.hit(myStats);
-            System.out.println(targetStats.getHealth());
-
         }
 
         // Apply knockback (We can adjust knockback now based off what type of entity it is)
