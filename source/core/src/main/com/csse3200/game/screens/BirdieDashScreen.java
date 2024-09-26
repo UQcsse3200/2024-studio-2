@@ -157,6 +157,7 @@ public class BirdieDashScreen extends PausableScreen {
         renderer.dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
+        ServiceLocator.getResourceService().dispose();
         ServiceLocator.clear();
         font.dispose();
         skin.dispose();
