@@ -1,6 +1,7 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
 
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
@@ -10,6 +11,7 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
+import com.csse3200.game.physics.components.PhysicsMovementComponent;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -37,7 +39,10 @@ public class MazeNPCFactory {
      */
     public static AnglerFish createAngler(Entity target) {
         MazeEntityConfig config = configs.angler;
-        return new AnglerFish(target, config);
+        AnglerFish angler = new AnglerFish(target, config);
+        Vector2 speed = new Vector2(10f, 10f);
+        angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
+        return angler;
     }
 
     /**

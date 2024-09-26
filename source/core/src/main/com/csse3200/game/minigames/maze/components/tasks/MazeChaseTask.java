@@ -17,7 +17,6 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  */
 public class MazeChaseTask extends ChaseTask {
     private Vector2 bestTargetPoint;
-    private final Vector2 speed;
 
     /**
      * @param target           The entity to chase.
@@ -25,26 +24,27 @@ public class MazeChaseTask extends ChaseTask {
      * @param viewDistance     Maximum distance from the entity at which chasing can start.
      * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
      */
-    public MazeChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance, Vector2 speed) {
+    public MazeChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
         super(target, priority, viewDistance, maxChaseDistance, false);
-        this.speed = speed;
     }
 
+    /**
+     * Starts chasing the target
+     */
     @Override
     public void start() {
         super.start();
-        if (speed == null) {
-            movementTask = new MovementTask(bestTargetPoint);
+        movementTask = new MovementTask(bestTargetPoint);
 
-        } else {
-            movementTask = new MovementTask(bestTargetPoint, speed);
-        }
         movementTask.create(owner);
         movementTask.start();
 
         this.owner.getEntity().getEvents().trigger("chaseStart");
     }
 
+    /**
+     * Updates the chasers position, target and animation
+     */
     @Override
     public void update() {
         movementTask.setTarget(bestTargetPoint);
