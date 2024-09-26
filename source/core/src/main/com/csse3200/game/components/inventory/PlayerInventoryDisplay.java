@@ -142,7 +142,7 @@ public class PlayerInventoryDisplay extends UIComponent {
             public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
                 if(item != null) {
-                    payload.setObject(item);
+                    payload.setObject(targetIndex);
                     Image draggedImage = new Image(new Texture(item.getTexturePath()));
                     draggedImage.setSize(80, 80);
                     payload.setDragActor(draggedImage);
@@ -168,13 +168,9 @@ public class PlayerInventoryDisplay extends UIComponent {
 
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                AbstractItem draggedItem = (AbstractItem) payload.getObject();
-                if(draggedItem != null) {
-                    int sourceIndex= inventory.getIndex(draggedItem.getItemCode());
+                int sourceIndex = (int) payload.getObject();
                     inventory.swap(sourceIndex,targetIndex);
                     regenerateDisplay();
-
-                }
             }
         });
     }
