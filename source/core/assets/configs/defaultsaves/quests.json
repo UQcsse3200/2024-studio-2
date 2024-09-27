@@ -39,17 +39,24 @@ quests: [
 		questDialogue: {
 			class: java.util.ImmutableCollections$MapN
 			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
+				I need five potions!
+				TheyÔøΩfre scattered around.
+				Keep your eyes peeled.
 			]
 			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+				Moo there, adventurer! Welcome to the kingdom.
+				WeÔøΩfll be your guides but before you can roam free...
+				You must complete the first steps and 2 step quests.
 			]
 		}
 		currentTaskIndex: 0
@@ -75,17 +82,24 @@ quests: [
 		questDialogue: {
 			class: java.util.ImmutableCollections$MapN
 			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
+				I need five potions!
+				TheyÔøΩfre scattered around.
+				Keep your eyes peeled.
 			]
 			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga.
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+				Moo there, adventurer! Welcome to the kingdom.
+				WeÔøΩfll be your guides but before you can roam free...
+				You must complete the first steps and 2 step quests.
 			]
 		}
 		currentTaskIndex: 0
@@ -111,17 +125,24 @@ quests: [
 		questDialogue: {
 			class: java.util.ImmutableCollections$MapN
 			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
+				I need five potions!
+				TheyÔøΩfre scattered around.
+				Keep your eyes peeled.
 			]
 			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+				Heads up!
+				This world is controlled by the Kanga
+				The most powerful animal in the kingdom.
 			]
 			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+				Moo there, adventurer! Welcome to the kingdom.
+				WeÔøΩfll be wyour guides but before you can roam free...
+				You must complete the first steps and 2 step quests.
 			]
 		}
 		currentTaskIndex: 0
@@ -273,6 +294,7 @@ quests: [
 		currentTaskIndex: 0
 		isFailed: false
 		isActive: false
+		taskCompletionTriggers: null
 		taskCompletionTriggers: null
 	}
 ]
