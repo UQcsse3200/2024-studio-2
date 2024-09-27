@@ -175,31 +175,32 @@ class PauseTaskTest {
         assertTrue(pauseTask.getPriority() < 0, "Priority should be negative after moving out of view distance");
     }
 
-//    @Test
-//    void shouldDisplayCorrectDialogue() {
-//        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
-//        Entity player = new Entity();
-//        QuestManager questManager = new QuestManager(player);
-//        player.addComponent(questManager);
-//        player.setPosition(2f, 2f);
-//
-//        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
-//        cow.setPosition(1.9f, 1.9f);
-//
-//        AITaskComponent ai = cow.getComponent(AITaskComponent.class);
-//        ai.update();
-//
-//        String[] cowInitialDialogue = {
-//                "Moo there, adventurer! Welcome to the kingdom.",
-//                "We will be your guides",
-//                "but before you can roam free...",
-//                "you must complete the first steps and 2 step quests.",
-//        };
-//
-//        for (String hint : cowInitialDialogue) {
-//            String hintDialogue = dialogueBox.getLabel().getText().toString();
-//            assertEquals(hint, hintDialogue);
-//            dialogueBox.handleForwardButtonClick();
-//        }
-//    }
+    @Test
+    void shouldDisplayCorrectDialogue() {
+        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
+        Entity player = new Entity();
+        QuestManager questManager = new QuestManager(player);
+        player.addComponent(questManager);
+        player.getComponent(QuestManager.class).loadQuests();
+        player.setPosition(2f, 2f);
+
+        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
+        cow.setPosition(1.9f, 1.9f);
+
+        AITaskComponent ai = cow.getComponent(AITaskComponent.class);
+        ai.update();
+
+        String[] cowInitialDialogue = {
+                "Moo there, adventurer! Welcome to the kingdom.",
+                "We will be your guides",
+                "but before you can roam free...",
+                "you must complete the first steps and 2 step quests.",
+        };
+
+        for (String hint : cowInitialDialogue) {
+            String hintDialogue = dialogueBox.getLabel().getText().toString();
+            assertEquals(hint, hintDialogue);
+            dialogueBox.handleForwardButtonClick();
+        }
+    }
 }
