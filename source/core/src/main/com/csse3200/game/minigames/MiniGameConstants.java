@@ -30,6 +30,6 @@ public final class MiniGameConstants {
      * Maze game GOLD, SILVER and BRONZE score thresholds
      */
     public static final int MAZE_GOLD_THRESHOLD = MazeGameArea.NUM_EGGS;
-    public static final int MAZE_SILVER_THRESHOLD = MazeGameArea.NUM_EGGS / 2;
-    public static final int MAZE_BRONZE_THRESHOLD = MazeGameArea.NUM_EGGS / 4;
+    public static final int MAZE_SILVER_THRESHOLD = MazeGameArea.NUM_EGGS / 4 * 3;
+    public static final int MAZE_BRONZE_THRESHOLD = MazeGameArea.NUM_EGGS / 2;
 }

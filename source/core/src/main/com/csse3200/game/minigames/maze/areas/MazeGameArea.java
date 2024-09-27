@@ -37,11 +37,11 @@ public class MazeGameArea extends GameArea {
     public static final float WALL_THICKNESS = 0.1f;
 
     // Number of entities spawned onto the maze
-    public static final int NUM_WALL_BREAKS = 10;
+    public static final int NUM_WALL_BREAKS = 18;
     public static final int NUM_ANGLERS = 1;
-    public static final int NUM_EELS = 5;
-    public static final int NUM_JELLYFISH = 15;
-    public static final int NUM_EGGS = 10;
+    public static final int NUM_EELS = 6;
+    public static final int NUM_JELLYFISH = 20;
+    public static final int NUM_EGGS = 16;
 
     Map<Entity.EnemyType, List<Entity>> enemies;
 
@@ -94,7 +94,7 @@ public class MazeGameArea extends GameArea {
         spawnWalls();
         player = spawnPlayer();
         spawnAngler();
-        spawnJellyfish();
+        spawnJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
         spawnFishEggs();
 
@@ -183,10 +183,10 @@ public class MazeGameArea extends GameArea {
      * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
      * the player.
      */
-    private void spawnJellyfish() {
-        for (int i = 0; i < MazeGameArea.NUM_JELLYFISH; i++) {
+    public void spawnJellyfish(int number, float minDistToPlayer) {
+        for (int i = 0; i < number; i++) {
             Entity jellyfish = MazeNPCFactory.createJellyfish();
-            spawnEntityAt(jellyfish, getSimpleStartLocation(1f), true, true);
+            spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
         }
     }

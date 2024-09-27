@@ -12,7 +12,7 @@
   "eel": {
     "health": 100,
     "baseAttack": 5,
-    "speed": 1.1
+    "speed": 0.8
   }
 }
 
