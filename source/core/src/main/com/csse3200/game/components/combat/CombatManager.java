@@ -7,6 +7,7 @@ import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
+import com.csse3200.game.overlays.CombatAnimationDisplay;
 
 
 /**
@@ -22,6 +23,7 @@ public class CombatManager extends Component {
      * Enum representing the possible actions in combat: ATTACK, GUARD, SLEEP, SPECIAL, or ITEM.
      */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
+    private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
 
     private final Entity player;
     private final Entity enemy;
@@ -163,6 +165,7 @@ public class CombatManager extends Component {
 
         switch (playerAction) {
             case ATTACK -> {
+                combatAnimationDisplay.create(); // Add the cat scratch animation
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
