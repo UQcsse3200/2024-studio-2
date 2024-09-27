@@ -23,6 +23,12 @@ public class AnimalRouletteScreen extends ScreenAdapter {
             "images/dog.png",
             "images/croc.png",
             "images/bird.png"};
+    private final String[] animalNames = {"Dog", "Crocodile", "Bird"};
+    private final String[] animalDescriptions = {
+            "The Dog is loyal, brave, and agile. It excels in combat with its speed and determination.",
+            "The Crocodile is strong, cunning, and resilient. It possesses incredible defensive and offensive capabilities.",
+            "The Bird is fast, intelligent, and free. It can outmaneuver opponents and attack from the skies."
+    };
     private int currentAnimalIndex = 0;
     private PopUpHelper popUpHelper;
 
@@ -51,6 +57,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         TextButton leftButton = new TextButton("<", skin);
         TextButton rightButton = new TextButton(">", skin);
         TextButton selectButton = new TextButton("Select", skin);
+        TextButton backButton = new TextButton("Go Back", skin);
 
         leftButton.addListener(new ChangeListener() {
             @Override
@@ -75,11 +82,19 @@ public class AnimalRouletteScreen extends ScreenAdapter {
             }
         });
 
+        backButton.addListener(new ChangeListener() {
+                                   @Override
+                                   public void changed(ChangeEvent event, Actor actor) {
+                                       game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+                                   }
+        });
+
         table.add(leftButton).expandX().left();
         table.add(animalImage).center();
         table.add(rightButton).expandX().right();
         table.row();
         table.add(selectButton).colspan(3).center().padTop(20);
+        table.add(backButton).expandX().left().padBottom(20).row();
     }
 
     private void updateAnimalImage() {
@@ -87,15 +102,12 @@ public class AnimalRouletteScreen extends ScreenAdapter {
     }
 
     private void showAnimalStats() {
-        String animalName = animalImages[currentAnimalIndex].replace(".png", "");
-        popUpHelper.displayDialog(
-                "Animal Stats",
-                "Here are the stats for " + animalName,
-                "images/animals/" + animalImages[currentAnimalIndex],
-                400,
-                300,
-                currentAnimalIndex
-        );
+        String title = animalNames[currentAnimalIndex];
+        String content = animalDescriptions[currentAnimalIndex];
+
+        popUpHelper.displayDialog(title, content, animalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () -> {
+            game.setScreen(new StoryScreen(game, animalNames[currentAnimalIndex].toLowerCase()));
+        });
     }
 
     @Override

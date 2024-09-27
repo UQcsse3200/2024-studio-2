@@ -16,6 +16,7 @@ public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
     private final TextButton nextButton;
+    private final TextButton backButton;
     private final Image animalImage;
     private Table statsTable;
     private Runnable callback;
@@ -74,7 +75,8 @@ public class PopupDialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Confirm", skin);
+        nextButton = new TextButton("Confirm and Start game", skin);
+        backButton = new TextButton("Back", skin);
         addActionListeners();
         createDialogLayout();
     }
@@ -89,7 +91,18 @@ public class PopupDialogBox extends Dialog {
         nextButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                proceedToNext();
+                hide();
+                if (callback != null) {
+                    callback.run();
+                }
+            }
+        });
+
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hide(); // Hide the dialog
+                // You can add additional logic here if needed when going back
             }
         });
     }
@@ -126,6 +139,7 @@ public class PopupDialogBox extends Dialog {
         // Add inner table and next button to contentTable
         contentTable.add(innerTable).expandX().center().row();
         contentTable.add(nextButton).padTop(20);
+        contentTable.add(backButton).padTop(10);
 
         getContentTable().add(contentTable).expand().center();
 
