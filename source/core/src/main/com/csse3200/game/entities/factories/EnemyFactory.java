@@ -277,9 +277,9 @@ public class EnemyFactory {
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
 
     kangarooBoss
             .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
@@ -315,6 +315,106 @@ public class EnemyFactory {
   }
 
   /**
+   * Creates a Water Boss entity, the boss for the water area.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
+  public static Entity createWaterBossEntity(Entity target) {
+    Entity waterBoss = createBossNPC(target, Entity.EnemyType.WATER_BOSS);
+    BaseEnemyEntityConfig config = configs.waterBoss;
+    waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+
+    waterBoss
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(animator)
+            .addComponent(new WaterBossAnimationController());
+
+    waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    waterBoss.scaleHeight(3.0f);
+
+    return waterBoss;
+  }
+
+  /**
+   * Creates a Water Boss entity for combat. This functions the same as createWaterBossEntity() however
+   * there is no chase task included. This is where abilities components will be added.
+   * loaded.
+   *
+   * @return entity
+   */
+  public static Entity createWaterBossCombatEntity() {
+    Entity waterBoss = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.waterBoss;
+    waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
+
+    waterBoss
+            .addComponent(new TextureRenderComponent("images/water_boss_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+
+    waterBoss.scaleHeight(120.0f);
+
+    return waterBoss;
+  }
+
+  /**
+   * Creates an Air Boss entity, the boss of the air area.
+   *
+   * @param target entity to chase
+   * @return entity
+   */
+  public static Entity createAirBossEntity(Entity target) {
+    Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS);
+    BaseEnemyEntityConfig config = configs.airBoss;
+    airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+
+    airBoss
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(animator)
+            .addComponent(new AirBossAnimationController());
+
+    airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    airBoss.scaleHeight(3.0f);
+
+    return airBoss;
+  }
+
+  /**
+   * Creates an Air Boss entity for combat. This functions the same as createAirBossEntity() however
+   * there is no chase task included. This is where abilities components will be added.
+   * loaded.
+   *
+   * @return entity
+   */
+  public static Entity createAirBossCombatEntity() {
+    Entity airBoss = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.airBoss;
+    airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
+
+    airBoss
+            .addComponent(new TextureRenderComponent("images/air_boss_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+
+    airBoss.scaleHeight(120.0f);
+
+    return airBoss;
+  }
+
+  /**
    * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
    *
    * @return entity
@@ -328,7 +428,7 @@ public class EnemyFactory {
       aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, true))
               .addTask(new KangaJoeyTask(target, 6f, 2));
     } else if (type == Entity.EnemyType.WATER_BOSS) {
-      aiComponent.addTask(new ChaseTask(target, 10, 1f, 2f, true))
+      aiComponent.addTask(new ChaseTask(target, 10, 6f, 8f, true))
               .addTask(new WaterSpiralTask(500, target, 100f));
     } else if (type == Entity.EnemyType.AIR_BOSS) {
       aiComponent.addTask(new ChaseTask(target, 10, 12f, 14f, true));

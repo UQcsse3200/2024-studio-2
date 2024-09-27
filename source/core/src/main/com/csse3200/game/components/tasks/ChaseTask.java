@@ -57,7 +57,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void start() {
     super.start();
 
-    String event = this.isBoss ? "kangaChaseStart" : "chaseStart";
+    String event = this.isBoss ? "bossChaseStart" : "chaseStart";
 
       // Set movementTask based on npc type
       Vector2 currentPos = owner.getEntity().getPosition();

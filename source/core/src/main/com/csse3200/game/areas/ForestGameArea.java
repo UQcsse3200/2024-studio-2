@@ -53,6 +53,8 @@ public class ForestGameArea extends GameArea {
 
   // Boolean to ensure that only a single boss entity is spawned when a trigger happens
   private boolean kangarooBossSpawned = false;
+  private boolean waterBossSpawned = false;
+  private boolean airBossSpawned = false;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -99,7 +101,11 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
+
       player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnWaterBoss);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnAirBoss);
+
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       kangarooBossSpawned = false;
 
@@ -192,11 +198,29 @@ public class ForestGameArea extends GameArea {
       if (!kangarooBossSpawned) {
           Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
           kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-//          kangarooBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
           spawnEntityOnMap(kangarooBoss);
           enemies.add(kangarooBoss);
           kangarooBossSpawned = true;
       }
+  }
+
+  private void spawnWaterBoss() {
+    if (!waterBossSpawned) {
+      Entity waterBoss = EnemyFactory.createWaterBossEntity(player);
+      waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
+      spawnEntityOnMap(waterBoss);
+      enemies.add(waterBoss);
+      waterBossSpawned = true;
+    }
+  }
+
+  private void spawnAirBoss() {
+    if (!airBossSpawned) {
+      Entity airBoss = EnemyFactory.createAirBossEntity(player);
+      spawnEntityOnMap(airBoss);
+      enemies.add(airBoss);
+      airBossSpawned = true;
+    }
   }
 
   private void spawnEntityOnMap(Entity entity) {

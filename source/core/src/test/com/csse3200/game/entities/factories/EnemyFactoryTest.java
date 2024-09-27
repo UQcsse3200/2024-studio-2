@@ -410,7 +410,7 @@ class EnemyFactoryTest {
      */
     @Test
     void TestKangaHasAnimation() {
-        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("wander") ,
                 "Kanga should have idle animation.");
     }
 

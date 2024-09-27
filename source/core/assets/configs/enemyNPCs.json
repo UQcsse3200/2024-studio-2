@@ -63,6 +63,22 @@
     "defense": 100,
     "speed": 2,
     "isEnemy": 1
+  },
+  "waterBoss": {
+    "spritePath": "images/water_boss.atlas",
+    "health": 150,
+    "baseAttack": 50,
+    "defense": 50,
+    "speed": 25,
+    "isEnemy": 1
+  },
+  "airBoss": {
+    "spritePath": "images/air_boss.atlas",
+    "health": 150,
+    "baseAttack": 50,
+    "defense": 50,
+    "speed": 25,
+    "isEnemy": 1
   }
 }
 

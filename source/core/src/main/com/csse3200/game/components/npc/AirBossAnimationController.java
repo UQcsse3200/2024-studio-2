@@ -4,10 +4,10 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 /**
- * This class listens to events relevant to a Kanga Boss entity's state and plays the animation when one
+ * This class listens to events relevant to a Water Boss entity's state and plays the animation when one
  * of the events is triggered.
  */
-public class KangaBossAnimationController extends Component {
+public class AirBossAnimationController extends Component {
     AnimationRenderComponent animator;
 
     @Override

@@ -3,28 +3,28 @@ size: 7070, 2888
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-angry_float
+wander
   rotate: false
   xy: 0, 0
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 0
-angry_float
+wander
   rotate: false
   xy: 1414, 0
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 1
-angry_float
+wander
   rotate: false
   xy: 2828, 0
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 2
-angry_float
+wander
   rotate: false
   xy: 4242, 0
   size: 1414, 1444
@@ -38,28 +38,28 @@ default
   orig: 1414, 1444
   offset: 0, 0
   index: 0
-float
+chase
   rotate: false
   xy: 0, 1444
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 0
-float
+chase
   rotate: false
   xy: 1414, 1444
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 1
-float
+chase
   rotate: false
   xy: 2828, 1444
   size: 1414, 1444
   orig: 1414, 1444
   offset: 0, 0
   index: 2
-float
+chase
   rotate: false
   xy: 4242, 1444
   size: 1414, 1444
