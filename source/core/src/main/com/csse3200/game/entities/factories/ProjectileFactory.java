@@ -84,7 +84,7 @@ public class ProjectileFactory {
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
-            .addComponent(new ProjectileAttackComponent((short)(PhysicsLayer.PLAYER + PhysicsLayer.OBSTACLE)));
+            .addComponent(new ProjectileAttackComponent((short)(PhysicsLayer.PLAYER + PhysicsLayer.OBSTACLE), 2));
 
     PhysicsUtils.setScaledCollider(projectile, 0.9f, 0.4f);
     return projectile;
