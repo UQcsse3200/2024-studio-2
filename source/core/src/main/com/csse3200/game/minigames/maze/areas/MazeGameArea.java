@@ -38,10 +38,10 @@ public class MazeGameArea extends GameArea {
     public static final float WALL_THICKNESS = 0.1f;
 
     // Number of entities spawned onto the maze
-    public static final int NUM_WALL_BREAKS = 18;
+    public static final int NUM_WALL_BREAKS = 20;
     public static final int NUM_ANGLERS = 1;
-    public static final int NUM_EELS = 6;
-    public static final int NUM_JELLYFISH = 25;
+    public static final int NUM_EELS = 5;
+    public static final int NUM_JELLYFISH = 20;
     public static final int NUM_EGGS = 16;
 
     Map<Entity.EnemyType, List<Entity>> enemies;

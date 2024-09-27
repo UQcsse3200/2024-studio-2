@@ -51,14 +51,14 @@ public class MazeDifficultyIncrease extends Component {
 
         List<Entity> eels = gameArea.getEnemies(Entity.EnemyType.MAZE_EEL);
         for (Entity eel : eels) {
-            // make eels a little bit faster from speed 0.8 -> 1.3
+            // make eels a little bit faster from speed 0.8 -> 1.2
             Vector2 speed = eel.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 0.5f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
             eel.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
         }
 
         // spawn some extra jellyfish each time
-        gameArea.spawnJellyfish(2, 3f);
-        gameArea.spawnGreenJellyfish(2, 3f);
+        gameArea.spawnJellyfish(1, 3f);
+        gameArea.spawnGreenJellyfish(1, 3f);
 
         // dim jellyfish lights throughout the game and remove them past silver
         List<Entity> jellyfish = gameArea.getEnemies(Entity.EnemyType.MAZE_JELLYFISH);
