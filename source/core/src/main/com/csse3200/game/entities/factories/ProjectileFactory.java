@@ -37,7 +37,7 @@ public class ProjectileFactory {
           FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
   /**
-   * Creates a banana projectile entity.
+   * Creates a banana projectile entity (for monkey).
    *
    * <p>This projectile will chase the specified target entity, such as a player, using predefined
    * AI tasks and animations.
@@ -46,22 +46,37 @@ public class ProjectileFactory {
    * @return A new banana projectile entity.
    */
   public static Entity createBanana(Entity target) {
-    return createBaseProjectile(target, configs.banana, 0.5f);
+    String path = configs.electricOrb.getSpritePath();
+    TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
+    
+    AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
+    animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
+    
+    return createBaseProjectile(target, configs.banana, 0.5f, animator);
   }
   
-  public static Entity createElectricOrb(Entity target) {
-    return createBaseProjectile(target, configs.electricOrb, 1f);
-  }
-
-
   /**
-   * Creates a base projectile entity with common components and sets the target layer for
-   * the projectile's attacks.
+   * Creates an orb projectile entity (for eel).
    *
-   * @param target The entity that the projectile will target.
-   * @return A new projectile entity with basic components.
+   * <p>This projectile will chase the specified target entity, such as a player, using predefined
+   * AI tasks and animations.
+   *
+   * @param target The entity that the projectile will target and chase.
+   * @return A new banana projectile entity.
    */
-  private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale) {
+  public static Entity createElectricOrb(Entity target) {
+    String path = configs.electricOrb.getSpritePath();
+    TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
+    
+    AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
+    animator.addAnimation("down", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("left", 0.25f, Animation.PlayMode.LOOP);
+    animator.addAnimation("diagonal", 0.25f, Animation.PlayMode.LOOP);
+    
+    return createBaseProjectile(target, configs.electricOrb, 1f, animator);
+  }
+  
+  private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale,  AnimationRenderComponent animator) {
     Entity projectile =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -76,12 +91,6 @@ public class ProjectileFactory {
     aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
     
     projectile.addComponent(aiTaskComponent);
-    
-    String path = config.getSpritePath();
-    TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
-    
-    AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
-    animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
     
     projectile
             .addComponent(animator)

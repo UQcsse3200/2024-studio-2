@@ -3,6 +3,13 @@ size: 280, 120
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 40, 40
+  orig: 0, 0
+  offset: 0, 0
+  index:0
 down
   rotate: false
   xy: 0, 0
