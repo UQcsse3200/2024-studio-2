@@ -4,6 +4,8 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,9 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-
+    private AbstractItem playerItem;
+    private int playerItemIndex;
+    private ItemUsageContext playerItemContext;
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -57,6 +61,30 @@ public class CombatManager extends Component {
 
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
+    }
+
+    /**
+     * Initialises the event listeners.
+     */
+    @Override
+    public void create() {
+        entity.getEvents().addListener("itemConfirmed", this::usePlayerItem);
+    }
+
+    /**
+     * Sets player's item as the one passed into this function, then calls for moves to be completed with the
+     * player's move being ITEM.
+     * @param item
+     * @param index
+     * @param context
+     */
+    public void usePlayerItem(AbstractItem item, int index, ItemUsageContext context) {
+        logger.info("Item was confirmed. Using item now.");
+        this.playerItem = item;
+        this.playerItemIndex = index;
+        this.playerItemContext = context;
+
+        onPlayerActionSelected("ITEM");
     }
 
     /**
@@ -228,7 +256,7 @@ public class CombatManager extends Component {
                     }
                 }
             }
-            case SLEEP, ITEM -> {
+            case SLEEP -> {
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
@@ -243,6 +271,11 @@ public class CombatManager extends Component {
                         enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                 }
+            }
+            case ITEM -> {
+                // Player's move is using an item in the CombatInventoryDisplay.
+                entity.getEvents().trigger("itemMove", playerItem, playerItemIndex, playerItemContext);
+                enemyMove.executeMove(enemyAction);
             }
         }
 
@@ -371,8 +404,8 @@ public class CombatManager extends Component {
         String[][] moveText;
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
-        Boolean playerStatChange = false;
-        Boolean enemyStatChange = false;
+        boolean playerStatChange = false;
+        boolean enemyStatChange = false;
 
         String[] entityStatChanges = calculateStatChanges();
 

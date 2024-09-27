@@ -81,6 +81,7 @@ public class CombatInventoryDisplay extends UIComponent {
     public void create() {
         super.create();
         entity.getEvents().addListener("toggleCombatInventory", this::toggleInventory);
+        entity.getEvents().addListener("itemMove", this::useItem);
     }
 
     /**
@@ -200,9 +201,7 @@ public class CombatInventoryDisplay extends UIComponent {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
                 if (!(item instanceof SpeedPotion)) {
-                    inventory.useItemAt(index, context);
-                    entity.getEvents().trigger("itemUsed", item);
-                    entity.getEvents().trigger("toggleCombatInventory");
+                    entity.getEvents().trigger("itemClicked", item, index, context);
                 } else {
                     String[][] itemText = {{((SpeedPotion) item).getWarning()}};
                     ServiceLocator.getDialogueBoxService().updateText(itemText);
@@ -210,6 +209,17 @@ public class CombatInventoryDisplay extends UIComponent {
                 regenerateInventory();
             }
         });
+    }
+
+    /**
+     * Uses an item in the inventory.
+     * @param item to be used.
+     * @param index of the item in the inventory.
+     * @param context of the item being used.
+     */
+    private void useItem(AbstractItem item, int index, ItemUsageContext context) {
+        inventory.useItemAt(index, context);
+        entity.getEvents().trigger("itemUsed", item);
     }
 
     /**
