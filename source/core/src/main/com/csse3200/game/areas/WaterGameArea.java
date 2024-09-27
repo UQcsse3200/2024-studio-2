@@ -167,7 +167,7 @@ public class WaterGameArea extends GameArea {
 
     private void spawnKangarooBoss() {
         if (!kangarooBossSpawned) {
-            Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
+            Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
             spawnEntityOnMap(kangarooBoss);
             kangarooBossSpawned = true;
         }

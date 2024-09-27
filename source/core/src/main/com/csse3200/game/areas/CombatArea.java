@@ -7,6 +7,7 @@ import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
@@ -186,7 +187,7 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
+        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 

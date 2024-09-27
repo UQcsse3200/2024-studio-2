@@ -89,7 +89,6 @@ class EnemyFactoryTest {
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
         bear = EnemyFactory.createBear(player);
-        kanga = EnemyFactory.createKangaBossEntity(player);
     }
 
     /**
