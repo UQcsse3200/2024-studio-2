@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -18,7 +19,10 @@ public class AnimalRouletteScreen extends ScreenAdapter {
     private Stage stage;
     private Skin skin;
     private Image animalImage;
-    private final String[] animalImages = {"dog.png", "crocodile.png", "bird.png"};
+    private final String[] animalImages = {
+            "images/dog.png",
+            "images/croc.png",
+            "images/bird.png"};
     private int currentAnimalIndex = 0;
     private PopUpHelper popUpHelper;
 
@@ -31,7 +35,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         popUpHelper = new PopUpHelper(skin, stage);
 
         createUI();

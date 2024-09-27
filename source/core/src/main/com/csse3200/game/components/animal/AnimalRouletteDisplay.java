@@ -10,7 +10,10 @@ import com.csse3200.game.components.Component;
 public class AnimalRouletteDisplay extends Component {
     private Table table;
     private Image animalImage;
-    private final String[] animalImages = {"dog.png", "crocodile.png", "bird.png"};
+    private final String[] animalImages = {
+            "images/dog.png",
+            "images/croc.png",
+            "images/bird.png"};
     private int currentAnimalIndex = 0;
     private Skin skin;
     private Stage stage;
