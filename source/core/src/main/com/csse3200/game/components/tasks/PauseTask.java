@@ -96,6 +96,7 @@ public class PauseTask extends ChaseTask {
             QuestBasic quest = this.questManager.getQuest(questName);
 
             int progression = quest.getProgression();
+
             if (progression == quest.getNumQuestTasks() && progression != 0) {
                 continue;
             }

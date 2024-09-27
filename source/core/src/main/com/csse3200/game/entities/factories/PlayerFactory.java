@@ -63,7 +63,6 @@ public class PlayerFactory {
         moveSet.add(new SleepMove("Player Sleep", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
-
         player.addComponent(new PlayerActions(game, player, imagePath));
 
         // Set different stats for each animal type
