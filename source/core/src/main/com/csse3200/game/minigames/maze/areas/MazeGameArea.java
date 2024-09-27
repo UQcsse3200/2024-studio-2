@@ -60,7 +60,13 @@ public class MazeGameArea extends GameArea {
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas"
 
     };
-    private static final String[] mazeSounds = {"sounds/minigames/angler-chomp.mp3", "sounds/minigames/eel-zap.mp3", "sounds/minigames/eel-electricity.mp3"};
+    private static final String[] mazeSounds = {
+            "sounds/minigames/angler-chomp.mp3",
+            "sounds/minigames/eel-zap.mp3",
+            "sounds/minigames/eel-electricity.mp3",
+            "sounds/minigames/maze-hit.mp3",
+            "sounds/minigames/collect-fishegg.mp3"
+    };
     private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
     private static final String[] mazeMusic = {mazeBackgroundMusic};
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles

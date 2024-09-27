@@ -19,7 +19,6 @@ public class FishEgg extends Entity {
      * Constructs a FishEgg entity with the given configuration.
      */
     public FishEgg() {
-
         // Add lighting component
         this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.ORANGE)))
                 .addComponent(new PhysicsComponent())
@@ -32,6 +31,4 @@ public class FishEgg extends Entity {
         float scaleY = 0.1f; // Adjust size of FishEgg in Y direction
         this.setScale(scaleX, scaleY);
     }
-
-
 }

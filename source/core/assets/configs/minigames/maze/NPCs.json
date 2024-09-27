@@ -7,7 +7,7 @@
   "jellyfish": {
     "health": 100,
     "baseAttack": 10,
-    "speed": 0.9
+    "speed": 0.8
   },
   "eel": {
     "health": 100,

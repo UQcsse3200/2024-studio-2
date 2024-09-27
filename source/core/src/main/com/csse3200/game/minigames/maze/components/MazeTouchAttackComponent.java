@@ -75,6 +75,7 @@ public class MazeTouchAttackComponent extends Component {
             // Increment score if collision with fish eggs
             if (targetEntity instanceof FishEgg) {
                 meEntity.getComponent(MazeGameManagerComponent.class).setLastFishEgg(targetEntity);
+                AudioManager.playSound("sounds/minigames/collect-fishegg.mp3");
                 return;
             }
             float stunDuration = 0.8f;
@@ -84,7 +85,7 @@ public class MazeTouchAttackComponent extends Component {
                 stunDuration = 2.8f;
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
-
+            AudioManager.playSound("sounds/minigames/maze-hit.mp3");
         }
 
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
