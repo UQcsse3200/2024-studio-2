@@ -103,7 +103,7 @@ public class PlayerFactory {
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
-        PositionalLight light = LightingComponent.createPointLight(4f, Color.CORAL);
+        PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
         player.addComponent(new LightingComponent().attach(light));
 
         return player;
