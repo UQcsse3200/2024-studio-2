@@ -222,7 +222,7 @@ public class NPCFactory {
                     .addComponent(new PhysicsMovementComponent())
                     .addComponent(new ColliderComponent())
                     .addComponent(aiComponent)
-                    .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.CYAN)));
+                    .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)));
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
