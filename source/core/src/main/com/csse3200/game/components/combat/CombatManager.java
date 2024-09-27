@@ -422,16 +422,21 @@ public class CombatManager extends Component {
             moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
                     String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0],
                     entityStatChanges[1]}};
+            logger.info("1");
         } else if (playerStatChange) {
             moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
                     String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0]}};
+            logger.info("2");
         } else if (enemyStatChange) {
             moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
                     String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[1]}};
+            logger.info("3");
         } else {
             moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
                     String.format("The enemy decided to %s", enemyMoveDetails),
                     "No stats were changed, try again!"}};
+            logger.info("Player move details: {}", playerMoveDetails);
+            logger.info("Enemy move details: {}", enemyMoveDetails);
         }
 
         ServiceLocator.getDialogueBoxService().updateText(moveText);

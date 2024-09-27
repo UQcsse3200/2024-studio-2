@@ -181,19 +181,19 @@ public class CombatInventoryDisplay extends UIComponent {
      */
     public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
         // Add hover listener for highlighting and showing the message
-        slot.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //double calls when mouse held, to be fixed
-                String[][] itemText = {{item.getDescription() + ". Quantity: "
-                        + item.getQuantity() + "/" + item.getLimit()}};
-                ServiceLocator.getDialogueBoxService().updateText(itemText);
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
-            }
-        });
+//        slot.addListener(new InputListener() {
+//            @Override
+//            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+//                //double calls when mouse held, to be fixed
+//                String[][] itemText = {{item.getDescription() + ". Quantity: "
+//                        + item.getQuantity() + "/" + item.getLimit()}};
+//                ServiceLocator.getDialogueBoxService().updateText(itemText);
+//            }
+//            @Override
+//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+//                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
+//            }
+//        });
 
         slot.addListener(new ChangeListener() {
             @Override
