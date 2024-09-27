@@ -41,7 +41,7 @@ public class ElectricEel extends MazeEntity {
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
                 ServiceLocator.getResourceService().getAsset("images/minigames/eels.atlas", TextureAtlas.class));
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("Attack", 0.95f/6, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
         animator.addSound("sounds/minigames/eel-electricity.mp3", "Attack", 0);
 
