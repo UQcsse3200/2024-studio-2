@@ -18,6 +18,7 @@ public class PopupDialogBox extends Dialog {
     private final TextButton nextButton;
     private final Image animalImage;
     private Table statsTable;
+    private Runnable callback;
 
     private final float dialogWidth;
     private final float dialogHeight;
@@ -78,6 +79,9 @@ public class PopupDialogBox extends Dialog {
         createDialogLayout();
     }
 
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
+    }
     /**
      * Adds action listeners to the buttons in the dialog.
      */
@@ -158,6 +162,9 @@ public class PopupDialogBox extends Dialog {
             updateStatsTable(); // Update stats table when changing pages
         } else {
             hide();  // Hide dialog when content is done
+            if (callback != null) {
+                callback.run();  // Execute the callback when dialog is closed
+            }
         }
     }
 
