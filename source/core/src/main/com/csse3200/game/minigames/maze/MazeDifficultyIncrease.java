@@ -34,7 +34,7 @@ public class MazeDifficultyIncrease extends Component {
         List<Entity> anglers = gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER);
         for (Entity angler : anglers) {
             // make angler faster from speed 0.6 -> 1.5
-            Vector2 speed = angler.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 0.9f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
+            Vector2 speed = angler.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 1.3f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
             angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
             for (Light light : angler.getComponent(LightingComponent.class).getLights()) {
                 if (score >= MiniGameConstants.MAZE_BRONZE_THRESHOLD / 2) {

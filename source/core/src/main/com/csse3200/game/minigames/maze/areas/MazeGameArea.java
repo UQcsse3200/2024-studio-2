@@ -214,10 +214,10 @@ public class MazeGameArea extends GameArea {
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
             GridPoint2 otherCell = maze.getMazeAdjacent(cell).getFirst();
             jellyfish.getComponent(AITaskComponent.class).addTask(new PatrolTask(3, new Vector2[]{
-                    new Vector2(cell.x + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().x),
-                            cell.y + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().y)),
-                    new Vector2(otherCell.x + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().x),
-                            otherCell.y + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().y))
+                    new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                            cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
+                    new Vector2(otherCell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                            otherCell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
             }));
             getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
         }
