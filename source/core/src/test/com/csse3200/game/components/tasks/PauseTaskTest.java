@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.quests.AchievementManager;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
@@ -177,7 +178,6 @@ class PauseTaskTest {
 //    @Test
 //    void shouldDisplayCorrectDialogue() {
 //        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
-//
 //        Entity player = new Entity();
 //        QuestManager questManager = new QuestManager(player);
 //        player.addComponent(questManager);

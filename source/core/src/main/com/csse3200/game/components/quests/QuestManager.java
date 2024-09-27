@@ -156,6 +156,10 @@ public class QuestManager extends Component {
         dialogues.add(new DialogueKey("Cow", "Play Snake Minigame", "playSnakeMinigame", snakeMinigameDialogue));
         dialogues.add(new DialogueKey("Cow", "Kangaroo Boss Challenge", "defeatKangaBoss", kangaBossDialogue));
 
+        QuestBasic GuidesIntro = new QuestBasic("Guide's Intro", "", new ArrayList<>(), false,
+                new HashMap<>(), new String[]{}, false, false, 0);
+        quests.put("Guide's Intro", GuidesIntro);
+
         return dialogues;
     }
 
