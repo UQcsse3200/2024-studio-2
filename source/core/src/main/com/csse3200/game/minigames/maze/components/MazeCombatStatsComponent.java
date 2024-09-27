@@ -97,7 +97,7 @@ public class MazeCombatStatsComponent extends Component {
 
     //TODO: add comments here
     public Vector2 getBaseSpeed() {
-        return baseSpeed;
+        return baseSpeed.cpy();
     }
 
     public void setBaseSpeed(float speed) {

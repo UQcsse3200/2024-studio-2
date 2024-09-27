@@ -6,7 +6,6 @@ import com.csse3200.game.components.Component;
 public class EelLightingEffect extends Component {
     Light light;
 
-
     public EelLightingEffect(Light light) {
         this.light = light;
         light.setActive(false);

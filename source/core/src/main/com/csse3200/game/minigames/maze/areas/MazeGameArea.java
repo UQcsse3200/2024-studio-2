@@ -13,13 +13,19 @@ import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
+import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
+import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
+import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
@@ -36,6 +42,8 @@ public class MazeGameArea extends GameArea {
     public static final int NUM_EELS = 5;
     public static final int NUM_JELLYFISH = 15;
     public static final int NUM_EGGS = 10;
+
+    Map<Entity.EnemyType, List<Entity>> enemies;
 
     // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
@@ -67,6 +75,7 @@ public class MazeGameArea extends GameArea {
     public MazeGameArea(MazeTerrainFactory terrainFactory) {
         super();
         this.terrainFactory = terrainFactory;
+        this.enemies = new HashMap<>();
     }
 
     /**
@@ -150,7 +159,7 @@ public class MazeGameArea extends GameArea {
      * @return the player entity
      */
     private Entity spawnPlayer() {
-        Entity newPlayer = MazePlayerFactory.createPlayer();
+        Entity newPlayer = MazePlayerFactory.createPlayer(this);
         newPlayer.addComponent(terrainFactory.getCameraComponent());
         spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
         newPlayer.getEvents().trigger("wanderStart");
@@ -166,6 +175,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
             angler.getComponent(AITaskComponent.class).addTask(
                     new MazeHuntTask(player, maze, 2));
+            getEnemies(Entity.EnemyType.MAZE_ANGLER).add(angler);
         }
     }
 
@@ -177,6 +187,7 @@ public class MazeGameArea extends GameArea {
         for (int i = 0; i < MazeGameArea.NUM_JELLYFISH; i++) {
             Entity jellyfish = MazeNPCFactory.createJellyfish();
             spawnEntityAt(jellyfish, getSimpleStartLocation(1f), true, true);
+            getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
         }
     }
 
@@ -187,6 +198,7 @@ public class MazeGameArea extends GameArea {
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
+            getEnemies(Entity.EnemyType.MAZE_EEL).add(eel);
         }
     }
 
@@ -267,12 +279,23 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
-     * Gets the list of enemies (angler fish)
+     * Gets the list of enemies
      *
      * @return the list of enemies
      */
+    @Override
     public List<Entity> getEnemies() {
-        return null;
+        List<Entity> list = new ArrayList<>();
+        for (List<Entity> enemiesOfType : enemies.values()) {
+            list.addAll(enemiesOfType);
+        }
+        return list;
     }
 
+    public List<Entity> getEnemies(Entity.EnemyType enemyType) {
+        if (!enemies.containsKey(enemyType)) {
+            enemies.put(enemyType, new ArrayList<>());
+        }
+        return enemies.get(enemyType);
+    }
 }
