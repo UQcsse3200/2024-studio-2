@@ -10,6 +10,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.Maze;
 import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
 import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
+import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
@@ -57,8 +58,8 @@ public class MazeGameArea extends GameArea {
     };
     private static final String[] mazeTextureAtlases = {
             "images/minigames/Angler.atlas", "images/minigames/fish.atlas",
-            "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas"
-
+            "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
+            "images/minigames/GreenJellyfish.atlas"
     };
     private static final String[] mazeSounds = {
             "sounds/minigames/angler-chomp.mp3",
@@ -101,6 +102,7 @@ public class MazeGameArea extends GameArea {
         player = spawnPlayer();
         spawnAngler();
         spawnJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
+        spawnGreenJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
         spawnFishEggs();
 
@@ -197,6 +199,30 @@ public class MazeGameArea extends GameArea {
         }
     }
 
+    private float randomRange(float min, float max) {
+        return (float) Math.random() * (max - min) + min;
+    }
+
+    /**
+     * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
+     * the player.
+     */
+    public void spawnGreenJellyfish(int number, float minDistToPlayer) {
+        for (int i = 0; i < number; i++) {
+            Entity jellyfish = MazeNPCFactory.createGreenJellyfish();
+            spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
+            GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
+            GridPoint2 otherCell = maze.getMazeAdjacent(cell).getFirst();
+            jellyfish.getComponent(AITaskComponent.class).addTask(new PatrolTask(3, new Vector2[]{
+                    new Vector2(cell.x + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().x),
+                            cell.y + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().y)),
+                    new Vector2(otherCell.x + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().x),
+                            otherCell.y + randomRange(WALL_THICKNESS, 1-WALL_THICKNESS-jellyfish.getScale().y))
+            }));
+            getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
+        }
+    }
+
     /**
      * Spawns the eels entities
      */
@@ -224,7 +250,6 @@ public class MazeGameArea extends GameArea {
     @Override
     public void playMusic() {
         AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
-        AudioManager.setMusicVolume(AudioManager.getDesiredMusicVolume() / 2);
     }
 
     /**
