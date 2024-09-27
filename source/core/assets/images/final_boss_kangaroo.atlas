@@ -1,68 +1,54 @@
 final_boss_kangaroo.png
-size: 7070, 2888
+size: 192, 128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
 wander
   rotate: false
   xy: 0, 0
-  size: 1414, 1444
-  orig: 1414, 1444
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 0
 wander
   rotate: false
-  xy: 1414, 0
-  size: 1414, 1444
-  orig: 1414, 1444
+  xy: 64, 0
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 1
 wander
   rotate: false
-  xy: 2828, 0
-  size: 1414, 1444
-  orig: 1414, 1444
+  xy: 128, 0
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 2
-wander
+chase
   rotate: false
-  xy: 4242, 0
-  size: 1414, 1444
-  orig: 1414, 1444
-  offset: 0, 0
-  index: 3
-default
-  rotate: false
-  xy: 5656, 0
-  size: 1414, 1444
-  orig: 1414, 1444
+  xy: 0, 64
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 0
 chase
   rotate: false
-  xy: 0, 1444
-  size: 1414, 1444
-  orig: 1414, 1444
-  offset: 0, 0
-  index: 0
-chase
-  rotate: false
-  xy: 1414, 1444
-  size: 1414, 1444
-  orig: 1414, 1444
+  xy: 64, 64
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 1
 chase
   rotate: false
-  xy: 2828, 1444
-  size: 1414, 1444
-  orig: 1414, 1444
+  xy: 128, 64
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: 2
-chase
-  rotate: false
-  xy: 4242, 1444
-  size: 1414, 1444
-  orig: 1414, 1444
-  offset: 0, 0
-  index: 3
