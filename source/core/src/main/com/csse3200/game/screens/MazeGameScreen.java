@@ -55,6 +55,7 @@ public class MazeGameScreen extends PausableScreen {
     private final Skin skin;
     private float scale;
     private final MazeGameArea mazeGameArea;
+    private int score = -1;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -111,6 +112,11 @@ public class MazeGameScreen extends PausableScreen {
         physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
+        if (score != -1) {
+            logger.info("End of Maze Mini-Game");
+            dispose();
+            game.setScreen(new EndMiniGameScreen(game, score, MiniGameNames.MAZE, oldScreen, oldScreenServices));
+        }
     }
 
     @Override
@@ -140,8 +146,7 @@ public class MazeGameScreen extends PausableScreen {
     }
 
     private void endGame(int score) {
-        logger.info("End of Maze Mini-Game");
-        game.setScreen(new EndMiniGameScreen(game, score, MiniGameNames.MAZE, oldScreen, oldScreenServices));
+        this.score = score;
     }
 
     private void loadAssets() {
