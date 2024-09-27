@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
+import com.csse3200.game.components.npc.OrbAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -46,13 +48,13 @@ public class ProjectileFactory {
    * @return A new banana projectile entity.
    */
   public static Entity createBanana(Entity target) {
-    String path = configs.electricOrb.getSpritePath();
+    String path = configs.banana.getSpritePath();
     TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
     
     AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
     animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
     
-    return createBaseProjectile(target, configs.banana, 0.5f, animator);
+    return createBaseProjectile(target, configs.banana, 0.5f, animator, new BananaAnimationController());
   }
   
   /**
@@ -73,10 +75,11 @@ public class ProjectileFactory {
     animator.addAnimation("left", 0.25f, Animation.PlayMode.LOOP);
     animator.addAnimation("diagonal", 0.25f, Animation.PlayMode.LOOP);
     
-    return createBaseProjectile(target, configs.electricOrb, 1f, animator);
+    return createBaseProjectile(target, configs.electricOrb, 1f, animator, new OrbAnimationController());
   }
   
-  private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale,  AnimationRenderComponent animator) {
+  private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale,
+                                             AnimationRenderComponent animator, Component controler) {
     Entity projectile =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -94,7 +97,7 @@ public class ProjectileFactory {
     
     projectile
             .addComponent(animator)
-            .addComponent(new BananaAnimationController());
+            .addComponent(controler);
     projectile.setScale(scale, scale);
     
     projectile.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));

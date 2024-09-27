@@ -116,6 +116,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     // this.owner.getEntity().getEvents().trigger("shooting");  // Trigger shooting event
     lastShotTime = timer.getTime();  // Update the time of the last shot
     numShots++;  // Increase shot count
-    owner.getEntity().getEvents().trigger("FireBanana", owner.getEntity());
+    owner.getEntity().getEvents().trigger("Shoot", owner.getEntity(), owner.getEntity().getEnemyType());
   }
 }
