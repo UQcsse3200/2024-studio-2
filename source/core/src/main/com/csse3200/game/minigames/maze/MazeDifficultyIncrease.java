@@ -13,6 +13,8 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 
 import java.util.List;
 
+import static com.csse3200.game.lighting.LightingUtils.interpolateColorCycle;
+
 public class MazeDifficultyIncrease extends Component {
     private final MazeGameArea gameArea;
 
@@ -37,15 +39,8 @@ public class MazeDifficultyIncrease extends Component {
             Vector2 speed = angler.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 1.3f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
             angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
             for (Light light : angler.getComponent(LightingComponent.class).getLights()) {
-                if (score >= MiniGameConstants.MAZE_BRONZE_THRESHOLD / 2) {
-                    light.setColor(Color.ORANGE);
-                }
-                if (score >= MiniGameConstants.MAZE_BRONZE_THRESHOLD) {
-                    light.setColor(Color.SCARLET);
-                }
-                if (score >= MiniGameConstants.MAZE_SILVER_THRESHOLD) {
-                    light.setColor(Color.RED);
-                }
+                light.setColor(interpolateColorCycle(new Color[]{Color.GREEN, Color.ORANGE, Color.SCARLET, Color.RED},
+                        (float) score / MiniGameConstants.MAZE_GOLD_THRESHOLD));
             }
         }
 
