@@ -358,18 +358,22 @@ public class ForestGameArea extends GameArea {
       return;
     }
     
+    ResourceService resourceService = ServiceLocator.getResourceService();
     Vector2 pos = calculateSpawnPosition(defeatedEnemy);
     Entity convertedNPC = null;
     
     switch (defeatedEnemy.getEnemyType()) {
       case CHICKEN:
         convertedNPC = NPCFactory.createChicken(player, this.enemies);
+        resourceService.loadMusic(new String[] {"sounds/chicken.wav"});
         break;
       case FROG:
         convertedNPC = NPCFactory.createFrog(player, this.enemies);
+        resourceService.loadMusic(new String[] {"sounds/frog.wav"});
         break;
       case MONKEY:
         convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+        resourceService.loadMusic(new String[] {"sounds/monkey.wav"});
         break;
       // Add other enemy types as needed
       default:
