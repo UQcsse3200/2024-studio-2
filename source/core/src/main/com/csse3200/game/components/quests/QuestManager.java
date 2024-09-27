@@ -41,8 +41,8 @@ public class QuestManager extends Component {
 
     private final Entity player;
 
-    private final DialogueBoxService dialogueBoxService;
-    private final List<DialogueKey> questDialogues;
+//    private final DialogueBoxService dialogueBoxService;
+//    private final List<DialogueKey> questDialogues;
 
 
     /**Constructs questManager instance */
@@ -52,11 +52,11 @@ public class QuestManager extends Component {
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
-        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
+//        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
-        this.questDialogues = createQuestDialogues();
+        createQuestDialogues();
 
     }
 
@@ -112,9 +112,9 @@ public class QuestManager extends Component {
      *
      * @return a map where the key is of type DialogueKey and the value is a 2D array of strings representing questName and Dialogue.
      */
-    public List<DialogueKey> getQuestDialogues() {
-        return this.questDialogues;
-    }
+//    public List<DialogueKey> getQuestDialogues() {
+//        return this.questDialogues;
+//    }
 
     //change names later on
     /**
@@ -150,11 +150,11 @@ public class QuestManager extends Component {
         };
 
 
-        dialogues.add(new DialogueKey("Cow", "Guide's Intro", "talkToGuide", cowInitialDialogue));
-        dialogues.add(new DialogueKey("Cow", "Guide's Request", "collectPotions", potionDialogue));
-        dialogues.add(new DialogueKey("Cow", "Defeat Enemies", "defeatEnemies", defeatEnemiesDialogue));
-        dialogues.add(new DialogueKey("Cow", "Play Snake Minigame", "playSnakeMinigame", snakeMinigameDialogue));
-        dialogues.add(new DialogueKey("Cow", "Kangaroo Boss Challenge", "defeatKangaBoss", kangaBossDialogue));
+        dialogues.add(new DialogueKey("Cow", cowInitialDialogue));
+        dialogues.add(new DialogueKey("Cow", potionDialogue));
+        dialogues.add(new DialogueKey("Cow", defeatEnemiesDialogue));
+        dialogues.add(new DialogueKey("Cow", snakeMinigameDialogue));
+        dialogues.add(new DialogueKey("Cow", kangaBossDialogue));
 
         return dialogues;
     }
@@ -236,6 +236,7 @@ public class QuestManager extends Component {
     public void loadQuests() {
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
+            logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
 
             // Setup potion collection task is not completed already in saved GameState 
             if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {

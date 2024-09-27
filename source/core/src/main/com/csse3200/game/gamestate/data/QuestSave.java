@@ -5,6 +5,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -22,6 +24,7 @@ public class QuestSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
+        Logger logger = LoggerFactory.getLogger(QuestSave.class);
         ArrayList<QuestBasic> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
             Iterator<JsonValue> taskList;
@@ -33,12 +36,13 @@ public class QuestSave implements Json.Serializable {
             }
 
             Iterator<JsonValue> dialogueList;
-            if(quest.get("taskCompletionTriggers").isNull()) {
+            if(quest.get("questDialogue").isNull()) {
                 dialogueList = null;
             } else {
                 dialogueList = quest.get("questDialogue").iterator();
             }
 
+            logger.info("passed");
             Iterator<JsonValue> taskCompletionList;
 
             if(quest.get("taskCompletionTriggers").isNull()) {
@@ -49,10 +53,10 @@ public class QuestSave implements Json.Serializable {
 
             List<Task> newTasks = new ArrayList<>();
 
-            Map<DialogueKey, String[][]> newDialogues;
+            ArrayList<DialogueKey> newDialogues;
 
             if(dialogueList != null) {
-                newDialogues = new HashMap<>();
+                newDialogues = new ArrayList<>();
             } else {
                 newDialogues = null;
             }
@@ -79,20 +83,61 @@ public class QuestSave implements Json.Serializable {
                 newTasks.add(task);
             }
 
-            if(dialogueList != null) {
-                while (dialogueList.hasNext()) {
-                    //TODO: fill with functional loading for NPC integration
-                    dialogueList.next();
-                }
-            }
 
+            if(dialogueList != null) {
+                logger.info("fragging out");
+                while (dialogueList.hasNext()) {
+                    JsonValue dialogue = dialogueList.next();
+                    DialogueKey newKey;
+                    String npc = dialogue.getString("npcName");
+
+                    String[][] dialogueArray;
+                    Iterator<JsonValue> dialogueIterator = dialogue.get("dialogue").iterator();
+                    List<String[]> dialogueIteratorList = new ArrayList<>();
+
+                    logger.info("pre layer");
+                    while(dialogueIterator.hasNext()) {
+                        logger.info("first layer");
+                        JsonValue dialogueItem = dialogueIterator.next();
+                        Iterator<JsonValue> dialogueLineIterator = dialogueItem.iterator();
+                        List<String> dialogueLines = new ArrayList<>();
+
+                        while(dialogueLineIterator.hasNext()) {
+                            logger.info("second layer");
+                            JsonValue dialogueLine = dialogueLineIterator.next();
+                            logger.info("Line read: {}", dialogueLine);
+                            dialogueLines.add(dialogueLine.asString());
+                            logger.info("finished?");
+                        }
+
+                        try {
+                            dialogueIteratorList.add(dialogueLines.toArray(new String[0]));
+                        } catch (Exception e) {
+                            logger.info("exception???: {}", e);
+                        }
+                        logger.info("list layer 1");
+
+                    }
+
+                    dialogueArray = dialogueIteratorList.toArray(new String[0][0]);
+                    logger.info("list layer 2");
+                    newKey = new DialogueKey(npc, dialogueArray);
+                    newDialogues.add(newKey);
+                    logger.info("Quest Dialogues: {}, {}", dialogue, dialogue.name);
+
+                    //TODO: fill with functional loading for NPC integration
+
+                }
+
+
+            }
+            logger.info("Quest Dialogues: {}", newDialogues);
             if(taskCompletionList != null) {
                 while (taskCompletionList.hasNext()) {
                     newTriggers.add(taskCompletionList.next().toString());
                 }
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
             }
-
             QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),
                     quest.getString("questDescription"),
                     newTasks,

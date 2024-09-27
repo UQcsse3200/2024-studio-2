@@ -37,4 +37,14 @@ public class GameState {
         logger.info("states: {} {} {} {}", quests, inventory, player, stats);
         return (quests == null || inventory == null || player == null || stats == null);
     }
+
+    public static void clearState() {
+        quests = new QuestSave();
+
+        inventory = new InventorySave();
+
+        player = new PlayerSave();
+
+        stats = new StatSave();
+    }
 }

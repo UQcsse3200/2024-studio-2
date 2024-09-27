@@ -10,8 +10,6 @@ public class DialogueKey {
     private final String npcName;
     /** Progression level tracker. */
 
-    private final String taskName;
-    private final String questName;
     private final String[][] dialogue;
 
     /**
@@ -22,14 +20,14 @@ public class DialogueKey {
     public String getNpcName() {
         return this.npcName;
     }
-    /**
-     * Retrieves the name of the quest.
-     *
-     * @return the name of the quest.
-     */
-    public String getTaskName() {
-        return this.taskName;
-    }
+//    /**
+//     * Retrieves the name of the quest.
+//     *
+//     * @return the name of the quest.
+//     */
+//    public String getTaskName() {
+//        return this.taskName;
+//    }
 
     /** Returns the dialogue for the dialogue task.*/
     public String[][] getDialogue() {
@@ -39,14 +37,10 @@ public class DialogueKey {
     /**
      * Constructs a new DialogueKey.
      * @param npcName The name of the NPC.
-     * @param questName The name of the dialogue quest.
-     * @param taskName The name of the dialogue task.
-     * @param dialogue The dialogue for the task.
+     * @param dialogue The name of the dialogue task.
      */
-    public DialogueKey(String npcName, String questName, String taskName, String[][] dialogue) {
+    public DialogueKey(String npcName, String[][] dialogue) {
         this.npcName = npcName;
-        this.taskName = taskName;
-        this.questName = questName;
         this.dialogue = dialogue;
     }
 
@@ -55,27 +49,27 @@ public class DialogueKey {
      * @param o The object to compare against.
      * @return True if object is equal to this DialogueKey.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DialogueKey dialogueKey = (DialogueKey) o;
-        return Objects.equals(npcName, dialogueKey.npcName) && Objects.equals(taskName, dialogueKey.taskName);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        DialogueKey dialogueKey = (DialogueKey) o;
+//        return Objects.equals(npcName, dialogueKey.npcName) && Objects.equals(taskName, dialogueKey.taskName);
+//    }
 
     /** Returns the hash code value for this DialogueKey */
-    @Override
-    public int hashCode() {
-        return Objects.hash(npcName, this.taskName);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(npcName, this.taskName);
+//    }
     /**Returns a string representation of this DialogueKey.*/
-    @Override
-    public String toString() {
-        return String.format("TupleKey{str='%s', str=%s}", taskName, questName);
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("%s,%s", dialogue, npcName);
+//    }
     /** Returns the name of the dialogue quest. */
-    public String getQuestName() {
-        return this.questName;
-    }
+//    public String getQuestName() {
+//        return this.questName;
+//    }
 }
 

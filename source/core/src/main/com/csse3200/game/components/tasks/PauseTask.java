@@ -89,28 +89,30 @@ public class PauseTask extends ChaseTask {
      * Helper function to find the correct dialogue hint text from the quest manager.
      */
     private String[][] findDialogueHint(String[][] hintText) {
-        for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
-            logger.info("Checking right quest for dialogue");
-            String npcName = dialogueKey.getNpcName();
-            String questName = dialogueKey.getQuestName();
-            QuestBasic quest = this.questManager.getQuest(questName);
-
-            int progression = quest.getProgression();
-            if (progression == quest.getNumQuestTasks() && progression != 0) {
-                continue;
-            }
-
-            if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
-                    logger.info("Checking right quest progression for dialogue");
-                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
-                    if (rightTask) {
-                        this.taskName = dialogueKey.getTaskName();
-                        return dialogueKey.getDialogue();
-                    }
-                }
-
-        }
-        return hintText;
+//        for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
+//            logger.info("Checking right quest for dialogue");
+//            String npcName = dialogueKey.getNpcName();
+//            String questName = dialogueKey.getQuestName();
+//            QuestBasic quest = this.questManager.getQuest(questName);
+//
+//            int progression = quest.getProgression();
+//            if (progression == quest.getNumQuestTasks() && progression != 0) {
+//                continue;
+//            }
+//
+//            if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
+//                    logger.info("Checking right quest progression for dialogue");
+//                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
+//                    if (rightTask) {
+//                        this.taskName = dialogueKey.getTaskName();
+//                        return dialogueKey.getDialogue();
+//                    }
+//                }
+//
+//        }
+//        return hintText;
+        //TODO: Iterate through quests and dialogue maps rather than dialoguekey list in QuestManager
+        return new String[][]{{""}};
     }
 
     /**
