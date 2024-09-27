@@ -18,6 +18,7 @@ import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
+import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.Renderer;
@@ -102,6 +103,7 @@ public class MazeGameScreen extends PausableScreen {
         this.mazeGameArea = new MazeGameArea(terrainFactory);
         mazeGameArea.create();
         mazeGameArea.getPlayer().getEvents().addListener("endGame", this::endGame);
+        mazeGameArea.getPlayer().getEvents().addListener("restMenu", this::restMenu);
     }
 
     @Override
@@ -180,6 +182,11 @@ public class MazeGameScreen extends PausableScreen {
     void restartGame() {
         dispose();
         game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
+    }
+
+    private void restMenu() {
+        logger.info("Sending Pause");
+        addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
     }
 
     /**
