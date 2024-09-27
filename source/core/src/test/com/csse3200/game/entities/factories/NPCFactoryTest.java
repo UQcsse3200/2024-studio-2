@@ -129,7 +129,7 @@ class NPCFactoryTest {
         Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
 
         cow.getEvents().trigger("CowPauseStart");
-        ServiceLocator.getDialogueBoxService().updateText(new String[][] {{"1", "2"}}, 0);
+        ServiceLocator.getDialogueBoxService().updateText(new String[][] {{"1", "2"}});
         String firstHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
         inputComponent.keyDown(Input.Keys.RIGHT);
         String secondHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();

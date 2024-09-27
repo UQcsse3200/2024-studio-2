@@ -393,7 +393,7 @@ public class CombatManager extends Component {
                     "No stats were changed, try again!"}};
         }
 
-        ServiceLocator.getDialogueBoxService().updateText(moveText, -3);
+        ServiceLocator.getDialogueBoxService().updateText(moveText);
         entity.getEvents().trigger("displayCombatResults");
     }
 }

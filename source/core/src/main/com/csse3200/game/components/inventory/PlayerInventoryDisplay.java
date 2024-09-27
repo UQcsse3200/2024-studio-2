@@ -223,7 +223,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 //double calls when mouse held, to be fixed
                 String[][] itemText = {{item.getDescription() + ". Quantity: "
                         + item.getQuantity() + "/" + item.getLimit()}};
-                ServiceLocator.getDialogueBoxService().updateText(itemText, -1);
+                ServiceLocator.getDialogueBoxService().updateText(itemText);
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
