@@ -295,7 +295,6 @@ quests: [
 		isFailed: false
 		isActive: false
 		taskCompletionTriggers: null
-		taskCompletionTriggers: null
 	}
 ]
 }

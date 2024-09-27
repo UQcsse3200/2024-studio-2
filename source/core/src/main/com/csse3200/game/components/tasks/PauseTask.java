@@ -1,19 +1,13 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.utils.Logger;
-import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.overlays.PauseDisplay;
 import com.csse3200.game.services.ServiceLocator;
-import org.slf4j.LoggerFactory;
-
-import java.util.Objects;
-
 import java.util.Objects;
 
 /**
@@ -121,8 +115,7 @@ public class PauseTask extends ChaseTask {
      */
     protected void triggerPauseEventEnd() {
         if (this.config != null) {
-            String animalName = (config).getAnimalName();
-            String eventName = String.format("PauseEnd%s", animalName);
+            String eventName = String.format("PauseEnd%s", (config).getAnimalName());
             entity.getEvents().trigger(eventName);
             this.target.getEvents().trigger(this.taskName);
             this.taskName = "";

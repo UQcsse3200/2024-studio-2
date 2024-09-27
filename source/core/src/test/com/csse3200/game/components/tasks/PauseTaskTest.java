@@ -1,24 +1,17 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CameraZoomComponent;
-import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.components.quests.AchievementManager;
-import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.entities.factories.NPCFactory;
-import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -39,15 +32,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import com.csse3200.game.files.FileLoader;
 
 @ExtendWith(GameExtension.class)
 class PauseTaskTest {
