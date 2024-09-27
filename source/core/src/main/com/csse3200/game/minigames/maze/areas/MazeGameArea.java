@@ -41,7 +41,7 @@ public class MazeGameArea extends GameArea {
     public static final int NUM_WALL_BREAKS = 18;
     public static final int NUM_ANGLERS = 1;
     public static final int NUM_EELS = 6;
-    public static final int NUM_JELLYFISH = 20;
+    public static final int NUM_JELLYFISH = 25;
     public static final int NUM_EGGS = 16;
 
     Map<Entity.EnemyType, List<Entity>> enemies;
