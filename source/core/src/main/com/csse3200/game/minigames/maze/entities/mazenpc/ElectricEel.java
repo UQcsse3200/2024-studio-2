@@ -1,5 +1,7 @@
 package com.csse3200.game.minigames.maze.entities.mazenpc;
 
+import box2dLight.Light;
+import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,6 +11,7 @@ import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
+import com.csse3200.game.minigames.maze.components.npc.EelLightingEffect;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
@@ -42,11 +45,14 @@ public class ElectricEel extends MazeEntity {
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
         animator.addSound("sounds/minigames/eel-electricity.mp3", "Attack", 0);
 
+        PositionalLight light = LightingComponent.createPointLight(.5f, new Color(1f, .85f, .7f, 1f));
+
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
-                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(1f, .85f, .7f, 1f))))
-                .addComponent(aiComponent);
+                .addComponent(new LightingComponent().attach(light))
+                .addComponent(aiComponent)
+                .addComponent(new EelLightingEffect(light));
 
         // Update entities speed
         this.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(this.getComponent(MazeCombatStatsComponent.class).getBaseSpeed());
