@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -14,8 +12,6 @@ import com.csse3200.game.components.inventory.InventoryUtils;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.AttackPotion;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -31,7 +27,7 @@ public class CombatInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatInventoryDisplay.class);
     private final Inventory inventory;
     private static final float Z_INDEX = 3f;
-    private final int numCols, numRows, hotBarCapacity;
+    private final int numCols, numRows;
     private Window inventoryDisplay;
     private Table table;
     private final ImageButton[] slots;
@@ -60,7 +56,6 @@ public class CombatInventoryDisplay extends UIComponent {
             String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
             throw new IllegalArgumentException(msg);
         }
-        this.hotBarCapacity = hotBarCapacity;
 
         int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {
@@ -180,21 +175,6 @@ public class CombatInventoryDisplay extends UIComponent {
      * @param index The index of the slot in the inventory.
      */
     public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
-        // Add hover listener for highlighting and showing the message
-//        slot.addListener(new InputListener() {
-//            @Override
-//            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-//                //double calls when mouse held, to be fixed
-//                String[][] itemText = {{item.getDescription() + ". Quantity: "
-//                        + item.getQuantity() + "/" + item.getLimit()}};
-//                ServiceLocator.getDialogueBoxService().updateText(itemText);
-//            }
-//            @Override
-//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-//                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
-//            }
-//        });
-
         slot.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {

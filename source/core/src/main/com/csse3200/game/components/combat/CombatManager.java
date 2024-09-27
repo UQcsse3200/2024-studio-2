@@ -74,9 +74,9 @@ public class CombatManager extends Component {
     /**
      * Sets player's item as the one passed into this function, then calls for moves to be completed with the
      * player's move being ITEM.
-     * @param item
-     * @param index
-     * @param context
+     * @param item to be used.
+     * @param index of the item in the original inventory.
+     * @param context of the item.
      */
     public void usePlayerItem(AbstractItem item, int index, ItemUsageContext context) {
         logger.info("Item was confirmed. Using item now.");

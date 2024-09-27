@@ -28,7 +28,6 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton GuardButton;
     TextButton SleepButton;
     TextButton ItemsButton;
-    private Entity player;
     ChangeListener dialogueBoxListener;
 
 
@@ -109,6 +108,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        hideButtons();
                     }
                 });
 
