@@ -46,27 +46,11 @@ public class ProjectileFactory {
    * @return A new banana projectile entity.
    */
   public static Entity createBanana(Entity target) {
-    Entity banana = createBaseProjectile(target);
-    BaseEnemyEntityConfig config = configs.banana;
-
-    AITaskComponent aiTaskComponent = new AITaskComponent();
-    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
-
-    banana.addComponent(aiTaskComponent);
-
-    TextureAtlas bananaAtlas = ServiceLocator.getResourceService().getAsset("images/banana.atlas", TextureAtlas.class);
-
-    AnimationRenderComponent animator = new AnimationRenderComponent(bananaAtlas);
-    animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
-    
-    banana
-            .addComponent(animator)
-            .addComponent(new BananaAnimationController());
-    banana.setScale(0.5f, 0.5f);
-    
-    banana.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
-
-    return banana;
+    return createBaseProjectile(target, configs.banana, 0.5f);
+  }
+  
+  public static Entity createElectricOrb(Entity target) {
+    return createBaseProjectile(target, configs.electricOrb, 1f);
   }
 
 
@@ -77,7 +61,7 @@ public class ProjectileFactory {
    * @param target The entity that the projectile will target.
    * @return A new projectile entity with basic components.
    */
-  private static Entity createBaseProjectile(Entity target) {
+  private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale) {
     Entity projectile =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -87,6 +71,25 @@ public class ProjectileFactory {
             .addComponent(new ProjectileAttackComponent((short)(PhysicsLayer.PLAYER + PhysicsLayer.OBSTACLE), 2));
 
     PhysicsUtils.setScaledCollider(projectile, 0.9f, 0.4f);
+    
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+    
+    projectile.addComponent(aiTaskComponent);
+    
+    String path = config.getSpritePath();
+    TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
+    
+    AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
+    animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
+    
+    projectile
+            .addComponent(animator)
+            .addComponent(new BananaAnimationController());
+    projectile.setScale(scale, scale);
+    
+    projectile.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+    
     return projectile;
   }
 
