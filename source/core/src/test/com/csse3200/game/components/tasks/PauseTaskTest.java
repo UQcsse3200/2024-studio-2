@@ -1,17 +1,17 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.Component;
+import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.ConfigComponent;
-import com.csse3200.game.components.quests.AchievementManager;
-import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.entities.factories.NPCFactory;
-import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -32,15 +32,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import com.csse3200.game.files.FileLoader;
 
 @ExtendWith(GameExtension.class)
 class PauseTaskTest {
@@ -178,29 +175,32 @@ class PauseTaskTest {
     @Test
     void shouldDisplayCorrectDialogue() {
         DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
-        Entity player = new Entity();
+        Entity player =
+                new Entity()
+                        .addComponent(new CameraZoomComponent())
+                        .addComponent(new PhysicsComponent(true))
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+
+        SaveHandler.load(GameState.class, "defaultsaves");
+
         QuestManager questManager = new QuestManager(player);
         player.addComponent(questManager);
+
         player.getComponent(QuestManager.class).loadQuests();
         player.setPosition(2f, 2f);
+        player.create();
 
         Entity cow = NPCFactory.createCow(player, new ArrayList<>());
-        cow.setPosition(1.9f, 1.9f);
+        cow.setPosition(1.5f, 1.5f);
+        cow.create();
 
-        AITaskComponent ai = cow.getComponent(AITaskComponent.class);
-        ai.update();
+        cow.update();
 
-        String[] cowInitialDialogue = {
-                "Moo there, adventurer! Welcome to the kingdom.",
-                "We will be your guides",
-                "but before you can roam free...",
-                "you must complete the first steps and 2 step quests.",
-        };
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide. To prove your worth, you’ll need to complete a few tasks. Are you ready?";
 
-        for (String hint : cowInitialDialogue) {
-            String hintDialogue = dialogueBox.getLabel().getText().toString();
-            assertEquals(hint, hintDialogue);
-            dialogueBox.handleForwardButtonClick();
-        }
+        String hintDialogue = dialogueBox.getLabel().getText().toString();
+        assertEquals(cowInitialDialogue, hintDialogue);
+        dialogueBox.handleForwardButtonClick();
     }
 }
