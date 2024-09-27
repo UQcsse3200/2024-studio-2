@@ -57,7 +57,8 @@ public class MazeDifficultyIncrease extends Component {
         }
 
         // spawn some extra jellyfish each time
-        gameArea.spawnJellyfish(3, 3f);
+        gameArea.spawnJellyfish(2, 3f);
+        gameArea.spawnGreenJellyfish(1, 3f);
 
         // dim jellyfish lights throughout the game and remove them past silver
         List<Entity> jellyfish = gameArea.getEnemies(Entity.EnemyType.MAZE_JELLYFISH);
