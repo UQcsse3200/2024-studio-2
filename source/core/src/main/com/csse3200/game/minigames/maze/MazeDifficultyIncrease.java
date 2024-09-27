@@ -40,7 +40,7 @@ public class MazeDifficultyIncrease extends Component {
             angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
             for (Light light : angler.getComponent(LightingComponent.class).getLights()) {
                 light.setColor(interpolateColorCycle(new Color[]{Color.GREEN, Color.ORANGE, Color.SCARLET, Color.RED},
-                        (float) score / MiniGameConstants.MAZE_GOLD_THRESHOLD));
+                        3f/4 * score / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1)));
             }
         }
 
