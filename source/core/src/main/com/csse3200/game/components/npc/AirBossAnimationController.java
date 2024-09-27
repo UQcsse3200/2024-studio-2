@@ -14,15 +14,29 @@ public class AirBossAnimationController extends Component {
     public void create() {
         super.create();
         animator = this.entity.getComponent(AnimationRenderComponent.class);
-        entity.getEvents().addListener("bossWanderStart", this::animateWander);
-        entity.getEvents().addListener("bossChaseStart", this::animateChase);
+        entity.getEvents().addListener("wanderLeft", this::animateWanderLeft);
+        entity.getEvents().addListener("wanderRight", this::animateWanderRight);
+        entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
+        entity.getEvents().addListener("chaseRight", this::animateChaseRight);
     }
 
-    void animateWander() {
+    private void animateWanderLeft() {
+        animator.setFlipX(true);
         animator.startAnimation("wander");
     }
 
-    void animateChase() {
+    private void animateWanderRight() {
+        animator.setFlipX(false);
+        animator.startAnimation("wander");
+    }
+
+    private void animateChaseLeft() {
+        animator.setFlipX(true);
+        animator.startAnimation("chase");
+    }
+
+    private void animateChaseRight() {
+        animator.setFlipX(false);
         animator.startAnimation("chase");
     }
 }

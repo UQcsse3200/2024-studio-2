@@ -57,8 +57,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void start() {
     super.start();
 
-    String event = this.isBoss ? "bossChaseStart" : "chaseStart";
-
       // Set movementTask based on npc type
       Vector2 currentPos = owner.getEntity().getPosition();
       Vector2 targetPos = target.getPosition();
@@ -66,8 +64,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
               new MovementTask(targetPos);
       movementTask.create(owner);
       movementTask.start();
-
-      this.owner.getEntity().getEvents().trigger(event);
 
       if (this.isBoss) {
           playTensionSound();
@@ -78,8 +74,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       } else {
           this.owner.getEntity().getEvents().trigger("chaseRight");
       }
-
-      this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
     void playTensionSound() {
