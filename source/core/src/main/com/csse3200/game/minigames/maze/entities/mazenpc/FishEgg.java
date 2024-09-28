@@ -32,4 +32,6 @@ public class FishEgg extends Entity {
         float scaleY = 0.1f; // Adjust size of FishEgg in Y direction
         this.setScale(scaleX, scaleY);
     }
+
+
 }
