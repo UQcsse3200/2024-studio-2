@@ -44,6 +44,15 @@
     "experience": 10,
     "isEnemy": 1
   },
+  "bee" : {
+    "spritePath": "images/bee.atlas",
+    "health": 4,
+    "baseAttack": 1,
+    "defense": 2,
+    "speed": 350,
+    "experience": 15,
+    "isEnemy": 1
+  },
   "pigeon": {
     "spritePath": "images/pigeon.atlas",
     "health": 10,

@@ -14,9 +14,13 @@ import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.lang.invoke.MethodHandles;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     protected final Entity target;
     protected final int priority;
     protected final float viewDistance;
@@ -31,6 +35,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     private final Vector2 bossSpeed;
     private boolean chaseDir = false; // 0 left, 1 right
     private Vector2 speed;
+    private boolean alertPlaying = false;
+
     
     /**
      * @param target The entity to chase.
@@ -118,13 +124,15 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
         }
-        
-        if (targetPos.x - currentPos.x < 0 && chaseDir) {
-            chaseDir = false;
-            this.owner.getEntity().getEvents().trigger("chaseLeft");
-        } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
-            chaseDir = true;
-            this.owner.getEntity().getEvents().trigger("chaseRight");
+
+        if(getPriority() != -1) {
+            if (targetPos.x - currentPos.x < 0 && chaseDir) {
+                chaseDir = false;
+                this.owner.getEntity().getEvents().trigger("alertLeft");
+            } else if (targetPos.x - currentPos.x > 0 && !chaseDir) {
+                chaseDir = true;
+                this.owner.getEntity().getEvents().trigger("alertRight");
+            }
         }
     }
     

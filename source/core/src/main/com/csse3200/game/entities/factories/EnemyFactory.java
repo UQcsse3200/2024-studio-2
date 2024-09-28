@@ -60,7 +60,8 @@ public class EnemyFactory {
         MONKEY,
         BEAR,
         EEL,
-        PIGEON;
+        PIGEON,
+        BEE;
     }
     
     /**
@@ -80,6 +81,7 @@ public class EnemyFactory {
         
         animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
         animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
         
         
         chicken
@@ -111,6 +113,7 @@ public class EnemyFactory {
         animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
         
         bear
                 .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
@@ -142,6 +145,7 @@ public class EnemyFactory {
         
         animator.addAnimation("float", 0.06f, Animation.PlayMode.LOOP);
         animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
         
         pigeon
                 .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
@@ -172,6 +176,7 @@ public class EnemyFactory {
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
         animator.addAnimation("jump", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
         
         frog
                 .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 5) - 2, config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
@@ -203,6 +208,7 @@ public class EnemyFactory {
         animator.addAnimation("swim_right", 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation("swim_up_right", 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation("swim_up", 0.25f, Animation.PlayMode.LOOP);
+
         //animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
 
         eel
@@ -251,8 +257,40 @@ public class EnemyFactory {
         
         return monkey;
     }
-    
-    
+    /**
+     * Creates a bee enemy NPC.
+     *
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy bee entity
+     */
+    public static Entity createBee(Entity target) {
+        Entity bee = createBaseEnemy(target, EnemyType.BEE);
+        BaseEnemyEntityConfig config = configs.bee;
+        bee.setEnemyType(Entity.EnemyType.BEE);
+
+        TextureAtlas beeAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+        AnimationRenderComponent animator = new AnimationRenderComponent(beeAtlas);
+
+        animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
+
+        bee
+                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                        config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
+                .addComponent(new CombatMoveComponent(moveSet))
+                .addComponent(animator)
+                .addComponent(new BearAnimationController());
+
+
+        bee.setScale(0.442f,0.35f);
+
+        return bee;
+    }
+
+
     /**
      * Creates a generic Enemy with specific tasks depending on the enemy type.
      *
@@ -269,6 +307,7 @@ public class EnemyFactory {
             case MONKEY -> configs.monkey;
             case BEAR -> configs.bear;
             case EEL -> configs.eel;
+            case BEE -> configs.bee;
             case PIGEON -> configs.pigeon;
         };
         
@@ -496,6 +535,18 @@ public class EnemyFactory {
         eelEnemy.setScale(100f,70f);
 
         return eelEnemy;
+    }
+    public static Entity createBeeCombatEnemy() {
+        Entity beeEnemy = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.bee;
+        beeEnemy.setEnemyType(Entity.EnemyType.BEE);
+
+        beeEnemy
+                .addComponent(new TextureRenderComponent("images/bee_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+        beeEnemy.setScale(100f,70f);
+
+        return beeEnemy;
     }
     
     private EnemyFactory() {

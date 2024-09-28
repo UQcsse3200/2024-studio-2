@@ -22,5 +22,6 @@ public class NPCConfigs {
   public BaseEnemyEntityConfig bear = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig pigeon = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig eel = new BaseEnemyEntityConfig();
+  public BaseEnemyEntityConfig bee = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig banana = new BaseEnemyEntityConfig();
 }

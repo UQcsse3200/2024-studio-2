@@ -64,6 +64,7 @@ public class CombatArea extends GameArea {
             "images/combat_background_one.png",
             "images/combat_background.png",
             "images/chicken_idle.png",
+            "images/bee_idle.png",
             "images/bear_idle.png",
             "images/eel_idle.png",
             "images/pigeon_idle.png",
@@ -76,7 +77,7 @@ public class CombatArea extends GameArea {
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
+            "images/eagle.atlas", "images/turtle.atlas", "images/bee.atlas","images/final_boss_kangaroo.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -127,6 +128,8 @@ public class CombatArea extends GameArea {
             spawnPigeon();
         } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
             spawnEel();
+        }else if(enemy.getEnemyType() == Entity.EnemyType.BEE){
+            spawnBee();
         } else { // Kangaroo Boss
             spawnCombatEnemy();
         }
@@ -239,6 +242,11 @@ public class CombatArea extends GameArea {
     private void spawnEel() {
         Entity combatEnemyNPC = EnemyFactory.createEelCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    private void spawnBee(){
+        Entity combatEnemyNPC = EnemyFactory.createBeeCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785,336),true,true);
     }
 
     /** Play the music for combat
