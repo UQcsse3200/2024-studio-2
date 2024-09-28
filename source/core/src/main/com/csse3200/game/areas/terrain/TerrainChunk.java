@@ -91,7 +91,7 @@ public class TerrainChunk {
       return MapType.FOREST;
     } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
       return MapType.WATER;
-    } else {
+    }else {
       // TODO: change to air 
       return MapType.WATER;
     }
@@ -353,6 +353,6 @@ public class TerrainChunk {
   }
 
   public enum TileType {
-    GRASS, WATER, SAND, NONE
+    GRASS, WATER, SAND, FOG, NONE
   }
 }

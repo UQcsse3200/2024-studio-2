@@ -38,7 +38,7 @@ public class PlayerActions extends Component {
     this.game = game;
     this.player = player;
     this.selectedAnimal = selectedAnimal;
-  }
+  }   
 
   @Override
   public void create() {

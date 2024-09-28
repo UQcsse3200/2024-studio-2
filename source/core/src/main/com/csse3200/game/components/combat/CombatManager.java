@@ -242,6 +242,9 @@ public class CombatManager extends Component {
             this.getEntity().getEvents().trigger("combatLoss");
         } else if (enemyStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatWin", enemy);
+            if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+                this.getEntity().getEvents().trigger("bossDefeated");
+            }
         }
     }
 

@@ -13,12 +13,16 @@ public class MapHandler {
   private static GameArea currentGameArea;
   private static MapType currentMap = MapType.NONE;
   private static MapType previousMap = MapType.NONE;
+  private static boolean unlockedWater = false;
 
   private static ForestGameArea forestGameArea;
 
   private static boolean isSavedPrevious;
   // private static GameArea savedPrevioud;
 
+  /**
+   *
+   */
   private MapHandler() {
     isSavedPrevious = false;
   }
@@ -79,9 +83,47 @@ public class MapHandler {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
     } else if (mapType == MapType.WATER) {
+
+    }
+
+    if (!MapHandler.unlockedWater) {
+      currentGameArea = new ForestGameArea(terrainFactory, game);
     }
 
     return currentGameArea;
+  }
+
+  /**
+   *
+   * @return
+   */
+  public static boolean isIsSavedPrevious() {
+    return isSavedPrevious;
+  }
+
+  /**
+   * Set the state of the isSavePrevious
+   * @param isSavedPrevious
+   */
+  public static void setIsSavedPrevious(boolean isSavedPrevious) {
+        MapHandler.isSavedPrevious = isSavedPrevious;
+    }
+
+
+  /**
+   * checks if the water map is unlcked yet
+   * @return true iff the map is unlocked
+   */
+  public boolean hasUnlockedWaterMap() {
+    return MapHandler.unlockedWater;
+  }
+
+  /**
+   * sets the state of unlocked water map
+   * @param unlockedWater the state of unlocked map
+   */
+  public static void setUnlockedWater(boolean unlockedWater) {
+    MapHandler.unlockedWater = unlockedWater;
   }
 
   /**
@@ -125,6 +167,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, AIR, COMBAT, NONE
+    FOREST, WATER, AIR, COMBAT, FOG, NONE
   }
 }

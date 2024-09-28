@@ -8,6 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
+import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
@@ -33,6 +36,7 @@ public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
+  private static final int FOG_LAYER = 0;
   private TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
@@ -46,7 +50,6 @@ public class TerrainComponent extends RenderComponent {
   private Set<GridPoint2> previouslyActive = new HashSet<>();
   private Set<GridPoint2> newChunks = new HashSet<>();
   private Set<GridPoint2> oldChunks = new HashSet<>();
-
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
 
@@ -252,17 +255,21 @@ public class TerrainComponent extends RenderComponent {
     private ArrayList<Tile> forestTiles;
     private ArrayList<Tile> waterTiles;
     private ArrayList<Tile> airTiles;
-
+    private ArrayList<Tile> fogTiles;
     // total number of tiles
     public static int FOREST_SIZE = 0;
     public static int WATER_SIZE = 0;
     public static int AIR_SIZE = 0;
+    public static int FOG_SIZE = 0;
+    private boolean unlockedWater;
 
     public TerrainResource(MapType mapType) {
       ResourceService resourceService = ServiceLocator.getResourceService();
       forestTiles = new ArrayList<Tile>();
       waterTiles = new ArrayList<Tile>();
       airTiles = new ArrayList<Tile>();
+      fogTiles = new ArrayList<Tile>();
+      this.unlockedWater = false;
       switch(mapType) {
         case FOREST:
           // load forest tiles
@@ -281,14 +288,27 @@ public class TerrainComponent extends RenderComponent {
 
           // load water tiles
           OceanMapTiles oceanTileConfig;
+          FogMapTiles fogTileConfig;
           oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
-          for (OceanTileConfig tile: oceanTileConfig.waterMapTiles) {
-            waterTiles.add(new Tile(tile.id, 
-                new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), 
-                tile.edges, 
-                tile.centre));
-          }
-          WATER_SIZE = waterTiles.size();
+          fogTileConfig = FileLoader.readClass(FogMapTiles.class, "configs/FogGameAreaConfigs/fogTiles.json");
+
+          //if (this.unlockedWater) {
+            for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
+              waterTiles.add(new Tile(tile.id,
+                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                      tile.edges,
+                      tile.centre));
+            }
+            WATER_SIZE = waterTiles.size();
+//          } else {
+//            for (FogTileConfig tile : fogTileConfig.fogTiles) {
+//              fogTiles.add(new Tile(tile.id,
+//                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+//                      tile.edges,
+//                      tile.centre));
+//            }
+//            FOG_SIZE = fogTiles.size();
+//          }
 
           // load air tiles
           //AirMapTiles airTileConfig;
@@ -310,6 +330,22 @@ public class TerrainComponent extends RenderComponent {
       }
 
       this.setPossibleTiles();
+    }
+
+    /**
+     * checks if the water map is unlcked yet
+     * @return true iff the map is unlocked
+     */
+    public boolean hasUnlockedWaterMap() {
+      return this.unlockedWater;
+    }
+
+    /**
+     * sets the state of unlocked water map
+     * @param unlockedWater the state of unlocked map
+     */
+    public void setUnlockedWater(boolean unlockedWater) {
+      this.unlockedWater = unlockedWater;
     }
 
     public ArrayList<Tile> getMapTiles(MapType mapType) {
@@ -428,6 +464,8 @@ public class TerrainComponent extends RenderComponent {
           return waterTiles.get(index);
         case AIR:
           return airTiles.get(index);
+        case FOG:
+          return fogTiles.get(index);
         case COMBAT:
           return null;
         default:

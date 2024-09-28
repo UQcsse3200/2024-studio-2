@@ -1,0 +1,119 @@
+{
+  "fogTiles": [
+    {
+      "id": "fog2TL",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "ACC", "ACC", "AAA"]
+    },
+    {
+      "id": "fog2TM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "ACC", "CCC", "ACC"]
+    },
+    {
+      "id": "fog2TR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "AAA", "CCA", "ACC"]
+    },
+    {
+      "id": "fog2ML",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["ACC", "CCC", "ACC", "AAA"]
+    },
+    {
+      "id": "fog2MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog2MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog2MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog2MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog2MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog2MR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCA", "AAA", "CCA", "CCC"]
+    },
+    {
+      "id": "fog2BL",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["ACC", "CCA", "AAA", "AAA"]
+    },
+    {
+      "id": "fog2BM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCA", "AAA", "CCA"]
+    },
+    {
+      "id": "fog2BR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCA", "AAA", "AAA", "CCA"]
+    },
+    {
+      "id": "fog1TL",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "AAC", "AAC", "AAA"]
+    },
+    {
+      "id": "fog1TM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "AAC", "CCC", "AAC"]
+    },
+    {
+      "id": "fog1TR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "AAA", "CAA", "AAC"]
+    },
+    {
+      "id": "fog1ML",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAC", "CCC", "AAC", "AAA"]
+    },
+    {
+      "id": "fog1MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CCC", "CCC", "CCC"]
+    },
+    {
+      "id": "fog1MR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CAA", "AAA", "CAA", "CCC"]
+    },
+    {
+      "id": "fog1BL",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAC", "CAA", "AAA", "AAA"]
+    },
+    {
+      "id": "fog1BM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CCC", "CAA", "AAA", "CAA"]
+    },
+    {
+      "id": "fog1BR",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["CAA", "AAA", "AAA", "CAA"]
+    },
+    {
+      "id": "fog1MM",
+      "fp": "images/water_tile_2_around_sand/upper_left_corner_water_2_around_sand.jpg",
+      "edges": ["AAA", "AAA", "AAA", "AAA"]
+    }
+  ]
+}
