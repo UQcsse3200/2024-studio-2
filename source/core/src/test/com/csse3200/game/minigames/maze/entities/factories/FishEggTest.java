@@ -69,7 +69,6 @@ public class FishEggTest {
 
     @Test
     public void testFishEggScale() {
-        // Check if the scale of the FishEgg is set correctly
         Vector2 scale = fishEgg.getScale();
         assertEquals(new Vector2(0.1f, 0.1f), scale, "Scale should be 0.1f");
 
