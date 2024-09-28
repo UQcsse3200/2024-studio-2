@@ -28,12 +28,12 @@ public class PigeonAnimationController extends Component {
 
     private void animateChaseLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("float");
+        animator.startAnimation("alert");
     }
 
     private void animateChaseRight() {
         animator.setFlipX(false);
-        animator.startAnimation("float");
+        animator.startAnimation("alert");
     }
 
     private void animateWanderLeft() {

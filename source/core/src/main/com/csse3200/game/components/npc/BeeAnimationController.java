@@ -4,10 +4,10 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 /**
- * This class listens to events relevant to a chicken entity's state and plays the animation when one
+ * This class listens to events relevant to a bee entity's state and plays the animation when one
  * of the events is triggered.
  */
-public class BearAnimationController extends Component {
+public class BeeAnimationController extends Component {
     AnimationRenderComponent animator;
 
     @Override
@@ -19,20 +19,20 @@ public class BearAnimationController extends Component {
         entity.getEvents().addListener("wanderRight", this::animateWanderRight);
         entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
         entity.getEvents().addListener("chaseRight", this::animateChaseRight);
-        entity.getEvents().addListener("spawnStart", this::animateSpawn);
+        entity.getEvents().addListener("spawn", this::animateSpawn);
+
     }
 
     private void animateSpawn() {
         animator.startAnimation("spawn");
     }
-
     private void animateChaseLeft() {
-        animator.setFlipX(true);
-        animator.startAnimation("alert");
-    }
+    animator.setFlipX(false);
+    animator.startAnimation("alert");
+}
 
     private void animateChaseRight() {
-        animator.setFlipX(false);
+        animator.setFlipX(true);
         animator.startAnimation("alert");
     }
 
