@@ -138,7 +138,12 @@ public class QuestSave implements Json.Serializable {
                 }
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
             }
-            QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),
+            //REMOVE IF SOMETHING DOESN'T WORK
+            String npcName = quest.getString("npcName");
+            //This has been changed as well
+            QuestBasic nextQuest = new QuestBasic(
+                    quest.getString("questName"),
+                    npcName,
                     quest.getString("questDescription"),
                     newTasks,
                     quest.getBoolean("isSecretQuest"),

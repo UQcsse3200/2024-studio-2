@@ -14,6 +14,8 @@ public abstract class AbstractQuest {
      * The name of the quest.
      * */
     private final String questName;
+
+    private final String npcName;
     /**
      * A description of the task.
      */
@@ -49,7 +51,7 @@ public abstract class AbstractQuest {
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    protected AbstractQuest(String questName, String npcName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -60,11 +62,16 @@ public abstract class AbstractQuest {
         this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
         this.taskCompletionTriggers = taskCompletionTriggers;
+        this.npcName = npcName;
     }
 
     /** Returns quest name. */
     public String getQuestName() {
         return questName;
+    }
+
+    public String getNpcName() {
+        return getNpcName();
     }
     /** Returns task array for quest subtasks. */
     public List<Task> getTasks() {

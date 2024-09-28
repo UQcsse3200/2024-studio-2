@@ -66,7 +66,7 @@ public class QuestManager extends Component {
      * Sets up the tasks for the quests and dialogues.
      */
 
-    private Task[] createTasks() {
+    private Task[] createAnimalTasks() {
         Task talkToGuide = new Task(
                 "talkToGuide",
                 "Talk to the Guide",
@@ -107,6 +107,89 @@ public class QuestManager extends Component {
         };
     }
 
+    private Task[] createWaterTasks() {
+        Task talkToWaterSage = new Task(
+                "talkToWaterSage",
+                "Talk to the Water Sage",
+                "Speak with the Water Sage to gain their trust and begin your quest.",
+                1, 0, false, false
+        );
+
+        Task collectSeaPearls = new Task(
+                "collectSeaPearls",
+                "Collect Sea Pearls",
+                "Find six Sea Pearls hidden around for the Water Sage's research.",
+                1, 0, false, false
+        );
+
+        Task defeatSeaCreatures = new Task(
+                "defeatSeaCreatures",
+                "Defeat the Sea Creatures",
+                "Show your strength by defeating the hostile sea creatures in the Water Kingdom.",
+                1, 0, false, false
+        );
+
+        Task completeMinigame = new Task(
+                "completeFlappyMinigame",
+                "Complete the Flappy Bird Minigame",
+                "Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!",
+                1, 0, false, false
+        );
+
+        Task defeatWater = new Task(
+                "defeatWater",
+                "Defeat the Water Boss",
+                "Prepare yourself and face the Water Boss to protect the kingdom.",
+                1, 0, false, false
+        );
+
+        return new Task[] {
+                talkToWaterSage, collectSeaPearls, defeatSeaCreatures, completeMinigame, defeatWater
+        };
+
+    }
+
+    private Task[] createSkyTasks() {
+        Task talkToCloudSage = new Task(
+                "talkToCloudSage",
+                "Talk to the Cloud Sage",
+                "Speak with the Cloud Sage to begin your quest in the Sky Kingdom.",
+                1, 0, false, false
+        );
+
+        Task collectSkyCrystals = new Task(
+                "collectSkyCrystals",
+                "Collect Sky Crystals",
+                "Gather seven Sky Crystals for the Cloud Sage.",
+                1, 0, false, false
+        );
+
+        Task defeatFlyingBeasts = new Task(
+                "defeatFlyingBeasts",
+                "Defeat the Flying Beasts",
+                "Prove your bravery by facing the flying beasts that roam the skies.",
+                1, 0, false, false
+        );
+
+        Task completeGame = new Task(
+                "completeTempestMinigame",
+                "Calm the Tempests Minigame",
+                "Complete the minigame to go onto your next quest!",
+                1, 0, false, false
+        );
+
+        Task defeatSky = new Task(
+                "defeatSkySeraph",
+                "Defeat the Sky Seraph",
+                "Prepare yourself and confront the Sky Seraph in an epic battle!",
+                1, 0, false, false
+        );
+
+        return new Task[] {
+                talkToCloudSage, collectSkyCrystals, defeatFlyingBeasts, completeGame, defeatSky
+        };
+    }
+
     /**
      * Retrieves the map of quest dialogues.
      *
@@ -120,6 +203,8 @@ public class QuestManager extends Component {
     /**
      * Sets up the dialogue for quests.
      */
+
+    //needs to be changed depending on biome
     private List<DialogueKey> createQuestDialogues() {
 
         List<DialogueKey> dialogues = new ArrayList<>();
@@ -149,12 +234,54 @@ public class QuestManager extends Component {
                 {"Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom."}
         };
 
+        String[][] talkToWSageDialogue = {
+                {"Greetings, brave adventurer! You’ve entered the Water Kingdom. To gain my trust, you must complete some essential tasks."}
+        };
+
+        String[][] seaPearlsDialogue = {
+                {"I need six Sea Pearls for my research. They’re hidden in the underwater caverns. Can you help me?"}
+        };
+
+        String[][] skyEnemiesDialogue = {
+                {"Watch out for hostile sea creatures! Defeat them to show your strength."}
+        };
+
+        String[][] secondMinigameDialogue = {
+                {"Play the flappy bird minigame to unlock the next stage of your quest!"}
+        };
+
+        String[][] defeatSkyBossDialogue = {
+                {"Once you’re ready, face the Water Leviathan and protect our kingdom. Good luck, brave adventurer!"}
+        };
+
+        String[][] talkToSSage = {
+                {"Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph."}
+        };
+
+        String[][] collectSkyCrystalsDialogue = {
+                {"I need seven Sky Crystals that drift on the winds. Will you help me gather them?"}
+        };
+
+        String[][] defeatFlyingBeasts = {
+                {"Face the flying beasts that roam the skies to prove your bravery."}
+        };
+
+        String[][] MinigameDialogue = {
+                {"..."}
+        };
+
+        String[][] defeatWaterBossDialogue = {
+                {"When you’re prepared, confront the Sky Seraph in an epic battle!"}
+        };
+
 
         dialogues.add(new DialogueKey("Cow", cowInitialDialogue));
         dialogues.add(new DialogueKey("Cow", potionDialogue));
         dialogues.add(new DialogueKey("Cow", defeatEnemiesDialogue));
         dialogues.add(new DialogueKey("Cow", snakeMinigameDialogue));
         dialogues.add(new DialogueKey("Cow", kangaBossDialogue));
+
+
 
         return dialogues;
     }
@@ -358,5 +485,7 @@ public class QuestManager extends Component {
         saveAchievements(achievements,"saves/achievements.json");
         super.dispose();
     }
+
+
 
 }

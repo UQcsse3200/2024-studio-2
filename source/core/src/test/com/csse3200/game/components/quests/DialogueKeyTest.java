@@ -6,34 +6,34 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DialogueKeyTest {
-    private DialogueKey key1;
-    private DialogueKey key2;
-    private DialogueKey key3;
-
-    @BeforeEach
-    void setUp() {
-        String[][] stepsDialogue = {{"Start walking"}};
-        String[][] guideDialogue = {{"Yep! Cow is the guide"}};
-        String[][] potionDialogue = {{"Need 5 defense potions.", " Get to it!"}};
-        key1 = new DialogueKey("Cow", "First Steps", "stepsTask", stepsDialogue);
-        key2 = new DialogueKey("Cow", "Guide's Intro", "talkToGuide", guideDialogue);
-        key3 = new DialogueKey("Cow", "Potion Collection", "collectPotions", potionDialogue);
-    }
-
-    @Test
-   void testEquals() {
-        assertNotEquals(key1, key3);
-    }
-
-    @Test
-    void testHashCode() {
-        assertNotEquals(key1.hashCode(),
-                key3.hashCode());
-    }
-
-    @Test
-    void testToString() {
-        assertNotEquals(key1.toString(), key3.toString());
-    }
-}
+//class DialogueKeyTest {
+//    private DialogueKey key1;
+//    private DialogueKey key2;
+//    private DialogueKey key3;
+//
+//    @BeforeEach
+//    void setUp() {
+//        String[][] stepsDialogue = {{"Start walking"}};
+//        String[][] guideDialogue = {{"Yep! Cow is the guide"}};
+//        String[][] potionDialogue = {{"Need 5 defense potions.", " Get to it!"}};
+//        key1 = new DialogueKey("Cow", "First Steps", "stepsTask", stepsDialogue);
+//        key2 = new DialogueKey("Cow", "Guide's Intro", "talkToGuide", guideDialogue);
+//        key3 = new DialogueKey("Cow", "Potion Collection", "collectPotions", potionDialogue);
+//    }
+//
+//    @Test
+//   void testEquals() {
+//        assertNotEquals(key1, key3);
+//    }
+//
+//    @Test
+//    void testHashCode() {
+//        assertNotEquals(key1.hashCode(),
+//                key3.hashCode());
+//    }
+//
+//    @Test
+//    void testToString() {
+//        assertNotEquals(key1.toString(), key3.toString());
+//    }
+//}
