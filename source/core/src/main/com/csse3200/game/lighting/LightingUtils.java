@@ -7,6 +7,6 @@ public class LightingUtils {
         int keyPrevious = (int) Math.floor(x * colors.length);
         int keyNext = (keyPrevious + 1) % colors.length;
         float lerpAmount = x * colors.length - keyPrevious;
-        return colors[keyPrevious].lerp(colors[keyNext], lerpAmount);
+        return colors[keyPrevious].cpy().lerp(colors[keyNext], lerpAmount);
     }
 }
