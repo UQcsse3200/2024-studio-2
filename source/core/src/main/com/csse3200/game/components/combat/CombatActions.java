@@ -62,7 +62,7 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
-    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateInventory();
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
     // For CombatButtonDisplay DialogueBox
