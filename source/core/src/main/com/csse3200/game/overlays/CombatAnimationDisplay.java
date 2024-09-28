@@ -73,8 +73,8 @@ public class CombatAnimationDisplay extends UIComponent {
         sleepImage.setVisible(true);
         stage.addActor(sleepImage);
         sleepImage.clearActions();
-        sleepImage.addAction(fadeIn(1f, Interpolation.fade));
-        sleepImage.addAction(fadeOut(1f, Interpolation.fade));
+        sleepImage.addAction(fadeIn(2f, Interpolation.fade));
+        // sleepImage.addAction(fadeOut(1f, Interpolation.fade));
 
         Timer timer = new Timer();
         // Schedule a task to hide the cat scratch image after 2 seconds
@@ -83,7 +83,25 @@ public class CombatAnimationDisplay extends UIComponent {
             public void run() {
                 sleepImage.setVisible(false);
             }
-        }, 500); // 1 second
+        }, 1000);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                sleepImage.setVisible(true);
+                stage.addActor(sleepImage);
+                sleepImage.addAction(fadeIn(2f, Interpolation.fade));
+            }
+        }, 1100);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                sleepImage.setVisible(false);
+            }
+        }, 2000);
+
+        // 1 second
 //        sleepImage.addAction(
 //                sequence(
 //                    fadeIn(1f, Interpolation.fade),
