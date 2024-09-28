@@ -212,13 +212,39 @@ public class MazeGameArea extends GameArea {
             Entity jellyfish = MazeNPCFactory.createGreenJellyfish();
             spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
-            GridPoint2 otherCell = maze.getMazeAdjacent(cell).getFirst();
-            jellyfish.getComponent(AITaskComponent.class).addTask(new PatrolTask(3, new Vector2[]{
+            Vector2[] patrolPoints;
+            double rand = Math.random();
+            if (rand < 0.5) {
+                // adjacent cells are already in random order from random maze generation algorithm
+                // so okay to just take first
+                GridPoint2 otherCell = maze.getMazeAdjacent(cell).getFirst();
+
+                // go from random point in spawn cell to an adjacent cell
+                patrolPoints = new Vector2[]{
                     new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
                             cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
                     new Vector2(otherCell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
                             otherCell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
-            }));
+                };
+            } else if (rand < 0.75) {
+                // go from left side of cell to right side of cell
+                patrolPoints = new Vector2[]{
+                        new Vector2(cell.x + WALL_THICKNESS/2,
+                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
+                        new Vector2(cell.x + 1 - WALL_THICKNESS/2 - jellyfish.getScale().x,
+                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
+                };
+            } else {
+                // go from top of cell to bottom
+                patrolPoints = new Vector2[]{
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                                cell.y + WALL_THICKNESS/2),
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                                cell.y + 1 - WALL_THICKNESS/2 - jellyfish.getScale().y)
+                };
+
+            }
+            jellyfish.getComponent(AITaskComponent.class).addTask(new PatrolTask(3, patrolPoints));
             getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
         }
     }
