@@ -14,14 +14,16 @@ public class LightingEngine implements Disposable, Renderable {
     private static final int RAY_COUNT = 128;
     private final RayHandler rayHandler;
     private final Camera camera;
-    World world;
-    private static final int LIGHTING_LAYER = 3;
+    public static final int LIGHTING_LAYER = 3;
+
+    public LightingEngine(RayHandler rayHandler, Camera camera) {
+        this.camera = camera;
+        this.rayHandler = rayHandler;
+        RayHandler.useDiffuseLight(true);
+    }
 
     public LightingEngine(World world, Camera camera) {
-        this.world = world;
-        this.camera = camera;
-        rayHandler = new RayHandler(world);
-        RayHandler.useDiffuseLight(true);
+        this(new RayHandler(world), camera);
     }
 
     @Override

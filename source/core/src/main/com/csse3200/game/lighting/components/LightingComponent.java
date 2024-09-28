@@ -111,11 +111,11 @@ public class LightingComponent extends Component {
      *
      * @return A reference to the created ConeLight.
      */
-    public static ConeLight createConeLight(float dist, float cone, Color color) {
+    public static ConeLight createConeLight(float dist, float dir, float cone, Color color) {
         return ServiceLocator
                 .getLightingService()
                 .getLighting()
-                .createConeLight(0, 0, dist, 0, cone, color);
+                .createConeLight(0, 0, dist, dir, cone, color);
     }
 
     /**
