@@ -78,6 +78,33 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
+     * updates the potions effects if in or out of combat
+     */
+    public void updatePotions(ItemUsageContext context) {
+        if (this.potions != null) {
+            if (!isInCombat) {
+                for (int i = 0; i < potions.size(); i++) {
+                    if (potions.get(i) instanceof DefensePotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
+                    if (potions.get(i) instanceof AttackPotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
+                }
+            }
+
+            for (int i = 0; i < potions.size(); i++) {
+                if (potions.get(i) instanceof SpeedPotion) {
+                    potions.get(i).update(context);
+                    potions.remove(i);
+                }
+            }
+        }
+    }
+
+    /**
      * Sets the state of inCombat
      * @param inCombat boolean value of if the player is in combat or not
      */
@@ -322,7 +349,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    void regenerateInventory() {
+    public void regenerateInventory() {
         toggleInventory(); // Hacky way to regenerate inventory without duplicating code
         toggleInventory();
     }
