@@ -39,7 +39,7 @@ public class AnglerFish extends MazeEntity {
                 .addTask(new MazeChaseTask(target, 10, 2f, 3f));
 
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
-                ServiceLocator.getResourceService().getAsset("images/minigames/Angler.atlas", TextureAtlas.class));
+                ServiceLocator.getResourceService().getAsset("images/minigames/angler.atlas", TextureAtlas.class));
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);

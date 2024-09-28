@@ -27,7 +27,7 @@ import org.mockito.MockedConstruction;
 public class AnglerFishTest {
 
     private AnglerFish anglerFish;
-    private static final String[] TEXTURE_ATLASES = {"images/minigames/Angler.atlas"};
+    private static final String[] TEXTURE_ATLASES = {"images/minigames/angler.atlas"};
     private static final String[] SOUNDS = {"sounds/minigames/angler-chomp.mp3"};
     private Entity mockTarget;
 
