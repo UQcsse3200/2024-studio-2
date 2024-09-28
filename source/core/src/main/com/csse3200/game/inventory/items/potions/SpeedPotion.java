@@ -38,10 +38,10 @@ public class SpeedPotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        if (isExpired(context)) {
+//        if (isExpired(context)) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
             stats.setSpeed(stats.getSpeed() - this.effectAmount);
-        }
+//        }
     }
 }
 
