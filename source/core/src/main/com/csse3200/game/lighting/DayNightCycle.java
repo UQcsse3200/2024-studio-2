@@ -8,7 +8,7 @@ import com.csse3200.game.services.ServiceLocator;
 import static com.csse3200.game.lighting.LightingUtils.interpolateColorCycle;
 
 public class DayNightCycle {
-    public static final long DAY_LENGTH = 72000; // three seconds per in-game hour
+    public static final long DAY_LENGTH = 360000; // 15 seconds per in-game hour
     public static final Color[] keyTimes = {
             new Color(10f/255, 70f/255, 200f/255, 1f), // mid night
             new Color(10f/255, 80f/255, 220f/255, 1f), // late night
