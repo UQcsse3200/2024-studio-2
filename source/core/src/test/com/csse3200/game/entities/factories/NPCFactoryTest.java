@@ -178,7 +178,11 @@ class NPCFactoryTest {
     void TestFishHasCorrectBaseHint() {
         String[][] baseHint = configs.fish.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Finny the Fish."}}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Help me please!",
+                "A strong current just scattered all my eggs and now I am lost",
+                "It is getting dark now, they are in great danger!",
+                "I must get them back and find my way home!",
+                "/muHelp me collect all the fish eggs an get back home before it is too late"}}, baseHint);
     }
 
     /**
