@@ -18,10 +18,13 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
@@ -41,6 +44,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     private final int numCols, numRows, hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
+    private ArrayList<TimedUseItem> potions = new ArrayList<TimedUseItem>();
 
     // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
@@ -117,7 +121,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @return the state of iff player is in combat or not
      */
     public boolean isInCombat() {
-        return isInCombat;
+        return this.isInCombat;
     }
 
     /**
@@ -287,9 +291,17 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                String[][] itemText = {{item.getDescription() + ". Quantity: "
-                        + item.getQuantity() + "/" + item.getLimit()}};
-                ServiceLocator.getDialogueBoxService().updateText(itemText);
+                if (item instanceof DefensePotion) {
+                    String[][] itemText = {{((DefensePotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                } else if (item instanceof AttackPotion) {
+                    String[][] itemText = {{((AttackPotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                } else {
+                    String[][] itemText = {{item.getDescription() + ". Quantity: "
+                            + item.getQuantity() + "/" + item.getLimit()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                }
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
@@ -303,15 +315,10 @@ public class PlayerInventoryDisplay extends UIComponent {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
                 tryUseItem(item, context, index);
-                //if (entity.get)
-//                if (item instanceof TimedUseItem) {
-//                    aiComponent.addTask(
-//                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
-//                }
-//                inventory.useItemAt(index, context);
-//                entity.getEvents().trigger("itemUsed", item);
+                if (item instanceof TimedUseItem) {
+                    potions.add((TimedUseItem) item);
+                }
                 regenerateInventory();
-
             }
         });
     }
@@ -352,6 +359,8 @@ public class PlayerInventoryDisplay extends UIComponent {
     public void regenerateInventory() {
         toggleInventory(); // Hacky way to regenerate inventory without duplicating code
         toggleInventory();
+        ItemUsageContext context = new ItemUsageContext(entity);
+        updatePotions(context);
     }
 
     /**
