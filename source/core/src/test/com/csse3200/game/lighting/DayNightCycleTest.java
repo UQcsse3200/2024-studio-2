@@ -1,7 +1,6 @@
 package com.csse3200.game.lighting;
 
 import box2dLight.RayHandler;
-import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeAll;
