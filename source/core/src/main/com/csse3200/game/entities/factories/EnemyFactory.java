@@ -324,6 +324,7 @@ public class EnemyFactory {
         } else if (type == EnemyType.EEL) {
             aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
             aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), false));
+            aiComponent.addTask(new ShootTask(1000, target, 10f));
         } else {
             // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
             aiComponent.addTask(new WanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f, false));

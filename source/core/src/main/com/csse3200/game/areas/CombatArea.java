@@ -70,6 +70,7 @@ public class CombatArea extends GameArea {
             "images/pigeon_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
+            "images/bear_idle.png",
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",

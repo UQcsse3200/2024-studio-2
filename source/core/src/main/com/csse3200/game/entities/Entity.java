@@ -46,7 +46,9 @@ public class Entity {
     BEAR,
     EEL,
     BEE,
-    PIGEON
+    PIGEON,
+    BANANA,
+    ELECTRICORB,
   }
 
 
