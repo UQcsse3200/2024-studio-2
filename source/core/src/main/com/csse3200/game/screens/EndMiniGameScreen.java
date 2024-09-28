@@ -28,7 +28,10 @@ import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
 import com.csse3200.game.inventory.items.lootbox.rarities.LateGameLootBox;
 import com.csse3200.game.inventory.items.lootbox.rarities.MediumGameLootBox;
+import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -58,6 +61,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final Entity player;
     private PlayerInventoryDisplay display;
     private Table contentTable;
+    private static final String[] endMiniGameSounds = {
+            "sounds/minigames/fail.mp3",
+            "sounds/minigames/bronze.mp3",
+            "sounds/minigames/silver.mp3",
+            "sounds/minigames/gold.mp3",
+    };
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -89,6 +98,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
+
+        ServiceLocator.registerResourceService(new ResourceService());
+        loadAssets();
+        playSoundEffect();
     }
 
     /**
@@ -357,6 +370,28 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
+     * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
+     */
+    private void playSoundEffect() {
+        switch (getMedal(score)) {
+            case FAIL ->
+                // Failed
+                AudioManager.playSound("sounds/minigames/fail.mp3");
+            case BRONZE ->
+                // Bronze
+                AudioManager.playSound("sounds/minigames/bronze.mp3");
+            case SILVER ->
+                // Silver
+                AudioManager.playSound("sounds/minigames/silver.mp3");
+            case GOLD ->
+                // Gold
+                AudioManager.playSound("sounds/minigames/gold.mp3");
+            default -> throw new IllegalArgumentException("Unknown mini-game");
+        }
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
      * Gets the personalised massage based on score and mini-game
      * @return the message
      */
@@ -416,6 +451,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
+        unloadAssets();
+        ServiceLocator.getResourceService().dispose();
     }
 
     /**
@@ -437,5 +474,18 @@ public class EndMiniGameScreen extends ScreenAdapter {
         stage.clear();
         setupExitButton();
         renderEndMessage();
+    }
+
+    private void loadAssets() {
+        logger.debug("Loading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadSounds(endMiniGameSounds);
+        ServiceLocator.getResourceService().loadAll();
+    }
+
+    private void unloadAssets() {
+        logger.debug("Unloading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(endMiniGameSounds);
     }
 }
