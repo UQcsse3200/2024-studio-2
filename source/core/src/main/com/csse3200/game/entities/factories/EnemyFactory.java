@@ -304,7 +304,8 @@ public class EnemyFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-                    .addComponent(aiComponent);
+                    .addComponent(aiComponent)
+                    .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(6f, Color.RED)));
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
