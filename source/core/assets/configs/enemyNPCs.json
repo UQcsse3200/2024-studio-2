@@ -53,6 +53,15 @@
     "experience": 25,
     "isEnemy": 1
   },
+  "bigsawfish": {
+    "spritePath": "images/bigsawfish.atlas",
+    "health": 100,
+    "baseAttack": 20,
+    "defense": 30,
+    "speed": 50,
+    "experience": 50,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
     "health": 150,

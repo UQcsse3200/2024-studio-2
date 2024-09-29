@@ -11,6 +11,7 @@ import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.components.npc.PigeonAnimationController;
+import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
@@ -60,7 +61,8 @@ public class EnemyFactory {
         MONKEY,
         BEAR,
         EEL,
-        PIGEON;
+        PIGEON,
+        BIGSAWFISH;
     }
     
     /**
@@ -123,6 +125,38 @@ public class EnemyFactory {
         bear.setScale(2f,1.38f);
         
         return bear;
+    }
+
+    /**
+     * Creates a big saw fish enemy.
+     *
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy bear entity
+     */
+    public static Entity createBigsawfish(Entity target) {
+        Entity bigsawfish = createBaseEnemy(target, EnemyType.BIGSAWFISH);
+        BaseEnemyEntityConfig config = configs.bigsawfish;
+        bigsawfish.setEnemyType(Entity.EnemyType.BIGSAWFISH);
+
+        TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+        AnimationRenderComponent animator = new AnimationRenderComponent(bigsawfishAtlas);
+
+        animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+
+        bigsawfish
+                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                        config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
+                .addComponent(new CombatMoveComponent(moveSet))
+                .addComponent(animator)
+                .addComponent(new BigsawfishAnimationController());
+
+
+        bigsawfish.setScale(2f,1.38f);
+
+        return bigsawfish;
     }
     
     /**
@@ -270,6 +304,7 @@ public class EnemyFactory {
             case BEAR -> configs.bear;
             case EEL -> configs.eel;
             case PIGEON -> configs.pigeon;
+            case BIGSAWFISH -> configs.bigsawfish;
         };
         
         if (type == EnemyType.MONKEY) {
@@ -466,7 +501,22 @@ public class EnemyFactory {
         
         return bearEnemy;
     }
-    
+
+    /**
+     * Creates monkbig saw fish enemy as NPC entity for static combat
+     * */
+    public static Entity createBigsawfishCombatEnemy() {
+        Entity bigsawfishEnemy = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.bigsawfish;
+        bigsawfishEnemy.setEnemyType(Entity.EnemyType.BIGSAWFISH);
+
+        bigsawfishEnemy
+                .addComponent(new TextureRenderComponent("images/bigsawfish_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+        bigsawfishEnemy.scaleHeight(90.0f);
+
+        return bigsawfishEnemy;
+    }
     /**
      * Creates pigeon enemy as NPC entity for static combat
      * */

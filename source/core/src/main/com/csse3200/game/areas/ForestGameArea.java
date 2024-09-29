@@ -326,6 +326,10 @@ public class ForestGameArea extends GameArea {
         //Eel
         generator = () -> EnemyFactory.createEel(player);
         spawnShooterEnemy(generator, config.spawns.NUM_EELS, 0.1);
+
+        //Big saw fish
+        generator = () -> EnemyFactory.createBigsawfish(player);
+        spawnShooterEnemy(generator, config.spawns.NUM_BIGSAWFISH, 0.1);
     }
     
     private void spawnFriendlyNPCs() {
