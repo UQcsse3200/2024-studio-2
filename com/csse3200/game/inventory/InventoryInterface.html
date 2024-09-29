@@ -131,7 +131,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Deletes an instance of an item with the specified code from the inventory.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteItemAt(int)" class="member-name-link">deleteItemAt</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Deletes the item at the specified index in the inventory.</div>
@@ -327,11 +327,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="deleteItemAt(int)">
 <h3>deleteItemAt</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">deleteItemAt</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="return-type"><a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></span>&nbsp;<span class="element-name">deleteItemAt</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
 <div class="block">Deletes the item at the specified index in the inventory.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - the index of the item to delete</dd>
+<dt>Returns:</dt>
+<dd>the item that was removed (or null if there was no item at that index)</dd>
 </dl>
 </section>
 </li>

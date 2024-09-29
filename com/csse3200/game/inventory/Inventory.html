@@ -152,7 +152,7 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Deletes the first occurrence of an item with the specified code from the inventory.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deleteItemAt(int)" class="member-name-link">deleteItemAt</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Deletes the item at the specified index from the inventory.</div>
@@ -224,15 +224,21 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <div class="block">Sorts the inventory by item name.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem</a><wbr>(int&nbsp;code,
- <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#swap(int,int)" class="member-name-link">swap</a><wbr>(int&nbsp;src,
+ int&nbsp;target)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Uses the first occurrence of an item with the specified code in the inventory.</div>
+<div class="block">Swaps the items between two inventory slots.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItemAt(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItemAt</a><wbr>(int&nbsp;index,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem</a><wbr>(int&nbsp;code,
  <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uses the first occurrence of an item with the specified code in the inventory.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItemAt(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItemAt</a><wbr>(int&nbsp;index,
+ <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Uses the item at the specified index in the inventory.</div>
 </div>
 </div>
@@ -410,6 +416,21 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 </section>
 </li>
 <li>
+<section class="detail" id="swap(int,int)">
+<h3>swap</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">swap</span><wbr><span class="parameters">(int&nbsp;src,
+ int&nbsp;target)</span></div>
+<div class="block">Swaps the items between two inventory slots. If the target slot is empty,
+ the item from the source slot is moved to the target slot. If the target slot
+ contains an item, the items between the source and target slots are swapped.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>src</code> - The index of the source slot from which the item is being moved.</dd>
+<dd><code>target</code> - The index of the target slot to which the item is being moved.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="deleteItem(int)">
 <h3>deleteItem</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deleteItem</span><wbr><span class="parameters">(int&nbsp;code)</span></div>
@@ -427,7 +448,7 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <li>
 <section class="detail" id="deleteItemAt(int)">
 <h3>deleteItemAt</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deleteItemAt</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></span>&nbsp;<span class="element-name">deleteItemAt</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
 <div class="block">Deletes the item at the specified index from the inventory.
  <p>It is currently up to the user to ensure they have not exceeded the bounds of the
  inventory.</p>
@@ -438,6 +459,8 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <dd><code><a href="InventoryInterface.html#deleteItemAt(int)">deleteItemAt</a></code>&nbsp;in interface&nbsp;<code><a href="InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>index</code> - the index of the item to delete.</dd>
+<dt>Returns:</dt>
+<dd>the item that was removed (or null if there was no item at that index)</dd>
 </dl>
 </section>
 </li>
