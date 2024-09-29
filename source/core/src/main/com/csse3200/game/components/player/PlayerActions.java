@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
 
+import java.util.Objects;
+
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
   private static final float SPEED_MULTIPLIER = 0.03f; // Adjust this to balance speed differences
@@ -74,7 +76,21 @@ public class PlayerActions extends Component {
    */
   private void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
-    mainGameScreen.setMap(MapHandler.MapType.WATER);
+    if (MapHandler.getUnlockedOcean()) {
+      mainGameScreen.setMap(MapHandler.MapType.WATER);
+    } else {
+      mainGameScreen.setMap(MapHandler.MapType.FOG);
+
+    }
+  }
+  /**
+   * Checks if the bos in current area is defeat to unlock the next area
+   * @param player entity to check last triggered events
+   */
+  public void unlockOceanMap(Entity player) {
+    if (Objects.equals(player.getEvents().getLastTriggeredEvent(), "kangaDefeated")) {
+      MapHandler.setUnlockedWater(true);
+    }
   }
 
   @Override
