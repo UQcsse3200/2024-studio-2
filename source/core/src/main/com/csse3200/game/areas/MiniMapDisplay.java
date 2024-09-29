@@ -56,7 +56,7 @@ public class MiniMapDisplay extends UIComponent {
     private void initializeImages() {
         Pixmap pixmap = new Pixmap(miniMapSize, miniMapSize, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
-        pixmap.fillRectangle(0, 0, miniMapSize, miniMapSize);
+        pixmap.fillCircle(miniMapSize / 2, miniMapSize / 2, miniMapSize / 2);
         // Convert the Pixmap to a texture
         miniMapBackground = new Texture(pixmap);
 
@@ -89,6 +89,9 @@ public class MiniMapDisplay extends UIComponent {
 
     @Override
     public void update() {
+        float centerX = miniMapX + miniMapSize / 2;
+        float centerY = miniMapY + miniMapSize / 2;
+        float minimapRadius = miniMapSize / 2;
         //Update green point position (player in minimap)
         Vector2 playerMiniMapPos = transferToMiniMapPos(player);
         greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
@@ -97,7 +100,14 @@ public class MiniMapDisplay extends UIComponent {
         for (int i = 0; i < enemies.size(); i++) {
             Entity enemy = enemies.get(i);
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
-            redDotPointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
+
+            float distanceFromCenter = Vector2.dst(centerX, centerY, enemyMiniMapPos.x, enemyMiniMapPos.y);
+            if (distanceFromCenter <= minimapRadius) {
+                redDotPointImages.get(i).setVisible(true);
+                redDotPointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
+            } else {
+                redDotPointImages.get(i).setVisible(false);
+            }
             System.out.println(enemyMiniMapPos);
             //Hide enemyDotPoints if these are outside the minimap
         }
