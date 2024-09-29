@@ -3,6 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -26,7 +27,9 @@ public class ObstacleFactory {
         new Entity()
             .addComponent(new TextureRenderComponent("images/tree.png"))
             .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+            .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
+            .addComponent(new FadeLightsDayTimeComponent());
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();

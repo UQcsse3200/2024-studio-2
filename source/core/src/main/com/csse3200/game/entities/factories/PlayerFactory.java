@@ -21,6 +21,7 @@ import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -104,7 +105,8 @@ public class PlayerFactory {
         player.getComponent(QuestManager.class).loadQuests();
 
         PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
-        player.addComponent(new LightingComponent().attach(light));
+        player.addComponent(new LightingComponent().attach(light))
+              .addComponent(new FadeLightsDayTimeComponent());;
 
         return player;
     }

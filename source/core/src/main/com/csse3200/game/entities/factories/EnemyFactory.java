@@ -19,6 +19,7 @@ import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -230,7 +231,8 @@ public class EnemyFactory {
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
             .addComponent(aiComponent)
-            .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)));
+            .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
+            .addComponent(new FadeLightsDayTimeComponent());
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
