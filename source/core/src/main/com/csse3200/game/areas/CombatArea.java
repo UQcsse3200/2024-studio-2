@@ -197,7 +197,7 @@ public class CombatArea extends GameArea {
     private void spawnChicken() {
         Entity combatEnemyNPC = EnemyFactory.createChickenCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
-        combatEnemyNPC.getEvents().trigger("combatIdle");
+        combatEnemyNPC.getEvents().trigger("idleLeft");
     }
     /**
      * spawns a frog enemy, with the player entity as its target
