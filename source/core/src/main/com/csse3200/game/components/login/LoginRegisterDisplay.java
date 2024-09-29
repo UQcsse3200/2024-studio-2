@@ -39,9 +39,11 @@ public class LoginRegisterDisplay extends UIComponent {
     private boolean isLoginMode = true;
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
+    private PlayFab playFab;
 
     public LoginRegisterDisplay() {
         super();
+        playFab = new PlayFab("DBB26");
     }
 
     private void loadTextures() {
@@ -123,7 +125,6 @@ public class LoginRegisterDisplay extends UIComponent {
         submitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                PlayFab playFab = new PlayFab("DBB26");
                 PlayFab.Response response = playFab.loginUser(usernameField.getText(), passwordField.getText());
                 NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
                 if (response.getIsSucceed()) {
@@ -140,7 +141,6 @@ public class LoginRegisterDisplay extends UIComponent {
             submitButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    PlayFab playFab = new PlayFab("DBB26");
                     PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
                     NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
                 }
