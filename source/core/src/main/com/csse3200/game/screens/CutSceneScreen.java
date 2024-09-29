@@ -40,4 +40,32 @@ public class CutSceneScreen extends ScreenAdapter {
         // Set input processor
         Gdx.input.setInputProcessor(stage);
     }
+    @Override
+    public void render(float delta) {
+        // Update entities and render the screen
+        entityService.update();
+        spriteBatch.begin();
+        renderService.render(spriteBatch); // Trigger rendering through RenderService
+        spriteBatch.end();
+        stage.act(delta); // Update the stage
+        stage.draw(); // Draw the stage
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        renderService.getStage().getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose() {
+        logger.debug("Disposing CutScene screen");
+
+        // Dispose of all resources and services
+        renderService.dispose();
+        entityService.dispose();
+        resourceService.loadAll();  // Might need to change this depending on how assets are loaded
+        spriteBatch.dispose();
+        stage.dispose();
+    }
+
 }
