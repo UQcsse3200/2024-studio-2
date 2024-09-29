@@ -193,7 +193,7 @@ public class GdxGame extends Game {
                 String selectedAnimal = "dog";  // Replace with actual logic for getting selected animal
                 return new StoryScreen(this, selectedAnimal);
             case CUTSCENE:
-                setScreen(new CutSceneScreen(this));
+                return (new CutSceneScreen(this));
             case QUICK_TIME_EVENT:
                 return new QuickTimeEventScreen(this);
             default:
