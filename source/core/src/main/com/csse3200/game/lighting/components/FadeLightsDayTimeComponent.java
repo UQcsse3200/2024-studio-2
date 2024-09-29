@@ -13,8 +13,8 @@ import com.csse3200.game.lighting.DayNightCycle;
  */
 public class FadeLightsDayTimeComponent extends Component {
     private float maxDistance;
-    private static final float fadeOutTime = 0.25f;
-    private static final float fadeInTime = 0.75f;
+    private static final float fadeOutTime = 0.35f;
+    private static final float fadeInTime = 0.72f;
     private static final float fadeDuration = 0.01f;
 
     private Light light;
