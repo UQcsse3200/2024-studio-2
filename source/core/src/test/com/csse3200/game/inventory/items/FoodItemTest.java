@@ -64,4 +64,9 @@ public class FoodItemTest {
         Foods.ChickenLeg chickenLeg = new Foods.ChickenLeg(1);
         helperTestFood(chickenLeg);
     }
+
+    @Test
+    void testInitialisation() {
+        assertThrows(InstantiationException.class, Foods::new);
+    }
 }

@@ -1,6 +1,10 @@
 package com.csse3200.game.inventory.items.food;
 
 public class Foods {
+    public Foods() throws InstantiationException {
+        throw new InstantiationException("Do not instantiate Foods class directly!");
+    }
+
     /**
      * Apple class manages the apple fields inherited from AbstractFood
      */
