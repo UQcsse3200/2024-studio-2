@@ -79,12 +79,8 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     Vector2 impulse = desiredVelocity.cpy().sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
   }
-  
-  /**
-   * returns a Vector of the direction the entity this component is attached to is moving in
-   * @return a Vector2 of the direction the entity this component is attached to is moving in
-   */
-  public Vector2 getDirection() {
+
+  private Vector2 getDirection() {
     // Move towards targetPosition based on our current position
     return targetPosition.cpy().sub(entity.getPosition()).nor();
   }

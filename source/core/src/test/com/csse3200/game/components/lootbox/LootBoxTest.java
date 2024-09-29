@@ -1,6 +1,6 @@
 package com.csse3200.game.components.lootbox;
 
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.AbstractItem;

@@ -1,14 +1,11 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
-import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -133,18 +130,9 @@ public class WaterGameArea extends GameArea {
     return player;
   }
 
-  public void displayUI()
-  {
+  public void displayUI() {
     Entity ui = new Entity();
-
-    // Create the necessary objects to pass to GameAreaDisplay
-    SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
-    OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
-    // Make sure to get the correct CameraComponent type required by GameAreaDisplay
-    CameraComponent minimapCameraComponent = (CameraComponent) this.terrainFactory.getCameraComponent(); // Adjust as needed
-
-    // Pass the required parameters to the GameAreaDisplay constructor
-    ui.addComponent(new GameAreaDisplay("Box Forest", batch, mainCamera, minimapCameraComponent));
+    ui.addComponent(new GameAreaDisplay("Box Forest"));
     ui.addComponent(new QuestPopup());
     spawnEntity(ui);
   }

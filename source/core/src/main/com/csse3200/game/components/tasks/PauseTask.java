@@ -1,25 +1,18 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.services.ServiceLocator;
-
-import java.util.Objects;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
-    private static final Logger logger = new Logger("PauseTask");
-
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
-    private String animalName;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -58,7 +51,7 @@ public class PauseTask extends ChaseTask {
 
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
-            animalName = (config).getAnimalName();
+            String animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
             entity.getEvents().trigger(eventName, hintText);
         } else {
@@ -100,12 +93,6 @@ public class PauseTask extends ChaseTask {
             hasApproached = true;
             movementTask.stop();
         }
-
-        if (hasApproached && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())
-            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
-        ) {
-            triggerPauseEvent();
-        }
     }
 
     /**
@@ -116,7 +103,7 @@ public class PauseTask extends ChaseTask {
         super.stop();
         movementTask.start();
 
-        // Ensure the chat box doesn't hang around when it's not supposed to
+        // Ensure the chat box doesn't hang around when its not supposed to
         this.hasApproached = false;
         triggerPauseEventEnd();
     }

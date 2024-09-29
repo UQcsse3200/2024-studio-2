@@ -4,7 +4,6 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
@@ -26,8 +25,6 @@ public class CombatManager extends Component {
 
     private final Entity player;
     private final Entity enemy;
-    private CombatStatsComponent copyPlayerStats;
-    private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
     private Action playerAction;
@@ -50,36 +47,11 @@ public class CombatManager extends Component {
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
-        initStatsCopies();
-
         this.playerAction = null;
         this.enemyAction = null;
 
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
-    }
-
-    /**
-     * Initialises copies of the CombatStatsComponents of the player and enemy for DialogueBox use
-     */
-    private void initStatsCopies() {
-        this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
-                playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
-                playerStats.getMaxExperience(), playerStats.getMaxStamina(), playerStats.isPlayer(),
-                playerStats.isBoss());
-        copyPlayerStats.setHealth(playerStats.getHealth());
-        copyPlayerStats.setExperience(playerStats.getExperience());
-        copyPlayerStats.setHunger(playerStats.getHunger());
-        copyPlayerStats.setStamina(playerStats.getStamina());
-
-        this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
-                enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
-                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss());
-        copyEnemyStats.setHealth(enemyStats.getHealth());
-        copyEnemyStats.setExperience(enemyStats.getExperience());
-        copyEnemyStats.setHunger(enemyStats.getHunger());
-        copyEnemyStats.setStamina(enemyStats.getStamina());
-
     }
 
     /**
@@ -250,8 +222,6 @@ public class CombatManager extends Component {
 
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
-        displayCombatResults();
-        initStatsCopies();
     }
 
     /**
@@ -318,82 +288,5 @@ public class CombatManager extends Component {
      */
     public CombatStatsComponent getEnemyStats() {
         return enemyStats;
-    }
-
-    /**
-     * A function used to calculate and construct the strings describing player and enemy changes
-     * @return A string array containing the stat change details of the player and enemy
-     */
-    private String[] calculateStatChanges () {
-        int arraySize = 2;
-        String[] statChanges = new String[arraySize];
-        String playerStatsDetails = "";
-        String enemyStatsDetails = "";
-
-        if (playerStats.getHealth() > copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You gained %dHP. ", playerStats.getHealth() - copyPlayerStats.getHealth());
-        } else if (playerStats.getHealth() < copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You lost %dHP. ", copyPlayerStats.getHealth() - playerStats.getHealth());
-        }
-
-        if (playerStats.getStamina() > copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You gained %d stamina. ", playerStats.getStamina() -
-                    copyPlayerStats.getStamina());
-        } else if (playerStats.getStamina() < copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You lost %d stamina. ", copyPlayerStats.getStamina() -
-                    playerStats.getStamina());
-        }
-
-        if (enemyStats.getHealth() > copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy gained %dHP. ", enemyStats.getHealth() - copyEnemyStats.getHealth());
-        } else if (enemyStats.getHealth() < copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy lost %dHP. ", copyEnemyStats.getHealth() - enemyStats.getHealth());
-        }
-
-        statChanges[0] = playerStatsDetails;
-        statChanges[1] = enemyStatsDetails;
-
-        return statChanges;
-    }
-
-    /**
-     * Displays the results of the combat moves in that turn on the game screen in a DialogueBox
-     */
-    private void displayCombatResults() {
-        String[][] moveText;
-        String playerMoveDetails = playerAction.name();
-        String enemyMoveDetails = enemyAction.name();
-        Boolean playerStatChange = false;
-        Boolean enemyStatChange = false;
-
-        String[] entityStatChanges = calculateStatChanges();
-
-        if (!entityStatChanges[0].isEmpty()) {
-            playerStatChange = true;
-        }
-        if (!entityStatChanges[1].isEmpty()) {
-            enemyStatChange = true;
-        }
-        logger.info(entityStatChanges[1]);
-        logger.info(String.format("The enemyStat change value is %b", enemyStatChange));
-        if (playerStatChange && enemyStatChange) {
-            logger.info("THERE'S STATS CHANGES FOR PLAYER AND ENEMY");
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0],
-                    entityStatChanges[1]}};
-        } else if (playerStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0]}};
-        } else if (enemyStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[1]}};
-        } else {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails),
-                    "No stats were changed, try again!"}};
-        }
-
-        ServiceLocator.getDialogueBoxService().updateText(moveText);
-        entity.getEvents().trigger("displayCombatResults");
     }
 }

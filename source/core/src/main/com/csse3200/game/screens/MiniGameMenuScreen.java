@@ -145,7 +145,6 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 waterImage.setColor(Color.GREEN);
-                game.enterMazeGameScreen();
             }
         });
 
@@ -169,7 +168,6 @@ public class MiniGameMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 waterButton.setColor(Color.GREEN);
-                game.enterMazeGameScreen();
             }
         });
     }

@@ -1,6 +1,6 @@
-package com.csse3200.game.services;
+package com.csse3200.game.entities;
 
-import com.csse3200.game.ui.dialoguebox.DialogueBox;
+import com.csse3200.game.ui.DialogueBox;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,13 +50,6 @@ public class DialogueBoxService {
     }
 
     /**
-     * Returns if the current dialgoue box is visible
-     */
-    public Boolean getIsVisible() {
-        return currentOverlay.getIsVisible();
-    }
-
-    /**
      * Dispose of the current chat overlay if it exists.
      */
     public void hideCurrentOverlay() {
@@ -92,12 +85,5 @@ public class DialogueBoxService {
             currentOverlay.showDialogueBox(new String[][]{text});
         }
 
-    }
-
-    /**
-     * Resizes the DialogueBox in the event the screen changes size
-     */
-    public void resizeElements() {
-        currentOverlay.resizeElements();
     }
 }

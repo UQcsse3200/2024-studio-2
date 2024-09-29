@@ -1,5 +1,6 @@
 package com.csse3200.game.components.login;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,17 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 
-import java.util.Map;
+import java.awt.*;
 
 /**
  * A UI component for displaying the Main menu.
@@ -32,7 +34,7 @@ public class LoginRegisterDisplay extends UIComponent {
     private Label title;
     private TextField usernameField;
     private TextField passwordField;
-    private TextField emailField;
+    private TextField confirmPasswordField;
     private TextButton submitButton;
     private TextButton switchButton;
     private Button closeButton;
@@ -73,14 +75,15 @@ public class LoginRegisterDisplay extends UIComponent {
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        emailField = new TextField("", skin);
+        confirmPasswordField = new TextField("", skin);
+        confirmPasswordField.setPasswordMode(true);
+        confirmPasswordField.setPasswordCharacter('*');
     }
 
     private void addButtons() {
         closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
         submitButton = new TextButton("Submit", skin);
         switchButton = new TextButton("Switch to Register", skin);
-
         switchButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -88,6 +91,8 @@ public class LoginRegisterDisplay extends UIComponent {
                 isLoginMode = !isLoginMode;
                 topTable.clear();
                 contentTable.clear();
+                usernameField.clear();
+                passwordField.clear();
                 updateUI();
             }
         });
@@ -120,34 +125,16 @@ public class LoginRegisterDisplay extends UIComponent {
         contentTable.add(new Label("Username:", skin)).padRight(10);
         contentTable.add(usernameField).width(200).padBottom(10);
         contentTable.row();
-        submitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                PlayFab playFab = new PlayFab("DBB26");
-                playFab.loginUser(usernameField.getText(), passwordField.getText());
-                NotifManager.displayNotif("login");
-
-            }
-        });
-        // If it's the register screen, add the confirm password field
-        if (!isLoginMode) {
-            contentTable.add(new Label("Email:", skin)).padRight(10);
-            contentTable.add(emailField).width(200).padBottom(10);
-            contentTable.row();
-            submitButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent changeEvent, Actor actor) {
-                    PlayFab playFab = new PlayFab("DBB26");
-                    PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
-                    NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
-                }
-            });
-        }
-
-
         contentTable.add(new Label("Password:", skin)).padRight(10);
         contentTable.add(passwordField).width(200).padBottom(10);
         contentTable.row();
+        // If it's the register screen, add the confirm password field
+        if (!isLoginMode) {
+            contentTable.add(new Label("Confirm Password:", skin)).padRight(10);
+            contentTable.add(confirmPasswordField).width(200).padBottom(10);
+            contentTable.row();
+        }
+
 
         // Add submit and switch buttons
         contentTable.add(submitButton).colspan(2).padBottom(10);

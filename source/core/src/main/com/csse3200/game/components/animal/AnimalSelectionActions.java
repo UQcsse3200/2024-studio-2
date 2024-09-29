@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.LoadingScreen;
-import com.csse3200.game.screens.StoryScreen;
 import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
@@ -90,26 +89,13 @@ public class AnimalSelectionActions {
             public void clicked(InputEvent event, float x, float y) {
                 if (selectedAnimalImage != null) {
                     logger.debug("Select button clicked with animal selected");
-                    switch (selectedAnimalImagePath) {
-                        case "images/dog.png":
-                            game.setScreen(new StoryScreen(game, "dog")); // Pass "dog" to StoryScreen
-                            break;
-                        case "images/croc.png":
-                            game.setScreen(new StoryScreen(game, "croc")); // Pass "croc" to StoryScreen
-                            break;
-                        case "images/bird.png":
-                            game.setScreen(new StoryScreen(game, "bird")); // Pass "bird" to StoryScreen
-                            break;
-                        default:
-                            logger.debug("Unknown animal selected");
-                    }
+                    game.setScreen(GdxGame.ScreenType.STORY);
                 } else {
                     logger.debug("No animal selected");
                     showSelectionAlert(); // Show an alert if no animal is selected
                 }
             }
         });
-
 
         // Add listener to the "Back" button to return to the main menu
         display.getBackButton().addListener(new ClickListener() {
@@ -188,4 +174,3 @@ public class AnimalSelectionActions {
     }
 
 }
-

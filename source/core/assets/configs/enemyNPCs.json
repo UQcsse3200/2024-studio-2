@@ -72,18 +72,10 @@
   },
   "banana": {
     "spritePath": "images/banana.atlas",
-    "health": 0,
-    "baseAttack": 2,
-    "defense": 0,
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
     "speed": 2,
-    "isEnemy": 1
-  },
-  "electricOrb": {
-    "spritePath": "images/orb.atlas",
-    "health": 0,
-    "baseAttack": 10,
-    "defense": 0,
-    "speed": 5,
     "isEnemy": 1
   }
 }

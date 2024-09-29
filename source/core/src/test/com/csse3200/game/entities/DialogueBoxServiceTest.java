@@ -1,24 +1,29 @@
 package com.csse3200.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.dialoguebox.DialogueBox;
+import com.csse3200.game.ui.DialogueBox;
+import com.csse3200.game.entities.DialogueBoxService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(GameExtension.class)
 class DialogueBoxServiceTest {
     private DialogueBoxService entityChatService;
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+
     Stage stage;
     @BeforeEach
     void beforeEach() {
@@ -38,12 +43,12 @@ class DialogueBoxServiceTest {
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
 
-        stage = ServiceLocator.getRenderService().getStage();
-
+        Stage stage = ServiceLocator.getRenderService().getStage();
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
         entityChatService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(entityChatService);
+        this.stage = stage;
     }
 
     @Test
@@ -52,9 +57,6 @@ class DialogueBoxServiceTest {
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
         entityChatService.updateText(new String[][] {{"1", "2"}});
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
-        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
-        Assertions.assertFalse(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
-        entityChatService.getCurrentOverlay().handleForwardButtonClick();
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
         entityChatService.hideCurrentOverlay();
@@ -78,6 +80,10 @@ class DialogueBoxServiceTest {
                 entityChatService.updateText(new String[]{"1", "2"});
             }
             entityChatService.getCurrentOverlay().handleForwardButtonClick();
+            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+            entityChatService.getCurrentOverlay().handleForwardButtonClick();
+            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
             Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
             entityChatService.getCurrentOverlay().handleBackwardButtonClick();
             Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());

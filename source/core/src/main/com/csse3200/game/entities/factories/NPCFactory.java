@@ -1,29 +1,38 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
+import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.npc.KangaBossAnimationController;
+import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.components.tasks.PauseTask;
 import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -52,13 +61,10 @@ public class NPCFactory {
 
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
-    InputComponent inputComponent =
-            ServiceLocator.getInputService().getInputFactory().createForDialogue();
 
     npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, 100, false, false))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
-            .addComponent(inputComponent)
             .addComponent(new ConfigComponent<>(config));
 
     npc.getComponent(AnimationRenderComponent.class).scaleEntity();

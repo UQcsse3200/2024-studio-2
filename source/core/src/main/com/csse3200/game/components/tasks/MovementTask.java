@@ -43,15 +43,7 @@ public class MovementTask extends DefaultTask {
     this(target);
     this.speed = speed;
   }
-  
-  /**
-   * Gets the MovementComponent
-   * @return a PhysicsMovementComponent
-   */
-  public PhysicsMovementComponent getMovementComponent() {
-    return movementComponent;
-  }
-  
+
   @Override
   public void start() {
     super.start();

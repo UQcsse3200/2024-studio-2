@@ -20,7 +20,7 @@ import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.minigames.MiniGameConstants;
 import com.csse3200.game.components.minigames.MiniGameMedals;
 import com.csse3200.game.components.minigames.MiniGameNames;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
 import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;
@@ -57,7 +57,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     private final Entity player;
     private PlayerInventoryDisplay display;
-    private Table contentTable;
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -74,11 +73,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
 
-        // Rewarding achievement to player
         if (oldScreen instanceof MainGameScreen) {
+            MainGameScreen forestGameArea = (MainGameScreen) oldScreen;
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
+                logger.info("Adding loot box to player's inventory.");
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
+                // Rewarding achievement to player
                 logger.info("Achievement trigger {} {}", gameName.name(),getMedal(score).name());
                 player.getEvents().trigger("miniGame",gameName,getMedal(score));
             }
@@ -89,6 +90,44 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
+    }
+
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen
+     */
+    private void setupExitButton() {
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        // Scale the button's font
+        exitButton.getLabel().setFontScale(scale);
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main menu and original screen colour
+                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                switch(getMedal(score)) {
+                    case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
+                            new EarlyGameLootTable(),3 , player));
+                    case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
+                            new MediumGameLootTable(),3 , player));
+                    case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
+                            new LateGameLootTable(),3 , player));
+                }
+                game.setOldScreen(oldScreen, oldScreenServices);
+            }
+        });
+
+        // Set up the table for UI layout
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top().right();
+        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
+
+        // Add the table to the stage
+        stage.addActor(table);
     }
 
     /**
@@ -107,60 +146,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Render the game over messages
         renderEndMessage();
-        stage.addActor(contentTable);
 
         handleKeyPress();
     }
 
     /**
-     * Puts the exit button in the top right of the screen.
-     * Will take the user back to the Main menu screen
-     */
-    private void setupExitButton() {
-
-        TextButton exitButton = new TextButton("Exit", skin);
-        // Scale the button's font
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Return to main menu and original screen colour
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                giveLootBox();
-                game.setOldScreen(oldScreen, oldScreenServices);
-            }
-        });
-
-        // Set up the table for UI layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.top().right();
-        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
-
-        // Add the table to the stage
-        stage.addActor(table);
-    }
-
-    /**
-     * Gives the player a loot box
-     */
-    private void giveLootBox() {
-        logger.info("Adding loot box to player's inventory.");
-        //TODO: change this only so when the medal changes
-        switch(getMedal(score)) {
-            case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
-                    new EarlyGameLootTable(),3 , player));
-            case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
-                    new MediumGameLootTable(),3 , player));
-            case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
-                    new LateGameLootTable(),3 , player));
-        }
-    }
-
-    /**
-     * Changes the screen if backspace or R is pressed (to mini-games menu or back to game respectively)
+     * Changes the screen if escape or R is pressed (to mini-games menu or back to game respectively)
      */
     private void handleKeyPress() {
 
@@ -173,7 +164,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             else if (gameName == BIRD) {
                 game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
             } else {
-                game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
+                //TODO: add Maze screen
             }
         }
 
@@ -185,25 +176,26 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     /**
      * Renders the labels with score, message and title.
+     * Renders the try again and menu buttons
      */
     private void renderEndMessage() {
 
-        contentTable = new Table();
-        contentTable.setFillParent(true);
+        Table table = new Table();
+        table.setFillParent(true);
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
         Label endGameLabel = new Label("End of Mini-Game", labelStyle);
-        contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
-        contentTable.row();
+        table.add(endGameLabel).center().padBottom(80 * scale).row();
+        table.row();
 
         // Score label
         font26.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label scoreLabel = new Label("Score: " + score, labelStyle);
-        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
-        contentTable.row();
+        table.add(scoreLabel).center().padBottom(50 * scale).row();
+        table.row();
 
         // Medal label
         MiniGameMedals medal = getMedal(score);
@@ -211,15 +203,15 @@ public class EndMiniGameScreen extends ScreenAdapter {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You FAILED", labelStyle);
-            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-            contentTable.row();
+            table.add(medalLabel).center().padBottom(150 * scale).row();
+            table.row();
 
         } else {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
-            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-            contentTable.row();
+            table.add(medalLabel).center().padBottom(150 * scale).row();
+            table.row();
         }
 
         // Personalised message label
@@ -227,63 +219,48 @@ public class EndMiniGameScreen extends ScreenAdapter {
         labelStyle = new Label.LabelStyle(font18, Color.WHITE);
         String scoreMessage = getMessage();
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
-        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
-        contentTable.row();
+        table.add(scoreMessageLabel).center().padBottom(100 * scale);
+        table.row();
 
-        makeButtons();
-    }
-
-    /**
-     * Renders the try again, menu and back to game buttons
-     */
-    private void makeButtons() {
-        // Make try again button
+        // Add buttons to the table
         TextButton tryAgainButton = new TextButton("Try Again", skin);
+        // Scale the button's font
         tryAgainButton.getLabel().setFontScale(scale);
+
+        // Scale the button's size
         tryAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 if (gameName == SNAKE) {
                     game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
-                } else if (gameName == BIRD) {
+                }
+                else if (gameName == BIRD) {
                     game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
                 } else {
-                    game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
+                    //TODO: add Maze screen
                 }
             }
         });
 
-        // Make Mini-Game Menu Button
-        TextButton menuButton = new TextButton("Main Menu", skin);
+        TextButton menuButton = new TextButton("Mini-Game Menu", skin);
+        // Scale the button's font
         menuButton.getLabel().setFontScale(scale);
+
+        // Scale the button's size
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+                game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
 
         // Add buttons to the table and align them at the bottom
-        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
-        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
+        table.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
+        table.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
 
-        // Makes return to game button appear only if it came from the game screen
-        if (oldScreen instanceof MainGameScreen) {
-            // Make Mini-Game Menu Button
-            TextButton mainGameButton = new TextButton("Return to Game", skin);
-            mainGameButton.getLabel().setFontScale(scale);
-            mainGameButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                    giveLootBox();
-                    game.setOldScreen(oldScreen, oldScreenServices);
-                }
-            });
-            contentTable.add(mainGameButton).width(mainGameButton.getWidth() * scale).height(mainGameButton.getHeight() * scale).center().pad(10 * scale).row();
-        }
+        stage.addActor(table);
     }
 
     /**

@@ -1,9 +1,7 @@
 package com.csse3200.game.inventory.items.lootbox;
 
 import java.util.List;
-
-import com.csse3200.game.components.inventory.InventoryComponent;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.ConsumableItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -63,24 +61,25 @@ public class LootBox extends ConsumableItem {
         super.useItem(context);
         List<AbstractItem> newItems = this.open(); // Rolls the loot box and gets new items
 
+        PlayerInventoryDisplay display = this.player.getComponent(PlayerInventoryDisplay.class);
+
         // Check if the inventory has space for items
-        InventoryComponent inventory = this.player.getComponent(InventoryComponent.class);
         for (AbstractItem item : newItems) {
-            if (inventory.getInventory().isFull()) { // Check if the inventory is full
+            if (display.hasSpaceFor()) { // Check if the inventory is full
                 Entity itemEntity = ItemFactory.createItem(player, item); // Create entity for the item
                 player.getEvents().trigger("dropItems", itemEntity, 3); // Drop item near player
                 logger.debug("Dropping item: {}", item.getName());
             } else {
-                inventory.getEntity().getEvents().trigger("addItem", item); // Add item to inventory
+                display.getEntity().getEvents().trigger("addItem", item); // Add item to inventory
                 logger.debug("Item added to inventory: {}", item.getName());
             }
         }
 
         // Trigger inventory UI update and show loot
-        PlayerInventoryDisplay display = this.player.getComponent(PlayerInventoryDisplay.class);
         if(display.getToggle()) {
             player.getEvents().trigger("toggleInventory");
         }
         player.getEvents().trigger("showLoot", newItems);
     }
+
 }

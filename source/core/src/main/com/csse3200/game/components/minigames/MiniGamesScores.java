@@ -1,5 +1,10 @@
 package com.csse3200.game.components.minigames;
 
+import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
+import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
+
 /**
  * Class to store games high scores
  */

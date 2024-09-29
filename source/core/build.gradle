@@ -9,8 +9,6 @@ dependencies {
     implementation "com.badlogicgames.gdx:gdx:1.9.14"
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.14"
     implementation "com.badlogicgames.gdx:gdx-platform:1.9.14:natives-desktop"
-    implementation files('../core/assets/libs/client-sdk-0.224.240830.jar')
-    implementation files('../core/assets/libs/gson-2.8.0.jar')
 }
 
 
