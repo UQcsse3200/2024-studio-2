@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -21,6 +22,8 @@ public class CutSceneScreen extends ScreenAdapter {
     private ResourceService resourceService;
     private SpriteBatch spriteBatch;
     private Stage stage;
+    private Texture cutSceneTexture; // Texture for the cutscene background
+
 
     public CutSceneScreen(GdxGame game) {
         this.game = game;
@@ -54,6 +57,18 @@ public class CutSceneScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderService.getStage().getViewport().update(width, height, true);
+    }
+    private void loadAssets() {
+        logger.debug("Loading CutScene assets");
+
+        // Load cutscene assets (images, sounds, etc.)
+        resourceService.loadAll();
+
+        // Load the cutscene background image
+        cutSceneTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png")); // Update the path
+    }
+    private void createCutScene() {
+        logger.debug("Creating CutScene UI");
     }
 
     @Override
