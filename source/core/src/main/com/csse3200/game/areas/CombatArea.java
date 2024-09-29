@@ -71,11 +71,13 @@ public class CombatArea extends GameArea {
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",
+            "images/enemy-chicken.png"
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
+            "images/enemy-chicken.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -123,7 +125,7 @@ public class CombatArea extends GameArea {
         } else if (enemy.getEnemyType() == Entity.EnemyType.BEAR) {
             spawnBear();
         } else { // Kangaroo Boss
-            spawnCombatEnemy();
+            spawnKangaBoss();
         }
         playMusic();
     }
@@ -185,7 +187,7 @@ public class CombatArea extends GameArea {
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
-    private void spawnCombatEnemy() {
+    private void spawnKangaBoss() {
         Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
@@ -195,6 +197,7 @@ public class CombatArea extends GameArea {
     private void spawnChicken() {
         Entity combatEnemyNPC = EnemyFactory.createChickenCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
+        combatEnemyNPC.getEvents().trigger("combatIdle");
     }
     /**
      * spawns a frog enemy, with the player entity as its target

@@ -2,12 +2,15 @@ package com.csse3200.game.components.npc;
 
 import com.csse3200.game.components.Component;
 import com.csse3200.game.rendering.AnimationRenderComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class listens to events relevant to a chicken entity's state and plays the animation when one
  * of the events is triggered.
  */
 public class ChickenAnimationController extends Component {
+  private static final Logger logger = LoggerFactory.getLogger(ChickenAnimationController.class);
   AnimationRenderComponent animator;
 
   @Override
@@ -21,6 +24,7 @@ public class ChickenAnimationController extends Component {
     entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
     entity.getEvents().addListener("chaseRight", this::animateChaseRight);
     entity.getEvents().addListener("alert", this::animateAlert);
+    entity.getEvents().addListener("combatIdle", this::animateCombatIdle);
   }
 
   private void animateSpawn() {
@@ -49,4 +53,10 @@ public class ChickenAnimationController extends Component {
     animator.setFlipX(false);
     animator.startAnimation("walk");
   }
+
+  private void animateCombatIdle() {
+    animator.startAnimation("walk");
+    logger.info("Combat idle animation triggered");
+  }
+
 }
