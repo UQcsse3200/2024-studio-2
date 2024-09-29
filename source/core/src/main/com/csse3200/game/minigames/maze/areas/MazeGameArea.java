@@ -48,7 +48,7 @@ public class MazeGameArea extends GameArea {
             "images/minigames/fishegg.png"
     };
     private static final String[] mazeTextureAtlases = {
-            "images/minigames/Angler.atlas", "images/minigames/fish.atlas",
+            "images/minigames/angler.atlas", "images/minigames/fish.atlas",
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas"
 
     };
