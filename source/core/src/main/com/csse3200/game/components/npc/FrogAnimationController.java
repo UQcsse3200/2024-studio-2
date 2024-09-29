@@ -29,13 +29,13 @@ public class FrogAnimationController extends Component {
   void animateLeft() {
     flipped = true;
     animator.setFlipX(true);
-    animator.startAnimation("alert");
+    animator.startAnimation("jump");
   }
   
   void animateRight() {
     flipped = false;
     animator.setFlipX(false);
-    animator.startAnimation("alert");
+    animator.startAnimation("jump");
   }
   
   void animateStill() {

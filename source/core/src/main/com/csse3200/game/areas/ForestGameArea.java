@@ -317,10 +317,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     //Eel
     generator = () -> EnemyFactory.createEel(player);
     spawnRandomEnemy(generator, config.spawns.NUM_EELS, 0.1);
-
-    //Bee
-    generator = () -> EnemyFactory.createBee(player);
-    spawnRandomEnemy(generator,config.spawns.NUM_BEES, 0.1);
   }
 
   private void spawnFriendlyNPCs() {

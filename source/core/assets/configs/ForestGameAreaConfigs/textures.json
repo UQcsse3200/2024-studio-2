@@ -187,7 +187,6 @@
     "images/final_boss_kangaroo.atlas",
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
-    "images/enemy-chicken.atlas",
-    "images/bee.atlas"
+    "images/enemy-chicken.atlas"
   ]
 }

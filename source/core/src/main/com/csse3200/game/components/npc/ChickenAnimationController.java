@@ -20,20 +20,24 @@ public class ChickenAnimationController extends Component {
     entity.getEvents().addListener("spawnStart", this::animateSpawn);
     entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
     entity.getEvents().addListener("chaseRight", this::animateChaseRight);
+    entity.getEvents().addListener("alert", this::animateAlert);
   }
 
   private void animateSpawn() {
     animator.startAnimation("spawn");
   }
 
+  private void animateAlert() {
+    animator.startAnimation("alert");
+  }
   private void animateChaseLeft() {
     animator.setFlipX(true);
-    animator.startAnimation("alert");
+    animator.startAnimation("walk");
   }
 
   private void animateChaseRight() {
     animator.setFlipX(false);
-    animator.startAnimation("alert");
+    animator.startAnimation("walk");
   }
 
   private void animateWanderLeft() {
