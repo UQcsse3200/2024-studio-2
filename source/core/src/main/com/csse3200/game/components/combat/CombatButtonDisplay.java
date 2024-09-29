@@ -3,6 +3,8 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -84,6 +86,18 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Attack", screen, container);
                     }
                 });
+        AttackButton.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                System.out.println("hovering!");
+                return true;
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("stopped hovering");
+            }
+        });
 
         GuardButton.addListener(
                 new ChangeListener() {
