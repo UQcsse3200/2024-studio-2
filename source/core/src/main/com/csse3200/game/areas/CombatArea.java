@@ -32,6 +32,8 @@ public class CombatArea extends GameArea {
             "images/tree.png",
             "images/ghost_king.png",
             "images/final_boss_kangaroo_idle.png",
+            "images/water_boss_idle.png",
+            "images/air_boss_idle.png",
             "images/Cow.png",
             "images/snake.png",
             "images/eagle.png",
@@ -76,7 +78,8 @@ public class CombatArea extends GameArea {
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
+            "images/water_boss.atlas", "images/air_boss.atlas",
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -123,7 +126,13 @@ public class CombatArea extends GameArea {
             spawnChicken();
         } else if (enemy.getEnemyType() == Entity.EnemyType.BEAR) {
             spawnBear();
-        } else { // Kangaroo Boss
+        } else if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            spawnKangaBoss();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            spawnWaterBoss();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            spawnAirBoss();
+        } else { // Default to Kanga
             spawnCombatEnemy();
         }
         playMusic();
@@ -188,6 +197,24 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
         Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnKangaBoss() {
+        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnWaterBoss() {
+        Entity combatEnemyNPC = BossFactory.createWaterBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnAirBoss() {
+        Entity combatEnemyNPC = BossFactory.createAirBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 
