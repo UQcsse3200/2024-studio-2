@@ -1,6 +1,5 @@
 package com.csse3200.game.areas.FogGameAreaConfigs;
 
-import com.csse3200.game.areas.OceanGameAreaConfigs.TexturesConfig;
 import com.csse3200.game.files.FileLoader;
 
 public class FogGameAreaConfig {

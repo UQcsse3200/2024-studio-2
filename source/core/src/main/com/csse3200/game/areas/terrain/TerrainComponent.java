@@ -292,7 +292,7 @@ public class TerrainComponent extends RenderComponent {
           oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
           fogTileConfig = FileLoader.readClass(FogMapTiles.class, "configs/FogGameAreaConfigs/fogTiles.json");
 
-          //if (this.unlockedWater) {
+          if (this.unlockedWater) {
             for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
               waterTiles.add(new Tile(tile.id,
                       new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
@@ -300,15 +300,15 @@ public class TerrainComponent extends RenderComponent {
                       tile.centre));
             }
             WATER_SIZE = waterTiles.size();
-//          } else {
-//            for (FogTileConfig tile : fogTileConfig.fogTiles) {
-//              fogTiles.add(new Tile(tile.id,
-//                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
-//                      tile.edges,
-//                      tile.centre));
-//            }
-//            FOG_SIZE = fogTiles.size();
-//          }
+          } else {
+            for (FogTileConfig tile : fogTileConfig.fogTiles) {
+              fogTiles.add(new Tile(tile.id,
+                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                      tile.edges,
+                      tile.centre));
+            }
+            FOG_SIZE = fogTiles.size();
+          }
 
           // load air tiles
           //AirMapTiles airTileConfig;
@@ -356,6 +356,8 @@ public class TerrainComponent extends RenderComponent {
           return waterTiles;
         case AIR:
           return airTiles;
+        case FOG:
+          return fogTiles;
         case COMBAT:
           return null;
         default:
@@ -460,12 +462,12 @@ public class TerrainComponent extends RenderComponent {
       switch(mapType) {
         case FOREST:
           return forestTiles.get(index);
+        case FOG:
+          return fogTiles.get(index);
         case WATER:
           return waterTiles.get(index);
         case AIR:
           return airTiles.get(index);
-        case FOG:
-          return fogTiles.get(index);
         case COMBAT:
           return null;
         default:

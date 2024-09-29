@@ -114,7 +114,7 @@ public class MapHandler {
    * checks if the water map is unlcked yet
    * @return true iff the map is unlocked
    */
-  public boolean hasUnlockedWaterMap() {
+  public static boolean getUnlockedOcean() {
     return MapHandler.unlockedWater;
   }
 

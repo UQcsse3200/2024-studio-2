@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.areas.MapHandler.MapType;
@@ -90,7 +91,10 @@ public class TerrainChunk {
     if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3) {
       return MapType.FOREST;
     } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
-      return MapType.WATER;
+      if (MapHandler.getUnlockedOcean()) {
+        return MapType.WATER;
+      }
+      return MapType.FOG;
     }else {
       // TODO: change to air 
       return MapType.WATER;
