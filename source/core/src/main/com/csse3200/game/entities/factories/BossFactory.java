@@ -36,13 +36,6 @@ public class BossFactory {
 
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
-    private static final List<CombatMove> moveSet = new ArrayList<>(
-            Arrays.asList(
-                    new AttackMove("Enemy Attack", 10),
-                    new GuardMove("Enemy Guard", 5),
-                    new SleepMove("Enemy Sleep", 0)
-            )
-    );
 
     /**
      * Creates a Kangaroo Boss entity.
@@ -54,6 +47,15 @@ public class BossFactory {
         Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO);
         BaseEnemyEntityConfig config = configs.kangarooBoss;
         kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
+
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Enemy Attack", 10),
+                        new GuardMove("Enemy Guard", 5),
+                        new SleepMove("Enemy Sleep", 0),
+                        new SpecialKangaMove("Enemy Special", 25)
+                )
+        );
 
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
@@ -84,6 +86,15 @@ public class BossFactory {
         BaseEnemyEntityConfig config = configs.waterBoss;
         waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
 
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Enemy Attack", 10),
+                        new GuardMove("Enemy Guard", 5),
+                        new SleepMove("Enemy Sleep", 0),
+                        new SpecialWaterMove("Enemy Special", 25)
+                )
+        );
+
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
@@ -112,6 +123,15 @@ public class BossFactory {
         Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS);
         BaseEnemyEntityConfig config = configs.airBoss;
         airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
+
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Enemy Attack", 10),
+                        new GuardMove("Enemy Guard", 5),
+                        new SleepMove("Enemy Sleep", 0),
+                        new SpecialAirMove("Enemy Special", 25)
+                )
+        );
 
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
@@ -183,6 +203,38 @@ public class BossFactory {
         kangarooBoss.scaleHeight(120.0f);
 
         return kangarooBoss;
+    }
+
+    /**
+     * Creates a Water Boss entity for combat, without a chase task.
+     *
+     * @return entity
+     */
+    public static Entity createWaterBossCombatEntity() {
+        Entity waterBoss = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.waterBoss;
+        waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
+        waterBoss
+                .addComponent(new TextureRenderComponent("images/water_boss_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+        waterBoss.scaleHeight(120.0f);
+        return waterBoss;
+    }
+
+    /**
+     * Creates an Air Boss entity for combat, without a chase task.
+     *
+     * @return entity
+     */
+    public static Entity createAirBossCombatEntity() {
+        Entity airBoss = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.airBoss;
+        airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
+        airBoss
+                .addComponent(new TextureRenderComponent("images/air_boss_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+        airBoss.scaleHeight(120.0f);
+        return airBoss;
     }
 
     /**
