@@ -68,8 +68,9 @@ public class Entity {
   }
 
   // Setter for enemy type
-  public void setEnemyType(EnemyType enemyType) {
+  public Entity setEnemyType(EnemyType enemyType) {
     this.enemyType = enemyType;
+    return this;
   }
 
   /**
