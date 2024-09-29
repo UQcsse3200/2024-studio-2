@@ -66,7 +66,9 @@ public class ProjectileAttackComponent extends Component {
 
     // does damage if player
     Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    target.getComponent(CombatStatsComponent.class).addHealth(-2); //placeholder value
+    if (target.isPlayer()) {
+      target.getComponent(CombatStatsComponent.class).addHealth(-2); //placeholder value
+    }
     
     // disposes of projectile
     Entity owner = getEntity();
