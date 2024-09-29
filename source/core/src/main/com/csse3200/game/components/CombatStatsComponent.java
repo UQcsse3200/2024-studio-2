@@ -407,6 +407,15 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Checks if the entity has any applied status effects.
+   *
+   * @return true if the entity has a status effect, false otherwise
+   */
+  public boolean hasStatusEffect() {
+    return !statusEffects.isEmpty();
+  }
+
+  /**
    * Gets the duration of a StatusEffect type
    *
    * @param effect The status effect to check

@@ -23,17 +23,22 @@ public class SpecialKangaMove extends SpecialMove {
     }
 
     /**
-     * Applies debuffs (confusion and bleeding) to the target player after the move is executed.
-     *
-     * This method applies two status effects to the target: CONFUSION and BLEEDING.
+     * Applies a random status effect to the target player after the move is executed
      *
      * @param targetStats combat stats of the target (player) that will be affected by the debuffs.
      */
     @Override
     protected void applyDebuffs(CombatStatsComponent targetStats) {
-        targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
-        targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
-        logger.info("{} inflicted CONFUSION and BLEEDING.", targetStats.isPlayer() ? "PLAYER" : "ENEMY");
+        int rand = (int) (Math.random() * 4);
+        CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
+            case 0 -> CombatStatsComponent.StatusEffect.CONFUSION;
+            case 1 -> CombatStatsComponent.StatusEffect.BLEEDING;
+            case 2 -> CombatStatsComponent.StatusEffect.POISONED;
+            case 3 -> CombatStatsComponent.StatusEffect.SHOCKED;
+            default -> throw new IllegalStateException("Unexpected value: " + rand);
+        };
+        targetStats.addStatusEffect(statusEffect);
+        logger.info("Status effect {} applied to the {}", statusEffect.name(), targetStats.isPlayer() ? "PLAYER" : "ENEMY");
     }
 
     /**
