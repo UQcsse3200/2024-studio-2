@@ -13,22 +13,38 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
+/**
+ * Unit tests for the DayNightCycle class. These tests cover the behavior of getting
+ * the current time of day, updating ambient light settings based on the time of day,
+ * and verifying color interpolation between day phases.
+ */
 @ExtendWith(MockitoExtension.class)
 public class DayNightCycleTest {
+
     @Mock
     RayHandler rayHandler;
 
+    /**
+     * Initializes the GameTime mock and registers it with the ServiceLocator before all tests.
+     */
     @BeforeAll
     public static void setup() {
         GameTime gameTime = mock(GameTime.class);
         ServiceLocator.registerTimeSource(gameTime);
     }
 
+    /**
+     * Resets the RayHandler mock before each test to ensure a clean state.
+     */
     @BeforeEach
     public void resetMocks() {
         reset(rayHandler);
     }
 
+    /**
+     * Tests that the correct time of day is returned based on the in-game time.
+     */
     @Test
     public void testGetTimeOfDay() {
         float target = 0.1f;
@@ -41,6 +57,9 @@ public class DayNightCycleTest {
         assertEquals(target, cycle.getTimeOfDay(), 1e-2);
     }
 
+    /**
+     * Tests that the ambient light is correctly updated at midnight (0.0 time of day).
+     */
     @Test
     public void testUpdate() {
         GameTime gameTime = mock(GameTime.class);
@@ -52,6 +71,9 @@ public class DayNightCycleTest {
         verify(rayHandler).setAmbientLight(DayNightCycle.keyTimes[0]);
     }
 
+    /**
+     * Tests that the time of day at midnight is correctly returned as 0.0.
+     */
     @Test
     public void testGetTimeOfDayAtMidnight() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(0L);
@@ -61,6 +83,9 @@ public class DayNightCycleTest {
         assertEquals(0.0f, DayNightCycle.getTimeOfDay(), 1e-2);
     }
 
+    /**
+     * Tests that the time of day at noon is correctly returned as 0.5.
+     */
     @Test
     public void testGetTimeOfDayAtNoon() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(DayNightCycle.DAY_LENGTH / 2);
@@ -70,6 +95,9 @@ public class DayNightCycleTest {
         assertEquals(0.5f, DayNightCycle.getTimeOfDay(), 1e-2);
     }
 
+    /**
+     * Tests that the time of day close to the end of the day is returned as approximately 1.0.
+     */
     @Test
     public void testGetTimeOfDayCloseToDayEnd() {
         long almostEndOfDay = DayNightCycle.DAY_LENGTH - 1;
@@ -80,6 +108,9 @@ public class DayNightCycleTest {
         assertEquals(0.9999f, DayNightCycle.getTimeOfDay(), 1e-4);
     }
 
+    /**
+     * Tests that the ambient light is updated correctly for midnight (keyTimes[0]).
+     */
     @Test
     public void testUpdateAtMidnight() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(0L);
@@ -90,6 +121,9 @@ public class DayNightCycleTest {
         verify(rayHandler).setAmbientLight(DayNightCycle.keyTimes[0]);
     }
 
+    /**
+     * Tests that the ambient light is updated correctly for noon (keyTimes[4]).
+     */
     @Test
     public void testUpdateAtNoon() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(DayNightCycle.DAY_LENGTH / 2);
@@ -100,6 +134,9 @@ public class DayNightCycleTest {
         verify(rayHandler).setAmbientLight(DayNightCycle.keyTimes[4]);
     }
 
+    /**
+     * Tests that the ambient light is updated correctly for dawn (keyTimes[2]).
+     */
     @Test
     public void testUpdateAtDawn() {
         // Dawn is 25% into the day
@@ -112,6 +149,9 @@ public class DayNightCycleTest {
         verify(rayHandler).setAmbientLight(DayNightCycle.keyTimes[2]);
     }
 
+    /**
+     * Tests that the ambient light is updated correctly for dusk (keyTimes[6]).
+     */
     @Test
     public void testUpdateAtDusk() {
         // Dusk is approximately 75% into the day
@@ -124,6 +164,10 @@ public class DayNightCycleTest {
         verify(rayHandler).setAmbientLight(DayNightCycle.keyTimes[6]);
     }
 
+    /**
+     * Tests that the ambient light is updated correctly for a time between two key times,
+     * verifying that color interpolation is being used.
+     */
     @Test
     public void testUpdateInterpolatedColor() {
         // Set the time between two key times, say between keyTimes[0] (midnight) and keyTimes[1] (late night)
@@ -137,6 +181,4 @@ public class DayNightCycleTest {
         // No exact verification of the color, but ensure setAmbientLight was called
         verify(rayHandler, atLeastOnce()).setAmbientLight(any(Color.class));
     }
-
-
 }

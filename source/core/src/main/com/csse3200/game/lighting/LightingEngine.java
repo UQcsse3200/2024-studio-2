@@ -40,7 +40,7 @@ public class LightingEngine implements Disposable, Renderable {
     public void render(){
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();
-    };
+    }
 
     /**
      * @return The RayHandler used by the engine.
