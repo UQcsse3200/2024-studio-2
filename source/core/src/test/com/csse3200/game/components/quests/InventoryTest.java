@@ -12,7 +12,7 @@ class InventoryCollectionTest {
         Inventory inventory = new Inventory(10);
         inventory.add(new DefensePotion(1));
         assertFalse(inventory.itemCollectionSuccessful());
-        inventory.questItemListen("Defense Potion", 1);
+        inventory.questItemListen("Defense Potion", 1, "collectPotions");
         assertTrue(inventory.itemCollectionSuccessful());
     }
 }

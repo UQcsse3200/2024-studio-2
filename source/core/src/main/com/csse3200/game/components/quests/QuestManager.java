@@ -293,8 +293,13 @@ public class QuestManager extends Component {
      * Note: limitation on item collection - 1 item collection per kingdom
      *      w completion string "item collection task successful"  */
     private void setupPotionsTask() {
-        Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
-        inventory.questItemListen("Defense Potion", 5);
+        try {
+            Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
+            inventory.questItemListen("Defense Potion", 5, "collectPotions");
+        } catch (NullPointerException nullPointerException) {
+            // Ignore
+        }
+
     }
 
 
@@ -367,10 +372,11 @@ public class QuestManager extends Component {
             addQuest(quest);
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
 
-            // Setup potion collection task is not completed already in saved GameState 
-//            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
-//                setupPotionsTask();
-//            }
+            // Setup potion collection task is not completed already in saved GameState
+            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
+                setupPotionsTask();
+            }
+
         }
     }
 

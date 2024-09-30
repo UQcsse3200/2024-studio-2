@@ -124,7 +124,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         // Checks if adding item completes item collection quest task.
         Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
         if (inventory.itemCollectionSuccessful()) {
-          entity.getEvents().trigger("item collection task successful");
+          entity.getEvents().trigger(inventory.getCollectionTrigger());
         }
         return true;
       default:
