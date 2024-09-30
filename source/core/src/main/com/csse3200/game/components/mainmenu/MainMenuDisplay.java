@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,17 +61,16 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-
-    private Button startBtn;
-    private Button loadBtn;
-    private Button minigamesBtn;
-    private Button settingsBtn;
     private Cursor customCursor;
-    private Button achievementsBtn;
-    private Button helpBtn;
-    private Button exitBtn;
+    private CustomButton startBtn;
+    private CustomButton loadBtn;
+    private CustomButton minigamesBtn;
+    private CustomButton settingsBtn;
+    private CustomButton achievementsBtn;
+    private CustomButton helpBtn;
+    private CustomButton exitBtn;
     private Label versionLabel;
-    private final float windowButtonWidth = 180;
+    private final float windowButtonWidth = 200;
     private final float windowButtonHeight = 45;
     private final float windowButtonSpacing = 15;
 
@@ -192,7 +192,7 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(NotifManager.addNotificationTable());
 
-        addMenuButtonEffects();
+        //addMenuButtonEffects();
         addMenuButtonsListeners();
         addExitConfirmation();
         addMenuButtonIcon();
@@ -244,29 +244,52 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Initialize menu buttons in the main menu
      */
+//    private void initializeMenuButtons() {
+//        // Initialises buttons
+//        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+//    }
     private void initializeMenuButtons() {
-        // Initialises buttons
-        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        // Initialize the buttons with the label text and skin
+        startBtn = new CustomButton("Start", skin);
+        startBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        loadBtn = new CustomButton("Load", skin);
+        loadBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        minigamesBtn = new CustomButton("Minigame", skin);
+        minigamesBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        settingsBtn = new CustomButton("Settings", skin);
+        settingsBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        achievementsBtn = new CustomButton("Achievements", skin);
+        achievementsBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        helpBtn = new CustomButton("Help", skin);
+        helpBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
+
+        exitBtn = new CustomButton("Exit", skin);
+        exitBtn.setButtonSize(windowButtonWidth, windowButtonHeight);
     }
 
     /**
      * Adds UI component (hover over buttons)
      */
-    private void addMenuButtonEffects() {
-        addButtonElevationEffect(startBtn, startLabel);
-        addButtonElevationEffect(loadBtn, loadLabel);
-        addButtonElevationEffect(minigamesBtn, minigameLabel);
-        addButtonElevationEffect(settingsBtn, settingLabel);
-        addButtonElevationEffect(helpBtn, helpLabel);
-        addButtonElevationEffect(exitBtn, exitLabel);
-        addButtonElevationEffect(achievementsBtn, achievementsLabel);
-    }
+//    private void addMenuButtonEffects() {
+//        addButtonElevationEffect(startBtn, startLabel);
+//        addButtonElevationEffect(loadBtn, loadLabel);
+//        addButtonElevationEffect(minigamesBtn, minigameLabel);
+//        addButtonElevationEffect(settingsBtn, settingLabel);
+//        addButtonElevationEffect(helpBtn, helpLabel);
+//        addButtonElevationEffect(exitBtn, exitLabel);
+//        addButtonElevationEffect(achievementsBtn, achievementsLabel);
+//    }
 
     /**
      * Adds an elevation effect to buttons when hovered.
@@ -294,6 +317,7 @@ public class MainMenuDisplay extends UIComponent {
                 // Restore the custom cursor when the mouse exits the button
                 applyCustomCursor();
 
+
                 // Return to original position and scale for both button and label
                 button.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
@@ -316,71 +340,110 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Add listener for menu buttons
      */
+//    private void addMenuButtonsListeners() {
+//        // Added handles for when clicked
+//        startBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                logger.info("Start button clicked");
+//                entity.getEvents().trigger("start");
+//                clickSound.play(); // This will cause a click sound to play when the button is clicked.
+//            }
+//        });
+//
+//        // Added handles for when clicked
+//        loadBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                logger.info("Load button clicked");
+//                entity.getEvents().trigger("load");
+//                clickSound.play();
+//            }
+//        });
+//
+//        // Added handles for when clicked
+//        minigamesBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//
+//                logger.debug("SnakeGame button clicked");
+//                entity.getEvents().trigger("SnakeGame");
+//                clickSound.play();
+//            }
+//        });
+//
+//        // Added handles for when clicked
+//        settingsBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                logger.info("Settings button clicked");
+//                settingMenu.setVisible(true);
+//                table.setTouchable(Touchable.disabled);
+//                clickSound.play();
+//            }
+//        });
+//        // Added handles for when clicked
+//        achievementsBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                logger.debug("Achievements button clicked");
+//                entity.getEvents().trigger("achievements");
+//                clickSound.play();
+//            }
+//        });
+//
+//        // Added handles for when clicked
+//        helpBtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent changeEvent, Actor actor) {
+//                logger.info("Help button clicked");
+//                entity.getEvents().trigger("help");
+//                showHelpWindow();
+//                clickSound.play();
+//            }
+//
+//        });
+//    }
     private void addMenuButtonsListeners() {
-        // Added handles for when clicked
-        startBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Start button clicked");
-                entity.getEvents().trigger("start");
-                clickSound.play(); // This will cause a click sound to play when the button is clicked.
-            }
+        startBtn.addClickListener(() -> {
+            logger.info("Start button clicked");
+            entity.getEvents().trigger("start");
+            clickSound.play();  // Play click sound
         });
 
-        // Added handles for when clicked
-        loadBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Load button clicked");
-                entity.getEvents().trigger("load");
-                clickSound.play();
-            }
+        loadBtn.addClickListener(() -> {
+            logger.info("Load button clicked");
+            entity.getEvents().trigger("load");
+            clickSound.play();
         });
 
-        // Added handles for when clicked
-        minigamesBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-
-                logger.debug("SnakeGame button clicked");
-                entity.getEvents().trigger("SnakeGame");
-                clickSound.play();
-            }
+        minigamesBtn.addClickListener(() -> {
+            logger.debug("SnakeGame button clicked");
+            entity.getEvents().trigger("SnakeGame");
+            clickSound.play();
         });
 
-        // Added handles for when clicked
-        settingsBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Settings button clicked");
-                settingMenu.setVisible(true);
-                table.setTouchable(Touchable.disabled);
-                clickSound.play();
-            }
+        settingsBtn.addClickListener(() -> {
+            logger.info("Settings button clicked");
+            settingMenu.setVisible(true);
+            menuButtonTable.setTouchable(Touchable.disabled);
+            clickSound.play();
         });
 
-        // Added handles for when clicked
-        achievementsBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Achievements button clicked");
-                entity.getEvents().trigger("achievements");
-                clickSound.play();
-            }
+        achievementsBtn.addClickListener(() -> {
+            logger.debug("Achievements button clicked");
+            entity.getEvents().trigger("achievements");
+            clickSound.play();
         });
 
-        // Added handles for when clicked
-        helpBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Help button clicked");
-                entity.getEvents().trigger("help");
-                showHelpWindow();
-                clickSound.play();
-            }
-
+        helpBtn.addClickListener(() -> {
+            logger.info("Help button clicked");
+            entity.getEvents().trigger("help");
+            showHelpWindow();
+            clickSound.play();
         });
     }
+
 
     /**
      * set the label styles of menu buttons' labels
@@ -400,6 +463,53 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Add menu buttons icons and update the positions.
      */
+//    public void addMenuButtonIcon() {
+//        float buttonWidth;
+//        float buttonHeight;
+//        float buttonSpacing;
+//        float padTopSpacing;
+//
+//        if (Gdx.graphics.isFullscreen()) {
+//            buttonWidth = fullScreenButtonWidth;
+//            buttonHeight = fullScreenuttonHeight;
+//            buttonSpacing = fullScreenButtonSpacing;
+//            padTopSpacing = 500;
+//            setMenuLabelsStyle("title-red");
+//        } else {
+//            buttonWidth = windowButtonWidth;
+//            buttonHeight = windowButtonHeight;
+//            buttonSpacing = windowButtonSpacing;
+//            padTopSpacing = 350;
+//            setMenuLabelsStyle("button-red");
+//        }
+//
+//        menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
+//        menuButtonTable.clear();
+//
+//        Stack startStack = createButtonWithLabelStack(startBtn, startLabel, buttonWidth, buttonHeight);
+//        Stack loadStack = createButtonWithLabelStack(loadBtn, loadLabel, buttonWidth, buttonHeight);
+//        Stack minigamesStack = createButtonWithLabelStack(minigamesBtn, minigameLabel, buttonWidth, buttonHeight);
+//        Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
+//        Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
+//        Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
+//        Stack achievementStack = createButtonWithLabelStack(achievementsBtn, achievementsLabel, buttonWidth, buttonHeight);
+//
+//        menuButtonTable.add(startStack).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(loadStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(achievementStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(helpStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//        menuButtonTable.row();
+//        menuButtonTable.add(exitStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+//
+//        stage.addActor(menuButtonTable);
+//    }
     public void addMenuButtonIcon() {
         float buttonWidth;
         float buttonHeight;
@@ -411,42 +521,34 @@ public class MainMenuDisplay extends UIComponent {
             buttonHeight = fullScreenuttonHeight;
             buttonSpacing = fullScreenButtonSpacing;
             padTopSpacing = 500;
-            setMenuLabelsStyle("title-red");
         } else {
             buttonWidth = windowButtonWidth;
             buttonHeight = windowButtonHeight;
             buttonSpacing = windowButtonSpacing;
             padTopSpacing = 350;
-            setMenuLabelsStyle("button-red");
         }
 
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         menuButtonTable.clear();
 
-        Stack startStack = createButtonWithLabelStack(startBtn, startLabel, buttonWidth, buttonHeight);
-        Stack loadStack = createButtonWithLabelStack(loadBtn, loadLabel, buttonWidth, buttonHeight);
-        Stack minigamesStack = createButtonWithLabelStack(minigamesBtn, minigameLabel, buttonWidth, buttonHeight);
-        Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
-        Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
-        Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
-        Stack achievementStack = createButtonWithLabelStack(achievementsBtn, achievementsLabel, buttonWidth, buttonHeight);
-
-        menuButtonTable.add(startStack).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
+        // Add buttons to the table directly
+        menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(loadStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(achievementStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(helpStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
-        menuButtonTable.add(exitStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
 
         stage.addActor(menuButtonTable);
     }
+
 
     /**
      * Helper method to create a stack with a button and label, properly centered.
