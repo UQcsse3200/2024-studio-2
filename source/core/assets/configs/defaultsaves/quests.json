@@ -1,300 +1,468 @@
 {
-quests: [
-	{
-		questName: First Steps
-		questDescription: Take your first steps in this world!
-		tasks: [
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Guide's Intro
-		questDescription: Follow the guide's teachings to start your journey.
-		tasks: [
-			{
-				taskName: talkToGuide
-				description: Talk to the cow
-				hint: Speak with the Guide to start your journey.
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up!
-				This world is controlled by the Kanga
-				The most powerful animal in the kingdom.
+	quests: [
+
+		{
+			questName: Guide's Intro
+			questDescription: Follow the guide's teachings to start your journey.
+			tasks: [
+				{
+					taskName: talkToGuide
+					description: Talk to the Guide
+					hint: Speak with the Guide to begin your adventure.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions!
-				They�fre scattered around.
-				Keep your eyes peeled.
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide."
+							"To prove your worth, you’ll need to complete a few tasks. Are you ready?"
+						]
+					]
+				}
 			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up!
-				This world is controlled by the Kanga
-				The most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=1}: [
-				Moo there, adventurer! Welcome to the kingdom.
-				We�fll be your guides but before you can roam free...
-				You must complete the first steps and 2 step quests.
-			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: true
+			taskCompletionTriggers: null
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Teachings
-		questDescription: Follow the cow's teachings and complete further quests.
-		tasks: [
-			{
-				taskName: followCowsTeachings
-				description: Complete further quests
-				hint: Complete first steps and 2 step quest or a combat quest
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up!
-				This world is controlled by the Kanga
-				The most powerful animal in the kingdom.
+		{
+			questName: Guide's Request
+			questDescription: Follow the cow's request and collect items.
+			tasks: [
+				{
+					taskName: collectPotions
+					description: Collect Potions
+					hint: Find 5 defense potions scattered throughout the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions!
-				They�fre scattered around.
-				Keep your eyes peeled.
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							I need five potions to help our people! They’re scattered throughout the kingdom.
+							Can you find them?
+						]
+					]
+				}
 			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up!
-				This world is controlled by the Kanga.
-				The most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=1}: [
-				Moo there, adventurer! Welcome to the kingdom.
-				We�fll be your guides but before you can roam free...
-				You must complete the first steps and 2 step quests.
-			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Potion Collection
-		questDescription: Collect 5 defense potions scattered around the kingdom.
-		tasks: [
-			{
-				taskName: item collection task successful
-				description: Collect Potions
-				hint: Collect 5 defense potions scattered around the kingdom.
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up!
-				This world is controlled by the Kanga
-				The most powerful animal in the kingdom.
+		{
+			questName: Defeat Enemies
+			questDescription: Go and fight some enemies.
+			tasks: [
+				{
+					taskName: defeatEnemies
+					description: Defeat the Enemies
+					hint: Defeat the creatures threatening the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions!
-				They�fre scattered around.
-				Keep your eyes peeled.
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Defeat the wild creatures that threaten the peace of our land.
+						]
+					]
+				}
 			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up!
-				This world is controlled by the Kanga
-				The most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=1}: [
-				Moo there, adventurer! Welcome to the kingdom.
-				We�fll be wyour guides but before you can roam free...
-				You must complete the first steps and 2 step quests.
-			]
+
+
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Guide's Advice
-		questDescription: Listen to the guide's advice to progress further.
-		tasks: [
-			{
-				taskName: listenToGuide
-				description: Visit cow again
-				hint: Go visit the cow!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Exploration
-		questDescription: Explore the kingdom and gather information about Kanga.
-		tasks: [
-			{
-				taskName: exploration
-				description: Explore and ask around
-				hint: Ask other animals about Kanga!
-				requiredTriggers: 1
-				triggerCount: 1
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Weapon Retrieval
-		questDescription: Retrieve a weapon by completing the snake minigame.
-		tasks: [
-			{
-				taskName: retrieveWeapon
-				description: Complete the minigame
-				hint: Play the snake minigame!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: 2 Task Quest
-		questDescription: Move then Attack for a Test Quest
-		tasks: [
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: attack
-				description: Swing your first sword
-				hint: Just Attack!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=2}: [
-				Yippeee!
-				You completed your Quest!
+		{
+			questName: Play Snake Minigame
+			questDescription: Play the minigame to gain skills.
+			tasks: [
+				{
+					taskName: playSnakeMinigame
+					description: Play the Snake Minigame
+					hint: Complete the minigame to retrieve the Eucalyptus sword.
+					requiredTriggers: 1
+					triggerCount: 1
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=1}: [
-				Welcome to Animal Kingdom!
-				Here let me help with your quest...
-				Press Spacebar!
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Help the snake eat apples to train for your upcoming final battle!
+						]
+					]
+				}
 			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: [
-			""
-			spawnKangaBoss
-		]
-	}
-	{
-		questName: Final Boss
-		questDescription: Complete quest 1 and 2 to summon the boss
-		tasks: [
-			{
-				taskName: spawnKangaBoss
-				description: He is Coming...
-				hint: RUN
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: attack
-				description: Swing your first sword
-				hint: Just Attack!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-]
+		{
+			questName: Kangaroo Boss Challenge
+			questDescription: Retrieve a weapon by completing the snake minigame.
+			tasks: [
+				{
+					taskName: defeatKangarooBoss
+					description: Complete the minigame
+					hint: Face the Kangaroo Boss to bring peace to the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Water Sage's Intro
+			questDescription: Fill in
+			tasks: [
+				{
+					taskName: talkToWaterSage
+					description: Talk to the Water Sage
+					hint: Speak with the Water Sage to gain their trust and begin your quest.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Greetings, brave adventurer! You’ve entered the Water Kingdom.
+							To gain my trust, you must complete some essential tasks.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Water Sage's research
+			questDescription: Help the Water Sage complete his research into ancient humans.
+			tasks: [
+				{
+					taskName: collectCandy
+					description: Collect Candy
+					hint: Find 6 pieces of Candy hidden around for the Water Sage's research.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							I need six Sea Pearls for my research. They’re hidden in the underwater caverns. Can you help me?
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Defeat Sea Enemies,
+			questDescription: Fill in
+			tasks: [
+				{
+					taskName: defeatSeaCreatures
+					description: Defeat the Sea Creatures
+					hint: Show your strength by defeating the hostile sea creatures in the Water Kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Watch out for hostile sea creatures! Defeat them to show your strength.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Play Flappy Game.
+			questDescription: Fill in
+			tasks: [
+				{
+					taskName: completeFlappyMinigame
+					description: Complete the minigame
+					hint: Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Play the flappy bird minigame to unlock the next stage of your quest!
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Defeat Water Boss,
+			questDescription: Fill in
+			tasks: [
+				{
+					taskName: defeatWater
+					description: Defeat the Water Boss
+					hint: Prepare yourself and face the Water Boss to protect the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Once you’re ready, face the Water Leviathan and protect our kingdom. Good luck, brave adventurer!
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Talk To Sage
+			questDescription: Embark on a quest in the Sky Kingdom to aid the Cloud Sage
+			tasks: [
+				{
+					taskName: talkToCloudSage
+					description: Talk to the Cloud Sage
+					hint: Speak with the Cloud Sage to begin your quest in the Sky Kingdom
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph.
+						]
+					]
+				}
+			],
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Gathering Sky Crystals
+			questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
+			tasks: [
+				{
+					taskName: collectApples
+					description: Collect Sky Crystals (Apples)
+					hint: Gather 4 Sky Crystals for the Cloud Sage
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							I need seven Sky Crystals that drift on the winds. Will you help me gather them?
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Brave the Skies
+			questDescription: Prove your courage by battling the flying beasts of the Sky Kingdom
+			tasks: [
+				{
+					taskName: defeatFlyingBeasts
+					description: Defeat the Flying Beasts
+					hint: Prove your bravery by facing the flying beasts that roam the skies
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Face the flying beasts that roam the skies to prove your bravery.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Tempest’s Challenge
+			questDescription: Complete the Tempests Minigame to unlock the next stage of your journey
+			tasks: [
+				{
+					taskName: completeGame
+					description: Calm the Tempests Minigame
+					hint: Complete the minigame to go onto your next quest!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							...
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Fight Seraph
+			questDescription: Confront the Sky Seraph in a battle to save the Sky Kingdom
+			tasks: [
+				{
+					taskName: defeatSkySeraph
+					description: Defeat the Sky Seraph
+					hint: Prepare yourself and confront the Sky Seraph in an epic battle!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							When you’re prepared,confront the Sky Seraph in an epic battle!
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+	]
 }
