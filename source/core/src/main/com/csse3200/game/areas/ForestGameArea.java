@@ -127,11 +127,9 @@ public class ForestGameArea extends GameArea {
   /**
    * Unlock an area of the map
    */
-  private void unlockArea(String area) {
-    System.out.println("Unlocking area");
-    if (area.equals("Water")) {
-
-    }
+  @Override
+  public void unlockArea(String area) {
+    terrain.getMap().getLayers().get(area).setVisible(false);
   }
 
   /**
@@ -282,12 +280,7 @@ public class ForestGameArea extends GameArea {
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     Entity terrain = new Entity().addComponent(this.terrain);
       
-    terrain.getEvents().addListener("unlockArea", this::unlockArea);
-
-    terrain.getEvents().trigger("unlockArea", "water");
     spawnEntity(terrain);
-
-    //spawnEntity(new Entity().addComponent(terrain));
   }
 
   private void spawnTrees() {

@@ -70,6 +70,8 @@ public class TerrainChunk {
       totalTiles = TerrainResource.FOREST_SIZE;
     } else if (inArea == MapType.WATER) {
       totalTiles = TerrainResource.WATER_SIZE;
+    } else if (inArea == MapType.FOG) {
+      totalTiles = TerrainResource.FOG_SIZE;
     } else {
       totalTiles = TerrainResource.AIR_SIZE;
     }
@@ -91,11 +93,8 @@ public class TerrainChunk {
     if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3) {
       return MapType.FOREST;
     } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
-      if (MapHandler.getUnlockedOcean()) {
         return MapType.WATER;
-      }
-      return MapType.FOG;
-    }else {
+    } else {
       // TODO: change to air 
       return MapType.WATER;
     }
@@ -177,9 +176,21 @@ public class TerrainChunk {
   private void collapseTile(int x, int y, TerrainResource terrainResource, int tileIndex) {
     CCell cell = new CCell();
     Tile tile = terrainResource.getMapTilebyIndex(tileIndex, inArea);
-    //Tile tile = terrainResource.getTilebyIndex(tileIndex);
     cell.setTile(tile, terrainResource);
     ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
+
+    if (inArea == MapType.WATER) {
+      CCell fogCell = new CCell();
+      Tile fogTile = terrainResource.getMapTilebyIndex(0, MapType.FOG);
+      fogCell.setTile(fogTile, terrainResource);
+      ((TiledMapTileLayer) tiledMap.getLayers().get(1)).setCell(x, y, fogCell);
+    } else if (inArea == MapType.AIR) {
+      CCell fogCell = new CCell();
+      Tile fogTile = terrainResource.getMapTilebyIndex(0, MapType.FOG);
+      fogCell.setTile(fogTile, terrainResource);
+      ((TiledMapTileLayer) tiledMap.getLayers().get(2)).setCell(x, y, fogCell);
+    }
+
 
     if (tileTypeCount.containsKey(tile.getCentre())) {
       tileTypeCount.put(tile.getCentre(), tileTypeCount.get(tile.getCentre()) + 1);

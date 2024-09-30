@@ -53,7 +53,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("statsInfo", this::statsInfo);
     entity.getEvents().addListener("startCombat", this::startCombat);
-    entity.getEvents().addListener("switchMap", this::switchMap);
+    entity.getEvents().addListener("unlockNextArea", this::unlocknextarea);
     entity.getEvents().addListener("stoF", this::stof);
 
     if ("images/dog.png".equals(selectedAnimal)) {
@@ -83,6 +83,14 @@ public class PlayerActions extends Component {
 
     }
   }
+
+  /**
+   * Unlocks the next area.
+   */
+  public void unlocknextarea() {
+    MapHandler.unlockNextArea();
+  }
+
   /**
    * Checks if the bos in current area is defeat to unlock the next area
    * @param player entity to check last triggered events

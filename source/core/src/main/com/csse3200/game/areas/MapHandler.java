@@ -14,17 +14,14 @@ public class MapHandler {
   private static MapType currentMap = MapType.NONE;
   private static MapType previousMap = MapType.NONE;
   private static boolean unlockedWater = false;
+  private static boolean unlockedAir = false;
 
   private static ForestGameArea forestGameArea;
-
-  private static boolean isSavedPrevious;
-  // private static GameArea savedPrevioud;
 
   /**
    *
    */
   private MapHandler() {
-    isSavedPrevious = false;
   }
 
   /**
@@ -40,12 +37,6 @@ public class MapHandler {
    * @return 
    */
   public static GameArea switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
-    // TODO: save state
-    if (saveState && currentMap != MapType.NONE) {
-      // currentMap.saveState();
-      isSavedPrevious = true;
-    }
-
     if (currentMap != MapType.NONE) {
       getCurrentMap().dispose();
     }
@@ -82,33 +73,23 @@ public class MapHandler {
     if (mapType == MapType.FOREST) {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
-    } else if (mapType == MapType.WATER) {
-
-    }
-
-    if (!MapHandler.unlockedWater) {
-      currentGameArea = new ForestGameArea(terrainFactory, game);
-    }
+    } 
 
     return currentGameArea;
   }
-
+ 
   /**
-   *
-   * @return
+   * Unlock the next area. 
+   * Water is unlocked first, then air.
    */
-  public static boolean isIsSavedPrevious() {
-    return isSavedPrevious;
-  }
-
-  /**
-   * Set the state of the isSavePrevious
-   * @param isSavedPrevious
-   */
-  public static void setIsSavedPrevious(boolean isSavedPrevious) {
-        MapHandler.isSavedPrevious = isSavedPrevious;
+  public static void unlockNextArea() {
+    if (unlockedWater) {
+      unlockedAir = true;
+      currentGameArea.unlockArea("Air");
     }
-
+    unlockedWater = true;
+    currentGameArea.unlockArea("Water");
+  }
 
   /**
    * checks if the water map is unlcked yet
@@ -133,7 +114,6 @@ public class MapHandler {
     currentMap = MapType.NONE;
     previousMap = MapType.NONE;
     currentGameArea = null;
-    isSavedPrevious = false;
     forestGameArea = null;
   }
 

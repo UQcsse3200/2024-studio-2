@@ -36,7 +36,7 @@ public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
-  private static final int FOG_LAYER = 0;
+  private static final int FOG_LAYER = 1;
   private TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
@@ -292,23 +292,22 @@ public class TerrainComponent extends RenderComponent {
           oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
           fogTileConfig = FileLoader.readClass(FogMapTiles.class, "configs/FogGameAreaConfigs/fogTiles.json");
 
-          if (this.unlockedWater) {
-            for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
-              waterTiles.add(new Tile(tile.id,
-                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
-                      tile.edges,
-                      tile.centre));
-            }
-            WATER_SIZE = waterTiles.size();
-          } else {
-            for (FogTileConfig tile : fogTileConfig.fogTiles) {
-              fogTiles.add(new Tile(tile.id,
-                      new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
-                      tile.edges,
-                      tile.centre));
-            }
-            FOG_SIZE = fogTiles.size();
+          for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
+            waterTiles.add(new Tile(tile.id,
+                    new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                    tile.edges,
+                    tile.centre));
           }
+          WATER_SIZE = waterTiles.size();
+
+          // load fog tiles
+          for (FogTileConfig tile : fogTileConfig.fogTiles) {
+            fogTiles.add(new Tile(tile.id,
+                    new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                    tile.edges,
+                    tile.centre));
+          }
+          FOG_SIZE = fogTiles.size();
 
           // load air tiles
           //AirMapTiles airTileConfig;
@@ -381,6 +380,13 @@ public class TerrainComponent extends RenderComponent {
         setPossibleRight(this.waterTiles.get(i), this.waterTiles);
         setPossibleDown(this.waterTiles.get(i), this.waterTiles);
         setPossibleLeft(this.waterTiles.get(i), this.waterTiles);
+      }
+
+      for (int i = 0; i < this.fogTiles.size(); i++) {
+        setPossibleUp(this.fogTiles.get(i), this.fogTiles);
+        setPossibleRight(this.fogTiles.get(i), this.fogTiles);
+        setPossibleDown(this.fogTiles.get(i), this.fogTiles);
+        setPossibleLeft(this.fogTiles.get(i), this.fogTiles);
       }
 
       //for (int i = 0; i < this.airTiles.size(); i++) {
