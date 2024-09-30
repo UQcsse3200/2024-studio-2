@@ -71,6 +71,15 @@
     "experience": 100,
     "isEnemy": 1
   },
+  "macaw": {
+    "spritePath": "images/macaw.atlas",
+    "health": 5,
+    "baseAttack": 30,
+    "defense": 2,
+    "speed": 100,
+    "experience": 10,
+    "isEnemy": 1
+  },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
     "health": 150,

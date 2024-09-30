@@ -1,0 +1,139 @@
+macaw.png
+size: 1728, 288
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 0
+walk
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 289, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 2
+walk
+  rotate: false
+  xy: 615, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 3
+walk
+  rotate: false
+  xy: 898, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 4
+walk
+  rotate: false
+  xy: 1194, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 5
+walk
+  rotate: false
+  xy: 1432, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 6
+spawn
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 1
+spawn
+  rotate: false
+  xy: 289, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 2
+spawn
+  rotate: false
+  xy: 615, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 3
+spawn
+  rotate: false
+  xy: 898, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 4
+spawn
+  rotate: false
+  xy: 1194, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 5
+spawn
+  rotate: false
+  xy: 1432, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 6
+alert
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 1
+alert
+  rotate: false
+  xy: 289, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 2
+alert
+  rotate: false
+  xy: 615, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 3
+alert
+  rotate: false
+  xy: 898, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 4
+alert
+  rotate: false
+  xy: 1194, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 5
+alert
+  rotate: false
+  xy: 1432, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 6
+
