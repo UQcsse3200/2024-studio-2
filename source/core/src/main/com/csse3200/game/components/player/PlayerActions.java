@@ -139,6 +139,12 @@ public class PlayerActions extends Component {
   }
 
   public void startCombat(Entity enemy) {
+    if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO ||
+            enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS ||
+            enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+      game.addBossCutsceneScreen(player, enemy);
+    } else {
       game.addEnemyCutsceneScreen(player, enemy);
+    }
   }
 }
