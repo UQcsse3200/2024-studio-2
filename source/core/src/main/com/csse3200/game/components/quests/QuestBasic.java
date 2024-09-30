@@ -8,11 +8,11 @@ import java.util.Map;
 public class QuestBasic extends AbstractQuest {
     /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
      *  and completion triggers (messages to send on completion). */
-    public QuestBasic(String questName, String npcName, String questDescription, List<Task> tasks,
+    public QuestBasic(String questName, String questDescription, List<Task> tasks,
                       Boolean isSecretQuest, List<DialogueKey> dialogue,
                       String[] taskCompletionTriggers, boolean active, boolean failed,
                       int currentTaskIndex) {
-        super(questName, npcName, questDescription, tasks, isSecretQuest, dialogue,
+        super(questName, questDescription, tasks, isSecretQuest, dialogue,
                 taskCompletionTriggers, active, failed, currentTaskIndex);
     }
 }

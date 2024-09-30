@@ -14,8 +14,6 @@ public abstract class AbstractQuest {
      * The name of the quest.
      * */
     private final String questName;
-
-    private final String npcName;
     /**
      * A description of the task.
      */
@@ -51,7 +49,7 @@ public abstract class AbstractQuest {
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String npcName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -62,28 +60,25 @@ public abstract class AbstractQuest {
         this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
         this.taskCompletionTriggers = taskCompletionTriggers;
-        this.npcName = npcName;
+
     }
 
     /** Returns quest name. */
     public String getQuestName() {
         return questName;
     }
-
-    public String getNpcName() {
-        return getNpcName();
-    }
     /** Returns task array for quest subtasks. */
     public List<Task> getTasks() {
         return this.tasks;
     }
+
     /** Returns true if quest is completed. */
     public boolean isQuestCompleted() {
         return currentTaskIndex >= tasks.size();
     }
     /** Returns number of quest subtasks completed. */
     public int getProgression() {
-        return this.currentTaskIndex;
+        return currentTaskIndex;
     }
 
     /**
@@ -128,10 +123,12 @@ public abstract class AbstractQuest {
             }
         }
     }
+
     /** Returns true if quest is failed. */
     public boolean isFailed() {
         return this.isFailed;
     }
+
     /** Earmarks quest as having failed.*/
     public void failQuest() {
         this.isActive = false;
@@ -172,8 +169,5 @@ public abstract class AbstractQuest {
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
     public void setQuestDialogue(List<DialogueKey> key) { questDialogue = key; }
-
-
-
 
 }

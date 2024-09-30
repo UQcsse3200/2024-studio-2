@@ -18,7 +18,7 @@ class QuestBasicTest { // Also tests AbstractQuest class
 
         // Create the quest with the task
         quest = new QuestBasic("First Steps",
-                "Cow",
+
                 "Take your first steps in this world!",
                 List.of(stepsTask),
                 false,

@@ -12,6 +12,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.GdxGameManager;
 
 
 import org.slf4j.Logger;
@@ -285,6 +286,7 @@ public class QuestManager extends Component {
 
         return dialogues;
     }
+
 
 
     /** Setup potion collection task listener.
