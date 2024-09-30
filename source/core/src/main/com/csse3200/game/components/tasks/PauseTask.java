@@ -1,6 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.utils.Logger;
+import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
@@ -83,6 +84,21 @@ public class PauseTask extends ChaseTask {
      * Helper function to find the correct dialogue hint text from the quest manager.
      */
     private String[][] findDialogueHint(String[][] hintText) {
+        for (AbstractQuest quest: questManager.getAllQuests()) {
+            int progression = quest.getProgression();
+            if (progression == quest.getNumQuestTasks() && progression != 0) {
+                continue;
+            }
+
+            for (DialogueKey dialogueKey : quest.getQuestDialogue()) {
+                String npcName = dialogueKey.getNpcName();
+                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
+                    return dialogueKey.getDialogue();
+                }
+            }
+        }
+
+
 //        for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
 //            logger.info("Checking right quest for dialogue");
 //            String npcName = dialogueKey.getNpcName();
@@ -105,8 +121,7 @@ public class PauseTask extends ChaseTask {
 //
 //        }
 //        return hintText;
-        //TODO: Iterate through quests and dialogue maps rather than dialoguekey list in QuestManager
-        return new String[][]{{""}};
+        return hintText;
     }
 
     /**
@@ -146,7 +161,7 @@ public class PauseTask extends ChaseTask {
         }
 
         if (hasApproached && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())
-            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
+                && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
         ) {
             triggerPauseEvent();
         }
