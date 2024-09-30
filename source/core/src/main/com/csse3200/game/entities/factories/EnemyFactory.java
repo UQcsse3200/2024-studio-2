@@ -346,6 +346,22 @@ public class EnemyFactory {
     return bearEnemy;
   }
 
+  /**
+   * Creates joey enemy as NPC entity for static combat
+   * */
+  public static Entity createJoeyCombatEnemy() {
+    Entity joeyEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.joey;
+    joeyEnemy.setEnemyType(Entity.EnemyType.JOEY);
+
+    joeyEnemy
+            .addComponent(new TextureRenderComponent("images/joey_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+    joeyEnemy.scaleHeight(90.0f);
+
+    return joeyEnemy;
+  }
+
   private EnemyFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
