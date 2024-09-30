@@ -7,7 +7,6 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
-import com.csse3200.game.components.combat.CombatAnimationController;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
@@ -265,27 +264,6 @@ public class EnemyFactory {
   }
 
   /**
-   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-   * there is no chase task included. This is where abilities components will be added.
-   * loaded.
-   *
-   * @return entity
-   */
-  public static Entity createKangaBossCombatEntity() {
-    Entity kangarooBoss = createCombatBaseEnemy();
-    BaseEnemyEntityConfig config = configs.kangarooBoss;
-    kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
-
-    kangarooBoss
-            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
-
-    kangarooBoss.scaleHeight(120.0f);
-
-    return kangarooBoss;
-  }
-
-  /**
    * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
    *
    * @return entity
@@ -306,98 +284,6 @@ public class EnemyFactory {
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
-  }
-
-  /**
-   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-  public static Entity createCombatBaseEnemy() {
-    Entity npc =
-            new Entity()
-                    .addComponent(new PhysicsComponent())
-                    .addComponent(new PhysicsMovementComponent())
-                    .addComponent(new ColliderComponent())
-                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
-
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-
-  /**
-   * Creates chicken enemy as NPC entity for static combat
-   * */
-  public static Entity createChickenCombatEnemy() {
-    Entity chickenEnemy = createCombatBaseEnemy();
-    BaseEnemyEntityConfig config = configs.chicken;
-    chickenEnemy.setEnemyType(Entity.EnemyType.CHICKEN);
-
-    TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-    AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-
-    animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-
-    chickenEnemy
-            .addComponent(animator)
-            .addComponent(new CombatAnimationController());
-
-    chickenEnemy.scaleHeight(90.0f);
-
-    return chickenEnemy;
-  }
-
-  /**
-   * Creates monkey enemy as NPC entity for static combat
-   * */
-  public static Entity createMonkeyCombatEnemy() {
-    Entity monkeyEnemy = createCombatBaseEnemy();
-    BaseEnemyEntityConfig config = configs.monkey;
-    monkeyEnemy.setEnemyType(Entity.EnemyType.MONKEY);
-
-    monkeyEnemy
-            .addComponent(new TextureRenderComponent("images/monkey_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
-    monkeyEnemy.scaleHeight(90.0f);
-
-    return monkeyEnemy;
-  }
-
-  /**
-   * Creates frog enemy as NPC entity for static combat
-   * */
-  public static Entity createFrogCombatEnemy() {
-    Entity frogEnemy = createCombatBaseEnemy();
-    BaseEnemyEntityConfig config = configs.frog;
-    frogEnemy.setEnemyType(Entity.EnemyType.FROG);
-
-    frogEnemy
-            .addComponent(new TextureRenderComponent("images/frog_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
-    frogEnemy.scaleHeight(150.0f);
-
-    return frogEnemy;
-  }
-
-  /**
-   * Creates frog enemy as NPC entity for static combat
-   * */
-  public static Entity createBearCombatEnemy() {
-    Entity bearEnemy = createCombatBaseEnemy();
-    BaseEnemyEntityConfig config = configs.bear;
-    bearEnemy.setEnemyType(Entity.EnemyType.BEAR);
-
-    bearEnemy
-            .addComponent(new TextureRenderComponent("images/bear_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
-
-    bearEnemy.setScale(150f,103.5f);
-    //bearEnemy.scaleHeight(150.0f);
-
-    return bearEnemy;
   }
 
   private EnemyFactory() {
