@@ -11,6 +11,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -108,7 +109,8 @@ public class ForestGameArea extends GameArea {
 
       //Initialise inventory and quests with loaded data
       player.getComponent(InventoryComponent.class).loadInventoryFromSave();
-      player.getComponent(QuestManager.class).loadQuests();
+      player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+    player.getComponent(QuestManager.class).loadQuests();
   }
 
   private void handleNewChunks(Vector2 playerPos) {
