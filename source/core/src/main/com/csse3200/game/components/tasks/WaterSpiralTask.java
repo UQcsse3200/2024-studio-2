@@ -52,7 +52,6 @@ public class WaterSpiralTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-        startWaiting();  // Start the task in a waiting state
     }
 
     @Override
@@ -61,7 +60,6 @@ public class WaterSpiralTask extends DefaultTask implements PriorityTask {
         if (((timer.getTime() - lastShotTime) > waitTime) || numShots == 0) {
             startShooting();  // Start shooting if enough time has passed or no shots have been fired yet
         }
-        // this.owner.getEntity().getEvents().trigger("standing");  // Update the current state
     }
 
     /**
@@ -100,20 +98,10 @@ public class WaterSpiralTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * Starts the waiting state before shooting.
-     */
-    private void startWaiting() {
-        logger.debug("Starting waiting");
-        this.owner.getEntity().getEvents().trigger("wait");
-        // Perform any additional logic for waiting, like animations or sounds
-    }
-
-    /**
      * Fires a projectile at the target.
      */
     private void startShooting() {
         logger.debug("Shooting at target");
-        // this.owner.getEntity().getEvents().trigger("shooting");  // Trigger shooting event
         lastShotTime = timer.getTime();  // Update the time of the last shot
         numShots++;  // Increase shot count
         owner.getEntity().getEvents().trigger("spawnWaterSpiral", owner.getEntity());
