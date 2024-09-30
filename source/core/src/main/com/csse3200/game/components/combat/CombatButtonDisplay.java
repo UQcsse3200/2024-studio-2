@@ -115,8 +115,8 @@ public class CombatButtonDisplay extends UIComponent {
         backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
                 , Gdx.graphics.getHeight() * 0.2f -
                 combatHintBackgroundHeight * 0.5f);
-        backgroundImage.setVisible(true);
-        hoverTextTable.setVisible(true);  // Show the hover text table
+        backgroundImage.setVisible(true); // Show the background for combat hints
+        hoverTextTable.setVisible(true);  // Show the combat hint text
     }
 
 
@@ -141,12 +141,13 @@ public class CombatButtonDisplay extends UIComponent {
                     }
                 });
         AttackButton.addListener(new InputListener() {
+            // Brings up the combat hint when the user hovers over attack button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
                 setTextForCombatHint("Lower enemy HP but drains stamina!");
                 return true;
             }
-
+            // hides the combat hint when the user is no longer hovering over the attack button
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
@@ -162,12 +163,13 @@ public class CombatButtonDisplay extends UIComponent {
                     }
                 });
         GuardButton.addListener(new InputListener() {
+            // Brings up the combat hint when the user hovers over guard button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
                 setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
                 return true;
             }
-
+            // hides the combat hint when the user is no longer hovering over the guard button
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
