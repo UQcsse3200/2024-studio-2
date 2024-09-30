@@ -96,5 +96,7 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+  
+  public void spawnConvertedNPCs(Entity defeatedEnemy) {}
 
 }

@@ -63,20 +63,11 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    //this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
-
-    // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
-//    if (previousScreen instanceof MainGameScreen mainGameScreen) {
-//      ForestGameArea gameArea = mainGameScreen.getGameArea();
-//      List<Entity> enemies = gameArea.getEnemies();
-//
-//      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
-//    }
-//    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
