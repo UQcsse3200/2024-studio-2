@@ -3,46 +3,41 @@ package com.csse3200.game.components.inventory;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.csse3200.game.extensions.GameExtension;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.lang.reflect.Field;
+
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
 public class InventoryUtilsTest {
-
-    private Table table;
-    private Table child;
-    private Texture other;
-
-    @BeforeEach
-    public void setUp() {
-        // Mock the Group and Disposable actors
-        table = mock(Table.class);
-        child = mock(Table.class);
-
-        // Setup mock behavior for getting children (returning snapshot)
-        when(table.getChildren()).thenReturn(new SnapshotArray<>(new Table[]{child}));
-    }
+    @Mock
+    private Group table;
+    @Mock
+    private Group child;
 
     @Test
-    public void testDisposeGroupRecursively() {
+    void testDisposeGroupRecursively() {
+        when(table.getChildren()).thenReturn(new SnapshotArray<>(new Group[]{child}));
+        when(child.getChildren()).thenReturn(new SnapshotArray<>());
+
         // Call the method to test
         InventoryUtils.disposeGroupRecursively(table);
 
-        // Verify recursive call to child group
+        // Verify parent group actions
+        verify(table).getChildren();
+        verify(table).clearChildren();
+        verify(table).remove();
+
+        // Verify child actions
         verify(child).getChildren();
         verify(child).clearChildren();
         verify(child).remove();
-
-        // Verify parent group actions
-        verify(table).clearChildren();
-        verify(table).remove();
     }
 
     @Test
