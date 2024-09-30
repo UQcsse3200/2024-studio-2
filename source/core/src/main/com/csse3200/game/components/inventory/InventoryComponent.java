@@ -10,7 +10,6 @@ import com.csse3200.game.inventory.Inventory;
  */
 public class InventoryComponent extends Component {
     private final Inventory inventory;
-
     public InventoryComponent(int capacity) {
         this.inventory = new Inventory(capacity);
     }
@@ -28,3 +27,5 @@ public class InventoryComponent extends Component {
         inventory.loadInventoryFromSave();
     }
 }
+
+
