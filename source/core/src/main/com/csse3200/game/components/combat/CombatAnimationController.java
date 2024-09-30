@@ -35,7 +35,7 @@ public class CombatAnimationController extends Component {
 
     private void animateMoveLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("combatMove");
+        animator.startAnimation("spawn");
     }
 
     private void animateMoveRight() {
