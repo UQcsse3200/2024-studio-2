@@ -26,6 +26,8 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     private Task currentTask;
     private boolean isSpawned = false;
     private final boolean isBoss;
+    private static final String LEFT = "wanderLeft";
+    private static final String RIGHT = "wanderRight";
     
     /**
      * @param wanderRange Distance in X and Y the entity can move from its position when start() is
@@ -81,10 +83,10 @@ public class WanderTask extends DefaultTask implements PriorityTask {
             swapTask(waitTask);
         } else if (newPos.x - startPos.x < 0) {
             logger.debug("wandering right");
-            this.owner.getEntity().getEvents().trigger("wanderLeft");
+            this.owner.getEntity().getEvents().trigger(LEFT);
         } else {
             logger.debug("wandering left");
-            this.owner.getEntity().getEvents().trigger("wanderRight");
+            this.owner.getEntity().getEvents().trigger(RIGHT);
         }
     }
     
@@ -107,10 +109,10 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         Vector2 newPos = getRandomPosInRange();
         if (newPos.x - startPos.x < 0) {
             logger.debug("wandering right");
-            this.owner.getEntity().getEvents().trigger("wanderLeft");
+            this.owner.getEntity().getEvents().trigger(LEFT);
         } else {
             logger.debug("wandering left");
-            this.owner.getEntity().getEvents().trigger("wanderRight");
+            this.owner.getEntity().getEvents().trigger(RIGHT);
         }
         movementTask = new MovementTask(newPos, wanderRange);
         movementTask.create(owner);
@@ -127,27 +129,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         waitTask.create(owner);
         swapTask(waitTask);
     }
-    
-    private void startMoving() {
-        Vector2 newPos = getRandomPosInRange();
-        
-        if (isBoss) {
-            logger.debug("Starting moving");
-            movementTask.setTarget(getRandomPosInRange());
-            swapTask(movementTask);
-            return;
-        }
-        if (newPos.x - startPos.x < 0) {
-            this.owner.getEntity().getEvents().trigger("wanderLeft");
-        } else {
-            this.owner.getEntity().getEvents().trigger("wanderRight");
-        }
-        logger.debug("Starting moving");
-        
-        movementTask.setTarget(newPos);
-        swapTask(movementTask);
-    }
-    
+
     private void swapTask(Task newTask) {
         if (currentTask != null) {
             currentTask.stop();

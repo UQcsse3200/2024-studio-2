@@ -50,6 +50,6 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
         // disposes of projectile
         Entity owner = getEntity();
         ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
-        task.movementTask.stop();
+        task.getMovementTask().stop();
     }
 }

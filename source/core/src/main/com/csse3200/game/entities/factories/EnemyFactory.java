@@ -13,7 +13,6 @@ import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -25,7 +24,6 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +48,8 @@ public class EnemyFactory {
                     new SleepMove("Enemy Sleep", 0)
             )
     );
+    private static final String SPAWN = "spawn";
+    private static final String FLOAT = "float";
     
     /**
      * types of enemies
@@ -70,22 +70,20 @@ public class EnemyFactory {
      * @return enemy chicken entity
      */
     public static Entity createChicken(Entity target) {
-        Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN);
         BaseEnemyEntityConfig config = configs.chicken;
+        Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN, config);
         chicken.setEnemyType(Entity.EnemyType.CHICKEN);
         
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
         
         AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
         
-        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
         
         
         chicken
                 .addComponent(animator)
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 2), config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(new ChickenAnimationController());
         
         chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -100,8 +98,8 @@ public class EnemyFactory {
      * @return enemy bear entity
      */
     public static Entity createBear(Entity target) {
-        Entity bear = createBaseEnemy(target, EnemyType.BEAR);
         BaseEnemyEntityConfig config = configs.bear;
+        Entity bear = createBaseEnemy(target, EnemyType.BEAR, config);
         bear.setEnemyType(Entity.EnemyType.BEAR);
         
         TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
@@ -109,13 +107,10 @@ public class EnemyFactory {
         AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
         
         animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
         bear
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
-                        config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new BearAnimationController());
         
@@ -132,26 +127,22 @@ public class EnemyFactory {
      * @return enemy pigeon entity
      */
     public static Entity createPigeon(Entity target) {
-        Entity pigeon = createBaseEnemy(target, EnemyType.PIGEON);
         BaseEnemyEntityConfig config = configs.pigeon;
+        Entity pigeon = createBaseEnemy(target, EnemyType.PIGEON, config);
         pigeon.setEnemyType(Entity.EnemyType.PIGEON);
         
         TextureAtlas pigeonAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
         
         AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
         
-        animator.addAnimation("float", 0.06f, Animation.PlayMode.LOOP);
-        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation(FLOAT, 0.06f, Animation.PlayMode.LOOP);
+        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
         pigeon
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
-                        config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 2) - 1, config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new PigeonAnimationController());
         
         pigeon.setScale(0.842f,0.55f);
-        //pigeon.getComponent(AnimationRenderComponent.class).scaleEntity();
         
         return pigeon;
     }
@@ -163,8 +154,8 @@ public class EnemyFactory {
      * @return enemy frog entity
      */
     public static Entity createFrog(Entity target) {
-        Entity frog = createBaseEnemy(target, EnemyType.FROG);
         BaseEnemyEntityConfig config = configs.frog;
+        Entity frog = createBaseEnemy(target, EnemyType.FROG, config);
         frog.setEnemyType(Entity.EnemyType.FROG);
         
         AnimationRenderComponent animator =
@@ -174,8 +165,6 @@ public class EnemyFactory {
         animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
         
         frog
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 5) - 2, config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new FrogAnimationController());
         
@@ -191,8 +180,8 @@ public class EnemyFactory {
      * @return enemy frog entity
      */
     public static Entity createEel(Entity target) {
-        Entity eel = createBaseEnemy(target, EnemyType.EEL);
         BaseEnemyEntityConfig config = configs.eel;
+        Entity eel = createBaseEnemy(target, EnemyType.EEL, config);
         eel.setEnemyType(Entity.EnemyType.EEL);
 
         AnimationRenderComponent animator =
@@ -203,15 +192,11 @@ public class EnemyFactory {
         animator.addAnimation("swim_right", 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation("swim_up_right", 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation("swim_up", 0.25f, Animation.PlayMode.LOOP);
-        //animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
 
         eel
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 5) - 2, config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new EelAnimationController());
 
-        //eel.setScale(0.373f,1f);
         eel.getComponent(AnimationRenderComponent.class).scaleEntity();
 
         return eel;
@@ -224,8 +209,8 @@ public class EnemyFactory {
      * @return enemy monkey entity
      */
     public static Entity createMonkey(Entity target) {
-        Entity monkey = createBaseEnemy(target, EnemyType.MONKEY);
         BaseEnemyEntityConfig config = configs.monkey;
+        Entity monkey = createBaseEnemy(target, EnemyType.MONKEY, config);
         monkey.setEnemyType(Entity.EnemyType.MONKEY);
         
         AnimationRenderComponent animator =
@@ -242,8 +227,6 @@ public class EnemyFactory {
         animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
         
         monkey
-                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 2) - 1, config.getSpeed(), config.getExperience(), 100, false, false))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new MonkeyAnimationController());
         
@@ -260,7 +243,7 @@ public class EnemyFactory {
      * @param type the enemy type
      * @return entity
      */
-    private static Entity createBaseEnemy(Entity target, EnemyType type) {
+    private static Entity createBaseEnemy(Entity target, EnemyType type, BaseEnemyEntityConfig config) {
         AITaskComponent aiComponent = new AITaskComponent();
         
         BaseEnemyEntityConfig configStats = switch (type) { // assign config variable depending on enemy to inherit speed stat
@@ -272,24 +255,29 @@ public class EnemyFactory {
             case PIGEON -> configs.pigeon;
         };
         
-        if (type == EnemyType.MONKEY) {
-            // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-            aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
-            aiComponent.addTask(new RunTask(target, 10, 3f));
-            aiComponent.addTask(new ShootTask(1000, target, 5f));
-        } else if (type == EnemyType.BEAR) {
-            //BlindBear makes bears wonder away from the player when the player isn't moving
-            aiComponent.addTask(new BlindBearTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 1f, 3, target, 6f, 7f));
-            aiComponent.addTask(new WanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f, false));
-            aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float)configStats.getSpeed()/100 * 4, (float)configStats.getSpeed()/100 * 4), false));
-        } else if (type == EnemyType.EEL) {
-            aiComponent.addTask(new SpecialWanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f));
-            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), false));
-            aiComponent.addTask(new ShootTask(1000, target, 10f));
-        } else {
-            // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
-            aiComponent.addTask(new WanderTask(new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), 2f, false));
-            aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float)configStats.getSpeed()/100, (float)configStats.getSpeed()/100), false));
+        switch (type) {
+            case EnemyType.MONKEY -> {
+                // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
+                aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
+                aiComponent.addTask(new RunTask(target, 10, 3f));
+                aiComponent.addTask(new ShootTask(1000, target, 5f));
+            }
+            case EnemyType.BEAR -> {
+                //BlindBear makes bears wonder away from the player when the player isn't moving
+                aiComponent.addTask(new BlindBearTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 1f, 3, target, 6f));
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
+                aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float) configStats.getSpeed() / 100 * 4, (float) configStats.getSpeed() / 100 * 4), false));
+            }
+            case EnemyType.EEL -> {
+                aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
+                aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
+                aiComponent.addTask(new ShootTask(1000, target, 10f));
+            }
+            default -> {
+                // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
+                aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
+            }
         }
         
         Entity npc =
@@ -300,7 +288,10 @@ public class EnemyFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
                         .addComponent(new ConfigComponent<>(configStats))
-                        .addComponent(aiComponent);
+                        .addComponent(aiComponent)
+                        .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), Math.max(0, config.getBaseAttack() + (int)(Math.random() * 5) - 2),
+                                config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
+                        .addComponent(new CombatMoveComponent(moveSet));
         
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
@@ -462,7 +453,6 @@ public class EnemyFactory {
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
         
         bearEnemy.setScale(150f,103.5f);
-        //bearEnemy.scaleHeight(150.0f);
         
         return bearEnemy;
     }

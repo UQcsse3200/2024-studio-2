@@ -53,7 +53,7 @@ class ShootTaskTest {
     // Set up a real EventHandler and add a listener to verify "FireBanana" is triggered
     EventHandler eventHandler = entity.getEvents();
     EventListener1<Entity> fireBananaListener = mock(EventListener1.class);
-    eventHandler.addListener("FireBanana", fireBananaListener);
+    eventHandler.addListener("Shoot", fireBananaListener);
 
     // Fast forward time to trigger shooting
     when(ServiceLocator.getTimeSource().getTime()).thenReturn(1000L);  // 1 second later
@@ -82,7 +82,7 @@ class ShootTaskTest {
     // Set up a real EventHandler and add a listener to verify "FireBanana" is triggered
     EventHandler eventHandler = entity.getEvents();
     EventListener1<Entity> fireBananaListener = mock(EventListener1.class);
-    eventHandler.addListener("FireBanana", fireBananaListener);
+    eventHandler.addListener("Shoot", fireBananaListener);
 
     // Not currently active, target is too far, should have negative priority
     assertTrue(shootTask.getPriority() < 0);

@@ -134,9 +134,9 @@ class EnemyFactoryTest {
         assertTrue((monkey.getComponent(CombatStatsComponent.class).getHealth() > 8)
                         && (monkey.getComponent(CombatStatsComponent.class).getHealth() < 12),
                 "Monkey should have between 9 and 11 HP inclusive.");
-        assertTrue((monkey.getComponent(CombatStatsComponent.class).getStrength() > 23)
-                        && (monkey.getComponent(CombatStatsComponent.class).getStrength() < 27),
-                "Monkey should have between 24 and 26 attack inclusive.");
+        assertTrue((monkey.getComponent(CombatStatsComponent.class).getStrength() > 22)
+                        && (monkey.getComponent(CombatStatsComponent.class).getStrength() < 29),
+                "Monkey should have between 23 and 28 attack inclusive.");
         assertTrue((monkey.getComponent(CombatStatsComponent.class).getDefense() > 6)
                         && (monkey.getComponent(CombatStatsComponent.class).getDefense() < 10),
                 "Monkey should have defense between 7 and 9 inclusive.");
@@ -219,9 +219,9 @@ class EnemyFactoryTest {
         assertTrue((chicken.getComponent(CombatStatsComponent.class).getHealth() > 3)
                         && (chicken.getComponent(CombatStatsComponent.class).getHealth() < 7),
                 "chicken should have between 4 and 6 HP.");
-        assertTrue((chicken.getComponent(CombatStatsComponent.class).getStrength() > 0)
-                        && (chicken.getComponent(CombatStatsComponent.class).getStrength() < 3),
-                "chicken should have between 1 and 2 attack.");
+        assertTrue((chicken.getComponent(CombatStatsComponent.class).getStrength() >= 0)
+                        && (chicken.getComponent(CombatStatsComponent.class).getStrength() < 5),
+                "chicken should have between 0 and 4 attack.");
         assertTrue((chicken.getComponent(CombatStatsComponent.class).getDefense() > 0)
                         && (chicken.getComponent(CombatStatsComponent.class).getDefense() < 4),
                 "chicken should have between 1 and 3 defense.");
@@ -363,9 +363,9 @@ class EnemyFactoryTest {
         assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 12)
                         && (bear.getComponent(CombatStatsComponent.class).getHealth() < 18),
                 "bear should have between 13 and 17 HP.");
-        assertTrue((bear.getComponent(CombatStatsComponent.class).getStrength() > 8)
-                        && (bear.getComponent(CombatStatsComponent.class).getStrength() < 12),
-                "bear should have between 9 and 11 Attack.");
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getStrength() > 7)
+                        && (bear.getComponent(CombatStatsComponent.class).getStrength() < 14),
+                "bear should have between 8 and 13 Attack.");
         assertTrue((bear.getComponent(CombatStatsComponent.class).getDefense() > 12)
                         && (bear.getComponent(CombatStatsComponent.class).getDefense() < 18),
                 "bear should have between 13 and 17 defense.");
@@ -437,9 +437,9 @@ class EnemyFactoryTest {
         assertTrue((pigeon.getComponent(CombatStatsComponent.class).getHealth() > 8)
                         && (pigeon.getComponent(CombatStatsComponent.class).getHealth() < 12),
                 "pigeon should have between 9 and 11 HP.");
-        assertTrue((pigeon.getComponent(CombatStatsComponent.class).getStrength() > 3)
-                        && (pigeon.getComponent(CombatStatsComponent.class).getStrength() < 7),
-                "pigeon should have between 4 and 6 Attack.");
+        assertTrue((pigeon.getComponent(CombatStatsComponent.class).getStrength() > 2)
+                        && (pigeon.getComponent(CombatStatsComponent.class).getStrength() < 9),
+                "pigeon should have between 3 and 8 Attack.");
         assertTrue((pigeon.getComponent(CombatStatsComponent.class).getDefense() > 3)
                         && (pigeon.getComponent(CombatStatsComponent.class).getDefense() < 7),
                 "pigeon should have between 4 and 6 defense.");

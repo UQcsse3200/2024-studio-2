@@ -432,7 +432,6 @@ public class ForestGameArea extends GameArea {
     }
     
     private void spawnProjectile(Entity enemy, Entity.EnemyType name)  {
-        System.out.println(name);
         Entity projectile;
         switch (name) {
             case MONKEY:

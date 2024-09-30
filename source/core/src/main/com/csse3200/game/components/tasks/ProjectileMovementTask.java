@@ -13,7 +13,7 @@ import static java.lang.Math.atan2;
 public class ProjectileMovementTask extends DefaultTask implements PriorityTask {
     protected final int priority;
     protected final PhysicsEngine physics;
-    public MovementTask movementTask;
+    private MovementTask movementTask;
     private Vector2 targetPosition;
     
     /**
@@ -92,4 +92,14 @@ public class ProjectileMovementTask extends DefaultTask implements PriorityTask 
     public int getPriority() {
         return priority;
     }
+    
+    /**
+     * MovementTask getter
+     * @return Movement task of this projectile
+     */
+    public MovementTask getMovementTask() {
+        return movementTask;
+    }
+    
+    
 }

@@ -33,7 +33,6 @@ public class BlindBearTask extends DefaultTask implements PriorityTask {
     private int priority;
     private Entity target;
     private float viewDistance;
-    private float maxChaseDistance;
     protected final PhysicsEngine physics;
     protected final DebugRenderer debugRenderer;
     protected final RaycastHit hit = new RaycastHit();
@@ -44,13 +43,12 @@ public class BlindBearTask extends DefaultTask implements PriorityTask {
      *     called.
      * @param waitTime How long in seconds to wait between wandering.
      */
-    public BlindBearTask(Vector2 wanderRange, float waitTime, int priority, Entity target, float viewDistance, float maxChaseDistance) {
+    public BlindBearTask(Vector2 wanderRange, float waitTime, int priority, Entity target, float viewDistance) {
         this.wanderRange = wanderRange;
         this.waitTime = waitTime;
         this.priority = priority;
         this.target = target;
         this.viewDistance = viewDistance;
-        this.maxChaseDistance = maxChaseDistance;
         physics = ServiceLocator.getPhysicsService().getPhysics();
         debugRenderer = ServiceLocator.getRenderService().getDebug();
     }
@@ -163,7 +161,6 @@ public class BlindBearTask extends DefaultTask implements PriorityTask {
         // get player pos
         // x + 1/(my pos - player pos)
         targetPosition.add(3/(startPos.x - target.getCenterPosition().x), 3/(startPos.y - target.getCenterPosition().y));
-        System.out.println("Target Pos: " + targetPosition + "\nStart Pos: " + startPos);
         return targetPosition;
     }
 }
