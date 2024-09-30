@@ -57,6 +57,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
+
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
