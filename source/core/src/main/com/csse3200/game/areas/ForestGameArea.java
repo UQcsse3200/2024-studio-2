@@ -352,8 +352,8 @@ public class ForestGameArea extends GameArea {
     spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
   }
   
-  private void spawnConvertedNPCs(Entity defeatedEnemy) {
-    loadAssets();
+  @Override
+  public void spawnConvertedNPCs(Entity defeatedEnemy) {
     if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
       logger.warn("Attempted to convert null entity or entity with null enemy type");
       return;
@@ -366,15 +366,15 @@ public class ForestGameArea extends GameArea {
     switch (defeatedEnemy.getEnemyType()) {
       case CHICKEN:
         convertedNPC = NPCFactory.createChicken(player, this.enemies);
-        spawnEntityAtVector(convertedNPC, pos);
+        resourceService.loadMusic(new String[] {"sounds/chicken.wav"});
         break;
       case FROG:
         convertedNPC = NPCFactory.createFrog(player, this.enemies);
-        spawnEntityAtVector(convertedNPC, pos);
+        resourceService.loadMusic(new String[] {"sounds/frog.wav"});
         break;
       case MONKEY:
         convertedNPC = NPCFactory.createMonkey(player, this.enemies);
-        spawnEntityAtVector(convertedNPC, pos);
+        resourceService.loadMusic(new String[] {"sounds/monkey.wav"});
         break;
       // Add other enemy types as needed
       default:
@@ -383,6 +383,8 @@ public class ForestGameArea extends GameArea {
     }
     
     if (convertedNPC != null) {
+      spawnEntityAtVector(convertedNPC, pos);
+      convertedNPC.getEvents().trigger("wanderStart");
       logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
     }
   }
