@@ -8,13 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
-import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
+import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 
 /**
  * Class for Birdie Dash Game Screen
@@ -77,8 +78,15 @@ public class BirdieDashScreen extends PausableScreen {
 
         logger.debug("Initialising birdie dash entities");
 
+        //ensure sounds are loaded
+        ServiceLocator.getResourceService().loadSounds(new String[]{"sounds/minigames/birdie-flap.mp3", "sounds/minigames/coin-collected.mp3"});
+        ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
+        ServiceLocator.getResourceService().loadAll();
+
         setupExitButton();
         createUI();
+
+        AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
     }
 
     /**
@@ -152,6 +160,7 @@ public class BirdieDashScreen extends PausableScreen {
         renderer.dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
+        ServiceLocator.getResourceService().dispose();
         ServiceLocator.clear();
         font.dispose();
         skin.dispose();
@@ -210,6 +219,7 @@ public class BirdieDashScreen extends PausableScreen {
     private void flap() {
             // Trigger the flap action in BirdieDashGame
             birdGame.flapBird();
+            AudioManager.playSound("sounds/minigames/birdie-flap.mp3");
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
@@ -102,9 +103,11 @@ public class PlayerFactory {
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
-        LightingComponent light = new LightingComponent(LightingComponent.createPointLight(4f, Color.CORAL));
-        light.getLight().setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
-        player.addComponent(light);
+        PointLight light = LightingComponent.createPointLight(4f, Color.CORAL);
+        light.setContactFilter(PhysicsLayer.DEFAULT,
+                PhysicsLayer.NONE,
+                (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
+        player.addComponent(new LightingComponent().attach(light));
 
         player.setIsPlayer(true);
 
