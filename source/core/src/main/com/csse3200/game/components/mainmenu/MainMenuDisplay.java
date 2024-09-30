@@ -430,7 +430,7 @@ public class MainMenuDisplay extends UIComponent {
         helpLabel = new Label("Help", skin, "button-red");
         settingLabel = new Label("Settings", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
-        achievementsLabel = new Label("Achievements", skin, "button-red");
+        achievementsLabel = new Label("Logbook", skin, "button-red");
         versionLabel = new Label("Version 1.0", skin, "default-white");
     }
 
