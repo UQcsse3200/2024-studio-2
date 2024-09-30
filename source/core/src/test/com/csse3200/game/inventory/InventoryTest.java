@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -253,11 +254,11 @@ class InventoryTest {
         inventory.add(new Foods.Apple(1));
         inventory.add(new HealingPotion(2));
 
-        SaveHandler.save(GameState.class, "test/saves/inventory");
+        SaveHandler.save(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         GameState.inventory.inventoryContent = new AbstractItem[0];
 
-        SaveHandler.load(GameState.class, "test/saves/inventory");
+        SaveHandler.load(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         inventory.loadInventoryFromSave();
 
@@ -270,7 +271,7 @@ class InventoryTest {
 
         GameState.inventory.inventoryContent = new AbstractItem[0];
 
-        SaveHandler.delete(GameState.class, "test/saves/inventory");
+        SaveHandler.delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
     }
 
     @Test
