@@ -64,6 +64,11 @@ public class PauseTask extends ChaseTask {
         } else {
             entity.getEvents().trigger("PauseStart");
         }
+
+        // TODO - THIS IS A SAMPLE FOR BAILEY - NOT INTENDED TO GET INTO MAIN. DEMONSTRATES
+        //  FUNCTIONALLY THE NPC DROPPING AN ITEM WHEN THE PLAYER COMES NEAR IT! OBVIOUSLY IT
+        //  DOES NOT WORK AS IS INTENDED IN THE FINAL VERSION OF THIS.
+        entity.getEvents().trigger("PlayerFinishedInteracting");
     }
 
     /**

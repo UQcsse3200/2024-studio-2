@@ -253,7 +253,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
     // Spawn the entity at the calculated position
     spawnEntityAt(entity, spawnPos, true, true);
-    logger.info("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+    logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
             entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
   }
 

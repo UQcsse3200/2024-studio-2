@@ -13,6 +13,8 @@ import com.csse3200.game.components.tasks.AvoidTask;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
@@ -75,12 +77,37 @@ public class NPCFactory {
     return npc;
   }
 
+  /** Drops an item near the player when called.
+   *
+   * @param item - the item to drop
+   * @param player - the player to drop the item next to.
+   */
+  private static void handleDropItem(AbstractItem item, Entity player) {
+    Entity itemEntity = ItemFactory.createItem(player, item);
+    int radius = 2; // Spawn the item within this radius of the player
+    player.getEvents().trigger("dropItems", itemEntity, radius);
+  }
+
   /**
    * Creates a Cow NPC.
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.cow;
-    return createFriendlyNPC(target, enemies, config);
+    Entity cow = createFriendlyNPC(target, enemies, config);
+
+    // TODO - SAMPLE HANDLER FOR BAILEY. WITH 60% CHANCE THIS COW WILL DROP MILK NEAR THE PLAYER
+    //  WHEN RECEIVING THE EVENT "PlayerFinishedInteracting"
+    //  NONE OF THIS IS FIXED, THIS IS ALL INTENDED AS A SAMPLE AND CAN BE MANIPULATED
+    //  ACCORDING TO DESIGN CHOICES.
+    if (Math.random() > 0.4) { // 60% chance to trigger
+      Foods.Milk milk = new Foods.Milk(1);
+      cow.getEvents().addListener(
+              "PlayerFinishedInteracting",
+              () -> handleDropItem(milk, target)
+      );
+    }
+
+    return cow;
   }
 
   /**
@@ -88,7 +115,17 @@ public class NPCFactory {
    */
   public static Entity createFish(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.fish;
-    return createFriendlyNPC(target, enemies, config);
+    Entity fish = createFriendlyNPC(target, enemies, config);
+
+    if (Math.random() > 0.6) { // 40% chance to trigger
+      Foods.Caviar caviar = new Foods.Caviar(1);
+      fish.getEvents().addListener(
+              "PlayerFinishedInteracting",
+              () -> handleDropItem(caviar, target)
+      );
+    }
+
+    return fish;
   }
 
   /**
