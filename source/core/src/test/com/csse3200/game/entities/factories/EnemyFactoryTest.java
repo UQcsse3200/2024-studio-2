@@ -11,6 +11,7 @@ import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.components.npc.BigsawfishAnimationController;
+import com.csse3200.game.components.npc.MacawAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;

@@ -71,6 +71,7 @@ public class CombatArea extends GameArea {
             "images/monkey_idle.png",
             "images/frog_idle.png",
             "images/bear_idle.png",
+            "images/macaw_idle.png",
             "images/bigsawfish_idle.png",
             "images/dog.png",
             "images/croc.png",
@@ -79,7 +80,8 @@ public class CombatArea extends GameArea {
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas", "images/bigsawfish.atlas"
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas", "images/bigsawfish.atlas",
+            "images/macaw.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -134,6 +136,8 @@ public class CombatArea extends GameArea {
             spawnEel();
         } else if (enemy.getEnemyType() == Entity.EnemyType.BIGSAWFISH) {
             spawnBigsawfish();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.MACAW) {
+            spawnMacaw();
         } else { // Kangaroo Boss
             spawnCombatEnemy();
         }
@@ -229,6 +233,14 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a macaw enemy, with the player entity as its target
+     */
+    private void spawnMacaw() {
+        Entity combatEnemyNPC = EnemyFactory.createMacawCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 

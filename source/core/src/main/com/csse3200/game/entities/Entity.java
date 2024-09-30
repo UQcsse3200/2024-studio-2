@@ -48,6 +48,7 @@ public class Entity {
     EEL,
     PIGEON,
     BIGSAWFISH,
+    MACAW,
     BANANA,
     ELECTRICORB
   }

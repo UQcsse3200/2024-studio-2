@@ -65,7 +65,8 @@ public class EnemyFactory {
         BEE,
         EEL,
         PIGEON,
-        BIGSAWFISH;
+        BIGSAWFISH,
+        MACAW;
     }
     
     /**
@@ -155,6 +156,38 @@ public class EnemyFactory {
         bigsawfish.setScale(2f,1.38f);
 
         return bigsawfish;
+    }
+
+    /**
+     * Creates a green macaw enemy.
+     *
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy bear entity
+     */
+    public static Entity createMacaw(Entity target) {
+        BaseEnemyEntityConfig config = configs.macaw;
+        Entity macaw = createBaseEnemy(target, EnemyType.MACAW, config);
+        macaw.setEnemyType(Entity.EnemyType.MACAW);
+
+        TextureAtlas macawAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+        AnimationRenderComponent animator = new AnimationRenderComponent(macawAtlas);
+
+        animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("walk", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+
+        macaw
+                .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, 0,
+                        config.getBaseAttack() + (int)(Math.random() * 2) - 1, config.getDefense() + (int)(Math.random() * 5) - 2, config.getSpeed(), config.getExperience(), 100, false, false))
+                .addComponent(new CombatMoveComponent(moveSet))
+                .addComponent(animator)
+                .addComponent(new MacawAnimationController());
+
+
+        macaw.setScale(2f,1.38f);
+
+        return macaw;
     }
 
     /**
@@ -319,6 +352,7 @@ public class EnemyFactory {
             case EEL -> configs.eel;
             case PIGEON -> configs.pigeon;
             case BIGSAWFISH -> configs.bigsawfish;
+            case MACAW -> configs.macaw;
         };
         
         switch (type) {
@@ -545,7 +579,7 @@ public class EnemyFactory {
     }
 
     /**
-     * Creates monkbig saw fish enemy as NPC entity for static combat
+     * Creates big saw fish enemy as NPC entity for static combat
      * */
     public static Entity createBigsawfishCombatEnemy() {
         Entity bigsawfishEnemy = createCombatBossNPC();
@@ -559,6 +593,23 @@ public class EnemyFactory {
 
         return bigsawfishEnemy;
     }
+
+    /**
+     * Creates macaw enemy as NPC entity for static combat
+     * */
+    public static Entity createMacawCombatEnemy() {
+        Entity macawEnemy = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.macaw;
+        macawEnemy.setEnemyType(Entity.EnemyType.MACAW);
+
+        macawEnemy
+                .addComponent(new TextureRenderComponent("images/macaw_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+        macawEnemy.scaleHeight(90.0f);
+
+        return macawEnemy;
+    }
+
     /**
      * Creates pigeon enemy as NPC entity for static combat
      * */
