@@ -11,6 +11,7 @@ import com.csse3200.game.components.minigames.Direction;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
@@ -128,6 +129,8 @@ public class SnakeScreen extends PausableScreen {
         }
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
+            GameState.minigame.addHighScore("snake", snakeGame.getScore());
+            logger.info("{}", GameState.minigame.getHighScore("snake"));
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }

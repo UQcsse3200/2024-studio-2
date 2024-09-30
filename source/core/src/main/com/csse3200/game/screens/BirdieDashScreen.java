@@ -11,6 +11,7 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.components.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.components.minigames.birdieDash.controller.KeyboardBirdInputComponent;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.rendering.Renderer;
@@ -109,6 +110,8 @@ public class BirdieDashScreen extends PausableScreen {
         if (birdGame.getIsGameOver()) {
             dispose();
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
+            GameState.minigame.addHighScore("bird", birdGame.getScore());
+            logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
         }
     }
 

@@ -7,7 +7,7 @@ import java.util.Map;
 public class MinigameHighscore implements Json.Serializable {
 
     // Store high scores in a map with the minigame name as the key
-    private Map<String, Integer> highScores = new HashMap<>();
+    private Map<String, Integer> highscores = new HashMap<>();
 
     /**
      * Add or update the high score for a specific minigame.
@@ -17,8 +17,8 @@ public class MinigameHighscore implements Json.Serializable {
      */
     public void addHighScore(String minigameName, int score) {
         // Only update the score if it's higher than the current high score
-        if (!highScores.containsKey(minigameName) || highScores.get(minigameName) < score) {
-            highScores.put(minigameName, score);
+        if (!highscores.containsKey(minigameName) || highscores.get(minigameName) < score) {
+            highscores.put(minigameName, score);
         }
     }
 
@@ -29,13 +29,13 @@ public class MinigameHighscore implements Json.Serializable {
      * @return The high score for the minigame, or 0 if no score is available.
      */
     public int getHighScore(String minigameName) {
-        return highScores.getOrDefault(minigameName, 0);
+        return highscores.getOrDefault(minigameName, 0);
     }
 
     @Override
     public void write(Json json) {
         json.writeObjectStart("highScores");
-        for (Map.Entry<String, Integer> entry : highScores.entrySet()) {
+        for (Map.Entry<String, Integer> entry : highscores.entrySet()) {
             json.writeValue(entry.getKey(), entry.getValue());
         }
         json.writeObjectEnd();
@@ -48,7 +48,7 @@ public class MinigameHighscore implements Json.Serializable {
             for (JsonValue scoreEntry : highScoresData) {
                 String minigameName = scoreEntry.name;
                 int score = scoreEntry.asInt();
-                highScores.put(minigameName, score);
+                highscores.put(minigameName, score);
             }
         }
     }
@@ -59,7 +59,7 @@ public class MinigameHighscore implements Json.Serializable {
      * @return A map containing all the high scores.
      */
     public Map<String, Integer> getAllHighScores() {
-        return highScores;
+        return highscores;
     }
 
 }

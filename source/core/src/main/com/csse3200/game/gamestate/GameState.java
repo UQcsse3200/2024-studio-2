@@ -20,7 +20,7 @@ public class GameState {
 
     public static StatSave stats = new StatSave();
 
-    public static MinigameHighscore minigameHighScore = new MinigameHighscore();
+    public static MinigameHighscore minigame = new MinigameHighscore();
 
     /**
      * Clears the contents of the GameState
@@ -31,6 +31,6 @@ public class GameState {
 
     public static boolean checkState() {
         return (quests == null || inventory == null || player == null
-                || stats == null || minigameHighScore == null);
+                || stats == null || minigame == null);
     }
 }
