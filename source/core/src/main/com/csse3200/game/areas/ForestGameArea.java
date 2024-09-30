@@ -262,7 +262,7 @@ public class ForestGameArea extends GameArea {
     
     private void spawnItems(GridPoint2 pos) {
         Supplier<Entity> generator;
-        
+
         // Health Potions
         generator = () -> ItemFactory.createHealthPotion(player);
         spawnRandomItem(pos, generator, config.spawns.NUM_HEALTH_POTIONS);
@@ -302,7 +302,7 @@ public class ForestGameArea extends GameArea {
     
     private void spawnEnemies() {
         Supplier<Entity> generator;
-        
+
         // Chicken
         generator = () -> EnemyFactory.createChicken(player);
         spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
@@ -310,11 +310,11 @@ public class ForestGameArea extends GameArea {
         // Monkey
         generator = () -> EnemyFactory.createMonkey(player);
         spawnShooterEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
-        
+
         // Pigeon
         generator = () -> EnemyFactory.createPigeon(player);
         spawnRandomEnemy(generator, config.spawns.NUM_PIGEONS, 0.06);
-        
+
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
         spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
@@ -517,5 +517,9 @@ public class ForestGameArea extends GameArea {
     }
     public List<Entity> getEnemies() {
         return enemies;
+    }
+
+    public Map<Integer, Entity> getDynamicItems() {
+        return dynamicItems;
     }
 }
