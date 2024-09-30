@@ -25,13 +25,18 @@ public class GameState {
     public static StatSave stats = new StatSave();
 
     /**
-     * Clears the contents of the GameState
+     * Clears the contents of the GameState.
      */
     public static void resetState() {
         Logger logger = LoggerFactory.getLogger(GameState.class);
         logger.info("state is reset");
         SaveHandler.load(GameState.class, "defaultsaves", FileLoader.Location.INTERNAL);
     }
+
+    /**
+     * Checks whether GameState correctly loaded.
+     * @return a boolean to indicate whether GameState was correctly loaded.
+     */
 
     public static boolean checkState() {
         Logger logger = LoggerFactory.getLogger(GameState.class);
