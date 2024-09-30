@@ -20,9 +20,12 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Drawable;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A UI component responsible for displaying a mini map in the game. The mini map shows the
+ * player's position as a green dot and enemies as red dots. It updates in real time, showing
+ * the player's location and displaying enemies within a defined radius.
+ */
 public class MiniMapDisplay extends UIComponent {
-
     private Entity player;
     private List<Entity> enemies;
     private Texture miniMapBackground;
@@ -34,10 +37,19 @@ public class MiniMapDisplay extends UIComponent {
     private float miniMapY = 450;  // Minimap's Y position on the screen
     private int miniMapSize = 300;  // Size of the minimap
 
+    /**
+     * Constructor for the MiniMapDisplay component. It links the minimap to the current game area.
+     *
+     * @param gameArea The game area containing player and enemies data.
+     */
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
     }
 
+    /**
+     * Initializes the minimap, retrieves the player and enemy entities from the game area,
+     * and adds the visual elements to the stage.
+     */
     @Override
     public void create() {
         super.create();
@@ -45,6 +57,10 @@ public class MiniMapDisplay extends UIComponent {
         enemies = gameArea.getEnemies();
         addActors();
     }
+
+    /**
+     * Adds the visual components representing the player and enemies to the minimap.
+     */
     private void addActors() {
         initializeImages();
         stage.addActor(greenDotPointImage);
@@ -53,6 +69,10 @@ public class MiniMapDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Initializes the background of the minimap and creates images for the player (a green dot)
+     * and enemies (red dots).
+     */
     private void initializeImages() {
         Pixmap pixmap = new Pixmap(miniMapSize, miniMapSize, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
@@ -73,7 +93,13 @@ public class MiniMapDisplay extends UIComponent {
 
     }
 
-
+    /**
+     * Transfers an entity's world position to a minimap position based on the player's position
+     * with a scale factor to fit the world into the minimap.
+     *
+     * @param entity The entity whose position needs to be transferred to the minimap.
+     * @return The transformed position in minimap coordinates.
+     */
     private Vector2 transferToMiniMapPos(Entity entity) {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
@@ -87,16 +113,22 @@ public class MiniMapDisplay extends UIComponent {
         return enityMiniMapPos;
     }
 
+    /**
+     * Updates the minimap once per frame, moving the player's dot and the enemy dots
+     * based on their current positions.
+     * It hides enemy dots if they are outside the minimap's circular boundary.
+     */
     @Override
     public void update() {
         float centerX = miniMapX + miniMapSize / 2;
         float centerY = miniMapY + miniMapSize / 2;
         float minimapRadius = miniMapSize / 2;
+
         //Update green point position (player in minimap)
         Vector2 playerMiniMapPos = transferToMiniMapPos(player);
         greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
-        //Update red points position (enemies in minimap)
 
+        //Update red points position (enemies in minimap)
         for (int i = 0; i < enemies.size(); i++) {
             Entity enemy = enemies.get(i);
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
@@ -115,6 +147,12 @@ public class MiniMapDisplay extends UIComponent {
         // Try to take check enemies and put to the minimap
 
     }
+
+    /**
+     * Draws the minimap on the screen.
+     *
+     * @param batch The SpriteBatch used for drawing.
+     */
     @Override
     protected void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
