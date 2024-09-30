@@ -1,9 +1,10 @@
 package com.csse3200.game.components.mainmenu;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,16 +19,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * A UI component for displaying the Main menu.
@@ -57,6 +62,10 @@ public class MainMenuDisplay extends UIComponent {
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
+    private Image owlImage;
+    private Sound owlSound;
+    private Label factLabel;
+    private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
@@ -100,6 +109,8 @@ public class MainMenuDisplay extends UIComponent {
         addActors();
         animateAnimals();
         applyUserSettings();
+        setupOwlFacts();
+        addOwlToMenu(); // Add owl to the menu
     }
 
     /**
@@ -137,7 +148,54 @@ public class MainMenuDisplay extends UIComponent {
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
+        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
+        Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
+        owlImage = new Image(owlTexture); // Create owl image actor
     }
+    // Add owl facts
+    private void setupOwlFacts() {
+        owlFacts = new String[] {
+                "A dogs nose print is as unique as a human fingerprint.",
+                "Crocodiles have been around for over 200 million years!",
+                "Some birds, like the Arctic Tern, migrate over 40,000 miles a year.",
+                "Dogs can understand up to 250 words and gestures.",
+                "Crocs can gallop on land like a horse for short bursts!",
+                "The owl can rotate its head 270 degrees without moving its body.",
+                "Dogs can smell diseases like cancer and diabetes!",
+                "A crocodiles bite is the strongest in the animal kingdom.",
+                "Parrots can mimic human speech better than any other animal.",
+                "A Greyhound can reach speeds of 45 mph!",
+                "The heart of a hummingbird beats over 1,200 times per minute!"
+        };
+    }
+    private void addOwlToMenu() {
+        // Set owl initial position
+        owlImage.setPosition(1720, 150);// Adjust the position as needed
+        owlImage.setSize(200,300);
+        stage.addActor(owlImage);
+
+        // Create label for displaying facts
+        factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
+        factLabel.setPosition(1400,130 ); // Position it near the owl
+        factLabel.setFontScale(1f);
+        stage.addActor(factLabel);
+
+        // Add click listener for the owl
+        owlImage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                owlSound.play(); // Play owl sound
+                String randomFact = owlFacts[MathUtils.random(0, owlFacts.length - 1)]; // Get random fact
+                factLabel.setText(randomFact); // Set fact text
+                factLabel.addAction(Actions.sequence(
+                        Actions.alpha(1), // Ensure it's visible
+                        Actions.delay(3), // Keep it visible for 3 seconds
+                        Actions.alpha(0, 1) // Fade out after
+                ));
+            }
+        });
+    }
+
 
     /**
      * Applies user settings to the game.
@@ -600,7 +658,7 @@ public class MainMenuDisplay extends UIComponent {
      * Displays the help window with slides for game instructions.
      */
     private void showHelpWindow() {
-        final int NUM_SLIDES = 5;
+        final int NUM_SLIDES = 7;
         final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
         final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
 
@@ -622,7 +680,10 @@ public class MainMenuDisplay extends UIComponent {
         slideInstances[1] = new Slides.CombatSlide(skin);
         slideInstances[2] = new Slides.StorylineSlide(skin);
         slideInstances[3] = new Slides.MinigamesSlide(skin);
-        slideInstances[4] = new Slides.StatsSlide(skin);
+        slideInstances[4] = new Slides.Minigames1Slide(skin);
+        slideInstances[5] = new Slides.Minigames2Slide(skin);
+        slideInstances[6] = new Slides.StatsSlide(skin);
+
 
         // Add the first slide to the slideTable
         slideTable.add(slideInstances[0]).expand().fill().row();

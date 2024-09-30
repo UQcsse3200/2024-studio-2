@@ -163,6 +163,26 @@ public class Slides {
         }
     }
 
+    public static class Minigames1Slide extends Table {
+        public Minigames1Slide(Skin skin) {
+            Label titleLabel = new Label("Birdie Minigame",skin, "title");
+            Label keysLabel = new Label("info coming soon",skin);
+            add(titleLabel).padTop(10f).expandX().center().row();
+            add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
+            padBottom(-200f);
+        }
+    }
+    public static class Minigames2Slide extends Table {
+        public Minigames2Slide(Skin skin) {
+            Label titleLabel = new Label("Underwatermaze Minigame",skin, "title");
+            Label keysLabel = new Label("info coming soon",skin);
+            add(titleLabel).padTop(10f).expandX().center().row();
+            add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
+            padBottom(-200f);
+        }
+    }
+
+
     /**
      * Slide displaying Stats information.
      */
