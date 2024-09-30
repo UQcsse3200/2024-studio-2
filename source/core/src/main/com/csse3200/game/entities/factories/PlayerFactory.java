@@ -63,7 +63,6 @@ public class PlayerFactory {
         moveSet.add(new SleepMove("Player Sleep", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
-
         player.addComponent(new PlayerActions(game, player, imagePath));
 
         // Set different stats for each animal type
@@ -100,7 +99,7 @@ public class PlayerFactory {
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
-        player.getComponent(QuestManager.class).loadQuests();
+//        player.getComponent(QuestManager.class).loadQuests();
 
         LightingComponent light = new LightingComponent(LightingComponent.createPointLight(4f, Color.CORAL));
         light.getLight().setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));

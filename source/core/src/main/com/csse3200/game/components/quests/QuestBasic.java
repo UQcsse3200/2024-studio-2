@@ -9,7 +9,7 @@ public class QuestBasic extends AbstractQuest {
     /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
      *  and completion triggers (messages to send on completion). */
     public QuestBasic(String questName, String questDescription, List<Task> tasks,
-                      Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue,
+                      Boolean isSecretQuest, List<DialogueKey> dialogue,
                       String[] taskCompletionTriggers, boolean active, boolean failed,
                       int currentTaskIndex) {
         super(questName, questDescription, tasks, isSecretQuest, dialogue,

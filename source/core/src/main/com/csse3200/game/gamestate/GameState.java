@@ -37,4 +37,17 @@ public class GameState {
         logger.info("states: {} {} {} {}", quests, inventory, player, stats);
         return (quests == null || inventory == null || player == null || stats == null);
     }
+
+    /**
+     * Clears all the GameState contents and resets them to their original state.
+     */
+    public static void clearState() {
+        quests = new QuestSave();
+
+        inventory = new InventorySave();
+
+        player = new PlayerSave();
+
+        stats = new StatSave();
+    }
 }

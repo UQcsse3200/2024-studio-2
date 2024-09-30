@@ -2,6 +2,8 @@ package com.csse3200.game.components.quests;
 
 import com.csse3200.game.entities.Entity;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public abstract class AbstractQuest {
      * DialogueKey(String npcName, Integer ProgressionLevel)
      * to a dialogue map relevant to the npc
      */
-    private final Map<DialogueKey,String[]> questDialogue;
+    private List<DialogueKey> questDialogue;
     /**
      * Number of tasks completed for current quest.
      */
@@ -47,7 +49,7 @@ public abstract class AbstractQuest {
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, Map<DialogueKey, String[]> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -58,6 +60,7 @@ public abstract class AbstractQuest {
         this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
         this.taskCompletionTriggers = taskCompletionTriggers;
+
     }
 
     /** Returns quest name. */
@@ -66,11 +69,12 @@ public abstract class AbstractQuest {
     }
     /** Returns task array for quest subtasks. */
     public List<Task> getTasks() {
-        return tasks;
+        return this.tasks;
     }
+
     /** Returns true if quest is completed. */
     public boolean isQuestCompleted() {
-        return currentTaskIndex >= tasks.size() && tasks.stream().allMatch(Task::isCompleted);
+        return currentTaskIndex >= tasks.size();
     }
     /** Returns number of quest subtasks completed. */
     public int getProgression() {
@@ -119,10 +123,12 @@ public abstract class AbstractQuest {
             }
         }
     }
+
     /** Returns true if quest is failed. */
     public boolean isFailed() {
         return this.isFailed;
     }
+
     /** Earmarks quest as having failed.*/
     public void failQuest() {
         this.isActive = false;
@@ -160,13 +166,8 @@ public abstract class AbstractQuest {
         return isActive;
     }
 
-    /** Returns the current quest dialogue for the given npc */
-    public String[] getDialogue(String npcName) {
-        if (!npcName.isEmpty() && !questDialogue.isEmpty()) {
-            return questDialogue.get(new DialogueKey(npcName, getProgression()));
-        }
-        return new String[]{};
-    }
+    public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
+    public void setQuestDialogue(List<DialogueKey> key) { questDialogue = key; }
 
 }

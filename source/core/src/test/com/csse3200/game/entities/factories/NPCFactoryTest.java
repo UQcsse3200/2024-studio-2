@@ -267,9 +267,8 @@ class NPCFactoryTest {
         String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
         Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
-                "We will be your guides",
-                "but before you can roam free...",
-                "you must complete the first steps and 2 step quests."}});
+                "Complete your first quest",
+               }});
     }
 
     /**

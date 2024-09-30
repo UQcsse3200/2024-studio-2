@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.GdxGameManager;
 import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.components.quests.QuestManager;
 
 import static com.csse3200.game.components.minigames.MiniGameNames.*;
 

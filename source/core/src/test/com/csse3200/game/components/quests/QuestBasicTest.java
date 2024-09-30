@@ -17,8 +17,16 @@ class QuestBasicTest { // Also tests AbstractQuest class
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5, 0, false, false);
 
         // Create the quest with the task
-        quest = new QuestBasic("First Steps","Take your first steps in this world!", List.of(stepsTask),
-                false,null,null, true, false, 0);
+        quest = new QuestBasic("First Steps",
+
+                "Take your first steps in this world!",
+                List.of(stepsTask),
+                false,
+                null,
+                null,
+                true,
+                false,
+                0);
     }
 
     @Test
@@ -37,18 +45,18 @@ class QuestBasicTest { // Also tests AbstractQuest class
     }
 
     @Test
-    void basicQuestFalseCompletion(){
+    void basicQuestCompletion(){
         Entity player = new Entity();
         quest.progressQuest(player);
-        assertFalse(quest.isQuestCompleted());
+        assertTrue(quest.isQuestCompleted());
         assertEquals("First Steps", quest.getQuestName());
         assertEquals("Take your first steps in this world!", quest.getQuestDescription());
-        assertEquals("QUEST NOT COMPLETED", quest.getCurrentTaskDescription());
-        assertEquals("QUEST NOT COMPLETED", quest.getCurrentTaskHint());
+        assertNotEquals("QUEST NOT COMPLETED", quest.getCurrentTaskDescription());
+        assertNotEquals("QUEST NOT COMPLETED", quest.getCurrentTaskHint());
         assertEquals(1, quest.getProgression());
         assertEquals(0, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
-        assertTrue(quest.isActive());
+        assertFalse(quest.isActive());
         assertFalse(quest.isSecret());
     }
 

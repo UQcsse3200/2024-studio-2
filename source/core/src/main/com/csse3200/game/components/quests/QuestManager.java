@@ -12,6 +12,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.GdxGameManager;
 
 
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ import static com.csse3200.game.components.quests.AchievementManager.saveAchieve
  */
 public class QuestManager extends Component {
     /** Map to store quests. */
-    private final HashMap<String, QuestBasic> quests;
+    private final LinkedHashMap<String, QuestBasic> quests;
      /** Array to store achievements. */
      private final Array<Achievement> achievements;
     /** Logger for logging quest related attributes. */
@@ -41,151 +42,266 @@ public class QuestManager extends Component {
 
     private final Entity player;
 
-    private final DialogueBoxService dialogueBoxService;
-
+//    private final DialogueBoxService dialogueBoxService;
+//    private final List<DialogueKey> questDialogues;
 
 
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
-        this.quests = new HashMap<>();
+        this.quests = new LinkedHashMap<>();
         this.player = player;
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
         );
-        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
+//        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
+        // TODO: check if it works
         player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
+        createQuestDialogues();
+
     }
 
+    //change some description and things later on
+    //do potions need 5 triggers???
     /**
      * Sets up the tasks for the quests and dialogues.
      */
 
-    private Task[] createTasks() {
-        Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 1, 0, false, false);
-        Task attackTask = new Task("attack", "Swing your first sword", "Just Attack!", 1, 0, false, false);
-        Task testKangaTask = new Task("spawnKangaBoss", "He is Coming...", "RUN", 1, 0, false, false);
-        Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
-        Task followCowsTeachings = new Task("followCowsTeachings", "Complete further quests", "Complete first steps and 2 step quest or a combat quest", 1, 0, false, false);
-        Task collectPotions = new Task("item collection task successful", "Collect Potions", "Collect 5 defense potions scattered around the kingdom.", 1, 0, false, false);
-        Task listenAdvice = new Task("listenToGuide", "Visit cow again", "Go visit the cow!", 1, 0, false, false);
-        Task exploreWild = new Task("exploration", "Explore and ask around", "Ask other animals about Kanga!", 1, 1, false, false);
-        Task retrieveWeapon = new Task("retrieveWeapon", "Complete the minigame", "Play the snake minigame!", 1, 0, false, false);
+    private Task[] createAnimalTasks() {
+        Task talkToGuide = new Task(
+                "talkToGuide",
+                "Talk to the Guide",
+                "Speak with the Guide to begin your adventure.",
+                1, 0, false, false
+        );
+
+        Task collectPotions = new Task(
+                "collectPotions",
+                "Collect Potions",
+                "Find 5 defense potions scattered throughout the kingdom.",
+                1, 0, false, false
+        );
+
+        Task defeatEnemies = new Task(
+                "defeatEnemies",
+                "Defeat the Enemies",
+                "Defeat the creatures threatening the kingdom.",
+                1, 0, false, false
+        );
+
+        Task playSnakeMinigame = new Task(
+                "playSnakeMinigame",
+                "Play the Snake Minigame",
+                "Complete the minigame to retrieve the Eucalyptus sword.",
+                1, 0, false, false
+        );
+
+        Task defeatKangarooBoss = new Task(
+                "defeatKangarooBoss",
+                "Defeat the Kangaroo Boss",
+                "Face the Kangaroo Boss to bring peace to the kingdom.",
+                1, 0, false, false
+        );
 
         return new Task[] {
-                stepsTask, attackTask, testKangaTask, talkToGuide, followCowsTeachings,
-                collectPotions, listenAdvice, exploreWild, retrieveWeapon
+                talkToGuide, collectPotions, defeatEnemies, playSnakeMinigame, defeatKangarooBoss
         };
     }
 
-    /**Sets up the dialogue for quests. */
-    private Map<DialogueKey, String[]> createQuestDialogues() {
-
-        String[] cowInitialDialogue = {
-                "Moo there, adventurer! Welcome to the kingdom.",
-                "We’ll be your guides but before you can roam free you must complete the first steps and 2 step quests."
-        };
-        String[] cowAdviceDialogue = {
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] potionDialogue = {
-                "I need five potions! They’re scattered around. Keep your eyes peeled."
-        };
-        String[] listenDialogue = {
-                "Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom."
-        };
-        String[] exploreDialogue = {
-                "Oh the Kanga? Yeah, he was once a sweet little joey. Hard to imagine he’d go to the dark side.",
-                "Word on the street is he snapped after his wife and daughter died in the flood.",
-                "Rumour has it, a peacock pushed them off the boat! No wonder he’s on a rampage.",
-                "That peacock? The first animal Kanga defeated. After that, it was duel city. Kanga beat all the top animals. Now? No one dares to mess with him."
-        };
-
-        return Map.of(new DialogueKey("Cow", 1), cowInitialDialogue,
-                new DialogueKey("Cow", 2), cowAdviceDialogue,
-                new DialogueKey("Cow", 3), potionDialogue,
-                new DialogueKey("Cow", 4), listenDialogue
+    private Task[] createWaterTasks() {
+        Task talkToWaterSage = new Task(
+                "talkToWaterSage",
+                "Talk to the Water Sage",
+                "Speak with the Water Sage to gain their trust and begin your quest.",
+                1, 0, false, false
         );
 
+        Task collectSeaPearls = new Task(
+                "collectSeaPearls",
+                "Collect Sea Pearls",
+                "Find six Sea Pearls hidden around for the Water Sage's research.",
+                1, 0, false, false
+        );
+
+        Task defeatSeaCreatures = new Task(
+                "defeatSeaCreatures",
+                "Defeat the Sea Creatures",
+                "Show your strength by defeating the hostile sea creatures in the Water Kingdom.",
+                1, 0, false, false
+        );
+
+        Task completeFlappyMinigame = new Task(
+                "completeFlappyMinigame",
+                "Complete the Flappy Bird Minigame",
+                "Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!",
+                1, 0, false, false
+        );
+
+        Task defeatWater = new Task(
+                "defeatWater",
+                "Defeat the Water Boss",
+                "Prepare yourself and face the Water Boss to protect the kingdom.",
+                1, 0, false, false
+        );
+
+        return new Task[] {
+                talkToWaterSage, collectSeaPearls, defeatSeaCreatures, completeFlappyMinigame, defeatWater
+        };
+
+    }
+
+    private Task[] createSkyTasks() {
+        Task talkToCloudSage = new Task(
+                "talkToCloudSage",
+                "Talk to the Cloud Sage",
+                "Speak with the Cloud Sage to begin your quest in the Sky Kingdom.",
+                1, 0, false, false
+        );
+
+        Task collectSkyCrystals = new Task(
+                "collectSkyCrystals",
+                "Collect Sky Crystals",
+                "Gather seven Sky Crystals for the Cloud Sage.",
+                1, 0, false, false
+        );
+
+        Task defeatFlyingBeasts = new Task(
+                "defeatFlyingBeasts",
+                "Defeat the Flying Beasts",
+                "Prove your bravery by facing the flying beasts that roam the skies.",
+                1, 0, false, false
+        );
+
+        Task completeGame = new Task(
+                "completeTempestMinigame",
+                "Calm the Tempests Minigame",
+                "Complete the minigame to go onto your next quest!",
+                1, 0, false, false
+        );
+
+        Task defeatSkySeraph = new Task(
+                "defeatSkySeraph",
+                "Defeat the Sky Seraph",
+                "Prepare yourself and confront the Sky Seraph in an epic battle!",
+                1, 0, false, false
+        );
+
+        return new Task[] {
+                talkToCloudSage, collectSkyCrystals, defeatFlyingBeasts, completeGame, defeatSkySeraph
+        };
     }
 
     /**
-     * Adds quests to the game's quest list by creating new `QuestBasic` instances.
-     * @param tasks An array of objects that represent the tasks to be added to the quest.
-     * @param guideQuestDialogues A map where the keys instance and the values
-     *                             are arrays of strings representing the dialogues associated with the quest.
+     * Retrieves the map of quest dialogues.
+     *
+     * @return a map where the key is of type DialogueKey and the value is a 2D array of strings representing questName and Dialogue.
      */
-    private void addQuests(Task[] tasks, Map<DialogueKey, String[]> guideQuestDialogues) {
-        // Add new tasks to a quest
-        List<Task> firstStepsTasks = new ArrayList<>(List.of(tasks[0]));
-        QuestBasic firstStepsQuest = new QuestBasic("First Steps", "Take your first steps in this world!", firstStepsTasks, false, null, null, false, false, 0);
-        GameState.quests.quests.add(firstStepsQuest);
+//    public List<DialogueKey> getQuestDialogues() {
+//        return this.questDialogues;
+//    }
 
-        List<Task> talkingQuest = new ArrayList<>(List.of(tasks[3]));
-        QuestBasic guideQuest = new QuestBasic("Guide's Intro", "Follow the guide's teachings to start your journey.", talkingQuest, false, guideQuestDialogues, null, false, false, 0);
-        addQuest(guideQuest);
-        GameState.quests.quests.add(guideQuest);
+    //change names later on
+    /**
+     * Sets up the dialogue for quests.
+     */
 
-        List<Task> followQuest = new ArrayList<>(List.of(tasks[4]));
-        QuestBasic guideQuest2 = new QuestBasic("Teachings", "Follow the cow's teachings and complete further quests.", followQuest, false, guideQuestDialogues, null, false, false, 0);
-        addQuest(guideQuest2);
-        GameState.quests.quests.add(guideQuest2);
+    //needs to be changed depending on biome
+    private List<DialogueKey> createQuestDialogues() {
 
-        List<Task> potionQuest = new ArrayList<>(List.of(tasks[5]));
-        QuestBasic guideQuest3 = new QuestBasic("Potion Collection", "Collect 5 defense potions scattered around the kingdom.", potionQuest, false, guideQuestDialogues, null, false, false, 0);
-        setupPotionsTask(); // Set up potion collection logic here
-        addQuest(guideQuest3);
-        GameState.quests.quests.add(guideQuest3);
+        List<DialogueKey> dialogues = new ArrayList<>();
 
-        List<Task> listenQuest = new ArrayList<>(List.of(tasks[6]));
-        QuestBasic guideQuest4 = new QuestBasic("Guide's Advice", "Listen to the guide's advice to progress further.", listenQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest4);
-        GameState.quests.quests.add(guideQuest4);
 
-        List<Task> exploreQuest = new ArrayList<>(List.of(tasks[7]));
-        QuestBasic guideQuest5 = new QuestBasic("Exploration", "Explore the kingdom and gather information about Kanga.", exploreQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest5);
-        GameState.quests.quests.add(guideQuest5);
+        String[][] cowInitialDialogue = {
+                {"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide. To prove your worth, you’ll need to complete a few tasks. Are you ready?"}
+        };
 
-        List<Task> retrieveQuest = new ArrayList<>(List.of(tasks[8]));
-        QuestBasic guideQuest6 = new QuestBasic("Weapon Retrieval", "Retrieve a weapon by completing the snake minigame.", retrieveQuest, false, null, null, false, false, 0);
-        addQuest(guideQuest6);
-        GameState.quests.quests.add(guideQuest6);
 
-        String[] test2StepCompletionTriggers = {"", "spawnKangaBoss"};
-        String[] test2StepTextProg1 = {"Welcome to Animal Kingdom!", "Here let me help with your quest...", "Press Spacebar!"};
-        String[] test2StepTextProg2 = {"Yippeee!", "You completed your Quest!"};
-        List<Task> twoTaskQuestTasks = new ArrayList<>(List.of(tasks[0], tasks[1]));
-        Map<DialogueKey, String[]> test2TaskQuestDialogues = Map.of(
-                new DialogueKey("Cow", 1), test2StepTextProg1,
-                new DialogueKey("Cow", 2), test2StepTextProg2
-        );
-        QuestBasic twoTaskQuest = new QuestBasic("2 Task Quest", "Move then Attack for a Test Quest", twoTaskQuestTasks, false, test2TaskQuestDialogues, test2StepCompletionTriggers, false, false, 0);
-        GameState.quests.quests.add(twoTaskQuest);
+        String[][] potionDialogue = {
+                {"I need five potions to help our people! They’re scattered throughout the kingdom. Can you find them?"}
+        };
 
-        // Create 2 task quest
-        List<Task> finalQuestTasks = new ArrayList<>(List.of(tasks[2], tasks[0], tasks[1]));
-        QuestBasic finalQuest = new QuestBasic("Final Boss", "Complete quest 1 and 2 to summon the boss", finalQuestTasks, false, null, null, false, false, 0);
-        GameState.quests.quests.add(finalQuest);
 
+        String[][] defeatEnemiesDialogue = {
+                {"Defeat the wild creatures that threaten the peace of our land."}
+        };
+
+
+        String[][] snakeMinigameDialogue = {
+                {"Help the snake eat apples to train for your upcoming final battle!"}  // Alternate dialogue for the minigame
+        };
+
+
+        String[][] kangaBossDialogue = {
+                {"Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom."}
+        };
+
+        String[][] talkToWSageDialogue = {
+                {"Greetings, brave adventurer! You’ve entered the Water Kingdom. To gain my trust, you must complete some essential tasks."}
+        };
+
+        String[][] seaPearlsDialogue = {
+                {"I need six Sea Pearls for my research. They’re hidden in the underwater caverns. Can you help me?"}
+        };
+
+        String[][] skyEnemiesDialogue = {
+                {"Watch out for hostile sea creatures! Defeat them to show your strength."}
+        };
+
+        String[][] secondMinigameDialogue = {
+                {"Play the flappy bird minigame to unlock the next stage of your quest!"}
+        };
+
+        String[][] defeatSkyBossDialogue = {
+                {"Once you’re ready, face the Water Leviathan and protect our kingdom. Good luck, brave adventurer!"}
+        };
+
+        String[][] talkToSSage = {
+                {"Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph."}
+        };
+
+        String[][] collectSkyCrystalsDialogue = {
+                {"I need seven Sky Crystals that drift on the winds. Will you help me gather them?"}
+        };
+
+        String[][] defeatFlyingBeasts = {
+                {"Face the flying beasts that roam the skies to prove your bravery."}
+        };
+
+        String[][] MinigameDialogue = {
+                {"..."}
+        };
+
+        String[][] defeatWaterBossDialogue = {
+                {"When you’re prepared, confront the Sky Seraph in an epic battle!"}
+        };
+
+
+        dialogues.add(new DialogueKey("Cow", cowInitialDialogue));
+        dialogues.add(new DialogueKey("Cow", potionDialogue));
+        dialogues.add(new DialogueKey("Cow", defeatEnemiesDialogue));
+        dialogues.add(new DialogueKey("Cow", snakeMinigameDialogue));
+        dialogues.add(new DialogueKey("Cow", kangaBossDialogue));
+
+
+
+        return dialogues;
     }
 
-    /** Creates all tests for quests and dialogues */
-    private void testQuests() {
-        Task[] tasks = createTasks();
-        Map<DialogueKey, String[]> questDialogues = createQuestDialogues();
-        addQuests(tasks, questDialogues);
 
-    }
 
     /** Setup potion collection task listener.
      * Note: limitation on item collection - 1 item collection per kingdom
      *      w completion string "item collection task successful"  */
     private void setupPotionsTask() {
-        Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
-        inventory.questItemListen("Defense Potion", 5);
+        try {
+            Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
+            inventory.questItemListen("Defense Potion", 5, "collectPotions");
+        } catch (NullPointerException nullPointerException) {
+            // Ignore
+        }
+
     }
 
 
@@ -249,7 +365,7 @@ public class QuestManager extends Component {
      */
 
     public void addQuest(QuestBasic quest) {
-        quests.put(quest.getQuestName(), quest);
+        this.quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
     
@@ -259,14 +375,15 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-//        if(GameState.quests == null) {
-//            GameState.quests = new QuestSave();
-//        }
-        if(GameState.quests.quests.isEmpty()) {
-            testQuests();
-        }
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
+            logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
+
+            // Setup potion collection task is not completed already in saved GameState
+            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
+                setupPotionsTask();
+            }
+
         }
     }
 
@@ -383,5 +500,8 @@ public class QuestManager extends Component {
         saveAchievements(achievements,"saves/achievements.json");
         super.dispose();
     }
+
+
+
 
 }

@@ -11,6 +11,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -109,6 +110,13 @@ public class ForestGameArea extends GameArea {
       //Initialise inventory and quests with loaded data
       player.getComponent(InventoryComponent.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
+
+      ArrayList<DialogueKey> testList = new ArrayList<>();
+      testList.add(new DialogueKey("Cow", new String[][] {{"Hello"}}));
+
+    player.getComponent(QuestManager.class).getAllQuests().getFirst().setQuestDialogue(
+            testList
+    );
   }
 
   private void handleNewChunks(Vector2 playerPos) {

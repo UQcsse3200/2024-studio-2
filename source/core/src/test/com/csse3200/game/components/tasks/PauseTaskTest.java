@@ -3,7 +3,15 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.quests.QuestManager;
+import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.physics.PhysicsLayer;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -19,10 +27,12 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,12 +42,24 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class PauseTaskTest {
     ResourceService resourceService;
+    private static final NPCConfigs configs =
+            FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+    private static String[] textures = {
+            "images/Cow.png",
+    };
+
+    private static String[] atlas = {
+            "images/Cow.atlas",
+    };
+
+    private static String[] sounds = {
+            "sounds/QuestComplete.wav", "sounds/achievement-sound.mp3", "sounds/mooing-cow.wav"
+    };
 
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();
         resourceService = new ResourceService();
-        resourceService.loadSounds(new String[]{"sounds/QuestComplete.wav"});
 
         // Mock RenderService and set DebugRenderer mock
         RenderService renderService = mock(RenderService.class);
@@ -62,6 +84,11 @@ class PauseTaskTest {
         DialogueBoxService dialogueBoxService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(dialogueBoxService);
 
+        resourceService.loadTextures(textures);
+        resourceService.loadTextureAtlases(atlas);
+        resourceService.loadSounds(sounds);
+        resourceService.loadAll();
+
         while (!resourceService.loadForMillis(10)) {
             continue;
         }
@@ -76,8 +103,6 @@ class PauseTaskTest {
     void shouldMoveTowardsTarget() {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
-        NPCConfigs configs =
-                FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
         AITaskComponent ai = new AITaskComponent()
                 .addTask(new PauseTask(target, 10, 5, 2, false))
@@ -145,5 +170,37 @@ class PauseTaskTest {
         target.setPosition(0f, 12f);
         entity.update();
         assertTrue(pauseTask.getPriority() < 0, "Priority should be negative after moving out of view distance");
+    }
+
+    @Test
+    void shouldDisplayCorrectDialogue() {
+        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
+        Entity player =
+                new Entity()
+                        .addComponent(new CameraZoomComponent())
+                        .addComponent(new PhysicsComponent(true))
+                        .addComponent(new ColliderComponent())
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+
+        SaveHandler.load(GameState.class, "defaultsaves");
+
+        QuestManager questManager = new QuestManager(player);
+        player.addComponent(questManager);
+
+        questManager.loadQuests();
+        player.setPosition(2f, 2f);
+        player.create();
+
+        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
+        cow.setPosition(1.5f, 1.5f);
+        cow.create();
+
+        cow.update();
+
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.";
+
+        String hintDialogue = dialogueBox.getLabel().getText().toString();
+        assertEquals(cowInitialDialogue, hintDialogue);
+        dialogueBox.handleForwardButtonClick();
     }
 }

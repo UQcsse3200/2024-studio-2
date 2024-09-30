@@ -31,6 +31,8 @@ public class Inventory implements InventoryInterface {
     private String questItem;
     /* Name of an item being searched for - used for quests */
     private int questItemCount;
+    /* The item collection task trigger. */
+    private String collectionTrigger;
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -471,13 +473,20 @@ public class Inventory implements InventoryInterface {
     }
 
     // Quests additions - starting here
+
     /** Inventory listen for quests item collection tasks
      * @param itemName - the item name that will be listened for
      * @param quantity - the number of item occurrences required for
      *                 the quest to be completed. */
-    public void questItemListen(String itemName, int quantity){
+    public void questItemListen(String itemName, int quantity, String collectionTrigger){
         this.questItem = itemName;
         this.questItemCount = quantity;
+        this.collectionTrigger = collectionTrigger;
+    }
+
+    /** @return trigger string upon completion of item collection task. */
+    public String getCollectionTrigger() {
+        return collectionTrigger;
     }
 
     /** Quests item collection completion - used to send out "items collected"
