@@ -1,4 +1,4 @@
-bear.png
+enemy-bear.png
 size: 621, 380
 format: RGBA8888
 filter: Nearest,Nearest
