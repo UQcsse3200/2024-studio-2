@@ -19,6 +19,7 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
+import com.csse3200.game.components.audio.AirAnimalSoundPlayer;
 
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
@@ -31,6 +32,7 @@ public class PlayerActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
   private DogSoundPlayer dogSoundPlayer;
+  private AirAnimalSoundPlayer airAnimalSoundPlayer;
   private final String selectedAnimal;
   private final GdxGame game;
 
@@ -59,6 +61,12 @@ public class PlayerActions extends Component {
       Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
       dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
     }
+
+    if ("images/bird.png".equals(selectedAnimal)) {
+      Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
+      Sound screechSound = ServiceLocator.getResourceService().getAsset("sounds/animal/birdscreech.mp3", Sound.class);
+      airAnimalSoundPlayer = new AirAnimalSoundPlayer(flappingSound, screechSound);
+    }
   }
 
   /**
@@ -82,6 +90,11 @@ public class PlayerActions extends Component {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.updatePantingSound(moving, 1.0f);
     }
+
+    if (airAnimalSoundPlayer != null) {
+      airAnimalSoundPlayer.updateFlappingSound(moving, 1.0f);
+    }
+
     if (moving) {
       updateSpeed();
     }
@@ -115,6 +128,11 @@ public class PlayerActions extends Component {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound(1.0f);
     }
+
+    if (airAnimalSoundPlayer != null) {
+      airAnimalSoundPlayer.playScreechSound(1.0f);
+    }
+
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
     player.getEvents().trigger("attackTask");

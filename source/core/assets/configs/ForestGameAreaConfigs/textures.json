@@ -170,7 +170,8 @@
     "images/foodtextures/candy.png",
     "images/potiontexture/speed.png",
     "images/potiontexture/defense.png",
-    "images/potiontexture/attack.png"
+    "images/potiontexture/attack.png",
+    "images/wolf.png"
   ],
   "forestTextureAtlases" : [
     "images/terrain_iso_grass.atlas",
@@ -189,6 +190,7 @@
     "images/final_boss_kangaroo.atlas",
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
-    "images/enemy-chicken.atlas"
+    "images/enemy-chicken.atlas",
+    "images/wolf.atlas"
   ]
 }
