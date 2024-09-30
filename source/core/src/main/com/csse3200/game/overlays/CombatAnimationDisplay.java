@@ -40,26 +40,28 @@ public class CombatAnimationDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        // addActors();
     }
 
+    /**
+     * Initialise the intended animation passed as an animationType from the
+     * combat manager class based on chosen / randomised player or enemy attack
+     */
     public void initiateAnimation(CombatManager.AnimationType animationType){
         create();
+
         if (animationType == CombatManager.AnimationType.ATTACK){
             attackAnimation();
         } else if (animationType == CombatManager.AnimationType.GUARD) {
-            // guardAnimation();
+            guardAnimation();
         } else if (animationType == CombatManager.AnimationType.SLEEP) {
             sleepAnimation();
         }
     }
 
     /**
-     * Adds the image and other components to the stage.
+     * Triggers general sleep animation when sleeping action chosen by either
+     * player or enemy
      */
-    private void addActors() {
-    }
-
     public void sleepAnimation(){
         Texture sleepTexture = ServiceLocator.getResourceService()
                 .getAsset("images/zzz.png", Texture.class);
@@ -100,67 +102,78 @@ public class CombatAnimationDisplay extends UIComponent {
                 sleepImage.setVisible(false);
             }
         }, 2000);
-
-        // 1 second
-//        sleepImage.addAction(
-//                sequence(
-//                    fadeIn(1f, Interpolation.fade),
-//                    fadeOut(1f, Interpolation.fade),
-////                    fadeIn(1f, Interpolation.fade),
-////                    fadeOut(1f, Interpolation.fade),
-//                    run(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            sleepImage.setVisible(false); // Make sure it's hidden at the end
-//                        }
-//                    })
-//                )
-//        );
     }
+
+    /**
+     * Triggers generalised guard animation when guard button pressed for all
+     * players/
+     */
 
     public void guardAnimation(){
-        Texture auraTexture = ServiceLocator.getResourceService()
-                .getAsset("images/guard.png", Texture.class);
 
-//        Texture auraTexture = ServiceLocator.getResourceService()
-//                .getAsset("images/guard_outside_in.png", Texture.class);
+        Texture guardTexture = ServiceLocator.getResourceService()
+                .getAsset("images/shield_flipped.png", Texture.class);
+        guardImage = new Image(guardTexture);
 
-        guardImage = new Image(auraTexture);
-        guardImage.setColor(1f, 1f, 1f, 0.2f); // Set initial opacity with alpha (RGBA)
-        guardImage.setScale(0.7f);
-        String animalPath = AnimalSelectionActions.getSelectedAnimalImagePath();
-        if (animalPath == "images/croc.png"){
-            guardImage.setPosition(348, 345);
-        } else if (animalPath == "images/dog.png"){
-            guardImage.setPosition(380, 340);
-        } else { //animal is bird
-            guardImage.setPosition(368, 370);
-        }
 
-        // Add the table to the stage
-        guardImage.setZIndex(10);
-        stage.addActor(guardImage);
+        float xZ = 750;
+        float yZ = 400;
+
+        guardImage.setPosition(xZ, yZ);
+        guardImage.setScale(0.5f);
+        guardImage.setColor(1f, 1f, 1f, 0.7f);
         guardImage.setVisible(true);
+        stage.addActor(guardImage);
         guardImage.clearActions();
+        guardImage.addAction(fadeIn(1f, Interpolation.fade));
 
-        // Set up actions: fade in, pulse effect, then fade out
-        guardImage.addAction(
-                sequence(
-                        fadeIn(0.3f), // Fade in over 0.2 seconds
-                        repeat(3, sequence(
-                                alpha(0.5f, 0.5f), // Increase opacity to 0.8 over 0.5 seconds
-                                alpha(0.2f, 0.5f)  // Decrease opacity to 0.2 over 0.5 seconds
-                        )),
-                        fadeOut(0.3f), // Fade out over 0.5 seconds
-                        run(new Runnable() {
-                            @Override
-                            public void run() {
-                                guardImage.setVisible(false); // Make sure it's hidden at the end
-                            }
-                        })
-                )
-        );
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                guardImage.setVisible(false);
+            }
+        }, 1200); // 1.2 second
+
     }
+
+    /**
+     * Triggers generalised guard animation when guard button pressed for all
+     * players/
+     */
+
+    public void enemyGuardAnimation(){
+
+        Texture guardTexture = ServiceLocator.getResourceService()
+                .getAsset("images/shield.png", Texture.class);
+        guardImage = new Image(guardTexture);
+
+
+        float xZ = 950;
+        float yZ = 410;
+
+        guardImage.setPosition(xZ, yZ);
+        guardImage.setScale(0.5f);
+        guardImage.setColor(1f, 1f, 1f, 0.7f);
+        guardImage.setVisible(true);
+        stage.addActor(guardImage);
+        guardImage.clearActions();
+        guardImage.addAction(fadeIn(1f, Interpolation.fade));
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                guardImage.setVisible(false);
+            }
+        }, 1200); // 1.2 second
+
+    }
+
+    /**
+     * Triggers the cat scratch animation generalised for all players upon the attack
+     * button being clicked
+     */
 
     public void attackAnimation(){
         Texture combatTexture = ServiceLocator.getResourceService()

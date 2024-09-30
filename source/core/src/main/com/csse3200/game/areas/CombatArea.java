@@ -75,6 +75,8 @@ public class CombatArea extends GameArea {
             "images/guard.png",
             "images/guard_outside_in.png",
             "images/zzz.png",
+            "images/shield.png",
+            "images/shield_flipped.png",
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
