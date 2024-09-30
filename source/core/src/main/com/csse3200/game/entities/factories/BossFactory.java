@@ -165,8 +165,7 @@ public class BossFactory {
             aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, true))
                     .addTask(new KangaJoeyTask(target, 6f, 2));
         } else if (type == Entity.EnemyType.WATER_BOSS) {
-            aiComponent.addTask(new ChaseTask(target, 10, 8f, 8f, true))
-                    .addTask(new WaterSpiralTask(500, target, 100f));
+            aiComponent.addTask(new LeviathanTask(target, 10, 10f, 16f, 100f, 300));
         } else if (type == Entity.EnemyType.AIR_BOSS) {
             aiComponent.addTask(new GriffinTask(target, 10, 8f, 300, 100f));
         }
