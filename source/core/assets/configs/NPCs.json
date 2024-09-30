@@ -108,5 +108,14 @@
     "animationSpeed": 0.2,
     "soundPath": ["sounds/monkey.wav"],
     "animalName": "Monkey"
+  },
+  "friendlyBear": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Benny the Bear."]
+    ],
+    "spritePath": "images/bear.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear"
   }
 }

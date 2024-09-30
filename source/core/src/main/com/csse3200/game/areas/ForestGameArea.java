@@ -373,6 +373,9 @@ public class ForestGameArea extends GameArea {
       case MONKEY:
         convertedNPC = NPCFactory.createMonkey(player, this.enemies);
         break;
+      case BEAR:
+        convertedNPC = NPCFactory.createBear(player, this.enemies);
+        break;
       // Add other enemy types as needed
       default:
         logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
