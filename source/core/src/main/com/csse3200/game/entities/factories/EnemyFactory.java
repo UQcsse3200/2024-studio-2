@@ -129,8 +129,8 @@ public class EnemyFactory {
      * @return enemy bear entity
      */
     public static Entity createBigsawfish(Entity target) {
-        Entity bigsawfish = createBaseEnemy(target, EnemyType.BIGSAWFISH);
         BaseEnemyEntityConfig config = configs.bigsawfish;
+        Entity bigsawfish = createBaseEnemy(target, EnemyType.BIGSAWFISH, config);
         bigsawfish.setEnemyType(Entity.EnemyType.BIGSAWFISH);
 
         TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);

@@ -55,11 +55,11 @@
   },
   "bigsawfish": {
     "spritePath": "images/bigsawfish.atlas",
-    "health": 100,
-    "baseAttack": 20,
-    "defense": 30,
-    "speed": 50,
-    "experience": 50,
+    "health": 10,
+    "baseAttack": 10,
+    "defense": 15,
+    "speed": 75,
+    "experience": 100,
     "isEnemy": 1
   },
   "kangarooBoss": {
