@@ -92,7 +92,7 @@ public class PauseTask extends ChaseTask {
 
             for (DialogueKey dialogueKey : quest.getQuestDialogue()) {
                 String npcName = dialogueKey.getNpcName();
-                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isActive()) {
+                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && quest.isActive()) {
                     return dialogueKey.getDialogue();
                 }
             }
