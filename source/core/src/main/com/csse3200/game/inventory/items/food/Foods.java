@@ -80,4 +80,36 @@ public class Foods {
             this.setDescription("This is a carrot");
         }
     }
+
+    /**
+     * Milk class manages the milk fields inherited from AbstractFood
+     */
+    public static class Milk extends AbstractFood {
+        private final static String path = "images/foodtextures/carrot.png"; // TODO
+
+        /**
+         * Constructs a Milk class with while assigning fields with set values.
+         */
+        public Milk(int quantity) {
+            super("Milk", 16, 1, quantity, 20);
+            this.setTexturePath(path);
+            this.setDescription("This is milk");
+        }
+    }
+
+    /**
+     * Caviar class manages the caviar fields inherited from AbstractFood
+     */
+    public static class Caviar extends AbstractFood {
+        private final static String path = "images/foodtextures/carrot.png"; // TODO
+
+        /**
+         * Constructs a Caviar class with while assigning fields with set values.
+         */
+        public Caviar(int quantity) {
+            super("Caviar", 17, 1, quantity, 40);
+            this.setTexturePath(path);
+            this.setDescription("This is caviar");
+        }
+    }
 }
