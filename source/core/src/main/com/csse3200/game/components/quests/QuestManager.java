@@ -129,7 +129,7 @@ public class QuestManager extends Component {
                 1, 0, false, false
         );
 
-        Task completeMinigame = new Task(
+        Task completeFlappyMinigame = new Task(
                 "completeFlappyMinigame",
                 "Complete the Flappy Bird Minigame",
                 "Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!",
@@ -144,7 +144,7 @@ public class QuestManager extends Component {
         );
 
         return new Task[] {
-                talkToWaterSage, collectSeaPearls, defeatSeaCreatures, completeMinigame, defeatWater
+                talkToWaterSage, collectSeaPearls, defeatSeaCreatures, completeFlappyMinigame, defeatWater
         };
 
     }
@@ -178,7 +178,7 @@ public class QuestManager extends Component {
                 1, 0, false, false
         );
 
-        Task defeatSky = new Task(
+        Task defeatSkySeraph = new Task(
                 "defeatSkySeraph",
                 "Defeat the Sky Seraph",
                 "Prepare yourself and confront the Sky Seraph in an epic battle!",
@@ -186,7 +186,7 @@ public class QuestManager extends Component {
         );
 
         return new Task[] {
-                talkToCloudSage, collectSkyCrystals, defeatFlyingBeasts, completeGame, defeatSky
+                talkToCloudSage, collectSkyCrystals, defeatFlyingBeasts, completeGame, defeatSkySeraph
         };
     }
 
@@ -485,6 +485,7 @@ public class QuestManager extends Component {
         saveAchievements(achievements,"saves/achievements.json");
         super.dispose();
     }
+
 
 
 
