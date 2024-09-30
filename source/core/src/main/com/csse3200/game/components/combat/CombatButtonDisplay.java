@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.areas.CombatArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
@@ -27,7 +28,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton SleepButton;
     TextButton ItemsButton;
     ChangeListener dialogueBoxListener;
-
+    CombatArea combatArea;
 
     /**
      * Initialises the CombatButtonDisplay UIComponent
@@ -35,9 +36,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen    The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public CombatButtonDisplay(Screen screen, ServiceContainer container) {
+    public CombatButtonDisplay(Screen screen, ServiceContainer container, CombatArea combatArea) {
         this.screen = screen;
         this.container = container;
+        this.combatArea = combatArea;
     }
 
     @Override
@@ -50,6 +52,10 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
                 displayEndCombatDialogue(enemy, winStatus));
+
+        // Start idle animations
+        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
+
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -57,6 +63,8 @@ public class CombatButtonDisplay extends UIComponent {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.info("DialogueBox is no longer visible, adding actors back.");
                     addActors();
+                    // Resume idle animations
+                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
                 }
             }
         };
@@ -82,6 +90,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Attack", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
 
@@ -90,6 +99,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Guard", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         SleepButton.addListener(
@@ -97,6 +107,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Sleep", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         ItemsButton.addListener(
@@ -104,6 +115,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
 
@@ -115,17 +127,6 @@ public class CombatButtonDisplay extends UIComponent {
         table.add(ItemsButton).padBottom(50).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
-    }
-
-    /**
-     * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
-     * @param iHealthCheck an integer representing the health of the entity
-     * @param AttackStatus a boolean stating if the current entity has attacked
-     * @param GuardStatus  a boolean stating if the current entity has guarded
-     */
-    private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus) {
-        logger.info("CombatButtonDisplay::ChangeActors::entering");
-        //Button enabling status logic
     }
 
     /**

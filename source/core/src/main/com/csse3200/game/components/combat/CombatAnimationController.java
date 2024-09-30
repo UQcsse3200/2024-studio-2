@@ -25,7 +25,7 @@ public class CombatAnimationController extends Component {
 
     private void animateIdleLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("walk");
+        animator.startAnimation("combatIdle");
     }
 
     private void animateIdleRight() {
@@ -35,7 +35,7 @@ public class CombatAnimationController extends Component {
 
     private void animateMoveLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("spawn");
+        animator.startAnimation("combatMove");
     }
 
     private void animateMoveRight() {

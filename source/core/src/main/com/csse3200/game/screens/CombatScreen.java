@@ -156,8 +156,7 @@ public class CombatScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    // combatArea is passed in for triggering animal animations in combat
-    CombatManager manager = new CombatManager(player, enemy, combatArea);
+    CombatManager manager = new CombatManager(player, enemy);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
@@ -170,7 +169,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(playerCombatStats)
         .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
-        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
   }
