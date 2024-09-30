@@ -92,38 +92,14 @@ public class PauseTask extends ChaseTask {
 
             for (DialogueKey dialogueKey : quest.getQuestDialogue()) {
                 String npcName = dialogueKey.getNpcName();
-                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && quest.isActive()) {
-                    this.taskName = quest.getTasks().get(progression).getTaskName();
+                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
                     return dialogueKey.getDialogue();
                 }
             }
         }
-
-
-//        for (DialogueKey dialogueKey : questManager.getQuestDialogues()) {
-//            logger.info("Checking right quest for dialogue");
-//            String npcName = dialogueKey.getNpcName();
-//            String questName = dialogueKey.getQuestName();
-//            QuestBasic quest = this.questManager.getQuest(questName);
-//
-//            int progression = quest.getProgression();
-//            if (progression == quest.getNumQuestTasks() && progression != 0) {
-//                continue;
-//            }
-//
-//            if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
-//                    logger.info("Checking right quest progression for dialogue");
-//                    boolean rightTask = quest.getTasks().get(progression).getTaskName().equals(dialogueKey.getTaskName());
-//                    if (rightTask) {
-//                        this.taskName = dialogueKey.getTaskName();
-//                        return dialogueKey.getDialogue();
-//                    }
-//                }
-//
-//        }
-//        return hintText;
         return hintText;
     }
+
 
     /**
      * Triggers an event to end the pause behavior.
