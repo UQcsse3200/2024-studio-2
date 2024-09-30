@@ -21,7 +21,7 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
 
 /**
  * Move to a given position, finishing when you get close enough. Requires an entity with a
- * PhysicsMovementComponent.
+ * PhysicsMovementComponent..
  */
 public class MazePathFindingTask extends DefaultTask {
     private static final Logger logger = LoggerFactory.getLogger(MazePathFindingTask.class);
