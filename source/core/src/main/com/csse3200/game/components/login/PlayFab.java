@@ -18,7 +18,7 @@ public class PlayFab {
         PlayFab playFab = new PlayFab("DBB26");
 
         // Call the registration method
-        playFab.loginUser("test41489874", "123456");
+        playFab.registerUser("test12345", "long","123456");
 
     }
     // Method to register a new user
@@ -35,12 +35,9 @@ public class PlayFab {
             String succeedMsg = result.Result.Username + " has successfully registered.";
             return new Response(succeedMsg, true);
         } else {
-            Collection<List<String>> errors = result.Error.errorDetails.values();
-            List<String> errorList = errors.stream().flatMap(List::stream).toList();
-            for (String error : errorList) {
-                System.out.println(error);
-            }
-            return new Response(errorList.getFirst(), false);
+            String errorMsg = result.Error.errorMessage;
+            System.out.println(errorMsg);
+            return new Response(errorMsg, false);
         }
         //
     }
