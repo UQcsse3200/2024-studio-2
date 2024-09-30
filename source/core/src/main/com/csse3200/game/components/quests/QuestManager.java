@@ -223,7 +223,7 @@ public class QuestManager extends Component {
 
     private void handleEnemyQuest(Entity enemy) {
         String type = enemy.getEnemyType().toString();
-        player.getEvents().trigger("dead" + type);
+        player.getEvents().trigger("defeat" + type);
 
     }
     /**
