@@ -290,18 +290,6 @@ public class TerrainComponent extends RenderComponent {
           }
           WATER_SIZE = waterTiles.size();
 
-          // load air tiles
-          //AirMapTiles airTileConfig;
-          //airTileConfig = FileLoader.readClass(AirMapTiles.class, "configs/AirGameAreaConfigs/airTiles.json");
-          //for (AirTileConfig tile : airTileConfig.airMapTiles) {
-          //  // edge: TOP, RIGHT, BOTTOM, LEFT
-          //  airTiles.add(new Tile(tile.id, new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), tile.edges, tile.centre));
-          //  tiles.add(new Tile(tile.id, 
-          //  new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), 
-          //  tile.edges, 
-          //  tile.centre));
-          //}
-          //AIR_SIZE = airTiles.size();
           break;
         case COMBAT:
           break;
@@ -344,13 +332,6 @@ public class TerrainComponent extends RenderComponent {
         setPossibleDown(this.waterTiles.get(i), this.waterTiles);
         setPossibleLeft(this.waterTiles.get(i), this.waterTiles);
       }
-
-      //for (int i = 0; i < this.airTiles.size(); i++) {
-      //  setPossibleUp(this.airTiles.get(i), this.airTiles);
-      //  setPossibleRight(this.airTiles.get(i), this.airTiles);
-      //  setPossibleDown(this.airTiles.get(i), this.airTiles);
-      //  setPossibleLeft(this.airTiles.get(i), this.airTiles);
-      //}
     }
 
     /**
