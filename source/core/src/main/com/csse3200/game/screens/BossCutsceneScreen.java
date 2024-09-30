@@ -15,13 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -51,14 +50,18 @@ public class BossCutsceneScreen extends ScreenAdapter {
     private final ServiceContainer oldScreenServices;
     private final Entity player;
     private final Entity enemy;
+    private final String bossName;  // Dynamic boss name
+    private final String bossImageFile;  // Dynamic boss image path
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
-    public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+    public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy, String bossName, String bossImageFile) {
         this.game = game;
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.player = player;
         this.enemy = enemy;
+        this.bossName = bossName;  // Dynamically set boss name
+        this.bossImageFile = bossImageFile;  // Dynamically set boss image file
 
         logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -138,7 +141,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
 
     /**
      * Creates and sets up the cutscene UI elements, including motion effects for the text and image.
-     * Debugged and Developed with ChatGPT
      */
     private void createUI() {
         logger.debug("Creating cutscene UI");
@@ -147,7 +149,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
         // Create black bars
         Texture topBarTexture = new Texture("images/black_bar.png");
         Texture bottomBarTexture = new Texture("images/black_bar.png");
-        Texture enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
+        Texture bossImageTexture = new Texture(bossImageFile);  // Use the boss-specific image file
 
         Image topBar = new Image(topBarTexture);
         Image bottomBar = new Image(bottomBarTexture);
@@ -166,13 +168,13 @@ public class BossCutsceneScreen extends ScreenAdapter {
         labelStyle.font = defaultFont;
         labelStyle.fontColor = Color.BLACK;
 
-        Label enemyNameLabel = new Label("Kanga", labelStyle);
-        enemyNameLabel.setAlignment(Align.center);
+        Label bossNameLabel = new Label(bossName, labelStyle);  // Use the boss-specific name
+        bossNameLabel.setAlignment(Align.center);
 
-        Image enemyImage = new Image(enemyImageTexture);
+        Image bossImage = new Image(bossImageTexture);
 
-        // Animate enemy name label (flash effect)
-        enemyNameLabel.addAction(
+        // Animate boss name label (flash effect)
+        bossNameLabel.addAction(
                 Actions.sequence(
                         Actions.alpha(0f),
                         Actions.repeat(5,
@@ -190,18 +192,18 @@ public class BossCutsceneScreen extends ScreenAdapter {
         float centerY = (Gdx.graphics.getHeight() - 500) / 2f;
 
         // Initial positions for sliding animations
-        enemyImage.setPosition(0, centerY); // Start from off-screen left
-        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
+        bossImage.setPosition(0, centerY); // Start from off-screen left
+        bossNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
 
-        // Animate enemy image (slide-in effect)
-        enemyImage.addAction(
+        // Animate boss image (slide-in effect)
+        bossImage.addAction(
                 Actions.sequence(
                         Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
                 )
         );
 
-        // Animate enemy name label (slide-in effect)
-        enemyNameLabel.addAction(
+        // Animate boss name label (slide-in effect)
+        bossNameLabel.addAction(
                 Actions.sequence(
                         Actions.moveTo(centerX + 250, centerY - 80, 2f, Interpolation.pow5Out)
                 )
@@ -211,9 +213,9 @@ public class BossCutsceneScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-        table.add(enemyImage).width(500).height(500);
+        table.add(bossImage).width(500).height(500);
         table.row();
-        table.add(enemyNameLabel);
+        table.add(bossNameLabel);
 
         // Add actors to stage
         stage.addActor(topBar);

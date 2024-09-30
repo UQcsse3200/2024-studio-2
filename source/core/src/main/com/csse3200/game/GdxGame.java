@@ -86,9 +86,33 @@ public class GdxGame extends Game {
         addScreen(ScreenType.COMBAT, getScreen(), null, enemy);
     }
 
+    // Updated method to handle dynamic boss cutscene screens
     public void addBossCutsceneScreen(Entity player, Entity enemy) {
-        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
+        // Determine the boss details dynamically based on the enemy entity's type
+        String bossName;
+        String bossImageFile;
+
+        Entity.EnemyType enemyType = enemy.getEnemyType();
+
+        if (enemyType == Entity.EnemyType.KANGAROO) {
+            bossName = "Kanga";
+            bossImageFile = "images/final_boss_kangaroo_idle.png";
+        } else if (enemyType == Entity.EnemyType.AIR_BOSS) {
+            bossName = "Air Boss";
+            bossImageFile = "images/air_boss_idle.png";
+        } else if (enemyType == Entity.EnemyType.WATER_BOSS) {
+            bossName = "Water Boss";
+            bossImageFile = "images/water_boss_idle.png";
+        } else {
+            // Default boss case
+            bossName = "Unknown Boss";
+            bossImageFile = "images/default_boss_idle.png";
+        }
+
+        // Pass the dynamic data to BossCutsceneScreen
+        setScreen(new BossCutsceneScreen(this, getScreen(), new ServiceContainer(), player, enemy, bossName, bossImageFile));
     }
+
     public void addEnemyCutsceneScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.ENEMY_CUTSCENE, getScreen(), player, enemy);
     }
@@ -168,7 +192,29 @@ public class GdxGame extends Game {
             case COMBAT:
                 return new CombatScreen(this, screen, container, player, enemy);
             case BOSS_CUTSCENE:
-                return new BossCutsceneScreen(this, screen, container, player, enemy);
+                if (enemy != null) {
+                    String bossName;
+                    String bossImageFile;
+
+                    Entity.EnemyType enemyType = enemy.getEnemyType();
+
+                    if (enemyType == Entity.EnemyType.KANGAROO) {
+                        bossName = "Kanga";
+                        bossImageFile = "images/final_boss_kangaroo_idle.png";
+                    } else if (enemyType == Entity.EnemyType.AIR_BOSS) {
+                        bossName = "Air Boss";
+                        bossImageFile = "images/air_boss_idle.png";
+                    } else if (enemyType == Entity.EnemyType.WATER_BOSS) {
+                        bossName = "Water Boss";
+                        bossImageFile = "images/water_boss_idle.png";
+                    } else {
+                        bossName = "Unknown Boss";
+                        bossImageFile = "images/default_boss_idle.png";
+                    }
+                    return new BossCutsceneScreen(this, screen, container, player, enemy, bossName, bossImageFile);
+                } else {
+                    return new BossCutsceneScreen(this, screen, container, player, enemy, "Unknown Boss", "images/default_boss_idle.png");
+                }
             case ENEMY_CUTSCENE:
                 return new EnemyCutsceneScreen(this, screen, container, player, enemy);
             case ACHIEVEMENTS:
@@ -217,4 +263,3 @@ public class GdxGame extends Game {
         app.exit();
     }
 }
-
