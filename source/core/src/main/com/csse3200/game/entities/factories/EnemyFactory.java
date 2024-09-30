@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.TouchAttackComponent;
@@ -336,6 +338,10 @@ public class EnemyFactory {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
                 aiComponent.addTask(new ShootTask(1000, target, 10f));
+            }
+            case EnemyType.PIGEON -> {
+                aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
+
             }
             default -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
