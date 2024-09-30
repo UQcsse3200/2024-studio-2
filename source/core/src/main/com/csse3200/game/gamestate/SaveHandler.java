@@ -29,6 +29,7 @@ public class SaveHandler {
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
      * @param location Libgdx location to save to.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
     public static void save(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
@@ -52,6 +53,7 @@ public class SaveHandler {
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
      * @param location Libgdx location to load from.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
     public static void load(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
@@ -80,6 +82,7 @@ public class SaveHandler {
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
      * @param location Libgdx location to delete from.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
     public static void delete(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
