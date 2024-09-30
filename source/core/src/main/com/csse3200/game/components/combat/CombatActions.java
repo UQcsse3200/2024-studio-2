@@ -76,7 +76,7 @@ public class CombatActions extends Component {
 //
 //      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
 //    }
-//    game.returnFromCombat(previousScreen, previousServices, enemy);
+    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
@@ -84,10 +84,17 @@ public class CombatActions extends Component {
    */
   private void onCombatLoss(Entity enemy) {
     logger.info("Returning to main game screen after combat loss.");
+
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+
     // For CombatStatsDisplay to update
-    entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
+    // currently there is no listener for below
+    //entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
+
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, false);
+
+    game.setOldScreen(previousScreen, previousServices);
   }
 
   /**
