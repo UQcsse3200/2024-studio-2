@@ -19,37 +19,25 @@ public class CombatAnimationController extends Component {
         entity.getEvents().addListener("idleRight", this::animateIdleRight);
         entity.getEvents().addListener("moveLeft", this::animateMoveLeft);
         entity.getEvents().addListener("moveRight", this::animateMoveRight);
-        entity.getEvents().addListener("hurtLeft", this::animateHurtLeft);
-        entity.getEvents().addListener("hurtRight", this::animateHurtRight);
     }
 
     private void animateIdleLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("combatIdle");
+        animator.startAnimation("combat_idle");
     }
 
     private void animateIdleRight() {
         animator.setFlipX(false);
-        animator.startAnimation("combatIdle");
+        animator.startAnimation("combat_idle");
     }
 
     private void animateMoveLeft() {
         animator.setFlipX(true);
-        animator.startAnimation("combatMove");
+        animator.startAnimation("combat_move");
     }
 
     private void animateMoveRight() {
         animator.setFlipX(false);
-        animator.startAnimation("combatMove");
-    }
-
-    private void animateHurtLeft() {
-        animator.setFlipX(true);
-        animator.startAnimation("combatHurt");
-    }
-
-    private void animateHurtRight() {
-        animator.setFlipX(false);
-        animator.startAnimation("combatHurt");
+        animator.startAnimation("combat_move");
     }
 }

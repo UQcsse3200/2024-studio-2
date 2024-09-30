@@ -53,8 +53,8 @@ public class CombatAnimalFactory {
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
         AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
 
-        animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-        animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
 
         chickenEnemy
                 .addComponent(animator)
@@ -89,10 +89,17 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.frog;
         frogEnemy.setEnemyType(Entity.EnemyType.FROG);
 
-        frogEnemy
-                .addComponent(new TextureRenderComponent("images/frog_idle.png"));
+        TextureAtlas frogAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(frogAtlas);
 
-        frogEnemy.scaleHeight(150.0f);
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        frogEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+
+        frogEnemy.setScale(120.0f, 90.0f);
 
         return frogEnemy;
     }

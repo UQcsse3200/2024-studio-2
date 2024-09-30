@@ -71,13 +71,14 @@ public class CombatArea extends GameArea {
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",
-            "images/enemy-chicken.png"
+            "images/enemy-chicken.png",
+            "images/frog.png"
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
-            "images/enemy-chicken.atlas"
+            "images/enemy-chicken.atlas", "images/enemy-frog.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -93,7 +94,7 @@ public class CombatArea extends GameArea {
     private Entity enemyDisplay;
     private Entity playerDisplay;
 
-    public enum CombatAnimation { IDLE, MOVE, HURT };
+    public enum CombatAnimation { IDLE, MOVE };
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -231,7 +232,7 @@ public class CombatArea extends GameArea {
 
     /**
      * Plays an enemy animation in combat
-     * @param animation CombatAnimation (IDLE, MOVE, or HURT) to trigger
+     * @param animation CombatAnimation (IDLE or MOVE) to trigger
      */
     public void startEnemyAnimation(CombatAnimation animation) {
         switch (animation) {
@@ -241,15 +242,12 @@ public class CombatArea extends GameArea {
             case MOVE:
                 enemyDisplay.getEvents().trigger("moveLeft");
                 break;
-            case HURT:
-                enemyDisplay.getEvents().trigger("hurtLeft");
-                break;
         }
     }
 
     /**
      * Plays a player animation in combat
-     * @param animation CombatAnimation (IDLE, MOVE, or HURT) to trigger
+     * @param animation CombatAnimation (IDLE or MOVE) to trigger
      */
     public void startPlayerAnimation(CombatAnimation animation) {
         switch (animation) {
@@ -258,9 +256,6 @@ public class CombatArea extends GameArea {
                 break;
             case MOVE:
                 playerDisplay.getEvents().trigger("moveRight");
-                break;
-            case HURT:
-                playerDisplay.getEvents().trigger("hurtRight");
                 break;
         }
     }
