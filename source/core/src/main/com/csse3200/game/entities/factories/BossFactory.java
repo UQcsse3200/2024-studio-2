@@ -162,7 +162,7 @@ public class BossFactory {
 
         // Add specific tasks for each boss type
         if (type == Entity.EnemyType.KANGAROO) {
-            aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, true))
+            aiComponent.addTask(new ChaseTask(target, 10, 12f, 14f, true))
                     .addTask(new KangaJoeyTask(target, 6f, 2));
         } else if (type == Entity.EnemyType.WATER_BOSS) {
             aiComponent.addTask(new LeviathanTask(target, 10, 10f, 16f, 100f, 300));
