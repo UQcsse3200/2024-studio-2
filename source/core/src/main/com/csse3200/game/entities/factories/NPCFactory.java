@@ -14,6 +14,7 @@ import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.food.AbstractFood;
 import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
@@ -94,18 +95,7 @@ public class NPCFactory {
   public static Entity createCow(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.cow;
     Entity cow = createFriendlyNPC(target, enemies, config);
-
-    // TODO - SAMPLE HANDLER FOR BAILEY. WITH 60% CHANCE THIS COW WILL DROP MILK NEAR THE PLAYER
-    //  WHEN RECEIVING THE EVENT "PlayerFinishedInteracting"
-    //  NONE OF THIS IS FIXED, THIS IS ALL INTENDED AS A SAMPLE AND CAN BE MANIPULATED
-    //  ACCORDING TO DESIGN CHOICES.
-    if (Math.random() > 0.4) { // 60% chance to trigger
-      Foods.Milk milk = new Foods.Milk(1);
-      cow.getEvents().addListener(
-              "PlayerFinishedInteracting",
-              () -> handleDropItem(milk, target)
-      );
-    }
+    handleConditionalDrop(cow, target);
 
     return cow;
   }
@@ -116,15 +106,7 @@ public class NPCFactory {
   public static Entity createFish(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.fish;
     Entity fish = createFriendlyNPC(target, enemies, config);
-
-    if (Math.random() > 0.6) { // 40% chance to trigger
-      Foods.Caviar caviar = new Foods.Caviar(1);
-      fish.getEvents().addListener(
-              "PlayerFinishedInteracting",
-              () -> handleDropItem(caviar, target)
-      );
-    }
-
+    handleConditionalDrop(fish, target);
     return fish;
   }
 
@@ -210,10 +192,6 @@ public class NPCFactory {
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
-        // Sound animalSound = ServiceLocator.getResourceService().getAsset(animalSoundPath, Sound.class);
-        //  long soundId = animalSound.play();
-        //  animalSound.setVolume(soundId, 0.3f);
-        //  animalSound.setLooping(soundId, false);
         AudioManager.playSound(animalSoundPath);
       }
     }
@@ -234,6 +212,36 @@ public class NPCFactory {
     }
   }
 
+  /**
+   * Handles a conditional item drop for an entity.
+   *
+   * @param entity The entity to which the event listener will be added.
+   * @param target The target entity near which the item will be dropped.
+   */
+  private static void handleConditionalDrop(Entity entity, Entity target) {
+    BaseFriendlyEntityConfig configComponent = (BaseFriendlyEntityConfig) (entity.getComponent(ConfigComponent.class)).getConfig();
+    float probability = configComponent.getItemProbability();
+    String npcName = configComponent.getAnimalName();
+
+    if (Math.random() > probability) { // Attach according to probabilities
+      AbstractFood item = null;
+      switch (npcName) {
+        case "Cow":
+          item = new Foods.Milk(1);
+          break;
+        case "Fish":
+          item = new Foods.Caviar(1);
+          break;
+        default:
+          return;
+      }
+      AbstractFood finalItem = item;
+      entity.getEvents().addListener(
+              "PlayerFinishedInteracting",
+              () -> handleDropItem(finalItem, target)
+      );
+    }
+  }
 
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
