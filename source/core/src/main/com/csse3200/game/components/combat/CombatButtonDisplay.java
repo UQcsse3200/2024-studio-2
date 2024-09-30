@@ -1,13 +1,15 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
@@ -29,6 +31,12 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton SleepButton;
     TextButton ItemsButton;
     ChangeListener dialogueBoxListener;
+    // Create a Table to hold the hover text with a background
+    private Table hoverTextTable;
+    private Label hoverTextLabel;
+    private Image backgroundImage;
+    private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
 
     /**
@@ -50,8 +58,7 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
-        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
-                displayEndCombatDialogue(enemy, winStatus));
+        entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -64,7 +71,51 @@ public class CombatButtonDisplay extends UIComponent {
         };
 
         stage.addListener(dialogueBoxListener);
+        createBackgroundForHints();
+        createTextForHints();
     }
+
+    /**
+     * Create a text box pop up to provide the user with description on moves when hovering over with mouse upon
+     */
+    private void createTextForHints() {
+        hoverTextLabel = new Label("", SKIN, "default-white");
+        hoverTextTable = new Table(SKIN);
+        hoverTextTable.clear();
+        hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
+        hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
+        hoverTextTable.setVisible(false);  // Initially hidden
+        stage.addActor(hoverTextTable);
+    }
+
+    /**
+     * Create a background for the text hints
+     */
+    private void createBackgroundForHints() {
+        // Create a label and a table to display the hover text
+        backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
+        backgroundImage.setVisible(false);
+        stage.addActor(backgroundImage);
+    }
+
+    /**
+     * Used to set the text for move description upon hovering over with mouse
+     * @param moveDescription text to display that describes the move
+     */
+    private void setTextForCombatHint(String moveDescription) {
+        float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
+        float combatHintBackgroundWidth = Gdx.graphics.getWidth() * 0.8f;  // 80% screen width
+        hoverTextLabel.setText(moveDescription);  // Set hover text
+        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.5f,
+                Gdx.graphics.getHeight() * 0.20f);
+        backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
+        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
+                , Gdx.graphics.getHeight() * 0.2f -
+                combatHintBackgroundHeight * 0.5f);
+        backgroundImage.setVisible(true);
+        hoverTextTable.setVisible(true);  // Show the hover text table
+    }
+
 
     /**
      * Initialises the buttons, adds listeners to them, and adds them into the game's stage
@@ -89,13 +140,14 @@ public class CombatButtonDisplay extends UIComponent {
         AttackButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                System.out.println("hovering!");
+                setTextForCombatHint("Lower enemy HP but drains stamina!");
                 return true;
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("stopped hovering");
+                hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
+                backgroundImage.setVisible(false);
             }
         });
 
@@ -106,6 +158,20 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Guard", screen, container);
                     }
                 });
+        GuardButton.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
+                return true;
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
+                backgroundImage.setVisible(false);
+            }
+        });
+
         SleepButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -113,6 +179,19 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Sleep", screen, container);
                     }
                 });
+        SleepButton.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                setTextForCombatHint("Recover health and stamina but potentially take more damage!");
+                return true;
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
+                backgroundImage.setVisible(false);
+            }
+        });
         ItemsButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -120,7 +199,19 @@ public class CombatButtonDisplay extends UIComponent {
                         entity.getEvents().trigger("Items", screen, container);
                     }
                 });
+        ItemsButton.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                return true;
+            }
 
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
+                backgroundImage.setVisible(false);
+            }
+        });
 
         // Position the button on the central bottom part and make them a lil bigger
         table.add(AttackButton).padBottom(50).width(300).height(60).padLeft(10f);
