@@ -112,7 +112,6 @@ public class ForestGameArea extends GameArea {
       player.getComponent(QuestManager.class).loadQuests();
 
       //return state of  inCombat to false
-      player.getComponent(PlayerInventoryDisplay.class).setCombatState(false);
   }
 
   private void handleNewChunks(Vector2 playerPos) {

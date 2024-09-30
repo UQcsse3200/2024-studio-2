@@ -34,18 +34,19 @@ import java.util.ArrayList;
  * and update dynamically when the inventory changes.
  */
 public class PlayerInventoryDisplay extends UIComponent {
-    private boolean isInCombat = false;
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
     private static final float Z_INDEX = 3f;
 
-    private final Inventory inventory;
+    protected final Inventory inventory;
     private Window inventoryDisplay;
     private  Table hotBarDisplay;
     private DragAndDrop dragAndDrop;
     AITaskComponent aiComponent = new AITaskComponent();
 
-    private final int numCols, numRows, hotBarCapacity;
+    protected final int numCols;
+    protected final int numRows;
+    private final int hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
     private ArrayList<TimedUseItem> potions = new ArrayList<TimedUseItem>();
 
@@ -89,7 +90,6 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     public void updatePotions(ItemUsageContext context) {
         if (this.potions != null) {
-            if (!isInCombat) {
                 for (int i = 0; i < potions.size(); i++) {
                     if (potions.get(i) instanceof DefensePotion) {
                         potions.get(i).update(context);
@@ -100,7 +100,6 @@ public class PlayerInventoryDisplay extends UIComponent {
                         potions.remove(i);
                     }
                 }
-            }
 
             for (int i = 0; i < potions.size(); i++) {
                 if (potions.get(i) instanceof SpeedPotion) {
@@ -111,21 +110,7 @@ public class PlayerInventoryDisplay extends UIComponent {
         }
     }
 
-    /**
-     * Sets the state of inCombat
-     * @param inCombat boolean value of if the player is in combat or not
-     */
-    public void setCombatState(boolean inCombat) {
-        this.isInCombat = inCombat;
-    }
 
-    /**
-     * Checks if player is in combat
-     * @return the state of iff player is in combat or not
-     */
-    public boolean isInCombat() {
-        return this.isInCombat;
-    }
 
     /**
      * Initializes the component by setting up event listeners for toggling the inventory display
@@ -149,10 +134,8 @@ public class PlayerInventoryDisplay extends UIComponent {
      */
     private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
         if (item instanceof DefensePotion || item instanceof AttackPotion) {
-            if (!isInCombat) {
                 logger.warn("Cannot use defense or attack potions outside of combat.");
                 return;
-            }
         }
         // Otherwise, allow item use
         inventory.useItemAt(index, context);
@@ -162,7 +145,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     /**
      * Toggles the inventory display on or off based on its current state.
      */
-    private void toggleDisplay() {
+    public void toggleDisplay() {
         toggle = !stage.getActors().contains(inventoryDisplay, true);
         if (!toggle) { // Toggle off
             logger.debug("Inventory toggled off.");
@@ -248,7 +231,7 @@ public class PlayerInventoryDisplay extends UIComponent {
     /**
      * Generates the inventory window and populates it with inventory slots.
      */
-    private void generateInventory() {
+    public void generateInventory() {
         // Create the inventory window (pop-up)
         inventoryDisplay = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());

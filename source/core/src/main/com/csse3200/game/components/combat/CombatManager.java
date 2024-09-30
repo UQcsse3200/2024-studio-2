@@ -79,7 +79,7 @@ public class CombatManager extends Component {
      * @param context of the item.
      */
     public void usePlayerItem(AbstractItem item, int index, ItemUsageContext context) {
-        logger.info("Item was confirmed. Using item now.");
+        logger.debug("Item was confirmed. Using item now.");
         this.playerItem = item;
         this.playerItemIndex = index;
         this.playerItemContext = context;

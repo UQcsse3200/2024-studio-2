@@ -111,7 +111,7 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    logger.info("Game paused");
+    logger.debug("Game paused");
   }
 
   /** Resume the game, unpause music, when implemented
@@ -119,7 +119,7 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    logger.info("Game resumed");
+    logger.debug("Game resumed");
   }
 
   @Override
@@ -132,7 +132,6 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().dispose();
     ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    player.getComponent(PlayerInventoryDisplay.class).setCombatState(false);
     ServiceLocator.clear();
   }
 
