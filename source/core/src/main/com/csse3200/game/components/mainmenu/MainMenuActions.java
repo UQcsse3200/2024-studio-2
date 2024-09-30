@@ -42,7 +42,7 @@ public class MainMenuActions extends Component {
 
     GameState.resetState();
 
-    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+    game.setScreen(GdxGame.ScreenType.CUTSCENE);
   }
 
   /**
@@ -60,7 +60,7 @@ public class MainMenuActions extends Component {
       GameState.resetState();
     }
     if(GameState.player.selectedAnimalPath == null) {
-      game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+      game.setScreen(GdxGame.ScreenType.CUTSCENE);
     } else {
       game.setScreen(GdxGame.ScreenType.LOADING_SCREEN);
     }
