@@ -272,4 +272,61 @@ class InventoryTest {
 
         SaveHandler.delete(GameState.class, "test/saves/inventory");
     }
+
+    @Test
+    void testSwap() {
+        Inventory inventory = new Inventory(3);
+        AbstractItem itemInS0;
+        AbstractItem itemInS1;
+
+        // 1. Swapping 2 items
+            inventory.add(new Foods.Apple(1));
+            inventory.add(new HealingPotion(2));
+
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // Apple
+            itemInS1 = inventory.getAt(1); // Healin potion
+
+            inventory.swap(0, 1);
+
+            // After swapping
+            AbstractItem swapItems0 = inventory.getAt(0);//Healing potion
+            AbstractItem swapItems1 = inventory.getAt(1);//Apple
+
+            // Assert that items have been swapped correctly
+            assertEquals(itemInS1,swapItems0);
+            assertEquals(itemInS0,swapItems1);
+            inventory.clearInventory();
+
+        // 2. Swapping 1 item and null
+            inventory.add(new Foods.Apple(1));
+
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // Apple
+            itemInS1 = inventory.getAt(1); // null
+
+            inventory.swap(0, 1);
+
+            // After swapping
+            swapItems0 = inventory.getAt(0);//null
+            swapItems1 = inventory.getAt(1);//Apple
+
+            // Assert that items have been swapped correctly
+            assertEquals(itemInS1,swapItems0);
+            assertEquals(itemInS0,swapItems1);
+            inventory.clearInventory();
+
+        // 2. Swapping 2 null
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // null
+            itemInS1 = inventory.getAt(1); // null
+
+            inventory.swap(0, 1);
+
+            // Assert that items have been swapped correctly
+            assertNull(itemInS1);
+            assertNull(itemInS0);
+            inventory.clearInventory();
+    }
+
 }
