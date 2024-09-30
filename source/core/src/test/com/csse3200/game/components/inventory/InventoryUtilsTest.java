@@ -3,10 +3,8 @@ package com.csse3200.game.components.inventory;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,44 +16,33 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class InventoryUtilsTest {
 
-    private Group parentGroup;
-    private Group childGroup;
-    private Disposable disposableActor;
+    private Table table;
+    private Table child;
+    private Texture other;
 
     @BeforeEach
     public void setUp() {
         // Mock the Group and Disposable actors
-        parentGroup = mock(Group.class);
-        childGroup = mock(Group.class);
-        disposableActor = mock(Disposable.class);
-
-        // Create mock snapshot Array<Actor> to return from getChildren()
-        Array<Actor> parentChildren = new Array<>();
-        parentChildren.addAll((Actor) disposableActor, childGroup);
-
-        Array<Actor> childChildren = new Array<>();
+        table = mock(Table.class);
+        child = mock(Table.class);
 
         // Setup mock behavior for getting children (returning snapshot)
-        when(parentGroup.getChildren()).thenReturn(new SnapshotArray<>(parentChildren));
-        when(childGroup.getChildren()).thenReturn(new SnapshotArray<>(childChildren));
+        when(table.getChildren()).thenReturn(new SnapshotArray<>(new Table[]{child}));
     }
 
     @Test
     public void testDisposeGroupRecursively() {
         // Call the method to test
-        InventoryUtils.disposeGroupRecursively(parentGroup);
-
-        // Verify disposable actor is disposed
-        verify(disposableActor).dispose();
+        InventoryUtils.disposeGroupRecursively(table);
 
         // Verify recursive call to child group
-        verify(childGroup).getChildren();
-        verify(childGroup).clearChildren();
-        verify(childGroup).remove();
+        verify(child).getChildren();
+        verify(child).clearChildren();
+        verify(child).remove();
 
         // Verify parent group actions
-        verify(parentGroup).clearChildren();
-        verify(parentGroup).remove();
+        verify(table).clearChildren();
+        verify(table).remove();
     }
 
     @Test
