@@ -139,15 +139,6 @@ public class PlayerActions extends Component {
   }
 
   public void startCombat(Entity enemy) {
-    AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
-    PriorityTask currentTask = aiTaskComponent.getCurrentTask();
-
-    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss()) ||
-            (currentTask instanceof ChaseTask && ((ChaseTask) currentTask).isBoss())) {
-      currentTask.stop();
-      game.addBossCutsceneScreen(player, enemy);
-    } else {
       game.addEnemyCutsceneScreen(player, enemy);
-    }
   }
 }
