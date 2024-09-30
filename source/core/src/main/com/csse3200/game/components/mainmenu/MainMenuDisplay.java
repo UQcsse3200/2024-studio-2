@@ -87,6 +87,10 @@ public class MainMenuDisplay extends UIComponent {
     private final float fullScreenuttonHeight = 80;
     private final float fullScreenButtonSpacing = 30;
 
+    // Add these variables to track the window size
+    private float lastScreenWidth;
+    private float lastScreenHeight;
+
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
@@ -110,6 +114,11 @@ public class MainMenuDisplay extends UIComponent {
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
+        updateOwlPosition();
+
+        // Initialize the screen size tracking
+        lastScreenWidth = Gdx.graphics.getWidth();
+        lastScreenHeight = Gdx.graphics.getHeight();
     }
 
     /**
@@ -166,6 +175,28 @@ public class MainMenuDisplay extends UIComponent {
                 "A Greyhound can reach speeds of 45 mph!",
                 "The heart of a hummingbird beats over 1,200 times per minute!"
         };
+    }
+    /**
+     * Updates the owl's position to always stay in the bottom-right corner of the screen.
+     */
+    private void updateOwlPosition() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Check if the game is in fullscreen mode
+        if (Gdx.graphics.isFullscreen()) {
+            // Make the owl larger in fullscreen mode
+            owlImage.setSize(300, 450); // Increase the size
+        } else {
+            // Reset to normal size in windowed mode
+            owlImage.setSize(200, 300); // Normal size
+        }
+
+        // Set owl's position to bottom-right
+        owlImage.setPosition(screenWidth - owlImage.getWidth() - 20, 20); // 20px padding from the edges
+
+        // Set fact label's position near the owl
+        factLabel.setPosition(screenWidth - 500, 130); // Adjust the x position for the fact label
     }
     private void addOwlToMenu() {
         // Set owl initial position
@@ -835,11 +866,13 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
+                    updateOwlPosition();
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
                     // Fullscreen mode
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = true;
+                    updateOwlPosition();
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
@@ -1022,6 +1055,17 @@ public class MainMenuDisplay extends UIComponent {
         batch.begin();
         batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
+
+        // Check if the screen size has changed
+        float currentScreenWidth = Gdx.graphics.getWidth();
+        float currentScreenHeight = Gdx.graphics.getHeight();
+
+        // If the window size has changed, update the owl's position
+        if (currentScreenWidth != lastScreenWidth || currentScreenHeight != lastScreenHeight) {
+            updateOwlPosition();
+            lastScreenWidth = currentScreenWidth;
+            lastScreenHeight = currentScreenHeight;
+        }
     }
 
     @Override
