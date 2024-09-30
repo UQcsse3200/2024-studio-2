@@ -226,6 +226,10 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 enemyImageTexture = new Texture("images/bear_idle.png");
                 enemyNameLabel = new Label("Bear", labelStyle);
                 break;
+            case BEE:
+                enemyImageTexture = new Texture("images/bee_idle.png");
+                enemyNameLabel = new Label("Bee", labelStyle);
+                break;
             case PIGEON:
                 enemyImageTexture = new Texture("images/pigeon_idle.png");
                 enemyNameLabel = new Label("Pigeon", labelStyle);

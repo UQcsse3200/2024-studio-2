@@ -60,6 +60,7 @@ public class EnemyFactory {
         CHICKEN,
         MONKEY,
         BEAR,
+        BEE,
         EEL,
         PIGEON,
         BIGSAWFISH;
@@ -152,6 +153,33 @@ public class EnemyFactory {
         bigsawfish.setScale(2f,1.38f);
 
         return bigsawfish;
+    }
+
+    /**
+     * Creates a bee enemy.
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy bee entity
+     */
+    public static Entity createBee(Entity target) {
+        BaseEnemyEntityConfig config = configs.bee;
+        Entity bee = createBaseEnemy(target, EnemyType.BEE, config);
+        bee.setEnemyType(Entity.EnemyType.BEE);
+
+        TextureAtlas beeAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+        AnimationRenderComponent animator = new AnimationRenderComponent(beeAtlas);
+
+        animator.addAnimation("float", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("chase", 1.0f,Animation.PlayMode.LOOP);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.NORMAL);
+
+        bee
+                .addComponent(animator)
+                .addComponent(new BeeAnimationController());
+
+        bee.setScale(0.542f,0.35f);
+
+        return bee;
     }
     
     /**
@@ -285,6 +313,7 @@ public class EnemyFactory {
             case CHICKEN -> configs.chicken;
             case MONKEY -> configs.monkey;
             case BEAR -> configs.bear;
+            case BEE -> configs.bee;
             case EEL -> configs.eel;
             case PIGEON -> configs.pigeon;
             case BIGSAWFISH -> configs.bigsawfish;
@@ -490,6 +519,23 @@ public class EnemyFactory {
         bearEnemy.setScale(150f,103.5f);
         
         return bearEnemy;
+    }
+
+    /**
+     * Creates bee enemy as NPC entity for static combat
+     * */
+    public static Entity createBeeCombatEnemy() {
+        Entity beeEnemy = createCombatBossNPC();
+        BaseEnemyEntityConfig config = configs.bee;
+        beeEnemy.setEnemyType(Entity.EnemyType.BEE);
+
+        beeEnemy
+                .addComponent(new TextureRenderComponent("images/bee_idle.png"))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
+
+        beeEnemy.setScale(90f, 103.5f);
+
+        return beeEnemy;
     }
 
     /**

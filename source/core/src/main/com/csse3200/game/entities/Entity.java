@@ -44,6 +44,7 @@ public class Entity {
     MONKEY,
     FROG,
     BEAR,
+    BEE,
     EEL,
     PIGEON,
     BIGSAWFISH,

@@ -322,6 +322,10 @@ public class ForestGameArea extends GameArea {
         //Bear
         generator = () -> EnemyFactory.createBear(player);
         spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
+
+        //Bee
+        generator = () -> EnemyFactory.createBee(player);
+        spawnRandomEnemy(generator,config.spawns.NUM_BEES,0.1);
         
         //Eel
         generator = () -> EnemyFactory.createEel(player);

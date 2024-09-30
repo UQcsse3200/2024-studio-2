@@ -65,6 +65,7 @@ public class CombatArea extends GameArea {
             "images/combat_background.png",
             "images/chicken_idle.png",
             "images/bear_idle.png",
+            "images/bee_idle.png",
             "images/eel_idle.png",
             "images/pigeon_idle.png",
             "images/monkey_idle.png",
@@ -125,6 +126,8 @@ public class CombatArea extends GameArea {
             spawnChicken();
         } else if (enemy.getEnemyType() == Entity.EnemyType.BEAR) {
             spawnBear();
+        }else if(enemy.getEnemyType() == Entity.EnemyType.BEE){
+            spawnBee();
         } else if (enemy.getEnemyType() == Entity.EnemyType.PIGEON) {
             spawnPigeon();
         } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
@@ -226,6 +229,14 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a bee enemy, with the player entity as its target
+     */
+    private void spawnBee() {
+        Entity combatEnemyNPC = EnemyFactory.createBeeCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 
