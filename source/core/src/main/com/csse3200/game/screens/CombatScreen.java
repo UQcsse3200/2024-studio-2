@@ -50,7 +50,7 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-  private final CombatArea gameArea;
+  private final CombatArea combatArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -79,14 +79,13 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
     loadAssets();
-    createUI();
 
     logger.debug("Initialising main game dup screen entities");
     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera()); // create new combat terrain factory
-    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
-    gameArea.create();
+    this.combatArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
+    combatArea.create();
 
-
+    createUI();
   }
 
   @Override
@@ -157,7 +156,8 @@ public class CombatScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    CombatManager manager = new CombatManager(player, enemy);
+    // combatArea is passed in for triggering animal animations in combat
+    CombatManager manager = new CombatManager(player, enemy, combatArea);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))

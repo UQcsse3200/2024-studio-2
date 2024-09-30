@@ -11,7 +11,7 @@ import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.entities.factories.EnemyFactory;
+import com.csse3200.game.entities.factories.CombatAnimalFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -90,7 +90,10 @@ public class CombatArea extends GameArea {
     private Entity enemy;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
     private static GdxGame game;
+    private Entity enemyDisplay;
+    private Entity playerDisplay;
 
+    public enum CombatAnimation { IDLE, MOVE, HURT };
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -99,8 +102,6 @@ public class CombatArea extends GameArea {
      * @param terrainFactory CombatTerrainFactory used to create the terrain for the GameArea.
      * @requires terrainFactory != null
      */
-    // I believe a variable Entity combatEnemyNPC can be passed to this func which sets the current enemy.
-    // Then this enemy can be spawned within this class in some function spawn_enemy()
     public CombatArea(Entity player, Entity enemy, GdxGame game, CombatTerrainFactory terrainFactory) {
         super();
         this.game = game;
@@ -152,7 +153,7 @@ public class CombatArea extends GameArea {
      *  or continue using the health components of the player loaded in through the constructor
      */
     private void spawnPlayer() {
-        spawnCameraInvisibleEnity(); // Create invisible entity to centre camera at centre of background
+        spawnCameraInvisibleEntity(); // Create invisible entity to centre camera at centre of background
 
         /**
          * The following entity is the real entity of the player to be used for combat,
@@ -175,7 +176,7 @@ public class CombatArea extends GameArea {
      * attach the camera to the real player entity. This entity should be ignored and it's health/stats etc.
      * are NOT to be used for combat logic or anywehre else
      */
-    private void spawnCameraInvisibleEnity(){
+    private void spawnCameraInvisibleEntity(){
         /** Entity nP is a non-visible entity placed at the centre of the background to
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
@@ -188,39 +189,80 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
-        Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createKangaBossCombatEntity();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 346), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /** The following functions spawn chicken, monkey, and frog entities as NPC's for static combat
      */
     private void spawnChicken() {
-        Entity combatEnemyNPC = EnemyFactory.createChickenCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
-        combatEnemyNPC.getEvents().trigger("idleLeft");
+        Entity enemyDisplay = CombatAnimalFactory.createChickenCombatEnemy();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 328), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
+
     /**
      * spawns a frog enemy, with the player entity as its target
      */
     private void spawnFrog() {
-        Entity combatEnemyNPC = EnemyFactory.createFrogCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 311), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createFrogCombatEnemy();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 311), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /**
      * spawns a monkey enemy, with the player entity as its target
      */
     private void spawnMonkey() {
-        Entity combatEnemyNPC = EnemyFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createMonkeyCombatEnemy();
+        spawnEntityAt(enemyDisplay, new GridPoint2(796, 331), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /**
      * spawns a bear enemy, with the player entity as its target
      */
     private void spawnBear() {
-        Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createBearCombatEnemy();
+        spawnEntityAt(enemyDisplay, new GridPoint2(796, 331), true, true);
+        this.enemyDisplay = enemyDisplay;
+    }
+
+    /**
+     * Plays an enemy animation in combat
+     * @param animation CombatAnimation (IDLE, MOVE, or HURT) to trigger
+     */
+    public void startEnemyAnimation(CombatAnimation animation) {
+        switch (animation) {
+            case IDLE:
+                enemyDisplay.getEvents().trigger("idleLeft");
+                break;
+            case MOVE:
+                enemyDisplay.getEvents().trigger("moveLeft");
+                break;
+            case HURT:
+                enemyDisplay.getEvents().trigger("hurtLeft");
+                break;
+        }
+    }
+
+    /**
+     * Plays a player animation in combat
+     * @param animation CombatAnimation (IDLE, MOVE, or HURT) to trigger
+     */
+    public void startPlayerAnimation(CombatAnimation animation) {
+        switch (animation) {
+            case IDLE:
+                playerDisplay.getEvents().trigger("idleRight");
+                break;
+            case MOVE:
+                playerDisplay.getEvents().trigger("moveRight");
+                break;
+            case HURT:
+                playerDisplay.getEvents().trigger("hurtRight");
+                break;
+        }
     }
 
     /** Play the music for combat

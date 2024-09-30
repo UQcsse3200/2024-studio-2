@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat;
 
+import com.csse3200.game.areas.CombatArea;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -34,6 +35,7 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+    private final CombatArea combatArea;
 
 
     /**
@@ -43,9 +45,10 @@ public class CombatManager extends Component {
      * @param player the player entity involved in combat.
      * @param enemy the enemy entity involved in combat.
      */
-    public CombatManager(Entity player, Entity enemy) {
+    public CombatManager(Entity player, Entity enemy, CombatArea combatArea) {
         this.player = player;
         this.enemy = enemy;
+        this.combatArea = combatArea;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
@@ -57,6 +60,8 @@ public class CombatManager extends Component {
 
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
+
+        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
     }
 
     /**
