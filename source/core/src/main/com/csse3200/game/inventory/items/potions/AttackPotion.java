@@ -39,9 +39,8 @@ public class AttackPotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-//        if (this.gameTime.getTime() - this.effectStartTime >= this.getDuration()) {
-            CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
-            stats.setStrength(stats.getStrength() - this.effectAmount);
-//        }
+        CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
+        stats.setStrength(stats.getStrength() - this.effectAmount);
+
     }
 }

@@ -60,9 +60,7 @@ public class DefensePotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        //if (isExpired(context)) {
-            CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
-            stats.setDefense(stats.getDefense() - this.effectAmount);
-        //}
+        CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
+        stats.setDefense(stats.getDefense() - this.effectAmount);
     }
 }
