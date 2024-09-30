@@ -58,7 +58,7 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
             movementTask.start();
         }
 
-        if (timer.getTime() - lastShotTime > waitTime) {
+        if (timer.getTime() - lastShotTime > waitTime || getDistanceToTarget() >= shootRange) {
             shootWindGust();
         }
     }
@@ -72,7 +72,7 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
     @Override
     public int getPriority() {
         float dst = getDistanceToTarget();
-        if (dst < viewDistance && isTargetVisible()) {
+        if (dst < viewDistance || isTargetVisible()) {
             return priority;
         }
         return -1;
