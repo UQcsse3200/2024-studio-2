@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +17,8 @@ import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.AbstractFood;
 import com.csse3200.game.inventory.items.food.Foods;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
@@ -265,7 +268,9 @@ public class NPCFactory {
                     .addComponent(new PhysicsComponent())
                     .addComponent(new PhysicsMovementComponent())
                     .addComponent(new ColliderComponent())
-                    .addComponent(aiComponent);
+                    .addComponent(aiComponent)
+                    .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)))
+                    .addComponent(new FadeLightsDayTimeComponent());;
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;

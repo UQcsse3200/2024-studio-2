@@ -85,8 +85,9 @@ public interface InventoryInterface {
      * Deletes the item at the specified index in the inventory.
      *
      * @param index the index of the item to delete
+     * @return the item that was removed (or null if there was no item at that index)
      */
-    void deleteItemAt(int index);
+    AbstractItem deleteItemAt(int index);
 
     /**
      * Clears all items from the inventory.
