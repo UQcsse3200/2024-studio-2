@@ -64,4 +64,16 @@ public class FoodItemTest {
         Foods.ChickenLeg chickenLeg = new Foods.ChickenLeg(1);
         helperTestFood(chickenLeg);
     }
+
+    @Test
+    void testMilk() {
+        Foods.Milk milk = new Foods.Milk(1);
+        helperTestFood(milk);
+    }
+
+    @Test
+    void testCaviar() {
+        Foods.Sushi sushi = new Foods.Sushi(1);
+        helperTestFood(sushi);
+    }
 }
