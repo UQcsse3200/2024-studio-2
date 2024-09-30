@@ -15,10 +15,10 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
 public class AnimalRouletteScreen extends ScreenAdapter {
-    protected final GdxGame game;
-    protected Stage stage;
-    protected Skin skin;
-    protected Image animalImage;
+    private final GdxGame game;
+    private Stage stage;
+    private Skin skin;
+    private Image animalImage;
     private final String[] animalImages = {
             "images/dog.png",
             "images/croc.png",
@@ -30,16 +30,16 @@ public class AnimalRouletteScreen extends ScreenAdapter {
             "The Crocodile is strong, cunning, and resilient. It possesses incredible defensive and offensive capabilities.",
             "The Bird is fast, intelligent, and free. It can outmaneuver opponents and attack from the skies."
     };
-    protected int currentAnimalIndex = 0;
-    protected PopUpHelper popUpHelper;
+    private int currentAnimalIndex = 0;
+    private PopUpHelper popUpHelper;
 
     // UI elements for dynamic positioning
-    protected TextButton leftButton;
-    protected TextButton rightButton;
-    protected TextButton continueButton;
-    protected TextButton backButton;
-    protected TextButton waterAnimalsButton;
-    TextButton airAnimalsButton;
+    private TextButton leftButton;
+    private TextButton rightButton;
+    private TextButton continueButton;
+    private TextButton backButton;
+    private TextButton waterAnimalsButton;
+    private TextButton airAnimalsButton;
 
     public AnimalRouletteScreen(GdxGame game) {
         this.game = game;
@@ -56,7 +56,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         createUI();
     }
 
-    protected void createUI() {
+    private void createUI() {
         // Set background
         Image background = new Image(new Texture(Gdx.files.internal("images/animal/JungleAnimalSelectionBG.jpeg")));
         background.setFillParent(true);
@@ -138,11 +138,11 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         });
     }
 
-    protected void updateAnimalImage() {
+    private void updateAnimalImage() {
         animalImage.setDrawable(new Image(new Texture(Gdx.files.internal(animalImages[currentAnimalIndex]))).getDrawable());
     }
 
-    protected void showAnimalStats() {
+    private void showAnimalStats() {
         String title = animalNames[currentAnimalIndex];
         String content = animalDescriptions[currentAnimalIndex];
 
