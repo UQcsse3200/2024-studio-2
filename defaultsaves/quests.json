@@ -314,157 +314,155 @@
 			isActive: false
 			taskCompletionTriggers: null
 		}
-		[
-			{
-				questName: Talk To Sage
-				questDescription: Embark on a quest in the Sky Kingdom to aid the Cloud Sage
-				tasks: [
-					{
-						taskName: talkToCloudSage
-						description: Talk to the Cloud Sage
-						hint: Speak with the Cloud Sage to begin your quest in the Sky Kingdom
-						requiredTriggers: 1
-						triggerCount: 0
-						completed: false
-						failed: false
-					}
-				]
-				isSecretQuest: false
-				questDialogue: [
-					{
-						npcName: Cow
-						dialogue: [
-							[
-								Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph.
-							]
+		{
+			questName: Talk To Sage
+			questDescription: Embark on a quest in the Sky Kingdom to aid the Cloud Sage
+			tasks: [
+				{
+					taskName: talkToCloudSage
+					description: Talk to the Cloud Sage
+					hint: Speak with the Cloud Sage to begin your quest in the Sky Kingdom
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph.
 						]
-					}
-				],
-				currentTaskIndex: 0
-				isFailed: false
-				isActive: false
-				taskCompletionTriggers: null
-			}
-			{
-				questName: Gathering Sky Crystals
-				questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
-				tasks: [
-					{
-						taskName: collectSkyCrystals
-						description: Collect Sky Crystals
-						hint: Gather seven Sky Crystals for the Cloud Sage
-						requiredTriggers: 1
-						triggerCount: 0
-						completed: false
-						failed: false
-					}
-				]
-				isSecretQuest: false
-				questDialogue: [
-					{
-						npcName: Cow
-						dialogue: [
-							[
-								I need seven Sky Crystals that drift on the winds. Will you help me gather them?
-							]
+					]
+				}
+			],
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Gathering Sky Crystals
+			questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
+			tasks: [
+				{
+					taskName: collectSkyCrystals
+					description: Collect Sky Crystals
+					hint: Gather seven Sky Crystals for the Cloud Sage
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							I need seven Sky Crystals that drift on the winds. Will you help me gather them?
 						]
-					}
-				]
-				currentTaskIndex: 0
-				isFailed: false
-				isActive: false
-				taskCompletionTriggers: null
-			}
-			{
-				questName: Brave the Skies
-				questDescription: Prove your courage by battling the flying beasts of the Sky Kingdom
-				tasks: [
-					{
-						taskName: defeatFlyingBeasts
-						description: Defeat the Flying Beasts
-						hint: Prove your bravery by facing the flying beasts that roam the skies
-						requiredTriggers: 1
-						triggerCount: 0
-						completed: false
-						failed: false
-					}
-				]
-				isSecretQuest: false
-				questDialogue: [
-					{
-						npcName: Cow
-						dialogue: [
-							[
-								Face the flying beasts that roam the skies to prove your bravery.
-							]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Brave the Skies
+			questDescription: Prove your courage by battling the flying beasts of the Sky Kingdom
+			tasks: [
+				{
+					taskName: defeatFlyingBeasts
+					description: Defeat the Flying Beasts
+					hint: Prove your bravery by facing the flying beasts that roam the skies
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Face the flying beasts that roam the skies to prove your bravery.
 						]
-					}
-				]
-				currentTaskIndex: 0
-				isFailed: false
-				isActive: false
-				taskCompletionTriggers: null
-			}
-			{
-				questName: Tempest’s Challenge
-				questDescription: Complete the Tempests Minigame to unlock the next stage of your journey
-				tasks: [
-					{
-						taskName: completeGame
-						description: Calm the Tempests Minigame
-						hint: Complete the minigame to go onto your next quest!
-						requiredTriggers: 1
-						triggerCount: 0
-						completed: false
-						failed: false
-					}
-				]
-				isSecretQuest: false
-				questDialogue: [
-					{
-						npcName: Cow
-						dialogue: [
-							[
-								...
-							]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Tempest’s Challenge
+			questDescription: Complete the Tempests Minigame to unlock the next stage of your journey
+			tasks: [
+				{
+					taskName: completeGame
+					description: Calm the Tempests Minigame
+					hint: Complete the minigame to go onto your next quest!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							...
 						]
-					}
-				]
-				currentTaskIndex: 0
-				isFailed: false
-				isActive: false
-				taskCompletionTriggers: null
-			}
-			{
-				questName: Fight Seraph
-				questDescription: Confront the Sky Seraph in a battle to save the Sky Kingdom
-				tasks: [
-					{
-						taskName: defeatSkySeraph
-						description: Defeat the Sky Seraph
-						hint: Prepare yourself and confront the Sky Seraph in an epic battle!
-						requiredTriggers: 1
-						triggerCount: 0
-						completed: false
-						failed: false
-					}
-				]
-				isSecretQuest: false
-				questDialogue: [
-					{
-						npcName: Cow
-						dialogue: [
-							[
-								When you’re prepared,confront the Sky Seraph in an epic battle!
-							]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Fight Seraph
+			questDescription: Confront the Sky Seraph in a battle to save the Sky Kingdom
+			tasks: [
+				{
+					taskName: defeatSkySeraph
+					description: Defeat the Sky Seraph
+					hint: Prepare yourself and confront the Sky Seraph in an epic battle!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							When you’re prepared,confront the Sky Seraph in an epic battle!
 						]
-					}
-				]
-				currentTaskIndex: 0
-				isFailed: false
-				isActive: false
-				taskCompletionTriggers: null
-			}
-		]
-
-	}
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+	]
+}
