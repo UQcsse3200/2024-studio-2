@@ -1,6 +1,6 @@
 package com.csse3200.game.entities.factories;
 
-import box2dLight.PointLight;
+import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
@@ -21,6 +21,7 @@ import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -103,11 +104,9 @@ public class PlayerFactory {
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
-        PointLight light = LightingComponent.createPointLight(4f, Color.CORAL);
-        light.setContactFilter(PhysicsLayer.DEFAULT,
-                PhysicsLayer.NONE,
-                (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
-        player.addComponent(new LightingComponent().attach(light));
+        PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
+        player.addComponent(new LightingComponent().attach(light))
+              .addComponent(new FadeLightsDayTimeComponent());
 
         player.setIsPlayer(true);
 

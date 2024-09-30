@@ -6,7 +6,6 @@ import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
@@ -54,6 +53,22 @@ public class LightingComponent extends Component {
     }
 
     /**
+     * Detaches a light source from the entity.
+     *
+     * @param light The light source.
+     * @return true if the light source was attached to the entity
+     */
+    public boolean detach(PositionalLight light) {
+        int index = lights.indexOf(light);
+        if (index != -1) {
+            lights.remove(index);
+            offsets.remove(index);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the offset of the light from the entity/physics body center
      * @return Light offset
      */
@@ -96,10 +111,20 @@ public class LightingComponent extends Component {
      *
      * @return A reference to the created ConeLight.
      */
-    public static ConeLight createConeLight(float dist, float cone, Color color) {
+    public static ConeLight createConeLight(float dist, float dir, float cone, Color color) {
         return ServiceLocator
                 .getLightingService()
                 .getLighting()
-                .createConeLight(0, 0, dist, 0, cone, color);
+                .createConeLight(0, 0, dist, dir, cone, color);
+    }
+
+    /**
+     * Remove light sources on dispose
+     */
+    @Override
+    public void dispose() {
+        for (PositionalLight light: getLights()) {
+            light.remove(true);
+        }
     }
 }
