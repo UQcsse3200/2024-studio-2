@@ -7,6 +7,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
 import com.csse3200.game.components.npc.WaterSpiralAnimationController;
+import com.csse3200.game.components.npc.WindGustAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -76,7 +77,7 @@ public class ProjectileFactory {
 
     waterSpiral.addComponent(aiTaskComponent);
 
-    TextureAtlas waterSpiralAtlas = ServiceLocator.getResourceService().getAsset("images/effects.atlas", TextureAtlas.class);
+    TextureAtlas waterSpiralAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
     AnimationRenderComponent animator = new AnimationRenderComponent(waterSpiralAtlas);
     animator.addAnimation("waterSpiral", 0.1f, Animation.PlayMode.LOOP);
@@ -89,6 +90,30 @@ public class ProjectileFactory {
     waterSpiral.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
 
     return waterSpiral;
+  }
+
+  public static Entity createWindGust(Entity target) {
+    Entity windGust = createBaseProjectile(target);
+    BaseEnemyEntityConfig config = configs.windGust;
+
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+
+    windGust.addComponent(aiTaskComponent);
+
+    TextureAtlas windGustAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(windGustAtlas);
+    animator.addAnimation("windGust", 0.1f, Animation.PlayMode.LOOP);
+
+    windGust
+            .addComponent(animator)
+            .addComponent(new WindGustAnimationController());
+    windGust.setScale(5.0f, 5.0f);
+
+    windGust.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return windGust;
   }
 
   /**

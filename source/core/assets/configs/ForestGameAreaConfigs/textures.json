@@ -28,6 +28,7 @@
     "images/Healthpotion.png",
     "images/foodtextures/apple.png",
     "images/effects.png",
+    "images/griffinEffects.png",
 
     "images/grass_tile_1_around_sand/upper_left_corner_grass_1_around_sand.jpg",
     "images/grass_tile_1_around_sand/upper_middle_grass_1_around_sand.jpg",
@@ -183,6 +184,7 @@
     "images/monkey.atlas",
     "images/banana.atlas",
     "images/effects.atlas",
+    "images/griffinEffects.atlas",
     "images/bear.atlas",
     "images/Cow.atlas",
     "images/Fish.atlas",

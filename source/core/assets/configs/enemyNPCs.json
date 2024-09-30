@@ -79,6 +79,14 @@
     "defense": 50,
     "speed": 25,
     "isEnemy": 1
+  },
+  "windGust": {
+    "spritePath": "images/griffinEffects.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 3,
+    "isEnemy": 1
   }
 }
 

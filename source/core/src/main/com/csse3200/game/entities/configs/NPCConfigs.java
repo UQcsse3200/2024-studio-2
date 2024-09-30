@@ -25,4 +25,5 @@ public class NPCConfigs {
   public BaseEnemyEntityConfig waterSpiral = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig waterBoss = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig airBoss = new BaseEnemyEntityConfig();
+  public BaseEnemyEntityConfig windGust = new BaseEnemyEntityConfig();
 }

@@ -103,6 +103,7 @@ public class ForestGameArea extends GameArea {
       player.getEvents().addListener("setPosition", this::handleNewChunks);
 
       player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      // TODO: change to correct listener eventName string
       player.getEvents().addListener("spawnKangaBoss", this::spawnWaterBoss);
       player.getEvents().addListener("spawnKangaBoss", this::spawnAirBoss);
 
@@ -217,6 +218,7 @@ public class ForestGameArea extends GameArea {
   private void spawnAirBoss() {
     if (!airBossSpawned) {
       Entity airBoss = BossFactory.createAirBossEntity(player);
+      airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
       spawnEntityOnMap(airBoss);
       enemies.add(airBoss);
       airBossSpawned = true;
@@ -478,6 +480,19 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
       Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
 
       spawnEntityAtVector(waterSpiral, pos);
+    }
+  }
+
+  private void spawnWindGust(Entity boss) {
+    if (boss != null) {
+      Entity windGust = ProjectileFactory.createWindGust(player);
+
+      float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+      float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+      Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+
+      spawnEntityAtVector(windGust, pos);
     }
   }
 

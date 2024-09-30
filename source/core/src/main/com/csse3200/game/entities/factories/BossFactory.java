@@ -10,10 +10,7 @@ import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.npc.AirBossAnimationController;
 import com.csse3200.game.components.npc.KangaBossAnimationController;
 import com.csse3200.game.components.npc.WaterBossAnimationController;
-import com.csse3200.game.components.tasks.ChaseTask;
-import com.csse3200.game.components.tasks.KangaJoeyTask;
-import com.csse3200.game.components.tasks.WanderTask;
-import com.csse3200.game.components.tasks.WaterSpiralTask;
+import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
@@ -70,7 +67,7 @@ public class BossFactory {
                 .addComponent(new KangaBossAnimationController());
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-        kangarooBoss.scaleHeight(3.0f);
+        kangarooBoss.scaleHeight(4.0f);
 
         return kangarooBoss;
     }
@@ -108,7 +105,7 @@ public class BossFactory {
                 .addComponent(new WaterBossAnimationController());
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-        waterBoss.scaleHeight(3.0f);
+        waterBoss.scaleHeight(5.0f);
 
         return waterBoss;
     }
@@ -146,7 +143,7 @@ public class BossFactory {
                 .addComponent(new AirBossAnimationController());
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-        airBoss.scaleHeight(3.0f);
+        airBoss.scaleHeight(6.0f);
 
         return airBoss;
     }
@@ -168,10 +165,10 @@ public class BossFactory {
             aiComponent.addTask(new ChaseTask(target, 10, 8f, 10f, true))
                     .addTask(new KangaJoeyTask(target, 6f, 2));
         } else if (type == Entity.EnemyType.WATER_BOSS) {
-            aiComponent.addTask(new ChaseTask(target, 10, 6f, 8f, true))
+            aiComponent.addTask(new ChaseTask(target, 10, 8f, 8f, true))
                     .addTask(new WaterSpiralTask(500, target, 100f));
         } else if (type == Entity.EnemyType.AIR_BOSS) {
-            aiComponent.addTask(new ChaseTask(target, 10, 12f, 14f, true));
+            aiComponent.addTask(new GriffinTask(target, 10, 8f, 300, 100f));
         }
 
         Entity npc = new Entity()
