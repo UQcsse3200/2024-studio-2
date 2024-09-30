@@ -85,6 +85,7 @@ public class NPCFactory {
    */
   private static void handleDropItem(AbstractItem item, Entity player) {
     Entity itemEntity = ItemFactory.createItem(player, item);
+    itemEntity.setScale(new Vector2(0.4f, 0.4f));
     int radius = 2; // Spawn the item within this radius of the player
     player.getEvents().trigger("dropItems", itemEntity, radius);
   }
