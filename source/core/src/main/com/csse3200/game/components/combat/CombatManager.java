@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -31,6 +32,7 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+    private GdxGame game;
 
 
     /**
@@ -43,6 +45,21 @@ public class CombatManager extends Component {
     public CombatManager(Entity player, Entity enemy) {
         this.player = player;
         this.enemy = enemy;
+
+        this.playerStats = player.getComponent(CombatStatsComponent.class);
+        this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
+
+        this.playerAction = null;
+        this.enemyAction = null;
+
+        this.playerMove = player.getComponent(CombatMoveComponent.class);
+        this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
+    }
+
+    public CombatManager(Entity player, Entity enemy, GdxGame game) {
+        this.player = player;
+        this.enemy = enemy;
+        this.game = game;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
@@ -136,8 +153,9 @@ public class CombatManager extends Component {
             case 3 -> Action.SPECIAL;
             default -> null;
         };
-
-        return enemyAction;
+        // to test Quick time events
+        return Action.SLEEP;
+        //return enemyAction;
     }
 
     /**
@@ -179,7 +197,7 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        playerMove.executeMove(playerAction, enemyStats, false, getPlayerMultiHitsLanded());
                     }
                     case SPECIAL -> {
                         enemyMove.executeMove(enemyAction, playerStats, false);
@@ -260,6 +278,13 @@ public class CombatManager extends Component {
             successfulHits += (random.nextDouble() < successProbability) ? 1 : 0;
         }
         return successfulHits;
+    }
+
+    private int getPlayerMultiHitsLanded() {
+
+        int score = 0;
+        game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
+        return score;
     }
 
     /**

@@ -55,7 +55,7 @@ public class QuickTimeEventActions extends Component {
      */
     private void onExit() {
         logger.info("Exit QuickTimeEvent screen");
-        game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+        game.setScreen(GdxGame.ScreenType.COMBAT);
     }
 
     /**
