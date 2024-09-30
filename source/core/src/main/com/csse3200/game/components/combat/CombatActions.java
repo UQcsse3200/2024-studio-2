@@ -1,6 +1,8 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -10,6 +12,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +49,10 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
     entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
+      game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
+    });
+
   }
 
   /**
@@ -57,7 +64,12 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
+
+    // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
 //    if (previousScreen instanceof MainGameScreen mainGameScreen) {
 //      ForestGameArea gameArea = mainGameScreen.getGameArea();
 //      List<Entity> enemies = gameArea.getEnemies();
@@ -70,9 +82,19 @@ public class CombatActions extends Component {
   /**
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
-  private void onCombatLoss() {
+  private void onCombatLoss(Entity enemy) {
     logger.info("Returning to main game screen after combat loss.");
-    game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+
+    // For CombatStatsDisplay to update
+    // currently there is no listener for below
+    //entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfCombatDialogue", enemy, false);
+
+    game.setOldScreen(previousScreen, previousServices);
   }
 
   /**
