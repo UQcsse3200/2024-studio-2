@@ -117,20 +117,23 @@ Saves and loads specified files.</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#delete(java.lang.Class,java.lang.String)" class="member-name-link">delete</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#delete(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)" class="member-name-link">delete</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Clear all data from JSON files.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#load(java.lang.Class,java.lang.String)" class="member-name-link">load</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#load(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)" class="member-name-link">load</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Load all fields to a specified class from JSON files.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#save(java.lang.Class,java.lang.String)" class="member-name-link">save</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#save(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)" class="member-name-link">save</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Save all fields in the specified class to JSON files.</div>
 </div>
@@ -152,10 +155,11 @@ Saves and loads specified files.</div>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="save(java.lang.Class,java.lang.String)">
+<section class="detail" id="save(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)">
 <h3>save</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">save</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</span></div>
 <div class="block">Save all fields in the specified class to JSON files.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -165,14 +169,22 @@ Saves and loads specified files.</div>
 <dd><code>dir</code> - the directory in assets for the saves to be located in.
             For game state (not shared between new games), use "saves".
             For achievements (shared between new games), use "saves/achievements"</dd>
+<dd><code>location</code> - Libgdx location to save to.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="http://google.com">https://libgdx.com/wiki/file-handling</a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="load(java.lang.Class,java.lang.String)">
+<section class="detail" id="load(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)">
 <h3>load</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">load</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</span></div>
 <div class="block">Load all fields to a specified class from JSON files.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -182,14 +194,22 @@ Saves and loads specified files.</div>
 <dd><code>dir</code> - the directory in assets for the saves to be located in.
             For game state (not shared between new games), use "saves".
             For achievements (shared between new games), use "saves/achievements"</dd>
+<dd><code>location</code> - Libgdx location to load from.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="http://google.com">https://libgdx.com/wiki/file-handling</a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="delete(java.lang.Class,java.lang.String)">
+<section class="detail" id="delete(java.lang.Class,java.lang.String,com.csse3200.game.files.FileLoader.Location)">
 <h3>delete</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">delete</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;className,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dir,
+ <a href="../files/FileLoader.Location.html" title="enum class in com.csse3200.game.files">FileLoader.Location</a>&nbsp;location)</span></div>
 <div class="block">Clear all data from JSON files.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -199,6 +219,13 @@ Saves and loads specified files.</div>
 <dd><code>dir</code> - the directory in assets for the saves to be located in.
             For game state (not shared between new games), use "saves".
             For achievements (shared between new games), use "saves/achievements"</dd>
+<dd><code>location</code> - Libgdx location to delete from.</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="http://google.com">https://libgdx.com/wiki/file-handling</a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
