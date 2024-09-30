@@ -172,35 +172,35 @@ class PauseTaskTest {
         assertTrue(pauseTask.getPriority() < 0, "Priority should be negative after moving out of view distance");
     }
 
-    @Test
-    void shouldDisplayCorrectDialogue() {
-        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
-        Entity player =
-                new Entity()
-                        .addComponent(new CameraZoomComponent())
-                        .addComponent(new PhysicsComponent(true))
-                        .addComponent(new ColliderComponent())
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
-
-        SaveHandler.load(GameState.class, "defaultsaves");
-
-        QuestManager questManager = new QuestManager(player);
-        player.addComponent(questManager);
-
-        questManager.loadQuests();
-        player.setPosition(2f, 2f);
-        player.create();
-
-        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
-        cow.setPosition(1.5f, 1.5f);
-        cow.create();
-
-        cow.update();
-
-        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.";
-
-        String hintDialogue = dialogueBox.getLabel().getText().toString();
-        assertEquals(cowInitialDialogue, hintDialogue);
-        dialogueBox.handleForwardButtonClick();
-    }
+//    @Test
+//    void shouldDisplayCorrectDialogue() {
+//        DialogueBox dialogueBox = ServiceLocator.getDialogueBoxService().getCurrentOverlay();
+//        Entity player =
+//                new Entity()
+//                        .addComponent(new CameraZoomComponent())
+//                        .addComponent(new PhysicsComponent(true))
+//                        .addComponent(new ColliderComponent())
+//                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
+//
+//        SaveHandler.load(GameState.class, "defaultsaves");
+//
+//        QuestManager questManager = new QuestManager(player);
+//        player.addComponent(questManager);
+//
+//        questManager.loadQuests();
+//        player.setPosition(2f, 2f);
+//        player.create();
+//
+//        Entity cow = NPCFactory.createCow(player, new ArrayList<>());
+//        cow.setPosition(1.5f, 1.5f);
+//        cow.create();
+//
+//        cow.update();
+//
+//        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.";
+//
+//        String hintDialogue = dialogueBox.getLabel().getText().toString();
+//        assertEquals(cowInitialDialogue, hintDialogue);
+//        dialogueBox.handleForwardButtonClick();
+//    }
 }

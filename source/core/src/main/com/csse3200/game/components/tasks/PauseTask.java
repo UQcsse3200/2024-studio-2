@@ -24,6 +24,7 @@ public class PauseTask extends ChaseTask {
     private BaseFriendlyEntityConfig config;
     QuestManager questManager;
     private String animalName;
+    private String taskName;
     private boolean hasEndedConversation;
 
     /**
@@ -39,6 +40,8 @@ public class PauseTask extends ChaseTask {
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.questManager = target.getComponent(QuestManager.class);
+        this.taskName = "";
         this.hasEndedConversation = false;
     }
 

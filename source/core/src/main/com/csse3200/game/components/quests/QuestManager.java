@@ -291,15 +291,19 @@ public class QuestManager extends Component {
 
 
 
-    /** Setup potion collection task listener.
+    /** Setup item collection task listener (1 at a time).
      * Note: limitation on item collection - 1 item collection per kingdom
-     *      w completion string "item collection task successful"  */
-    private void setupPotionsTask() {
+     *      w completion string "item collection task successful"
+     * @param itemName the item to be collected
+     * @param quantity the number of items needed for successful item completion task
+     * @param completionTrigger the string to be triggered (task name) on successful item collection
+     *      */
+    private void setupItemCollectionsTask(String itemName, int quantity, String completionTrigger) {
         try {
             Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
-            inventory.questItemListen("Defense Potion", 5, "collectPotions");
+            inventory.questItemListen(itemName, quantity, completionTrigger);
         } catch (NullPointerException nullPointerException) {
-            // Ignore
+            // Ignore - no inventory given
         }
 
     }
@@ -379,11 +383,18 @@ public class QuestManager extends Component {
             addQuest(quest);
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
 
-            // Setup potion collection task is not completed already in saved GameState
-            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
-                setupPotionsTask();
+            // Setup item collection tasks (if inventory exists)
+            if (quest.getQuestName().equals("Guide's Request")) {
+                if (!quest.isQuestCompleted()) {
+                    setupItemCollectionsTask("Defense Potion", 5, "collectPotions");
+                } else {
+                    setupItemCollectionsTask("Candy", 6, "collectCandy");
+                }
+                continue;
             }
-
+            if (quest.getQuestName().equals("Water Sage's research") && quest.isQuestCompleted()) {
+                setupItemCollectionsTask("Apple", 4, "collectApples");
+            }
         }
     }
 
@@ -476,6 +487,13 @@ public class QuestManager extends Component {
             player.getEvents().trigger("questCompleted");
             player.getEvents().trigger(quest.getQuestName());
             logger.info("{} completed!", quest.getQuestName());
+        }
+
+        if (quest.getQuestName().equals("Guide's Request")) {
+            setupItemCollectionsTask("Candy", 6, "collectCandy");
+        }
+        if (quest.getQuestName().equals("Water Sage's research")) {
+            setupItemCollectionsTask("Apple", 4, "collectApples");
         }
     }
 
