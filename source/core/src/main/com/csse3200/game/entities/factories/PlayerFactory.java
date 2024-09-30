@@ -51,7 +51,7 @@ public class PlayerFactory {
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player =
-                new Entity()
+                new Entity() // Set that this entity is the player
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
                         .addComponent(new PhysicsComponent(true))
@@ -108,6 +108,8 @@ public class PlayerFactory {
                 PhysicsLayer.NONE,
                 (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
         player.addComponent(new LightingComponent().attach(light));
+
+        player.setIsPlayer(true);
 
         return player;
     }
