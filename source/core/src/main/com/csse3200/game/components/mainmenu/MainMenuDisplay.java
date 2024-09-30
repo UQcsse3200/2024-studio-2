@@ -67,7 +67,7 @@ public class MainMenuDisplay extends UIComponent {
     private Button settingsBtn;
     private Button logbookBtn;
     private Cursor customCursor;
-    private TextButton achievementsBtn;
+    private Button achievementsBtn;
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
@@ -86,6 +86,7 @@ public class MainMenuDisplay extends UIComponent {
     private Label helpLabel;
     private Label settingLabel;
     private Label exitLabel;
+    private Label achievementsLabel;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -212,6 +213,7 @@ public class MainMenuDisplay extends UIComponent {
         logbookLabel = new Label("Logbook", skin, "button-red");
         settingLabel = new Label("Settings", skin, "button-red");
         exitLabel = new Label("Exit", skin, "button-red");
+        achievementsLabel = new Label("Achievements", skin, "button-red");
         versionLabel = new Label("Version 1.0", skin, "default-white");
     }
 
@@ -252,7 +254,7 @@ public class MainMenuDisplay extends UIComponent {
         minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         logbookBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        achievementsBtn = new TextButton("Achievements", skin);
+        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
         exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
     }
@@ -268,6 +270,7 @@ public class MainMenuDisplay extends UIComponent {
         addButtonElevationEffect(settingsBtn, settingLabel);
         addButtonElevationEffect(helpBtn, helpLabel);
         addButtonElevationEffect(exitBtn, exitLabel);
+        addButtonElevationEffect(achievementsBtn, achievementsLabel);
     }
 
     /**
@@ -404,6 +407,7 @@ public class MainMenuDisplay extends UIComponent {
         helpLabel.setStyle(skin.get(style, Label.LabelStyle.class));
         settingLabel.setStyle(skin.get(style, Label.LabelStyle.class));
         exitLabel.setStyle(skin.get(style, Label.LabelStyle.class));
+        achievementsLabel.setStyle(skin.get(style, Label.LabelStyle.class));
         versionLabel.setStyle(skin.get(style, Label.LabelStyle.class));
     }
 
@@ -440,6 +444,7 @@ public class MainMenuDisplay extends UIComponent {
         Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
         Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
         Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
+        Stack achievementStack = createButtonWithLabelStack(achievementsBtn, achievementsLabel, buttonWidth, buttonHeight);
 
         menuButtonTable.add(startStack).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
         menuButtonTable.row();
@@ -448,6 +453,7 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(logbookStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
+        menuButtonTable.add(achievementStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
         menuButtonTable.row();
