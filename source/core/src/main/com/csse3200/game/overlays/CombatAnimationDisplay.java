@@ -84,6 +84,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 sleepImage.setVisible(false);
+                dispose();
             }
         }, 1000);
 
@@ -100,6 +101,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 sleepImage.setVisible(false);
+                dispose();
             }
         }, 2000);
     }
@@ -132,6 +134,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 guardImage.setVisible(false);
+                dispose();
             }
         }, 1200); // 1.2 second
 
@@ -165,6 +168,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 guardImage.setVisible(false);
+                dispose();
             }
         }, 1200); // 1.2 second
 
@@ -197,6 +201,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 combatImage.setVisible(false);
+                dispose();
             }
         }, 1000); // 1 second
     }
@@ -216,7 +221,9 @@ public class CombatAnimationDisplay extends UIComponent {
     @Override
     public void dispose() {
         // Clean up the root table and image
-        rootTable.clear();
+        if (rootTable != null) {
+            rootTable.clear();
+        }
         if (combatImage != null) {
             combatImage.remove();
         }
