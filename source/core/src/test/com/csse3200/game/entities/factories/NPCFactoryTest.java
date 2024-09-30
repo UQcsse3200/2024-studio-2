@@ -1,12 +1,15 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
@@ -86,6 +89,13 @@ class NPCFactoryTest {
         RenderService renderService = mock(RenderService.class);
         when(renderService.getStage()).thenReturn(mock(Stage.class));
         ServiceLocator.registerInputService(new InputService());
+
+        // lighting service
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
 
         // Load resources
         resourceService.loadTextures(textures);
