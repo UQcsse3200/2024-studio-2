@@ -25,6 +25,7 @@ public class PauseTask extends ChaseTask {
     QuestManager questManager;
     private String animalName;
     private String taskName;
+    private boolean hasEndedConversation;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -41,6 +42,7 @@ public class PauseTask extends ChaseTask {
         this.config = null;
         this.questManager = target.getComponent(QuestManager.class);
         this.taskName = "";
+        this.hasEndedConversation = false;
     }
 
     /**
@@ -139,9 +141,14 @@ public class PauseTask extends ChaseTask {
         }
 
         if (hasApproached && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())
-                && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
-        ) {
+            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
+            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), "PlayerFinishedInteracting")) {
             triggerPauseEvent();
+        }
+
+        if (!hasEndedConversation && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())) {
+            hasEndedConversation = true;
+            entity.getEvents().trigger("PlayerFinishedInteracting");
         }
     }
 
@@ -154,7 +161,8 @@ public class PauseTask extends ChaseTask {
         movementTask.start();
 
         // Ensure the chat box doesn't hang around when it's not supposed to
-        this.hasApproached = false;
+        hasApproached = false;
+        hasEndedConversation = false;
         triggerPauseEventEnd();
     }
 
