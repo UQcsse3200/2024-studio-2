@@ -55,9 +55,12 @@ public class CombatExitDisplay extends UIComponent {
             new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          logger.info("enemy is: {}", enemy.getComponent(CombatStatsComponent.class).isBoss());
-          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+          if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
             entity.getEvents().trigger("kangaDefeated");
+          } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            entity.getEvents().trigger("waterBossDefeated");
+          } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            entity.getEvents().trigger("airBossDefeated");
           } else {
             entity.getEvents().trigger("combatWin", enemy);
           }
@@ -69,9 +72,13 @@ public class CombatExitDisplay extends UIComponent {
             new ChangeListener() {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
-                entity.getEvents().trigger("combatLoss", enemy);
-              }
-            });
+          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+            entity.getEvents().trigger("combatLossBoss");
+          } else {
+            entity.getEvents().trigger("combatLoss", enemy);
+          }
+        }
+      });
 
     // Add the buttons to the table with padding for layout spacing
     table.add(win).padTop(10f).padRight(10f);

@@ -269,9 +269,21 @@ public class CombatManager extends Component {
      */
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatLoss");
+            if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+                this.getEntity().getEvents().trigger("combatLossBoss");
+            } else {
+                this.getEntity().getEvents().trigger("combatLoss");
+            }
         } else if (enemyStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatWin", enemy);
+            if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+                this.getEntity().getEvents().trigger("kangaDefeated");
+            } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+                this.getEntity().getEvents().trigger("waterBossDefeated");
+            } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+                this.getEntity().getEvents().trigger("airBossDefeated");
+            } else {
+                this.getEntity().getEvents().trigger("combatWin", enemy);
+            }
         }
     }
 
