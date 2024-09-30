@@ -113,7 +113,7 @@ public class ForestGameArea extends GameArea {
 
   private void handleNewChunks(Vector2 playerPos) {
     if (TerrainLoader.movedChunk(playerPos)) {
-      logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
+      logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
       handleItems();
 //     TerrainComponent.loadChunks(playerPos);
 //     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
@@ -129,11 +129,7 @@ public class ForestGameArea extends GameArea {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
-    // Despawn items on old chunks:
-    // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
-    //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
-    //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
-    //  ONTO THE CHUNK)
+    // TODO: Despawn items on old chunks:
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
