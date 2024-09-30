@@ -85,7 +85,7 @@ public class Foods {
      * Milk class manages the milk fields inherited from AbstractFood
      */
     public static class Milk extends AbstractFood {
-        private final static String path = "images/foodtextures/carrot.png"; // TODO
+        private final static String path = "images/foodtextures/Milk.png";
 
         /**
          * Constructs a Milk class with while assigning fields with set values.
@@ -98,18 +98,18 @@ public class Foods {
     }
 
     /**
-     * Caviar class manages the caviar fields inherited from AbstractFood
+     * Sushi class manages the caviar fields inherited from AbstractFood
      */
-    public static class Caviar extends AbstractFood {
-        private final static String path = "images/foodtextures/carrot.png"; // TODO
+    public static class Sushi extends AbstractFood {
+        private final static String path = "images/foodtextures/Sushi.png";
 
         /**
-         * Constructs a Caviar class with while assigning fields with set values.
+         * Constructs a Sushi class with while assigning fields with set values.
          */
-        public Caviar(int quantity) {
+        public Sushi(int quantity) {
             super("Caviar", 17, 1, quantity, 40);
             this.setTexturePath(path);
-            this.setDescription("This is caviar");
+            this.setDescription("This is Sushi");
         }
     }
 }

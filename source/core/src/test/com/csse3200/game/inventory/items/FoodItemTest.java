@@ -73,7 +73,7 @@ public class FoodItemTest {
 
     @Test
     void testCaviar() {
-        Foods.Caviar caviar = new Foods.Caviar(1);
-        helperTestFood(caviar);
+        Foods.Sushi sushi = new Foods.Sushi(1);
+        helperTestFood(sushi);
     }
 }

@@ -230,7 +230,7 @@ public class NPCFactory {
           item = new Foods.Milk(1);
           break;
         case "Fish":
-          item = new Foods.Caviar(1);
+          item = new Foods.Sushi(1);
           break;
         default:
           return;

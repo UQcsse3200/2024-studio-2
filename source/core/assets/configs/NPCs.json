@@ -87,7 +87,7 @@
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Fish",
-    "itemProbability": 0.6
+    "itemProbability": 0.0
   },
   "friendlyChicken": {
     "baseHint": [
