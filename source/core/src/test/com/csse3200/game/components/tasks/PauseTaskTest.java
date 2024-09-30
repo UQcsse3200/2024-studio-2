@@ -187,7 +187,7 @@ class PauseTaskTest {
         QuestManager questManager = new QuestManager(player);
         player.addComponent(questManager);
 
-        player.getComponent(QuestManager.class).loadQuests();
+        questManager.loadQuests();
         player.setPosition(2f, 2f);
         player.create();
 
@@ -197,7 +197,7 @@ class PauseTaskTest {
 
         cow.update();
 
-        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide. To prove your worth, you’ll need to complete a few tasks. Are you ready?";
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.";
 
         String hintDialogue = dialogueBox.getLabel().getText().toString();
         assertEquals(cowInitialDialogue, hintDialogue);

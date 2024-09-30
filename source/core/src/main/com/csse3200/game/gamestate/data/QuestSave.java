@@ -24,7 +24,6 @@ public class QuestSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        Logger logger = LoggerFactory.getLogger(QuestSave.class);
         ArrayList<QuestBasic> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
             Iterator<JsonValue> taskList;
@@ -42,7 +41,6 @@ public class QuestSave implements Json.Serializable {
                 dialogueList = quest.get("questDialogue").iterator();
             }
 
-            logger.info("passed");
             Iterator<JsonValue> taskCompletionList;
 
             if(quest.get("taskCompletionTriggers").isNull()) {
@@ -85,7 +83,6 @@ public class QuestSave implements Json.Serializable {
 
 
             if(dialogueList != null) {
-                logger.info("fragging out");
                 while (dialogueList.hasNext()) {
                     JsonValue dialogue = dialogueList.next();
                     DialogueKey newKey;
@@ -95,43 +92,24 @@ public class QuestSave implements Json.Serializable {
                     Iterator<JsonValue> dialogueIterator = dialogue.get("dialogue").iterator();
                     List<String[]> dialogueIteratorList = new ArrayList<>();
 
-                    logger.info("pre layer");
                     while(dialogueIterator.hasNext()) {
-                        logger.info("first layer");
                         JsonValue dialogueItem = dialogueIterator.next();
                         Iterator<JsonValue> dialogueLineIterator = dialogueItem.iterator();
                         List<String> dialogueLines = new ArrayList<>();
 
                         while(dialogueLineIterator.hasNext()) {
-                            logger.info("second layer");
                             JsonValue dialogueLine = dialogueLineIterator.next();
-                            logger.info("Line read: {}", dialogueLine);
                             dialogueLines.add(dialogueLine.asString());
-                            logger.info("finished?");
                         }
 
-                        try {
-                            dialogueIteratorList.add(dialogueLines.toArray(new String[0]));
-                        } catch (Exception e) {
-                            logger.info("exception???: {}", e);
-                        }
-                        logger.info("list layer 1");
-
+                        dialogueIteratorList.add(dialogueLines.toArray(new String[0]));
                     }
 
                     dialogueArray = dialogueIteratorList.toArray(new String[0][0]);
-                    logger.info("list layer 2");
                     newKey = new DialogueKey(npc, dialogueArray);
                     newDialogues.add(newKey);
-                    logger.info("Quest Dialogues: {}, {}", dialogue, dialogue.name);
-
-                    //TODO: fill with functional loading for NPC integration
-
                 }
-
-
             }
-            logger.info("Quest Dialogues: {}", newDialogues);
             if(taskCompletionList != null) {
                 while (taskCompletionList.hasNext()) {
                     newTriggers.add(taskCompletionList.next().toString());

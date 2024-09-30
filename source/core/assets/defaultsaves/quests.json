@@ -21,15 +21,15 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.
-							To prove your worth, you’ll need to complete a few tasks. Are you ready?
+							"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide."
+							"To prove your worth, you’ll need to complete a few tasks. Are you ready?"
 						]
 					]
 				}
 			]
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false
+			isActive: true
 			taskCompletionTriggers: null
 		}
 		{

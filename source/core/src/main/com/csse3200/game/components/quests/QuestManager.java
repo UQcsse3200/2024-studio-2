@@ -29,7 +29,7 @@ import static com.csse3200.game.components.quests.AchievementManager.saveAchieve
  */
 public class QuestManager extends Component {
     /** Map to store quests. */
-    private final HashMap<String, QuestBasic> quests;
+    private final LinkedHashMap<String, QuestBasic> quests;
      /** Array to store achievements. */
      private final Array<Achievement> achievements;
     /** Logger for logging quest related attributes. */
@@ -48,7 +48,7 @@ public class QuestManager extends Component {
 
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
-        this.quests = new HashMap<>();
+        this.quests = new LinkedHashMap<>();
         this.player = player;
         this.relevantQuests = Map.of(
                 "Cow", new String[]{"2 Task Quest"}
@@ -368,9 +368,9 @@ public class QuestManager extends Component {
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
 
             // Setup potion collection task is not completed already in saved GameState 
-            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
-                setupPotionsTask();
-            }
+//            if (quest.getQuestName().equals("Potion Collection") && !quest.isQuestCompleted()) {
+//                setupPotionsTask();
+//            }
         }
     }
 
