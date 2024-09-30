@@ -103,11 +103,14 @@ public class CombatButtonDisplay extends UIComponent {
      * @param moveDescription text to display that describes the move
      */
     private void setTextForCombatHint(String moveDescription) {
-        float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
-        float combatHintBackgroundWidth = Gdx.graphics.getWidth() * 0.8f;  // 80% screen width
         hoverTextLabel.setText(moveDescription);  // Set hover text
+        // set the position of the combat hint text
         hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.5f,
                 Gdx.graphics.getHeight() * 0.20f);
+        // set the position of the background for the combat hint text
+        float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
+        // combat background is proportional to the combatHintTextLength
+        float combatHintBackgroundWidth = hoverTextLabel.getWidth() + Gdx.graphics.getWidth() * 0.1f;
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
         backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
                 , Gdx.graphics.getHeight() * 0.2f -
