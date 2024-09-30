@@ -276,7 +276,7 @@ public class CombatManager extends Component {
             }
         } else if (enemyStats.getHealth() <= 0) {
             if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
-                this.getEntity().getEvents().trigger("kangaDefeated");
+                this.getEntity().getEvents().trigger("landBossDefeated");
             } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
                 this.getEntity().getEvents().trigger("waterBossDefeated");
             } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {

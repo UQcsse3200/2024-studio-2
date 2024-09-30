@@ -48,7 +48,7 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("kangaDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("landBossDefeated", this::onKangaDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
