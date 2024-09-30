@@ -11,6 +11,7 @@ import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.gamestate.GameState;
@@ -75,6 +76,7 @@ public class MainGameScreen extends PausableScreen {
    */
   private final PhysicsEngine physicsEngine;
   private final LightingEngine lightingEngine;
+  private final DayNightCycle dayNightCycle;
 
   /**
    * The game area containing the main game.
@@ -116,6 +118,8 @@ public class MainGameScreen extends PausableScreen {
 
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
+    dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
+
     loadAssets();
     createUI();
     logger.debug("Initialising main game screen entities");
@@ -144,6 +148,7 @@ public class MainGameScreen extends PausableScreen {
       if (!isPaused){
           physicsEngine.update();
           ServiceLocator.getEntityService().update();
+          dayNightCycle.update();
           renderer.render();
       }
   }

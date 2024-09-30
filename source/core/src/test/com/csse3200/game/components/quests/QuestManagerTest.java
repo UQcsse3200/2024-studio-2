@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ResourceService;
@@ -108,11 +109,11 @@ class QuestManagerTest {
         GameState.quests.quests.add(quest1);
         GameState.quests.quests.add(quest2);
 
-        SaveHandler.save(GameState.class, "test/saves/quests");
+        SaveHandler.save(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         GameState.quests.quests.clear();
 
-        SaveHandler.load(GameState.class, "test/saves/quests");
+        SaveHandler.load(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         assertTrue(GameState.quests.quests.getFirst().isFailed());
         assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
@@ -120,7 +121,7 @@ class QuestManagerTest {
 
         GameState.quests.quests.clear();
 
-        SaveHandler.delete(GameState.class, "test/saves/quests");
+        SaveHandler.delete(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
     }
 
     @Test
