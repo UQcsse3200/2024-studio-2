@@ -353,6 +353,7 @@ public class ForestGameArea extends GameArea {
   }
   
   private void spawnConvertedNPCs(Entity defeatedEnemy) {
+    loadAssets();
     if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
       logger.warn("Attempted to convert null entity or entity with null enemy type");
       return;
@@ -365,15 +366,15 @@ public class ForestGameArea extends GameArea {
     switch (defeatedEnemy.getEnemyType()) {
       case CHICKEN:
         convertedNPC = NPCFactory.createChicken(player, this.enemies);
-        resourceService.loadMusic(new String[] {"sounds/chicken.wav"});
+        spawnEntityAtVector(convertedNPC, pos);
         break;
       case FROG:
         convertedNPC = NPCFactory.createFrog(player, this.enemies);
-        resourceService.loadMusic(new String[] {"sounds/frog.wav"});
+        spawnEntityAtVector(convertedNPC, pos);
         break;
       case MONKEY:
         convertedNPC = NPCFactory.createMonkey(player, this.enemies);
-        resourceService.loadMusic(new String[] {"sounds/monkey.wav"});
+        spawnEntityAtVector(convertedNPC, pos);
         break;
       // Add other enemy types as needed
       default:
@@ -382,7 +383,6 @@ public class ForestGameArea extends GameArea {
     }
     
     if (convertedNPC != null) {
-      spawnEntityAtVector(convertedNPC, pos);
       logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
     }
   }
