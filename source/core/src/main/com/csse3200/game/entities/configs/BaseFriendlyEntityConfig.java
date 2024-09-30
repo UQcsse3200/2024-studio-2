@@ -23,6 +23,8 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     protected String spritePath;
     protected final float animationSpeed = 0.1f;
     protected String[] soundPath;
+    public float itemProbability = 0;
+    public String foodItem;
 
     protected BaseFriendlyEntityConfig() {}
 
@@ -192,12 +194,17 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public int getExperience() {
         return experience;
     }
-    public Boolean isBoss() {
-        return isBoss;
-    }
-
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    // Getter for item drop probability
+    public float getItemProbability() {
+        return itemProbability;
+    }
+
+    public Boolean isBoss() {
+        return isBoss;
     }
 
     // Getter and setter for stamina.

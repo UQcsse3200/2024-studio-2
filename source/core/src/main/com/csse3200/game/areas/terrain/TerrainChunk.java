@@ -9,12 +9,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainResource;
 import com.csse3200.game.areas.terrain.TerrainComponent.Tile;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +30,16 @@ public class TerrainChunk {
   private GridPoint2 position;
   private TiledMap tiledMap;
 
-  public Array<Tile> tiles;
   public Array<BitSet> grid;
   private BitSet collapsedTiles;
+
+  public HashMap<String, Integer> tileTypeCount;
 
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
+
+    this.tileTypeCount = new HashMap<String, Integer>();
     this.grid = new Array<BitSet>(256);
     this.collapsedTiles = new BitSet(256);
 
@@ -59,7 +60,7 @@ public class TerrainChunk {
    * @param terrainResource The terrain resource to use for generating the terrain
    */
   public void generateTiles(GridPoint2 chunkPos, Map<GridPoint2, TerrainChunk> loadedChunks,
-                            TerrainResource terrainResource) {
+      TerrainResource terrainResource) {
     int cPosX = chunkPos.x * CHUNK_SIZE;
     int cPosY = chunkPos.y * CHUNK_SIZE;
 
@@ -103,7 +104,6 @@ public class TerrainChunk {
 
       Integer randomTile = minentropyTiles.random();
       // int randomTile = t;
-      GridPoint2 toGridpos = new GridPoint2(randomTile % 16, randomTile / 16);
 
       // ranodm pick a tile
       int numTrueBits = grid.get(randomTile).cardinality();
@@ -118,9 +118,7 @@ public class TerrainChunk {
       // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
 
-      CCell cell = new CCell();
-      cell.setTile(terrainResource.getTilebyIndex(randomTrueBitIndex), terrainResource);
-      ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + toGridpos.x, cPosY + toGridpos.y, cell);
+      collapseTile(cPosX + randomTile % 16, cPosY + randomTile / 16, terrainResource, randomTrueBitIndex);
       collapsedTiles.set(randomTile);
 
       updateGrid();
@@ -129,20 +127,46 @@ public class TerrainChunk {
     int currentBit = 0;
     for (int i = 0; i < collapsedTiles.size() - collapsedTiles.cardinality(); ++i) {
       currentBit = collapsedTiles.nextClearBit(currentBit);
-
-      GridPoint2 Gridpos = new GridPoint2(currentBit % 16, currentBit / 16);
-      
-      CCell cell = new CCell();
-      cell.setTile(terrainResource.getTilebyIndex(4), terrainResource);
-      ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + Gridpos.x, cPosY + Gridpos.y, cell);
-      
+      collapseTile(cPosX + currentBit % 16, cPosY + currentBit / 16, terrainResource, 4);
       currentBit++;
     }
-    
-
 
     return allCollapsed;
   }
+
+  /**
+   *  Set the selected tile on the map.
+   *  Also strores the type of the tile infomation 
+   *
+   *  @param x               x position of the tile
+   *  @param y               y position of the tile
+   *  @param terrainResource Terrain resource to use for generating the terrain
+   *  @param tileIndex       The index of the tile to set
+   */
+  private void collapseTile(int x, int y, TerrainResource terrainResource, int tileIndex) {
+    CCell cell = new CCell();
+    Tile tile = terrainResource.getTilebyIndex(tileIndex);
+    cell.setTile(tile, terrainResource);
+    ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
+
+    if (tileTypeCount.containsKey(tile.getCentre())) {
+      tileTypeCount.put(tile.getCentre(), tileTypeCount.get(tile.getCentre()) + 1);
+    } else {
+      tileTypeCount.put(tile.getCentre(), 1);
+    }
+  }
+
+  /**
+   * Get the tile type count for a given tile type. 
+   * Returns null if the tile type does not exist.
+   * 
+   * @param tileType The tile type to get the count for
+   * @return The count of the tile type
+   */
+  public Integer getTileTypeCount(String tileType) {
+    return tileTypeCount.get(tileType);
+  }
+
 
   /**
    * Update the grid of possible tiles for each cell in the chunk.
@@ -200,7 +224,7 @@ public class TerrainChunk {
    * @return The updated bitset for this cell
    */
   private BitSet analyseTile(BitSet up, BitSet down, BitSet left, BitSet right,
-                             BitSet currentBitCell) {
+      BitSet currentBitCell) {
     BitSet gridCell = currentBitCell;
     if (up != null)
       currentBitCell.and(up);
@@ -298,5 +322,9 @@ public class TerrainChunk {
       return this;
     }
 
+  }
+
+  public enum TileType {
+    GRASS, WATER, SAND, NONE
   }
 }

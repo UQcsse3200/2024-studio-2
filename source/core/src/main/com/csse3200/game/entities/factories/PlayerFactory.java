@@ -1,31 +1,27 @@
 package com.csse3200.game.entities.factories;
 
+import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
-import com.csse3200.game.components.player.InventoryComponent;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.quests.AchievementPopup;
-import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
-import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
@@ -35,7 +31,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
 
 
 import java.util.ArrayList;
@@ -57,7 +52,7 @@ public class PlayerFactory {
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player =
-                new Entity()
+                new Entity() // Set that this entity is the player
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
                         .addComponent(new PhysicsComponent(true))
@@ -94,9 +89,9 @@ public class PlayerFactory {
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
-        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9, 5))
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
@@ -109,9 +104,11 @@ public class PlayerFactory {
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 
-        LightingComponent light = new LightingComponent(LightingComponent.createPointLight(4f, Color.CORAL));
-        light.getLight().setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, (short)(PhysicsLayer.OBSTACLE | PhysicsLayer.NPC));
-        player.addComponent(light);
+        PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
+        player.addComponent(new LightingComponent().attach(light))
+              .addComponent(new FadeLightsDayTimeComponent());;
+
+        player.setIsPlayer(true);
 
         return player;
     }

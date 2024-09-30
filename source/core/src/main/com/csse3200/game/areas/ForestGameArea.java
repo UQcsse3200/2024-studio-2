@@ -1,14 +1,16 @@
 package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
-import com.csse3200.game.components.mainmenu.MainMenuActions;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -18,14 +20,9 @@ import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.areas.ForestGameAreaConfigs.*;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainChunk;
-import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.factories.*;
 import com.csse3200.game.areas.terrain.TerrainLoader;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -110,7 +107,7 @@ public class ForestGameArea extends GameArea {
       kangarooBossSpawned = false;
 
       //Initialise inventory and quests with loaded data
-      player.getComponent(PlayerInventoryDisplay.class).loadInventoryFromSave();
+      player.getComponent(InventoryComponent.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
   }
 
@@ -159,9 +156,18 @@ public class ForestGameArea extends GameArea {
     return player;
   }
 
-  public void displayUI() {
+  public void displayUI()
+  {
     Entity ui = new Entity();
-    ui.addComponent(new GameAreaDisplay("Box Forest"));
+
+    // Create the necessary objects to pass to GameAreaDisplay
+    SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
+    OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
+    // Make sure to get the correct CameraComponent type required by GameAreaDisplay
+    CameraComponent minimapCameraComponent = (CameraComponent) this.terrainFactory.getCameraComponent(); // Adjust as needed
+
+    // Pass the required parameters to the GameAreaDisplay constructor
+    ui.addComponent(new GameAreaDisplay("Box Forest", batch, mainCamera, minimapCameraComponent));
     ui.addComponent(new QuestPopup());
     spawnEntity(ui);
   }
@@ -247,7 +253,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
     // Spawn the entity at the calculated position
     spawnEntityAt(entity, spawnPos, true, true);
-    logger.info("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+    logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
             entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
   }
 
