@@ -13,16 +13,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.tasks.TimedUseItemTask;
 import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.inventory.*;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.inventory.items.potions.AttackPotion;
+import com.csse3200.game.inventory.items.potions.DefensePotion;
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 /**
  * PlayerInventoryDisplay is a UI component that displays the player's inventory in a grid format.
@@ -30,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * and update dynamically when the inventory changes.
  */
 public class PlayerInventoryDisplay extends UIComponent {
+    private boolean isInCombat = false;
     private static final Logger logger = LoggerFactory.getLogger(PlayerInventoryDisplay.class);
     private static final int timedUseItemPriority = 23;
     private static final float Z_INDEX = 3f;
@@ -42,6 +47,7 @@ public class PlayerInventoryDisplay extends UIComponent {
 
     private final int numCols, numRows, hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
+    private ArrayList<TimedUseItem> potions = new ArrayList<TimedUseItem>();
 
     // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
@@ -79,6 +85,49 @@ public class PlayerInventoryDisplay extends UIComponent {
     }
 
     /**
+     * updates the potions effects if in or out of combat
+     */
+    public void updatePotions(ItemUsageContext context) {
+        if (this.potions != null) {
+            if (!isInCombat) {
+                for (int i = 0; i < potions.size(); i++) {
+                    if (potions.get(i) instanceof DefensePotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
+                    if (potions.get(i) instanceof AttackPotion) {
+                        potions.get(i).update(context);
+                        potions.remove(i);
+                    }
+                }
+            }
+
+            for (int i = 0; i < potions.size(); i++) {
+                if (potions.get(i) instanceof SpeedPotion) {
+                    potions.get(i).update(context);
+                    potions.remove(i);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the state of inCombat
+     * @param inCombat boolean value of if the player is in combat or not
+     */
+    public void setCombatState(boolean inCombat) {
+        this.isInCombat = inCombat;
+    }
+
+    /**
+     * Checks if player is in combat
+     * @return the state of iff player is in combat or not
+     */
+    public boolean isInCombat() {
+        return this.isInCombat;
+    }
+
+    /**
      * Initializes the component by setting up event listeners for toggling the inventory display
      * and adding items.
      */
@@ -89,6 +138,25 @@ public class PlayerInventoryDisplay extends UIComponent {
         generateHotBar();
         entity.getEvents().addListener("toggleInventory", this::toggleDisplay);
         entity.getEvents().addListener("addItem", this::addItem);
+    }
+
+    /**
+     * Checks if the player is in combat or not to restrict certain actions i.e. using defense and attack potion when
+     * not in combat or ensuring hotbar does not appear during combat
+     * @param item the item in inventory
+     * @param context context of the item usage
+     * @param index index of the item in inventory
+     */
+    private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
+        if (item instanceof DefensePotion || item instanceof AttackPotion) {
+            if (!isInCombat) {
+                logger.warn("Cannot use defense or attack potions outside of combat.");
+                return;
+            }
+        }
+        // Otherwise, allow item use
+        inventory.useItemAt(index, context);
+        entity.getEvents().trigger("itemUsed", item);
     }
 
     /**
@@ -277,9 +345,17 @@ public class PlayerInventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                String[][] itemText = {{item.getDescription() + ". Quantity: "
-                        + item.getQuantity() + "/" + item.getLimit()}};
-                ServiceLocator.getDialogueBoxService().updateText(itemText);
+                if (item instanceof DefensePotion) {
+                    String[][] itemText = {{((DefensePotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                } else if (item instanceof AttackPotion) {
+                    String[][] itemText = {{((AttackPotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                } else {
+                    String[][] itemText = {{item.getDescription() + ". Quantity: "
+                            + item.getQuantity() + "/" + item.getLimit()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
+                }
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
@@ -292,9 +368,9 @@ public class PlayerInventoryDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
+                tryUseItem(item, context, index);
                 if (item instanceof TimedUseItem) {
-                    aiComponent.addTask(
-                            new TimedUseItemTask(entity, timedUseItemPriority, (TimedUseItem) item, context));
+                    potions.add((TimedUseItem) item);
                 }
                 inventory.useItemAt(index, context);
                 entity.getEvents().trigger("itemUsed", item);
@@ -318,9 +394,11 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    void regenerateDisplay() {
+    public void regenerateDisplay() {
         toggleDisplay(); // Hacky way to regenerate inventory without duplicating code
         toggleDisplay();
+        ItemUsageContext context = new ItemUsageContext(entity);
+        updatePotions(context);
 }
 
     /**
@@ -346,5 +424,25 @@ public class PlayerInventoryDisplay extends UIComponent {
     @Override
     public float getZIndex() {
         return Z_INDEX;
+    }
+
+    /**
+     * Loads the inventory attached to the player from a save.
+     */
+    public void loadInventoryFromSave() {
+        inventory.loadInventoryFromSave();
+    }
+
+    /** Returns inventory - for quests. */
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    /**
+     * return the num of cols
+     * @return num of cols
+     */
+    public int getNumCols() {
+        return this.numCols;
     }
 }

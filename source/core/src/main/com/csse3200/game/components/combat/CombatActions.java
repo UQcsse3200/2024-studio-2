@@ -4,19 +4,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityConverter;
-import com.csse3200.game.screens.MainGameScreen;
+import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
  * This class listens to events relevant to the combat screen and does something when one of the
@@ -64,6 +62,7 @@ public class CombatActions extends Component {
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
     // For CombatButtonDisplay DialogueBox
@@ -129,6 +128,12 @@ public class CombatActions extends Component {
    */
   private void onItems(Screen screen, ServiceContainer container) {
     logger.info("Clicked Items");
+    entity.getEvents().trigger("toggleCombatInventory");
+    entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
+    if (Objects.equals(entity.getEvents().getLastTriggeredEvent(), "itemUsed")) {
+      manager.onPlayerActionSelected("ITEM");
+      entity.getEvents().trigger("onItems", manager.getPlayerStats(), manager.getEnemyStats());
+    }
   }
 
   /**

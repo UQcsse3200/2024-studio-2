@@ -30,6 +30,7 @@ import com.csse3200.game.services.GameTime;
 public class DefensePotion extends TimedUseItem {
     private final static String path = "images/potiontexture/defense.png";
     private final static long duration = 120000;
+    private final static String msg = "Cannot use defense potion on map";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -37,7 +38,7 @@ public class DefensePotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public DefensePotion(int quantity) {
-        super("Defense Potion", 53, 3, quantity, 25, duration);
+        super("Defense Potion", 53, 3, quantity, 25, duration, msg);
         this.setTexturePath(path);
         this.setDescription("This is a defense potion");
     }
@@ -59,9 +60,9 @@ public class DefensePotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        if (isExpired(context)) {
+        //if (isExpired(context)) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
             stats.setDefense(stats.getDefense() - this.effectAmount);
-        }
+        //}
     }
 }
