@@ -113,25 +113,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(box2dLight.PositionalLight)" class="member-name-link">LightingComponent</a><wbr>(box2dLight.PositionalLight&nbsp;light)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">LightingComponent</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Create a component which places a light source on an entity.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(box2dLight.PositionalLight,boolean)" class="member-name-link">LightingComponent</a><wbr>(box2dLight.PositionalLight&nbsp;light,
- boolean&nbsp;attachToPhysicsBody)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Create a component which places a light source on an entity.</div>
-</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2)" class="member-name-link">LightingComponent</a><wbr>(box2dLight.PositionalLight&nbsp;light,
- com.badlogic.gdx.math.Vector2&nbsp;offset)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Create a component which places a light source on an entity.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2,boolean)" class="member-name-link">LightingComponent</a><wbr>(box2dLight.PositionalLight&nbsp;light,
- com.badlogic.gdx.math.Vector2&nbsp;offset,
- boolean&nbsp;attachToPhysicsBody)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Create a component which places a light source on an entity.</div>
+<div class="block">Create a component which allows light sources to be attached to an entity.</div>
 </div>
 </div>
 </section>
@@ -147,38 +131,50 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="LightingComponent.html" title="class in com.csse3200.game.lighting.components">LightingComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attach(box2dLight.PositionalLight)" class="member-name-link">attach</a><wbr>(box2dLight.PositionalLight&nbsp;light)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Attach the light to the entity's physics body if that option was specified.</div>
+<div class="block">Attaches a light source to the entity's center position.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static box2dLight.ConeLight</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createConeLight(float,float,com.badlogic.gdx.graphics.Color)" class="member-name-link">createConeLight</a><wbr>(float&nbsp;dist,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="LightingComponent.html" title="class in com.csse3200.game.lighting.components">LightingComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attach(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2)" class="member-name-link">attach</a><wbr>(box2dLight.PositionalLight&nbsp;light,
+ com.badlogic.gdx.math.Vector2&nbsp;offset)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Attaches a light source to the entity with an offset from its center position.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static box2dLight.ConeLight</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createConeLight(float,float,float,com.badlogic.gdx.graphics.Color)" class="member-name-link">createConeLight</a><wbr>(float&nbsp;dist,
+ float&nbsp;dir,
  float&nbsp;cone,
  com.badlogic.gdx.graphics.Color&nbsp;color)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create a new cone light (sector).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static box2dLight.PointLight</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPointLight(float,com.badlogic.gdx.graphics.Color)" class="member-name-link">createPointLight</a><wbr>(float&nbsp;dist,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static box2dLight.PointLight</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPointLight(float,com.badlogic.gdx.graphics.Color)" class="member-name-link">createPointLight</a><wbr>(float&nbsp;dist,
  com.badlogic.gdx.graphics.Color&nbsp;color)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create a new point light (circle).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>box2dLight.PositionalLight</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLight()" class="member-name-link">getLight</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get the light source corresponding to this LightComponent</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOffset()" class="member-name-link">getOffset</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#detach(box2dLight.PositionalLight)" class="member-name-link">detach</a><wbr>(box2dLight.PositionalLight&nbsp;light)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get the offset of the light from the entity/physics body center</div>
+<div class="block">Detaches a light source from the entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setOffset(com.badlogic.gdx.math.Vector2)" class="member-name-link">setOffset</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;offset)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the offset of the light from the entity/physics body center</div>
+<div class="block">Remove light sources on dispose</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;box2dLight.PositionalLight&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLights()" class="member-name-link">getLights</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the light source corresponding to this LightComponent</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;com.badlogic.gdx.math.Vector2&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOffsets()" class="member-name-link">getOffsets</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the offset of the light from the entity/physics body center</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
@@ -190,7 +186,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.components.Component">Methods inherited from class&nbsp;com.csse3200.game.components.<a href="../../components/Component.html" title="class in com.csse3200.game.components">Component</a></h3>
-<code><a href="../../components/Component.html#dispose()">dispose</a>, <a href="../../components/Component.html#earlyUpdate()">earlyUpdate</a>, <a href="../../components/Component.html#getEntity()">getEntity</a>, <a href="../../components/Component.html#setEnabled(boolean)">setEnabled</a>, <a href="../../components/Component.html#setEntity(com.csse3200.game.entities.Entity)">setEntity</a>, <a href="../../components/Component.html#toString()">toString</a>, <a href="../../components/Component.html#triggerEarlyUpdate()">triggerEarlyUpdate</a>, <a href="../../components/Component.html#triggerUpdate()">triggerUpdate</a></code></div>
+<code><a href="../../components/Component.html#create()">create</a>, <a href="../../components/Component.html#earlyUpdate()">earlyUpdate</a>, <a href="../../components/Component.html#getEntity()">getEntity</a>, <a href="../../components/Component.html#setEnabled(boolean)">setEnabled</a>, <a href="../../components/Component.html#setEntity(com.csse3200.game.entities.Entity)">setEntity</a>, <a href="../../components/Component.html#toString()">toString</a>, <a href="../../components/Component.html#triggerEarlyUpdate()">triggerEarlyUpdate</a>, <a href="../../components/Component.html#triggerUpdate()">triggerUpdate</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -206,58 +202,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(box2dLight.PositionalLight)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>LightingComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">LightingComponent</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light)</span></div>
-<div class="block">Create a component which places a light source on an entity.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>light</code> - The light source.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2)">
-<h3>LightingComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">LightingComponent</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light,
- com.badlogic.gdx.math.Vector2&nbsp;offset)</span></div>
-<div class="block">Create a component which places a light source on an entity.
- Optionally attaches that light to the entity's physics body.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>light</code> - The light source.</dd>
-<dd><code>offset</code> - Relative offset of light from entity center.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2,boolean)">
-<h3>LightingComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">LightingComponent</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light,
- com.badlogic.gdx.math.Vector2&nbsp;offset,
- boolean&nbsp;attachToPhysicsBody)</span></div>
-<div class="block">Create a component which places a light source on an entity.
- Optionally attaches that light to the entity's physics body.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>light</code> - The light source.</dd>
-<dd><code>offset</code> - Relative offset from entity/physics body center.</dd>
-<dd><code>attachToPhysicsBody</code> - Whether to attach the light source to the entity physics body.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(box2dLight.PositionalLight,boolean)">
-<h3>LightingComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">LightingComponent</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light,
- boolean&nbsp;attachToPhysicsBody)</span></div>
-<div class="block">Create a component which places a light source on an entity.
- Optionally attaches that light to the entity's physics body.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>light</code> - The light source.</dd>
-<dd><code>attachToPhysicsBody</code> - Whether to attach the light source to the entity physics body.</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">LightingComponent</span>()</div>
+<div class="block">Create a component which allows light sources to be attached to an entity.</div>
 </section>
 </li>
 </ul>
@@ -269,9 +217,33 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getLight()">
-<h3>getLight</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">box2dLight.PositionalLight</span>&nbsp;<span class="element-name">getLight</span>()</div>
+<section class="detail" id="attach(box2dLight.PositionalLight)">
+<h3>attach</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LightingComponent.html" title="class in com.csse3200.game.lighting.components">LightingComponent</a></span>&nbsp;<span class="element-name">attach</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light)</span></div>
+<div class="block">Attaches a light source to the entity's center position.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>light</code> - The light source.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="attach(box2dLight.PositionalLight,com.badlogic.gdx.math.Vector2)">
+<h3>attach</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LightingComponent.html" title="class in com.csse3200.game.lighting.components">LightingComponent</a></span>&nbsp;<span class="element-name">attach</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light,
+ com.badlogic.gdx.math.Vector2&nbsp;offset)</span></div>
+<div class="block">Attaches a light source to the entity with an offset from its center position.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>light</code> - The light source.</dd>
+<dd><code>offset</code> - Relative offset from entity/physics body center.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getLights()">
+<h3>getLights</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;box2dLight.PositionalLight&gt;</span>&nbsp;<span class="element-name">getLights</span>()</div>
 <div class="block">Get the light source corresponding to this LightComponent</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -280,35 +252,26 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getOffset()">
-<h3>getOffset</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector2</span>&nbsp;<span class="element-name">getOffset</span>()</div>
+<section class="detail" id="detach(box2dLight.PositionalLight)">
+<h3>detach</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">detach</span><wbr><span class="parameters">(box2dLight.PositionalLight&nbsp;light)</span></div>
+<div class="block">Detaches a light source from the entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>light</code> - The light source.</dd>
+<dt>Returns:</dt>
+<dd>true if the light source was attached to the entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getOffsets()">
+<h3>getOffsets</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;com.badlogic.gdx.math.Vector2&gt;</span>&nbsp;<span class="element-name">getOffsets</span>()</div>
 <div class="block">Get the offset of the light from the entity/physics body center</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Light offset</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setOffset(com.badlogic.gdx.math.Vector2)">
-<h3>setOffset</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setOffset</span><wbr><span class="parameters">(com.badlogic.gdx.math.Vector2&nbsp;offset)</span></div>
-<div class="block">Update the offset of the light from the entity/physics body center</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>offset</code> - the new offset to be used</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="create()">
-<h3>create</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block">Attach the light to the entity's physics body if that option was specified.</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="../../components/Component.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../../components/Component.html" title="class in com.csse3200.game.components">Component</a></code></dd>
 </dl>
 </section>
 </li>
@@ -340,9 +303,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="createConeLight(float,float,com.badlogic.gdx.graphics.Color)">
+<section class="detail" id="createConeLight(float,float,float,com.badlogic.gdx.graphics.Color)">
 <h3>createConeLight</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">box2dLight.ConeLight</span>&nbsp;<span class="element-name">createConeLight</span><wbr><span class="parameters">(float&nbsp;dist,
+ float&nbsp;dir,
  float&nbsp;cone,
  com.badlogic.gdx.graphics.Color&nbsp;color)</span></div>
 <div class="block">Create a new cone light (sector).</div>
@@ -353,6 +317,17 @@ loadScripts(document, 'script');</script>
 <dd><code>color</code> - The color of the point light</dd>
 <dt>Returns:</dt>
 <dd>A reference to the created ConeLight.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="dispose()">
+<h3>dispose</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
+<div class="block">Remove light sources on dispose</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../../components/Component.html#dispose()">dispose</a></code>&nbsp;in class&nbsp;<code><a href="../../components/Component.html" title="class in com.csse3200.game.components">Component</a></code></dd>
 </dl>
 </section>
 </li>
