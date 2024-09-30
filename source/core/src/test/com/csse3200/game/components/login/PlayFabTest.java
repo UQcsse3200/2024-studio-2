@@ -51,10 +51,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-        assertEquals("Password must be between 6 and 100 characters.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
 
@@ -69,11 +66,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address is not valid.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
     @Test
@@ -87,12 +80,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address is not valid.", errorList.getFirst());
-        assertEquals("Password must be between 6 and 100 characters.", errorList.get(1));
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
     @Test
@@ -106,11 +94,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address already exists. ", errorList.getFirst());
+        assertEquals("Email address not available", result.Error.errorMessage);
     }
 
     @Test
@@ -124,10 +108,6 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address already exists. ", errorList.getFirst());
+        assertEquals("Email address not available", result.Error.errorMessage);
     }
 }

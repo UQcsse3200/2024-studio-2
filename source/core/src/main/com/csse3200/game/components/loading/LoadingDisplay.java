@@ -11,7 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A UI component for displaying the loading screen with a moon representing the loading progress.
+ * A UI component for displaying the loading screen with a moon actor representing the loading progress.
+ * The class handles loading progress display and cycling through a list of loading messages.
  */
 public class LoadingDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
@@ -48,18 +49,27 @@ public class LoadingDisplay extends UIComponent {
 
     private MoonActor moonActor;  // Moon actor to represent loading progress
 
+    /**
+     * Constructs a new LoadingDisplay component, initializing message index and elapsed time.
+     */
     public LoadingDisplay() {
         elapsedTime = 0;
         currentMessageIndex = (int) (Math.random() * loadingMessages.length);
         currentMessage = loadingMessages[currentMessageIndex];
     }
 
+    /**
+     * Creates and initializes the loading display, adding actors to the stage.
+     */
     @Override
     public void create() {
         super.create();
         addActors();
     }
 
+    /**
+     * Adds the moon actor and the loading label to the stage for rendering.
+     */
     private void addActors() {
         // Create and add the moon actor
         moonActor = new MoonActor();
@@ -77,10 +87,19 @@ public class LoadingDisplay extends UIComponent {
 
     }
 
+    /**
+     * Checks if the loading process has finished based on the elapsed time.
+     *
+     * @return true if loading is finished, false otherwise.
+     */
     public boolean isLoadingFinished() {
         return elapsedTime >= LOADING_DURATION;
     }
 
+    /**
+     * Updates the loading display, including message cycling and progress update.
+     * This method is called periodically to reflect time progress.
+     */
     @Override
     public void update() {
         super.update();
@@ -106,17 +125,40 @@ public class LoadingDisplay extends UIComponent {
         moonActor.setProgress(progress);  // Update moon actor progress
     }
 
+    /**
+     * Retrieves the Z-index of the loading display, which determines the rendering order.
+     *
+     * @return Z-index value.
+     */
     @Override
     public float getZIndex() {
         return Z_INDEX;
     }
+
+    /**
+     * Retrieves the MoonActor that represents the loading progress.
+     *
+     * @return the MoonActor used in the loading display.
+     */
     public MoonActor getMoonActor() {
         return moonActor;
     }
 
+    /**
+     * Retrieves the list of all possible loading messages.
+     *
+     * @return a list of loading messages.
+     */
     public List<String> getAllMessages() {
         return Arrays.asList(loadingMessages);
     }
+
+    /**
+     * Retrieves the current loading message displayed on the screen.
+     *
+     * @return the currently displayed loading message.
+     */
+
     public String getCurrentMessage() {
         return currentMessage;
     }
@@ -127,6 +169,10 @@ public class LoadingDisplay extends UIComponent {
 
     }
 
+    /**
+     * Disposes of the resources used by the loading display.
+     * It clears the table and disposes of other actors if necessary.
+     */
     @Override
     public void dispose() {
         table.clear();
