@@ -334,6 +334,10 @@ public class ForestGameArea extends GameArea {
         //Big saw fish
         generator = () -> EnemyFactory.createBigsawfish(player);
         spawnShooterEnemy(generator, config.spawns.NUM_BIGSAWFISH, 0.1);
+
+        //Macaw
+        generator = () -> EnemyFactory.createMacaw(player);
+        spawnShooterEnemy(generator, config.spawns.NUM_MACAW, 0.1);
     }
     
     private void spawnFriendlyNPCs() {
