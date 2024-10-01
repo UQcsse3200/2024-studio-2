@@ -169,7 +169,7 @@ public class NPCFactory {
       dialogueBoxService = ServiceLocator.getDialogueBoxService();
     }
 
-    dialogueBoxService.updateText(hintText);
+    dialogueBoxService.updateText(hintText, -2);
 
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       for (String animalSoundPath : animalSoundPaths) {
