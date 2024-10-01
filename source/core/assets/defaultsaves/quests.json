@@ -70,7 +70,7 @@
 			]
 		}
 		{
-			questName: Defeat chickens
+			questName: Defeat Chickens
 			questDescription: Defeat 3 chickens
 			tasks: [
 				{
@@ -542,7 +542,7 @@
 		
 		{
 			questName: Defeat frogs
-			questDescription: Defeat 3 frogs
+			questDescription: Defeat 3 Frogs
 			tasks: [
 				{
 					taskName: defeatFROG
@@ -572,7 +572,7 @@
 			taskCompletionTriggers: null
 		}
 		{
-			questName: Defeat monkeys
+			questName: Defeat Monkeys
 			questDescription: Defeat 3 monkeys
 			tasks: [
 				{
@@ -603,7 +603,7 @@
 			taskCompletionTriggers: null
 		}
 		{
-			questName: Defeat bears
+			questName: Defeat Bears
 			questDescription: Defeat 3 bears
 			tasks: [
 				{
