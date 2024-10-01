@@ -21,6 +21,8 @@ public class CombatAnimationDisplay extends UIComponent {
     private Image combatImage;
     private Image guardImage;
     private Image sleepImage;
+    private Image enemyCombatImage; // enemy combat image
+    private Image enemySleepImage; // enemy sleep image
     /**
      * Constructor for the CombatAnimationDisplay.
      */
@@ -37,21 +39,37 @@ public class CombatAnimationDisplay extends UIComponent {
      * Initialise the intended animation passed as an animationType from the
      * combat manager class based on chosen / randomised player or enemy attack
      */
-    public void initiateAnimation(CombatManager.AnimationType animationType){
+    public void initiateAnimation(CombatManager.Action animationType){
         create();
 
-        if (animationType == CombatManager.AnimationType.ATTACK){
+        if (animationType == CombatManager.Action.ATTACK){
             attackAnimation();
-        } else if (animationType == CombatManager.AnimationType.GUARD) {
+        } else if (animationType == CombatManager.Action.GUARD) {
             guardAnimation();
-        } else if (animationType == CombatManager.AnimationType.SLEEP) {
+        } else if (animationType == CombatManager.Action.SLEEP) {
             sleepAnimation();
         }
     }
 
     /**
-     * Triggers general sleep animation when sleeping action chosen by either
-     * player or enemy
+     * Initialise the intended animation passed as an animationType from the
+     * combat manager class based on chosen / randomised player or enemy attack
+     */
+    public void initiateEnemyAnimation(CombatManager.Action animationType){
+        create();
+
+        if (animationType == CombatManager.Action.ATTACK){
+            enemyAttackAnimation();
+        } else if (animationType == CombatManager.Action.GUARD) {
+            // guardAnimation();
+        } else if (animationType == CombatManager.Action.SLEEP) {
+            enemySleepAnimation();
+        }
+    }
+
+    /**
+     * Triggers general sleep animation when sleeping action chosen by
+     * player
      */
     public void sleepAnimation(){
         Texture sleepTexture = ServiceLocator.getResourceService()
@@ -67,7 +85,6 @@ public class CombatAnimationDisplay extends UIComponent {
         stage.addActor(sleepImage);
         sleepImage.clearActions();
         sleepImage.addAction(fadeIn(2f, Interpolation.fade));
-        // sleepImage.addAction(fadeOut(1f, Interpolation.fade));
 
         Timer timer = new Timer();
         // Schedule a task to hide the cat scratch image after 2 seconds
@@ -75,7 +92,9 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 sleepImage.setVisible(false);
-                dispose();
+                if (enemySleepImage != null) {
+                    enemySleepImage.remove();
+                }
             }
         }, 1000);
 
@@ -92,7 +111,63 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 sleepImage.setVisible(false);
-                dispose();
+                if (sleepImage != null) {
+                    sleepImage.remove();
+                }
+            }
+        }, 2000);
+    }
+
+    /**
+     * Triggers identical sleep animation for enemy
+     */
+    /**
+     * Triggers general sleep animation when sleeping action chosen by
+     * player
+     */
+    public void enemySleepAnimation(){
+        Texture sleepTexture2 = ServiceLocator.getResourceService()
+                .getAsset("images/zzz.png", Texture.class);
+        enemySleepImage = new Image(sleepTexture2);
+
+        float xZ = 690;
+        float yZ = 640;
+
+        enemySleepImage.setPosition(xZ, yZ);
+        enemySleepImage.setScale(0.3f);
+        enemySleepImage.setVisible(true);
+        stage.addActor(enemySleepImage);
+        enemySleepImage.clearActions();
+        enemySleepImage.addAction(fadeIn(2f, Interpolation.fade));
+
+        Timer timer = new Timer();
+        // Schedule a task to hide the cat scratch image after 2 seconds
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                enemySleepImage.setVisible(false);
+                if (enemySleepImage != null) {
+                    enemySleepImage.remove();
+                }
+            }
+        }, 1000);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                enemySleepImage.setVisible(true);
+                stage.addActor(enemySleepImage);
+                enemySleepImage.addAction(fadeIn(2f, Interpolation.fade));
+            }
+        }, 1100);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                enemySleepImage.setVisible(false);
+                if (enemySleepImage != null) {
+                    enemySleepImage.remove();
+                }
             }
         }, 2000);
     }
@@ -125,7 +200,9 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 guardImage.setVisible(false);
-                dispose();
+                if (guardImage != null) {
+                    guardImage.remove();
+                }
             }
         }, 1200); // 1.2 second
 
@@ -159,7 +236,9 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 guardImage.setVisible(false);
-                dispose();
+                if (guardImage != null) {
+                    guardImage.remove();
+                }
             }
         }, 1200); // 1.2 second
     }
@@ -194,12 +273,46 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 combatImage.setVisible(false);
-                dispose();
+                if (combatImage != null) {
+                    combatImage.remove();
+                }
             }
         }, 2000);  // 2 seconds
     }
 
+    public void enemyAttackAnimation() {
+        Texture combatTexture = ServiceLocator.getResourceService()
+                .getAsset("images/single_fireball.png", Texture.class); // Replaced with single_fireball
 
+        enemyCombatImage = new Image(combatTexture);
+        enemyCombatImage.setAlign(Align.center);
+        enemyCombatImage.setScale(1f);
+
+        // Set the initial position of the image (e.g., off-screen or at a specific point)
+        enemyCombatImage.setPosition(1200, 550);
+        enemyCombatImage.setVisible(true);
+
+        // Add the table to the stage
+        stage.addActor(enemyCombatImage);
+
+        // Clear any existing actions to avoid conflicts
+        enemyCombatImage.clearActions();
+
+        // Move the image over 2 seconds
+        enemyCombatImage.addAction(moveTo(600, 550, 2f, Interpolation.linear));
+
+        // Schedule to hide the image after it reaches its destination
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                enemyCombatImage.setVisible(false);
+                if (combatImage != null) {
+                    enemyCombatImage.remove();
+                }
+            }
+        }, 2000);  // 2 seconds
+    }
 
     @Override
     public void draw(SpriteBatch batch) {
@@ -227,6 +340,12 @@ public class CombatAnimationDisplay extends UIComponent {
         }
         if (sleepImage != null) {
             sleepImage.remove();
+        }
+        if (enemyCombatImage != null) {
+            enemyCombatImage.remove();
+        }
+        if (enemySleepImage != null) {
+            enemySleepImage.remove();
         }
         super.dispose();
     }

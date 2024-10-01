@@ -36,11 +36,6 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-    public enum AnimationType {
-        ATTACK,
-        GUARD,
-        SLEEP
-    }
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -163,11 +158,35 @@ public class CombatManager extends Component {
         }
 
         int rand = enemyMove.hasSpecialMove() ? (int) (Math.random() * 4) : (int) (Math.random() * 3);
+//        enemyAction = switch (rand) {
+//            case 0:
+//                    Action.ATTACK;
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+//            case 1:
+//                Action.GUARD;
+//            case 2:
+//                Action.SLEEP;
+//            case 3:
+//                Action.SPECIAL;
+//            default -> null;
+//        };
+
         enemyAction = switch (rand) {
-            case 0 -> Action.ATTACK;
-            case 1 -> Action.GUARD;
-            case 2 -> Action.SLEEP;
-            case 3 -> Action.SPECIAL;
+            case 0 -> {
+                combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+                yield Action.ATTACK;
+            }
+            case 1 -> {
+                // combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+                yield Action.GUARD;
+            }
+            case 2 -> {
+                combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+                yield Action.SLEEP;
+            }
+            case 3 -> {
+                yield Action.SPECIAL;
+            }
             default -> null;
         };
 
@@ -197,9 +216,7 @@ public class CombatManager extends Component {
 
         switch (playerAction) {
             case ATTACK -> {
-                // combatAnimationDisplay.create(AnimationType.ATTACK); // Add the cat scratch animation
-                // combatAnimationDisplay.attackAnimation(); // attack animation
-                combatAnimationDisplay.initiateAnimation(AnimationType.ATTACK);
+                combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
@@ -225,7 +242,7 @@ public class CombatManager extends Component {
                 }
             }
             case GUARD -> {
-                combatAnimationDisplay.initiateAnimation(AnimationType.GUARD);
+                combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
                         playerMove.executeMove(playerAction);
@@ -238,7 +255,7 @@ public class CombatManager extends Component {
                 }
             }
             case SLEEP -> {
-                combatAnimationDisplay.initiateAnimation(AnimationType.SLEEP);
+                combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
