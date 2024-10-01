@@ -43,8 +43,46 @@ public class StealTask extends DefaultTask implements PriorityTask {
      * @param waitTime Time in seconds to wait before the entity moves again.
      */
     public StealTask(Map<Integer, Entity> items, float waitTime) {
+        System.out.println("CREATING STEAL TASK");
         this.items = items;
         this.waitTime = waitTime;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        origin = owner.getEntity().getPosition();
+        startPos = owner.getEntity().getPosition();
+        if(!isSpawned) {
+            logger.debug("Triggering spawn event");
+            this.owner.getEntity().getEvents().trigger("spawnStart");
+            isSpawned = true;
+
+            // Wait for the spawn event to complete or for a specified duration before starting to wander
+            waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+            waitTask.create(owner);
+            swapTask(waitTask);
+        }
+    }
+
+    @Override
+    public void update() {
+        if (currentTask.getStatus() != Status.ACTIVE) {
+            if (currentTask == waitTask && isSpawned) {
+                startWandering();
+            } else if (currentTask == movementTask) {
+                startReturning();
+            } else if (currentTask == returnTask) {
+                startWaiting();
+            }
+        }
+        if (currentitem != null && owner.getEntity().getPosition().dst(currentitem.getPosition()) <= 0.5f) {
+            currentitem.dispose();
+            items.remove(currentId);
+            currentitem = null;
+            currentId = null;
+        }
+        currentTask.update();
     }
 
     @Override
@@ -52,12 +90,15 @@ public class StealTask extends DefaultTask implements PriorityTask {
         return 1; // Low priority task
     }
 
+
+
     /**
      * Starts the wandering task, which involves finding the nearest item and moving toward it.
      * The entity will change directions based on the relative position of the item.
      */
     private void startWandering() {
         startPos = owner.getEntity().getPosition();
+        System.out.println("wandering");
         logger.debug("Starting wandering");
         Vector2 newPos = getClosestItem();
         movementTask = new MovementTask(newPos, 0.5F);
@@ -79,6 +120,7 @@ public class StealTask extends DefaultTask implements PriorityTask {
      */
     private void startReturning() {
         startPos = owner.getEntity().getPosition();
+        System.out.println("returning");
         returnTask = new MovementTask(origin, 0.5F);
         returnTask.create(owner);
         returnTask.start();
