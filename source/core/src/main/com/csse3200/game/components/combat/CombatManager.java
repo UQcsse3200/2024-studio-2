@@ -8,6 +8,9 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -288,11 +291,33 @@ public class CombatManager extends Component {
      */
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatLoss");
-            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
+            if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+                //nullifyCombatDialogueListener();
+                this.getEntity().getEvents().trigger("combatLossBoss");
+                GameState.resetState();
+                SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
+            } else {
+                this.getEntity().getEvents().trigger("combatLoss");
+                //nullifyCombatDialogueListener();
+                //Clear inventory/other normal death events
+            }
+//            this.getEntity().getEvents().trigger("combatLoss");
+//            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         } else if (enemyStats.getHealth() <= 0) {
-            this.getEntity().getEvents().trigger("combatWin", enemy);
-            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
+            //nullifyCombatDialogueListener();
+            if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+                this.getEntity().getEvents().trigger("landBossDefeated");
+            } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+                this.getEntity().getEvents().trigger("waterBossDefeated");
+            } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+                this.getEntity().getEvents().trigger("airBossDefeated");
+            } else {
+                this.getEntity().getEvents().trigger("combatWin", enemy);
+            }
+
+
+//            this.getEntity().getEvents().trigger("combatWin", enemy);
+//            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         }
     }
 
