@@ -1,6 +1,8 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -10,6 +12,7 @@ import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
+import com.csse3200.game.components.player.PlayerAnimationController;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
@@ -27,6 +30,7 @@ import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -45,13 +49,23 @@ public class PlayerFactory {
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
     public static Entity createPlayer(GdxGame game) {
-        String imagePath = GameState.player.selectedAnimalPath;
+        String imagePath = "images/animal/Dog.atlas"; //change back to saved path
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
-
+        
+        AnimationRenderComponent animator =
+                new AnimationRenderComponent(
+                        ServiceLocator.getResourceService().getAsset(imagePath, TextureAtlas.class));
+        animator.addAnimation("die", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("attack", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("damage", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("idle", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("move", 0.1f, Animation.PlayMode.LOOP);
+        
         Entity player =
                 new Entity()
-                        .addComponent(new TextureRenderComponent(imagePath))
+                        .addComponent(animator)
+                        .addComponent(new PlayerAnimationController())
                         .addComponent(new CameraZoomComponent())
                         .addComponent(new PhysicsComponent(true))
                         .addComponent(new ColliderComponent())
@@ -65,19 +79,22 @@ public class PlayerFactory {
         player.addComponent(new CombatMoveComponent(moveSet));
 
         player.addComponent(new PlayerActions(game, player, imagePath));
-
+        
+        //get rid of later
+        player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
+        
         // Set different stats for each animal type
-        switch (imagePath) {
-            case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
-            case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true, false));
-            case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
-            default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
-
-        }
+//        switch (imagePath) {
+//            case "images/dog.png" ->
+//                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
+//            case "images/croc.png" ->
+//                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true, false));
+//            case "images/bird.png" ->
+//                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
+//            default ->
+//                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
+//
+//        }
 
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
@@ -98,7 +115,7 @@ public class PlayerFactory {
 
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
-        player.getComponent(TextureRenderComponent.class).scaleEntity();
+        //player.getComponent(TextureRenderComponent.class).scaleEntity();
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
 

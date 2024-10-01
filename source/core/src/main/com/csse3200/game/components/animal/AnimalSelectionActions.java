@@ -63,7 +63,7 @@ public class AnimalSelectionActions {
         // Add listeners to animal images and buttons
         for (int i = 0; i < animalImages.length; i++) {
             final int animalIndex = i;
-            final String animalImagePath = animalImagePaths[i];
+            final String animalImagePath = "images/animal/Dog.atlas";
 
             animalImages[i].addListener(new ClickListener() {
                 @Override

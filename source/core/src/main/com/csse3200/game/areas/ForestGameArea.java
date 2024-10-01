@@ -197,6 +197,7 @@ public class ForestGameArea extends GameArea {
     Entity newPlayer = PlayerFactory.createPlayer(game);
     newPlayer.addComponent(this.terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    newPlayer.getEvents().trigger("idle", false);
     return newPlayer;
   }
 

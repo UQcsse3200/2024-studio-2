@@ -126,6 +126,11 @@ public class PlayerActions extends Component {
     moving = true;
     logger.info("Player started moving in direction: " + direction);
     player.getEvents().trigger("steps");
+    if (walkDirection.x > 0) {
+      player.getEvents().trigger("move", false);
+    } else {
+      player.getEvents().trigger("move", true);
+    }
   }
 
   void stopWalking() {
@@ -133,6 +138,7 @@ public class PlayerActions extends Component {
     updateSpeed();
     moving = false;
     logger.info("Player stopped moving.");
+    player.getEvents().trigger("idle", false);
   }
 
   void attack() {
