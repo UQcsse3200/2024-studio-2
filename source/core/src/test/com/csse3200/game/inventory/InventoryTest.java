@@ -248,6 +248,8 @@ class InventoryTest {
 
     @Test
     void shouldSaveLoadInventoryContents() {
+        GameState.clearState();
+
         Inventory inventory = new Inventory(3);
         inventory.loadInventoryFromSave();
 
@@ -268,8 +270,6 @@ class InventoryTest {
         assertEquals(1, inventory.getAt(inventory.getIndex("Apple")).getQuantity());
         assertEquals("This is a health potion",
                 inventory.getAt(inventory.getIndex("Health Potion")).getDescription());
-
-        GameState.inventory.inventoryContent = new AbstractItem[0];
 
         SaveHandler.delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
     }

@@ -16,21 +16,11 @@ import java.util.List;
  * Manages the achievements in the game by loading them from a config file,
  */
 public class AchievementManager {
-    private String configPath;
-    private String savePath;
     private List<Achievement> achievements;
 
-    // Default constructor with default paths
-    public AchievementManager() {
-        this("configs/achievements.json", "saves/achievements.json");
-    }
-
-    // Parameterized constructor
-    AchievementManager(String configPath, String savePath){
-        this.configPath = configPath;
-        this.savePath = savePath;
+    // Default constructor
+    AchievementManager(){
         achievements = Achievements.achievements.achievementList;
-
     }
 
     /**
