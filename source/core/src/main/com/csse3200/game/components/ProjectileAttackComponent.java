@@ -3,12 +3,12 @@ package com.csse3200.game.components;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.BodyUserData;
-import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
-import com.csse3200.game.rendering.AnimationRenderComponent;
+import static com.csse3200.game.entities.Entity.EnemyType.ELECTRICORB;
 
 
 /**
@@ -23,6 +23,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 public class ProjectileAttackComponent extends TouchAttackComponent {
     
     private int damage;
+    Entity target;
     
     /**
      * Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.
@@ -31,9 +32,10 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
      * @param targetLayer The physics layer of the target entities' collider.
      * @param damage the amount of damage this projectile does
      */
-    public ProjectileAttackComponent(short targetLayer, int damage) {
+    public ProjectileAttackComponent(short targetLayer, int damage, Entity target) {
         super(targetLayer);
         this.damage = damage;
+        this.target = target;
     }
     
     @Override
@@ -41,9 +43,12 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
         if (checkHitboxAndLayer(me, other)) return;
         
         // does damage if player
-        Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-        if (target.isPlayer()) {
-            target.getComponent(CombatStatsComponent.class).addHealth(-damage); //placeholder value
+        if (((BodyUserData) other.getBody().getUserData()).entity.isPlayer()) { //dont do damage if not player
+            if (getEntity().getEnemyType() == ELECTRICORB) {
+                target.getComponent(KeyboardPlayerInputComponent.class).paralyze();
+            } else {
+                target.getComponent(CombatStatsComponent.class).addHealth(-damage);
+            }
         }
         
         // disposes of projectile

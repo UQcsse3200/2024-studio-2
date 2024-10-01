@@ -99,7 +99,7 @@
   "electricOrb": {
     "spritePath": "images/orb.atlas",
     "health": 0,
-    "baseAttack": 10,
+    "baseAttack": 0,
     "defense": 0,
     "speed": 5,
     "isEnemy": 1

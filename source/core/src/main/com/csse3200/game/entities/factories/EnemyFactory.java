@@ -376,7 +376,7 @@ public class EnemyFactory {
             case EnemyType.EEL -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
-                aiComponent.addTask(new ShootTask(1000, target, 10f));
+                aiComponent.addTask(new ShootTask(5000, target, 10f));
             }
             case EnemyType.PIGEON -> {
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
