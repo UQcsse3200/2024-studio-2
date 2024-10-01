@@ -412,39 +412,39 @@ public class ForestGameArea extends GameArea {
 
         // Chicken
         generator = () -> EnemyFactory.createChicken(player);
-        spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05);
+        spawnRandomEnemy(generator, config.spawns.NUM_CHICKENS, 0.05, 1);
         
         // Monkey
         generator = () -> EnemyFactory.createMonkey(player);
-        spawnShooterEnemy(generator, config.spawns.NUM_MONKEYS, 0.04);
+        spawnShooterEnemy(generator, config.spawns.NUM_MONKEYS, 0.04, 1);
 
         // Pigeon
         generator = () -> EnemyFactory.createPigeon(player);
-        spawnRandomEnemy(generator, config.spawns.NUM_PIGEONS, 0.06);
+        spawnRandomEnemy(generator, config.spawns.NUM_PIGEONS, 0.06, 3);
 
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
-        spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06);
+        spawnRandomEnemy(generator, config.spawns.NUM_FROGS, 0.06, 2);
         
         //Bear
         generator = () -> EnemyFactory.createBear(player);
-        spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1);
+        spawnRandomEnemy(generator, config.spawns.NUM_BEARS, 0.1, 1);
 
         //Bee
         generator = () -> EnemyFactory.createBee(player);
-        spawnRandomEnemy(generator,config.spawns.NUM_BEES,0.1);
+        spawnRandomEnemy(generator,config.spawns.NUM_BEES,0.1, 3);
         
         //Eel
         generator = () -> EnemyFactory.createEel(player);
-        spawnShooterEnemy(generator, config.spawns.NUM_EELS, 0.1);
+        spawnShooterEnemy(generator, config.spawns.NUM_EELS, 0.1, 2);
 
         //Big saw fish
         generator = () -> EnemyFactory.createBigsawfish(player);
-        spawnShooterEnemy(generator, config.spawns.NUM_BIGSAWFISH, 0.1);
+        spawnShooterEnemy(generator, config.spawns.NUM_BIGSAWFISH, 0.1, 2);
 
         //Macaw
         generator = () -> EnemyFactory.createMacaw(player);
-        spawnShooterEnemy(generator, config.spawns.NUM_MACAW, 0.1);
+        spawnShooterEnemy(generator, config.spawns.NUM_MACAW, 0.1, 3);
     }
     
     private void spawnFriendlyNPCs() {
@@ -523,9 +523,9 @@ public class ForestGameArea extends GameArea {
         AudioManager.stopMusic();  // Stop the music
     }
     
-    private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+    private void spawnRandomEnemy(Supplier<Entity> creator, int numItems, double proximityRange, int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
         
         for (int i = 0; i < numItems; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -536,9 +536,9 @@ public class ForestGameArea extends GameArea {
         }
     }
     
-    private void spawnShooterEnemy(Supplier<Entity> creator, int numItems, double proximityRange) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 20, PLAYER_SPAWN.y - 20);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 20, PLAYER_SPAWN.y + 20);
+    private void spawnShooterEnemy(Supplier<Entity> creator, int numItems, double proximityRange, int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
         
         for (int i = 0; i < numItems; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
