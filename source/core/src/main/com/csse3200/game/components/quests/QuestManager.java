@@ -339,6 +339,10 @@ public class QuestManager extends Component {
         player.getEvents().trigger(item.getName() + "Advancement");
     }
 
+    /**
+     * Triggers quest task name unique to NPC type, listened to in subscribeToQuestEvents().
+     * @param enemy The type of enemy defeated.
+     */
     private void handleEnemyQuest(Entity enemy) {
         // Being run twice
         String type = enemy.getEnemyType().toString();
