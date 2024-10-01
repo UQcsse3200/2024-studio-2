@@ -99,6 +99,7 @@ public class ForestGameArea extends GameArea {
       spawnTrees();
       spawnClouds();
       spawnSeaweed();
+      spawnStarfish();
 
       // spawn area barriers 
       spawnWorldBarrier();
@@ -317,6 +318,18 @@ public class ForestGameArea extends GameArea {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity seaweed = ObstacleFactory.createSeaweed();
       spawnEntityAt(seaweed, randomPos, true, false);
+    }
+  }
+
+  //Spawn Starfish Obstacle
+  private void spawnStarfish() {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+    for (int i = 0; i < config.spawns.NUM_STARFISH; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity starfish = ObstacleFactory.createStarfish();
+      spawnEntityAt(starfish, randomPos, true, false);
     }
   }
 

@@ -2,6 +2,7 @@
   "NUM_TREES" : 7,
   "NUM_CLOUDS" : 7,
   "NUM_SEAWEED" : 7,
+  "NUM_STARFISH" : 7,
   "NUM_APPLES" : 2,
   "NUM_CARROTS": 3,
   "NUM_CHICKEN_LEGS": 2,

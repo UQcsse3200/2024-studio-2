@@ -61,6 +61,20 @@ public class ObstacleFactory {
     return seaweed;
   }
 
+  public static Entity createStarfish() {
+    Entity starfish =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/starfish.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    starfish.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    starfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    starfish.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(starfish, 0.5f, 0.2f);
+    return starfish;
+  }
+
   /**
    * Creates an invisible physics wall.
    * @param width Wall width in world units

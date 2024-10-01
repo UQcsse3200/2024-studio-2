@@ -5,6 +5,7 @@ public class EntitySpawnConfig {
     public int NUM_TREES;
     public int NUM_CLOUDS;
     public int NUM_SEAWEED;
+    public int NUM_STARFISH;
 
     // Items
     public int NUM_APPLES;
