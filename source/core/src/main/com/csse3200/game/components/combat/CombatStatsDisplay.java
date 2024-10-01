@@ -32,6 +32,7 @@ public class CombatStatsDisplay extends UIComponent {
     private Label playerHungerLabel;
     private Label enemyHealthLabel;
     private Label experienceLabel;
+    private Label statusEffectLabel;
     private TextureAtlas[] textureAtlas;
     private static Animation<TextureRegion> playerHealthBarAnimation;
     private static Animation<TextureRegion> enemyHealthBarAnimation;
@@ -306,8 +307,8 @@ public class CombatStatsDisplay extends UIComponent {
         statusTable.row();
 
         String statusMessage = String.format("You are currently %s", statusEffect.name().toLowerCase());
-        Label statusLabel = new Label(statusMessage, skin, "large");
-        statusTable.add(statusLabel);
+        statusEffectLabel = new Label(statusMessage, skin, "large");
+        statusTable.add(statusEffectLabel);
         statusTable.setFillParent(true);
         statusTable.padTop(tableTopPadding).padLeft(tableLeftPadding);
         stage.addActor(statusTable);
@@ -331,5 +332,11 @@ public class CombatStatsDisplay extends UIComponent {
         playerHealthLabel.remove();
         enemyHealthLabel.remove();
         experienceLabel.remove();
+        if (statusEffectLabel != null) {
+            statusEffectLabel.remove();
+        }
+        if (statusEffectImage != null) {
+            statusEffectImage.remove();
+        }
     }
 }
