@@ -2,8 +2,8 @@ Sparks
 - Delay -
 active: false
 - Duration - 
-lowMin: 2000.0
-lowMax: 2000.0
+lowMin: 5.0
+lowMax: 5.0
 - Count - 
 min: 0
 max: 600
@@ -13,16 +13,10 @@ lowMax: 0.0
 highMin: 90.0
 highMax: 90.0
 relative: false
-scalingCount: 4
+scalingCount: 1
 scaling0: 0.9830508
-scaling1: 0.9661017
-scaling2: 0.118644066
-scaling3: 0.06779661
-timelineCount: 4
+timelineCount: 1
 timeline0: 0.0
-timeline1: 0.52777797
-timeline2: 0.69444466
-timeline3: 0.9791667
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
@@ -68,8 +62,8 @@ timeline0: 0.0
 - X Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 5.0
-highMax: 19.0
+highMin: 0.5
+highMax: 1.8
 relative: false
 scalingCount: 3
 scaling0: 0.0
@@ -85,8 +79,8 @@ active: false
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 30.0
-highMax: 285.0
+highMin: 2.0
+highMax: 20.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -132,28 +126,20 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 0.9166667
 - Tint - 
-colorsCount: 15
+colorsCount: 9
 colors0: 0.93333334
 colors1: 1.0
 colors2: 0.3764706
-colors3: 0.93333334
-colors4: 1.0
-colors5: 0.3764706
-colors6: 0.9019608
-colors7: 1.0
-colors8: 0.101960786
-colors9: 0.34117648
-colors10: 0.69411767
-colors11: 1.0
-colors12: 0.972549
-colors13: 0.9764706
-colors14: 0.98039216
-timelineCount: 5
+colors3: 0.34117648
+colors4: 0.69411767
+colors5: 1.0
+colors6: 0.972549
+colors7: 0.9764706
+colors8: 0.98039216
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.0021785828
-timeline2: 0.10566449
-timeline3: 0.31808278
-timeline4: 0.6383442
+timeline1: 0.0
+timeline2: 0.28867108
 - Transparency - 
 lowMin: 0.0
 lowMax: 0.0

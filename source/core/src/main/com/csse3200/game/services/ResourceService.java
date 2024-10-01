@@ -1,10 +1,13 @@
 package com.csse3200.game.services;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
@@ -178,6 +181,20 @@ public class ResourceService implements Disposable {
    */
   public void loadSounds(String[] soundNames) {
     loadAssets(soundNames, Sound.class);
+  }
+
+  /**
+   * Loads a list of particle effects into the asset manager.
+   *
+   * @param particleEffectNames particle effect filenames
+   * @param imagesDir directory containing particle effect images
+   */
+  public void loadParticleEffects(String[] particleEffectNames, String imagesDir) {
+    ParticleEffectLoader.ParticleEffectParameter particleDir = new ParticleEffectLoader.ParticleEffectParameter();
+    particleDir.imagesDir = Gdx.files.internal(imagesDir);
+    for (String name : particleEffectNames) {
+      loadAsset(name, ParticleEffect.class, particleDir);
+    }
   }
 
   /**

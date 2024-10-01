@@ -18,6 +18,7 @@ import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
+import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -61,6 +62,11 @@ public class MazeGameArea extends GameArea {
             "images/minigames/angler.atlas", "images/minigames/fish.atlas",
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
             "images/minigames/GreenJellyfish.atlas"
+    };
+    private static final String mazeParticleEffectImageDir = "images/minigames";
+    private static final String[] mazeParticleEffects = {
+        "images/minigames/trail.p",
+        "images/minigames/electricparticles.p"
     };
     private static final String[] mazeSounds = {
             "sounds/minigames/angler-chomp.mp3",
@@ -254,6 +260,7 @@ public class MazeGameArea extends GameArea {
      * Spawns the eels entities
      */
     private void spawnEels() {
+        ElectricEel.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
@@ -296,10 +303,7 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
-        ParticleEffectLoader.ParticleEffectParameter particleDir = new ParticleEffectLoader.ParticleEffectParameter();
-        particleDir.imagesDir = Gdx.files.internal("images/minigames");
-        resourceService.loadAsset("images/minigames/trail.p", ParticleEffect.class, particleDir);
-
+        resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());
@@ -317,6 +321,7 @@ public class MazeGameArea extends GameArea {
         resourceService.unloadAssets(mazeTextureAtlases);
         resourceService.unloadAssets(mazeSounds);
         resourceService.unloadAssets(mazeMusic);
+        resourceService.unloadAssets(mazeParticleEffects);
     }
 
     /**

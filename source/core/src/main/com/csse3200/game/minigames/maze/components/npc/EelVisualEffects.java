@@ -2,27 +2,33 @@ package com.csse3200.game.minigames.maze.components.npc;
 
 import box2dLight.Light;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.minigames.maze.components.ParticleEffectComponent;
 
-public class EelLightingEffect extends Component {
+public class EelVisualEffects extends Component {
     Light light;
+    ParticleEffectComponent particleEffect;
 
-    public EelLightingEffect(Light light) {
+    public EelVisualEffects(Light light) {
         this.light = light;
         light.setActive(false);
     }
 
     @Override
     public void create() {
+        particleEffect = entity.getComponent(ParticleEffectComponent.class);
         entity.getEvents().addListener("wanderStart", this::stopEffect);
         entity.getEvents().addListener("chaseStart", this::startEffect);
+        particleEffect.stopEmitting();
     }
 
     private void startEffect() {
         light.setActive(true);
+        particleEffect.startEmitting();
     }
 
     private void stopEffect() {
         light.setActive(false);
+        particleEffect.stopEmitting();
     }
 
     @Override

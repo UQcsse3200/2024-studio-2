@@ -94,7 +94,5 @@ public class MazePlayer extends Entity {
         pl1.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
         pl2.setXray(true);
     }
-
-
 }
 
