@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.ProjectileAttackComponent;
-import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
+import com.csse3200.game.components.npc.WaterSpiralAnimationController;
+import com.csse3200.game.components.npc.WindGustAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -69,6 +68,53 @@ public class ProjectileFactory {
     return banana;
   }
 
+  public static Entity createWaterSpiral(Entity target) {
+    Entity waterSpiral = createBaseProjectile(target);
+    BaseEnemyEntityConfig config = configs.waterSpiral;
+
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+
+    waterSpiral.addComponent(aiTaskComponent);
+
+    TextureAtlas waterSpiralAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(waterSpiralAtlas);
+    animator.addAnimation("waterSpiral", 0.1f, Animation.PlayMode.LOOP);
+
+    waterSpiral
+            .addComponent(animator)
+            .addComponent(new WaterSpiralAnimationController());
+    waterSpiral.setScale(3.0f, 3.0f);
+
+    waterSpiral.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return waterSpiral;
+  }
+
+  public static Entity createWindGust(Entity target) {
+    Entity windGust = createBaseProjectile(target);
+    BaseEnemyEntityConfig config = configs.windGust;
+
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+
+    windGust.addComponent(aiTaskComponent);
+
+    TextureAtlas windGustAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(windGustAtlas);
+    animator.addAnimation("windGust", 0.1f, Animation.PlayMode.LOOP);
+
+    windGust
+            .addComponent(animator)
+            .addComponent(new WindGustAnimationController());
+    windGust.setScale(5.0f, 5.0f);
+
+    windGust.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return windGust;
+  }
 
   /**
    * Creates a base projectile entity with common components and sets the target layer for
