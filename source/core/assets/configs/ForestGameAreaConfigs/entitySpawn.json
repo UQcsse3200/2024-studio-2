@@ -1,5 +1,6 @@
 {
   "NUM_TREES" : 7,
+  "NUM_CLOUDS" : 3,
   "NUM_APPLES" : 2,
   "NUM_CARROTS": 3,
   "NUM_CHICKEN_LEGS": 2,

@@ -33,6 +33,20 @@ public class ObstacleFactory {
     return tree;
   }
 
+  public static Entity createCloud() {
+    Entity cloud =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/cloud.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    cloud.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    cloud.getComponent(TextureRenderComponent.class).scaleEntity();
+    cloud.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.2f);
+    return cloud;
+  }
+
   /**
    * Creates an invisible physics wall.
    * @param width Wall width in world units

@@ -97,6 +97,7 @@ public class ForestGameArea extends GameArea {
 
       // Obstacles
       spawnTrees();
+      spawnClouds();
 
       // spawn area barriers 
       spawnWorldBarrier();
@@ -298,6 +299,17 @@ public class ForestGameArea extends GameArea {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
+    }
+  }
+
+  private void spawnClouds() {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+    for (int i = 0; i < config.spawns.NUM_CLOUDS; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity cloud = ObstacleFactory.createCloud();
+      spawnEntityAt(cloud, randomPos, true, false);
     }
   }
 
