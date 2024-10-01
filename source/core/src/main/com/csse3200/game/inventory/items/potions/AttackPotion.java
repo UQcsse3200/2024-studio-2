@@ -19,6 +19,7 @@ public class AttackPotion extends TimedUseItem {
         super("Attack Potion", 54, 3, quantity, 25, duration, msg);
         this.setTexturePath(path);
         this.setDescription("This is a attack potion");
+        this.onlyCombatItem = true;
     }
 
     /**

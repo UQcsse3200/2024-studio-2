@@ -37,10 +37,10 @@ public class CombatInventoryDisplay extends InventoryDisplay {
     @Override
     protected void useItem(AbstractItem item, int index) {
         ItemUsageContext context = new ItemUsageContext(entity);
-        if (!(item instanceof SpeedPotion)) {
+        if (!item.onlyMapItem()) {
             entity.getEvents().trigger("itemClicked", item, index, context);
         } else {
-            String[][] itemText = {{((SpeedPotion) item).getWarning()}};
+            String[][] itemText = {{"This item can only be used on the map!"}};
             ServiceLocator.getDialogueBoxService().updateText(itemText);
         }
     }

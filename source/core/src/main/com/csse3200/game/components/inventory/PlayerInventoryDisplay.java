@@ -30,10 +30,7 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
         ArrayList<Integer> removals = new ArrayList<>();
         for (int i = 0; i < potions.size(); i++) {
             TimedUseItem potion = potions.get(i);
-            if (potion instanceof DefensePotion ||
-                    potion instanceof AttackPotion ||
-                    potion instanceof SpeedPotion
-            ) {
+            if (potion.onlyCombatItem()) {
                 potions.get(i).update(context);
                 removals.add(i);
             }
