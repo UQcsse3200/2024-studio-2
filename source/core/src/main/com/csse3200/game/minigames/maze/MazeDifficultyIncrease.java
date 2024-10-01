@@ -15,6 +15,9 @@ import java.util.List;
 
 import static com.csse3200.game.lighting.LightingUtils.interpolateColorCycle;
 
+/**
+ * This class increases the Maze difficulty as the player gets closer to a high score
+ */
 public class MazeDifficultyIncrease extends Component {
     private final MazeGameArea gameArea;
 
@@ -22,11 +25,18 @@ public class MazeDifficultyIncrease extends Component {
         this.gameArea = gameArea;
     }
 
+    /**
+     * Sets a listener for when the score has been updated
+     */
     @Override
     public void create() {
         entity.getEvents().addListener("UpdateScore", this::setDifficulty);
     }
 
+    /**
+     * Sets the difficulty based on the score
+     * @param score the current game score
+     */
     private void setDifficulty(int score) {
         // dim player lights by half throughout the game
         entity.getComponent(LightingComponent.class).getLights().forEach(
