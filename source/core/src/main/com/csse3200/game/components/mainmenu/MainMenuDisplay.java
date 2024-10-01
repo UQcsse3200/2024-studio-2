@@ -61,12 +61,15 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture birdTexture;
     private Texture cursorTexture;
+
     private Table chatbotIconTable;
     private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
     private java.util.List<String> predefinedQuestions;
     private ChatbotService chatbotService;
+    private boolean isChatbotDialogVisible = false;
+
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
@@ -133,11 +136,15 @@ public class MainMenuDisplay extends UIComponent {
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
         chatbotIcon.setSize(100, 100); // Adjust size as needed
 
-        // Listener to open chatbot dialog
+        // Listener to toggle chatbot dialog visibility
         chatbotIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                openChatbotDialog();
+                if (isChatbotDialogVisible) {
+                    closeChatbotDialog(); // Close the dialog if it's already open
+                } else {
+                    openChatbotDialog(); // Open the dialog if it's not visible
+                }
             }
         });
 
@@ -149,7 +156,18 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Opens the chatbot dialog in the center of the screen.
      */
+    /**
+     * Opens the chatbot dialog in the center of the screen.
+     */
+    /**
+     * Opens the chatbot dialog in the center of the screen.
+     */
     private void openChatbotDialog() {
+        if (chatbotDialog != null && isChatbotDialogVisible) {
+            // If it's already open, return early
+            return;
+        }
+
         chatbotDialog = new Dialog("Chatbot", skin) {
             @Override
             protected void result(Object object) {
@@ -159,8 +177,6 @@ public class MainMenuDisplay extends UIComponent {
         };
 
         chatbotDialog.setSize(600, 400);  // Set dialog size
-        chatbotDialog.setPosition((Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
-                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2); // Center it
 
         // Predefined questions
         Table questionTable = new Table();
@@ -197,7 +213,7 @@ public class MainMenuDisplay extends UIComponent {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                chatbotDialog.hide(); // Close the chatbot dialog
+                closeChatbotDialog(); // Close the chatbot dialog
             }
         });
 
@@ -208,9 +224,33 @@ public class MainMenuDisplay extends UIComponent {
         chatbotDialog.getContentTable().add(chatbotResponseLabel).width(500).pad(10).row(); // Add response label
         chatbotDialog.getButtonTable().add(closeButton).pad(10); // Add close button at the bottom
 
-        chatbotDialog.show(stage);  // Show the dialog
-    }
+        chatbotDialog.show(stage);  // Show the dialog first!
 
+        // Center the dialog on the screen AFTER it is shown
+        centerDialogOnScreen();
+
+        isChatbotDialogVisible = true; // Set the flag to true when the dialog is shown
+    }
+    /**
+     * Closes the chatbot dialog.
+     */
+    private void closeChatbotDialog() {
+        if (chatbotDialog != null && isChatbotDialogVisible) {
+            chatbotDialog.hide(); // Close the dialog
+            isChatbotDialogVisible = false; // Set the flag to false when the dialog is closed
+        }
+    }
+    /**
+     * Centers the chatbot dialog on the screen based on the current window size.
+     */
+    private void centerDialogOnScreen() {
+        if (chatbotDialog != null) {
+            chatbotDialog.setPosition(
+                    (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
+                    (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
+            );
+        }
+    }
 
     /**
      * Setup predefined questions to display in the dialog.
