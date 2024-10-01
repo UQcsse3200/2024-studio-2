@@ -29,7 +29,7 @@ import static com.csse3200.game.components.quests.AchievementManager.saveAchieve
  */
 public class QuestManager extends Component {
     /** Map to store quests. */
-    private final LinkedHashMap<String, QuestBasic> quests;
+    private final LinkedHashMap<String, Quest> quests;
      /** Array to store achievements. */
      private final Array<Achievement> achievements;
     /** Logger for logging quest related attributes. */
@@ -348,7 +348,7 @@ public class QuestManager extends Component {
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
      */
-    private void subscribeToQuestEvents(QuestBasic quest) {
+    private void subscribeToQuestEvents(Quest quest) {
         for (Task task : quest.getTasks()) {
             player.getEvents().addListener(task.getTaskName(),
                     () -> progressQuest(quest.getQuestName(), task.getTaskName()));
@@ -367,7 +367,7 @@ public class QuestManager extends Component {
      * @param quest The quest to be added.
      */
 
-    public void addQuest(QuestBasic quest) {
+    public void addQuest(Quest quest) {
         this.quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
@@ -378,7 +378,7 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-        for (QuestBasic quest : GameState.quests.quests) {
+        for (Quest quest : GameState.quests.quests) {
             addQuest(quest);
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
 
@@ -401,7 +401,7 @@ public class QuestManager extends Component {
      * Gets a list of all quests in QuestManager.
      * @return A list of all quests.
      */
-    public List<QuestBasic> getAllQuests() {
+    public List<Quest> getAllQuests() {
         return new ArrayList<>(quests.values());
     }
 
@@ -411,7 +411,7 @@ public class QuestManager extends Component {
      * @return The quest with the name.
      */
 
-    public QuestBasic getQuest(String questName) {
+    public Quest getQuest(String questName) {
         return quests.get(questName);
     }
 
@@ -421,7 +421,7 @@ public class QuestManager extends Component {
      * @param questName The name of the quest to fail.
      */
     public void failQuest(String questName) {
-        QuestBasic quest = getQuest(questName);
+        Quest quest = getQuest(questName);
         if (quest != null) {
             quest.failQuest();
         }
@@ -434,7 +434,7 @@ public class QuestManager extends Component {
      * @param taskName  The name of the task.
      */
     public void progressQuest(String questName, String taskName) {
-        QuestBasic quest = getQuest(questName);
+        Quest quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
         }
@@ -457,7 +457,7 @@ public class QuestManager extends Component {
      * @return true if the quest can be progressed
      */
 
-    private boolean canProgressQuest(QuestBasic quest, String taskName) {
+    private boolean canProgressQuest(Quest quest, String taskName) {
         return !quest.isQuestCompleted() &&
                 !quest.isFailed() &&
                 Objects.equals(taskName, quest.getTasks().get(quest.getProgression()).getTaskName());
@@ -467,7 +467,7 @@ public class QuestManager extends Component {
      * Completes the task of the updates the quest progression.
      * @param quest The quest to be completed.
      */
-    private void completeTask(QuestBasic quest) {
+    private void completeTask(Quest quest) {
         quest.progressQuest(player); //advance quest progression
         if (quest.isQuestCompleted()) {
             handleQuestCompletion(quest);
@@ -480,7 +480,7 @@ public class QuestManager extends Component {
      * Handle quest completion.
      * @param quest The quest that has been completed.
      */
-    private void handleQuestCompletion(QuestBasic quest) {
+    private void handleQuestCompletion(Quest quest) {
         if (!quest.isSecret()) {
             questComplete.play();
             player.getEvents().trigger("questCompleted");

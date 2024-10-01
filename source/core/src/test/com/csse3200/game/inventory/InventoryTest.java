@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;

@@ -2,14 +2,13 @@ package com.csse3200.game.components.quests;
 
 import com.csse3200.game.entities.Entity;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/** An abstract Quest class that contains the design for Quest classes that store quest
- *  and subtask progression (# of subtasks completed), descriptions and hints. **/
-public abstract class AbstractQuest {
+/** A basic Quest class that stores quest and subtask progression (# of
+ * subtasks completed), descriptions and hints. **/
+public class Quest {
+    /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
+     *  and completion triggers (messages to send on completion). */
     /**
      * The name of the quest.
      * */
@@ -49,7 +48,7 @@ public abstract class AbstractQuest {
     private final String[] taskCompletionTriggers;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    public Quest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
     {
         this.questName = questName;
         this.questDescription = questDescription;
