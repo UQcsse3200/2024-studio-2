@@ -1,54 +1,75 @@
-final_boss_kangaroo.png
-size: 192, 128
+griffinEffects.png
+size: 704, 576
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 default
   rotate: false
-  xy: 0, 0
+  xy: 0, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
-wander
+windGust
   rotate: false
-  xy: 0, 0
+  xy: 0, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 0
-wander
+windGust
   rotate: false
-  xy: 64, 0
+  xy: 64, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 1
-wander
+windGust
   rotate: false
-  xy: 128, 0
+  xy: 128, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 2
-chase
+windGust
   rotate: false
-  xy: 0, 64
+  xy: 192, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
-  index: 0
-chase
+  index: 3
+windGust
   rotate: false
-  xy: 64, 64
+  xy: 256, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
-  index: 1
-chase
+  index: 4
+windGust
   rotate: false
-  xy: 128, 64
+  xy: 320, 192
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
-  index: 2
+  index: 5
+windGust
+  rotate: false
+  xy: 384, 192
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+windGust
+  rotate: false
+  xy: 448, 192
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+windGust
+  rotate: false
+  xy: 512, 192
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8

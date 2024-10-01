@@ -73,6 +73,8 @@ public class ProjectileAttackComponent extends Component {
     // disposes of projectile
     Entity owner = getEntity();
     ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
-    task.movementTask.stop();
+    if (task != null) {
+      task.movementTask.stop();
+    }
   }
 }
