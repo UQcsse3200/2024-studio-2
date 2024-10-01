@@ -25,7 +25,7 @@ import com.csse3200.game.services.AudioManager;
  */
 public class MazeTouchAttackComponent extends Component {
     private final short targetLayer;
-    private float knockbackForce = 0f;
+    private final float knockbackForce;
     private HitboxComponent hitboxComponent;
 
     /**

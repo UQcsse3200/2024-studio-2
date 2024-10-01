@@ -3,14 +3,7 @@ package com.csse3200.game.minigames.maze.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.components.tasks.ChaseTask;
 import com.csse3200.game.components.tasks.MovementTask;
-import com.csse3200.game.entities.Entity;
-
-import javax.swing.*;
-
-import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils.PADDING;
-import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils.getHitBoxCorners;
 
 /**
  * Chases a target entity until they get too far away or line of sight is lost.
@@ -18,9 +11,8 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
  * of both the entity this is attached to and the entity being chased.
  */
 public class PatrolTask extends DefaultTask implements PriorityTask {
-    private Vector2 bestTargetPoint;
-    private Vector2[] patrolPoints;
-    private int priority;
+    private final Vector2[] patrolPoints;
+    private final int priority;
     private int currentPoint;
 
     protected MovementTask movementTask;
@@ -69,12 +61,19 @@ public class PatrolTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Stops the task
+     */
     @Override
     public void stop() {
         super.stop();
         movementTask.stop();
     }
 
+    /**
+     * Gets this tasks interrupt priority
+     * @return the priority
+     */
     @Override
     public int getPriority() {
         return priority;

@@ -4,10 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.minigames.maze.components.ParticleEffectComponent;
-import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.physics.components.PhysicsComponent;
-import com.csse3200.game.screens.MainGameScreen;
-import com.csse3200.game.screens.MazeGameScreen;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -28,6 +25,9 @@ public class MazePlayerActions extends Component {
         entity.getEvents().addListener("walkStop", this::stopWalking);
     }
 
+    /**
+     * Makes bubbles if the player is moving
+     */
     @Override
     public void update() {
         ParticleEffectComponent bubbles = entity.getComponent(ParticleEffectComponent.class);
@@ -41,6 +41,9 @@ public class MazePlayerActions extends Component {
         }
     }
 
+    /**
+     * Updates the speed of the player
+     */
     private void updateSpeed() {
         Body body = physicsComponent.getBody();
         Vector2 velocity = body.getLinearVelocity();

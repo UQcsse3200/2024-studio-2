@@ -11,7 +11,9 @@ import com.csse3200.game.minigames.MiniGameConstants;
  */
 public class MazePlayerScoreDisplay extends UIComponent {
 
-    Table table;
+    Table table;  // Table to display
+
+    // All Labels to display
     private Label scoreLabel;
     private Label bronzeLabel;
     private Label silverLabel;

@@ -17,14 +17,12 @@ public class MazeCombatStatsComponent extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
     private int health;
     private int baseAttack;
-    private boolean dead;
     private Vector2 baseSpeed;
 
     public MazeCombatStatsComponent(int health, int baseAttack, float baseSpeed) {
         setHealth(health);
         setBaseAttack(baseAttack);
         setBaseSpeed(baseSpeed);
-        this.dead = false;
     }
 
     /**
@@ -32,7 +30,6 @@ public class MazeCombatStatsComponent extends Component {
      * This is true for all entities not just the player
      */
     public void isDead() {
-        dead = true;
         if (entity instanceof MazePlayer) {
             entity.getEvents().trigger("endGame", entity.getComponent(MazeGameManagerComponent.class).getScore());
         }
@@ -95,11 +92,18 @@ public class MazeCombatStatsComponent extends Component {
         }
     }
 
-    //TODO: add comments here
+    /**
+     * Get the base speed for this NPC
+     * @return the speed
+     */
     public Vector2 getBaseSpeed() {
         return baseSpeed.cpy();
     }
 
+    /**
+     * Sets the base speed for this entity
+     * @param speed the speed to set to
+     */
     public void setBaseSpeed(float speed) {
         this.baseSpeed = new Vector2(speed, speed);
     }

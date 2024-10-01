@@ -5,7 +5,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 
 /**
- * A class to manage the game including the score. This is attatched to the player
+ * A class to manage the maze mini-game most notably the score. This is attached to the player
  */
 public class MazeGameManagerComponent extends Component {
 
@@ -33,7 +33,7 @@ public class MazeGameManagerComponent extends Component {
     }
 
     /**
-     * Tracls the last fish egg for disposal (disposal must happen here to ensure no faulty
+     * Tracks the last fish egg for disposal (disposal must happen here to ensure no faulty
      * references witt physics component)
      * @param entity the fish egg entity
      */
@@ -42,7 +42,7 @@ public class MazeGameManagerComponent extends Component {
     }
 
     /**
-     * Austomatically called as needed, used to update the score if there is a fish egg to be
+     * Automatically called as needed, used to update the score if there is a fish egg to be
      * disposed of
      */
     @Override
