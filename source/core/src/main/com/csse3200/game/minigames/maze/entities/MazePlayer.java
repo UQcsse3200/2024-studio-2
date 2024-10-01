@@ -63,7 +63,8 @@ public class MazePlayer extends Entity {
                 .addComponent(new StatusEffectComponent().registerStatusEffect("stun", new PlayerStunStatusEffect()))
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new MazeGameManagerComponent())
-                .addComponent(new MazeDifficultyIncrease(gameArea));
+                .addComponent(new MazeDifficultyIncrease(gameArea))
+                .addComponent(new ParticleEffectComponent("images/minigames/trail.p"));
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);

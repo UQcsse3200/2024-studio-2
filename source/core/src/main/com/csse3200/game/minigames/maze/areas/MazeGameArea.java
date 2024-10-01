@@ -1,6 +1,10 @@
 package com.csse3200.game.minigames.maze.areas;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
@@ -14,9 +18,6 @@ import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
-import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -295,6 +296,9 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
+        ParticleEffectLoader.ParticleEffectParameter particleDir = new ParticleEffectLoader.ParticleEffectParameter();
+        particleDir.imagesDir = Gdx.files.internal("images/minigames");
+        resourceService.loadAsset("images/minigames/trail.p", ParticleEffect.class, particleDir);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
