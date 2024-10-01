@@ -3,6 +3,7 @@ package com.csse3200.game.minigames.maze.components;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.minigames.MiniGameConstants;
 
@@ -13,6 +14,7 @@ public class MazePlayerScoreDisplay extends UIComponent {
 
     Table table;
     private Label scoreLabel;
+    private Label highScoreLabel;
     private Label bronzeLabel;
     private Label silverLabel;
     private Label goldLabel;
@@ -39,7 +41,9 @@ public class MazePlayerScoreDisplay extends UIComponent {
         makeLables();
 
         // Add labels to the table
-        table.add(scoreLabel).center().padBottom(20).padTop(20).expandX().fillX().padLeft(0);
+        table.add(scoreLabel).center().padBottom(0).padTop(20).expandX().fillX().padLeft(0);
+        table.row();
+        table.add(highScoreLabel).center().padBottom(20).padTop(0).expandX().fillX().padLeft(0);
         table.row();
         table.add(bronzeLabel).center().expandX().fillX().padLeft(0);
         table.row();
@@ -57,6 +61,10 @@ public class MazePlayerScoreDisplay extends UIComponent {
         int score = entity.getComponent(MazeGameManagerComponent.class).getScore();
         CharSequence scoreText = String.format("Score: %d", score);
         scoreLabel = new Label(scoreText, skin, "large-white");
+
+        CharSequence highScore = String.format("High Score %d",
+                GameState.minigame.getHighScore("maze"));
+        highScoreLabel = new Label(highScore, skin, "large-white");
 
         // Medals
         CharSequence bronzeText = String.format("Bronze Medal %d", MiniGameConstants.MAZE_BRONZE_THRESHOLD);

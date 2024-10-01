@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.CameraComponent;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.input.InputComponent;
@@ -147,6 +148,8 @@ public class MazeGameScreen extends PausableScreen {
 
     private void endGame(int score) {
         this.score = score;
+        GameState.minigame.addHighScore("maze", score);
+        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
     }
 
     private void loadAssets() {
