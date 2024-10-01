@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -28,6 +27,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final boolean isBoss;
   private static final String heartbeat = "sounds/heartbeat.mp3";
   private final Vector2 bossSpeed;
+  private boolean chaseDir = false; // 0 left, 1 right
 
   /**
    * @param target The entity to chase.
@@ -69,15 +69,15 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
           playTensionSound();
           this.target.getEvents().trigger("startHealthBarBeating");
       }
-      if (targetPos.x - currentPos.x < 0 && !this.isBoss) {
+      if (targetPos.x - currentPos.x < 0) {
           this.owner.getEntity().getEvents().trigger("chaseLeft");
       } else {
           this.owner.getEntity().getEvents().trigger("chaseRight");
       }
   }
 
-    void playTensionSound() {
-        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
+  void playTensionSound() {
+    if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
       heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
       heartbeatSound.setLooping(true);
       heartbeatSound.setVolume(1.0f);
@@ -110,12 +110,13 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       movementTask.start();
     }
 
-    if (targetPos.x - currentPos.x < 0) {
+    if (targetPos.x - currentPos.x < 0 && chaseDir) {
+      chaseDir = false;
       this.owner.getEntity().getEvents().trigger("chaseLeft");
-    } else {
+    } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+      chaseDir = true;
       this.owner.getEntity().getEvents().trigger("chaseRight");
     }
-
   }
 
   public float getViewDistance() {
@@ -128,8 +129,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask.stop();
 
     if (this.isBoss) {
-        stopTensionSound();
-        this.target.getEvents().trigger("stopHealthBarBeating");
+      stopTensionSound();
+      this.target.getEvents().trigger("stopHealthBarBeating");
     }
   }
 

@@ -37,6 +37,8 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
     private Music heartbeatSound;
     private static final String heartbeat = "sounds/heartbeat.mp3";
     private final Vector2 bossSpeed;
+    private boolean chaseDir = false; // 0 left, 1 right
+
 
     /**
      * @param target          The entity to chase.
@@ -63,6 +65,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
+        Vector2 currentPos = owner.getEntity().getPosition();
         Vector2 targetPos = target.getPosition();
         movementTask = new MovementTask(targetPos, bossSpeed);
         movementTask.create(owner);
@@ -70,6 +73,12 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
 
         playTensionSound();
         target.getEvents().trigger("startHealthBarBeating");
+
+        if (targetPos.x - currentPos.x < 0) {
+            this.owner.getEntity().getEvents().trigger("chaseLeft");
+        } else {
+            this.owner.getEntity().getEvents().trigger("chaseRight");
+        }
     }
 
     @Override
@@ -77,10 +86,12 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
         Vector2 targetPos = target.getPosition();
         Vector2 currentPos = owner.getEntity().getPosition();
 
-        if (targetPos.x - currentPos.x < 0) {
-            owner.getEntity().getEvents().trigger("chaseLeft");
-        } else {
-            owner.getEntity().getEvents().trigger("chaseRight");
+        if (targetPos.x - currentPos.x < 0 && chaseDir) {
+            chaseDir = false;
+            this.owner.getEntity().getEvents().trigger("chaseLeft");
+        } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+            chaseDir = true;
+            this.owner.getEntity().getEvents().trigger("chaseRight");
         }
 
         movementTask.setTarget(targetPos);
