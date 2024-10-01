@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -17,6 +18,8 @@ import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -38,6 +41,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -89,6 +94,12 @@ class EnemyFactoryTest {
         resourceService.loadTextures(textures);
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
+
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
 
         Entity player = new Entity();
         chicken = EnemyFactory.createChicken(player);

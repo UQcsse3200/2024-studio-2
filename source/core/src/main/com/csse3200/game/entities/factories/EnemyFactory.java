@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -16,8 +17,11 @@ import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -27,6 +31,7 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -374,8 +379,8 @@ public class EnemyFactory {
                 aiComponent.addTask(new ShootTask(1000, target, 10f));
             }
             case EnemyType.PIGEON -> {
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
-
             }
             default -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
@@ -395,7 +400,9 @@ public class EnemyFactory {
                         .addComponent(aiComponent)
                         .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1, config.getHunger(), Math.max(0, config.getBaseAttack() + (int)(Math.random() * 5) - 2),
                                 config.getDefense() + (int)(Math.random() * 2), config.getSpeed(), config.getExperience(), 100, false, false))
-                        .addComponent(new CombatMoveComponent(moveSet));
+                        .addComponent(new CombatMoveComponent(moveSet))
+                        .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
+                        .addComponent(new FadeLightsDayTimeComponent());
         
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
@@ -470,7 +477,9 @@ public class EnemyFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
                         .addComponent(new ConfigComponent<>(configs.kangarooBoss))
-                        .addComponent(aiComponent);
+                        .addComponent(aiComponent)
+                        .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(6f, Color.RED)));
+        
         
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
@@ -560,7 +569,7 @@ public class EnemyFactory {
         
         return bearEnemy;
     }
-
+    
     /**
      * Creates bee enemy as NPC entity for static combat
      * */
@@ -568,16 +577,16 @@ public class EnemyFactory {
         Entity beeEnemy = createCombatBossNPC();
         BaseEnemyEntityConfig config = configs.bee;
         beeEnemy.setEnemyType(Entity.EnemyType.BEE);
-
+        
         beeEnemy
                 .addComponent(new TextureRenderComponent("images/bee_idle.png"))
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
-
+        
         beeEnemy.setScale(90f, 103.5f);
-
+        
         return beeEnemy;
     }
-
+    
     /**
      * Creates big saw fish enemy as NPC entity for static combat
      * */
@@ -585,15 +594,15 @@ public class EnemyFactory {
         Entity bigsawfishEnemy = createCombatBossNPC();
         BaseEnemyEntityConfig config = configs.bigsawfish;
         bigsawfishEnemy.setEnemyType(Entity.EnemyType.BIGSAWFISH);
-
+        
         bigsawfishEnemy
                 .addComponent(new TextureRenderComponent("images/bigsawfish_idle.png"))
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
         bigsawfishEnemy.scaleHeight(90.0f);
-
+        
         return bigsawfishEnemy;
     }
-
+    
     /**
      * Creates macaw enemy as NPC entity for static combat
      * */
@@ -601,15 +610,15 @@ public class EnemyFactory {
         Entity macawEnemy = createCombatBossNPC();
         BaseEnemyEntityConfig config = configs.macaw;
         macawEnemy.setEnemyType(Entity.EnemyType.MACAW);
-
+        
         macawEnemy
                 .addComponent(new TextureRenderComponent("images/macaw_idle.png"))
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
         macawEnemy.scaleHeight(90.0f);
-
+        
         return macawEnemy;
     }
-
+    
     /**
      * Creates pigeon enemy as NPC entity for static combat
      * */
@@ -625,7 +634,7 @@ public class EnemyFactory {
         
         return pigeonEnemy;
     }
-
+    
     /**
      * Creates pigeon enemy as NPC entity for static combat
      * */
@@ -633,16 +642,16 @@ public class EnemyFactory {
         Entity eelEnemy = createCombatBossNPC();
         BaseEnemyEntityConfig config = configs.eel;
         eelEnemy.setEnemyType(Entity.EnemyType.EEL);
-
+        
         eelEnemy
                 .addComponent(new TextureRenderComponent("images/eel_idle.png"))
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false));
         eelEnemy.setScale(100f,70f);
-
+        
         return eelEnemy;
     }
-    
-    private EnemyFactory() {
-        throw new IllegalStateException("Instantiating static util class");
-    }
+
+  private EnemyFactory() {
+    throw new IllegalStateException("Instantiating static util class");
+  }
 }

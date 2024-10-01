@@ -11,6 +11,7 @@ import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -29,13 +30,9 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ArrayList;
 import com.csse3200.game.entities.factories.ItemFactory;
-
 import java.util.Objects;
 import java.util.*;
 import java.util.function.Supplier;
@@ -111,6 +108,7 @@ public class ForestGameArea extends GameArea {
         
         //Initialise inventory and quests with loaded data
         player.getComponent(InventoryComponent.class).loadInventoryFromSave();
+        player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
         player.getComponent(QuestManager.class).loadQuests();
     }
     
@@ -132,11 +130,7 @@ public class ForestGameArea extends GameArea {
             spawnItems(TerrainLoader.chunktoWorldPos(pos));
         }
         
-        // Despawn items on old chunks:
-        // TODO: WE CAN DO THIS EFFICIENTLY BY STORING THE SET OF ITEMS IN AN AVL TREE ORDERED BY
-        //  POSITION, AND THEN CAN JUST CHECK FOR ANYTHING SPAWNED OUTSIDE THE PLAYER RADIUS (AND
-        //  PROVIDED THE RADIUS IS BIG ENOUGH IT ALSO WON'T MATTER FOR DYNAMIC NPC's IF THEY WANDER
-        //  ONTO THE CHUNK)
+        // TODO: Despawn items on old chunks:
         List<Integer> removals = new ArrayList<>();
         for (int key : dynamicItems.keySet()) {
             GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
@@ -256,7 +250,7 @@ public class ForestGameArea extends GameArea {
         
         // Spawn the entity at the calculated position
         spawnEntityAt(entity, spawnPos, true, true);
-        logger.info("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+        logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
                 entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
     }
     

@@ -42,9 +42,8 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
         
         // does damage if player
         Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-        CombatStatsComponent combatStatsComponent = target.getComponent(CombatStatsComponent.class);
-        if (combatStatsComponent != null) {
-            combatStatsComponent.addHealth(-this.damage);
+        if (target.isPlayer()) {
+            target.getComponent(CombatStatsComponent.class).addHealth(-damage); //placeholder value
         }
         
         // disposes of projectile

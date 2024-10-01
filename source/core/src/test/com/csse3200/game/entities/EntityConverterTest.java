@@ -1,4 +1,5 @@
 package com.csse3200.game.entities;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
@@ -7,6 +8,8 @@ import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
@@ -25,6 +28,8 @@ import java.util.List;
 
 import static com.csse3200.game.entities.EntityConverter.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -65,6 +70,12 @@ class EntityConverterTest {
         ServiceLocator.registerRenderService(render);
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
+
         resourceService.loadTextures(textures);
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
