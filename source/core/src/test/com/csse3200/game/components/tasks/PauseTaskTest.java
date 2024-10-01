@@ -14,7 +14,6 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
-import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -217,7 +216,7 @@ class PauseTaskTest {
 
         cow.update();
 
-        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I’m your guide.";
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I am your guide.";
 
         String hintDialogue = dialogueBox.getLabel().getText().toString();
         assertEquals(cowInitialDialogue, hintDialogue);

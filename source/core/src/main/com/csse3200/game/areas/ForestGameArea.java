@@ -111,12 +111,12 @@ public class ForestGameArea extends GameArea {
       player.getComponent(InventoryComponent.class).loadInventoryFromSave();
       player.getComponent(QuestManager.class).loadQuests();
 
-      ArrayList<DialogueKey> testList = new ArrayList<>();
-      testList.add(new DialogueKey("Cow", new String[][] {{"Hello"}}));
+      //ArrayList<DialogueKey> testList = new ArrayList<>();
+      //testList.add(new DialogueKey("Cow", new String[][] {{"Hello"}}));
 
-    player.getComponent(QuestManager.class).getAllQuests().getFirst().setQuestDialogue(
-            testList
-    );
+    //player.getComponent(QuestManager.class).getAllQuests().getFirst().setQuestDialogue(
+      //      testList
+    //);
   }
 
   private void handleNewChunks(Vector2 playerPos) {
