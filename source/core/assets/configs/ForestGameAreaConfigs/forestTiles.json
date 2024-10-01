@@ -85,6 +85,18 @@
       "centre": "grass"
     },
     {
+      "id": "grass1MM",
+      "fp": "images/grass_tile_1_around_sand/middle_grass_1_around_sand.jpg",
+      "edges": ["BBB", "BBB", "BBB", "BBB"],
+      "centre": "grass"
+    },
+    {
+      "id": "grass1MM",
+      "fp": "images/grass_tile_1_around_sand/middle_grass_1_around_sand.jpg",
+      "edges": ["BBB", "BBB", "BBB", "BBB"],
+      "centre": "grass"
+    },
+    {
       "id": "grass1MR",
       "fp": "images/grass_tile_1_around_sand/right_middle_grass_1_around_sand.jpg",
       "edges": ["BAA", "AAA", "BAA", "BBB"],

@@ -91,6 +91,7 @@ public class TerrainFactory {
   public enum TerrainType {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
-    FOREST_DEMO_HEX
+    FOREST_DEMO_HEX;
+      public static TerrainType Ocean_DEMO;
   }
 }

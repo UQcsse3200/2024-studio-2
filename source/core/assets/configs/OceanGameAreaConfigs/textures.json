@@ -1,7 +1,8 @@
 {
-  "forestTextures" : [
+  "OceanTextures" : [
     "images/box_boy_leaf.png",
     "images/tree.png",
+    "images/ghost_king.png",
     "images/final_boss_kangaroo.png",
     "images/Cow.png",
     "images/snake.png",
@@ -9,6 +10,7 @@
     "images/lion.png",
     "images/turtle.png",
     "images/magpie.png",
+    "images/ghost_1.png",
     "images/grass_1.png",
     "images/grass_2.png",
     "images/grass_3.png",
@@ -145,10 +147,6 @@
     "images/water_tile_2_around_sand/lower_middle_water_2_around_sand.jpg",
     "images/water_tile_2_around_sand/lower_right_corner_water_2_around_sand.jpg",
 
-    "images/tiles_with_corners/Grass_tile_with_sand_corner.png",
-    "images/tiles_with_corners/Grass_tile_with_water_corner.png",
-    "images/tiles_with_corners/Sand_tile_with_grass_corner.png",
-
     "images/top_left_grass.png",
     "images/top_middle_grass.png",
     "images/top_right_grass.png",
@@ -165,8 +163,6 @@
     "images/Healthpotion.png",
     "images/foodtextures/apple.png",
     "images/foodtextures/carrot.png",
-    "images/foodtextures/Milk.png",
-    "images/foodtextures/Sushi.png",
     "images/foodtextures/chicken_leg.png",
     "images/foodtextures/meat.png",
     "images/foodtextures/candy.png",
@@ -179,8 +175,6 @@
     "images/chicken.atlas",
     "images/frog.atlas",
     "images/monkey.atlas",
-    "images/banana.atlas",
-    "images/bear.atlas",
     "images/Cow.atlas",
     "images/Fish.atlas",
     "images/snake.atlas",
@@ -188,9 +182,6 @@
     "images/eagle.atlas",
     "images/turtle.atlas",
     "images/magpie.atlas",
-    "images/final_boss_kangaroo.atlas",
-    "images/enemy-frog.atlas",
-    "images/enemy-monkey.atlas",
-    "images/enemy-chicken.atlas"
+    "images/final_boss_kangaroo.atlas"
   ]
 }
