@@ -100,6 +100,8 @@ public class MazeGameArea extends GameArea {
     @Override
     public void create() {
         loadAssets();
+        ElectricEel.resetParticlePool();
+        FishEgg.resetParticlePool();
 
         displayUI();
 
@@ -262,7 +264,6 @@ public class MazeGameArea extends GameArea {
      * Spawns the eels entities
      */
     private void spawnEels() {
-        ElectricEel.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
@@ -274,7 +275,6 @@ public class MazeGameArea extends GameArea {
      * Spawns in the fish egg npc.
      */
     private void spawnFishEggs() {
-        FishEgg.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EGGS; i++) {
             Entity fishEgg = MazeNPCFactory.createFishEgg();
             spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);

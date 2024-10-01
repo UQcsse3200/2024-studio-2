@@ -7,6 +7,7 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.lighting.components.LightingComponent;
+import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -28,6 +29,9 @@ public class FishEggTest {
 
     private Entity fishEgg;
     private static final String[] TEXTURE_MAZE = { "images/minigames/fishegg.png" };
+    private static final String[] PARTICLE_EFFECTS = {"images/minigames/starlight.p"};
+
+    private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
 
     @BeforeEach
     public void setUp() {
@@ -43,7 +47,9 @@ public class FishEggTest {
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
         resourceService.loadTextures(TEXTURE_MAZE);
+        resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
+        FishEgg.resetParticlePool();
         fishEgg = MazeNPCFactory.createFishEgg();
     }
 
