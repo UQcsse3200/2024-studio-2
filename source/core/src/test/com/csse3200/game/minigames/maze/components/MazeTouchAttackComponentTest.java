@@ -47,6 +47,22 @@ class MazeTouchAttackComponentTest {
     }
 
     @Test
+    void shouldIgnoreCollisionsWithNonTargetLayer() {
+        short targetLayer = (1 << 3);  // The target layer we are interested in
+        short nonTargetLayer = (1 << 5);  // A different layer we should ignore
+
+        Entity player = createPlayer(targetLayer);
+        Entity target = createTarget(nonTargetLayer);  // Entity on the wrong layer
+
+        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
+        Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
+        player.getEvents().trigger("collisionStart", playerFixture, targetFixture);
+
+        // Check that no health has been deducted
+        assertEquals(10, target.getComponent(MazeCombatStatsComponent.class).getHealth());
+    }
+
+    @Test
     void shouldApplyKnockbackToEnemy() {
         short targetLayer = (1 << 3);
         Entity player = createPlayer(targetLayer);
@@ -57,6 +73,34 @@ class MazeTouchAttackComponentTest {
 
         player.getEvents().trigger("collisionStart", playerFixture, eelFixture);
 
+    }
+
+    @Test
+    void shouldCollectFishEgg() {
+        short targetLayer = (1 << 3);
+        Entity player = createPlayerWithManager(targetLayer);
+        Entity fishEgg = createFishEgg(targetLayer);
+
+        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
+        Fixture fishEggFixture = fishEgg.getComponent(HitboxComponent.class).getFixture();
+
+        player.getEvents().trigger("collisionStart", playerFixture, fishEggFixture);
+
+    }
+
+    // Helper method to create a player with MazeGameManagerComponent
+    private Entity createPlayerWithManager(short targetLayer) {
+        return new Entity()
+                .addComponent(new MazeTouchAttackComponent(targetLayer, 2.0f))
+                .addComponent(new HitboxComponent())
+                .addComponent(new MazeGameManagerComponent());  // Add this component to the player
+    }
+
+    // Fish egg creation method
+    private Entity createFishEgg(short layer) {
+        return new Entity()
+                .addComponent(new HitboxComponent().setLayer(layer))
+                .addComponent(new MazeCombatStatsComponent(1, 1, 0)); // Example stats
     }
 
     private Entity createPlayer(short targetLayer) {
