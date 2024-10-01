@@ -7,44 +7,41 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
-public class AirAnimalSelectionScreen extends ScreenAdapter {
+public class AnimalRouletteScreen extends ScreenAdapter {
     private final GdxGame game;
     private Stage stage;
     private Skin skin;
     private Image animalImage;
-
-    private final String[] airAnimalImages = {
-            "images/bird.png", // Example water animals
-            "images/bird.png",
+    private final String[] animalImages = {
+            "images/dog.png",
+            "images/croc.png",
             "images/bird.png"
     };
-    private final String[] airAnimalNames = {"Eagle", "Falcon", "Owl"};
-    private final String[] airAnimalDescriptions = {
-            "An eagle is a powerful predator with sharp vision and unmatched speed in the sky.",
-            "A falcon is lightning-fast and precise, striking with agility and accuracy.",
-            "An owl is a stealthy hunter with keen night vision, silent and deadly"
+    private final String[] animalNames = {"Dog", "Crocodile", "Bird"};
+    private final String[] animalDescriptions = {
+            "The Dog is loyal, brave, and agile. It excels in combat with its speed and determination.",
+            "The Crocodile is strong, cunning, and resilient. It possesses incredible defensive and offensive capabilities.",
+            "The Bird is fast, intelligent, and free. It can outmaneuver opponents and attack from the skies."
     };
     private int currentAnimalIndex = 0;
     private PopUpHelper popUpHelper;
 
-    // UI elements
+    // UI elements for dynamic positioning
     private TextButton leftButton;
     private TextButton rightButton;
     private TextButton continueButton;
     private TextButton backButton;
+    private TextButton waterAnimalsButton;
     private TextButton airAnimalsButton;
-    private TextButton landAnimalsButton;
 
-    public AirAnimalSelectionScreen(GdxGame game) {
+    public AnimalRouletteScreen(GdxGame game) {
         this.game = game;
     }
 
@@ -60,14 +57,14 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
     }
 
     private void createUI() {
-        // Set water background
-        Image background = new Image(new Texture(Gdx.files.internal("images/animal/SkyAnimalSelectionBG.jpeg")));
+        // Set background
+        Image background = new Image(new Texture(Gdx.files.internal("images/animal/JungleAnimalSelectionBG.jpeg")));
         background.setFillParent(true);
         stage.addActor(background);
 
-        // Create water animal image
-        animalImage = new Image(new Texture(Gdx.files.internal(airAnimalImages[currentAnimalIndex])));
-        animalImage.setScale(2);  // Scale the image to fit the screen
+        // Create animal image
+        animalImage = new Image(new Texture(Gdx.files.internal(animalImages[currentAnimalIndex])));
+        animalImage.setScale(2); // Make the animal image larger
         stage.addActor(animalImage);
 
         // Create buttons
@@ -75,7 +72,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         rightButton = new TextButton(">", skin);
         continueButton = new TextButton("Continue", skin);
         backButton = new TextButton("Go Back", skin);
-        landAnimalsButton = new TextButton("Land Animals", skin);
+        waterAnimalsButton = new TextButton("Water Animals", skin);
         airAnimalsButton = new TextButton("Air Animals", skin);
 
         // Add actors to stage
@@ -83,7 +80,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         stage.addActor(rightButton);
         stage.addActor(continueButton);
         stage.addActor(backButton);
-        stage.addActor(landAnimalsButton);
+        stage.addActor(waterAnimalsButton);
         stage.addActor(airAnimalsButton);
 
         // Add listeners
@@ -97,7 +94,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         leftButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex - 1 + airAnimalImages.length) % airAnimalImages.length;
+                currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
                 updateAnimalImage();
             }
         });
@@ -105,7 +102,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         rightButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex + 1) % airAnimalImages.length;
+                currentAnimalIndex = (currentAnimalIndex + 1) % animalImages.length;
                 updateAnimalImage();
             }
         });
@@ -124,11 +121,11 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
             }
         });
 
-        landAnimalsButton.addListener(new ClickListener() {
+        waterAnimalsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Land Animals button clicked!"); // Log statement
-                game.setScreen(new AnimalRouletteScreen(game));
+                System.out.println("Water Animals button clicked!"); // Log statement
+                game.setScreen(new WaterAnimalSelectionScreen(game));
             }
         });
 
@@ -142,15 +139,15 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
     }
 
     private void updateAnimalImage() {
-        animalImage.setDrawable(new Image(new Texture(Gdx.files.internal(airAnimalImages[currentAnimalIndex]))).getDrawable());
+        animalImage.setDrawable(new Image(new Texture(Gdx.files.internal(animalImages[currentAnimalIndex]))).getDrawable());
     }
 
     private void showAnimalStats() {
-        String title = airAnimalNames[currentAnimalIndex];
-        String content = airAnimalDescriptions[currentAnimalIndex];
+        String title = animalNames[currentAnimalIndex];
+        String content = animalDescriptions[currentAnimalIndex];
 
-        popUpHelper.displayDialog(title, content, airAnimalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () -> {
-            game.setScreen(new StoryScreen(game, airAnimalNames[currentAnimalIndex].toLowerCase()));
+        popUpHelper.displayDialog(title, content, animalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () -> {
+            game.setScreen(new StoryScreen(game, animalNames[currentAnimalIndex].toLowerCase()));
         });
     }
 
@@ -159,7 +156,7 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         float screenHeight = stage.getHeight();
 
         // Position animal image in the center
-        float animalSize = Math.min(screenWidth, screenHeight) / 4;
+        float animalSize = Math.min(screenWidth, screenHeight) / 4; // 1/3 of the screen size
         animalImage.setSize(animalSize, animalSize);
         animalImage.setPosition((screenWidth - animalSize) / 3, (screenHeight - animalSize) / 3);
 
@@ -175,10 +172,11 @@ public class AirAnimalSelectionScreen extends ScreenAdapter {
         continueButton.setBounds(screenWidth / 2 - bottomButtonWidth - 10, bottomButtonY, bottomButtonWidth, bottomButtonHeight);
         backButton.setBounds(screenWidth / 2 + 10, bottomButtonY, bottomButtonWidth, bottomButtonHeight);
 
+        // Position water and air buttons
         float sideButtonWidth = 200;
         float sideButtonHeight = 50;
         float sideButtonX = 20;
-        landAnimalsButton.setBounds(sideButtonX, screenHeight - sideButtonHeight - 20, sideButtonWidth, sideButtonHeight);
+        waterAnimalsButton.setBounds(sideButtonX, screenHeight - sideButtonHeight - 20, sideButtonWidth, sideButtonHeight);
         airAnimalsButton.setBounds(sideButtonX, screenHeight - 2 * sideButtonHeight - 30, sideButtonWidth, sideButtonHeight);
     }
 
