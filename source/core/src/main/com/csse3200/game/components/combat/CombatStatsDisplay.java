@@ -25,6 +25,7 @@ public class CombatStatsDisplay extends UIComponent {
   private Image playerHungerImage;
   private Image enemyHealthImage;
   private  Image xpImage;
+  private Image statusEffect;
   private Label playerHealthLabel;
   private Label playerHungerLabel;
   private Label enemyHealthLabel;
@@ -58,6 +59,9 @@ public class CombatStatsDisplay extends UIComponent {
     entity.getEvents().addListener("onSleep", this::updateHealthUI);
     entity.getEvents().addListener("onSleep", this::updatePlayerHungerUI);
     entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
+    entity.getEvents().addListener("statusEffectAdded", (CombatStatsComponent.StatusEffect statusEffect) -> {
+      updateStatusEffectUI(statusEffect);
+    });
   }
 
   /**
@@ -278,6 +282,10 @@ public class CombatStatsDisplay extends UIComponent {
     frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
     // Set the current frame of the health bar animation
     setNewFrame(frameIndex, playerHungerBarAnimation, playerHungerImage);
+
+  }
+
+  public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
 
   }
 

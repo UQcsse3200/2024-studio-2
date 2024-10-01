@@ -380,6 +380,7 @@ public class CombatStatsComponent extends Component {
    */
   public void addStatusEffect(StatusEffect effect) {
     statusEffects.add(effect);
+    entity.getEvents().trigger("statusEffectAdded", effect);
     logger.info("Added status effect: {}", effect);
   }
 
