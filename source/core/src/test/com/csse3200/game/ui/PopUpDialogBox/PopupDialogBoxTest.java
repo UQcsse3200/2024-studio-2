@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Developed and Debugged with ChatGPT
 class PopupDialogBoxTest {
     private PopupDialogBox dialogBox;
     private Stage stage;
