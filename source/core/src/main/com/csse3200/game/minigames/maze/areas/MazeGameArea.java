@@ -19,6 +19,7 @@ import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
+import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -66,7 +67,8 @@ public class MazeGameArea extends GameArea {
     private static final String mazeParticleEffectImageDir = "images/minigames";
     private static final String[] mazeParticleEffects = {
         "images/minigames/trail.p",
-        "images/minigames/electricparticles.p"
+        "images/minigames/electricparticles.p",
+        "images/minigames/starlight.p"
     };
     private static final String[] mazeSounds = {
             "sounds/minigames/angler-chomp.mp3",
@@ -272,6 +274,7 @@ public class MazeGameArea extends GameArea {
      * Spawns in the fish egg npc.
      */
     private void spawnFishEggs() {
+        FishEgg.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EGGS; i++) {
             Entity fishEgg = MazeNPCFactory.createFishEgg();
             spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
