@@ -59,6 +59,10 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture birdTexture;
     private Texture cursorTexture;
+    private ChatbotService chatbotService;
+    private Table chatbotTable;
+    private TextField userInputField;
+    private Label chatbotResponseLabel;
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
@@ -106,10 +110,57 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         setupCustomCursor();
         addActors();
+        chatbotService = new ChatbotService(); // Initialize the chatbot service
+        addChatbotUI();
         animateAnimals();
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
+    }
+
+    private void addChatbotUI() {
+        chatbotTable = new Table();
+        chatbotTable.setPosition(50, 50);  // Adjust the position as needed
+        chatbotTable.setSize(600, 200);    // Adjust size as needed
+        chatbotTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
+
+        // User input field
+        userInputField = new TextField("", skin);
+        userInputField.setMessageText("Ask something...");
+
+        // Button to send user input to the chatbot
+        TextButton sendButton = new TextButton("Send", skin);
+        sendButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                processChatInput();  // Send input to the chatbot
+            }
+        });
+
+        // Chatbot response label
+        chatbotResponseLabel = new Label("Hello! How can I assist you?", skin);
+        chatbotResponseLabel.setWrap(true);  // Enable text wrapping
+
+        chatbotTable.add(chatbotResponseLabel).colspan(2).width(500).pad(10);
+        chatbotTable.row();
+        chatbotTable.add(userInputField).width(400).pad(10);
+        chatbotTable.add(sendButton).width(100).pad(10);
+
+        stage.addActor(chatbotTable);  // Add chatbot table to the stage
+    }
+
+    /**
+     * Processes user input and updates the chatbot response.
+     */
+    private void processChatInput() {
+        String userInput = userInputField.getText();
+        String chatbotResponse = chatbotService.getResponse(userInput);
+
+        // Update the chatbot response label with the chatbot's reply
+        chatbotResponseLabel.setText(chatbotResponse);
+
+        // Clear the input field after sending
+        userInputField.setText("");
     }
 
     /**
