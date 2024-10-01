@@ -34,6 +34,8 @@ import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.ArrayList;
+
 /**
  * A UI component for displaying the Main menu.
  */
@@ -59,10 +61,12 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture birdTexture;
     private Texture cursorTexture;
-    private ChatbotService chatbotService;
-    private Table chatbotTable;
+    private Table chatbotIconTable;
+    private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
+    private java.util.List<String> predefinedQuestions;
+    private ChatbotService chatbotService;
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
@@ -111,58 +115,111 @@ public class MainMenuDisplay extends UIComponent {
         setupCustomCursor();
         addActors();
         chatbotService = new ChatbotService(); // Initialize the chatbot service
-        addChatbotUI();
+        setupPredefinedQuestions(); // Setup predefined questions
+        addChatbotIcon();
         animateAnimals();
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
     }
 
-    private void addChatbotUI() {
-        chatbotTable = new Table();
-        chatbotTable.setPosition(50, 50);  // Adjust the position as needed
-        chatbotTable.setSize(600, 200);    // Adjust size as needed
-        chatbotTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
+    private void addChatbotIcon() {
+        chatbotIconTable = new Table();
+        chatbotIconTable.bottom().right(); // Align to bottom right
+        chatbotIconTable.setFillParent(true);
+        chatbotIconTable.pad(20).padBottom(50).padRight(50); // Padding from edges
 
-        // User input field
+        // Chatbot icon (adjust image as needed)
+        ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
+        chatbotIcon.setSize(100, 100); // Adjust size as needed
+
+        // Listener to open chatbot dialog
+        chatbotIcon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                openChatbotDialog();
+            }
+        });
+
+        // Add the chatbot icon to the stage
+        chatbotIconTable.add(chatbotIcon);
+        stage.addActor(chatbotIconTable);
+    }
+
+    /**
+     * Opens the chatbot dialog in the center of the screen.
+     */
+    private void openChatbotDialog() {
+        chatbotDialog = new Dialog("Chatbot", skin) {
+            @Override
+            protected void result(Object object) {
+                logger.info("Chatbot dialog closed.");
+            }
+        };
+
+        chatbotDialog.setSize(600, 400);  // Set dialog size
+        chatbotDialog.setPosition((Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2); // Center it
+
+        // Predefined questions
+        Table questionTable = new Table();
+        for (String question : predefinedQuestions) {
+            TextButton questionButton = new TextButton(question, skin);
+            questionButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    processChatInput(question);
+                }
+            });
+            questionTable.add(questionButton).pad(5).row();  // Add each question button to the table
+        }
+
+        // User input field for custom queries
         userInputField = new TextField("", skin);
-        userInputField.setMessageText("Ask something...");
+        userInputField.setMessageText("Type your question...");
 
-        // Button to send user input to the chatbot
+        // Button to submit custom input
         TextButton sendButton = new TextButton("Send", skin);
         sendButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                processChatInput();  // Send input to the chatbot
+                processChatInput(userInputField.getText());
             }
         });
 
         // Chatbot response label
-        chatbotResponseLabel = new Label("Hello! How can I assist you?", skin);
-        chatbotResponseLabel.setWrap(true);  // Enable text wrapping
+        chatbotResponseLabel = new Label("", skin);
+        chatbotResponseLabel.setWrap(true);
 
-        chatbotTable.add(chatbotResponseLabel).colspan(2).width(500).pad(10);
-        chatbotTable.row();
-        chatbotTable.add(userInputField).width(400).pad(10);
-        chatbotTable.add(sendButton).width(100).pad(10);
+        // Layout the chatbot dialog
+        chatbotDialog.getContentTable().add(questionTable).pad(10).row();  // Add question buttons
+        chatbotDialog.getContentTable().add(userInputField).width(500).pad(10).row(); // Add input field
+        chatbotDialog.getContentTable().add(sendButton).pad(10).row(); // Add send button
+        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(500).pad(10).row(); // Add response label
 
-        stage.addActor(chatbotTable);  // Add chatbot table to the stage
+        chatbotDialog.show(stage);  // Show the dialog
     }
 
     /**
-     * Processes user input and updates the chatbot response.
+     * Setup predefined questions to display in the dialog.
      */
-    private void processChatInput() {
-        String userInput = userInputField.getText();
-        String chatbotResponse = chatbotService.getResponse(userInput);
-
-        // Update the chatbot response label with the chatbot's reply
-        chatbotResponseLabel.setText(chatbotResponse);
-
-        // Clear the input field after sending
-        userInputField.setText("");
+    private void setupPredefinedQuestions() {
+        predefinedQuestions = new ArrayList<>();
+        predefinedQuestions.add("How do I move?");
+        predefinedQuestions.add("How do I attack?");
+        predefinedQuestions.add("What's the objective?");
+        predefinedQuestions.add("How can I save my game?");
+        predefinedQuestions.add("Hello");
     }
 
+    /**
+     * Processes user input or predefined questions and updates the response.
+     * @param userInput The user input (either custom or predefined).
+     */
+    private void processChatInput(String userInput) {
+        String chatbotResponse = chatbotService.getResponse(userInput);  // Get chatbot response
+        chatbotResponseLabel.setText(chatbotResponse);  // Update response label
+    }
     /**
      * Sets up the custom cursor.
      */
