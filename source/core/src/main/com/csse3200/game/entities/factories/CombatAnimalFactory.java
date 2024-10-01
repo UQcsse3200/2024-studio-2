@@ -73,8 +73,15 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.monkey;
         monkeyEnemy.setEnemyType(Entity.EnemyType.MONKEY);
 
+        TextureAtlas monkeyAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(monkeyAtlas);
+
+        animator.addAnimation("combat_idle", 0.3f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
         monkeyEnemy
-                .addComponent(new TextureRenderComponent("images/monkey_idle.png"));
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
 
         monkeyEnemy.scaleHeight(90.0f);
 
@@ -105,15 +112,22 @@ public class CombatAnimalFactory {
     }
 
     /**
-     * Creates frog enemy as NPC entity for static combat
+     * Creates bear enemy as NPC entity for static combat
      * */
     public static Entity createBearCombatEnemy() {
         Entity bearEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.bear;
         bearEnemy.setEnemyType(Entity.EnemyType.BEAR);
 
+        TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
         bearEnemy
-                .addComponent(new TextureRenderComponent("images/bear_idle.png"));
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
 
         bearEnemy.setScale(150f,103.5f);
         //bearEnemy.scaleHeight(150.0f);
