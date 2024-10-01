@@ -14,6 +14,8 @@ class SaveHandlerTest {
     private final String testDirectory = "test/saves";
     @Test
     void shouldSaveLoadDeleteValues() {
+        GameState.clearState();
+
         GameStateTest.env1.test = 3;
         GameStateTest.env2.test2 = "test";
         SaveHandler.save(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);

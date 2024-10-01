@@ -101,6 +101,8 @@ class QuestManagerTest {
 
     @Test
     void shouldSaveLoadQuestProgression() {
+        GameState.clearState();
+
         Quest quest1 = new Quest("Quest 1",  "Description 1", List.of(),  false, null, null, true, true, 0);
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
         Quest quest2 = new Quest("Quest 2",  "Description 2", List.of(task),  false, null, null, true, false, 0);
@@ -118,8 +120,6 @@ class QuestManagerTest {
         assertTrue(GameState.quests.quests.getFirst().isFailed());
         assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
         assertEquals(1, GameState.quests.quests.getLast().getTasks().size());
-
-        GameState.quests.quests.clear();
 
         SaveHandler.delete(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
     }
