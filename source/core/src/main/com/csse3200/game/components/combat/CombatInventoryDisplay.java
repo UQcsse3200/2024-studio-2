@@ -3,22 +3,18 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.inventory.InventoryUtils;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.inventory.items.potions.AttackPotion;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +23,17 @@ import org.slf4j.LoggerFactory;
  * It creates a window with a table of inventory slots that can display items, handle item usage,
  * and update dynamically when the inventory changes.
  */
-public class CombatInventoryDisplay extends PlayerInventoryDisplay {
+public class CombatInventoryDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatInventoryDisplay.class);
+    private final Inventory inventory;
     private static final float Z_INDEX = 3f;
+    private final int numCols, numRows;
     private Window inventoryDisplay;
     private Table table;
+    private final ImageButton[] slots;
     private boolean toggle = false; // Whether inventory is toggled on;
+    private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
+    private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
 
     /**
      * Constructs a CombatInventoryDisplay with the specified capacity and number of columns.
@@ -46,7 +47,25 @@ public class CombatInventoryDisplay extends PlayerInventoryDisplay {
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     public CombatInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
-        super(inventory, numCols, hotBarCapacity);
+        if (numCols < 1) {
+            String msg = String.format("numCols (%d) must be positive", numCols);
+            throw new IllegalArgumentException(msg);
+        }
+
+        if (hotBarCapacity < 1) {
+            String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
+            throw new IllegalArgumentException(msg);
+        }
+
+        int capacity = inventory.getCapacity() - hotBarCapacity;
+        if (capacity % numCols != 0) {
+            String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
+            throw new IllegalArgumentException(msg);
+        }
+        this.inventory = inventory;
+        this.numCols = numCols;
+        this.numRows = capacity / numCols;
+        slots = new ImageButton[numRows * numCols];
     }
 
     /**
@@ -55,23 +74,23 @@ public class CombatInventoryDisplay extends PlayerInventoryDisplay {
      */
     @Override
     public void create() {
-        entity.getEvents().addListener("toggleCombatInventory", this::toggleDisplay);
-        entity.getEvents().addListener("itemMove", this::addSlotListeners);
+        super.create();
+        entity.getEvents().addListener("toggleCombatInventory", this::toggleInventory);
+        entity.getEvents().addListener("itemMove", this::useItem);
     }
 
     /**
      * Toggles the inventory display on or off based on its current state.
      */
-    @Override
-    public void toggleDisplay() {
-        logger.debug(String.format("CombatInventoryDisplay toggled. Display is: %s", getToggleState()));
+    private void toggleInventory() {
+        logger.info(String.format("CombatInventoryDisplay toggled. Display is: %s", getToggleState()));
         if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(inventoryDisplay, true); // close inventory
             toggle = false;
         } else {
             logger.debug("Inventory toggled on.");
-            generateInventory();
+            generateWindow();
             stage.addActor(inventoryDisplay);
             toggle = true;
         }
@@ -86,11 +105,50 @@ public class CombatInventoryDisplay extends PlayerInventoryDisplay {
     }
 
     /**
-     * Generates the inventory window and populates it with inventory slots.
+     * Handles drawing of the component. The actual rendering is managed by the stage.
+     *
+     * @param batch The SpriteBatch used for drawing.
      */
     @Override
-    public void generateInventory() {
-        super.generateInventory();
+    public void draw(SpriteBatch batch) {
+        // Handled by stage
+    }
+
+    /**
+     * Generates the inventory window and populates it with inventory slots.
+     */
+    private void generateWindow() {
+        // Create the window (pop-up)
+        inventoryDisplay = new Window("Inventory", inventorySkin);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
+        titleStyle.fontColor = Color.BLACK;
+        inventoryDisplay.getTitleLabel().setAlignment(Align.center);
+        inventoryDisplay.getTitleTable().padTop(150); // Adjust the value to move the title lower
+        inventoryDisplay.getTitleLabel().setStyle(titleStyle);
+        table = new Table();
+        inventoryDisplay.getTitleTable().padBottom(20);
+        // Iterate over the inventory and add slots
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                int index = row * numCols + col;
+                AbstractItem item = inventory.getAt(index);
+                final ImageButton slot = new ImageButton(slotSkin);
+                if (item != null) {
+                    addSlotListeners(slot, item, index);
+                    Image itemImage = new Image(new Texture(item.getTexturePath()));
+                    slot.add(itemImage).center().size(80, 80);
+                }
+                table.add(slot).size(90, 90).pad(5);
+                slots[index] = slot;
+            }
+            table.row();
+        }
+        inventoryDisplay.add(table).expand().fill();
+        inventoryDisplay.pack();
+        inventoryDisplay.setPosition(
+                (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
+                (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
+        );
     }
 
     /**
@@ -101,50 +159,43 @@ public class CombatInventoryDisplay extends PlayerInventoryDisplay {
      * @param item  The item in the slot.
      * @param index The index of the slot in the inventory.
      */
-    @Override
     public void addSlotListeners(ImageButton slot, AbstractItem item, int index) {
-        slot.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //double calls when mouse held, to be fixed
-                if (item instanceof SpeedPotion) {
-                    String[][] itemText = {{((AttackPotion) item).getWarning()}};
-                    ServiceLocator.getDialogueBoxService().updateText(itemText);
-                } else {
-                    String[][] itemText = {{item.getDescription() + ". Quantity: "
-                            + item.getQuantity() + "/" + item.getLimit()}};
-                    ServiceLocator.getDialogueBoxService().updateText(itemText);
-
-                }
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
-            }
-        });
-
         slot.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Item {} was used", item.getName());
                 ItemUsageContext context = new ItemUsageContext(entity);
                 if (!(item instanceof SpeedPotion)) {
-                    inventory.useItemAt(index, context);
-                    entity.getEvents().trigger("itemUsed", item);
+                    entity.getEvents().trigger("itemClicked", item, index, context);
+                } else {
+                    String[][] itemText = {{((SpeedPotion) item).getWarning()}};
+                    ServiceLocator.getDialogueBoxService().updateText(itemText);
                 }
-                regenerateDisplay();
+                regenerateInventory();
             }
         });
+    }
+
+    /**
+     * Uses an item in the inventory.
+     * @param item to be used.
+     * @param index of the item in the inventory.
+     * @param context of the item being used.
+     */
+    private void useItem(AbstractItem item, int index, ItemUsageContext context) {
+        inventory.useItemAt(index, context);
+        entity.getEvents().trigger("itemUsed", item);
     }
 
     /**
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    @Override
-    public void regenerateDisplay() {
-        toggleDisplay();
-        toggleDisplay();
+    void regenerateInventory() {
+        if (toggle) {
+            toggleInventory(); // Hacky way to regenerate inventory without duplicating code
+            toggleInventory();
+        }
     }
 
     /**
@@ -156,5 +207,19 @@ public class CombatInventoryDisplay extends PlayerInventoryDisplay {
             InventoryUtils.disposeGroupRecursively(inventoryDisplay);
             inventoryDisplay =null;
         }
+        super.dispose();
+    }
+
+    /**
+     * @return The z-index for this component.
+     */
+    @Override
+    public float getZIndex() {
+        return Z_INDEX;
+    }
+
+    /** Returns inventory - for quests. */
+    public Inventory getInventory() {
+        return inventory;
     }
 }
