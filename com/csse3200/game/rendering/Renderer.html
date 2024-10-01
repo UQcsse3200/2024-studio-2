@@ -113,13 +113,18 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <div class="col-last even-row-color">
 <div class="block">Create a new renderer with default settings</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.CameraComponent,float,com.badlogic.gdx.graphics.g2d.SpriteBatch,com.badlogic.gdx.scenes.scene2d.Stage,com.csse3200.game.rendering.RenderService,com.csse3200.game.rendering.DebugRenderer)" class="member-name-link">Renderer</a><wbr>(<a href="../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;camera,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.CameraComponent,float)" class="member-name-link">Renderer</a><wbr>(<a href="../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;camera,
+ float&nbsp;gameWidth)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Create a new renderer with default settings and a game width.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.CameraComponent,float,com.badlogic.gdx.graphics.g2d.SpriteBatch,com.badlogic.gdx.scenes.scene2d.Stage,com.csse3200.game.rendering.RenderService,com.csse3200.game.rendering.DebugRenderer)" class="member-name-link">Renderer</a><wbr>(<a href="../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;camera,
  float&nbsp;gameWidth,
  com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch,
  com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  <a href="RenderService.html" title="class in com.csse3200.game.rendering">RenderService</a>&nbsp;renderService,
  <a href="DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a>&nbsp;debugRenderer)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-last even-row-color">
 <div class="block">Create a renderer</div>
 </div>
 </div>
@@ -184,6 +189,20 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>camera</code> - camera to render to</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(com.csse3200.game.components.CameraComponent,float)">
+<h3>Renderer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Renderer</span><wbr><span class="parameters">(<a href="../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a>&nbsp;camera,
+ float&nbsp;gameWidth)</span></div>
+<div class="block">Create a new renderer with default settings and a game width.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>camera</code> - camera to render to</dd>
+<dd><code>gameWidth</code> - Desired game width in metres the screen should show. Height is then based on
+     the aspect ratio.</dd>
 </dl>
 </section>
 </li>

@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="CombatArea.html" title="class in com.csse3200.game.areas">CombatArea</a></code>, <code><a href="ForestGameArea.html" title="class in com.csse3200.game.areas">ForestGameArea</a></code></dd>
+<dd><code><a href="CombatArea.html" title="class in com.csse3200.game.areas">CombatArea</a></code>, <code><a href="ForestGameArea.html" title="class in com.csse3200.game.areas">ForestGameArea</a></code>, <code><a href="../minigames/maze/areas/MazeGameArea.html" title="class in com.csse3200.game.minigames.maze.areas">MazeGameArea</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">GameArea</span>
@@ -192,9 +192,15 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Spawns an entity at a specified world position.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#unloadAssets()" class="member-name-link">unloadAssets</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnEntityCenteredAt(com.csse3200.game.entities.Entity,com.badlogic.gdx.math.Vector2)" class="member-name-link">spawnEntityCenteredAt</a><wbr>(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ com.badlogic.gdx.math.Vector2&nbsp;worldPos)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Spawns an entity centered at a specified world position.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#unloadAssets()" class="member-name-link">unloadAssets</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -335,6 +341,23 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>entity</code> - The entity to be spawned (not yet registered).</dd>
+<dd><code>worldPos</code> - The world position where the entity should be placed.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="spawnEntityCenteredAt(com.csse3200.game.entities.Entity,com.badlogic.gdx.math.Vector2)">
+<h3>spawnEntityCenteredAt</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnEntityCenteredAt</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ com.badlogic.gdx.math.Vector2&nbsp;worldPos)</span></div>
+<div class="block">Spawns an entity centered at a specified world position.
+
+ <p>This method sets the position of the given entity to the specified coordinates in the world
+ and then registers the entity into the game world. The entity should not be registered prior to
+ calling this method.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>entity</code> - Entity (not yet registered)</dd>
 <dd><code>worldPos</code> - The world position where the entity should be placed.</dd>
 </dl>
 </section>

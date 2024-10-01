@@ -88,6 +88,10 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">com.csse3200.game.areas.terrain.TerrainFactory</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="../../minigames/maze/areas/terrain/MazeTerrainFactory.html" title="class in com.csse3200.game.minigames.maze.areas.terrain">MazeTerrainFactory</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">TerrainFactory</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
@@ -119,8 +123,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final int</code></div>
-<div class="col-second even-row-color"><code><a href="#CHUNK_SIZE" class="member-name-link">CHUNK_SIZE</a></code></div>
+<div class="col-first even-row-color"><code>protected final com.badlogic.gdx.graphics.OrthographicCamera</code></div>
+<div class="col-second even-row-color"><code><a href="#camera" class="member-name-link">camera</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#CHUNK_SIZE" class="member-name-link">CHUNK_SIZE</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final <a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainOrientation</a></code></div>
+<div class="col-second even-row-color"><code><a href="#orientation" class="member-name-link">orientation</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -156,17 +166,21 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createTerrain(com.csse3200.game.areas.terrain.TerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">createTerrain</a><wbr>(<a href="TerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">TerrainFactory.TerrainType</a>&nbsp;terrainType,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected com.badlogic.gdx.maps.tiled.TiledMapRenderer</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createRenderer(com.badlogic.gdx.maps.tiled.TiledMap,float)" class="member-name-link">createRenderer</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMap&nbsp;tiledMap,
+ float&nbsp;tileScale)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createTerrain(com.csse3200.game.areas.terrain.TerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">createTerrain</a><wbr>(<a href="TerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">TerrainFactory.TerrainType</a>&nbsp;terrainType,
  com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
  com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
  <a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a terrain of the given type, using the orientation of the factory.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCameraComponent()" class="member-name-link">getCameraComponent</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../components/CameraComponent.html" title="class in com.csse3200.game.components">CameraComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCameraComponent()" class="member-name-link">getCameraComponent</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieve the component to which the camera is attached</div>
 </div>
 </div>
@@ -198,6 +212,18 @@ loadScripts(document, 'script');</script>
 </ul>
 </dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="camera">
+<h3>camera</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.OrthographicCamera</span>&nbsp;<span class="element-name">camera</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="orientation">
+<h3>orientation</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainOrientation</a></span>&nbsp;<span class="element-name">orientation</span></div>
 </section>
 </li>
 </ul>
@@ -267,6 +293,13 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>Terrain component which renders the terrain</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createRenderer(com.badlogic.gdx.maps.tiled.TiledMap,float)">
+<h3>createRenderer</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.badlogic.gdx.maps.tiled.TiledMapRenderer</span>&nbsp;<span class="element-name">createRenderer</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMap&nbsp;tiledMap,
+ float&nbsp;tileScale)</span></div>
 </section>
 </li>
 </ul>
