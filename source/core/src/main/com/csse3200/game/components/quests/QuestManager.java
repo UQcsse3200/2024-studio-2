@@ -11,9 +11,6 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.DialogueBoxService;
-import com.csse3200.game.GdxGameManager;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +39,6 @@ public class QuestManager extends Component {
 
     private final Entity player;
 
-//    private final DialogueBoxService dialogueBoxService;
-//    private final List<DialogueKey> questDialogues;
-
 
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
@@ -63,8 +57,7 @@ public class QuestManager extends Component {
 
     }
 
-    //change some description and things later on
-    //do potions need 5 triggers???
+
     /**
      * Sets up the tasks for the quests and dialogues.
      */
@@ -193,16 +186,7 @@ public class QuestManager extends Component {
         };
     }
 
-    /**
-     * Retrieves the map of quest dialogues.
-     *
-     * @return a map where the key is of type DialogueKey and the value is a 2D array of strings representing questName and Dialogue.
-     */
-//    public List<DialogueKey> getQuestDialogues() {
-//        return this.questDialogues;
-//    }
 
-    //change names later on
     /**
      * Sets up the dialogue for quests.
      */
