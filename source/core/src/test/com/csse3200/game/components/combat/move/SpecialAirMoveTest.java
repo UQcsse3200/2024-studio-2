@@ -10,23 +10,23 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the SpecialKangaMove class.
+ * Unit tests for the SpecialAirMove class.
  * These tests use Mockito to mock the behaviour of dependent components (e.g., CombatStatsComponent).
  */
-class SpecialKangaMoveTest {
+class SpecialAirMoveTest {
 
-    private SpecialKangaMove specialKangaMove;
+    private SpecialAirMove specialAirMove;
     private CombatStatsComponent mockTargetStats;
     private CombatStatsComponent mockAttackerStats;
 
     /**
-     * Initial setup before each test. Creates an instance of SpecialKangaMove and
+     * Initial setup before each test. Creates an instance of SpecialAirMove and
      * mocks the necessary dependencies.
      */
     @BeforeEach
     void setUp() {
-        // Create an instance of SpecialKangaMove with a mock move name and stamina cost.
-        specialKangaMove = new SpecialKangaMove("Kanga Rage", 20);
+        // Create an instance of SpecialAirMove with a mock move name and stamina cost.
+        specialAirMove = new SpecialAirMove("Air Strike", 40);
 
         // Mock the target and attacker stats (CombatStatsComponent).
         mockTargetStats = mock(CombatStatsComponent.class);
@@ -40,34 +40,34 @@ class SpecialKangaMoveTest {
     @Test
     void testApplyDebuffs() {
         // Act: Apply the debuffs to the target stats.
-        specialKangaMove.applyDebuffs(mockTargetStats);
+        specialAirMove.applyDebuffs(mockTargetStats);
 
         // Assert: Verify that the target's strength and defense are decreased.
-        verify(mockTargetStats).addStrength(-15);
-        verify(mockTargetStats).addDefense(-15);
+        verify(mockTargetStats).addStrength(-30);
+        verify(mockTargetStats).addDefense(-25);
 
-        // Capture the added status effect (CONFUSION or BLEEDING).
+        // Capture the added status effect (CONFUSION or SHOCKED).
         ArgumentCaptor<CombatStatsComponent.StatusEffect> statusCaptor = ArgumentCaptor.forClass(CombatStatsComponent.StatusEffect.class);
         verify(mockTargetStats).addStatusEffect(statusCaptor.capture());
 
         CombatStatsComponent.StatusEffect appliedEffect = statusCaptor.getValue();
         assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSION ||
-                        appliedEffect == CombatStatsComponent.StatusEffect.BLEEDING,
-                "Random status effect should be CONFUSION or BLEEDING.");
+                        appliedEffect == CombatStatsComponent.StatusEffect.SHOCKED,
+                "Random status effect should be CONFUSION or SHOCKED.");
     }
 
     /**
-     * Test to verify that the applyBuffs method correctly buffs Kanga's strength
+     * Test to verify that the applyBuffs method correctly buffs Air Boss's strength
      * and defense by the expected amounts.
      */
     @Test
     void testApplyBuffs() {
         // Act: Apply the buffs to the attacker's stats.
-        specialKangaMove.applyBuffs(mockAttackerStats);
+        specialAirMove.applyBuffs(mockAttackerStats);
 
         // Assert: Verify that the attacker's strength and defense are increased.
-        verify(mockAttackerStats).addStrength(15);
-        verify(mockAttackerStats).addDefense(10);
+        verify(mockAttackerStats).addStrength(25);
+        verify(mockAttackerStats).addDefense(25);
     }
 
     /**
@@ -77,11 +77,11 @@ class SpecialKangaMoveTest {
     @Test
     void testApplyDebuffsLogsCorrectMessage() {
         // Act: Apply the debuffs to trigger the logger.
-        specialKangaMove.applyDebuffs(mockTargetStats);
+        specialAirMove.applyDebuffs(mockTargetStats);
 
         // Since logger is static and logs to output, here we focus on behaviour verification (mock calls).
-        verify(mockTargetStats).addStrength(-15);
-        verify(mockTargetStats).addDefense(-15);
+        verify(mockTargetStats).addStrength(-30);
+        verify(mockTargetStats).addDefense(-25);
         verify(mockTargetStats, times(1)).addStatusEffect(any(CombatStatsComponent.StatusEffect.class));
     }
 
@@ -92,14 +92,14 @@ class SpecialKangaMoveTest {
     @Test
     void testApplyBuffsLogsCorrectMessage() {
         // Set up mock stats to return specific values.
-        when(mockAttackerStats.getStrength()).thenReturn(30);
-        when(mockAttackerStats.getDefense()).thenReturn(20);
+        when(mockAttackerStats.getStrength()).thenReturn(75);
+        when(mockAttackerStats.getDefense()).thenReturn(100);
 
         // Act: Apply the buffs to trigger the logger.
-        specialKangaMove.applyBuffs(mockAttackerStats);
+        specialAirMove.applyBuffs(mockAttackerStats);
 
         // Assert: Verify that the logger logs the correct message for buffs.
-        verify(mockAttackerStats, times(1)).addStrength(15);
-        verify(mockAttackerStats, times(1)).addDefense(10);
+        verify(mockAttackerStats, times(1)).addStrength(25);
+        verify(mockAttackerStats, times(1)).addDefense(25);
     }
 }
