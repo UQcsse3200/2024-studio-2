@@ -1,6 +1,10 @@
 package com.csse3200.game.minigames.maze.areas;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
@@ -10,6 +14,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.Maze;
 import com.csse3200.game.minigames.maze.components.gamearea.MazeGameAreaDisplay;
 import com.csse3200.game.minigames.maze.components.tasks.MazeHuntTask;
+import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
@@ -19,7 +24,10 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
@@ -31,28 +39,36 @@ public class MazeGameArea extends GameArea {
     public static final float WALL_THICKNESS = 0.1f;
 
     // Number of entities spawned onto the maze
-    public static final int NUM_WALL_BREAKS = 10;
+    public static final int NUM_WALL_BREAKS = 20;
     public static final int NUM_ANGLERS = 1;
     public static final int NUM_EELS = 5;
-    public static final int NUM_JELLYFISH = 15;
-    public static final int NUM_EGGS = 10;
+    public static final int NUM_JELLYFISH = 20;
+    public static final int NUM_EGGS = 16;
+
+    Map<Entity.EnemyType, List<Entity>> enemies;
 
     // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
-            "images/box_boy_leaf.png",
-            "images/tree.png",
-            "images/ghost_king.png",
-            "images/ghost_1.png",
             "images/minigames/water.png",
             "images/minigames/wall.png",
-            "images/minigames/fishegg.png"
+            "images/minigames/fishegg.png",
+            "images/PauseOverlay/TitleBG.png",
+            "images/PauseOverlay/Button.png",
+            "images/QuestsOverlay/Quest_BG.png",
+            "images/QuestsOverlay/Quest_SBG.png",
     };
     private static final String[] mazeTextureAtlases = {
-            "images/minigames/angler.atlas", "images/minigames/fish.atlas",
-            "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas"
-
+            "images/minigames/Angler.atlas", "images/minigames/fish.atlas",
+            "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
+            "images/minigames/GreenJellyfish.atlas"
     };
-    private static final String[] mazeSounds = {"sounds/minigames/angler-chomp.mp3"};
+    private static final String[] mazeSounds = {
+            "sounds/minigames/angler-chomp.mp3",
+            "sounds/minigames/eel-zap.mp3",
+            "sounds/minigames/eel-electricity.mp3",
+            "sounds/minigames/maze-hit.mp3",
+            "sounds/minigames/collect-fishegg.mp3"
+    };
     private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
     private static final String[] mazeMusic = {mazeBackgroundMusic};
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
@@ -67,6 +83,7 @@ public class MazeGameArea extends GameArea {
     public MazeGameArea(MazeTerrainFactory terrainFactory) {
         super();
         this.terrainFactory = terrainFactory;
+        this.enemies = new HashMap<>();
     }
 
     /**
@@ -85,7 +102,8 @@ public class MazeGameArea extends GameArea {
         spawnWalls();
         player = spawnPlayer();
         spawnAngler();
-        spawnJellyfish();
+        spawnJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
+        spawnGreenJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
         spawnFishEggs();
 
@@ -110,7 +128,7 @@ public class MazeGameArea extends GameArea {
     /**
      * Displays the maze game area
      */
-    private void displayUI() {
+    public void displayUI() {
         Entity ui = new Entity();
         ui.addComponent(new MazeGameAreaDisplay("Underwater Maze"));
         spawnEntity(ui);
@@ -150,7 +168,7 @@ public class MazeGameArea extends GameArea {
      * @return the player entity
      */
     private Entity spawnPlayer() {
-        Entity newPlayer = MazePlayerFactory.createPlayer();
+        Entity newPlayer = MazePlayerFactory.createPlayer(this);
         newPlayer.addComponent(terrainFactory.getCameraComponent());
         spawnEntityAt(newPlayer, maze.getNextStartLocation(), true, true);
         newPlayer.getEvents().trigger("wanderStart");
@@ -166,6 +184,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
             angler.getComponent(AITaskComponent.class).addTask(
                     new MazeHuntTask(player, maze, 2));
+            getEnemies(Entity.EnemyType.MAZE_ANGLER).add(angler);
         }
     }
 
@@ -173,10 +192,61 @@ public class MazeGameArea extends GameArea {
      * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
      * the player.
      */
-    private void spawnJellyfish() {
-        for (int i = 0; i < MazeGameArea.NUM_JELLYFISH; i++) {
+    public void spawnJellyfish(int number, float minDistToPlayer) {
+        for (int i = 0; i < number; i++) {
             Entity jellyfish = MazeNPCFactory.createJellyfish();
-            spawnEntityAt(jellyfish, getSimpleStartLocation(1f), true, true);
+            spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
+            getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
+        }
+    }
+
+    private float randomRange(float min, float max) {
+        return (float) Math.random() * (max - min) + min;
+    }
+
+    /**
+     * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
+     * the player.
+     */
+    public void spawnGreenJellyfish(int number, float minDistToPlayer) {
+        for (int i = 0; i < number; i++) {
+            Entity jellyfish = MazeNPCFactory.createGreenJellyfish();
+            spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
+            GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
+            Vector2[] patrolPoints;
+            double rand = Math.random();
+            if (rand < 0.5) {
+                // adjacent cells are already in random order from random maze generation algorithm
+                // so okay to just take first
+                GridPoint2 otherCell = maze.getMazeAdjacent(cell).getFirst();
+
+                // go from random point in spawn cell to an adjacent cell
+                patrolPoints = new Vector2[]{
+                    new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                            cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
+                    new Vector2(otherCell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                            otherCell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
+                };
+            } else if (rand < 0.75) {
+                // go from left side of cell to right side of cell
+                patrolPoints = new Vector2[]{
+                        new Vector2(cell.x + WALL_THICKNESS/2,
+                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
+                        new Vector2(cell.x + 1 - WALL_THICKNESS/2 - jellyfish.getScale().x,
+                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
+                };
+            } else {
+                // go from top of cell to bottom
+                patrolPoints = new Vector2[]{
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                                cell.y + WALL_THICKNESS/2),
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
+                                cell.y + 1 - WALL_THICKNESS/2 - jellyfish.getScale().y)
+                };
+
+            }
+            jellyfish.getComponent(AITaskComponent.class).addTask(new PatrolTask(3, patrolPoints));
+            getEnemies(Entity.EnemyType.MAZE_JELLYFISH).add(jellyfish);
         }
     }
 
@@ -187,6 +257,7 @@ public class MazeGameArea extends GameArea {
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
+            getEnemies(Entity.EnemyType.MAZE_EEL).add(eel);
         }
     }
 
@@ -206,7 +277,6 @@ public class MazeGameArea extends GameArea {
     @Override
     public void playMusic() {
         AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
-        // AudioManager.setMusicVolume(AudioManager.getDesiredMusicVolume() / 2);
     }
 
     /**
@@ -226,6 +296,9 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
+        ParticleEffectLoader.ParticleEffectParameter particleDir = new ParticleEffectLoader.ParticleEffectParameter();
+        particleDir.imagesDir = Gdx.files.internal("images/minigames");
+        resourceService.loadAsset("images/minigames/trail.p", ParticleEffect.class, particleDir);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -267,11 +340,23 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
-     * Gets the list of enemies (angler fish)
+     * Gets the list of enemies
      *
      * @return the list of enemies
      */
+    @Override
     public List<Entity> getEnemies() {
-        return null;
+        List<Entity> list = new ArrayList<>();
+        for (List<Entity> enemiesOfType : enemies.values()) {
+            list.addAll(enemiesOfType);
+        }
+        return list;
+    }
+
+    public List<Entity> getEnemies(Entity.EnemyType enemyType) {
+        if (!enemies.containsKey(enemyType)) {
+            enemies.put(enemyType, new ArrayList<>());
+        }
+        return enemies.get(enemyType);
     }
 }

@@ -19,12 +19,11 @@ public class FishEgg extends Entity {
      * Constructs a FishEgg entity with the given configuration.
      */
     public FishEgg() {
-
         // Add lighting component
-        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.WHITE)))
+        this.addComponent(new LightingComponent().attach(LightingComponent.createPointLight(1f, Color.ORANGE)))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setGroupIndex((short) -1)) // don’t collide with NPCs (although can still get affected by knockback)
-                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+                .addComponent(new HitboxComponent().setLayer((short) (PhysicsLayer.PLAYER | PhysicsLayer.NPC)))
                 .addComponent(new TextureRenderComponent("images/minigames/fishegg.png"));
 
         // Initialize scale

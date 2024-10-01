@@ -3,6 +3,7 @@ package com.csse3200.game.minigames.maze.components;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ public class MazeCombatStatsComponent extends Component {
     private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
     private int health;
     private int baseAttack;
-    private boolean dead;  //TODO: use for game termination
+    private boolean dead;
     private Vector2 baseSpeed;
 
     public MazeCombatStatsComponent(int health, int baseAttack, float baseSpeed) {
@@ -28,11 +29,13 @@ public class MazeCombatStatsComponent extends Component {
 
     /**
      * Returns true if the entity's has 0 health, otherwise false.
+     * This is true for all entities not just the player
      */
     public void isDead() {
         dead = true;
-        System.out.println("Player is dead");
-        //TODO: End game
+        if (entity instanceof MazePlayer) {
+            entity.getEvents().trigger("endGame", entity.getComponent(MazeGameManagerComponent.class).getScore());
+        }
     }
 
     /**
@@ -92,8 +95,9 @@ public class MazeCombatStatsComponent extends Component {
         }
     }
 
+    //TODO: add comments here
     public Vector2 getBaseSpeed() {
-        return baseSpeed;
+        return baseSpeed.cpy();
     }
 
     public void setBaseSpeed(float speed) {

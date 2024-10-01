@@ -59,7 +59,7 @@ public class AnglerFish extends MazeEntity {
 
         // Lighting around angular fish
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
-        PointLight pl = new PointLight(rayHandler, 1000, Color.SCARLET, 3f, 0, 0);
+        PointLight pl = new PointLight(rayHandler, 1000, Color.GREEN, 3f, 0, 0);
         pl.setSoftnessLength(0f);
         pl.setContactFilter(PhysicsLayer.DEFAULT, PhysicsLayer.NONE, PhysicsLayer.OBSTACLE);
 

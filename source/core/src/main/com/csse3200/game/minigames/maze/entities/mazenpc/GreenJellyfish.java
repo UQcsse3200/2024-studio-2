@@ -11,15 +11,17 @@ import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
- * Jellyfish represents a non-playable character (NPC) in the maze minigame.
- * Unlike more aggressive entities, the Jellyfish only wanders around and does not chase the player.
+ * GreenJellyfish represents a non-playable character (NPC) in the maze minigame.
+ * Unlike more aggressive entities, the GreenJellyfish only patrols between two locations and
+ * does not chase the player.
  */
-public class Jellyfish extends MazeEntity {
+public class GreenJellyfish extends MazeEntity {
 
     /**
      * Constructs a Jellyfish entity with the given configuration.
@@ -27,14 +29,10 @@ public class Jellyfish extends MazeEntity {
      * @param config The configuration stats for the Jellyfish entity, including health and
      *               attack power.
      */
-    public Jellyfish(MazeEntityConfig config) {
-        // Add AI tasks specific to Jellyfish (no chasing, only wandering)
-        AITaskComponent aiComponent = new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
-
+    public GreenJellyfish(MazeEntityConfig config) {
         // Add animations specific to Jellyfish in the future please
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
-                ServiceLocator.getResourceService().getAsset("images/minigames/Jellyfish.atlas", TextureAtlas.class));
+                ServiceLocator.getResourceService().getAsset("images/minigames/GreenJellyfish.atlas", TextureAtlas.class));
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
@@ -42,8 +40,8 @@ public class Jellyfish extends MazeEntity {
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
-                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(0.6f, 0.3f, 1f, 1f))))
-                .addComponent(aiComponent);
+                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, Color.GREEN)))
+                .addComponent(new AITaskComponent());
 
         // Update entities speed
         this.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(this.getComponent(MazeCombatStatsComponent.class).getBaseSpeed());

@@ -1,5 +1,6 @@
 package com.csse3200.game.services;
 
+import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -119,6 +120,23 @@ public class ResourceService implements Disposable {
       assetManager.load(assetName, type);
     } catch (Exception e) {
       logger.error("Could not load {}: {}", type.getSimpleName(), assetName);
+    }
+  }
+
+  /**
+   * Loads a single asset with a parameter into the asset manager.
+   *
+   * @param assetName asset name
+   * @param type      asset type
+   * @param parameter parameter to use to load the asset
+   * @param <T>       type
+   */
+  public <T> void loadAsset(String assetName, Class<T> type, AssetLoaderParameters<T> parameter) {
+    logger.debug("Loading {}: {} with parameter {}", type.getSimpleName(), assetName, parameter);
+    try {
+      assetManager.load(assetName, type, parameter);
+    } catch (Exception e) {
+      logger.error("Could not load {}: {} with parameter {}", type.getSimpleName(), assetName, parameter);
     }
   }
 
