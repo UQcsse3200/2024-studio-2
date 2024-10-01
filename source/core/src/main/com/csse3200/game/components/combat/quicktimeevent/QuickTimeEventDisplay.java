@@ -304,7 +304,7 @@ public class QuickTimeEventDisplay extends UIComponent {
                         AudioManager.playSound(victorySound);
                     }
                     qte.setVisible(false);
-                    target.setRotation(0f);
+                    target.getImage().setRotation(0f);
                     setTargetImage("target_default");
                 }
             });
