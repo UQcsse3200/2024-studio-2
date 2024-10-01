@@ -153,6 +153,7 @@ public class MainMenuDisplay extends UIComponent {
         chatbotDialog = new Dialog("Chatbot", skin) {
             @Override
             protected void result(Object object) {
+                // Handle the result if necessary
                 logger.info("Chatbot dialog closed.");
             }
         };
@@ -191,14 +192,25 @@ public class MainMenuDisplay extends UIComponent {
         chatbotResponseLabel = new Label("", skin);
         chatbotResponseLabel.setWrap(true);
 
+        // Close button
+        TextButton closeButton = new TextButton("Close", skin);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chatbotDialog.hide(); // Close the chatbot dialog
+            }
+        });
+
         // Layout the chatbot dialog
         chatbotDialog.getContentTable().add(questionTable).pad(10).row();  // Add question buttons
         chatbotDialog.getContentTable().add(userInputField).width(500).pad(10).row(); // Add input field
         chatbotDialog.getContentTable().add(sendButton).pad(10).row(); // Add send button
         chatbotDialog.getContentTable().add(chatbotResponseLabel).width(500).pad(10).row(); // Add response label
+        chatbotDialog.getButtonTable().add(closeButton).pad(10); // Add close button at the bottom
 
         chatbotDialog.show(stage);  // Show the dialog
     }
+
 
     /**
      * Setup predefined questions to display in the dialog.
