@@ -222,7 +222,6 @@ public class CombatStatsDisplay extends UIComponent {
 
         stage.addActor(playerTable);
         stage.addActor(enemyTable);
-        updateStatusEffectUI(CombatStatsComponent.StatusEffect.BLEEDING);
 
         initBarAnimations();
     }
