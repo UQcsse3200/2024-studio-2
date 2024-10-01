@@ -106,7 +106,7 @@ public class PlayerFactory {
 
         PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
         player.addComponent(new LightingComponent().attach(light))
-              .addComponent(new FadeLightsDayTimeComponent());;
+              .addComponent(new FadeLightsDayTimeComponent());
 
         player.setIsPlayer(true);
 
