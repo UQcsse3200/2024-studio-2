@@ -10,6 +10,7 @@ import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * PlayerInventoryDisplay extends InventoryDisplay and adds features like hotbar and drag-and-drop functionality.
@@ -27,7 +28,7 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
     public void updatePotions(ItemUsageContext context) {
         if (this.potions == null) { return;}
 
-        ArrayList<Integer> removals = new ArrayList<>();
+        Stack<Integer> removals = new Stack<>();
         for (int i = 0; i < potions.size(); i++) {
             TimedUseItem potion = potions.get(i);
             if (potion.onlyCombatItem()) {
@@ -36,11 +37,10 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
             }
         }
 
-        removals = (ArrayList<Integer>) removals.reversed();
-        for (int i : removals) {
+        while (!removals.isEmpty()) {
+            int i = removals.pop();
             potions.remove(i);
         }
-
     }
 
     @Override
@@ -53,7 +53,6 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
         if (item instanceof TimedUseItem) {
             potions.add((TimedUseItem) item);
         }
-        inventory.useItemAt(index, context);
         entity.getEvents().trigger("itemUsed", item);
     }
 
@@ -92,8 +91,8 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
      * @param index index of the item in inventory
      */
     private void tryUseItem(AbstractItem item, ItemUsageContext context, int index) {
-        if (item instanceof DefensePotion || item instanceof AttackPotion) {
-            logger.warn("Cannot use defense or attack potions outside of combat.");
+        if (item.onlyCombatItem()) {
+            logger.warn("Cannot use combat items outside of combat.");
             return;
         }
         // Otherwise, allow item use
