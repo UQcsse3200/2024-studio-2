@@ -4,6 +4,7 @@ public class EntitySpawnConfig {
     // Map Obstacles
     public int NUM_TREES;
     public int NUM_CLOUDS;
+    public int NUM_SEAWEED;
 
     // Items
     public int NUM_APPLES;

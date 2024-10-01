@@ -47,6 +47,20 @@ public class ObstacleFactory {
     return cloud;
   }
 
+  public static Entity createSeaweed() {
+    Entity seaweed =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/seaweed.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    seaweed.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    seaweed.getComponent(TextureRenderComponent.class).scaleEntity();
+    seaweed.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(seaweed, 0.5f, 0.2f);
+    return seaweed;
+  }
+
   /**
    * Creates an invisible physics wall.
    * @param width Wall width in world units
