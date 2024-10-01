@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.entities.factories.*;
 import com.csse3200.game.areas.terrain.TerrainLoader;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -33,170 +34,282 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.ArrayList;
 import com.csse3200.game.entities.factories.ItemFactory;
+
 import java.util.Objects;
 import java.util.*;
 import java.util.function.Supplier;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
-    private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-    private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
-    private static final GridPoint2 MAP_SIZE = new GridPoint2(5000, 5000);
-    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(2500, 2500);
-    private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
-    private static final float WALL_WIDTH = 0.1f;
-    private final TerrainFactory terrainFactory;
-    private final List<Entity> enemies;
-    // private final List<Entity> staticItems;
-    private final Map<Integer, Entity> dynamicItems = new HashMap<>();
-    private int totalItems = 0;
-    private Entity player;
-    
-    private final GdxGame game;
-    
-    // Boolean to ensure that only a single boss entity is spawned when a trigger happens
-    private boolean kangarooBossSpawned = false;
-    
-    /**
-     * Initialise this ForestGameArea to use the provided TerrainFactory.
-     * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
-     * @param game GdxGame needed for creating the player
-     * @requires terrainFactory != null
-     */
-    public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
-        super();
-        this.enemies = new ArrayList<>();
-        this.terrainFactory = terrainFactory;
-        this.game = game;
+  private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
+  // INFO: The Map is equally divied into three areaas. Each area is 160x48 tiles wide.
+  //
+  private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
+  public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);
+  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
+  private static final float WALL_WIDTH = 0.1f;
+  private final TerrainFactory terrainFactory;
+  private final ArrayList<Entity> area1To2 = new ArrayList<Entity>();
+  private final ArrayList<Entity> area2To3 = new ArrayList<Entity>();
+  
+  private final List<Entity> enemies;
+  // private final List<Entity> staticItems;
+  private final Map<Integer, Entity> dynamicItems = new HashMap<>();
+  private int totalItems = 0;
+  private Entity player;
+
+  private final GdxGame game;
+
+  // Boolean to ensure that only a single boss entity is spawned when a trigger happens
+  private boolean kangarooBossSpawned = false;
+
+  /**
+   * Initialise this ForestGameArea to use the provided TerrainFactory.
+   * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
+   * @param game GdxGame needed for creating the player
+   * @requires terrainFactory != null
+   */
+  public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
+    super();
+    this.enemies = new ArrayList<>();
+    this.terrainFactory = terrainFactory;
+    this.game = game;
+  }
+
+  /**
+   * Create the game area, including terrain, static entities (trees),
+   * dynamic entities (player and NPCs), and ui
+   * */
+  @Override
+  public void create() {
+      loadAssets();
+
+      displayUI();
+
+      // Terrain
+      spawnTerrain();
+
+      // Player
+      player = spawnPlayer();
+      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+      TerrainLoader.setInitials(player.getPosition(), terrain);
+
+      // Obstacles
+      spawnTrees();
+
+      // spawn area barriers
+      spawnWorldBarrier();
+      spawnFirstBerrier();
+      spawnSecondBerrier();
+
+      //Enemies
+      spawnEnemies();
+
+      // items
+      handleItems();
+
+      //Friendlies
+      spawnFriendlyNPCs();
+
+      playMusic();
+      player.getEvents().addListener("setPosition", this::handleNewChunks);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+      player.getEvents().addListener("unlockArea", this::unlockArea);
+      kangarooBossSpawned = false;
+
+      //Initialise inventory and quests with loaded data
+      player.getComponent(InventoryComponent.class).loadInventoryFromSave();
+      player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+    player.getComponent(QuestManager.class).loadQuests();
+  }
+
+  /**
+   * Unlock an area of the map
+   */
+  private void unlockArea(String area) {
+    System.out.println("Unlocking area");
+    if (area.equals("Water")) {
+
     }
-    
-    /**
-     * Create the game area, including terrain, static entities (trees),
-     * dynamic entities (player and NPCs), and ui
-     * */
-    @Override
-    public void create() {
-        loadAssets();
-        
-        displayUI();
-        
-        // Terrain
-        spawnTerrain();
-        
-        // Player
-        player = spawnPlayer();
-        logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-        TerrainLoader.setInitials(player.getPosition(), terrain);
-        
-        // Obstacles
-        spawnTrees();
-        
-        //Enemies
-        spawnEnemies();
-        
-        // items
-        handleItems();
-        
-        //Friendlies
-        spawnFriendlyNPCs();
-        
-        playMusic();
-        player.getEvents().addListener("setPosition", this::handleNewChunks);
-        player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-        player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-        kangarooBossSpawned = false;
-        
-        //Initialise inventory and quests with loaded data
-        player.getComponent(InventoryComponent.class).loadInventoryFromSave();
-        player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
-        player.getComponent(QuestManager.class).loadQuests();
-    }
-    
-    private void handleNewChunks(Vector2 playerPos) {
-        if (TerrainLoader.movedChunk(playerPos)) {
-            logger.info("Player position is: ({}, {})", playerPos.x, playerPos.y);
-            handleItems();
+  }
+
+  /**
+   * Spwan the world barrier
+   */
+  private void spawnWorldBarrier() {
+    float tileSize = terrain.getTileSize();
+    GridPoint2 tileBounds = terrain.getMapBounds(0);
+    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+     // Left
+     spawnEntityAt(
+         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+         GridPoint2Utils.ZERO,
+         false,
+         false);
+     // Right
+     spawnEntityAt(
+         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+         new GridPoint2(tileBounds.x, 0),
+         false,
+         false);
+     // Top
+     spawnEntityAt(
+         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+         new GridPoint2(0, tileBounds.y),
+         false,
+         false);
+     // Bottom
+     spawnEntityAt(
+         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+         GridPoint2Utils.ZERO,
+         false,
+         false);
+  }
+
+  /**
+   * Spawns the first barrier
+   */
+  private void spawnFirstBerrier() {
+    float tileSize = terrain.getTileSize();
+    GridPoint2 tileBounds = terrain.getMapBounds(0);
+    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
+    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 , WALL_WIDTH);
+    spawnEntityAt(
+        leftWall,
+        new GridPoint2(0, (int)(MAP_SIZE.y / 3)),
+        false,
+        false);
+
+    spawnEntityAt(
+        rightWall,
+        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3)),
+        false,
+        false);
+    area1To2.add(leftWall);
+    area1To2.add(rightWall);
+  }
+
+  /**
+   * Spawns the second barrier
+   */
+  private void spawnSecondBerrier() {
+    float tileSize = terrain.getTileSize();
+    GridPoint2 tileBounds = terrain.getMapBounds(0);
+    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
+    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_WIDTH);
+    spawnEntityAt(
+        leftWall,
+        new GridPoint2(0, (int)(MAP_SIZE.y / 3 * 2)),
+        false,
+        false);
+
+    spawnEntityAt(
+        rightWall,
+        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3 * 2)),
+        false,
+        false);
+  }
+
+  private void handleNewChunks(Vector2 playerPos) {
+    if (TerrainLoader.movedChunk(playerPos)) {
+      logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
+      handleItems();
 //     TerrainComponent.loadChunks(playerPos);
 //     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-        }
     }
-    
-    private void handleItems() {
-        // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
-        for (GridPoint2 pos : terrain.getNewChunks()) {
-            spawnItems(TerrainLoader.chunktoWorldPos(pos));
-        }
-        
-        // TODO: Despawn items on old chunks:
-        List<Integer> removals = new ArrayList<>();
-        for (int key : dynamicItems.keySet()) {
-            GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
-            if (!terrain.getActiveChunks().contains(chunkPos)) {
-                removals.add(key);
-            }
-        }
-        
-        for (int i : removals) {
-            dynamicItems.remove(i);
-        }
+  }
+
+  private void handleItems() {
+    // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
+    for (GridPoint2 pos : terrain.getNewChunks()) {
+      spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
-    
-    /**
-     * gets the player
-     * @return player entity
-     */
-    @Override
-    public Entity getPlayer () {
-        return player;
+
+    // TODO: Despawn items on old chunks:
+    List<Integer> removals = new ArrayList<>();
+    for (int key : dynamicItems.keySet()) {
+      GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
+      if (!terrain.getActiveChunks().contains(chunkPos)) {
+        removals.add(key);
+      }
     }
-    
-    public void displayUI()
-    {
-        Entity ui = new Entity();
-        
-        // Create the necessary objects to pass to GameAreaDisplay
-        SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
-        OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
-        // Make sure to get the correct CameraComponent type required by GameAreaDisplay
-        CameraComponent minimapCameraComponent = (CameraComponent) this.terrainFactory.getCameraComponent(); // Adjust as needed
-        
-        // Pass the required parameters to the GameAreaDisplay constructor
-        ui.addComponent(new GameAreaDisplay("Box Forest", batch, mainCamera, minimapCameraComponent));
-        ui.addComponent(new QuestPopup());
-        spawnEntity(ui);
+
+    for (int i : removals) {
+      dynamicItems.remove(i);
     }
+  }
+
+  /**
+   * gets the player
+   * @return player entity
+   */
+  @Override
+  public Entity getPlayer () {
+    return player;
+  }
+
+  public void displayUI()
+  {
+    Entity ui = new Entity();
+
+    // Create the necessary objects to pass to GameAreaDisplay
+    SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
+    OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
+    // Make sure to get the correct CameraComponent type required by GameAreaDisplay
+    CameraComponent minimapCameraComponent = (CameraComponent) this.terrainFactory.getCameraComponent(); // Adjust as needed
+
+    // Pass the required parameters to the GameAreaDisplay constructor
+    ui.addComponent(new GameAreaDisplay("Box Forest", batch, mainCamera, minimapCameraComponent));
+    ui.addComponent(new QuestPopup());
+    spawnEntity(ui);
+  }
+
+  private void spawnTerrain() {
+    // Background terrain
+    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
+    Entity terrain = new Entity().addComponent(this.terrain);
     
-    private void spawnTerrain() {
-        // Background terrain
-        this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
-        spawnEntity(new Entity().addComponent(terrain));
+    terrain.getEvents().addListener("unlockArea", this::unlockArea);
+
+    terrain.getEvents().trigger("unlockArea", "water");
+    spawnEntity(terrain);
+
+    //spawnEntity(new Entity().addComponent(terrain));
+  }
+
+  private void spawnTrees() {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+    for (int i = 0; i < config.spawns.NUM_TREES; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity tree = ObstacleFactory.createTree();
+      spawnEntityAt(tree, randomPos, true, false);
     }
-    
-    private void spawnTrees() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-        
-        for (int i = 0; i < config.spawns.NUM_TREES; i++) {
-            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-            Entity tree = ObstacleFactory.createTree();
-            spawnEntityAt(tree, randomPos, true, false);
-        }
-    }
-    
-    /**
-     * Creates the player entity for this screen
-     * @return the player entity
-     */
-    private Entity spawnPlayer() {
-        Entity newPlayer = PlayerFactory.createPlayer(game);
-        newPlayer.addComponent(this.terrainFactory.getCameraComponent());
-        spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-        return newPlayer;
-    }
-    
+  }
+
+  /**
+   * Creates the player entity for this screen
+   * @return the player entity
+   */
+  private Entity spawnPlayer() {
+    Entity newPlayer = PlayerFactory.createPlayer(game);
+    newPlayer.addComponent(this.terrainFactory.getCameraComponent());
+    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    return newPlayer;
+  }
+
     private void spawnKangarooBoss() {
         if (!kangarooBossSpawned) {
             Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
@@ -394,17 +507,17 @@ public class ForestGameArea extends GameArea {
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
 //    music.play();
-        // Get the selected music track from the user settings
-        UserSettings.Settings settings = UserSettings.get();
-        String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
-        
-        if (Objects.equals(selectedTrack, "Track 1")) {
-            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
-        } else if (Objects.equals(selectedTrack, "Track 2")) {
-            AudioManager.playMusic("sounds/track_2.mp3", true);
-        }
+    // Get the selected music track from the user settings
+    UserSettings.Settings settings = UserSettings.get();
+    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+
+    if (Objects.equals(selectedTrack, "Track 1")) {
+      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+    } else if (Objects.equals(selectedTrack, "Track 2")) {
+        AudioManager.playMusic("sounds/track_2.mp3", true);
     }
-    public void pauseMusic() {
+  }
+  public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
         AudioManager.stopMusic();  // Stop the music
@@ -519,5 +632,9 @@ public class ForestGameArea extends GameArea {
 
     public Map<Integer, Entity> getDynamicItems() {
         return dynamicItems;
+    }
+    
+    public GridPoint2 getMapSize() {
+        return MAP_SIZE;
     }
 }
