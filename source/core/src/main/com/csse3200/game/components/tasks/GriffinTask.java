@@ -13,6 +13,10 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Represents a task for a Griffin entity that manages its movement towards a target
+ * and allows it to shoot gusts of wind at the target.
+ */
 public class GriffinTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(GriffinTask.class);
     private final Entity target;
@@ -29,6 +33,15 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
     private final float shootRange; // Range within which to shoot gust of wind
     private final GameTime timer; // Game timer for tracking shot intervals
 
+    /**
+     * Constructs a GriffinTask for controlling a Griffin entity.
+     *
+     * @param target       The target entity that the Griffin will focus on.
+     * @param priority     The priority of this task, affecting when it runs.
+     * @param viewDistance The distance within which the target can be viewed.
+     * @param waitTime     The time to wait between firing gusts of wind.
+     * @param shootRange   The range within which the Griffin can shoot gusts of wind.
+     */
     public GriffinTask(Entity target, int priority, float viewDistance, float waitTime, float shootRange) {
         this.target = target;
         this.priority = priority;
@@ -78,10 +91,20 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         return -1;
     }
 
+    /**
+     * Calculates the distance from the Griffin to its target.
+     *
+     * @return The distance to the target.
+     */
     private float getDistanceToTarget() {
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
+    /**
+     * Checks if the target is visible to the Griffin.
+     *
+     * @return True if the target is visible, false otherwise.
+     */
     private boolean isTargetVisible() {
         Vector2 from = owner.getEntity().getCenterPosition();
         Vector2 to = target.getCenterPosition();
@@ -94,6 +117,12 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         return true;
     }
 
+    /**
+     * Calculates a new position for the Griffin based on its current position and the target's position.
+     *
+     * @param trigger Whether to trigger direction events based on the new position.
+     * @return The calculated new position.
+     */
     private Vector2 newPosition(boolean trigger) {
         Vector2 currentPos = owner.getEntity().getPosition();
         Vector2 targetPos = target.getPosition();
@@ -108,6 +137,12 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         return newPos;
     }
 
+    /**
+     * Triggers the direction event for the Griffin based on the target's position relative to its start position.
+     *
+     * @param targetPos The target position.
+     * @param startPos  The Griffin's current position.
+     */
     private void triggerDirection(Vector2 targetPos, Vector2 startPos) {
         float deltaX = targetPos.x - startPos.x;
         if (deltaX > 0) { // Moving Left
@@ -117,6 +152,9 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Initiates shooting a gust of wind at the target and updates the last shot time.
+     */
     private void shootWindGust() {
         logger.debug("Shooting gust of wind at target");
         lastShotTime = timer.getTime();  // Update the time of the last shot
