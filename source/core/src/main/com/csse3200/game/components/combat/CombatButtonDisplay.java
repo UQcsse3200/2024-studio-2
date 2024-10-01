@@ -64,8 +64,6 @@ public class CombatButtonDisplay extends UIComponent {
             }
         };
         stage.addListener(dialogueBoxListener);
-
-        //entity.getComponent(CombatInventoryDisplay.class).loadInventoryFromSave();
     }
 
     /**
