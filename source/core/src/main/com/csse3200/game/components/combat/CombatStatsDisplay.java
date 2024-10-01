@@ -296,18 +296,8 @@ public class CombatStatsDisplay extends UIComponent {
     }
 
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
-        switch (statusEffect) {
-            case CONFUSION:
-                break;
-            case BLEEDING:
-                break;
-            case POISONED:
-                break;
-            case SHOCKED:
-                break;
-            default:
-                break;
-        }
+        String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
+        statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
     }
 
     @Override
