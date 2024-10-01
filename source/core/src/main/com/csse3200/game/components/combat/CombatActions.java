@@ -48,10 +48,9 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    // TODO: on each boss defeated, go to stat screen and open up new area
     entity.getEvents().addListener("landBossDefeated", this::onKangaDefeated);
-    entity.getEvents().addListener("waterBossDefeated", this::onKangaDefeated);
-    entity.getEvents().addListener("airBossDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("waterBossDefeated", this::onWaterBossDefeated);
+    entity.getEvents().addListener("airBossDefeated", this::onAirBossDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
@@ -118,12 +117,27 @@ public class CombatActions extends Component {
   }
 
   /**
-   * Switches to the end game stats screen upon defeating the final Kanga Boss.
+   * TODO: Switches to the end game stats screen upon defeating the final Kanga Boss, and open up new area.
    */
   private void onKangaDefeated() {
     logger.info("Switching to end game stats screen.");
     game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  }
 
+  /**
+   * TODO: Switches to the end game stats screen upon defeating the Water Boss, and open up new area.
+   */
+  private void onWaterBossDefeated() {
+    logger.info("Switching to end game stats screen.");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  }
+
+  /**
+   * TODO: Switches to the end game stats screen upon defeating the Air Boss, and open up new area.
+   */
+  private void onAirBossDefeated() {
+    logger.info("Switching to end game stats screen.");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
   }
 
   /**
