@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -31,7 +33,7 @@ public class AchievementDisplay extends UIComponent {
     private final GdxGame game;
     private Table rootTable;
     /** Array to store achievements. */
-    private final Array<Achievement> achievements;
+    private final java.util.List<Achievement> achievements;
     final TabButton[] lastPressedButton = {null};
     private Float originalY;
 
@@ -325,12 +327,14 @@ public class AchievementDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
-        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
     private void clearAchievements() {
         // TODO: Achievements.resetState() when implemented. Requires an import.
+        SaveHandler.delete(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        Achievements.resetState();
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
@@ -350,7 +354,8 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        saveAchievements(achievements,"saves/achievements.json");
+//        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);
