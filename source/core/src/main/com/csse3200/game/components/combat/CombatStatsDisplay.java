@@ -222,6 +222,7 @@ public class CombatStatsDisplay extends UIComponent {
 
         stage.addActor(playerTable);
         stage.addActor(enemyTable);
+        updateStatusEffectUI(CombatStatsComponent.StatusEffect.BLEEDING);
 
         initBarAnimations();
     }
@@ -296,8 +297,21 @@ public class CombatStatsDisplay extends UIComponent {
     }
 
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
+        float tableTopPadding = 40f;
+        float tableLeftPadding = 750f;
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
         statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
+        Table statusTable = new Table();
+        statusTable.add(statusEffectImage);
+        statusTable.top().left();
+        statusTable.row();
+
+        String statusMessage = String.format("You are currently %s", statusEffect.name().toLowerCase());
+        Label statusLabel = new Label(statusMessage, skin, "large");
+        statusTable.add(statusLabel);
+        statusTable.setFillParent(true);
+        statusTable.padTop(tableTopPadding).padLeft(tableLeftPadding);
+        stage.addActor(statusTable);
     }
 
     @Override
