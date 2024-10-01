@@ -15,7 +15,7 @@ public class CombatStatsComponent extends Component {
 
   // Enum for status effects
   public enum StatusEffect {
-    CONFUSION, BLEEDING
+    CONFUSION, BLEEDING, POISONED, SHOCKED
   }
 
   // Set to hold active status effects

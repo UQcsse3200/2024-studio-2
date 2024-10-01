@@ -79,6 +79,7 @@ public class GdxGame extends Game {
         ServiceLocator.registerEntityService(container.getEntityService());
         ServiceLocator.registerRenderService(container.getRenderService());
         ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
+        ServiceLocator.registerLightingService(container.getLightingService());
         screen.resume();
     }
 
@@ -223,4 +224,3 @@ public class GdxGame extends Game {
         app.exit();
     }
 }
-

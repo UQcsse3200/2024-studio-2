@@ -171,15 +171,21 @@ public class PlayerActions extends Component {
     mainGameScreen.addOverlay(OverlayType.PLAYER_STATS_OVERLAY);
   }
 
+  /**
+   * Initiates combat with a specified enemy entity. Depending on the type of enemy,
+   * it displays an appropriate cutscene screen.
+   *
+   * @param enemy The enemy entity that the player is engaging in combat with.
+   */
   public void startCombat(Entity enemy) {
-    AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
-    PriorityTask currentTask = aiTaskComponent.getCurrentTask();
-
-    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss()) ||
-            (currentTask instanceof ChaseTask && ((ChaseTask) currentTask).isBoss())) {
-      currentTask.stop();
+    // Check if the enemy is a boss type
+    if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO ||
+            enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS ||
+            enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+      // Add a boss cutscene screen for boss encounters
       game.addBossCutsceneScreen(player, enemy);
     } else {
+      // Add a standard enemy cutscene screen for regular encounters
       game.addEnemyCutsceneScreen(player, enemy);
     }
   }

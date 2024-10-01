@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -7,17 +8,15 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.MonkeyAnimationController;
-import com.csse3200.game.components.npc.BearAnimationController;
+import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -60,7 +59,8 @@ public class EnemyFactory {
     FROG,
     CHICKEN,
     MONKEY,
-    BEAR;
+    BEAR,
+    JOEY,
   }
 
   /**
@@ -193,6 +193,35 @@ public class EnemyFactory {
     return monkey;
   }
 
+  /**
+   * Creates a joey enemy.
+   *
+   * @param target entity to chase (player in most cases, but does not have to be)
+   * @return enemy joey entity
+   */
+  public static Entity createJoey(Entity target) {
+    Entity joey = createBaseEnemy(target, EnemyType.JOEY);
+    BaseEnemyEntityConfig config = configs.joey;
+    joey.setEnemyType(Entity.EnemyType.JOEY);
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
+
+    joey
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false, 1))
+            .addComponent(new CombatMoveComponent(moveSet))
+            .addComponent(animator)
+            .addComponent(new JoeyAnimationController());
+
+    joey.getComponent(AnimationRenderComponent.class).scaleEntity();
+    joey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return joey;
+  }
 
   /**
    * Creates a generic Enemy with specific tasks depending on the enemy type.
@@ -209,12 +238,16 @@ public class EnemyFactory {
       case CHICKEN -> configs.chicken;
       case MONKEY -> configs.monkey;
       case BEAR -> configs.bear;
+      case JOEY -> configs.joey;
     };
 
     if (type == EnemyType.MONKEY) {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new RunTask(target, 10, 3f));
       aiComponent.addTask(new ShootTask(1000, target, 5f));
+    } else if (type == EnemyType.JOEY) {
+      aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
+      aiComponent.addTask(new ChaseTask(target, 10, 10f, 12f, false));
     } else {
       aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
       aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, false));
@@ -227,81 +260,9 @@ public class EnemyFactory {
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-            .addComponent(aiComponent);
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-
-  /**
-   * Creates a Kangaroo Boss entity. This is the NPC for the final boss of the game.
-   *
-   * @param target entity to chase
-   * @return entity
-   */
-  public static Entity createKangaBossEntity(Entity target) {
-    Entity kangarooBoss = createBossNPC(target);
-    BaseEnemyEntityConfig config = configs.kangarooBoss;
-    kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
-
-    AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/final_boss_kangaroo.atlas", TextureAtlas.class));
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-    kangarooBoss
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-            .addComponent(new CombatMoveComponent(moveSet))
-            .addComponent(animator)
-            .addComponent(new KangaBossAnimationController());
-
-    kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
-    kangarooBoss.scaleHeight(3.0f);
-
-    return kangarooBoss;
-  }
-
-  /**
-   * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-   * there is no chase task included. This is where abilities components will be added.
-   * loaded.
-   *
-   * @return entity
-   */
-  public static Entity createKangaBossCombatEntity() {
-    Entity kangarooBoss = createCombatBossNPC();
-    BaseEnemyEntityConfig config = configs.kangarooBoss;
-    kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
-
-    kangarooBoss
-            .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
-
-    kangarooBoss.scaleHeight(120.0f);
-
-    return kangarooBoss;
-  }
-
-  /**
-   * Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-  public static Entity createBossNPC(Entity target) {
-    AITaskComponent aiComponent =
-            new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f, true))
-                    .addTask(new ChaseTask(target, 10, 6f, 8f, true));
-    Entity npc =
-            new Entity()
-                    .addComponent(new PhysicsComponent())
-                    .addComponent(new PhysicsMovementComponent())
-                    .addComponent(new ColliderComponent())
-                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-                    .addComponent(aiComponent);
+            .addComponent(aiComponent)
+            .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
+            .addComponent(new FadeLightsDayTimeComponent());
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
@@ -321,11 +282,9 @@ public class EnemyFactory {
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER));
 
-
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
   }
-
 
   /**
    * Creates chicken enemy as NPC entity for static combat
@@ -391,6 +350,22 @@ public class EnemyFactory {
     //bearEnemy.scaleHeight(150.0f);
 
     return bearEnemy;
+  }
+
+  /**
+   * Creates joey enemy as NPC entity for static combat
+   * */
+  public static Entity createJoeyCombatEnemy() {
+    Entity joeyEnemy = createCombatBossNPC();
+    BaseEnemyEntityConfig config = configs.joey;
+    joeyEnemy.setEnemyType(Entity.EnemyType.JOEY);
+
+    joeyEnemy
+            .addComponent(new TextureRenderComponent("images/joey_idle.png"))
+            .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false, 1));
+    joeyEnemy.scaleHeight(90.0f);
+
+    return joeyEnemy;
   }
 
   private EnemyFactory() {

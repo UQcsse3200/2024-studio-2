@@ -23,9 +23,9 @@ public class TerrainFactory {
   private static final int TUFT_TILE_COUNT = 1;
   private static final int ROCK_TILE_COUNT = 1;
 
-  private final OrthographicCamera camera;
+  protected final OrthographicCamera camera;
   private final CameraComponent cameraComponent;
-  private final TerrainOrientation orientation;
+  protected final TerrainOrientation orientation;
   private final Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
 
   /**
@@ -79,7 +79,7 @@ public class TerrainFactory {
   }
 
 
-  private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
+  protected TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
       return switch (orientation) {
           case ORTHOGONAL -> new OrthogonalTiledMapRenderer(tiledMap, tileScale);
           case ISOMETRIC -> new IsometricTiledMapRenderer(tiledMap, tileScale);
@@ -91,6 +91,7 @@ public class TerrainFactory {
   public enum TerrainType {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
-    FOREST_DEMO_HEX
+    FOREST_DEMO_HEX;
+      public static TerrainType Ocean_DEMO;
   }
 }
