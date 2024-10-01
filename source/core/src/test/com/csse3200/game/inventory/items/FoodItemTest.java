@@ -65,7 +65,6 @@ public class FoodItemTest {
         helperTestFood(chickenLeg);
     }
 
-    @Test
     void testMilk() {
         Foods.Milk milk = new Foods.Milk(1);
         helperTestFood(milk);
@@ -75,5 +74,10 @@ public class FoodItemTest {
     void testCaviar() {
         Foods.Sushi sushi = new Foods.Sushi(1);
         helperTestFood(sushi);
+    }
+  
+    @Test
+    void testInitialisation() {
+        assertThrows(InstantiationException.class, Foods::new);
     }
 }
