@@ -29,7 +29,7 @@ public class MazeCombatStatsComponent extends Component {
      * Returns true if the entity's has 0 health, otherwise false.
      * This is true for all entities not just the player
      */
-    public void isDead() {
+    private void isDead() {
         if (entity instanceof MazePlayer) {
             entity.getEvents().trigger("endGame", entity.getComponent(MazeGameManagerComponent.class).getScore());
         }
