@@ -1,10 +1,8 @@
 package com.csse3200.game.components.combat;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.utils.math.Vector2Utils;
 
 /**
  * Input handler for combat for keyboard and touch (mouse) input.
@@ -28,9 +26,16 @@ public class TouchCombatInputComponent extends InputComponent {
       return false;
     }
     switch (keycode) {
-      case Input.Keys.UP:
-        triggerQuickTimeBtnPress();
+      case Keys.UP:
+        triggerQuickTimeBtnPress(Keys.UP);
         return true;
+      case Keys.LEFT:
+        triggerQuickTimeBtnPress(Keys.LEFT);
+        return true;
+      case Keys.RIGHT:
+        triggerQuickTimeBtnPress(Keys.RIGHT);
+      case Keys.DOWN:
+        triggerQuickTimeBtnPress(Keys.DOWN);
       default:
         return false;
     }
@@ -47,7 +52,13 @@ public class TouchCombatInputComponent extends InputComponent {
       return false;
   }
 
-  private void triggerQuickTimeBtnPress() {
-    entity.getEvents().trigger("quickTimeBtnPress");
+  /**
+   * Responsible for triggering a button-pressed event
+   * during a quick-time event
+   *
+   * @param keycode the key pressed
+   */
+  private void triggerQuickTimeBtnPress(int keycode) {
+    entity.getEvents().trigger("quickTimeBtnPress", keycode);
   }
 }

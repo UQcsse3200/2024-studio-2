@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
+import com.badlogic.gdx.Input.Keys;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.services.GameTime;
@@ -67,9 +68,10 @@ public class QuickTimeEventActions extends Component {
     private static QuickTimeEvent[] quickTimeEventsDemo() {
         float delay = 0.2f;
         float[] durations = {0.7f, 0.65f, 0.55f, 0.45f};
+        int[] directions = {Keys.W, Keys.S, Keys.S, Keys.A};
         QuickTimeEvent[] quickTimeEvents = new QuickTimeEvent[durations.length];
         for (int i = 0; i < durations.length; i++) {
-            quickTimeEvents[i] = new QuickTimeEvent(durations[i], delay);
+            quickTimeEvents[i] = new QuickTimeEvent(durations[i], delay, directions[i]);
         }
         return quickTimeEvents;
     }

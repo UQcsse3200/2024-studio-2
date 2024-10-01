@@ -43,6 +43,7 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     // quick-time event constants and variables
     private static final long QUICK_TIME_WINDOW = 40; // milli-secs
+    private int keyRequired;
     private boolean qteActive = false;
     private boolean isDefault = true;
     private long startTime;
@@ -244,6 +245,7 @@ public class QuickTimeEventDisplay extends UIComponent {
             @Override
             public void run() {
                 logger.debug("Setting up quick-time event");
+                keyRequired = quickTimeEvent.keycode();
                 qte.setScale(QTE_START_SCALE);
                 qte.setRotation(QTE_START_ROT);
                 qte.setVisible(true);
@@ -304,16 +306,19 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     /**
      * Handle quick-time event button press
+     *
+     * @param keycode the key pressed by the user
      */
-    private void onQuickTimeBtnPress() {
+    private void onQuickTimeBtnPress(int keycode) {
         if (qteActive) {
             // quick-time event in process
-            if (gameTime.getTime() >= windowStartTime) {
-                // button press timed correctly
+            if (keycode == keyRequired
+                    && gameTime.getTime() >= windowStartTime) {
+                // correct button pressed + timed correctly
                 setTargetImage("target_perfect");
                 incScore();
             } else {
-                // button press too fast
+                // incorrect button pressed or too fast
                 setTargetImage("target_fast");
             }
             // de-render quick-time event animation

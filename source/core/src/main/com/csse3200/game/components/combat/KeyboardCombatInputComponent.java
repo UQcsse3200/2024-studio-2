@@ -32,8 +32,17 @@ public class KeyboardCombatInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.W:
         buttonPressed.put(Keys.W, true);
-        triggerQuickTimeBtnPress();
+        triggerQuickTimeBtnPress(Keys.W);
         return true;
+      case Keys.A:
+        buttonPressed.put(Keys.A, true);
+        triggerQuickTimeBtnPress(Keys.A);
+      case Keys.S:
+        buttonPressed.put(Keys.S, true);
+        triggerQuickTimeBtnPress(Keys.S);
+      case Keys.D:
+        buttonPressed.put(Keys.D, true);
+        triggerQuickTimeBtnPress(Keys.D);
       default:
         return false;
     }
@@ -53,7 +62,7 @@ public class KeyboardCombatInputComponent extends InputComponent {
       return buttonPressed.containsKey(keycode) && buttonPressed.get(keycode).equals(false);
   }
 
-  private void triggerQuickTimeBtnPress() {
-    entity.getEvents().trigger("quickTimeBtnPress");
+  private void triggerQuickTimeBtnPress(int keycode) {
+    entity.getEvents().trigger("quickTimeBtnPress", keycode);
   }
 }
