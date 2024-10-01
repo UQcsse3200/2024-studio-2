@@ -83,7 +83,7 @@ public class CombatInventoryDisplay extends UIComponent {
      * Toggles the inventory display on or off based on its current state.
      */
     private void toggleInventory() {
-        logger.info(String.format("CombatInventoryDisplay toggled. Display is: %s", getToggleState()));
+        logger.debug(String.format("CombatInventoryDisplay toggled. Display is: %s", getToggleState()));
         if (stage.getActors().contains(inventoryDisplay, true)) {
             logger.debug("Inventory toggled off.");
             stage.getActors().removeValue(inventoryDisplay, true); // close inventory
