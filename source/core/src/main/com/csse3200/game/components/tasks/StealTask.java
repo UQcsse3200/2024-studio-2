@@ -43,7 +43,7 @@ public class StealTask extends DefaultTask implements PriorityTask {
      * @param waitTime Time in seconds to wait before the entity moves again.
      */
     public StealTask(Map<Integer, Entity> items, float waitTime) {
-        System.out.println("CREATING STEAL TASK");
+        logger.debug("CREATING STEAL TASK");
         this.items = items;
         this.waitTime = waitTime;
     }
@@ -97,21 +97,8 @@ public class StealTask extends DefaultTask implements PriorityTask {
      * The entity will change directions based on the relative position of the item.
      */
     private void startWandering() {
-        startPos = owner.getEntity().getPosition();
-        System.out.println("wandering");
         logger.debug("Starting wandering");
-        Vector2 newPos = getClosestItem();
-        movementTask = new MovementTask(newPos, 0.5F);
-        movementTask.create(owner);
-        movementTask.start();
-        currentTask = movementTask;
-        if (newPos.x - startPos.x < 0) {
-            logger.debug("wandering right");
-            this.owner.getEntity().getEvents().trigger(LEFT);
-        } else {
-            logger.debug("wandering left");
-            this.owner.getEntity().getEvents().trigger(RIGHT);
-        }
+        moveHelper(getClosestItem(), "wander");
     }
 
     /**
@@ -119,18 +106,27 @@ public class StealTask extends DefaultTask implements PriorityTask {
      * The entity will move toward the origin and trigger appropriate direction events.
      */
     private void startReturning() {
+        logger.debug("returning");
+        moveHelper(origin, "return");
+    }
+    
+    private void moveHelper (Vector2 pos, String task) {
         startPos = owner.getEntity().getPosition();
-        System.out.println("returning");
-        returnTask = new MovementTask(origin, 0.5F);
-        returnTask.create(owner);
-        returnTask.start();
-        currentTask = returnTask;
+        MovementTask moveTask = new MovementTask(pos, 0.5f);
+        moveTask.create(owner);
+        moveTask.start();
+        currentTask = moveTask;
         if (origin.x - startPos.x < 0) {
             logger.debug("wandering right");
             this.owner.getEntity().getEvents().trigger(LEFT);
         } else {
             logger.debug("wandering left");
             this.owner.getEntity().getEvents().trigger(RIGHT);
+        }
+        switch (task) {
+            case "wander" -> movementTask = moveTask;
+            case "return" -> returnTask = moveTask;
+            default -> throw new IllegalStateException("Unexpected value: " + task);
         }
     }
 
@@ -145,13 +141,10 @@ public class StealTask extends DefaultTask implements PriorityTask {
         float closestDistance = 1000;  // Limit to viewDistance
         Entity nearestTarget = null;
 
-        System.out.println("findNearestTarget");
-
         for (Map.Entry<Integer, Entity> entry : dynamicItems.entrySet()) {
             Integer itemId = entry.getKey();  // Get the ID (key) from the map
             Entity item = entry.getValue();   // Get the Entity (value) from the map
 
-            System.out.println(item);
             float distance = getDistanceToTarget(item);
 
             // Check if the item is within viewDistance and is closer than the current closest target
@@ -168,7 +161,7 @@ public class StealTask extends DefaultTask implements PriorityTask {
             currentitem = nearestTarget;
             return nearestTarget.getPosition();
         } else {
-            System.out.println("No target found within view distance");
+            logger.debug("No target found within view distance");
             return null;  // Or return a default Vector2, e.g., new Vector2(0, 0)
         }
     }

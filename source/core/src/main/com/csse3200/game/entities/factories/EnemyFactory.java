@@ -379,7 +379,6 @@ public class EnemyFactory {
                 aiComponent.addTask(new ShootTask(1000, target, 10f));
             }
             case EnemyType.PIGEON -> {
-                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
             }
             default -> {
