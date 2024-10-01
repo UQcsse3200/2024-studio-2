@@ -1,6 +1,5 @@
 package com.csse3200.game.components.combat;
 
-import com.badlogic.gdx.Input;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -9,7 +8,6 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
-import java.util.HashMap;
 import java.util.Random;
 
 
@@ -37,21 +35,9 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-    ArrayList TrackEnemyMoves = new ArrayList();
-
-    //public HashMap<String,Entity> enemies;
 
     // HashMap stores information on enemies when attack
-    //
-    //private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
     static Map<String,ArrayList> specialmoveStore;
-
-    private enum EnemyType {
-        FROG,
-        CHICKEN,
-        MONKEY,
-        BEAR;
-    }
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -170,8 +156,8 @@ public class CombatManager extends Component {
      */
     private Action selectEnemyMove() {
         Action enemyAction;
-
         if (enemyStats.getStamina() < 25) {
+            UpdateSpecialMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
 
@@ -184,14 +170,12 @@ public class CombatManager extends Component {
             default -> null;
         };
 
-       // TrackEnemyMoves.add(enemyAction);
-        updatespecialmoveStore(enemyAction);
-        //log enemyAction
+        //stores enemyAction
+        UpdateSpecialMoveStore(enemyAction);
         return enemyAction;
-
     }
 
-    private void updatespecialmoveStore(Action value) {
+    private void UpdateSpecialMoveStore(Action value) {
         ArrayList itemsList = specialmoveStore.get(enemy.getEnemyType().toString());
 
         if (itemsList == null)
@@ -213,7 +197,6 @@ public class CombatManager extends Component {
         {
             logger.info("1- item list size: {}", itemsList.size());
             CheckSpecialMoveCombination();
-           // itemsList.remove(0);
         }
 
     }
@@ -227,21 +210,58 @@ public class CombatManager extends Component {
 
     logger.info("Map<String,ArrayList> ::  " +entry.getKey()+ " :: "+entry.getValue() );
 }
+        String enemyMoves = "";
 
-        // compare enemy move seq to last 3 enemy moves (from TrackEnemyMoves())
+        // compare enemy move seq to last 3 enemy moves)
         switch (enemy.getEnemyType().toString())
         {
             case "FROG" -> {
+                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
 
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
 
+                }
+                enemyMoves+="";
+                logger.info("enemy move combination" +enemyMoves);
+                if (enemyMoves=="[ATTACK, ATTACK, ATTACK, ]"){
+                    logger.info("special move combination achieved");
+                }
             }
             case "CHICKEN" -> {
+                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[ATTACK, ATTACK, GUARD, ]"){
+                }
 
             }
             case "MONKEY" -> {
+                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[ATTACK, GUARD, ATTACK, ]"){
+                }
 
             }
             case "BEAR" -> {
+                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[GUARD, ATTACK, ATTACK, ]"){
+                }
 
             }
             default -> {
@@ -257,7 +277,7 @@ public class CombatManager extends Component {
         }
         else
         {
-            //successful special move so reset enemy move for next special move set
+            //reset enemy move for next special move set
             itemsList.clear();
             //call special effect
         }
