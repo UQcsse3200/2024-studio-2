@@ -2,8 +2,8 @@ Trail
 - Delay -
 active: false
 - Duration - 
-lowMin: 3000.0
-lowMax: 3000.0
+lowMin: 100.0
+lowMax: 100.0
 - Count - 
 min: 0
 max: 200
