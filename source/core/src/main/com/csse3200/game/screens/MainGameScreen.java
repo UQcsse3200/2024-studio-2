@@ -1,5 +1,9 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -29,6 +33,9 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -77,6 +84,14 @@ public class MainGameScreen extends PausableScreen {
    */
   private GameArea gameArea;
 
+  // Map tab variables
+  private Texture mapTexture;
+  private boolean isMapVisible = false;
+  private SpriteBatch batch;
+  private Texture playerLocationTexture;
+  private Texture landmarkIconTexture;
+  private List<Vector2> landmarks;
+
   /**
    * Constructs a MainGameScreen instance.
    * 
@@ -103,6 +118,13 @@ public class MainGameScreen extends PausableScreen {
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
+    // Load the map texture and initialise
+    mapTexture = new Texture(Gdx.files.internal("map/MAP.png"));
+    playerLocationTexture = new Texture(Gdx.files.internal("map/Lion_Icon.png"));
+    landmarkIconTexture = new Texture(Gdx.files.internal("map/landmark_icon.png"));
+    batch = new SpriteBatch();
+    preloadLandmarks();
+
     loadAssets();
     createUI();
     logger.debug("Initialising main game screen entities");
@@ -111,6 +133,15 @@ public class MainGameScreen extends PausableScreen {
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+  }
+
+    /**
+     * Preloads important landmarks with their coordinates.
+     */
+  private void preloadLandmarks() {
+    landmarks = new ArrayList<>();
+    landmarks.add(new Vector2(500, 800));  // Example
+    // ADD MORE
   }
 
   /**
@@ -128,12 +159,59 @@ public class MainGameScreen extends PausableScreen {
    */
   @Override
   public void render(float delta) {
+      // Check if 'M' key is pressed to toggle map visibility
+      if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+          isMapVisible = !isMapVisible;
+      }
+
       if (!isPaused){
           physicsEngine.update();
           ServiceLocator.getEntityService().update();
           renderer.render();
       }
+      // If map is visible, draw the map
+      if (isMapVisible) {
+          drawMap();
+      }
   }
+
+  /**
+   * Draws the map on the screen when visible.
+   */
+  private void drawMap() {
+      batch.begin();
+      // Draw the map
+      batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+      // Get player position
+      Vector2 playerWorldPosition = gameArea.getPlayer().getPosition();
+
+      // Convert the player's game position to the map coordinates
+      Vector2 playerMapPosition = convertGamePositionToMap(playerWorldPosition);
+
+      // Draw the player location icon
+      batch.draw(playerLocationTexture, playerMapPosition.x, playerMapPosition.y, 32, 32);
+
+      // Draw all landmarks on the map, ADD LANDMARKS TO LIST !!!
+      for (Vector2 landmarkPosition : landmarks) {
+          Vector2 mapPos = convertGamePositionToMap(landmarkPosition);
+          batch.draw(landmarkIconTexture, mapPos.x, mapPos.y, 32, 32);
+      }
+
+      batch.end();
+  }
+
+    /**
+     * Converts the player's position in the game world to the map's coordinate system.
+     */
+    private Vector2 convertGamePositionToMap(Vector2 gamePosition) {
+        // ASSUMING GAME WORLD IS 5000x5000 AND MAP IS 1024*1024
+        float scaleX = Gdx.graphics.getWidth() / 5000f;
+        float scaleY = Gdx.graphics.getHeight() / 5000f;
+
+        // Convert the player's position in the game world to the corresponding position on the map
+        return new Vector2(gamePosition.x * scaleX, gamePosition.y * scaleY);
+    }
   
   /**
    * Resizes the renderer to fit dimensions.
@@ -178,6 +256,10 @@ public class MainGameScreen extends PausableScreen {
       logger.debug("Disposing main game screen");
       
       renderer.dispose();
+      batch.dispose();
+      mapTexture.dispose();
+      playerLocationTexture.dispose();
+      landmarkIconTexture.dispose();
       unloadAssets();
       
       ServiceLocator.getEntityService().dispose();
