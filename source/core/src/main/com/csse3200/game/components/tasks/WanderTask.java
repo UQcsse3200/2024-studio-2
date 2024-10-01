@@ -54,7 +54,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     Vector2 newPos = getRandomPosInRange();
     if (this.isBoss) {
       // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+      waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
       waitTask.create(owner);
       movementTask = new MovementTask(getRandomPosInRange());
       movementTask.create(owner);
@@ -69,7 +69,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       isSpawned = true;
 
       // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+      waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
       waitTask.create(owner);
       swapTask(waitTask);
     } else if (newPos.x - startPos.x < 0) {
@@ -80,6 +80,11 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       this.owner.getEntity().getEvents().trigger("wanderRight");
     }
     this.owner.getEntity().getEvents().trigger("wanderStart");
+  }
+
+  @Override
+  public void stop() {
+    currentTask.stop();
   }
 
   @Override

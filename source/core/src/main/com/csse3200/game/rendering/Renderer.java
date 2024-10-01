@@ -32,17 +32,27 @@ public class Renderer implements Disposable {
    * @param camera camera to render to
    */
   public Renderer(CameraComponent camera) {
+    this(camera, GAME_SCREEN_WIDTH);
+  }
+
+  /**
+   * Create a new renderer with default settings and a game width.
+   * @param camera camera to render to
+   * @param gameWidth Desired game width in metres the screen should show. Height is then based on
+   *     the aspect ratio.
+   */
+  public Renderer(CameraComponent camera, float gameWidth) {
     SpriteBatch spriteBatch = new SpriteBatch();
     DebugRenderer debugRenderer = new DebugRenderer();
     debugRenderer.setActive(false);
 
     init(
-        camera,
-        GAME_SCREEN_WIDTH,
-        spriteBatch,
-        new Stage(new ScreenViewport(), spriteBatch),
-        ServiceLocator.getRenderService(),
-        debugRenderer);
+            camera,
+            gameWidth,
+            spriteBatch,
+            new Stage(new ScreenViewport(), spriteBatch),
+            ServiceLocator.getRenderService(),
+            debugRenderer);
   }
 
   /**
