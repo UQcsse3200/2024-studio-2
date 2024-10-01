@@ -275,6 +275,10 @@ public class CombatAnimationDisplay extends UIComponent {
         }, 2000);  // 2 seconds
     }
 
+    /**
+     * Generates fireball animation from enemy entity position to
+     * player position
+     */
     public void enemyAttackAnimation() {
         Texture combatTexture = ServiceLocator.getResourceService()
                 .getAsset("images/single_fireball.png", Texture.class); // Replaced with single_fireball

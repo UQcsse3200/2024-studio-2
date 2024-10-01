@@ -289,10 +289,10 @@ public class CombatManager extends Component {
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatLoss");
-            nullifyCombatDialogueListener();
+            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         } else if (enemyStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatWin", enemy);
-            nullifyCombatDialogueListener();
+            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         }
     }
 
@@ -422,6 +422,11 @@ public class CombatManager extends Component {
         entity.getEvents().trigger("displayCombatResults");
     }
 
+    /**
+     * Add listener to continue button in dialogue box in combat to allow syncing of
+     * enemy animations after player animations and when continue button is pressed as enemy attack is
+     * described in dialogue box
+     */
     public void addDialogueBoxListener() {
 
         // Get the continue button for the dialogue box
@@ -456,37 +461,12 @@ public class CombatManager extends Component {
         };
 
         contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
-
-
-//        contButton.addListener(new InputListener() {
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//
-//                combatAnimationDisplay.dispose();
-//
-//                 Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
-//                 String currentText = String.valueOf(db.getText());
-//
-//    //            TODO: replace Label code with code below due in next PR
-//    //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
-//    //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
-//    //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
-//    //            String currentText = String.valueOf(fullText[index][index2]);
-//
-//                System.out.println(currentText);
-//                if (currentText.equals("The enemy decided to ATTACK")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-//                } else if (currentText.equals("The enemy decided to SLEEP")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-//                } else if (currentText.equals("The enemy decided to GUARD")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
-//                }
-//
-//                return true;
-//            }
-//        });
     }
 
+    /**
+     * Remove the input listener for the continue button of the dialogue box used to
+     * sync the animations of enemy players with when continue button was clicked
+     */
     private void nullifyCombatDialogueListener(){
         if (dialogueBoxCombatListener != null) {
             contButton.removeListener(dialogueBoxCombatListener);
