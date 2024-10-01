@@ -57,6 +57,8 @@ public class QuestManager extends Component {
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
+        // TODO: check if it works
+        player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
         createQuestDialogues();
 
     }
@@ -338,6 +340,11 @@ public class QuestManager extends Component {
         player.getEvents().trigger(item.getName() + "Advancement");
     }
 
+    private void handleEnemyQuest(Entity enemy) {
+        String type = enemy.getEnemyType().toString();
+        player.getEvents().trigger("defeat" + type);
+
+    }
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
