@@ -13,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.areas.terrain.TerrainFactory;
@@ -36,8 +36,12 @@ import org.slf4j.LoggerFactory;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * Manages the cutscene for Boss NPCs displayed before transitioning to the combat screen.
+ * Handles initialization, rendering, and disposal of cutscene elements.
+ */
 public class BossCutsceneScreen extends ScreenAdapter {
-    private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
+    private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
     private float timeElapsed = 0;
     private boolean transition;
 
@@ -53,6 +57,15 @@ public class BossCutsceneScreen extends ScreenAdapter {
     private final Entity enemy;
     private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
+    /**
+     * Creates a new cutscene screen.
+     *
+     * @param game the game instance
+     * @param screen the previous screen
+     * @param container services from the previous screen
+     * @param player the player entity
+     * @param enemy the enemy entity
+     */
     public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
         this.game = game;
         this.oldScreen = screen;
@@ -137,17 +150,36 @@ public class BossCutsceneScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates and sets up the cutscene UI elements, including motion effects for the text and image.
-     * Debugged and Developed with ChatGPT
+     * Sets up the cutscene UI components, including background, black bars at the top and bottom of the screen,
+     * and initial configurations. This method ensures that the static elements of the UI are in place before
+     * any interactive elements are added or animations are applied.
      */
-    private void createUI() {
-        logger.debug("Creating cutscene UI");
+    private void setupUIComponents() {
+        logger.debug("Setting up cutscene UI components");
         Stage stage = ServiceLocator.getRenderService().getStage();
+
+        // Load background texture and create Image actor
+        Texture backgroundTexture;
+        switch (enemy.getEnemyType()) {
+            case WATER_BOSS:
+                backgroundTexture = new Texture("images/Water_Transition.jpg"); // Water boss background
+                break;
+            case AIR_BOSS:
+                backgroundTexture = new Texture("images/Air_Transition.jpg"); // Air boss background
+                break;
+            case KANGAROO:
+            default:
+                backgroundTexture = new Texture("images/transitionBg.jpg"); // Default background
+                break;
+        }
+        Image backgroundImage = new Image(backgroundTexture);
+
+        // Set background image to cover the whole screen
+        backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Create black bars
         Texture topBarTexture = new Texture("images/black_bar.png");
         Texture bottomBarTexture = new Texture("images/black_bar.png");
-        Texture enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
 
         Image topBar = new Image(topBarTexture);
         Image bottomBar = new Image(bottomBarTexture);
@@ -158,6 +190,19 @@ public class BossCutsceneScreen extends ScreenAdapter {
         topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
         bottomBar.setPosition(0, 0);
 
+        // Add actors to stage
+        stage.addActor(backgroundImage);
+        stage.addActor(topBar);
+        stage.addActor(bottomBar);
+    }
+
+    /**
+     * Configures and adds the enemy image, enemy name label, and stats labels to the stage.
+     * This method handles the creation of dynamic UI elements based on the enemy type and its combat stats,
+     * including setting up the layout for these elements in a table.
+     */
+    private void configureAndAddUIElements() {
+        Stage stage = ServiceLocator.getRenderService().getStage();
         BitmapFont defaultFont = new BitmapFont();
         defaultFont.getData().setScale(2.0f);
 
@@ -166,32 +211,88 @@ public class BossCutsceneScreen extends ScreenAdapter {
         labelStyle.font = defaultFont;
         labelStyle.fontColor = Color.BLACK;
 
-        Label enemyNameLabel = new Label("Kanga", labelStyle);
-        enemyNameLabel.setAlignment(Align.center);
+        Label enemyNameLabel;
+        Texture enemyImageTexture;
+
+        // Select enemy image and name based on enemy type
+        switch (enemy.getEnemyType()) {
+            case WATER_BOSS:
+                enemyImageTexture = new Texture("images/water_boss_idle.png");
+                enemyNameLabel = new Label("Abyssdrake, the World Devourer", labelStyle);
+                break;
+            case AIR_BOSS:
+                enemyImageTexture = new Texture("images/air_boss_idle.png");
+                enemyNameLabel = new Label("Skylash, the Stormbound Sentinel", labelStyle);
+                break;
+            default:
+                enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
+                enemyNameLabel = new Label("Kanga, the Thunderstrider", labelStyle);
+                break;
+        }
 
         Image enemyImage = new Image(enemyImageTexture);
 
-        // Animate enemy name label (flash effect)
-        enemyNameLabel.addAction(
-                Actions.sequence(
-                        Actions.alpha(0f),
-                        Actions.repeat(5,
-                                Actions.sequence(
-                                        Actions.fadeIn(0.2f),
-                                        Actions.fadeOut(0.2f)
-                                )
-                        ),
-                        Actions.fadeIn(0.2f) // Finally, keep it visible
-                )
-        );
+        // Create labels for stats
+        CombatStatsComponent stats = enemy.getComponent(CombatStatsComponent.class);
+        Label healthLabel = new Label("Health: " + stats.getHealth() + "/" + stats.getMaxHealth(), labelStyle);
+        Label hungerLabel = new Label("Hunger: " + stats.getHunger() + "/" + stats.getMaxHunger(), labelStyle);
+        Label strengthLabel = new Label("Strength: " + stats.getStrength(), labelStyle);
+        Label defenseLabel = new Label("Defense: " + stats.getDefense(), labelStyle);
+        Label speedLabel = new Label("Speed: " + stats.getSpeed(), labelStyle);
+        Label experienceLabel = new Label("Experience: " + stats.getExperience() + "/" + stats.getMaxExperience(), labelStyle);
+
+        // Table layout for positioning
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+
+        // Add elements to the table with spacing
+        table.add(enemyImage).width(500).height(400);
+        table.row();
+        table.add(enemyNameLabel).padBottom(5);
+        table.row();
+        table.add(healthLabel).padBottom(5);
+        table.row();
+        table.add(hungerLabel).padBottom(5);
+        table.row();
+        table.add(strengthLabel).padBottom(5);
+        table.row();
+        table.add(defenseLabel).padBottom(5);
+        table.row();
+        table.add(speedLabel).padBottom(5);
+        table.row();
+        table.add(experienceLabel).padBottom(5);
+
+        // Add table to the stage
+        stage.addActor(table);
+
+        // Set names for elements to easily find them later for animations
+        enemyImage.setName("enemyImage");
+        enemyNameLabel.setName("enemyNameLabel");
+        table.setName("table");
+    }
+
+    /**
+     * Adds animations to the cutscene UI components, including sliding and fading effects.
+     * This method animates the entry of the enemy image and name label into view, and applies a flash effect
+     * to the table containing the stats labels to enhance the visual appeal of the cutscene.
+     */
+    private void addUIAnimations() {
+        logger.debug("Adding animations to cutscene UI components");
+        Stage stage = ServiceLocator.getRenderService().getStage();
 
         // Centered positions
         float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
-        float centerY = (Gdx.graphics.getHeight() - 500) / 2f;
+        float centerY = (Gdx.graphics.getHeight() - 150) / 2f;
+
+        // Access UI elements by their names
+        Image enemyImage = (Image) stage.getRoot().findActor("enemyImage");
+        Label enemyNameLabel = (Label) stage.getRoot().findActor("enemyNameLabel");
+        Table table = (Table) stage.getRoot().findActor("table");
 
         // Initial positions for sliding animations
         enemyImage.setPosition(0, centerY); // Start from off-screen left
-        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 80); // Start from off-screen right
+        enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 3000); // Start from off-screen right
 
         // Animate enemy image (slide-in effect)
         enemyImage.addAction(
@@ -203,22 +304,34 @@ public class BossCutsceneScreen extends ScreenAdapter {
         // Animate enemy name label (slide-in effect)
         enemyNameLabel.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX + 250, centerY - 80, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + 200, centerY - 10, 2f, Interpolation.pow5Out)
                 )
         );
 
-        // Table layout for positioning
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center();
-        table.add(enemyImage).width(500).height(500);
-        table.row();
-        table.add(enemyNameLabel);
+        // Add fade-in and flash effect to the table
+        table.addAction(
+                Actions.sequence(
+                        Actions.alpha(0f),
+                        Actions.repeat(5,
+                                Actions.sequence(
+                                        Actions.fadeIn(0.2f),
+                                        Actions.fadeOut(0.2f)
+                                )
+                        ),
+                        Actions.fadeIn(0.2f) // Finally, keep it visible
+                )
+        );
+    }
 
-        // Add actors to stage
-        stage.addActor(topBar);
-        stage.addActor(bottomBar);
-        stage.addActor(table);
+    /**
+     * Sets up and animates the cutscene UI elements, including the enemy image, name, and stats.
+     * This method orchestrates the entire UI setup by calling the methods responsible for
+     * setting up UI components, configuring and adding UI elements, and applying animations.
+     */
+    private void createUI() {
+        setupUIComponents();
+        configureAndAddUIElements();
+        addUIAnimations();
     }
 
     public void rest() {
