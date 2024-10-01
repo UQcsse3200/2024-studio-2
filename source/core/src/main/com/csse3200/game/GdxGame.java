@@ -79,6 +79,7 @@ public class GdxGame extends Game {
         ServiceLocator.registerEntityService(container.getEntityService());
         ServiceLocator.registerRenderService(container.getRenderService());
         ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
+        ServiceLocator.registerLightingService(container.getLightingService());
         screen.resume();
     }
 
@@ -136,6 +137,10 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
+        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
+        //player.getComponent(CombatStatsComponent.addExperience())
+        //enemy.getComponent(CombatStatsComponent.getExperience());
+        //
         enemy.dispose();
     }
 
@@ -185,6 +190,8 @@ public class GdxGame extends Game {
                 return new LoadingScreen(this);
             case ANIMAL_SELECTION:
                 return new LandAnimalSelectionScreen(this);
+            case ANIMAL_ROULETTE:
+                return new AnimalRouletteScreen(this);
             case END_GAME_STATS:
                 return new EndGameStatsScreen(this);
             case GAME_OVER_LOSE:
@@ -192,7 +199,8 @@ public class GdxGame extends Game {
             case STORY:
                 String selectedAnimal = "dog";  // Replace with actual logic for getting selected animal
                 return new StoryScreen(this, selectedAnimal);
-
+            case CUTSCENE:
+                return (new CutSceneScreen(this));
             case QUICK_TIME_EVENT:
                 return new QuickTimeEventScreen(this);
             default:
@@ -204,9 +212,9 @@ public class GdxGame extends Game {
      * types of screens
      */
     public enum ScreenType {
-        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
+        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,ANIMAL_ROULETTE,
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
-        BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, STORY
+        BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, CUTSCENE, STORY
     }
 
     /**
@@ -216,4 +224,3 @@ public class GdxGame extends Game {
         app.exit();
     }
 }
-

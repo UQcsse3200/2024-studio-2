@@ -37,24 +37,31 @@ public class Entity {
   private Vector2 position = Vector2.Zero.cpy();
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
+  private boolean isPlayer = false;
   private EnemyType enemyType;
   public enum EnemyType {
     KANGAROO,
+    WATER_BOSS,
+    AIR_BOSS,
     CHICKEN,
     MONKEY,
     FROG,
-    BEAR
+    BEAR,
+    JOEY,
   }
 
 
   public Entity() {
-
     id = nextId;
     nextId++;
 
     components = new IntMap<>(4);
     eventHandler = new EventHandler();
   }
+
+  public void setIsPlayer(boolean status) {this.isPlayer = status;}
+
+  public boolean isPlayer() {return this.isPlayer;}
 
   // Getter for enemy type
   public EnemyType getEnemyType() {
