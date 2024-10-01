@@ -97,6 +97,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BossCutsceneScreen</span>
 <span class="extends-implements">extends com.badlogic.gdx.ScreenAdapter</span></div>
+<div class="block">Manages the cutscene for Boss NPCs displayed before transitioning to the combat screen.
+ Handles initialization, rendering, and disposal of cutscene elements.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -113,7 +115,9 @@ loadScripts(document, 'script');</script>
  <a href="../services/ServiceContainer.html" title="class in com.csse3200.game.services">ServiceContainer</a>&nbsp;container,
  <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;enemy)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new cutscene screen.</div>
+</div>
 </div>
 </section>
 </li>
@@ -178,6 +182,15 @@ loadScripts(document, 'script');</script>
  <a href="../services/ServiceContainer.html" title="class in com.csse3200.game.services">ServiceContainer</a>&nbsp;container,
  <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;enemy)</span></div>
+<div class="block">Creates a new cutscene screen.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>game</code> - the game instance</dd>
+<dd><code>screen</code> - the previous screen</dd>
+<dd><code>container</code> - services from the previous screen</dd>
+<dd><code>player</code> - the player entity</dd>
+<dd><code>enemy</code> - the enemy entity</dd>
+</dl>
 </section>
 </li>
 </ul>

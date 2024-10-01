@@ -307,6 +307,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html#AIR" class="member-name-link">AIR</a> - Enum constant in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#AIR_BOSS" class="member-name-link">AIR_BOSS</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainResource.html#AIR_SIZE" class="member-name-link">AIR_SIZE</a> - Static variable in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainResource.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainResource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/AirAnimalSelectionDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.animal">AirAnimalSelectionDisplay</a> - Class in <a href="com/csse3200/game/components/animal/package-summary.html">com.csse3200.game.components.animal</a></dt>
@@ -318,6 +320,15 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/screens/AirAnimalSelectionScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">AirAnimalSelectionScreen</a> - Class in <a href="com/csse3200/game/screens/package-summary.html">com.csse3200.game.screens</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/AirAnimalSelectionScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">AirAnimalSelectionScreen(GdxGame)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/AirAnimalSelectionScreen.html" title="class in com.csse3200.game.screens">AirAnimalSelectionScreen</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#airBoss" class="member-name-link">airBoss</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/AirBossAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">AirBossAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
+<dd>
+<div class="block">This class listens to events related to the Air Boss entity's state and plays the appropriate animation
+ when one of the events is triggered.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/AirBossAnimationController.html#%3Cinit%3E()" class="member-name-link">AirBossAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/AirBossAnimationController.html" title="class in com.csse3200.game.components.npc">AirBossAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ai/tasks/AITaskComponent.html" class="type-name-link" title="class in com.csse3200.game.ai.tasks">AITaskComponent</a> - Class in <a href="com/csse3200/game/ai/tasks/package-summary.html">com.csse3200.game.ai.tasks</a></dt>
 <dd>
@@ -429,6 +440,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new AppleRenderer.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialAirMove.html#applyBuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyBuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialAirMove.html" title="class in com.csse3200.game.components.combat.move">SpecialAirMove</a></dt>
+<dd>
+<div class="block">Buffs Air Boss's strength and defense stats after the special move.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html#applyBuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyBuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html" title="class in com.csse3200.game.components.combat.move">SpecialKangaMove</a></dt>
 <dd>
 <div class="block">Buffs Kanga's strength and defense stats after the special move.</div>
@@ -437,15 +452,33 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Abstract method to apply buffs to the attacker.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html#applyBuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyBuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html" title="class in com.csse3200.game.components.combat.move">SpecialWaterMove</a></dt>
+<dd>
+<div class="block">Buffs Water Boss's strength and defense stats after the special move.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/settingsmenu/SettingsMenuDisplay.html#applyChanges()" class="member-name-link">applyChanges()</a> - Method in class com.csse3200.game.components.settingsmenu.<a href="com/csse3200/game/components/settingsmenu/SettingsMenuDisplay.html" title="class in com.csse3200.game.components.settingsmenu">SettingsMenuDisplay</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialAirMove.html#applyDebuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyDebuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialAirMove.html" title="class in com.csse3200.game.components.combat.move">SpecialAirMove</a></dt>
+<dd>
+<div class="block">Applies a random status effect to the target player after the move is executed
+
+ Also apply debuff which decreases Player's strength by 30 and defense by 25.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html#applyDebuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyDebuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html" title="class in com.csse3200.game.components.combat.move">SpecialKangaMove</a></dt>
 <dd>
-<div class="block">Applies debuffs (confusion and bleeding) to the target player after the move is executed.</div>
+<div class="block">Applies a random status effect to the target player after the move is executed
+
+ Also apply debuff which decreases Player's strength by 15 and defense by 10.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialMove.html#applyDebuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyDebuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialMove.html" title="class in com.csse3200.game.components.combat.move">SpecialMove</a></dt>
 <dd>
 <div class="block">Abstract method to apply debuffs to the target.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html#applyDebuffs(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">applyDebuffs(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html" title="class in com.csse3200.game.components.combat.move">SpecialWaterMove</a></dt>
+<dd>
+<div class="block">Applies a random status effect to the target player after the move is executed
+
+ Also apply debuff which decreases Player's strength by 20 and defense by 10.</div>
 </dd>
 <dt><a href="com/csse3200/game/lighting/LightingEngine.html#applyDefaultLightingSettings(box2dLight.Light)" class="member-name-link">applyDefaultLightingSettings(Light)</a> - Static method in class com.csse3200.game.lighting.<a href="com/csse3200/game/lighting/LightingEngine.html" title="class in com.csse3200.game.lighting">LightingEngine</a></dt>
 <dd>
@@ -646,8 +679,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/GdxGame.ScreenType.html#BOSS_CUTSCENE" class="member-name-link">BOSS_CUTSCENE</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/BossCutsceneScreen.html" class="type-name-link" title="class in com.csse3200.game.screens">BossCutsceneScreen</a> - Class in <a href="com/csse3200/game/screens/package-summary.html">com.csse3200.game.screens</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Manages the cutscene for Boss NPCs displayed before transitioning to the combat screen.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/BossCutsceneScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame,com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer,com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity)" class="member-name-link">BossCutsceneScreen(GdxGame, Screen, ServiceContainer, Entity, Entity)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/BossCutsceneScreen.html" title="class in com.csse3200.game.screens">BossCutsceneScreen</a></dt>
+<dd>
+<div class="block">Creates a new cutscene screen.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">BossFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#%3Cinit%3E()" class="member-name-link">BossFactory()</a> - Constructor for class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/components/PhysicsComponent.AlignY.html#BOTTOM" class="member-name-link">BOTTOM</a> - Enum constant in enum class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsComponent.AlignY.html" title="enum class in com.csse3200.game.physics.components">PhysicsComponent.AlignY</a></dt>
 <dd>&nbsp;</dd>
@@ -1268,6 +1309,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the component is created.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/npc/AirBossAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/AirBossAnimationController.html" title="class in com.csse3200.game.components.npc">AirBossAnimationController</a></dt>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/npc/BananaAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/BananaAnimationController.html" title="class in com.csse3200.game.components.npc">BananaAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/npc/BearAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/BearAnimationController.html" title="class in com.csse3200.game.components.npc">BearAnimationController</a></dt>
@@ -1278,10 +1323,28 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/npc/FrogAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/FrogAnimationController.html" title="class in com.csse3200.game.components.npc">FrogAnimationController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/JoeyAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/JoeyAnimationController.html" title="class in com.csse3200.game.components.npc">JoeyAnimationController</a></dt>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/npc/KangaBossAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/KangaBossAnimationController.html" title="class in com.csse3200.game.components.npc">KangaBossAnimationController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/npc/MonkeyAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/MonkeyAnimationController.html" title="class in com.csse3200.game.components.npc">MonkeyAnimationController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterBossAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WaterBossAnimationController.html" title="class in com.csse3200.game.components.npc">WaterBossAnimationController</a></dt>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterSpiralAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WaterSpiralAnimationController.html" title="class in com.csse3200.game.components.npc">WaterSpiralAnimationController</a></dt>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/WindGustAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WindGustAnimationController.html" title="class in com.csse3200.game.components.npc">WindGustAnimationController</a></dt>
+<dd>
+<div class="block">Called when the component is created.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerActions.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerActions.html" title="class in com.csse3200.game.components.player">PlayerActions</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
@@ -1403,6 +1466,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create the status effect and attach it to the entity.</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createAirBossCombatEntity()" class="member-name-link">createAirBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
+<dd>
+<div class="block">Creates an Air Boss entity for combat, without a chase task.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createAirBossEntity(com.csse3200.game.entities.Entity)" class="member-name-link">createAirBossEntity(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
+<dd>
+<div class="block">Creates an Air Boss entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/entities/factories/MazeNPCFactory.html#createAngler(com.csse3200.game.entities.Entity)" class="member-name-link">createAngler(Entity)</a> - Static method in class com.csse3200.game.minigames.maze.entities.factories.<a href="com/csse3200/game/minigames/maze/entities/factories/MazeNPCFactory.html" title="class in com.csse3200.game.minigames.maze.entities.factories">MazeNPCFactory</a></dt>
 <dd>
 <div class="block">Creates the angler fish NPC</div>
@@ -1433,7 +1504,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/physics/PhysicsEngine.html#createBody(com.badlogic.gdx.physics.box2d.BodyDef)" class="member-name-link">createBody(BodyDef)</a> - Method in class com.csse3200.game.physics.<a href="com/csse3200/game/physics/PhysicsEngine.html" title="class in com.csse3200.game.physics">PhysicsEngine</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createBossNPC(com.csse3200.game.entities.Entity)" class="member-name-link">createBossNPC(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createBossNPC(com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity.EnemyType)" class="member-name-link">createBossNPC(Entity, Entity.EnemyType)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
 <div class="block">Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.</div>
 </dd>
@@ -1461,6 +1532,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html#createChickenLeg(com.csse3200.game.entities.Entity)" class="member-name-link">createChickenLeg(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ItemFactory.html" title="class in com.csse3200.game.entities.factories">ItemFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createCombatBossNPC()" class="member-name-link">createCombatBossNPC()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
+<dd>
+<div class="block">Creates a generic combat boss NPC without chase tasks.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createCombatBossNPC()" class="member-name-link">createCombatBossNPC()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
 <dd>
 <div class="block">Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.</div>
@@ -1589,13 +1664,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates the jellyfish npc</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createJoey(com.csse3200.game.entities.Entity)" class="member-name-link">createJoey(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dd>
+<div class="block">Creates a joey enemy.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createJoeyCombatEnemy()" class="member-name-link">createJoeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dd>
+<div class="block">Creates joey enemy as NPC entity for static combat</div>
+</dd>
 <dt><a href="com/csse3200/game/physics/PhysicsEngine.html#createJoint(com.badlogic.gdx.physics.box2d.JointDef)" class="member-name-link">createJoint(JointDef)</a> - Method in class com.csse3200.game.physics.<a href="com/csse3200/game/physics/PhysicsEngine.html" title="class in com.csse3200.game.physics">PhysicsEngine</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createKangaBossCombatEntity()" class="member-name-link">createKangaBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createKangaBossCombatEntity()" class="member-name-link">createKangaBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
-<div class="block">Creates a Kangaroo Boss entity for combat.</div>
+<div class="block">Creates a Kangaroo Boss entity for combat, without a chase task.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createKangaBossEntity(com.csse3200.game.entities.Entity)" class="member-name-link">createKangaBossEntity(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createKangaBossEntity(com.csse3200.game.entities.Entity)" class="member-name-link">createKangaBossEntity(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
 <div class="block">Creates a Kangaroo Boss entity.</div>
 </dd>
@@ -1689,6 +1772,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an invisible physics wall.</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createWaterBossCombatEntity()" class="member-name-link">createWaterBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
+<dd>
+<div class="block">Creates a Water Boss entity for combat, without a chase task.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createWaterBossEntity(com.csse3200.game.entities.Entity)" class="member-name-link">createWaterBossEntity(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
+<dd>
+<div class="block">Creates a Water Boss entity.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/ProjectileFactory.html#createWaterSpiral(com.csse3200.game.entities.Entity)" class="member-name-link">createWaterSpiral(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ProjectileFactory.html" title="class in com.csse3200.game.entities.factories">ProjectileFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/factories/ProjectileFactory.html#createWindGust(com.csse3200.game.entities.Entity)" class="member-name-link">createWindGust(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ProjectileFactory.html" title="class in com.csse3200.game.entities.factories">ProjectileFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html#currentAnimation" class="member-name-link">currentAnimation</a> - Variable in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html#currentAnimationName" class="member-name-link">currentAnimationName</a> - Variable in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></dt>
@@ -3595,11 +3690,17 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ChaseTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/GriffinTask.html" title="class in com.csse3200.game.components.tasks">GriffinTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></dt>
 <dd>
 <div class="block">Returns the priority of this task, which is based on whether the player is near the item or has just
  picked it up</div>
 </dd>
+<dt><a href="com/csse3200/game/components/tasks/KangaJoeyTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/KangaJoeyTask.html" title="class in com.csse3200.game.components.tasks">KangaJoeyTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/LeviathanTask.html" title="class in com.csse3200.game.components.tasks">LeviathanTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/PauseTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/PauseTask.html" title="class in com.csse3200.game.components.tasks">PauseTask</a></dt>
 <dd>
 <div class="block">Returns the priority level of the pause behavior.</div>
@@ -4057,6 +4158,15 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/minigames/snake/rendering/GridRenderer.html#%3Cinit%3E(com.csse3200.game.minigames.snake.SnakeGrid,com.badlogic.gdx.graphics.Texture,com.csse3200.game.minigames.MinigameRenderer)" class="member-name-link">GridRenderer(SnakeGrid, Texture, MinigameRenderer)</a> - Constructor for class com.csse3200.game.minigames.snake.rendering.<a href="com/csse3200/game/minigames/snake/rendering/GridRenderer.html" title="class in com.csse3200.game.minigames.snake.rendering">GridRenderer</a></dt>
 <dd>
 <div class="block">Creates a new GridRenderer.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">GriffinTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
+<dd>
+<div class="block">Represents a task for a Griffin entity that manages its movement towards a target
+ and allows it to shoot gusts of wind at the target.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html#%3Cinit%3E(com.csse3200.game.entities.Entity,int,float,float,float)" class="member-name-link">GriffinTask(Entity, int, float, float, float)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/GriffinTask.html" title="class in com.csse3200.game.components.tasks">GriffinTask</a></dt>
+<dd>
+<div class="block">Constructs a GriffinTask for controlling a Griffin entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.Action.html#GUARD" class="member-name-link">GUARD</a> - Enum constant in enum class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a></dt>
 <dd>&nbsp;</dd>
@@ -4556,16 +4666,35 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A job system provides a general-purpose way to run multi-threaded code.</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#joey" class="member-name-link">joey</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#JOEY" class="member-name-link">JOEY</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/JoeyAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">JoeyAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
+<dd>
+<div class="block">This class listens to events relevant to a Joey entity's state and triggers the appropriate animation
+ when one of the events is activated.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/JoeyAnimationController.html#%3Cinit%3E()" class="member-name-link">JoeyAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/JoeyAnimationController.html" title="class in com.csse3200.game.components.npc">JoeyAnimationController</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:K">K</h2>
 <dl class="index">
 <dt><a href="com/csse3200/game/components/npc/KangaBossAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">KangaBossAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
 <dd>
-<div class="block">This class listens to events relevant to a Kanga Boss entity's state and plays the animation when one
- of the events is triggered.</div>
+<div class="block">This class listens to events relevant to a Kanga Boss entity's state and plays the corresponding
+ animation when one of the events is triggered.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/npc/KangaBossAnimationController.html#%3Cinit%3E()" class="member-name-link">KangaBossAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/KangaBossAnimationController.html" title="class in com.csse3200.game.components.npc">KangaBossAnimationController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/KangaJoeyTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">KangaJoeyTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
+<dd>
+<div class="block">A task that allows an entity to wait for a set time and then spawn a small kangaroo joey entity near the owner.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/tasks/KangaJoeyTask.html#%3Cinit%3E(com.csse3200.game.entities.Entity,float,int)" class="member-name-link">KangaJoeyTask(Entity, float, int)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/KangaJoeyTask.html" title="class in com.csse3200.game.components.tasks">KangaJoeyTask</a></dt>
+<dd>
+<div class="block">A task that allows an entity to wait for a set time and then spawn a small kangaroo joey near the owner.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#KANGAROO" class="member-name-link">KANGAROO</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#kangarooBoss" class="member-name-link">kangarooBoss</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
@@ -4779,6 +4908,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/utils/math/Vector2Utils.html#LEFT" class="member-name-link">LEFT</a> - Static variable in class com.csse3200.game.utils.math.<a href="com/csse3200/game/utils/math/Vector2Utils.html" title="class in com.csse3200.game.utils.math">Vector2Utils</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">LeviathanTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
+<dd>
+<div class="block">A task that allows an entity to chase the player and fire projectiles at the player when within range.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html#%3Cinit%3E(com.csse3200.game.entities.Entity,int,float,float,float,float)" class="member-name-link">LeviathanTask(Entity, int, float, float, float, float)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/LeviathanTask.html" title="class in com.csse3200.game.components.tasks">LeviathanTask</a></dt>
+<dd>
+<div class="block">Constructs a LeviathanTask.</div>
+</dd>
 <dt><a href="com/csse3200/game/lighting/LightingEngine.html#LIGHTING_LAYER" class="member-name-link">LIGHTING_LAYER</a> - Static variable in class com.csse3200.game.lighting.<a href="com/csse3200/game/lighting/LightingEngine.html" title="class in com.csse3200.game.lighting">LightingEngine</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/lighting/components/LightingComponent.html" class="type-name-link" title="class in com.csse3200.game.lighting.components">LightingComponent</a> - Class in <a href="com/csse3200/game/lighting/components/package-summary.html">com.csse3200.game.lighting.components</a></dt>
@@ -5755,6 +5892,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Point at which the raycast hit the fixture.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html#POISONED" class="member-name-link">POISONED</a> - Enum constant in enum class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/PopUpDialogBox/PopupDialogBox.html" class="type-name-link" title="class in com.csse3200.game.ui.PopUpDialogBox">PopupDialogBox</a> - Class in <a href="com/csse3200/game/ui/PopUpDialogBox/package-summary.html">com.csse3200.game.ui.PopUpDialogBox</a></dt>
 <dd>
 <div class="block">A customizable popup dialog box that displays animal information and health bars.</div>
@@ -6971,6 +7110,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the visibility of the settings menu.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html#SHOCKED" class="member-name-link">SHOCKED</a> - Enum constant in enum class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/ShootTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">ShootTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
 <dd>
 <div class="block">A task that allows an entity to wait for a set time and then shoot a projectile at a target.</div>
@@ -7197,6 +7338,15 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.Action.html#SPECIAL" class="member-name-link">SPECIAL</a> - Enum constant in enum class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialAirMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialAirMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
+<dd>
+<div class="block">The SpecialAirMove class represents Air boss's special combat move, which inflicts debuffs
+ on the player and buffs Air boss's own stats.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialAirMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialAirMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialAirMove.html" title="class in com.csse3200.game.components.combat.move">SpecialAirMove</a></dt>
+<dd>
+<div class="block">Constructs the SpecialAirMove with the given move name and stamina cost.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialKangaMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
 <div class="block">The SpecialKangaMove class represents Kanga's special combat move, which inflicts debuffs
@@ -7220,6 +7370,15 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/SpecialWanderTask.html#%3Cinit%3E(com.badlogic.gdx.math.Vector2,float)" class="member-name-link">SpecialWanderTask(Vector2, float)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/SpecialWanderTask.html" title="class in com.csse3200.game.components.tasks">SpecialWanderTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialWaterMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
+<dd>
+<div class="block">The SpecialWaterMove class represents Water boss's special combat move, which inflicts debuffs
+ on the player and buffs Water boss's own stats.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialWaterMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html" title="class in com.csse3200.game.components.combat.move">SpecialWaterMove</a></dt>
+<dd>
+<div class="block">Constructs the SpecialWaterMove with the given move name and stamina cost.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseEntityConfig.html#speed" class="member-name-link">speed</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/entities/configs/MazeEntityConfig.html#speed" class="member-name-link">speed</a> - Variable in class com.csse3200.game.minigames.maze.entities.configs.<a href="com/csse3200/game/minigames/maze/entities/configs/MazeEntityConfig.html" title="class in com.csse3200.game.minigames.maze.entities.configs">MazeEntityConfig</a></dt>
@@ -7270,10 +7429,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Moves the entity in the direction of the entities target (often the player)</div>
 </dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/GriffinTask.html" title="class in com.csse3200.game.components.tasks">GriffinTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></dt>
 <dd>
 <div class="block">Starts the task by adding an event listener for the "pickupItem" event.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/tasks/KangaJoeyTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/KangaJoeyTask.html" title="class in com.csse3200.game.components.tasks">KangaJoeyTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/LeviathanTask.html" title="class in com.csse3200.game.components.tasks">LeviathanTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/MovementTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/PauseTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/PauseTask.html" title="class in com.csse3200.game.components.tasks">PauseTask</a></dt>
@@ -7341,7 +7506,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Start playback of an animation.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/player/PlayerActions.html#startCombat(com.csse3200.game.entities.Entity)" class="member-name-link">startCombat(Entity)</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerActions.html" title="class in com.csse3200.game.components.player">PlayerActions</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Initiates combat with a specified enemy entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#startHealthBarBeating()" class="member-name-link">startHealthBarBeating()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>
 <div class="block">Starts the beating animation for the health bar during boss chase.</div>
@@ -7412,6 +7579,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Stop the task immediately.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ChaseTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/GriffinTask.html" title="class in com.csse3200.game.components.tasks">GriffinTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/LeviathanTask.html" title="class in com.csse3200.game.components.tasks">LeviathanTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/MovementTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></dt>
 <dd>&nbsp;</dd>
@@ -7939,6 +8110,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Updates the direction in which the entity needs to move in, checks every
  frame to see where the player is to determine this.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/tasks/GriffinTask.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/GriffinTask.html" title="class in com.csse3200.game.components.tasks">GriffinTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/KangaJoeyTask.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/KangaJoeyTask.html" title="class in com.csse3200.game.components.tasks">KangaJoeyTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/tasks/LeviathanTask.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/LeviathanTask.html" title="class in com.csse3200.game.components.tasks">LeviathanTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/MovementTask.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/MovementTask.html" title="class in com.csse3200.game.components.tasks">MovementTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/PauseTask.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/PauseTask.html" title="class in com.csse3200.game.components.tasks">PauseTask</a></dt>
@@ -8475,6 +8652,8 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainChunk.TileType.html#WATER" class="member-name-link">WATER</a> - Enum constant in enum class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainChunk.TileType.html" title="enum class in com.csse3200.game.areas.terrain">TerrainChunk.TileType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#WATER_BOSS" class="member-name-link">WATER_BOSS</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainResource.html#WATER_SIZE" class="member-name-link">WATER_SIZE</a> - Static variable in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainComponent.TerrainResource.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.TerrainResource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/WaterAnimalSelectionDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.animal">WaterAnimalSelectionDisplay</a> - Class in <a href="com/csse3200/game/components/animal/package-summary.html">com.csse3200.game.components.animal</a></dt>
@@ -8487,11 +8666,38 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/WaterAnimalSelectionScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">WaterAnimalSelectionScreen(GdxGame)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/WaterAnimalSelectionScreen.html" title="class in com.csse3200.game.screens">WaterAnimalSelectionScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#waterBoss" class="member-name-link">waterBoss</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterBossAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">WaterBossAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
+<dd>
+<div class="block">This class listens to events relevant to a Water Boss entity's state and plays the corresponding
+ animation when one of the events is triggered.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterBossAnimationController.html#%3Cinit%3E()" class="member-name-link">WaterBossAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WaterBossAnimationController.html" title="class in com.csse3200.game.components.npc">WaterBossAnimationController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/OceanGameAreaConfigs/OceanMapTiles.html#waterMapTiles" class="member-name-link">waterMapTiles</a> - Variable in class com.csse3200.game.areas.OceanGameAreaConfigs.<a href="com/csse3200/game/areas/OceanGameAreaConfigs/OceanMapTiles.html" title="class in com.csse3200.game.areas.OceanGameAreaConfigs">OceanMapTiles</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#waterSpiral" class="member-name-link">waterSpiral</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterSpiralAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">WaterSpiralAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
+<dd>
+<div class="block">This class listens to events relevant to the Water Spiral projectile's movement and plays the
+ corresponding animation when the event is triggered.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/WaterSpiralAnimationController.html#%3Cinit%3E()" class="member-name-link">WaterSpiralAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WaterSpiralAnimationController.html" title="class in com.csse3200.game.components.npc">WaterSpiralAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/settingsmenu/UserSettings.DisplaySettings.html#width" class="member-name-link">width</a> - Variable in class com.csse3200.game.components.settingsmenu.<a href="com/csse3200/game/components/settingsmenu/UserSettings.DisplaySettings.html" title="class in com.csse3200.game.components.settingsmenu">UserSettings.DisplaySettings</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/files/UserSettings.DisplaySettings.html#width" class="member-name-link">width</a> - Variable in class com.csse3200.game.files.<a href="com/csse3200/game/files/UserSettings.DisplaySettings.html" title="class in com.csse3200.game.files">UserSettings.DisplaySettings</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#windGust" class="member-name-link">windGust</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/npc/WindGustAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.npc">WindGustAnimationController</a> - Class in <a href="com/csse3200/game/components/npc/package-summary.html">com.csse3200.game.components.npc</a></dt>
+<dd>
+<div class="block">This class listens to events relevant to the Wind Gust projectile's movement and plays the
+ corresponding animation when the event is triggered.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/npc/WindGustAnimationController.html#%3Cinit%3E()" class="member-name-link">WindGustAnimationController()</a> - Constructor for class com.csse3200.game.components.npc.<a href="com/csse3200/game/components/npc/WindGustAnimationController.html" title="class in com.csse3200.game.components.npc">WindGustAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/areas/terrain/MazeTerrainFactory.html#worldPosToGridPos(com.badlogic.gdx.math.Vector2)" class="member-name-link">worldPosToGridPos(Vector2)</a> - Static method in class com.csse3200.game.minigames.maze.areas.terrain.<a href="com/csse3200/game/minigames/maze/areas/terrain/MazeTerrainFactory.html" title="class in com.csse3200.game.minigames.maze.areas.terrain">MazeTerrainFactory</a></dt>
 <dd>
