@@ -69,6 +69,18 @@ public class Maze {
         }
         return cells;
     }
+
+    public boolean isWall(int x, int y, GridPoint2 direction) {
+        return isWall(new GridPoint2(x, y), direction);
+    }
+
+    /**
+     * Method to check if moving 1 cell in a given direction from a grid cell will
+     * run into a wall.
+     * @param cell Grid cell
+     * @param direction Direction to check
+     * @return whether there is a wall in that direction from this grid cell.
+     */
     public boolean isWall(GridPoint2 cell, GridPoint2 direction) {
         return !getMazeAdjacent(cell).contains(cell.cpy().add(direction));
     }
