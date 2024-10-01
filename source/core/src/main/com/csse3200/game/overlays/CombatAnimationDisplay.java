@@ -121,16 +121,12 @@ public class CombatAnimationDisplay extends UIComponent {
     /**
      * Triggers identical sleep animation for enemy
      */
-    /**
-     * Triggers general sleep animation when sleeping action chosen by
-     * player
-     */
     public void enemySleepAnimation(){
         Texture sleepTexture2 = ServiceLocator.getResourceService()
                 .getAsset("images/zzz.png", Texture.class);
         enemySleepImage = new Image(sleepTexture2);
 
-        float xZ = 690;
+        float xZ = 1150;
         float yZ = 640;
 
         enemySleepImage.setPosition(xZ, yZ);
