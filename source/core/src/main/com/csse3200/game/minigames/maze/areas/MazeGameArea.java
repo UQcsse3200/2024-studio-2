@@ -1,10 +1,6 @@
 package com.csse3200.game.minigames.maze.areas;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
-import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
@@ -66,9 +62,9 @@ public class MazeGameArea extends GameArea {
     };
     private static final String mazeParticleEffectImageDir = "images/minigames";
     private static final String[] mazeParticleEffects = {
-        "images/minigames/trail.p",
-        "images/minigames/electricparticles.p",
-        "images/minigames/starlight.p"
+            "images/minigames/trail.p",
+            "images/minigames/electricparticles.p",
+            "images/minigames/starlight.p"
     };
     private static final String[] mazeSounds = {
             "sounds/minigames/angler-chomp.mp3",
@@ -123,6 +119,7 @@ public class MazeGameArea extends GameArea {
     /**
      * Picks a random cell in the maze that is at least minDistToPlayer (euclidean distance) away
      * from the player to spawn an entity.
+     *
      * @param minDistToPlayer the minimum distance from the player to spawn an entity
      * @return Grid cell to spawn entity at
      */
@@ -210,6 +207,13 @@ public class MazeGameArea extends GameArea {
         }
     }
 
+    /**
+     * Generates a random number between a range
+     *
+     * @param min the minimum number of the range
+     * @param max the maximum number of the range
+     * @return the random number
+     */
     private float randomRange(float min, float max) {
         return (float) Math.random() * (max - min) + min;
     }
@@ -232,26 +236,26 @@ public class MazeGameArea extends GameArea {
 
                 // go from random point in spawn cell to an adjacent cell
                 patrolPoints = new Vector2[]{
-                    new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
-                            cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
-                    new Vector2(otherCell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
-                            otherCell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().x),
+                                cell.y + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().y)),
+                        new Vector2(otherCell.x + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().x),
+                                otherCell.y + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().y))
                 };
             } else if (rand < 0.75) {
                 // go from left side of cell to right side of cell
                 patrolPoints = new Vector2[]{
-                        new Vector2(cell.x + WALL_THICKNESS/2,
-                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y)),
-                        new Vector2(cell.x + 1 - WALL_THICKNESS/2 - jellyfish.getScale().x,
-                                cell.y + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().y))
+                        new Vector2(cell.x + WALL_THICKNESS / 2,
+                                cell.y + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().y)),
+                        new Vector2(cell.x + 1 - WALL_THICKNESS / 2 - jellyfish.getScale().x,
+                                cell.y + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().y))
                 };
             } else {
                 // go from top of cell to bottom
                 patrolPoints = new Vector2[]{
-                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
-                                cell.y + WALL_THICKNESS/2),
-                        new Vector2(cell.x + randomRange(WALL_THICKNESS/2, 1-WALL_THICKNESS/2-jellyfish.getScale().x),
-                                cell.y + 1 - WALL_THICKNESS/2 - jellyfish.getScale().y)
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().x),
+                                cell.y + WALL_THICKNESS / 2),
+                        new Vector2(cell.x + randomRange(WALL_THICKNESS / 2, 1 - WALL_THICKNESS / 2 - jellyfish.getScale().x),
+                                cell.y + 1 - WALL_THICKNESS / 2 - jellyfish.getScale().y)
                 };
 
             }
@@ -282,7 +286,7 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
-     * Playes backgroun music for the maze mini-game
+     * Plays background music for the maze mini-game
      */
     @Override
     public void playMusic() {
@@ -290,14 +294,14 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
-     * Stops the music (TODO: See if properly implemented)
+     * Stops the music
      */
     public void pauseMusic() {
         AudioManager.stopMusic();  // Stop the music
     }
 
     /**
-     * Loads assests onto the screen
+     * Loads assets onto the screen
      */
     private void loadAssets() {
         logger.debug("Loading assets");
@@ -361,6 +365,12 @@ public class MazeGameArea extends GameArea {
         return list;
     }
 
+    /**
+     * Gets the list of enemies
+     *
+     * @param enemyType the type of enemy to get a list for
+     * @return the list of enemies
+     */
     public List<Entity> getEnemies(Entity.EnemyType enemyType) {
         if (!enemies.containsKey(enemyType)) {
             enemies.put(enemyType, new ArrayList<>());

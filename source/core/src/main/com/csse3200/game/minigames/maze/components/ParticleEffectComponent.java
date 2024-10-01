@@ -37,8 +37,8 @@ public class ParticleEffectComponent extends RenderComponent {
     }
 
     /**
-     * TODO: James idk what to put here
-     * @return the getZIndex
+     * Gets the z coordinate of the particle effect
+     * @return the z coordinate
      */
     @Override
     public float getZIndex() {
