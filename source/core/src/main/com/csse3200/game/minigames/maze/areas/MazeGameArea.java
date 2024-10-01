@@ -100,6 +100,8 @@ public class MazeGameArea extends GameArea {
     @Override
     public void create() {
         loadAssets();
+        ElectricEel.resetParticlePool();
+        FishEgg.resetParticlePool();
 
         displayUI();
 
@@ -305,8 +307,6 @@ public class MazeGameArea extends GameArea {
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
         resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
-        ElectricEel.resetParticlePool();
-        FishEgg.resetParticlePool();
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());
