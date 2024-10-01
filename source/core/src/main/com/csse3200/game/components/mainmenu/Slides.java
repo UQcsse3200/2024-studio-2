@@ -211,15 +211,15 @@ public class Slides {
     public static class StatsSlide extends Table {
         public StatsSlide(Skin skin) {
             Label titleLabel = new Label("Game Stats", skin, "title");
-            Label contentLabel = new Label("Each animal in every kingdom has five core stats:\n\n" +
-                                           "Health: Determines how long they survive in battle\n" +
-                                           "Strength: Shows how much damage they can deal\n" +
-                                           "Defense: Reflects how resistant they are to attacks.\n" +
-                                           "Speed: Measures how quickly they strike and move\n" +
-                                           "Stamina:Indicates how long they can keep fighting.\n\n" +
-                                           "Every animal has unique levels, so choose wisely!\n\n" +
-                                           "You can collect various items like apples in the game.\n" +
-                                           "Press P to add them to your inventory and use E to access it."
+            Label contentLabel = new Label("Each animal in every kingdom has five core stats\n\n" +
+                                           "Health: Determines how long they survive during battle\n" +
+                                           "Strength: Indicates how much damage they are capable of dealing\n" +
+                                           "Defense: Reflects their resistance to enemy attacks\n" +
+                                           "Speed: Measures how quickly they move and strike in combat\n" +
+                                           "Stamina: Determines how long they can keep fighting\n\n" +
+                                           "Every animal has unique levels, so choose them carefully\n\n" +
+                                           "You can collect various items like apples during the game\n" +
+                                           "Press P to add them to your inventory, and use E to access it"
                     , skin);
 
             add(titleLabel).padTop(-10f).expandX().center().row();
