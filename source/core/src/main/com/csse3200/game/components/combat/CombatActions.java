@@ -48,7 +48,10 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
+    // TODO: on each boss defeated, go to stat screen and open up new area
     entity.getEvents().addListener("landBossDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("waterBossDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("airBossDefeated", this::onKangaDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
