@@ -21,30 +21,29 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
         super(inventory, numCols,hotBarCapacity, true);
     }
 
-    // TODO: THIS WOULDN'T WORK LOL
     /**
      * updates the potions effects if in or out of combat
      */
     public void updatePotions(ItemUsageContext context) {
-        if (this.potions != null) {
-            for (int i = 0; i < potions.size(); i++) {
-                if (potions.get(i) instanceof DefensePotion) {
-                    potions.get(i).update(context);
-                    potions.remove(i);
-                }
-                if (potions.get(i) instanceof AttackPotion) {
-                    potions.get(i).update(context);
-                    potions.remove(i);
-                }
-            }
+        if (this.potions == null) { return;}
 
-            for (int i = 0; i < potions.size(); i++) {
-                if (potions.get(i) instanceof SpeedPotion) {
-                    potions.get(i).update(context);
-                    potions.remove(i);
-                }
+        ArrayList<Integer> removals = new ArrayList<>();
+        for (int i = 0; i < potions.size(); i++) {
+            TimedUseItem potion = potions.get(i);
+            if (potion instanceof DefensePotion ||
+                    potion instanceof AttackPotion ||
+                    potion instanceof SpeedPotion
+            ) {
+                potions.get(i).update(context);
+                removals.add(i);
             }
         }
+
+        removals = (ArrayList<Integer>) removals.reversed();
+        for (int i : removals) {
+            potions.remove(i);
+        }
+
     }
 
     @Override
