@@ -79,7 +79,7 @@ public class FishEggTest {
         // Check if the hitbox layer is set correctly
         HitboxComponent hitboxComponent = fishEgg.getComponent(HitboxComponent.class);
         assertNotNull(hitboxComponent);
-        assertEquals(PhysicsLayer.PLAYER, hitboxComponent.getLayer(),
+        assertEquals(PhysicsLayer.PLAYER | PhysicsLayer.NPC, hitboxComponent.getLayer(),
                 "FishEgg hitbox should be on the PLAYER layer.");
     }
 }

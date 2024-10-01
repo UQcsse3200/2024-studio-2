@@ -46,17 +46,6 @@ public class AnglerFish extends MazeEntity {
         animator.addSound("sounds/minigames/angler-chomp.mp3", "Attack", 4);
 
         // Set other unique components for AnglerFish
-
-        /* TODO difficulty scaling
-        angler should get faster each fish egg that is collected.
-        Also, the angler could change colours from
-        Color.GREEN -> Color.YELLOW -> new Color(1f, 0.3f, 0.1f, 1f) -> Color.RED
-        It's speed also increases each step.
-        At the same time, player vision decreases from (4, 1.5) -> (3, 4.5/4) -> (2, .75) -> (4/3, .5)
-        spawn in more jellyfish over time as well?
-        decrease sight radius over time?
-         */
-
         // Lighting around angular fish
         RayHandler rayHandler = ServiceLocator.getLightingService().getLighting().getRayHandler();
         PointLight pl = new PointLight(rayHandler, 1000, Color.GREEN, 3f, 0, 0);

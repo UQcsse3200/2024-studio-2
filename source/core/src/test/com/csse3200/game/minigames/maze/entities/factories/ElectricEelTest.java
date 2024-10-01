@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
@@ -44,8 +45,9 @@ public class ElectricEelTest {
     void setup() {
         LightingEngine mockLightingEngine = mock(LightingEngine.class);
         LightingService mockLightingService = mock(LightingService.class);
+        PointLight mockPointLight = mock(PointLight.class);
         when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
-        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(mockPointLight);
         ServiceLocator.registerLightingService(mockLightingService);
 
         PhysicsService physicsService = new PhysicsService();
