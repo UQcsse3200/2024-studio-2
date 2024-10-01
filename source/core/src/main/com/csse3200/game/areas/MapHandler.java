@@ -1,10 +1,5 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.GdxGame;
@@ -125,6 +120,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, AIR, COMBAT, NONE
+    FOREST, WATER, AIR, COMBAT, MAZE_MINIGAME, NONE
   }
 }

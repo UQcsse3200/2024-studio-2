@@ -55,10 +55,6 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-        // friendlies dont need any of the code after this
-        if (((BaseEntityConfig)(owner.getEntity().getComponent(ConfigComponent.class).getConfig())).isFriendly()) {
-            this.owner.getEntity().getEvents().trigger("wanderStart");
-        }
         startPos = owner.getEntity().getPosition();
         Vector2 newPos = getRandomPosInRange();
         if (this.isBoss) {
@@ -78,8 +74,9 @@ public class WanderTask extends DefaultTask implements PriorityTask {
             isSpawned = true;
             
             // Wait for the spawn event to complete or for a specified duration before starting to wander
-            waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+            waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
             waitTask.create(owner);
+            waitTask.start();
             swapTask(waitTask);
         } else if (newPos.x - startPos.x < 0) {
             logger.debug("wandering right");
@@ -88,6 +85,13 @@ public class WanderTask extends DefaultTask implements PriorityTask {
             logger.debug("wandering left");
             this.owner.getEntity().getEvents().trigger(RIGHT);
         }
+        this.owner.getEntity().getEvents().trigger("wanderStart");
+        
+    }
+    
+    @Override
+    public void stop() {
+        currentTask.stop();
     }
     
     @Override
@@ -97,8 +101,6 @@ public class WanderTask extends DefaultTask implements PriorityTask {
                 startWandering();
             } else if (currentTask == movementTask) {
                 startWaiting();
-            } else {
-                //startMoving(); //for boss??
             }
         }
         currentTask.update();
@@ -130,18 +132,39 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         swapTask(waitTask);
     }
 
-    private void swapTask(Task newTask) {
-        if (currentTask != null) {
-            currentTask.stop();
-        }
-        currentTask = newTask;
-        currentTask.start();
+  private void startMoving() {
+    Vector2 newPos = getRandomPosInRange();
+
+    if (isBoss) {
+        logger.debug("Starting moving");
+        movementTask.setTarget(getRandomPosInRange());
+        swapTask(movementTask);
+        return;
     }
-    
-    private Vector2 getRandomPosInRange() {
-        Vector2 halfRange = wanderRange.cpy().scl(0.5f);
-        Vector2 min = startPos.cpy().sub(halfRange);
-        Vector2 max = startPos.cpy().add(halfRange);
-        return RandomUtils.random(min, max);
+
+    if (newPos.x - startPos.x < 0) {
+      this.owner.getEntity().getEvents().trigger("wanderLeft");
+    } else {
+      this.owner.getEntity().getEvents().trigger("wanderRight");
     }
+    logger.debug("Starting moving");
+
+    movementTask.setTarget(newPos);
+    swapTask(movementTask);
+  }
+
+  private void swapTask(Task newTask) {
+    if (currentTask != null) {
+      currentTask.stop();
+    }
+    currentTask = newTask;
+    currentTask.start();
+  }
+
+  private Vector2 getRandomPosInRange() {
+    Vector2 halfRange = wanderRange.cpy().scl(0.5f);
+    Vector2 min = startPos.cpy().sub(halfRange);
+    Vector2 max = startPos.cpy().add(halfRange);
+    return RandomUtils.random(min, max);
+  }
 }
