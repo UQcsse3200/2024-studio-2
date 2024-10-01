@@ -55,9 +55,7 @@ public class MainMenuActions extends Component {
     logger.info("Load game");
 
     SaveHandler.load(GameState.class, "saves", FileLoader.Location.LOCAL);
-//    if(GameState.player == null) {
-//      GameState.player = new PlayerSave();
-//    }
+
     if(GameState.checkState()) {
       GameState.resetState();
     }

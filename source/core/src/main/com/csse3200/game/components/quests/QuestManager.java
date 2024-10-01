@@ -7,7 +7,10 @@ import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
@@ -28,7 +31,7 @@ public class QuestManager extends Component {
     /** Map to store quests. */
     private final LinkedHashMap<String, QuestBasic> quests;
      /** Array to store achievements. */
-     private final Array<Achievement> achievements;
+     private final List<Achievement> achievements;
     /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
@@ -258,14 +261,14 @@ public class QuestManager extends Component {
             achievement.complete();
             achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
-            saveAchievements(achievements,"saves/achievements.json");
+            SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
     @Override
     public void dispose() {
-        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         super.dispose();
     }
 
