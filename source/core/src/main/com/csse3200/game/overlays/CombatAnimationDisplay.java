@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.combat.CombatManager;
 import com.csse3200.game.services.ServiceLocator;
@@ -17,12 +16,12 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  * CombatAnimationDisplay represents the UI displayed during combat, such as attack animations.
  */
 public class CombatAnimationDisplay extends UIComponent {
-    private Table rootTable;
     private Image combatImage;
     private Image guardImage;
     private Image sleepImage;
     private Image enemyCombatImage; // enemy combat image
     private Image enemySleepImage; // enemy sleep image
+    private Image enemyGuardImage; // enemy guard image
     /**
      * Constructor for the CombatAnimationDisplay.
      */
@@ -61,7 +60,7 @@ public class CombatAnimationDisplay extends UIComponent {
         if (animationType == CombatManager.Action.ATTACK){
             enemyAttackAnimation();
         } else if (animationType == CombatManager.Action.GUARD) {
-            // guardAnimation();
+            enemyGuardAnimation();
         } else if (animationType == CombatManager.Action.SLEEP) {
             enemySleepAnimation();
         }
@@ -92,8 +91,8 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 sleepImage.setVisible(false);
-                if (enemySleepImage != null) {
-                    enemySleepImage.remove();
+                if (sleepImage != null) {
+                    sleepImage.remove();
                 }
             }
         }, 1000);
@@ -165,7 +164,7 @@ public class CombatAnimationDisplay extends UIComponent {
                     enemySleepImage.remove();
                 }
             }
-        }, 2000);
+        }, 2100);
     }
 
     /**
@@ -181,7 +180,7 @@ public class CombatAnimationDisplay extends UIComponent {
 
 
         float xZ = 750;
-        float yZ = 400;
+        float yZ = 410;
 
         guardImage.setPosition(xZ, yZ);
         guardImage.setScale(0.5f);
@@ -213,34 +212,34 @@ public class CombatAnimationDisplay extends UIComponent {
 
         Texture guardTexture = ServiceLocator.getResourceService()
                 .getAsset("images/shield.png", Texture.class);
-        guardImage = new Image(guardTexture);
+        enemyGuardImage = new Image(guardTexture);
 
 
-        float xZ = 950;
-        float yZ = 410;
+        float xZ = 935;
+        float yZ = 420;
 
-        guardImage.setPosition(xZ, yZ);
-        guardImage.setScale(0.5f);
-        guardImage.setColor(1f, 1f, 1f, 0.7f);
-        guardImage.setVisible(true);
-        stage.addActor(guardImage);
-        guardImage.clearActions();
-        guardImage.addAction(fadeIn(1f, Interpolation.fade));
+        enemyGuardImage.setPosition(xZ, yZ);
+        enemyGuardImage.setScale(0.5f);
+        enemyGuardImage.setColor(1f, 1f, 1f, 0.7f);
+        enemyGuardImage.setVisible(true);
+        stage.addActor(enemyGuardImage);
+        enemyGuardImage.clearActions();
+        enemyGuardImage.addAction(fadeIn(1f, Interpolation.fade));
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                guardImage.setVisible(false);
-                if (guardImage != null) {
-                    guardImage.remove();
+                enemyGuardImage.setVisible(false);
+                if (enemyGuardImage != null) {
+                    enemyGuardImage.remove();
                 }
             }
         }, 1200); // 1.2 second
     }
 
     /**
-     * Triggers fireball to be thrown at enemy NPC's position
+     * Triggers fireball to be thrown at enemy entity's position
      */
     public void attackAnimation() {
         Texture combatTexture = ServiceLocator.getResourceService()
@@ -303,7 +302,7 @@ public class CombatAnimationDisplay extends UIComponent {
             @Override
             public void run() {
                 enemyCombatImage.setVisible(false);
-                if (combatImage != null) {
+                if (enemyCombatImage != null) {
                     enemyCombatImage.remove();
                 }
             }
@@ -324,10 +323,7 @@ public class CombatAnimationDisplay extends UIComponent {
     // Remove combat animations from screen
     @Override
     public void dispose() {
-        // Clean up the root table and image
-        if (rootTable != null) {
-            rootTable.clear();
-        }
+        // Clean up the animations image
         if (combatImage != null) {
             combatImage.remove();
         }
@@ -338,10 +334,16 @@ public class CombatAnimationDisplay extends UIComponent {
             sleepImage.remove();
         }
         if (enemyCombatImage != null) {
+            enemyCombatImage.setVisible(false);
             enemyCombatImage.remove();
         }
         if (enemySleepImage != null) {
+            enemySleepImage.setVisible(false);
             enemySleepImage.remove();
+        }
+        if (enemyGuardImage != null) {
+            enemyGuardImage.setVisible(false);
+            enemyGuardImage.remove();
         }
         super.dispose();
     }

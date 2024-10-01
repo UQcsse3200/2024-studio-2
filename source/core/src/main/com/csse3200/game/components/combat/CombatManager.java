@@ -1,5 +1,9 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -36,6 +40,8 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+    private InputListener dialogueBoxCombatListener;
+    private TextButton contButton;
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -158,30 +164,15 @@ public class CombatManager extends Component {
         }
 
         int rand = enemyMove.hasSpecialMove() ? (int) (Math.random() * 4) : (int) (Math.random() * 3);
-//        enemyAction = switch (rand) {
-//            case 0:
-//                    Action.ATTACK;
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-//            case 1:
-//                Action.GUARD;
-//            case 2:
-//                Action.SLEEP;
-//            case 3:
-//                Action.SPECIAL;
-//            default -> null;
-//        };
 
         enemyAction = switch (rand) {
             case 0 -> {
-                combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
                 yield Action.ATTACK;
             }
             case 1 -> {
-                // combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
                 yield Action.GUARD;
             }
             case 2 -> {
-                combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
                 yield Action.SLEEP;
             }
             case 3 -> {
@@ -298,8 +289,10 @@ public class CombatManager extends Component {
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatLoss");
+            nullifyCombatDialogueListener();
         } else if (enemyStats.getHealth() <= 0) {
             this.getEntity().getEvents().trigger("combatWin", enemy);
+            nullifyCombatDialogueListener();
         }
     }
 
@@ -422,6 +415,84 @@ public class CombatManager extends Component {
         }
 
         ServiceLocator.getDialogueBoxService().updateText(moveText);
+
+        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
+        addDialogueBoxListener();
+
         entity.getEvents().trigger("displayCombatResults");
     }
+
+    public void addDialogueBoxListener() {
+
+        // Get the continue button for the dialogue box
+        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
+
+        dialogueBoxCombatListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                combatAnimationDisplay.dispose();
+
+                Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
+                String currentText = String.valueOf(db.getText());
+
+                //            TODO: replace Label code with code below due in next PR
+                //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
+                //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
+                //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
+                //            String currentText = String.valueOf(fullText[index][index2]);
+
+                System.out.println(currentText);
+                if (currentText.equals("The enemy decided to ATTACK")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+                } else if (currentText.equals("The enemy decided to SLEEP")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+                } else if (currentText.equals("The enemy decided to GUARD")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+                }
+
+                return true;
+            }
+        };
+
+        contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
+
+
+//        contButton.addListener(new InputListener() {
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//
+//                combatAnimationDisplay.dispose();
+//
+//                 Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
+//                 String currentText = String.valueOf(db.getText());
+//
+//    //            TODO: replace Label code with code below due in next PR
+//    //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
+//    //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
+//    //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
+//    //            String currentText = String.valueOf(fullText[index][index2]);
+//
+//                System.out.println(currentText);
+//                if (currentText.equals("The enemy decided to ATTACK")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+//                } else if (currentText.equals("The enemy decided to SLEEP")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+//                } else if (currentText.equals("The enemy decided to GUARD")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+//                }
+//
+//                return true;
+//            }
+//        });
+    }
+
+    private void nullifyCombatDialogueListener(){
+        if (dialogueBoxCombatListener != null) {
+            contButton.removeListener(dialogueBoxCombatListener);
+            dialogueBoxCombatListener = null;
+        }
+    }
+
+
 }
