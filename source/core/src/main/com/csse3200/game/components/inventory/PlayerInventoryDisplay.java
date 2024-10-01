@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * PlayerInventoryDisplay extends InventoryDisplay and adds features like hotbar and drag-and-drop functionality.
  */
 public class PlayerInventoryDisplay extends InventoryDisplay {
-    private final ArrayList<TimedUseItem> potions = new ArrayList<TimedUseItem>();
+    private final ArrayList<TimedUseItem> potions = new ArrayList<>();
 
     public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
         super(inventory, numCols,hotBarCapacity, true);
