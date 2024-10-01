@@ -73,7 +73,6 @@ public class CombatExitDisplay extends UIComponent {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
           if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-            System.out.println("here");
             entity.getEvents().trigger("combatLossBoss");
           } else {
             entity.getEvents().trigger("combatLoss", enemy);
