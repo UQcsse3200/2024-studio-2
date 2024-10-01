@@ -15,36 +15,42 @@ public class SpecialKangaMove extends SpecialMove {
     /**
      * Constructs the SpecialKangaMove with the given move name and stamina cost.
      *
-     * @param moveName    the name of the special move.
-     * @param staminaCost the stamina cost required to perform the special move.
+     * @param moveName    the name of the special Kanga move.
+     * @param staminaCost the stamina cost required to perform the special Kanga move.
      */
     public SpecialKangaMove(String moveName, int staminaCost) {
         super(moveName, staminaCost);
     }
 
     /**
-     * Applies debuffs and status effect(s) to the target player after the move is executed.
+     * Applies a random status effect to the target player after the move is executed
+     *
+     * Also apply debuff which decreases Player's strength by 15 and defense by 10.
      *
      * @param targetStats combat stats of the target (player) that will be affected by the debuffs.
      */
     @Override
     protected void applyDebuffs(CombatStatsComponent targetStats) {
         // Applies debuffs to target's stats
-        targetStats.addStrength(-10);
-        targetStats.addDefense(-10);
+        targetStats.addStrength(-15);
+        targetStats.addDefense(-15);
 
-        // Inflicting CONFUSION status effect, which causes the target to use a random move for 2 turns
-        targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
-        // Inflicting BLEEDING status effect, which causes the target to lose health for 3 turns
-        targetStats.addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
-
-        logger.info("{} inflicted CONFUSION and BLEEDING.", targetStats.isPlayer() ? "PLAYER" : "ENEMY");
+        int rand = (int) (Math.random() * 2);
+        CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
+            case 0 -> CombatStatsComponent.StatusEffect.CONFUSION;
+            case 1 -> CombatStatsComponent.StatusEffect.BLEEDING;
+            default -> throw new IllegalStateException("Unexpected value: " + rand);
+        };
+        targetStats.addStatusEffect(statusEffect);
+        logger.info("Status effect {} applied to the {}", statusEffect.name(), targetStats.isPlayer() ? "PLAYER" : "ENEMY");
     }
 
     /**
-     * Buffs attacker's strength and defense stats after the special move.
+     * Buffs Kanga's strength and defense stats after the special move.
      *
-     * @param attackerStats combat stats of the attacker, who is performing the special move.
+     * This method increases Kanga's strength by 15 and defense by 10.
+     *
+     * @param attackerStats combat stats of Kanga, who is performing the special move.
      */
     @Override
     protected void applyBuffs(CombatStatsComponent attackerStats) {
