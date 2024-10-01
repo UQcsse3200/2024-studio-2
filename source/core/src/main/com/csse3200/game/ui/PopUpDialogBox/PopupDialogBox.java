@@ -110,6 +110,9 @@ public class PopupDialogBox extends Dialog {
     /**
      * Creates and configures the layout of the dialog box.
      */
+    /**
+     * Creates and configures the layout of the dialog box.
+     */
     private void createDialogLayout() {
         Table contentTable = new Table();
         contentTable.pad(20);
@@ -136,10 +139,14 @@ public class PopupDialogBox extends Dialog {
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
         innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add inner table and next button to contentTable
+        // Create a button table to hold the next and back buttons
+        Table buttonTable = new Table();
+        buttonTable.add(nextButton).padTop(20).padRight(20).expandX().right();
+        buttonTable.add(backButton).padTop(20).padLeft(20).expandX().left(); // Pad the left side of the back button to keep it visible
+
+        // Add inner table and button table to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20);
-        contentTable.add(backButton).padTop(10);
+        contentTable.add(buttonTable).expandX().center().padBottom(10); // Center buttons and add padding
 
         getContentTable().add(contentTable).expand().center();
 
@@ -149,6 +156,7 @@ public class PopupDialogBox extends Dialog {
 
         updateStatsTable(); // Update stats table with the current animal's stats
     }
+
 
     /**
      * Updates the stats table with the current animal's stats.

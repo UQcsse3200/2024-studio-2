@@ -70,7 +70,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         // Create buttons
         leftButton = new TextButton("<", skin);
         rightButton = new TextButton(">", skin);
-        continueButton = new TextButton("Continue", skin);
+        continueButton = new TextButton("Select", skin);
         backButton = new TextButton("Go Back", skin);
         waterAnimalsButton = new TextButton("Water Animals", skin);
         airAnimalsButton = new TextButton("Air Animals", skin);
@@ -158,7 +158,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         // Position animal image in the center
         float animalSize = Math.min(screenWidth, screenHeight) / 4; // 1/3 of the screen size
         animalImage.setSize(animalSize, animalSize);
-        animalImage.setPosition((screenWidth - animalSize) / 3, (screenHeight - animalSize) / 3);
+        animalImage.setPosition((screenWidth - animalSize) / 2.35f, (screenHeight - animalSize) / 2.35f);
 
         // Position left and right buttons
         float arrowButtonSize = 50;
