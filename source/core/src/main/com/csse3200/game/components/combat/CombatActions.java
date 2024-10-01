@@ -58,7 +58,7 @@ public class CombatActions extends Component {
    * 'Kills' enemy entity on return to combat screen.
    */
   private void onCombatWin(Entity enemy) {
-    logger.info("Returning to main game screen after combat win.");
+    logger.debug("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
@@ -82,7 +82,7 @@ public class CombatActions extends Component {
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
   private void onCombatLoss(Entity enemy) {
-    logger.info("Returning to main game screen after combat loss.");
+    logger.debug("Returning to main game screen after combat loss.");
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
     // For CombatButtonDisplay DialogueBox
@@ -101,7 +101,7 @@ public class CombatActions extends Component {
    * Signalled by clicking guard button, to then signal the GUARD combat move in the manager.
    */
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("before Guard");
+    logger.debug("before Guard");
     manager.onPlayerActionSelected("GUARD");
     entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
@@ -110,7 +110,7 @@ public class CombatActions extends Component {
    * Switches to the end game stats screen upon defeating the final Kanga Boss.
    */
   private void onKangaDefeated() {
-    logger.info("Switching to end game stats screen.");
+    logger.debug("Switching to end game stats screen.");
     game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
 
   }
@@ -127,7 +127,7 @@ public class CombatActions extends Component {
    * Signalled by clicking items button.
    */
   private void onItems(Screen screen, ServiceContainer container) {
-    logger.info("Clicked Items");
+    logger.debug("Clicked Items");
     entity.getEvents().trigger("toggleCombatInventory");
     entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
     if (Objects.equals(entity.getEvents().getLastTriggeredEvent(), "itemUsed")) {

@@ -45,7 +45,7 @@ public class CombatButtonDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        logger.info("CombatButtonDisplay::Create() , before calling addActors");
+        logger.debug("CombatButtonDisplay::Create() , before calling addActors");
         addActors();
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("itemClicked", this::onItemClicked);
@@ -58,7 +58,7 @@ public class CombatButtonDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    logger.debug("DialogueBox is no longer visible, adding actors back.");
                     addActors();
                 }
             }
@@ -126,7 +126,7 @@ public class CombatButtonDisplay extends UIComponent {
      * Hides the buttons on the combat screen
      */
     public void hideButtons() {
-        logger.info(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
+        logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
         table.remove();
     }
 
@@ -144,7 +144,7 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 // Check if the DialogueBox is not visible
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                    logger.debug("DialogueBox is no longer visible, combat screen can be exited.");
                     entity.getEvents().trigger("finishedEndCombatDialogue", enemyEntity);
                 }
             }
@@ -168,7 +168,7 @@ public class CombatButtonDisplay extends UIComponent {
      * @param item selected from the inventory.
      */
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
-        logger.info(String.format("Item %s was clicked.", item.getName()));
+        logger.debug(String.format("Item %s was clicked.", item.getName()));
         String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
         ServiceLocator.getDialogueBoxService().updateText(checkText);
 
