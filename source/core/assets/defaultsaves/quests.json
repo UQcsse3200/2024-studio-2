@@ -21,8 +21,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide."
-							"To prove your worth, you’ll need to complete a few tasks. Are you ready?"
+							"Moo there adventurer, welcome to the Animal Kingdom! I am your guide."
+							"To prove your worth, you will need to complete a few tasks. Are you ready?"
 						]
 					]
 				}
@@ -53,8 +53,9 @@
 					npcName: Cow
 					dialogue: [
 						[
-							I need five potions to help our people! They’re scattered throughout the kingdom.
-							Can you find them?
+							"I need five potions to help our people!"
+							"They are scattered throughout the kingdom."
+							"Can you find them?"
 						]
 					]
 				}
@@ -149,7 +150,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom.
+							"Once you have completed your tasks,"
+							"face the Kangaroo Boss and bring peace back to the kingdom."
 						]
 					]
 				}
@@ -180,8 +182,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Greetings, brave adventurer! You’ve entered the Water Kingdom.
-							To gain my trust, you must complete some essential tasks.
+							"Greetings, brave adventurer! You have entered the Water Kingdom."
+							"To gain my trust, you must complete some essential tasks."
 						]
 					]
 				}
@@ -212,7 +214,9 @@
 					npcName: Cow
 					dialogue: [
 						[
-							I need six Sea Pearls for my research. They’re hidden in the underwater caverns. Can you help me?
+							I need six Sea Pearls for my research.
+							They are hidden in the underwater caverns.
+							Can you help me?
 						]
 					]
 				}
@@ -243,7 +247,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Watch out for hostile sea creatures! Defeat them to show your strength.
+							Watch out for hostile sea creatures!
+							Defeat them to show your strength.
 						]
 					]
 				}
@@ -304,7 +309,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Once you’re ready, face the Water Leviathan and protect our kingdom. Good luck, brave adventurer!
+							"Once you are ready, face the Water Leviathan and protect our kingdom."
+							"Good luck, brave adventurer!"
 						]
 					]
 				}
@@ -334,7 +340,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph.
+							"Welcome, traveler of the skies! You have arrived in the Sky Kingdom."
+							"Complete these tasks to challenge the Sky Seraph."
 						]
 					]
 				}
@@ -364,7 +371,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							I need seven Sky Crystals that drift on the winds. Will you help me gather them?
+							I need seven Sky Crystals that drift on the winds.
+							Will you help me gather them?
 						]
 					]
 				}
@@ -424,7 +432,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							...
+							Complete the tempest minigame to move onto the next stage!
 						]
 					]
 				}
@@ -454,7 +462,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							When you’re prepared,confront the Sky Seraph in an epic battle!
+							When you are prepared,confront the Sky Seraph in an epic battle!
 						]
 					]
 				}

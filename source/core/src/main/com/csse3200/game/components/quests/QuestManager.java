@@ -3,17 +3,14 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.minigames.MiniGameMedals;
+import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.components.inventory.InventoryComponent;
-import com.csse3200.game.components.minigames.MiniGameMedals;
-import com.csse3200.game.components.minigames.MiniGameNames;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.services.DialogueBoxService;
-import com.csse3200.game.GdxGameManager;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +39,6 @@ public class QuestManager extends Component {
 
     private final Entity player;
 
-//    private final DialogueBoxService dialogueBoxService;
-//    private final List<DialogueKey> questDialogues;
-
 
     /**Constructs questManager instance */
     public QuestManager(Entity player) {
@@ -57,12 +51,13 @@ public class QuestManager extends Component {
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
+        // TODO: check if it works
+        player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
         createQuestDialogues();
 
     }
 
-    //change some description and things later on
-    //do potions need 5 triggers???
+
     /**
      * Sets up the tasks for the quests and dialogues.
      */
@@ -191,16 +186,7 @@ public class QuestManager extends Component {
         };
     }
 
-    /**
-     * Retrieves the map of quest dialogues.
-     *
-     * @return a map where the key is of type DialogueKey and the value is a 2D array of strings representing questName and Dialogue.
-     */
-//    public List<DialogueKey> getQuestDialogues() {
-//        return this.questDialogues;
-//    }
 
-    //change names later on
     /**
      * Sets up the dialogue for quests.
      */
@@ -338,6 +324,11 @@ public class QuestManager extends Component {
         player.getEvents().trigger(item.getName() + "Advancement");
     }
 
+    private void handleEnemyQuest(Entity enemy) {
+        String type = enemy.getEnemyType().toString();
+        player.getEvents().trigger("defeat" + type);
+
+    }
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
