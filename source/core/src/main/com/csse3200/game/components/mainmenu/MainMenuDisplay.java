@@ -164,19 +164,24 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void openChatbotDialog() {
         if (chatbotDialog != null && isChatbotDialogVisible) {
-            // If it's already open, return early
-            return;
+            return; // If the dialog is already open, return
         }
 
         chatbotDialog = new Dialog("Chatbot", skin) {
             @Override
             protected void result(Object object) {
-                // Handle the result if necessary
                 logger.info("Chatbot dialog closed.");
             }
         };
 
-        chatbotDialog.setSize(600, 400);  // Set dialog size
+        chatbotDialog.setSize(800, 600);  // Set dialog size
+
+        // Load a custom background texture for the dialog
+        Texture dialogBackgroundTexture = new Texture(Gdx.files.internal("images/SettingBackground.png")); // Your background image
+        Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(dialogBackgroundTexture));
+
+        // Set the custom background to the dialog
+        chatbotDialog.setBackground(dialogBackground);
 
         // Predefined questions
         Table questionTable = new Table();
@@ -194,6 +199,18 @@ public class MainMenuDisplay extends UIComponent {
         // User input field for custom queries
         userInputField = new TextField("", skin);
         userInputField.setMessageText("Type your question...");
+
+        // Add listener for the "Enter" key to send the message
+        userInputField.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    processChatInput(userInputField.getText());  // Process input when "Enter" is pressed
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // Button to submit custom input
         TextButton sendButton = new TextButton("Send", skin);
@@ -217,14 +234,14 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        // Layout the chatbot dialog
-        chatbotDialog.getContentTable().add(questionTable).pad(10).row();  // Add question buttons
-        chatbotDialog.getContentTable().add(userInputField).width(500).pad(10).row(); // Add input field
-        chatbotDialog.getContentTable().add(sendButton).pad(10).row(); // Add send button
-        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(500).pad(10).row(); // Add response label
-        chatbotDialog.getButtonTable().add(closeButton).pad(10); // Add close button at the bottom
+        // Layout the chatbot dialog with consistent padding
+        chatbotDialog.getContentTable().add(questionTable).pad(10).growX().row();  // Add question buttons with padding
+        chatbotDialog.getContentTable().add(userInputField).width(500).pad(10).row(); // Add input field with padding
+        chatbotDialog.getContentTable().add(sendButton).pad(10).growX().row(); // Add send button with padding
+        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(500).pad(10).growX().row(); // Add response label
+        chatbotDialog.getButtonTable().add(closeButton).pad(10); // Add close button at the bottom with padding
 
-        chatbotDialog.show(stage);  // Show the dialog first!
+        chatbotDialog.show(stage);  // Show the dialog first
 
         // Center the dialog on the screen AFTER it is shown
         centerDialogOnScreen();
