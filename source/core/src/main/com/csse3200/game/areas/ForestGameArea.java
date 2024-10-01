@@ -559,6 +559,9 @@ public class ForestGameArea extends GameArea {
             case EEL:
                 projectile = ProjectileFactory.createElectricOrb(player);
                 break;
+            case MACAW:
+                projectile = ProjectileFactory.createWorm(player);
+                break;
             default:
                 projectile = ProjectileFactory.createBanana(player);
         }

@@ -51,7 +51,8 @@ public class Entity {
     BIGSAWFISH,
     MACAW,
     BANANA,
-    ELECTRICORB
+    ELECTRICORB,
+    WORM
   }
 
 

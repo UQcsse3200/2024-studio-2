@@ -63,7 +63,7 @@ public class ProjectileFactory {
    * AI tasks and animations.
    *
    * @param target The entity that the projectile will target and chase.
-   * @return A new banana projectile entity.
+   * @return A new orb projectile entity.
    */
   public static Entity createElectricOrb(Entity target) {
     String path = configs.electricOrb.getSpritePath();
@@ -77,6 +77,27 @@ public class ProjectileFactory {
     Entity orb = createBaseProjectile(target, configs.electricOrb, 1f, animator, new OrbAnimationController());
     orb.setEnemyType(Entity.EnemyType.ELECTRICORB);
     return orb;
+  }
+
+  /**
+   * Creates an worm projectile entity (for eel).
+   *
+   * <p>This projectile will chase the specified target entity, such as a player, using predefined
+   * AI tasks and animations.
+   *
+   * @param target The entity that the projectile will target and chase.
+   * @return A new worm projectile entity.
+   */
+  public static Entity createWorm(Entity target) {
+    String path = configs.worm.getSpritePath();
+    TextureAtlas atlas = ServiceLocator.getResourceService().getAsset(path, TextureAtlas.class);
+
+    AnimationRenderComponent animator = new AnimationRenderComponent(atlas);
+    animator.addAnimation("fire", 0.25f, Animation.PlayMode.LOOP);
+
+    Entity worm = createBaseProjectile(target, configs.worm, 0.5f, animator, new BananaAnimationController());
+    worm.setEnemyType(Entity.EnemyType.WORM);
+    return worm;
   }
   
   private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale,
