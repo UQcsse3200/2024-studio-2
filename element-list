@@ -3,6 +3,7 @@ com.csse3200.game.ai.movement
 com.csse3200.game.ai.tasks
 com.csse3200.game.areas
 com.csse3200.game.areas.ForestGameAreaConfigs
+com.csse3200.game.areas.OceanGameAreaConfigs
 com.csse3200.game.areas.terrain
 com.csse3200.game.components
 com.csse3200.game.components.animal

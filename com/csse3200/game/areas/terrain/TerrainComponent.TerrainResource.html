@@ -109,7 +109,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static int</code></div>
-<div class="col-second even-row-color"><code><a href="#TILE_SIZE" class="member-name-link">TILE_SIZE</a></code></div>
+<div class="col-second even-row-color"><code><a href="#AIR_SIZE" class="member-name-link">AIR_SIZE</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static int</code></div>
+<div class="col-second odd-row-color"><code><a href="#FOREST_SIZE" class="member-name-link">FOREST_SIZE</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static int</code></div>
+<div class="col-second even-row-color"><code><a href="#WATER_SIZE" class="member-name-link">WATER_SIZE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -138,38 +144,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllTiles()" class="member-name-link">getAllTiles</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get all tiles.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTilebyIndex(int)" class="member-name-link">getTilebyIndex</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get a tile by index.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTilebyName(java.lang.String)" class="member-name-link">getTilebyName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMapTilebyIndex(int,com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">getMapTilebyIndex</a><wbr>(int&nbsp;index,
+ <a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Get a tile by name.</div>
+<div class="block">Get a tile by index and map type.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#random_pick()" class="member-name-link">random_pick</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Randomly pick a tile from the list of tiles.</div>
-</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMapTiles(com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">getMapTiles</a><wbr>(<a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleDown(com.csse3200.game.areas.terrain.TerrainComponent.Tile)" class="member-name-link">setPossibleDown</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleDown(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)" class="member-name-link">setPossibleDown</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set possible tiles for down direction.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleLeft(com.csse3200.game.areas.terrain.TerrainComponent.Tile)" class="member-name-link">setPossibleLeft</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleLeft(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)" class="member-name-link">setPossibleLeft</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set possible tiles for left direction.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleRight(com.csse3200.game.areas.terrain.TerrainComponent.Tile)" class="member-name-link">setPossibleRight</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleRight(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)" class="member-name-link">setPossibleRight</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set possible tiles for right direction.</div>
 </div>
@@ -179,7 +177,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Set all possible tiles for each tile for all directions.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleUp(com.csse3200.game.areas.terrain.TerrainComponent.Tile)" class="member-name-link">setPossibleUp</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPossibleUp(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)" class="member-name-link">setPossibleUp</a><wbr>(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set possible tiles for up direction.</div>
 </div>
@@ -201,9 +200,21 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="TILE_SIZE">
-<h3>TILE_SIZE</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">TILE_SIZE</span></div>
+<section class="detail" id="FOREST_SIZE">
+<h3>FOREST_SIZE</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">FOREST_SIZE</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="WATER_SIZE">
+<h3>WATER_SIZE</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">WATER_SIZE</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="AIR_SIZE">
+<h3>AIR_SIZE</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">AIR_SIZE</span></div>
 </section>
 </li>
 </ul>
@@ -229,6 +240,12 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getMapTiles(com.csse3200.game.areas.MapHandler.MapType)">
+<h3>getMapTiles</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</span>&nbsp;<span class="element-name">getMapTiles</span><wbr><span class="parameters">(<a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="setPossibleTiles()">
 <h3>setPossibleTiles</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleTiles</span>()</div>
@@ -236,9 +253,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setPossibleUp(com.csse3200.game.areas.terrain.TerrainComponent.Tile)">
+<section class="detail" id="setPossibleUp(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)">
 <h3>setPossibleUp</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleUp</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleUp</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</span></div>
 <div class="block">Set possible tiles for up direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -247,9 +265,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setPossibleRight(com.csse3200.game.areas.terrain.TerrainComponent.Tile)">
+<section class="detail" id="setPossibleRight(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)">
 <h3>setPossibleRight</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleRight</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleRight</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</span></div>
 <div class="block">Set possible tiles for right direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -258,9 +277,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setPossibleDown(com.csse3200.game.areas.terrain.TerrainComponent.Tile)">
+<section class="detail" id="setPossibleDown(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)">
 <h3>setPossibleDown</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleDown</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleDown</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</span></div>
 <div class="block">Set possible tiles for down direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -269,9 +289,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setPossibleLeft(com.csse3200.game.areas.terrain.TerrainComponent.Tile)">
+<section class="detail" id="setPossibleLeft(com.csse3200.game.areas.terrain.TerrainComponent.Tile,java.util.ArrayList)">
 <h3>setPossibleLeft</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleLeft</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPossibleLeft</span><wbr><span class="parameters">(<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&nbsp;tile,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;&nbsp;areaTiles)</span></div>
 <div class="block">Set possible tiles for left direction.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -280,50 +301,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getTilebyName(java.lang.String)">
-<h3>getTilebyName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></span>&nbsp;<span class="element-name">getTilebyName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Get a tile by name.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the tile</dd>
-<dt>Returns:</dt>
-<dd>The tile with the given name</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getTilebyIndex(int)">
-<h3>getTilebyIndex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></span>&nbsp;<span class="element-name">getTilebyIndex</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
-<div class="block">Get a tile by index.</div>
+<section class="detail" id="getMapTilebyIndex(int,com.csse3200.game.areas.MapHandler.MapType)">
+<h3>getMapTilebyIndex</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></span>&nbsp;<span class="element-name">getMapTilebyIndex</span><wbr><span class="parameters">(int&nbsp;index,
+ <a href="../MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType)</span></div>
+<div class="block">Get a tile by index and map type.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index of the tile</dd>
+<dd><code>mapType</code> - The map type of the tile</dd>
 <dt>Returns:</dt>
-<dd>The tile with the given index</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getAllTiles()">
-<h3>getAllTiles</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a>&gt;</span>&nbsp;<span class="element-name">getAllTiles</span>()</div>
-<div class="block">Get all tiles.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>All loaded tiles</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="random_pick()">
-<h3>random_pick</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.Tile.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent.Tile</a></span>&nbsp;<span class="element-name">random_pick</span>()</div>
-<div class="block">Randomly pick a tile from the list of tiles.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>A random tile</dd>
+<dd>The tile with the given index and map type</dd>
 </dl>
 </section>
 </li>
