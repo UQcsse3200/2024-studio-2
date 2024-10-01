@@ -13,20 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.inventory.*;
 import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.inventory.items.potions.AttackPotion;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
-import com.csse3200.game.inventory.items.potions.SpeedPotion;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 
 /**
  * Abstract class for displaying an inventory. Subclasses can extend this to implement specific types of inventory
@@ -34,14 +25,12 @@ import java.util.ArrayList;
  */
 public abstract class InventoryDisplay extends UIComponent {
     protected static final Logger logger = LoggerFactory.getLogger(InventoryDisplay.class);
-    private static final int timedUseItemPriority = 23;
     private static final float Z_INDEX = 3f;
 
     protected final Inventory inventory;
     private Window inventoryDisplay;
     private  Table hotBarDisplay;
     private DragAndDrop dragAndDrop;
-    AITaskComponent aiComponent = new AITaskComponent();
 
     private final boolean hasHotBar;
     protected final int numCols;
@@ -95,9 +84,11 @@ public abstract class InventoryDisplay extends UIComponent {
         super.create();
         dragAndDrop = new DragAndDrop();
         if (hasHotBar) {generateHotBar();}
-        entity.getEvents().addListener("toggleInventory", this::toggleDisplay);
+        entity.getEvents().addListener(toggleMsg(), this::toggleDisplay);
         entity.getEvents().addListener("addItem", this::addItem);
     }
+
+    public abstract String toggleMsg(); // The event to listen for to toggle the display
 
     /**
      * Handles drawing of the component. The actual rendering is managed by the stage.
@@ -288,33 +279,27 @@ public abstract class InventoryDisplay extends UIComponent {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
-                if (item instanceof DefensePotion) {
-                    String[][] itemText = {{((DefensePotion) item).getWarning()}};
-                    ServiceLocator.getDialogueBoxService().updateText(itemText);
-                } else if (item instanceof AttackPotion) {
-                    String[][] itemText = {{((AttackPotion) item).getWarning()}};
-                    ServiceLocator.getDialogueBoxService().updateText(itemText);
-                } else {
-                    String[][] itemText = {{item.getDescription() + ". Quantity: "
-                            + item.getQuantity() + "/" + item.getLimit()}};
-                    ServiceLocator.getDialogueBoxService().updateText(itemText);
-                }
+                enterSlot(item);
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
+                exitSlot(item);
             }
         });
 
         slot.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Item {} was used", item.getName());
+                logger.debug("Item {} was clicked", item.getName());
                 useItem(item, index);
                 regenerateDisplay();
             }
         });
     }
+
+    protected abstract void enterSlot(AbstractItem item);
+
+    protected abstract void exitSlot(AbstractItem item);
 
     protected abstract void useItem(AbstractItem item, int index);
 

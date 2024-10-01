@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceContainer;
@@ -125,7 +126,7 @@ public class CombatActions extends Component {
   private void onItems(Screen screen, ServiceContainer container) {
     logger.debug("Clicked Items");
     entity.getEvents().trigger("toggleCombatInventory");
-    entity.getComponent(CombatInventoryDisplay.class).regenerateInventory();
+    entity.getComponent(CombatInventoryDisplay.class).regenerateDisplay();
     if (Objects.equals(entity.getEvents().getLastTriggeredEvent(), "itemUsed")) {
       manager.onPlayerActionSelected("ITEM");
       entity.getEvents().trigger("onItems", manager.getPlayerStats(), manager.getEnemyStats());
