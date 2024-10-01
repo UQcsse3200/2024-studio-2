@@ -65,21 +65,21 @@
 			taskCompletionTriggers: null
 		}
 		{
-			questName: Defeat Enemies
-			questDescription: Go and fight some enemies.
+			questName: Defeat chickens
+			questDescription: Defeat 3 chickens
 			tasks: [
 				{
-					taskName: defeatEnemies
-					description: Defeat the Enemies
-					hint: Defeat the creatures threatening the kingdom.
-					requiredTriggers: 1
+					taskName: defeatCHICKEN
+					description: Lorem ipsum	
+					hint: Do you really need this?
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
+			
 			]
 			isSecretQuest: false
-
 			questDialogue: [
 				{
 					npcName: Cow
@@ -90,8 +90,6 @@
 					]
 				}
 			]
-
-
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
@@ -192,13 +190,13 @@
 			taskCompletionTriggers: null
 		}
 		{
-			questName: Water Sage's research
-			questDescription: Help the Water Sage complete his research into ancient humans.
+			questName: Potion Collection
+			questDescription: Fill in
 			tasks: [
 				{
-					taskName: collectCandy
-					description: Collect Candy
-					hint: Find 6 pieces of Candy hidden around for the Water Sage's research.
+					taskName: collectSeaPearls
+					description: Collect Sea Pearls
+					hint: Find six Sea Pearls hidden around for the Water Sage's research.
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -349,9 +347,9 @@
 			questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
 			tasks: [
 				{
-					taskName: collectApples
-					description: Collect Sky Crystals (Apples)
-					hint: Gather 4 Sky Crystals for the Cloud Sage
+					taskName: collectSkyCrystals
+					description: Collect Sky Crystals
+					hint: Gather seven Sky Crystals for the Cloud Sage
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -464,5 +462,100 @@
 			isActive: false
 			taskCompletionTriggers: null
 		}
+		
+		{
+			questName: Defeat frogs
+			questDescription: Defeat 3 frogs
+			tasks: [
+				{
+					taskName: defeatFROG
+					description: Lorem ipsum	
+					hint: Do you really need this?
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Defeat the wild creatures that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Defeat monkeys
+			questDescription: Defeat 3 monkeys
+			tasks: [
+				{
+					taskName: defeatMONKEY
+					description: Lorem ipsum	
+					hint: Do you really need this?
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Defeat the wild creatures that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+		{
+			questName: Defeat bears
+			questDescription: Defeat 3 bears
+			tasks: [
+				{
+					taskName: defeatBEARS
+					description: Lorem ipsum	
+					hint: Do you really need this?
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Defeat the wild creatures that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null
+		}
+
 	]
 }
