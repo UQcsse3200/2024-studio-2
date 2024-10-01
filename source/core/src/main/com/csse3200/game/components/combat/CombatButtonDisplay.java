@@ -51,8 +51,7 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("itemClicked", this::onItemClicked);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
-        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
-                displayEndCombatDialogue(enemy, winStatus));
+        entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
