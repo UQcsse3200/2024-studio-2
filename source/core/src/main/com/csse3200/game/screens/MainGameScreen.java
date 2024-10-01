@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.maingame.TimeDisplay;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
@@ -244,7 +245,8 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new Terminal())
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
-              .addComponent(new MiniMapDisplay(gameArea));
+              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);
   }
