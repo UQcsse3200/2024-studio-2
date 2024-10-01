@@ -262,7 +262,6 @@ public class MazeGameArea extends GameArea {
      * Spawns the eels entities
      */
     private void spawnEels() {
-        ElectricEel.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
@@ -274,7 +273,6 @@ public class MazeGameArea extends GameArea {
      * Spawns in the fish egg npc.
      */
     private void spawnFishEggs() {
-        FishEgg.resetParticlePool();
         for (int i = 0; i < MazeGameArea.NUM_EGGS; i++) {
             Entity fishEgg = MazeNPCFactory.createFishEgg();
             spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
@@ -307,6 +305,8 @@ public class MazeGameArea extends GameArea {
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
         resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
+        ElectricEel.resetParticlePool();
+        FishEgg.resetParticlePool();
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());

@@ -38,7 +38,10 @@ public class MazeNPCFactoryTest {
     private static final String[] SOUNDS = {"sounds/minigames/angler-chomp.mp3"};
     private static final String[] TEXTURE_MAZE = { "images/minigames/fishegg.png",  };
 
-    private static final String[] PARTICLE_EFFECTS = {"images/minigames/electricparticles.p"};
+    private static final String[] PARTICLE_EFFECTS = {
+            "images/minigames/electricparticles.p",
+            "images/minigames/starlight.p"
+    };
 
     private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
 
@@ -85,6 +88,7 @@ public class MazeNPCFactoryTest {
         field.set(rayHandler, new Array<>());
 
         ElectricEel.resetParticlePool();
+        FishEgg.resetParticlePool();
     }
 
     @Test
