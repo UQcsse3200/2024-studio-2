@@ -40,7 +40,6 @@ public class SpeedPotion extends TimedUseItem {
     public void update(ItemUsageContext context) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
             stats.setSpeed(stats.getSpeed() - this.effectAmount);
-//        }
     }
 }
 
