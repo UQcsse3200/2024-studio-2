@@ -77,6 +77,8 @@ public class CombatArea extends GameArea {
             "images/zzz.png",
             "images/shield.png",
             "images/shield_flipped.png",
+            "images/single_fireball.png",
+            "images/flipped_fireball.png",
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
@@ -94,7 +96,6 @@ public class CombatArea extends GameArea {
     private Entity enemy;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
     private static GdxGame game;
-
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player

@@ -2,21 +2,15 @@ package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
 import com.csse3200.game.components.combat.CombatManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 /**
@@ -27,9 +21,6 @@ public class CombatAnimationDisplay extends UIComponent {
     private Image combatImage;
     private Image guardImage;
     private Image sleepImage;
-    private boolean increasing = true; // Whether to increase or decrease opacity
-    private int pulseCount = 0; // Track number of pulses
-    private Timer pulseTimer; // Timer for pulsing animation
     /**
      * Constructor for the CombatAnimationDisplay.
      */
@@ -171,40 +162,44 @@ public class CombatAnimationDisplay extends UIComponent {
                 dispose();
             }
         }, 1200); // 1.2 second
-
     }
 
     /**
-     * Triggers the cat scratch animation generalised for all players upon the attack
-     * button being clicked
+     * Triggers fireball to be thrown at enemy NPC's position
      */
-
-    public void attackAnimation(){
+    public void attackAnimation() {
         Texture combatTexture = ServiceLocator.getResourceService()
-                .getAsset("images/cat_scratch.png", Texture.class);
+                .getAsset("images/flipped_fireball.png", Texture.class); // Replaced with single_fireball
 
         combatImage = new Image(combatTexture);
         combatImage.setAlign(Align.center);
-        combatImage.setScale(1.2f);
+        combatImage.setScale(1f);
 
-        // Create a table and add the image to the center
-        rootTable = new Table();
-        rootTable.setFillParent(true);  // Makes the table fill the screen
-        rootTable.add(combatImage).center();
+        // Set the initial position of the image (e.g., off-screen or at a specific point)
+        combatImage.setPosition(600, 550);
+        combatImage.setVisible(true);
 
         // Add the table to the stage
-        stage.addActor(rootTable);
+        stage.addActor(combatImage);
 
+        // Clear any existing actions to avoid conflicts
+        combatImage.clearActions();
+
+        // Move the image over 2 seconds
+        combatImage.addAction(moveTo(1200, 550, 2f, Interpolation.linear));
+
+        // Schedule to hide the image after it reaches its destination
         Timer timer = new Timer();
-        // Schedule a task to hide the cat scratch image after 2 seconds
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 combatImage.setVisible(false);
                 dispose();
             }
-        }, 1000); // 1 second
+        }, 2000);  // 2 seconds
     }
+
+
 
     @Override
     public void draw(SpriteBatch batch) {
