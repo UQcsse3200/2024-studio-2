@@ -38,6 +38,10 @@ public class MazeNPCFactoryTest {
     private static final String[] SOUNDS = {"sounds/minigames/angler-chomp.mp3"};
     private static final String[] TEXTURE_MAZE = { "images/minigames/fishegg.png",  };
 
+    private static final String[] PARTICLE_EFFECTS = {"images/minigames/electricparticles.p"};
+
+    private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
+
     @Mock
     RayHandler rayHandler;
 
@@ -60,6 +64,7 @@ public class MazeNPCFactoryTest {
         resourceService.loadTextures(TEXTURE_MAZE);
         resourceService.loadTextureAtlases(TEXTURE_ATLASES);
         resourceService.loadSounds(SOUNDS);
+        resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
 
         // mock needs to at least add lights to an internal light list
@@ -78,6 +83,8 @@ public class MazeNPCFactoryTest {
 
         field.setAccessible(true);
         field.set(rayHandler, new Array<>());
+
+        ElectricEel.resetParticlePool();
     }
 
     @Test

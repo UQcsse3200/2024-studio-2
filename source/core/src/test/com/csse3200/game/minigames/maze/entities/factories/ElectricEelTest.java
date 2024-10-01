@@ -38,6 +38,10 @@ public class ElectricEelTest {
 
     private ElectricEel electricEel;
     private static final String[] TEXTURE_ATLASES = {"images/minigames/eels.atlas"};
+
+    private static final String[] PARTICLE_EFFECTS = {"images/minigames/electricparticles.p"};
+
+    private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
     private MazeEntityConfig config;
     private Entity target;
 
@@ -59,7 +63,10 @@ public class ElectricEelTest {
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
         resourceService.loadTextureAtlases(TEXTURE_ATLASES);
+        resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
+
+        ElectricEel.resetParticlePool();
 
         target = mock(Entity.class);
         config = new MazeEntityConfig();
