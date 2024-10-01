@@ -156,7 +156,7 @@ public class MainMenuDisplay extends UIComponent {
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
+        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
         Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
         owlImage = new Image(owlTexture); // Create owl image actor
     }
