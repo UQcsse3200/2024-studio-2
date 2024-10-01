@@ -7,12 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.minigames.MiniGameConstants;
+import com.csse3200.game.minigames.MiniGameConstants;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.components.minigames.MiniGameNames.SNAKE;
+import static com.csse3200.game.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
 
 /**
  * UI component for displaying the scoreboard in all mini-games.

@@ -14,9 +14,9 @@ import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.GdxGameManager;
-import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.minigames.MiniGameNames;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.*;
+import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
  * Represents a chat overlay UI component that displays a series of hint messages

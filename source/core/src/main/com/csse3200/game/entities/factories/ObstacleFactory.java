@@ -55,4 +55,19 @@ public class ObstacleFactory {
   private ObstacleFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
+
+  /**
+   * Create a visible physics wall.
+   * @param width Wall width in world units
+   * @param height Wall height in world units
+   * @return Wall entity of given width and height
+   */
+  public static Entity createVisibleWall(float width, float height) {
+    Entity wall = new Entity()
+        .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
+        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+    wall.setScale(width, height);
+    return wall;
+  }
 }
