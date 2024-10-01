@@ -66,19 +66,21 @@ public class CombatManager extends Component {
         this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
                 playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
                 playerStats.getMaxExperience(), playerStats.getMaxStamina(), playerStats.isPlayer(),
-                playerStats.isBoss());
+                playerStats.isBoss(), playerStats.getLevel());
         copyPlayerStats.setHealth(playerStats.getHealth());
         copyPlayerStats.setExperience(playerStats.getExperience());
         copyPlayerStats.setHunger(playerStats.getHunger());
         copyPlayerStats.setStamina(playerStats.getStamina());
+        copyPlayerStats.setLevel(playerStats.getLevel());
 
         this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
                 enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
-                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss());
+                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss(), enemyStats.getLevel());
         copyEnemyStats.setHealth(enemyStats.getHealth());
         copyEnemyStats.setExperience(enemyStats.getExperience());
         copyEnemyStats.setHunger(enemyStats.getHunger());
         copyEnemyStats.setStamina(enemyStats.getStamina());
+        copyEnemyStats.setLevel(enemyStats.getLevel());
 
     }
 
