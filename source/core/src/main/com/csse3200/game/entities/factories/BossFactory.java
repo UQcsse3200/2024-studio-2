@@ -61,7 +61,7 @@ public class BossFactory {
         animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
 
         kangarooBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
                 .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new KangaBossAnimationController());
@@ -99,7 +99,7 @@ public class BossFactory {
         animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
 
         waterBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
                 .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new WaterBossAnimationController());
@@ -137,7 +137,7 @@ public class BossFactory {
         animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
 
         airBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
                 .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new AirBossAnimationController());
@@ -194,7 +194,7 @@ public class BossFactory {
 
         kangarooBoss
                 .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
 
         kangarooBoss.scaleHeight(120.0f);
 
@@ -212,7 +212,7 @@ public class BossFactory {
         waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
         waterBoss
                 .addComponent(new TextureRenderComponent("images/water_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
         waterBoss.scaleHeight(120.0f);
         return waterBoss;
     }
@@ -228,7 +228,7 @@ public class BossFactory {
         airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
         airBoss
                 .addComponent(new TextureRenderComponent("images/air_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
         airBoss.scaleHeight(120.0f);
         return airBoss;
     }
