@@ -10,7 +10,7 @@ import com.csse3200.game.inventory.Inventory;
  */
 public class CombatInventoryDisplay2 extends InventoryDisplay {
 
-    public CombatInventoryDisplay2(Inventory inventory, int numCols) {
+    public CombatInventoryDisplay2(Inventory inventory, int numCols, int capacity) {
         super(inventory, numCols, inventory.getCapacity());
     }
 
