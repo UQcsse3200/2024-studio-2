@@ -28,14 +28,16 @@ public class SaveHandler {
      * @param className class to use as saves.
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
+     * @param location Libgdx location to save to.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void save(Class<?> className, String dir) {
+    public static void save(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
                 FileLoader.writeClass(member.get(null),
                         toPath(member.getName(), dir),
-                        FileLoader.Location.LOCAL);
+                        location);
             } catch (IllegalAccessException ignored) {}
         }
         logger.info("Objects from {} class saved to {}", className.getSimpleName(), dir);
@@ -50,18 +52,20 @@ public class SaveHandler {
      * @param className class to use as saves.
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
+     * @param location Libgdx location to load from.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void load(Class<?> className, String dir) {
+    public static void load(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
                 member.set(null,FileLoader.readClass(member.getType(),
                         toPath(member.getName(), dir),
-                        FileLoader.Location.LOCAL));
+                        location));
                 logger.info("set {} to {}", member.getName(),
                         FileLoader.readClass(member.getType(),
                                 toPath(member.getName(), dir),
-                                FileLoader.Location.LOCAL));
+                                location));
             } catch (IllegalAccessException ignored) {}
         }
         logger.info("Objects from {} class loaded from {}", className.getSimpleName(), dir);
@@ -77,12 +81,14 @@ public class SaveHandler {
      * @param className class to use as saves.
      *                  For game state (not shared between new games), use GameState.class.
      *                  For achievements (shared between new games), use Achievements.class.
+     * @param location Libgdx location to delete from.
+     * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void delete(Class<?> className, String dir) {
+    public static void delete(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             FileLoader.deleteJson(toPath(member.getName(), dir),
-                    FileLoader.Location.LOCAL);
+                    location);
         }
         logger.info("Objects from {} class deleted from {}", className.getSimpleName(), dir);
         //loads all objects automatically and adds them to tracked

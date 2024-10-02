@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ResourceService;
@@ -30,6 +31,7 @@ class QuestManagerTest {
         player = mock(Entity.class);
 
         Sound mockSound = mock(Sound.class);
+
         when(resourceService.getAsset("sounds/QuestComplete.wav", Sound.class)).thenReturn(mockSound);
 
 
@@ -41,7 +43,7 @@ class QuestManagerTest {
 
     @Test
     void AddQuest() {
-        QuestBasic quest = new QuestBasic("Test Quest", "Test Description", List.of(), false, null, null, true, false, 0);
+        QuestBasic quest = new QuestBasic("Test Quest",  "Test Description", List.of(), false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
@@ -49,8 +51,8 @@ class QuestManagerTest {
 
     @Test
     void GetAllQuests() {
-        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, false, 0);
-        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(),  false, null, null, true, false, 0);
+        QuestBasic quest1 = new QuestBasic("Quest 1",  "Description 1", List.of(),  false, null, null, true, false, 0, new String[] {});
+        QuestBasic quest2 = new QuestBasic("Quest 2",  "Description 2", List.of(),  false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest1);
         questManager.addQuest(quest2);
 
@@ -62,7 +64,7 @@ class QuestManagerTest {
     @Test
     void HandleProgressQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
+        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
         questManager.progressQuest("Test Quest", "testTask");
@@ -72,7 +74,7 @@ class QuestManagerTest {
     @Test
     void HandleQuestCompletion() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
+        QuestBasic quest = new QuestBasic("Test Quest",  "Description", List.of(task),  false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
 
@@ -84,7 +86,7 @@ class QuestManagerTest {
     @Test
     void HandleFailQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
-        QuestBasic quest = new QuestBasic("Test Quest", "Description", List.of(task),  false, null, null, true, false, 0);
+        QuestBasic quest = new QuestBasic("Test Quest",  "Description", List.of(task),  false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
         questManager.failQuest("Test Quest");
@@ -100,19 +102,19 @@ class QuestManagerTest {
 
     @Test
     void shouldSaveLoadQuestProgression() {
-        QuestBasic quest1 = new QuestBasic("Quest 1", "Description 1", List.of(),  false, null, null, true, true, 0);
+        QuestBasic quest1 = new QuestBasic("Quest 1",  "Description 1", List.of(),  false, null, null, true, true, 0, new String[] {});
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
-        QuestBasic quest2 = new QuestBasic("Quest 2", "Description 2", List.of(task),  false, null, null, true, false, 0);
+        QuestBasic quest2 = new QuestBasic("Quest 2",  "Description 2", List.of(task),  false, null, null, true, false, 0, new String[] {});
 
         GameState.quests.quests.clear();
         GameState.quests.quests.add(quest1);
         GameState.quests.quests.add(quest2);
 
-        SaveHandler.save(GameState.class, "test/saves/quests");
+        SaveHandler.save(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         GameState.quests.quests.clear();
 
-        SaveHandler.load(GameState.class, "test/saves/quests");
+        SaveHandler.load(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         assertTrue(GameState.quests.quests.getFirst().isFailed());
         assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
@@ -120,12 +122,12 @@ class QuestManagerTest {
 
         GameState.quests.quests.clear();
 
-        SaveHandler.delete(GameState.class, "test/saves/quests");
+        SaveHandler.delete(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
     }
 
     @Test
     void HandleInvalidQuestProgression() {
-        QuestBasic quest = new QuestBasic("Invalid Progression Quest", "Description", List.of(), false, null, null, true, false, 0);
+        QuestBasic quest = new QuestBasic("Invalid Progression Quest",  "Description", List.of(), false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
         questManager.progressQuest("Invalid Progression Quest", "nonexistentTask");
@@ -137,7 +139,7 @@ class QuestManagerTest {
     void TestFinishingMultipleTasks() {
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
-        QuestBasic guideQuest = new QuestBasic("Guide's Journey", "Complete various tasks to progress.", List.of(talkToGuide, collectPotions), false, null, null, false, false, 0);
+        QuestBasic guideQuest = new QuestBasic("Guide's Journey",  "Complete various tasks to progress.", List.of(talkToGuide, collectPotions), false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(guideQuest);
 
         questManager.progressQuest("Guide's Journey", "talkToGuide");

@@ -31,6 +31,8 @@ public class Inventory implements InventoryInterface {
     private String questItem;
     /* Name of an item being searched for - used for quests */
     private int questItemCount;
+    /* The item collection task trigger. */
+    private String collectionTrigger;
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -58,9 +60,6 @@ public class Inventory implements InventoryInterface {
      * @see InventorySave
      */
     public void loadInventoryFromSave() {
-//        if(GameState.inventory == null) {
-//            GameState.inventory = new InventorySave();
-//        }
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);
         } else {
@@ -153,7 +152,6 @@ public class Inventory implements InventoryInterface {
     public int getIndex(int code) {
         return this.getItemIndex(code).orElse(-1);
     }
-
     /**
      * Retrieves the index of the first occurrence of an item with the given name.
      *
@@ -179,6 +177,22 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * Swaps the items between two inventory slots. If the target slot is empty,
+     * the item from the source slot is moved to the target slot. If the target slot
+     * contains an item, the items between the source and target slots are swapped.
+     *
+     * @param src    The index of the source slot from which the item is being moved.
+     * @param target The index of the target slot to which the item is being moved.
+     */
+    public void swap(int src, int target)
+    {
+        AbstractItem from = deleteItemAt(src);
+        AbstractItem to = deleteItemAt(target);
+        if (from != null) {addAt(target, from);}
+        if (to != null) {addAt(src, to);}
+    }
+
+    /**
      * Deletes the first occurrence of an item with the specified code from the inventory.
      * <p>Currently removes the item entirely. Needs to be updated to reduce quantity if
      * applicable - ie if we only want to delete <b>n</b> of the item.</p>
@@ -198,12 +212,15 @@ public class Inventory implements InventoryInterface {
      * index.</p>
      *
      * @param index the index of the item to delete.
+     * @return the item that was removed (or null if there was no item at that index)
      */
     @Override
-    public void deleteItemAt(int index) {
-        if (memoryView[index] != null) {
+    public AbstractItem deleteItemAt(int index) {
+        AbstractItem item = memoryView[index];
+        if (item != null) {
             this.removeAt(index);
         }
+        return item;
     }
 
     /**
@@ -416,6 +433,7 @@ public class Inventory implements InventoryInterface {
         return this.hasItem(code) ? Optional.of(codeToIndices.get(code).first()) : Optional.empty();
     }
 
+
     /**
      * Retrieves the index of the first occurrence of an item with the specified name.
      *
@@ -468,30 +486,5 @@ public class Inventory implements InventoryInterface {
         if (index < nextIndex) { // Update the next available index if necessary.
             nextIndex = index;
         }
-    }
-
-    // Quests additions - starting here
-    /** Inventory listen for quests item collection tasks
-     * @param itemName - the item name that will be listened for
-     * @param quantity - the number of item occurrences required for
-     *                 the quest to be completed. */
-    public void questItemListen(String itemName, int quantity){
-        this.questItem = itemName;
-        this.questItemCount = quantity;
-    }
-
-    /** Quests item collection completion - used to send out "items collected"
-     * @return True if specified numbers of item has been collected. */
-    public boolean itemCollectionSuccessful() {
-        int count = 0;
-        for (int item = 0; item < this.nextIndex; item++) {
-            if (memoryView[item].getName().equals(this.questItem)) {
-                count += memoryView[item].getQuantity();
-            }
-        }
-        if (count > 0) {
-            return count >= this.questItemCount;
-        }
-        return false;
     }
 }

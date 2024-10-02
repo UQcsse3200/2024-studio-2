@@ -1,0 +1,173 @@
+bigsawfish.png
+size: 288, 240
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+float
+  rotate: false
+  xy: 2, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 51, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy: 101, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 148, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 3
+chase
+  rotate: false
+  xy: 2, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+chase
+  rotate: false
+  xy: 50, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 1
+chase
+  rotate: false
+  xy: 99, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 2
+chase
+  rotate: false
+  xy: 157, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 3
+chase
+  rotate: false
+  xy: 206, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 4
+chase
+  rotate: false
+  xy: 149, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 5
+spawn
+  rotate: false
+  xy: 20, 11
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+default
+  rotate: false
+  xy: 2, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 2, 107
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 51, 107
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 2, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 51, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 101, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 148, 205
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 2, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 50, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 99, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 157, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 206, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 149, 12
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: 5

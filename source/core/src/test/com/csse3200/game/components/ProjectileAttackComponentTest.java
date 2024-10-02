@@ -24,8 +24,8 @@ class ProjectileAttackComponentTest {
   void shouldNotAttackOtherLayer() {
     short targetLayer = (1 << 3);
     short attackLayer = (1 << 4);
-    Entity projectile = createProjectile(attackLayer);
     Entity target = createTarget(targetLayer);
+    Entity projectile = createProjectile(attackLayer, target);
 
     Fixture projectileFixture = projectile.getComponent(HitboxComponent.class).getFixture();
     Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
@@ -35,10 +35,10 @@ class ProjectileAttackComponentTest {
     assertEquals(10, target.getComponent(CombatStatsComponent.class).getHealth());
   }
 
-  Entity createProjectile(short targetLayer) {
+  Entity createProjectile(short targetLayer, Entity target) {
     Entity projectile = new Entity()
-            .addComponent(new ProjectileAttackComponent(targetLayer))
-            .addComponent(new CombatStatsComponent(0, 100, 2, 0, 0, 0, 0, false, false))  // Attack damage is 2
+            .addComponent(new ProjectileAttackComponent(targetLayer, 2, target))
+            .addComponent(new CombatStatsComponent(0, 100, 2, 0, 0, 0, 0, false, false, 1))  // Attack damage is 2
             .addComponent(new PhysicsComponent())
             .addComponent(new HitboxComponent());
     projectile.create();
@@ -47,7 +47,7 @@ class ProjectileAttackComponentTest {
 
   Entity createTarget(short layer) {
     Entity target = new Entity()
-            .addComponent(new CombatStatsComponent(10, 100, 0, 0, 0, 0, 0, false, false))  // Initial health is 10
+            .addComponent(new CombatStatsComponent(10, 100, 0, 0, 0, 0, 0, false, false, 1))  // Initial health is 10
             .addComponent(new PhysicsComponent())
             .addComponent(new HitboxComponent().setLayer(layer));
     target.create();

@@ -97,9 +97,10 @@ public class AttackMove extends CombatMove {
     ) {
         int damage;
 
-        double m1 = calculateStatusMultiplier();
+        double m1 = calculateStatusMultiplier(targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED));
         double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
-        double m3 = calculateGuardMultiplier(targetIsGuarded);
+        double m3 = calculateGuardMultiplier(targetIsGuarded,
+                targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING));
         double m4 = calculateMultiHitMultiplier(hitNumber);
         int L = 1; // Level of the user.
         int A = attackerStats.getStrength(); // user's strength stat
@@ -113,14 +114,15 @@ public class AttackMove extends CombatMove {
 
     /**
      * Calculates the buff/de-buff multiplier based on the user's current status effects.
-     * THIS FUNCTION IS NOT YET IMPLEMENTED.
      *
+     * @param targetIsShocked true if the Shocked status effect is applied (Attacks are de-buffed by 30%)
      * @return status effect multiplier.
      */
-    private double calculateStatusMultiplier() {
-        double multiplier;
-        multiplier = 1;
-        return multiplier;
+    private double calculateStatusMultiplier(boolean targetIsShocked) {
+        if (targetIsShocked) {
+            return 0.7;
+        }
+        return 1;
     }
 
     /**
@@ -141,10 +143,17 @@ public class AttackMove extends CombatMove {
      * Calculates the guard multiplier based on whether the target is guarding.
      *
      * @param targetIsGuarded true if the target is guarding.
+     * @param targetIsBleeding true if Bleeding status effect is applied (Guard will block 30% damage instead of 50%)
      * @return guard multiplier.
      */
-    private double calculateGuardMultiplier(boolean targetIsGuarded) {
-        return targetIsGuarded ? 0.5 : 1;
+    private double calculateGuardMultiplier(boolean targetIsGuarded, boolean targetIsBleeding) {
+        if (targetIsGuarded) {
+            if (targetIsBleeding) {
+                return 0.7;
+            }
+            return 0.5;
+        }
+        return 1;
     }
 
     /**

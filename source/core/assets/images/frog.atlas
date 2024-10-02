@@ -129,3 +129,31 @@ float
   orig: 47, 37
   offset: 0, 0
   index: 7
+alert
+  rotate: false
+  xy: 372, 277
+  size: 47, 53
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 460, 290
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+alert
+  rotate: false
+  xy: 549, 278
+  size: 47, 52
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+alert
+  rotate: false
+  xy: 640, 290
+  size: 47, 41
+  orig: 47, 37
+  offset: 0, 0
+  index: 3

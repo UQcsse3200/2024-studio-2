@@ -134,6 +134,131 @@ public class CombatAnimalFactory {
 
         return bearEnemy;
     }
+    /**
+     * Creates bee enemy as NPC entity for static combat
+     * */
+    public static Entity createBeeCombatEnemy() {
+        Entity beeEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.bee;
+        beeEnemy.setEnemyType(Entity.EnemyType.BEE);
+
+        TextureAtlas beeAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(beeAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        beeEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+
+        beeEnemy.setScale(90f, 103.5f);
+
+        return beeEnemy;
+    }
+
+    /**
+     * Creates big saw fish enemy as NPC entity for static combat
+     * */
+    public static Entity createBigsawfishCombatEnemy() {
+        Entity bigsawfishEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.bigsawfish;
+        bigsawfishEnemy.setEnemyType(Entity.EnemyType.BIGSAWFISH);
+
+        TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(bigsawfishAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        bigsawfishEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        bigsawfishEnemy.scaleHeight(90.0f);
+
+        return bigsawfishEnemy;
+    }
+
+    /**
+     * Creates macaw enemy as NPC entity for static combat
+     * */
+    public static Entity createMacawCombatEnemy() {
+        Entity macawEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.macaw;
+        macawEnemy.setEnemyType(Entity.EnemyType.MACAW);
+
+        TextureAtlas macawAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(macawAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        macawEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        macawEnemy.scaleHeight(90.0f);
+
+        return macawEnemy;
+    }
+
+    /**
+     * Creates pigeon enemy as NPC entity for static combat
+     * */
+    public static Entity createPigeonCombatEnemy() {
+        Entity pigeonEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.pigeon;
+        pigeonEnemy.setEnemyType(Entity.EnemyType.PIGEON);
+
+        TextureAtlas pigeonAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        pigeonEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        pigeonEnemy.setScale(100f,70f);
+
+        return pigeonEnemy;
+    }
+
+    /**
+     * Creates pigeon enemy as NPC entity for static combat
+     * */
+    public static Entity createEelCombatEnemy() {
+        Entity eelEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.eel;
+        eelEnemy.setEnemyType(Entity.EnemyType.EEL);
+
+        TextureAtlas eelAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(eelAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
+        eelEnemy
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        eelEnemy.setScale(100f,70f);
+
+        return eelEnemy;
+    }
+
+    /**
+     * Creates joey enemy as NPC entity for static combat
+     * */
+    public static Entity createJoeyCombatEnemy() {
+        Entity joeyEnemy = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.joey;
+        joeyEnemy.setEnemyType(Entity.EnemyType.JOEY);
+
+        joeyEnemy
+                .addComponent(new TextureRenderComponent("images/joey_idle.png"));
+        joeyEnemy.scaleHeight(90.0f);
+
+        return joeyEnemy;
+    }
 
     /**
      * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however

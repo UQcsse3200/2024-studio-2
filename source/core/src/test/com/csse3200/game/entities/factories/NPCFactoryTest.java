@@ -1,12 +1,15 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
@@ -50,24 +53,18 @@ class NPCFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private static String[] textures = {
-            "images/Cow.png",
-            "images/Lion-Spritesheet.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/turtle.png",
-            "images/magpie.png",
-            "images/Fish.png",
+            "images/friendly_npcs/friendly-npcs.png",
             "images/final_boss_kangaroo.png"
     };
 
     private static String[] atlas = {
-            "images/Cow.atlas",
-            "images/lion.atlas",
-            "images/snake.atlas",
-            "images/eagle.atlas",
-            "images/turtle.atlas",
-            "images/magpie.atlas",
-            "images/Fish.atlas",
+            "images/friendly_npcs/Cow.atlas",
+            "images/friendly_npcs/lion.atlas",
+            "images/friendly_npcs/snake.atlas",
+            "images/friendly_npcs/eagle.atlas",
+            "images/friendly_npcs/turtle.atlas",
+            "images/friendly_npcs/magpie.atlas",
+            "images/friendly_npcs/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
@@ -86,6 +83,13 @@ class NPCFactoryTest {
         RenderService renderService = mock(RenderService.class);
         when(renderService.getStage()).thenReturn(mock(Stage.class));
         ServiceLocator.registerInputService(new InputService());
+
+        // lighting service
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
 
         // Load resources
         resourceService.loadTextures(textures);
@@ -129,7 +133,7 @@ class NPCFactoryTest {
         Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
 
         cow.getEvents().trigger("CowPauseStart");
-        ServiceLocator.getDialogueBoxService().updateText(new String[] {"1", "2"});
+        ServiceLocator.getDialogueBoxService().updateText(new String[][] {{"1", "2"}});
         String firstHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
         inputComponent.keyDown(Input.Keys.RIGHT);
         String secondHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
@@ -266,12 +270,11 @@ class NPCFactoryTest {
     void TestCowHasCorrectBaseHint() {
         String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
-                "We will be your guides",
-                "but before you can roam free...",
-                "you must complete the first steps and 2 step quests."}});
-    }
+        Assertions.assertArrayEquals(baseHint, new String[][]{{
+                "Go complete your quest adventurer!"
 
+        }});
+    }
     /**
      * Tests that the cow has an idle animation.
      */
@@ -581,10 +584,7 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectBaseHint() {
         String[][] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-                "You look very tasty and I am very hungry",
-                "Go play a game and collect me some apples...",
-                "/msOr I will eat you whole!"}});
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!"}});
     }
 
     /**
@@ -662,10 +662,7 @@ class NPCFactoryTest {
     void TestMagpieHasCorrectBaseHint() {
         String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"WHO GOES THERE!!",
-                "If you want to get past me you must pay",
-                "Go play a game and collect me some coins",
-                "/mbOr I will claw your eyes out!"}}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"I LOVE GOLD!!"}}, baseHint);
     }
 
     /**

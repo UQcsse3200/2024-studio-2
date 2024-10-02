@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
+import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,103 +16,121 @@ import org.slf4j.LoggerFactory;
  * bit between movements. Requires an entity with a PhysicsMovementComponent.
  */
 public class WanderTask extends DefaultTask implements PriorityTask {
-  private static final Logger logger = LoggerFactory.getLogger(WanderTask.class);
-
-  private final Vector2 wanderRange;
-  private final float waitTime;
-  private Vector2 startPos;
-  private MovementTask movementTask;
-  private WaitTask waitTask;
-  private Task currentTask;
-  private boolean isSpawned = false;
-  private final boolean isBoss;
-
-  /**
-   * @param wanderRange Distance in X and Y the entity can move from its position when start() is
-   *     called.
-   * @param waitTime How long in seconds to wait between wandering.
-   */
-  public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
-    this.wanderRange = wanderRange;
-    this.waitTime = waitTime;
-    this.isBoss = isBoss;
-  }
-
-  public boolean isBoss() {
-    return isBoss;
-  }
-
-  @Override
-  public int getPriority() {
-    return 1; // Low priority task
-  }
-
-  /**
-   * Checks if the entity has spawned yet, if not waits, else it wanders
-   */
-  @Override
-  public void start() {
-    super.start();
-    startPos = owner.getEntity().getPosition();
-    Vector2 newPos = getRandomPosInRange();
-    if (this.isBoss) {
-      // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
-      waitTask.create(owner);
-      movementTask = new MovementTask(getRandomPosInRange());
-      movementTask.create(owner);
-      movementTask.start();
-
-      currentTask = movementTask;
-
-      this.owner.getEntity().getEvents().trigger("kangaWanderStart");
-    } else if(!isSpawned) {
-      logger.debug("Triggering spawn event");
-      this.owner.getEntity().getEvents().trigger("spawnStart");
-      isSpawned = true;
-
-      // Wait for the spawn event to complete or for a specified duration before starting to wander
-      waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
-      waitTask.create(owner);
-      swapTask(waitTask);
-    } else if (newPos.x - startPos.x < 0) {
-      logger.debug("wandering right");
-      this.owner.getEntity().getEvents().trigger("wanderLeft");
-    } else {
-      logger.debug("wandering left");
-      this.owner.getEntity().getEvents().trigger("wanderRight");
+    private static final Logger logger = LoggerFactory.getLogger(WanderTask.class);
+    
+    private final Vector2 wanderRange;
+    private final float waitTime;
+    private Vector2 startPos;
+    private MovementTask movementTask;
+    private WaitTask waitTask;
+    private Task currentTask;
+    private boolean isSpawned = false;
+    private final boolean isBoss;
+    private static final String LEFT = "wanderLeft";
+    private static final String RIGHT = "wanderRight";
+    
+    /**
+     * @param wanderRange Distance in X and Y the entity can move from its position when start() is
+     *     called.
+     * @param waitTime How long in seconds to wait between wandering.
+     */
+    public WanderTask(Vector2 wanderRange, float waitTime, boolean isBoss) {
+        this.wanderRange = wanderRange;
+        this.waitTime = waitTime;
+        this.isBoss = isBoss;
     }
-    this.owner.getEntity().getEvents().trigger("wanderStart");
-  }
-
-  @Override
-  public void update() {
-    if (currentTask.getStatus() != Status.ACTIVE) {
-      if (currentTask == waitTask && isSpawned && !isBoss) {
-        startWandering();
-      } else if (currentTask == movementTask) {
-        startWaiting();
-      } else {
-        startMoving();
-      }
+    
+    public boolean isBoss() {
+        return isBoss;
     }
-    currentTask.update();
-  }
-
-  private void startWandering() {
-    logger.debug("Starting wandering");
-    movementTask = new MovementTask(getRandomPosInRange());
-    movementTask.create(owner);
-    movementTask.start();
-    currentTask = movementTask;
-  }
-
-  private void startWaiting() {
-    logger.debug("Starting waiting");
-    waitTask = new WaitTask(waitTime);
-    waitTask.create(owner);
-    swapTask(waitTask);
-  }
+    
+    @Override
+    public int getPriority() {
+        return 1; // Low priority task
+    }
+    
+    /**
+     * Checks if the entity has spawned yet, if not waits, else it wanders
+     */
+    @Override
+    public void start() {
+        super.start();
+        startPos = owner.getEntity().getPosition();
+        Vector2 newPos = getRandomPosInRange();
+        if (this.isBoss) {
+            // Wait for the spawn event to complete or for a specified duration before starting to wander
+            waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
+            waitTask.create(owner);
+            movementTask = new MovementTask(getRandomPosInRange());
+            movementTask.create(owner);
+            movementTask.start();
+            
+            currentTask = movementTask;
+        } else if(!isSpawned) {
+            logger.debug("Triggering spawn event");
+            this.owner.getEntity().getEvents().trigger("spawnStart");
+            isSpawned = true;
+            
+            // Wait for the spawn event to complete or for a specified duration before starting to wander
+            waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
+            waitTask.create(owner);
+            waitTask.start();
+            swapTask(waitTask);
+        } else if (newPos.x - startPos.x < 0) {
+            logger.debug("wandering right");
+            this.owner.getEntity().getEvents().trigger(LEFT);
+        } else {
+            logger.debug("wandering left");
+            this.owner.getEntity().getEvents().trigger(RIGHT);
+        }
+        this.owner.getEntity().getEvents().trigger("wanderStart");
+        
+    }
+    
+    @Override
+    public void stop() {
+        currentTask.stop();
+    }
+    
+    @Override
+    public void update() {
+        if (currentTask.getStatus() != Status.ACTIVE) {
+            if (currentTask == waitTask && isSpawned && !isBoss) {
+                startWandering();
+            } else if (currentTask == movementTask) {
+                startWaiting();
+            } else {
+                startMoving();
+            }
+        }
+        currentTask.update();
+    }
+    
+    private void startWandering() {
+        logger.debug("Starting wandering");
+        Vector2 newPos = getRandomPosInRange();
+        if (newPos.x - startPos.x < 0) {
+            logger.debug("wandering right");
+            this.owner.getEntity().getEvents().trigger(LEFT);
+        } else {
+            logger.debug("wandering left");
+            this.owner.getEntity().getEvents().trigger(RIGHT);
+        }
+        movementTask = new MovementTask(newPos, wanderRange);
+        movementTask.create(owner);
+        movementTask.start();
+        currentTask = movementTask;
+    }
+    
+    private void startWaiting() {
+        logger.debug("Starting waiting");
+        if (owner.getEntity().getComponent(FrogAnimationController.class) != null) {
+            owner.getEntity().getEvents().trigger("spawnStart"); //plays still animation
+        }
+        waitTask = new WaitTask(waitTime);
+        waitTask.create(owner);
+        swapTask(waitTask);
+    }
 
   private void startMoving() {
     Vector2 newPos = getRandomPosInRange();
