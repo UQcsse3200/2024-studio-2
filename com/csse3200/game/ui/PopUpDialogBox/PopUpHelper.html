@@ -130,7 +130,16 @@ loadScripts(document, 'script');</script>
  float&nbsp;width,
  float&nbsp;height,
  int&nbsp;animalIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayDialog(java.lang.String,java.lang.String,java.lang.String,float,float,int,java.lang.Runnable)" class="member-name-link">displayDialog</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animalImagePath,
+ float&nbsp;width,
+ float&nbsp;height,
+ int&nbsp;animalIndex,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;callback)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Displays a popup dialog with the specified title, content, animal image, and dimensions.</div>
 </div>
 </div>
@@ -172,14 +181,15 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="displayDialog(java.lang.String,java.lang.String,java.lang.String,float,float,int)">
+<section class="detail" id="displayDialog(java.lang.String,java.lang.String,java.lang.String,float,float,int,java.lang.Runnable)">
 <h3>displayDialog</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">displayDialog</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animalImagePath,
  float&nbsp;width,
  float&nbsp;height,
- int&nbsp;animalIndex)</span></div>
+ int&nbsp;animalIndex,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;callback)</span></div>
 <div class="block">Displays a popup dialog with the specified title, content, animal image, and dimensions.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -189,7 +199,19 @@ loadScripts(document, 'script');</script>
 <dd><code>width</code> - The width of the dialog box.</dd>
 <dd><code>height</code> - The height of the dialog box.</dd>
 <dd><code>animalIndex</code> - The index of the selected animal (0 for bird, 1 for croc, 2 for dog).</dd>
+<dd><code>callback</code> - A Runnable to be executed when the dialog is closed.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="displayDialog(java.lang.String,java.lang.String,java.lang.String,float,float,int)">
+<h3>displayDialog</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">displayDialog</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;title,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;content,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animalImagePath,
+ float&nbsp;width,
+ float&nbsp;height,
+ int&nbsp;animalIndex)</span></div>
 </section>
 </li>
 </ul>
