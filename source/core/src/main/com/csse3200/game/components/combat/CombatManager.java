@@ -40,11 +40,11 @@ public class CombatManager extends Component {
     static Map<String,ArrayList> specialmoveStore;
 
     /**
-     * Creates a CombatManager that handles the combat sequence between the player and enemy.
-     * It initializes player and enemy stats, their moves, and actions.
+     * Initializes the CombatManager for handling the combat between a player and an enemy.
+     * Sets up their combat stats, action choices, and stores special move combinations.
      *
-     * @param player the player entity involved in combat.
-     * @param enemy the enemy entity involved in combat.
+     * @param player The player entity in the combat.
+     * @param enemy  The enemy entity in the combat.
      */
     public CombatManager(Entity player, Entity enemy) {
         this.player = player;
@@ -174,6 +174,12 @@ public class CombatManager extends Component {
         UpdateSpecialMoveStore(enemyAction);
         return enemyAction;
     }
+    /**
+     * Updates the stored sequence of enemy moves for a specific enemy type.
+     * This is used to determine if a special move can be executed after a certain move combination.
+     *
+     * @param value The enemy action to store.
+     */
 
     private void UpdateSpecialMoveStore(Action value) {
         ArrayList itemsList = specialmoveStore.get(enemy.getEnemyType().toString());
@@ -200,6 +206,10 @@ public class CombatManager extends Component {
         }
 
     }
+    /**
+     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
+     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
+     */
 
     private void CheckSpecialMoveCombination()
     {
