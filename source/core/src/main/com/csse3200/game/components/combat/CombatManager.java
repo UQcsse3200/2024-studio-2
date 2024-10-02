@@ -17,6 +17,7 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,9 @@ public class CombatManager extends Component {
     private Boolean moveChangedByConfusion;
 
 
+    // HashMap stores information on enemies when attack
+    private static Map<String,ArrayList> EnemyMoveStore;
+
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
      * It initializes player and enemy stats, their moves, and actions.
@@ -79,6 +83,7 @@ public class CombatManager extends Component {
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
 
         this.moveChangedByConfusion = false;
+        EnemyMoveStore = new LinkedHashMap<>();
     }
 
     /**
@@ -227,6 +232,7 @@ public class CombatManager extends Component {
         Action enemyAction;
 
         if (enemyStats.getStamina() < 25) {
+            UpdateEnemyMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
 
@@ -240,8 +246,133 @@ public class CombatManager extends Component {
             default -> null;
         };
 
+        //stores enemyAction
+        UpdateEnemyMoveStore(enemyAction);
         return enemyAction;
     }
+    /**
+     * Updates the stored sequence of enemy moves for a specific enemy type.
+     * This is used to determine if a special move can be executed after a certain move combination.
+     *
+     * @param value The enemy action to store.
+     */
+
+    private void UpdateEnemyMoveStore(Action value) {
+        ArrayList itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
+
+        if (itemsList == null)
+        {
+            itemsList = new ArrayList();
+            logger.info("empty hashmap :: Updating special move list");
+        }
+        else
+        //particular enemy has already made a move
+        {
+            logger.info("removing existing record in hashmap");
+            itemsList = EnemyMoveStore.remove(enemy.getEnemyType().toString());
+        }
+
+
+        itemsList.add(value);
+        EnemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
+        if(itemsList.size()>2)
+        {
+            logger.info("1- item list size: {}", itemsList.size());
+            CheckSpecialMoveCombination();
+        }
+
+    }
+    /**
+     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
+     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
+     */
+
+    private void CheckSpecialMoveCombination()
+    {
+        boolean NoSpecialMoveComboFlag= false;
+        ArrayList itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
+        logger.info("Checking special move combination");
+        for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet())
+        {
+            logger.info("Map<String,ArrayList> ::  " +entry.getKey()+ " :: "+entry.getValue() );
+        }
+        String enemyMoves = "";
+
+        // compare enemy move seq to last 3 enemy moves)
+        switch (enemy.getEnemyType().toString())
+        {
+            case "FROG" -> {
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                logger.info("enemy move combination" +enemyMoves);
+                if (enemyMoves=="[ATTACK, ATTACK, ATTACK, ]"){
+                    logger.info("special move combination achieved");
+                    //special effect
+                }
+            }
+            case "CHICKEN" -> {
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[ATTACK, ATTACK, GUARD, ]"){
+                }
+
+            }
+            case "MONKEY" -> {
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[ATTACK, GUARD, ATTACK, ]"){
+                }
+
+            }
+            case "BEAR" -> {
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
+
+                    enemyMoves += entry.getValue().toString();
+                    enemyMoves += ", ";
+
+                }
+                enemyMoves+="";
+                if (enemyMoves=="[GUARD, ATTACK, ATTACK, ]"){
+                }
+
+            }
+            default -> {
+                NoSpecialMoveComboFlag = true;
+            }
+
+        }
+
+        if(NoSpecialMoveComboFlag)
+        {
+            //remove outdated enemy action
+            itemsList.remove(0);
+        }
+        else
+        {
+            //reset enemy move for next special move set
+            itemsList.clear();
+            //call special effect
+        }
+    }
+
+
+
+
 
     /**
      * Executes the player's and enemy's selected moves in combination based on their respective actions.
