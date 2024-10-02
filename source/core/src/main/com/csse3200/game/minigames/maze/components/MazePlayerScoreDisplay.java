@@ -45,8 +45,10 @@ public class MazePlayerScoreDisplay extends UIComponent {
         // Add labels to the table
         table.add(scoreLabel).center().padBottom(0).padTop(20).expandX().fillX().padLeft(0);
         table.row();
-        table.add(highScoreLabel).center().padBottom(20).padTop(0).expandX().fillX().padLeft(0);
-        table.row();
+        if (GameState.minigame != null) {
+            table.add(highScoreLabel).center().padBottom(20).padTop(0).expandX().fillX().padLeft(0);
+            table.row();
+        }
         table.add(bronzeLabel).center().expandX().fillX().padLeft(0);
         table.row();
         table.add(silverLabel).center().expandX().fillX().padLeft(0);
@@ -64,9 +66,11 @@ public class MazePlayerScoreDisplay extends UIComponent {
         CharSequence scoreText = String.format("Score: %d", score);
         scoreLabel = new Label(scoreText, skin, "large-white");
 
-        CharSequence highScore = String.format("High Score %d",
-                GameState.minigame.getHighScore("maze"));
-        highScoreLabel = new Label(highScore, skin, "large-white");
+        if (GameState.minigame != null) {
+            CharSequence highScore = String.format("High Score %d",
+                    GameState.minigame.getHighScore("maze"));
+            highScoreLabel = new Label(highScore, skin, "large-white");
+        }
 
         // Medals
         CharSequence bronzeText = String.format("Bronze Medal %d", MiniGameConstants.MAZE_BRONZE_THRESHOLD);

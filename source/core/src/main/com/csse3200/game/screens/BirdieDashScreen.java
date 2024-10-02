@@ -118,8 +118,10 @@ public class BirdieDashScreen extends PausableScreen {
         if (birdGame.getIsGameOver()) {
             dispose();
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
-            GameState.minigame.addHighScore("bird", birdGame.getScore());
-            logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
+            if (GameState.minigame != null) {
+                GameState.minigame.addHighScore("bird", birdGame.getScore());
+                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
+            }
         }
     }
 

@@ -148,8 +148,10 @@ public class MazeGameScreen extends PausableScreen {
 
     private void endGame(int score) {
         this.score = score;
-        GameState.minigame.addHighScore("maze", score);
-        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
+        if (GameState.minigame != null) {
+            GameState.minigame.addHighScore("maze", score);
+            logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
+        }
     }
 
     private void loadAssets() {
