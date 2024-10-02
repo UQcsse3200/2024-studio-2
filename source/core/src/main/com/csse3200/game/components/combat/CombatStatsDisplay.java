@@ -51,6 +51,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @param enemyStats  CombatStatsComponent of the enemy
      */
     public CombatStatsDisplay(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+        logger.trace("CombatStatsDisplay constructor called");
         this.playerStats = playerStats;
         this.enemyStats = enemyStats;
     }
@@ -78,6 +79,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @return A table to be added to the stage containing the player stats bars and labels
      */
     private Table initialisePlayerStatBars() {
+        logger.trace("Player stat bars are being initialised");
         float barWidthScaling = 0.7f;
         float barHeightScaling = 0.4f;
         float barLabelGap = 2f;
@@ -134,6 +136,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @return A table containing the enemy's health bar and its associated label
      */
     private Table initialiseEnemyStatBars() {
+        logger.trace("Enemy stat bars are being initialised");
         // Padding to separate enemy bar from buttons
         float barButtonPadding = 50f;
         float barLabelGap = 2f;
@@ -164,6 +167,7 @@ public class CombatStatsDisplay extends UIComponent {
      * The animations reflect the current status of the player's health, hunger, and experience.
      */
     public void initBarAnimations() {
+        logger.trace("Stat Bar animations are being initialised");
         float animationFrameRate = 0.66f;
         int numberOfAtlases = 3;
 
@@ -209,6 +213,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @param statBar          image that stores the current frame on the stage for the stat bar.
      */
     public void setNewFrame(int frameIndex, Animation<TextureRegion> statBarAnimation, Image statBar) {
+        logger.trace("Frame change being made for the stat bar");
         // Grab the desired frame at a specified frame rate
         TextureRegion[] keyFrames = statBarAnimation.getKeyFrames();
         TextureRegion currentFrame = keyFrames[frameIndex];
@@ -220,6 +225,7 @@ public class CombatStatsDisplay extends UIComponent {
      * Adds the playerTable and enemyTable into the stage of the game to be displayed
      */
     private void addActors() {
+        logger.trace("UI Components being added to combat stage");
         Table playerTable = initialisePlayerStatBars();
         Table enemyTable = initialiseEnemyStatBars();
 
@@ -236,6 +242,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @param enemyStats  CombatStatsComponent of the enemy
      */
     public void updateHealthUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+        logger.trace("Detected health change in combat and is updating UI");
         int playerCurHealth = playerStats.getHealth();
         int playerMaxHealth = playerStats.getMaxHealth();
         int enemyCurHealth = enemyStats.getHealth();
@@ -268,6 +275,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @param playerStats CombatStatsComponent of the player
      */
     public void updatePlayerExperienceUI(CombatStatsComponent playerStats) {
+        logger.trace("Detected experience change in combat and is updating UI");
         int experience = playerStats.getExperience();
         int maxExperience = playerStats.getMaxExperience();
         CharSequence text = String.format("EXP: %d", experience);
@@ -286,6 +294,7 @@ public class CombatStatsDisplay extends UIComponent {
      *                    THE HUNGER BAR IS USED TEMPORARILY FOR DISPLAYING THE PLAYER'S STAMINA
      */
     public void updatePlayerHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+        logger.trace("Detected stamina change in combat and is updating UI");
         int hunger = playerStats.getStamina();
         int maxHunger = playerStats.getMaxStamina();
         CharSequence text = String.format("Stamina: %d", hunger);
@@ -303,6 +312,7 @@ public class CombatStatsDisplay extends UIComponent {
      * @param statusEffect An ENUM that stores the type of status effect the player has been afflicted with
      */
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
+        logger.trace("Adding status effect label and bar in CombatStatsDisplay");
         float tableTopPadding = 40f;
         float tableLeftPadding = 750f;
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
@@ -324,6 +334,7 @@ public class CombatStatsDisplay extends UIComponent {
      * Method to remove the status effect bar and text from the combat screen
      */
     private void removeStatusUI() {
+        logger.trace("Removing status bar assest in CombatStatsDisplay");
         statusTable.remove();
     }
 
@@ -338,6 +349,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     @Override
     public void dispose() {
+        logger.trace("Disposing assets in CombatStatsDisplay");
         super.dispose();
         playerHealthImage.remove();
         enemyHealthImage.remove();
