@@ -42,6 +42,7 @@ com.csse3200.game.inventory.items.exceptions
 com.csse3200.game.inventory.items.food
 com.csse3200.game.inventory.items.lootbox
 com.csse3200.game.inventory.items.lootbox.configs
+com.csse3200.game.inventory.items.lootbox.rarities
 com.csse3200.game.inventory.items.potions
 com.csse3200.game.lighting
 com.csse3200.game.lighting.components

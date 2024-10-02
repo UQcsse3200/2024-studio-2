@@ -637,7 +637,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/configs/BaseLootTable.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.configs">BaseLootTable</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/configs/package-summary.html">com.csse3200.game.inventory.items.lootbox.configs</a></dt>
 <dd>
-<div class="block">BaseLootTable is a concrete class representing a basic loot table used to manage and generate loot items.</div>
+<div class="block">BaseLootTable is an abstract class representing a basic loot table used to manage and generate loot items.</div>
 </dd>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/configs/BaseLootTable.html#%3Cinit%3E()" class="member-name-link">BaseLootTable()</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.configs.<a href="com/csse3200/game/inventory/items/lootbox/configs/BaseLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">BaseLootTable</a></dt>
 <dd>
@@ -996,6 +996,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/package-summary.html">com.csse3200.game.inventory.items.lootbox</a> - package com.csse3200.game.inventory.items.lootbox</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/configs/package-summary.html">com.csse3200.game.inventory.items.lootbox.configs</a> - package com.csse3200.game.inventory.items.lootbox.configs</dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/package-summary.html">com.csse3200.game.inventory.items.lootbox.rarities</a> - package com.csse3200.game.inventory.items.lootbox.rarities</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/potions/package-summary.html">com.csse3200.game.inventory.items.potions</a> - package com.csse3200.game.inventory.items.potions</dt>
 <dd>&nbsp;</dd>
@@ -1720,8 +1722,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a Lion NPC.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/LootBoxFactory.html#createLootBox(java.lang.String,com.csse3200.game.entities.Entity)" class="member-name-link">createLootBox(String, Entity)</a> - Method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/LootBoxFactory.html" title="class in com.csse3200.game.entities.factories">LootBoxFactory</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createMagpie(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMagpie(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
 <div class="block">Creates a Magpie NPC.</div>
@@ -2385,6 +2385,18 @@ loadScripts(document, 'script');</script>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#eagle" class="member-name-link">eagle</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/EarlyGameLootBox.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.rarities">EarlyGameLootBox</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/rarities/package-summary.html">com.csse3200.game.inventory.items.lootbox.rarities</a></dt>
+<dd>
+<div class="block">Represents an Early Game Loot Box, a type of loot box specifically configured for early game content.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/EarlyGameLootBox.html#%3Cinit%3E(com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable,int,com.csse3200.game.entities.Entity)" class="member-name-link">EarlyGameLootBox(EarlyGameLootTable, int, Entity)</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.rarities.<a href="com/csse3200/game/inventory/items/lootbox/rarities/EarlyGameLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox.rarities">EarlyGameLootBox</a></dt>
+<dd>
+<div class="block">Constructs an EarlyGameLootBox with the specified loot table, number of rolls, and player entity.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/EarlyGameLootTable.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.configs">EarlyGameLootTable</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/configs/package-summary.html">com.csse3200.game.inventory.items.lootbox.configs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/EarlyGameLootTable.html#%3Cinit%3E()" class="member-name-link">EarlyGameLootTable()</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.configs.<a href="com/csse3200/game/inventory/items/lootbox/configs/EarlyGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">EarlyGameLootTable</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/Component.html#earlyUpdate()" class="member-name-link">earlyUpdate()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
@@ -3242,8 +3254,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a description of how the current item can be used and what it does</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#getDescription()" class="member-name-link">getDescription()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/AudioManager.html#getDesiredMusicVolume()" class="member-name-link">getDesiredMusicVolume()</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/AudioManager.html" title="class in com.csse3200.game.services">AudioManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/AudioManager.html#getDesiredSoundVolume()" class="member-name-link">getDesiredSoundVolume()</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/AudioManager.html" title="class in com.csse3200.game.services">AudioManager</a></dt>
@@ -3440,8 +3450,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This entity's unique ID.</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#getImagePath()" class="member-name-link">getImagePath()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/AvoidTask.html#getInactivePriority()" class="member-name-link">getInactivePriority()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/AvoidTask.html" title="class in com.csse3200.game.components.tasks">AvoidTask</a></dt>
 <dd>
 <div class="block">Returns the priority level when the avoidance behavior is inactive.</div>
@@ -3735,8 +3743,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/areas/GameArea.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.minigames.maze.areas.<a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html" title="class in com.csse3200.game.minigames.maze.areas">MazeGameArea</a></dt>
 <dd>
@@ -4982,6 +4988,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/LandAnimalSelectionScreen.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">LandAnimalSelectionScreen(GdxGame)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/LandAnimalSelectionScreen.html" title="class in com.csse3200.game.screens">LandAnimalSelectionScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/LateGameLootBox.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.rarities">LateGameLootBox</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/rarities/package-summary.html">com.csse3200.game.inventory.items.lootbox.rarities</a></dt>
+<dd>
+<div class="block">Represents a Late Game Loot Box, a specialized type of loot box designed for late-game content.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/LateGameLootBox.html#%3Cinit%3E(com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable,int,com.csse3200.game.entities.Entity)" class="member-name-link">LateGameLootBox(LateGameLootTable, int, Entity)</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.rarities.<a href="com/csse3200/game/inventory/items/lootbox/rarities/LateGameLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox.rarities">LateGameLootBox</a></dt>
+<dd>
+<div class="block">Constructs a LateGameLootBox with the specified loot table, number of rolls, and player entity.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/LateGameLootTable.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.configs">LateGameLootTable</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/configs/package-summary.html">com.csse3200.game.inventory.items.lootbox.configs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/LateGameLootTable.html#%3Cinit%3E()" class="member-name-link">LateGameLootTable()</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.configs.<a href="com/csse3200/game/inventory/items/lootbox/configs/LateGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">LateGameLootTable</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/concurrency/JobSystem.html#launch(java.util.function.Supplier)" class="member-name-link">launch(Supplier&lt;T&gt;)</a> - Static method in class com.csse3200.game.concurrency.<a href="com/csse3200/game/concurrency/JobSystem.html" title="class in com.csse3200.game.concurrency">JobSystem</a></dt>
 <dd>
 <div class="block">Launch an asynchronous job which may be run on a separate thread.</div>
@@ -5136,10 +5154,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/LootBoxFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">LootBoxFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/LootBoxFactory.html#%3Cinit%3E()" class="member-name-link">LootBoxFactory()</a> - Constructor for class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/LootBoxFactory.html" title="class in com.csse3200.game.entities.factories">LootBoxFactory</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/LootBox.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox">LootBox</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/package-summary.html">com.csse3200.game.inventory.items.lootbox</a></dt>
+<dd>
+<div class="block">The LootBox class represents a consumable item that generates items based on a specified loot table.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/LootBox.html#%3Cinit%3E(com.csse3200.game.inventory.items.lootbox.configs.BaseLootTable,int,com.csse3200.game.entities.Entity)" class="member-name-link">LootBox(BaseLootTable, int, Entity)</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/LootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">LootBox</a></dt>
+<dd>
+<div class="block">Constructs a LootBox with the specified loot table, number of rolls, and the player entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/lootboxview/LootBoxOverlayComponent.html" class="type-name-link" title="class in com.csse3200.game.components.lootboxview">LootBoxOverlayComponent</a> - Class in <a href="com/csse3200/game/components/lootboxview/package-summary.html">com.csse3200.game.components.lootboxview</a></dt>
 <dd>
 <div class="block">LootBoxOverlayComponent is responsible for displaying a UI overlay that shows items
@@ -5409,6 +5431,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructs a Meat class with while assigning fields with set values.</div>
 </dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/MediumGameLootBox.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.rarities">MediumGameLootBox</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/rarities/package-summary.html">com.csse3200.game.inventory.items.lootbox.rarities</a></dt>
+<dd>
+<div class="block">Represents a Medium Game Loot Box, a type of loot box designed for mid-game content.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/rarities/MediumGameLootBox.html#%3Cinit%3E(com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable,int,com.csse3200.game.entities.Entity)" class="member-name-link">MediumGameLootBox(MediumGameLootTable, int, Entity)</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.rarities.<a href="com/csse3200/game/inventory/items/lootbox/rarities/MediumGameLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox.rarities">MediumGameLootBox</a></dt>
+<dd>
+<div class="block">Constructs a MediumGameLootBox with the specified loot table, number of rolls, and player entity.</div>
+</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/MediumGameLootTable.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox.configs">MediumGameLootTable</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/configs/package-summary.html">com.csse3200.game.inventory.items.lootbox.configs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/configs/MediumGameLootTable.html#%3Cinit%3E()" class="member-name-link">MediumGameLootTable()</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.configs.<a href="com/csse3200/game/inventory/items/lootbox/configs/MediumGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">MediumGameLootTable</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/food/Foods.Milk.html#%3Cinit%3E(int)" class="member-name-link">Milk(int)</a> - Constructor for class com.csse3200.game.inventory.items.food.<a href="com/csse3200/game/inventory/items/food/Foods.Milk.html" title="class in com.csse3200.game.inventory.items.food">Foods.Milk</a></dt>
 <dd>
 <div class="block">Constructs a Milk class with while assigning fields with set values.</div>
@@ -5676,9 +5710,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the player's action based on input and triggers enemy action selection.</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#open()" class="member-name-link">open()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/LootBox.html#open()" class="member-name-link">open()</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/LootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">LootBox</a></dt>
 <dd>
-<div class="block">Opens the loot box and returns a list of randomly selected items based on the loot table and number of rolls.</div>
+<div class="block">Opens the loot box and returns a list of randomly selected items based on the specified number of rolls.</div>
 </dd>
 <dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#optionsCheck(java.lang.String)" class="member-name-link">optionsCheck(String)</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
@@ -8166,10 +8200,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">ui Scale.</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a> - Class in <a href="com/csse3200/game/inventory/items/lootbox/package-summary.html">com.csse3200.game.inventory.items.lootbox</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#%3Cinit%3E(com.csse3200.game.inventory.items.lootbox.configs.BaseLootTable,int,com.csse3200.game.entities.Entity,java.lang.String,java.lang.String,int)" class="member-name-link">UniversalLootBox(BaseLootTable, int, Entity, String, String, int)</a> - Constructor for class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/CombatArea.html#unloadAssets()" class="member-name-link">unloadAssets()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.html" title="class in com.csse3200.game.areas">CombatArea</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/ForestGameArea.html#unloadAssets()" class="member-name-link">unloadAssets()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/ForestGameArea.html" title="class in com.csse3200.game.areas">ForestGameArea</a></dt>
@@ -8498,7 +8528,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Uses the food by applying its effects and decreasing the number of uses
   If no uses are left the potion will not apply the effect and will throw an error</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html#useItem(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem(ItemUsageContext)</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></dt>
+<dt><a href="com/csse3200/game/inventory/items/lootbox/LootBox.html#useItem(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem(ItemUsageContext)</a> - Method in class com.csse3200.game.inventory.items.lootbox.<a href="com/csse3200/game/inventory/items/lootbox/LootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">LootBox</a></dt>
 <dd>
 <div class="block">Consumes one instance of the loot box and adds the generated items to the player's inventory.</div>
 </dd>
