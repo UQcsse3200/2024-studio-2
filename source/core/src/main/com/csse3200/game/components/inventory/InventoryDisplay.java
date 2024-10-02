@@ -197,7 +197,7 @@ public abstract class InventoryDisplay extends UIComponent {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col + hotBarCapacity;
-                table.add(createSlot(index)).size(90, 90).pad(5); // Add the slot to the table
+                table.add(createSlot(index)).size(80, 80).pad(5); // Add the slot to the table
             }
             table.row(); // Move to the next row in the table
         }
@@ -220,7 +220,7 @@ public abstract class InventoryDisplay extends UIComponent {
         inventoryDisplay.pack();
         // Set position in stage top-center
         inventoryDisplay.setPosition(
-                (stage.getWidth() - inventoryDisplay.getWidth()) / 2,  // Center horizontally
+                (stage.getWidth() - inventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
                 (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
         );
         stage.addActor(inventoryDisplay);

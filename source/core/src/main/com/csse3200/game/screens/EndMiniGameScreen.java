@@ -17,17 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.entities.factories.LootBoxFactory;
+import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
 import com.csse3200.game.minigames.MiniGameConstants;
 import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.inventory.items.lootbox.configs.EarlyGameLootTable;
-import com.csse3200.game.inventory.items.lootbox.configs.LateGameLootTable;
-import com.csse3200.game.inventory.items.lootbox.configs.MediumGameLootTable;
-import com.csse3200.game.inventory.items.lootbox.rarities.EarlyGameLootBox;
-import com.csse3200.game.inventory.items.lootbox.rarities.LateGameLootBox;
-import com.csse3200.game.inventory.items.lootbox.rarities.MediumGameLootBox;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -127,7 +123,11 @@ public class EndMiniGameScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
                 // Return to main menu and original screen colour
                 Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                giveLootBox();
+                try {
+                    giveLootBox();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
@@ -146,19 +146,29 @@ public class EndMiniGameScreen extends ScreenAdapter {
     /**
      * Gives the player a loot box
      */
-    private void giveLootBox() {
+    private void giveLootBox() throws ClassNotFoundException {
         logger.info("Adding loot box to player's inventory.");
-        //TODO: change this only so when the medal changes
-        switch(getMedal(score)) {
-            case BRONZE -> display.getEntity().getEvents().trigger("addItem", new EarlyGameLootBox(
-                    new EarlyGameLootTable(),3 , player));
-            case SILVER -> display.getEntity().getEvents().trigger("addItem", new MediumGameLootBox(
-                    new MediumGameLootTable(),3 , player));
-            case GOLD -> display.getEntity().getEvents().trigger("addItem", new LateGameLootBox(
-                    new LateGameLootTable(),3 , player));
+        LootBoxFactory lootBoxFactory = new LootBoxFactory();  // Create the factory to handle loot box creation
+
+        // Determine the medal and get the corresponding loot box
+        switch (getMedal(score)) {
+            case BRONZE -> {
+                // Create and add EarlyGameLootBox using the factory
+                UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
+                display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
+            }
+            case SILVER -> {
+                // Create and add MediumGameLootBox using the factory
+                UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
+                display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
+            }
+            case GOLD -> {
+                // Create and add LateGameLootBox using the factory
+                UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
+                display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+            }
         }
     }
-
     /**
      * Changes the screen if backspace or R is pressed (to mini-games menu or back to game respectively)
      */
@@ -278,7 +288,11 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                    giveLootBox();
+                    try {
+                        giveLootBox();
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     game.setOldScreen(oldScreen, oldScreenServices);
                 }
             });
