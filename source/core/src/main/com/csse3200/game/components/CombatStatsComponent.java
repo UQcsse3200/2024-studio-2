@@ -15,7 +15,7 @@ public class CombatStatsComponent extends Component {
 
   // Enum for status effects
   public enum StatusEffect {
-    CONFUSION, BLEEDING, POISONED, SHOCKED
+    CONFUSED, BLEEDING, POISONED, SHOCKED
   }
 
   // Set to hold active status effects
@@ -374,7 +374,7 @@ public class CombatStatsComponent extends Component {
 
   /**
    * Adds a status effect to the entity. Status effects can impact combat in different ways.
-   * For example, 'CONFUSION' may cause an entity to randomly attack, while 'BLEEDING' may
+   * For example, 'CONFUSED' may cause an entity to randomly attack, while 'BLEEDING' may
    * cause gradual health loss over time.
    * @param effect The status effect to add
    */

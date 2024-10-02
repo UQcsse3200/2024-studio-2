@@ -40,8 +40,8 @@ class SpecialKangaMoveTest {
         // Act: Apply the debuffs to the target stats.
         specialKangaMove.applyDebuffs(mockTargetStats);
 
-        // Assert: Verify that CONFUSION and BLEEDING status effects are added to the target.
-        verify(mockTargetStats).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
+        // Assert: Verify that CONFUSED and BLEEDING status effects are added to the target.
+        verify(mockTargetStats).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
         verify(mockTargetStats).addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
     }
 
@@ -71,7 +71,7 @@ class SpecialKangaMoveTest {
         // Assert: Verify that the logger logs the correct message for debuffs.
         // Since logger is a static field, we'd normally need to mock or spy on it, but
         // here we assume it's just outputting the message and focus on behaviour verification.
-        verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
+        verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
         verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
     }
 

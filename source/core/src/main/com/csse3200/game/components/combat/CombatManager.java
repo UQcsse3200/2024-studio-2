@@ -120,7 +120,7 @@ public class CombatManager extends Component {
      * Randomly select a move to replace the player's selected move if the player has the Confusion status effect
      */
     public void handlePlayerConfusion() {
-        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
             logger.info("PLAYER is CONFUSED");
             ArrayList<Action> actions = new ArrayList<>(List.of(Action.ATTACK, Action.GUARD, Action.SLEEP));
             actions.remove(playerAction);
@@ -134,9 +134,9 @@ public class CombatManager extends Component {
      * Updates the statusEffectDuration and removes expired effects. Confusion only lasts 1 round and is always removed.
      */
     public void handleStatusEffects() {
-        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
             if (moveChangedByConfusion) {
-                playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION);
+                playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
                 moveChangedByConfusion = false;
             }
         }
@@ -394,13 +394,14 @@ public class CombatManager extends Component {
      */
     private String playerStatusEffects() {
         String effectDetails = "";
-
-        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            effectDetails += "You're bleeding! Your GUARD is less effective this round.";
-        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-            effectDetails += "You've been poisoned! SLEEP won't heal you this round.";
-        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
-            effectDetails += "You've been shocked! Your ATTACK is weakened this round.";
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING) && statusEffectDuration == 0) {
+            effectDetails += "You're bleeding! Your GUARDs will be less effective.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)
+                && statusEffectDuration == 0) {
+            effectDetails += "You've been poisoned! SLEEPing won't heal you.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)
+                && statusEffectDuration == 0) {
+            effectDetails += "You've been shocked! Your ATTACKs will be weakened.";
         }
 
         return effectDetails;

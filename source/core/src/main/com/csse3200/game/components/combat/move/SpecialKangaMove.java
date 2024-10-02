@@ -31,7 +31,7 @@ public class SpecialKangaMove extends SpecialMove {
     protected void applyDebuffs(CombatStatsComponent targetStats) {
         int rand = (int) (Math.random() * 4);
         CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
-            case 0 -> CombatStatsComponent.StatusEffect.CONFUSION;
+            case 0 -> CombatStatsComponent.StatusEffect.CONFUSED;
             case 1 -> CombatStatsComponent.StatusEffect.BLEEDING;
             case 2 -> CombatStatsComponent.StatusEffect.POISONED;
             case 3 -> CombatStatsComponent.StatusEffect.SHOCKED;
