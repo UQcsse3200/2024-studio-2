@@ -6,19 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * An actor representing the moon, which visually fills up as the loading progresses.
- * The moon is centered on the screen and its visibility changes based on the loading progress.
+ * An actor representing the moon, which fills up as the loading progresses.
  */
 public class MoonActor extends Actor {
-    private final Texture moonTexture;  // The texture representing the moon image
-    private float progress;  // Loading progress, ranges from 0 (empty) to 1 (full)
-    private float opacity = 0.5f;  // Default opacity (transparency level)
+    private final Texture moonTexture;
+    private float progress;
+    private float opacity = 0.5f;  // Default opacity (set to 0.5 for blending)
 
-
-    /**
-     * Creates a new MoonActor, loading the moon texture and positioning the moon
-     * in the center of the screen with a fixed size.
-     */
     public MoonActor() {
         moonTexture = new Texture("images/animal/moon.png");  // Load the moon texture
         setSize(300, 300);  // Fixed size for the moon
@@ -28,13 +22,6 @@ public class MoonActor extends Actor {
         setPosition((screenWidth - getWidth()) / 2, (screenHeight - getHeight()) / 2);
     }
 
-    /**
-     * Draws the moon on the screen, displaying only a portion of it based on the loading progress.
-     * The moon becomes more visible as progress increases, drawn from the bottom up.
-     *
-     * @param batch The Batch used for drawing textures.
-     * @param parentAlpha The parent alpha, which can be used to combine transparency.
-     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // Calculate the visible part of the moon based on progress
@@ -55,57 +42,32 @@ public class MoonActor extends Actor {
     }
 
     /**
-     * Sets the loading progress for the moon, which determines how much of the moon is visible.
-     * The value should be between 0 (no progress) and 1 (fully visible).
-     *
-     * @param progress The progress of the loading, ranging from 0 to 1.
+     * Set the moon's progress (from 0 to 1) to adjust how much of the moon is visible.
      */
     public void setProgress(float progress) {
-        this.progress = progress;
+        // Clamp the progress between 0 and 1
+        this.progress = Math.max(0, Math.min(progress, 1));  // Clamping logic
     }
 
-    /**
-     * Updates the moon actor each frame.
-     *
-     * @param delta Time elapsed since the last frame.
-     */
+
     @Override
     public void act(float delta) {
         super.act(delta);
     }
-
     /**
-     * Sets the opacity (transparency) of the moon.
-     * Values should range from 0 (completely transparent) to 1 (fully opaque).
-     *
-     * @param opacity The opacity value for the moon, between 0 and 1.
+     * Set the opacity for the moon. Values should be between 0 (completely transparent) and 1 (fully opaque).
      */
     public void setOpacity(float opacity) {
-        this.opacity = opacity;
+        this.opacity = Math.max(0, Math.min(opacity, 1));
     }
-
-    /**
-     * Returns the current opacity of the moon.
-     *
-     * @return The opacity value of the moon, between 0 and 1.
-     */
     public float getOpacity() {
         return opacity;
     }
 
-    /**
-     * Returns the current loading progress of the moon.
-     *
-     * @return The loading progress, a value between 0 and 1.
-     */
     public float getProgress() {
         return progress;
     }
 
-    /**
-     * Disposes of the resources used by the MoonActor, specifically the moon texture.
-     * This method should be called when the moon is no longer needed to free up memory.
-     */
     public void dispose() {
         moonTexture.dispose();  // Dispose of the moon texture when done
     }

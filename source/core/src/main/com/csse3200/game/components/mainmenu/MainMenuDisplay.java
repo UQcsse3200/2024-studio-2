@@ -103,6 +103,7 @@ public class MainMenuDisplay extends UIComponent {
     int birdCurrentFrame = 0;
     int dogCurrentFrame = 0;
     private float timer;
+
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -150,26 +151,35 @@ public class MainMenuDisplay extends UIComponent {
         timer = 0f;
     }
 
+    /**
+     * Adds a chatbot icon to the UI, positioned in the bottom-right corner of the screen.
+     * The icon allows the user to open and close a chatbot dialog.
+     */
     private void addChatbotIcon() {
+        // Create a table to hold the chatbot icon and position it in the bottom-right corner.
         chatbotIconTable = new Table();
         chatbotIconTable.bottom().right();
         chatbotIconTable.setFillParent(true);
         chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
+        // Load the chatbot icon image and set its initial size.
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
         chatbotIcon.setSize(100, 100);
 
+        // Add a listener to the chatbot icon for click events
         chatbotIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                // Toggle the chatbot dialog's visibility when the icon is clicked.
                 if (isChatbotDialogVisible) {
-                    closeChatbotDialog();
+                    closeChatbotDialog();  // Close the chatbot dialog if it is currently visible.
                 } else {
-                    openChatbotDialog();
+                    openChatbotDialog();   // Open the chatbot dialog if it is currently hidden.
                 }
             }
         });
 
+        // Add the chatbot icon to the table and the table to the stage.
         chatbotIconTable.add(chatbotIcon);
         stage.addActor(chatbotIconTable);
     }
@@ -235,7 +245,7 @@ public class MainMenuDisplay extends UIComponent {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                chatbotDialog.hide(); // Close the chatbot dialog
+                chatbotDialog.hide(Actions.sequence(Actions.alpha(0f), Actions.run(() -> isChatbotDialogVisible = false))); // Close without fade effect
             }
         });
 
@@ -249,7 +259,9 @@ public class MainMenuDisplay extends UIComponent {
         contentTable.add(closeButton).pad(10).row(); // Add close button
 
         chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
-        chatbotDialog.show(stage); // Show the dialog
+
+        // Show the dialog without fade-in effect
+        chatbotDialog.show(stage, Actions.sequence(Actions.alpha(1f))); // Ensure full opacity without any fade effect
 
         // Center the dialog on screen after showing it
         centerDialogOnScreen();
@@ -275,8 +287,6 @@ public class MainMenuDisplay extends UIComponent {
         String chatbotResponse = chatbotService.getResponse(userInput);
         chatbotResponseLabel.setText(chatbotResponse);
     }
-
-
 
     /**
      * Closes the chatbot dialog.
@@ -357,7 +367,7 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addOwlToMenu() {
         // Set owl initial position
-        owlImage.setPosition(1720, 150);// Adjust the position as needed
+        owlImage.setPosition(1750, 720);// Adjust the position as needed
         owlImage.setSize(200, 300);
         stage.addActor(owlImage);
 
@@ -717,13 +727,13 @@ public class MainMenuDisplay extends UIComponent {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        userTable.setSize(122, 522);
+        userTable.setSize(175, 175);
 
         userTable.setVisible(true);
 
-        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        userTable.add(profileBtn).size(100, 100).top().padTop(30).expandY();
+        userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
 
         profileBtn.addListener(new ChangeListener() {
             @Override
@@ -776,7 +786,7 @@ public class MainMenuDisplay extends UIComponent {
     public void updateUserTable() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        userTable.setPosition(165, screenHeight - 190);
     }
 
     /**
@@ -1151,6 +1161,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
     }
+
     @Override
     public void update() {
         timer += Gdx.graphics.getDeltaTime();
@@ -1175,10 +1186,10 @@ public class MainMenuDisplay extends UIComponent {
         float birdX = birdAniImage.getX();
         if (birdX < -200 && birdDirection) {
             birdDirection = false;
-            birdAniImage.setScale(-1,1);
+            birdAniImage.setScale(-1, 1);
         } else if (birdX > 1500 && !birdDirection) {
             birdDirection = true;
-            birdAniImage.setScale(1,1);
+            birdAniImage.setScale(1, 1);
         }
 
         if (birdDirection) {
