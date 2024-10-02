@@ -84,6 +84,12 @@ public class AchievementDisplay extends UIComponent {
      */
     private void addActors() {
         rootTable = new Table();
+        // Load and set the background texture for the entire screen
+        Image background = new Image(new Texture("images/BackgroundSplash.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // Add the background to the stage
+        stage.addActor(background);
         Image rootTableBG = new Image(ServiceLocator.getResourceService().getAsset("images/logbook/lb-bg.png",Texture.class));
         rootTable.setBackground(rootTableBG.getDrawable());
         rootTable.center();
@@ -345,7 +351,6 @@ public class AchievementDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        batch.draw(new Texture("images/BackgroundSplash.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
