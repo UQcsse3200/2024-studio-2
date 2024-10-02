@@ -74,7 +74,7 @@ class QuickTimeEventTest {
     void exitButtonShouldReturnToMenu() {
         ui.getEvents().trigger("exit");
         ui.update();
-        Mockito.verify(game).setScreen(GdxGame.ScreenType.MAIN_MENU);
+        Mockito.verify(game).setScreen(GdxGame.ScreenType.COMBAT);
     }
 
     /**
@@ -128,7 +128,7 @@ class QuickTimeEventTest {
     @Test
     void shouldHandleFastQuickTimeEvent() {
         when(gameTime.getTime()).thenReturn(0L);
-        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f, Keys.W)};
         ui.getEvents().trigger("startQuickTime", quickTimeEvents);
         ui.update();
         stage.act(0.5f);
@@ -146,7 +146,7 @@ class QuickTimeEventTest {
     @Test
     void shouldHandlePerfectQuickTimeEvent() {
         when(gameTime.getTime()).thenReturn(0L);
-        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f, Keys.W)};
         ui.getEvents().trigger("startQuickTime", quickTimeEvents);
         ui.update();
         stage.act(0.995f);

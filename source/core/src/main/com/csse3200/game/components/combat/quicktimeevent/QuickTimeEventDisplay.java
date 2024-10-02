@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,9 +21,14 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 public class QuickTimeEventDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventDisplay.class);
     private GameTime gameTime;
+    private static final Map<Integer, Float> IMAGE_ROTATE = Map.of(
+            Keys.W, 0f, Keys.A, 90f, Keys.S, 180f, Keys.D, 270f
+    );
     
     // sizes and dimensions
     private static final float COL_WIDTH = 160f;
@@ -43,6 +49,7 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     // quick-time event constants and variables
     private static final long QUICK_TIME_WINDOW = 40; // milli-secs
+    private int keyRequired;
     private boolean qteActive = false;
     private boolean isDefault = true;
     private long startTime;
@@ -106,6 +113,7 @@ public class QuickTimeEventDisplay extends UIComponent {
         target.setSize(IMG_SIZE, IMG_SIZE);
         ImageButtonStyle buttonStyle = new ImageButtonStyle();
         target.setStyle(buttonStyle);
+        target.getImage().setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
         setTargetImage("target_default");
         group.addActor(target);
         // Set up the quick-time event
@@ -244,8 +252,10 @@ public class QuickTimeEventDisplay extends UIComponent {
             @Override
             public void run() {
                 logger.debug("Setting up quick-time event");
+                keyRequired = quickTimeEvent.keycode();
                 qte.setScale(QTE_START_SCALE);
-                qte.setRotation(QTE_START_ROT);
+                qte.setRotation(QTE_START_ROT + IMAGE_ROTATE.get(keyRequired));
+                target.getImage().setRotation(IMAGE_ROTATE.get(keyRequired));
                 qte.setVisible(true);
                 setTargetImage("target_default");
                 startTime = gameTime.getTime();
@@ -294,6 +304,7 @@ public class QuickTimeEventDisplay extends UIComponent {
                         AudioManager.playSound(victorySound);
                     }
                     qte.setVisible(false);
+                    target.getImage().setRotation(0f);
                     setTargetImage("target_default");
                 }
             });
@@ -304,16 +315,19 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     /**
      * Handle quick-time event button press
+     *
+     * @param keycode the key pressed by the user
      */
-    private void onQuickTimeBtnPress() {
+    private void onQuickTimeBtnPress(int keycode) {
         if (qteActive) {
             // quick-time event in process
-            if (gameTime.getTime() >= windowStartTime) {
-                // button press timed correctly
+            if (keycode == keyRequired
+                    && gameTime.getTime() >= windowStartTime) {
+                // correct button pressed + timed correctly
                 setTargetImage("target_perfect");
                 incScore();
             } else {
-                // button press too fast
+                // incorrect button pressed or too fast
                 setTargetImage("target_fast");
             }
             // de-render quick-time event animation
