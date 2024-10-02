@@ -43,7 +43,7 @@ public class MainMenuActions extends Component {
 
     GameState.resetState();
 
-    game.setScreen(GdxGame.ScreenType.CUTSCENE);
+    game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
   }
 
   /**

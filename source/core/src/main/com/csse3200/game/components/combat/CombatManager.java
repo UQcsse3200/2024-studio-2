@@ -155,6 +155,7 @@ public class CombatManager extends Component {
         logger.info("(BEFORE) ENEMY {}: health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
 
         // Execute the selected moves for both player and enemy.
+        initStatsCopies();
         executeMoveCombination(playerAction, enemyAction);
 
         // Process any status effects after the actions are taken.
@@ -241,7 +242,6 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
-        entity.getEvents().trigger("startQuickTime");
         switch (playerAction) {
             case ATTACK -> {
                 switch (enemyAction) {
@@ -260,7 +260,7 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        // entity.getEvents().trigger("startQuickTime");
+                        entity.getEvents().trigger("startQuickTime");
                         int score = getPlayerMultiHitsLanded();
                         playerMove.executeMove(playerAction, enemyStats, false, score);
                     }

@@ -64,6 +64,7 @@ public class QuickTimeEventDisplay extends UIComponent {
         gameTime = ServiceLocator.getTimeSource();
         entity.getEvents().addListener("editLabel", this::onEditLabel);
         entity.getEvents().addListener("startQuickTime", this::onStartQuickTime);
+        entity.getEvents().addListener("quickTimeBtnPress", this::onQuickTimeBtnPress);
         addActors();
     }
 
@@ -86,7 +87,6 @@ public class QuickTimeEventDisplay extends UIComponent {
         qte = new Image(pawsAtlas.findRegion("qte"));
         qte.setSize(IMG_SIZE, IMG_SIZE);
         qte.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
-        qte.setVisible(false); // Start as not visible
         group.addActor(qte);
         table.add(group).size(IMG_SIZE,IMG_SIZE).expand().padTop(60f);
 
@@ -95,14 +95,24 @@ public class QuickTimeEventDisplay extends UIComponent {
         label = new Label(new StringBuffer(), skin);
         label.setFontScale(3.0f);
         label.setAlignment(Align.center);
-        table.add(label).width(LABEL_WIDTH);
+        table.add(label).width(LABEL_WIDTH).padBottom(175f);
 
+        toggleVisibility(false);
         stage.addActor(table);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         // draw is handled by the stage
+    }
+
+    /**
+     * Toggle visibility of all actors on screen
+     */
+    private void toggleVisibility(boolean visible) {
+        qte.setVisible(visible);
+        target.setVisible(visible);
+        label.setVisible(visible);
     }
 
     /**
@@ -143,10 +153,12 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     /**
      * Animates the quick-time events
-     *
-     * @param quickTimeEvents the quick-time event data
      */
-    private void onStartQuickTime(QuickTimeEvent[] quickTimeEvents) {
+    private void onStartQuickTime() {
+        // set up the quick-time events
+        QuickTimeEvent[] quickTimeEvents = quickTimeEventsDemo();
+        // make actors visible
+        toggleVisibility(true);
         // set up the displayed score
         int numEvents = quickTimeEvents.length;
         score = 0;
@@ -234,7 +246,8 @@ public class QuickTimeEventDisplay extends UIComponent {
                         // perfect score - play a jingle
                         AudioManager.playSound(victorySound);
                     }
-                    qte.setVisible(false);
+                    // make actors invisible
+                    toggleVisibility(false);
                     target.getImage().setRotation(0f);
                     setTargetImage("target_default");
                 }

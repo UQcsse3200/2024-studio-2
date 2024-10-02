@@ -147,6 +147,7 @@ public class CombatScreen extends ScreenAdapter {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(combatTextures);
+    resourceService.loadSounds(new String[]{"sounds/victory.mp3"});
     ServiceLocator.getResourceService().loadAll();
   }
 
