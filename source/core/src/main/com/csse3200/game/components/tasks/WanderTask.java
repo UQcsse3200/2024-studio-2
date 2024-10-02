@@ -61,8 +61,6 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       movementTask.start();
 
       currentTask = movementTask;
-
-      this.owner.getEntity().getEvents().trigger("kangaWanderStart");
     } else if(!isSpawned) {
       logger.debug("Triggering spawn event");
       this.owner.getEntity().getEvents().trigger("spawnStart");
@@ -72,7 +70,9 @@ public class WanderTask extends DefaultTask implements PriorityTask {
       waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
       waitTask.create(owner);
       swapTask(waitTask);
-    } else if (newPos.x - startPos.x < 0) {
+    }
+
+    if (newPos.x - startPos.x < 0) {
       logger.debug("wandering right");
       this.owner.getEntity().getEvents().trigger("wanderLeft");
     } else {
