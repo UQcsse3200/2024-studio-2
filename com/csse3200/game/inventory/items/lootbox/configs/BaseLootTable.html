@@ -88,14 +88,10 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">com.csse3200.game.inventory.items.lootbox.configs.BaseLootTable</div>
 </div>
 <section class="class-description" id="class-description">
-<dl class="notes">
-<dt>Direct Known Subclasses:</dt>
-<dd><code><a href="EarlyGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">EarlyGameLootTable</a></code>, <code><a href="LateGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">LateGameLootTable</a></code>, <code><a href="MediumGameLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">MediumGameLootTable</a></code></dd>
-</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseLootTable</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseLootTable</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">BaseLootTable is an abstract class representing a basic loot table used to manage and generate loot items.
+<div class="block">BaseLootTable is a concrete class representing a basic loot table used to manage and generate loot items.
  It provides functionality to add items with specified weights, retrieve single or multiple random items,
  and calculate their probabilities based on the assigned weights.</div>
 </section>
@@ -121,11 +117,9 @@ loadScripts(document, 'script');</script>
 <section class="constructor-summary" id="constructor-summary">
 <h2>Constructor Summary</h2>
 <div class="caption"><span>Constructors</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier</div>
-<div class="table-header col-second">Constructor</div>
+<div class="summary-table two-column-summary">
+<div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected </code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">BaseLootTable</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a BaseLootTable and initializes the list of items.</div>
@@ -201,9 +195,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>BaseLootTable</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">BaseLootTable</span>()</div>
-<div class="block">Constructs a BaseLootTable and initializes the list of items.
- This constructor sets up the internal structure needed to manage loot items.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseLootTable</span>()</div>
+<div class="block">Constructs a BaseLootTable and initializes the list of items.</div>
 </section>
 </li>
 </ul>
