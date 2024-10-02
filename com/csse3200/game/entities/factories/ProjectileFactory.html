@@ -114,7 +114,17 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createBanana(com.csse3200.game.entities.Entity)" class="member-name-link">createBanana</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a banana projectile entity.</div>
+<div class="block">Creates a banana projectile entity (for monkey).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createElectricOrb(com.csse3200.game.entities.Entity)" class="member-name-link">createElectricOrb</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates an orb projectile entity (for eel).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createHive(com.csse3200.game.entities.Entity)" class="member-name-link">createHive</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a hive enemy.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWaterSpiral(com.csse3200.game.entities.Entity)" class="member-name-link">createWaterSpiral</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
@@ -122,6 +132,11 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWindGust(com.csse3200.game.entities.Entity)" class="member-name-link">createWindGust</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWorm(com.csse3200.game.entities.Entity)" class="member-name-link">createWorm</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates an worm projectile entity (for eel).</div>
+</div>
 </div>
 </div>
 </div>
@@ -143,7 +158,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createBanana(com.csse3200.game.entities.Entity)">
 <h3>createBanana</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createBanana</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
-<div class="block">Creates a banana projectile entity.
+<div class="block">Creates a banana projectile entity (for monkey).
 
  <p>This projectile will chase the specified target entity, such as a player, using predefined
  AI tasks and animations.</div>
@@ -165,6 +180,51 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createWindGust(com.csse3200.game.entities.Entity)">
 <h3>createWindGust</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createWindGust</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createElectricOrb(com.csse3200.game.entities.Entity)">
+<h3>createElectricOrb</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createElectricOrb</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
+<div class="block">Creates an orb projectile entity (for eel).
+
+ <p>This projectile will chase the specified target entity, such as a player, using predefined
+ AI tasks and animations.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the projectile will target and chase.</dd>
+<dt>Returns:</dt>
+<dd>A new orb projectile entity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createWorm(com.csse3200.game.entities.Entity)">
+<h3>createWorm</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createWorm</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
+<div class="block">Creates an worm projectile entity (for eel).
+
+ <p>This projectile will chase the specified target entity, such as a player, using predefined
+ AI tasks and animations.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the projectile will target and chase.</dd>
+<dt>Returns:</dt>
+<dd>A new worm projectile entity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createHive(com.csse3200.game.entities.Entity)">
+<h3>createHive</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createHive</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
+<div class="block">Creates a hive enemy.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - entity which the spawned bees will chase</dd>
+<dt>Returns:</dt>
+<dd>enemy hive entity</dd>
+</dl>
 </section>
 </li>
 </ul>

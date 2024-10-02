@@ -86,13 +86,15 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="Component.html" title="class in com.csse3200.game.components">com.csse3200.game.components.Component</a>
+<div class="inheritance"><a href="TouchAttackComponent.html" title="class in com.csse3200.game.components">com.csse3200.game.components.TouchAttackComponent</a>
 <div class="inheritance">com.csse3200.game.components.ProjectileAttackComponent</div>
+</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ProjectileAttackComponent</span>
-<span class="extends-implements">extends <a href="Component.html" title="class in com.csse3200.game.components">Component</a></span></div>
+<span class="extends-implements">extends <a href="TouchAttackComponent.html" title="class in com.csse3200.game.components">TouchAttackComponent</a></span></div>
 <div class="block">A component that allows an entity to attack other entities upon collision, dealing damage and applying knockback.
 
  <p>This component should be added to a projectile entity. It requires the entity to have a
@@ -108,6 +110,9 @@ loadScripts(document, 'script');</script>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
+<h3 id="fields-inherited-from-class-com.csse3200.game.components.TouchAttackComponent">Fields inherited from class&nbsp;com.csse3200.game.components.<a href="TouchAttackComponent.html" title="class in com.csse3200.game.components">TouchAttackComponent</a></h3>
+<code><a href="TouchAttackComponent.html#combatStats">combatStats</a>, <a href="TouchAttackComponent.html#hitboxComponent">hitboxComponent</a>, <a href="TouchAttackComponent.html#targetLayer">targetLayer</a></code></div>
+<div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.components.Component">Fields inherited from class&nbsp;com.csse3200.game.components.<a href="Component.html" title="class in com.csse3200.game.components">Component</a></h3>
 <code><a href="Component.html#enabled">enabled</a>, <a href="Component.html#entity">entity</a></code></div>
 </section>
@@ -120,7 +125,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(short)" class="member-name-link">ProjectileAttackComponent</a><wbr>(short&nbsp;targetLayer)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(short,int,com.csse3200.game.entities.Entity)" class="member-name-link">ProjectileAttackComponent</a><wbr>(short&nbsp;targetLayer,
+ int&nbsp;damage,
+ <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.</div>
 </div>
@@ -138,15 +145,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes the component by registering collision listeners and fetching the necessary components
- for handling attacks and detecting collisions.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onCollisionStart(com.badlogic.gdx.physics.box2d.Fixture,com.badlogic.gdx.physics.box2d.Fixture)" class="member-name-link">onCollisionStart</a><wbr>(com.badlogic.gdx.physics.box2d.Fixture&nbsp;me,
+ com.badlogic.gdx.physics.box2d.Fixture&nbsp;other)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
-</div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-com.csse3200.game.components.TouchAttackComponent">Methods inherited from class&nbsp;com.csse3200.game.components.<a href="TouchAttackComponent.html" title="class in com.csse3200.game.components">TouchAttackComponent</a></h3>
+<code><a href="TouchAttackComponent.html#checkHitboxAndLayer(com.badlogic.gdx.physics.box2d.Fixture,com.badlogic.gdx.physics.box2d.Fixture)">checkHitboxAndLayer</a>, <a href="TouchAttackComponent.html#create()">create</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.components.Component">Methods inherited from class&nbsp;com.csse3200.game.components.<a href="Component.html" title="class in com.csse3200.game.components">Component</a></h3>
 <code><a href="Component.html#dispose()">dispose</a>, <a href="Component.html#earlyUpdate()">earlyUpdate</a>, <a href="Component.html#getEntity()">getEntity</a>, <a href="Component.html#setEnabled(boolean)">setEnabled</a>, <a href="Component.html#setEntity(com.csse3200.game.entities.Entity)">setEntity</a>, <a href="Component.html#toString()">toString</a>, <a href="Component.html#triggerEarlyUpdate()">triggerEarlyUpdate</a>, <a href="Component.html#triggerUpdate()">triggerUpdate</a>, <a href="Component.html#update()">update</a></code></div>
@@ -165,14 +173,17 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(short)">
+<section class="detail" id="&lt;init&gt;(short,int,com.csse3200.game.entities.Entity)">
 <h3>ProjectileAttackComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ProjectileAttackComponent</span><wbr><span class="parameters">(short&nbsp;targetLayer)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ProjectileAttackComponent</span><wbr><span class="parameters">(short&nbsp;targetLayer,
+ int&nbsp;damage,
+ <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
 <div class="block">Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.
  The component is configured to target entities in a specific physics layer.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>targetLayer</code> - The physics layer of the target entities' collider.</dd>
+<dd><code>damage</code> - the amount of damage this projectile does</dd>
 </dl>
 </section>
 </li>
@@ -185,14 +196,13 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="create()">
-<h3>create</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block">Initializes the component by registering collision listeners and fetching the necessary components
- for handling attacks and detecting collisions. This method is called when the component is created.</div>
+<section class="detail" id="onCollisionStart(com.badlogic.gdx.physics.box2d.Fixture,com.badlogic.gdx.physics.box2d.Fixture)">
+<h3>onCollisionStart</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onCollisionStart</span><wbr><span class="parameters">(com.badlogic.gdx.physics.box2d.Fixture&nbsp;me,
+ com.badlogic.gdx.physics.box2d.Fixture&nbsp;other)</span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="Component.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="Component.html" title="class in com.csse3200.game.components">Component</a></code></dd>
+<dd><code><a href="TouchAttackComponent.html#onCollisionStart(com.badlogic.gdx.physics.box2d.Fixture,com.badlogic.gdx.physics.box2d.Fixture)">onCollisionStart</a></code>&nbsp;in class&nbsp;<code><a href="TouchAttackComponent.html" title="class in com.csse3200.game.components">TouchAttackComponent</a></code></dd>
 </dl>
 </section>
 </li>

@@ -154,16 +154,6 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivePriority()" class="member-name-link">getActivePriority</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the priority level when the avoidance behavior is active.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInactivePriority()" class="member-name-link">getInactivePriority</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the priority level when the avoidance behavior is inactive.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPriority()" class="member-name-link">getPriority</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -185,7 +175,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.components.tasks.ChaseTask">Methods inherited from class&nbsp;com.csse3200.game.components.tasks.<a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></h3>
-<code><a href="ChaseTask.html#getDistanceToTarget()">getDistanceToTarget</a>, <a href="ChaseTask.html#getViewDistance()">getViewDistance</a>, <a href="ChaseTask.html#isBoss()">isBoss</a>, <a href="ChaseTask.html#isTargetVisible()">isTargetVisible</a>, <a href="ChaseTask.html#stop()">stop</a></code></div>
+<code><a href="ChaseTask.html#eelChase(com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2)">eelChase</a>, <a href="ChaseTask.html#getDistanceToTarget()">getDistanceToTarget</a>, <a href="ChaseTask.html#getViewDistance()">getViewDistance</a>, <a href="ChaseTask.html#isBoss()">isBoss</a>, <a href="ChaseTask.html#isTargetVisible()">isTargetVisible</a>, <a href="ChaseTask.html#stop()">stop</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.ai.tasks.DefaultTask">Methods inherited from class&nbsp;com.csse3200.game.ai.tasks.<a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></h3>
 <code><a href="../../ai/tasks/DefaultTask.html#create(com.csse3200.game.ai.tasks.TaskRunner)">create</a>, <a href="../../ai/tasks/DefaultTask.html#getStatus()">getStatus</a>, <a href="../../ai/tasks/DefaultTask.html#setOwner(com.csse3200.game.ai.tasks.TaskRunner)">setOwner</a></code></div>
@@ -273,36 +263,6 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="ChaseTask.html#getPriority()">getPriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
 <dt>Returns:</dt>
 <dd>the priority level of the avoidance behavior.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getActivePriority()">
-<h3>getActivePriority</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getActivePriority</span>()</div>
-<div class="block">Returns the priority level when the avoidance behavior is active.
- If the distance to the target is greater than the safe distance or the target is not visible,
- the avoidance behavior should stop and the method returns -1.</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="ChaseTask.html#getActivePriority()">getActivePriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
-<dt>Returns:</dt>
-<dd>the active priority level or -1 if the behavior should stop.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getInactivePriority()">
-<h3>getInactivePriority</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getInactivePriority</span>()</div>
-<div class="block">Returns the priority level when the avoidance behavior is inactive.
- If the distance to the target is less than the safe distance and the target is visible,
- the method returns the set priority; otherwise, it returns -1.</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="ChaseTask.html#getInactivePriority()">getInactivePriority</a></code>&nbsp;in class&nbsp;<code><a href="ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></code></dd>
-<dt>Returns:</dt>
-<dd>the inactive priority level or -1 if the behavior should not activate.</dd>
 </dl>
 </section>
 </li>
