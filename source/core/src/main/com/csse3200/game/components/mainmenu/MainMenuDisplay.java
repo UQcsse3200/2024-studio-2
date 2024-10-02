@@ -118,8 +118,8 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         setupCustomCursor();
         addActors();
-        chatbotService = new ChatbotService(); // Initialize the chatbot service
-        setupPredefinedQuestions(); // Setup predefined questions
+        chatbotService = new ChatbotService();
+        setupPredefinedQuestions();
         addChatbotIcon();
         animateAnimals();
         applyUserSettings();
@@ -129,27 +129,24 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addChatbotIcon() {
         chatbotIconTable = new Table();
-        chatbotIconTable.bottom().right(); // Align to bottom right
+        chatbotIconTable.bottom().right();
         chatbotIconTable.setFillParent(true);
-        chatbotIconTable.pad(20).padBottom(50).padRight(50); // Padding from edges
+        chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
-        // Chatbot icon (adjust image as needed)
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
-        chatbotIcon.setSize(100, 100); // Adjust size as needed
+        chatbotIcon.setSize(100, 100);
 
-        // Listener to toggle chatbot dialog visibility
         chatbotIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (isChatbotDialogVisible) {
-                    closeChatbotDialog(); // Close the dialog if it's already open
+                    closeChatbotDialog();
                 } else {
-                    openChatbotDialog(); // Open the dialog if it's not visible
+                    openChatbotDialog();
                 }
             }
         });
 
-        // Add the chatbot icon to the stage
         chatbotIconTable.add(chatbotIcon);
         stage.addActor(chatbotIconTable);
     }
@@ -158,26 +155,26 @@ public class MainMenuDisplay extends UIComponent {
      * Opens the chatbot dialog in the center of the screen.
      */
     private void openChatbotDialog() {
-        if (chatbotDialog != null && isChatbotDialogVisible) {
-            return;
-        }
-
-        chatbotDialog = new Dialog("Chatbot", skin) {
+        chatbotDialog = new Dialog("", skin) {
             @Override
             protected void result(Object object) {
                 logger.info("Chatbot dialog closed.");
             }
         };
 
-        float dialogWidth = 900;
-        float dialogHeight = 700;
-        chatbotDialog.setSize(dialogWidth, dialogHeight);
+        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100); // Dynamically set width
+        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100); // Dynamically set height
+        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
 
-        Texture dialogBackgroundTexture = new Texture(Gdx.files.internal("images/SettingBackground.png"));
-        Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(dialogBackgroundTexture));
+        // Background for the chatbot window
+        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png")));
+        chatbotDialog.setBackground(backgroundDrawable);
 
-        chatbotDialog.setBackground(dialogBackground);
+        // Title
+        Label titleLabel = new Label("Chatbot", skin, "title-white");
+        titleLabel.setAlignment(Align.center);
 
+        // Predefined questions
         Table questionTable = new Table();
         for (String question : predefinedQuestions) {
             TextButton questionButton = new TextButton(question, skin);
@@ -187,13 +184,15 @@ public class MainMenuDisplay extends UIComponent {
                     processChatInput(question);
                 }
             });
-            questionTable.add(questionButton).pad(10).row();
+            questionTable.add(questionButton).pad(5).expandX().fillX().row(); // Add each question button with padding and fill
         }
 
+        // User input field
         userInputField = new TextField("", skin);
         userInputField.setMessageText("Type your question...");
-        userInputField.setSize(600, 50);
+        userInputField.setAlignment(Align.center);
 
+        // Submit button
         TextButton sendButton = new TextButton("Send", skin);
         sendButton.addListener(new ClickListener() {
             @Override
@@ -201,42 +200,45 @@ public class MainMenuDisplay extends UIComponent {
                 processChatInput(userInputField.getText());
             }
         });
-        sendButton.setSize(100, 50);
 
+        // Response label
         chatbotResponseLabel = new Label("", skin);
         chatbotResponseLabel.setWrap(true);
+        chatbotResponseLabel.setAlignment(Align.center);
+        chatbotResponseLabel.setWidth(500);
 
+        // Close button
         TextButton closeButton = new TextButton("Close", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                closeChatbotDialog(); // Close the chatbot dialog
+                chatbotDialog.hide(); // Close the chatbot dialog
             }
         });
 
-        chatbotDialog.getContentTable().add(questionTable).pad(10).growX().row();
-        chatbotDialog.getContentTable().add(userInputField).width(600).pad(10).row();
-        chatbotDialog.getContentTable().add(sendButton).width(100).pad(10).row();
-        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(800).pad(10).growX().row();
-        chatbotDialog.getButtonTable().add(closeButton).pad(10);
-        chatbotDialog.show(stage);
+        // Layout the dialog
+        Table contentTable = new Table();
+        contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
+        contentTable.add(questionTable).expandX().fillX().pad(20).row(); // Add question buttons
+        contentTable.add(userInputField).width(600).pad(10).row(); // Add input field
+        contentTable.add(sendButton).pad(10).row(); // Add send button
+        contentTable.add(chatbotResponseLabel).width(600).pad(10).row(); // Add response label
+        contentTable.add(closeButton).pad(10).row(); // Add close button
 
-        isChatbotDialogVisible = true;
+        chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
+        chatbotDialog.show(stage); // Show the dialog
+
+        // Center the dialog on screen after showing it
+        centerDialogOnScreen();
     }
 
-    /**
-     * Closes the chatbot dialog.
-     */
-    private void closeChatbotDialog() {
-        if (chatbotDialog != null && isChatbotDialogVisible) {
-            chatbotDialog.hide();
-            isChatbotDialogVisible = false;
-        }
+    private void centerDialogOnScreen() {
+        chatbotDialog.setPosition(
+                (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
+        );
     }
 
-    /**
-     * Setup predefined questions to display in the dialog.
-     */
     private void setupPredefinedQuestions() {
         predefinedQuestions = new ArrayList<>();
         predefinedQuestions.add("How do I move?");
@@ -246,14 +248,21 @@ public class MainMenuDisplay extends UIComponent {
         predefinedQuestions.add("Hello");
     }
 
-    /**
-     * Processes user input or predefined questions and updates the response.
-     *
-     * @param userInput The user input (either custom or predefined).
-     */
     private void processChatInput(String userInput) {
-        String chatbotResponse = chatbotService.getResponse(userInput);  // Get chatbot response
-        chatbotResponseLabel.setText(chatbotResponse);  // Update response label
+        String chatbotResponse = chatbotService.getResponse(userInput);
+        chatbotResponseLabel.setText(chatbotResponse);
+    }
+
+
+
+    /**
+     * Closes the chatbot dialog.
+     */
+    private void closeChatbotDialog() {
+        if (chatbotDialog != null && isChatbotDialogVisible) {
+            chatbotDialog.hide();
+            isChatbotDialogVisible = false;
+        }
     }
 
     /**
@@ -277,7 +286,6 @@ public class MainMenuDisplay extends UIComponent {
 
     public void updateChatbotDialogPosition() {
         if (chatbotDialog != null) {
-            // Center the chatbot dialog on the screen
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
             chatbotDialog.setPosition(
