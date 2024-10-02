@@ -5,7 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class DialogueBoxService {
+
+    public enum DialoguePriority {;
+        public static final int BATTLE = -3;
+        public static final int FRIENDLYNPC = -2;
+        public static final int ITEMINVENTORY = -1;
+        public static final int NONEDEFAULT = 0;
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(DialogueBoxService.class);
     private DialogueBox currentOverlay;
     private String[][] hints;
@@ -17,7 +26,7 @@ public class DialogueBoxService {
     public DialogueBoxService(Stage stage) {
         currentOverlay = new DialogueBox(stage);
         hints = null;
-        curPriority = 0;
+        curPriority = DialoguePriority.NONEDEFAULT;
     }
 
     /**
@@ -63,7 +72,7 @@ public class DialogueBoxService {
      */
     public void hideCurrentOverlay() {
         if (currentOverlay != null) {
-            curPriority = 0;
+            curPriority = DialoguePriority.NONEDEFAULT;
             currentOverlay.hideDialogueBox();
             hints = null;
         }

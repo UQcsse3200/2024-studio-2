@@ -19,6 +19,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -280,7 +281,7 @@ public class PlayerInventoryDisplay extends UIComponent {
                 //double calls when mouse held, to be fixed
                 String[][] itemText = {{item.getDescription() + ". Quantity: "
                         + item.getQuantity() + "/" + item.getLimit()}};
-                ServiceLocator.getDialogueBoxService().updateText(itemText, -1);
+                ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
