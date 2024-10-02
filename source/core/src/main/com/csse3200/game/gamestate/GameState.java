@@ -25,7 +25,7 @@ public class GameState {
     public static StatSave stats = new StatSave();
 
     /**
-     * Clears the contents of the GameState.
+     * Clears the contents of the GameState and replaces them with the default saves.
      */
     public static void resetState() {
         Logger logger = LoggerFactory.getLogger(GameState.class);
@@ -36,6 +36,7 @@ public class GameState {
     /**
      * Checks whether GameState correctly loaded.
      * @return a boolean to indicate whether GameState was correctly loaded.
+     * Returns true if the load failed, and false otherwise.
      */
 
     public static boolean checkState() {
@@ -45,7 +46,7 @@ public class GameState {
     }
 
     /**
-     * Clears all the GameState contents and resets them to their original state.
+     * Clears all the GameState contents and resets them to their empty state.
      */
     public static void clearState() {
         quests = new QuestSave();
