@@ -10,19 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.components.animal.AnimalSelectionDisplay;
+import com.csse3200.game.components.animal.AnimalRouletteActions1;
+import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
-public abstract class AnimalSelectionScreen extends ScreenAdapter {
+public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     protected Stage stage;
-    protected AnimalSelectionDisplay display;
-    protected AnimalSelectionActions actions;
+    protected AnimalRouletteDisplay1 display;
+    protected AnimalRouletteActions1 actions;
     protected GdxGame game;
     private TextButton waterAnimalsButton;
     private TextButton airAnimalsButton;
+    private TextButton landAnimalsButton;
 
-    public AnimalSelectionScreen(GdxGame game) {
+    public AnimalRouletteScreen1(GdxGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -31,22 +32,29 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
 
         display = createDisplay(stage, skin);
-        actions = new AnimalSelectionActions(display, dialogHelper, game);
+        actions = new AnimalRouletteActions1(display, dialogHelper, game);
 
         createUI(skin);
 
         actions.resetSelection();
     }
 
-    // Abstract method to be implemented by subclasses
-    protected abstract AnimalSelectionDisplay createDisplay(Stage stage, Skin skin);
+    protected abstract AnimalRouletteDisplay1 createDisplay(Stage stage, Skin skin);
 
-    private void createUI(Skin skin) {
+    protected AnimalRouletteActions1 createActions(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {
+        return new AnimalRouletteActions1(display, dialogHelper, game);
+    }
+
+    void createUI(Skin skin) {
         waterAnimalsButton = new TextButton("Water Animals", skin);
         airAnimalsButton = new TextButton("Air Animals", skin);
+        landAnimalsButton = new TextButton("Land Animals", skin);
 
-        addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen.class);
-        addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
+        addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen1.class);
+        addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen1.class);
+        addButtonToSwitchScreen(landAnimalsButton, LandAnimalSelectionScreen.class);
+
+        updateButtonPositions();
     }
 
     @Override
@@ -67,13 +75,11 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    // Method to add buttons to switch between different screens
     private void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    // Switch to the new screen
                     ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
                     game.setScreen(newScreen);
                 } catch (Exception e) {
@@ -84,18 +90,23 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         stage.addActor(button);
     }
 
+    protected TextButton getWaterAnimalsButton() { return waterAnimalsButton; }
+    protected TextButton getAirAnimalsButton() { return airAnimalsButton; }
+    protected TextButton getLandAnimalsButton() { return landAnimalsButton; }
+
     private void updateButtonPositions() {
-        // Define button dimensions
         float buttonWidth = 200;
         float buttonHeight = 50;
         float padding = 20;
 
-        // Position buttons dynamically
         float xPos = padding;
         float yPosWater = stage.getViewport().getScreenHeight() - buttonHeight - padding;
         float yPosAir = yPosWater - buttonHeight - padding;
+        float yPosLand = yPosAir - buttonHeight - padding;
 
         waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
         airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
+        landAnimalsButton.setBounds(xPos, yPosLand, buttonWidth, buttonHeight);
+
     }
 }
