@@ -506,6 +506,8 @@ public class CombatManager extends Component {
 
         if (moveChangedByConfusion) {
             moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
+        } else if (playerMoveDetails.equals("ITEM")) {
+            moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
         } else {
             moveTextList.add(String.format("You decided to %s.", playerMoveDetails));
         }
