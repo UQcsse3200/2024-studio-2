@@ -88,7 +88,7 @@ public class PauseTask extends ChaseTask {
     private String[][] findDialogueHint(String[][] hintText) {
         for (AbstractQuest quest: questManager.getAllQuests()) {
             int progression = quest.getProgression();
-            if (progression == quest.getNumQuestTasks() && progression != 0) {
+            if (!quest.isActive()) {
                 continue;
             }
 

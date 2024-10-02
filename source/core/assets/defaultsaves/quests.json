@@ -129,8 +129,18 @@
 							Help the snake eat apples to train for your upcoming final battle!
 						]
 					]
+
 				}
-			]
+				{
+					npcName: Snake
+					dialogue: [
+						["HHIISSSSSSS, I am the mighty Snake of the Jungle!"
+						"You look very tasty and I am very hungry"
+						"Go play a game and collect me some apples..."
+						"/msOr I will eat you whole!"]
+					]
+				}
+			],
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
@@ -307,7 +317,17 @@
 						]
 					]
 				}
-			]
+				{
+					npcName: Magpie
+					dialogue: [
+						["WHO GOES THERE!!"
+						"If you want to get past me you must pay"
+						"Go play a game and collect me some coins"
+						"/mbOr I will claw your eyes out!"]
+					]
+				}
+
+			],
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
