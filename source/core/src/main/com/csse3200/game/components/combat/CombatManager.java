@@ -241,7 +241,7 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
-
+        entity.getEvents().trigger("startQuickTime");
         switch (playerAction) {
             case ATTACK -> {
                 switch (enemyAction) {
@@ -260,7 +260,9 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getPlayerMultiHitsLanded());
+                        // entity.getEvents().trigger("startQuickTime");
+                        int score = getPlayerMultiHitsLanded();
+                        playerMove.executeMove(playerAction, enemyStats, false, score);
                     }
                     case SPECIAL -> {
                         enemyMove.executeMove(enemyAction, playerStats, false);
@@ -363,9 +365,7 @@ public class CombatManager extends Component {
     }
 
     private int getPlayerMultiHitsLanded() {
-
         int score = 0;
-        game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
         return score;
     }
 

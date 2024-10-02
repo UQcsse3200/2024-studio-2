@@ -201,8 +201,6 @@ public class GdxGame extends Game {
                 return new StoryScreen(this, selectedAnimal);
             case CUTSCENE:
                 return (new CutSceneScreen(this));
-            case QUICK_TIME_EVENT:
-                return new QuickTimeEventScreen(this);
             default:
                 return null;
         }

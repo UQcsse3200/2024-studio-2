@@ -1,7 +1,10 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
@@ -76,6 +79,9 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
     renderer = RenderFactory.createRenderer();
+    renderer.getStage().setViewport(
+            new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
+    );
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     // Load the DialogueBoxService Into Stage
@@ -158,10 +164,9 @@ public class CombatScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForTerminal();
+        ServiceLocator.getInputService().getInputFactory().createForCombat();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    CombatManager manager = new CombatManager(player, enemy);
     Inventory playerInv = player.getComponent(InventoryComponent.class).getInventory();
     int numCols = player.getComponent(PlayerInventoryDisplay.class).getNumCols();
 
@@ -175,6 +180,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
         .addComponent(new Terminal())
+        .addComponent(new QuickTimeEventDisplay())
         .addComponent(inputComponent)
         .addComponent(playerCombatStats)
         .addComponent(enemyCombatStats)
