@@ -339,6 +339,7 @@ public class QuestManager extends Component {
      * Subscribes to item triggers and sends it as a specific achievement completion trigger.
      */
     private void handleItemAdvancement(AbstractItem item){
+        logger.info(item.getName());
         player.getEvents().trigger(item.getName() + "Advancement");
     }
 

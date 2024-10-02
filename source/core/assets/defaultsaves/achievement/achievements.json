@@ -41,7 +41,7 @@
       iconPath: images/potiontexture/speed.png
     }
     {
-      questName: Chicken LegAdvancement
+      questName: Chicken_LegAdvancement
       questDescription: Collect your first Chicken Leg!
       completed: false
       seen: false
@@ -165,7 +165,7 @@
       questDescription: Defeat the MIGHTY BEAR!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/bear.png
     }
     {
@@ -173,7 +173,7 @@
       questDescription: Defeat the MIGHTY BEE!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath:  images/logbook/icons/update-3/bee.png
     }
     {
@@ -181,7 +181,7 @@
       questDescription: Defeat the MIGHTY PIGEON!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/pigeon.png
     }
     {
@@ -189,7 +189,7 @@
       questDescription: Defeat the MIGHTY MACAW!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/macaw.png
     }
     {
@@ -197,7 +197,7 @@
       questDescription: Defeat the MIGHTY EEL!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/eel.png
     }
     {
@@ -205,31 +205,31 @@
       questDescription: Defeat the MIGHTY BIG SAW FISH!!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/bigsawfish.png
     }
     {
-      questName: Milk Advancement
+      questName: MilkAdvancement
       questDescription: Got Milk
       completed: false
       seen: false
-      type: ITEM,
+      type: ITEM
       iconPath: images/logbook/icons/update-3/milk.png
     }
     {
-      questName: Sushi Advancement
+      questName: CaviarAdvancement
       questDescription: Find Sushi
       completed: false
       seen: false
-      type: ITEM,
+      type: ITEM
       iconPath: images/logbook/icons/update-3/sushi.png
     }
     {
-      questName: LootBox Advancement
+      questName: LootBoxAdvancement
       questDescription: Find a lootBox
       completed: false
       seen: false
-      type: ITEM,
+      type: ITEM
       iconPath: images/logbook/icons/update-3/lootbox.png
     }
     {
@@ -237,7 +237,7 @@
       questDescription: Finish the FISH mini game with a bronze medal
       completed: false
       seen: false
-      type: ADVANCEMENT,
+      type: ADVANCEMENT
       iconPath: images/logbook/icons/update-3/fish-bronze.png
     }
     {
@@ -245,7 +245,7 @@
       questDescription: Finish the FISH mini game with a silver medal
       completed: false
       seen: false
-      type: ADVANCEMENT,
+      type: ADVANCEMENT
       iconPath: images/logbook/icons/update-3/fish-silver.png
     }
     {
@@ -253,7 +253,7 @@
       questDescription: Finish the FISH mini game with a gold medal
       completed: false
       seen: false
-      type: ADVANCEMENT,
+      type: ADVANCEMENT
       iconPath: images/logbook/icons/update-3/fish-gold.png
     }
     {
@@ -261,7 +261,7 @@
       questDescription: Defeat the MIGHTY WATER BOSS!!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/waterboss.png
     }
     {
@@ -269,7 +269,7 @@
       questDescription: Defeat the MIGHTY AIR BOSS!!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/airboss.png
     }
     {
@@ -277,7 +277,7 @@
       questDescription: Defeat the MIGHTY AIR BOSS!!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/joey.png
     }
     {
@@ -285,7 +285,7 @@
       questDescription: Defeat the piranha!
       completed: false
       seen: false
-      type: ENEMY,
+      type: ENEMY
       iconPath: images/logbook/icons/update-3/piranha.png
     }
   ]
