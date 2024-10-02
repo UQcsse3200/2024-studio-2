@@ -196,6 +196,22 @@ public class ColliderComponent extends Component {
   }
 
   /**
+   * Set the groupIndex, used in collision logic
+   * @param groupIndex Bitmask of {@link PhysicsLayer} this collider belongs to
+   * @return self
+   */
+  public ColliderComponent setGroupIndex(short groupIndex) {
+    if (fixture == null) {
+      fixtureDef.filter.groupIndex = groupIndex;
+    } else {
+      Filter filter = fixture.getFilterData();
+      filter.groupIndex = groupIndex;
+      fixture.setFilterData(filter);
+    }
+    return this;
+  }
+
+  /**
    * @return The {@link PhysicsLayer} this collider belongs to
    */
   public short getLayer() {

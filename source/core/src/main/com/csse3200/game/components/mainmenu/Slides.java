@@ -166,7 +166,18 @@ public class Slides {
     public static class Minigames1Slide extends Table {
         public Minigames1Slide(Skin skin) {
             Label titleLabel = new Label("Birdie Minigame",skin, "title");
-            Label keysLabel = new Label("info coming soon",skin);
+            Label keysLabel = new Label("BirdieDash Mini-Game brings a fresh twist inspired by Flappy Bird!\n" +
+                    "Guide your bird through pipes,dodge spikes,\n" +
+                    "and grab coins as you aim for the top score\n" +
+                    "Simple, addictive, and a whole lot of fun!\n\n" +
+                    "The BirdieDash features simple yet challenging controls:\n" +
+                    "Spacebar / Tap Screen: Flap the bird to ascend\n" +
+                    "The bird falls automatically stay airborne and navigate through obstacles.\n" +
+                    "Colliding with the pipes and spikes results in a game over.\n" +
+                    "Collecting coins adds points to the score.\n" +
+                    "The score pops up front and center, updating in real-time as you play\n" +
+                    "Earn your bragging rights: bronze at 2-4, silver at 4-6, and hit gold with 6+."
+                    ,skin);
             add(titleLabel).padTop(10f).expandX().center().row();
             add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
             padBottom(-200f);
@@ -175,10 +186,21 @@ public class Slides {
     public static class Minigames2Slide extends Table {
         public Minigames2Slide(Skin skin) {
             Label titleLabel = new Label("Underwatermaze Minigame",skin, "title");
-            Label keysLabel = new Label("info coming soon",skin);
+            Label keysLabel = new Label("Dive into MazeUnderwater!\n" +
+                    "Navigate a dark maze, recover scattered fish eggs\n" +
+                    "Dodge sea creatures as you explore the depths\n" +
+                    "The more eggs you collect, the better your medal\n\n" +
+                    "W S A D: Move up, down, left, and right\n\n" +
+                    "Collect eggs while dodging angler fish, eels, and jellyfish\n" +
+                    "More eggs = higher score and medal\n\n" +
+                    "Bronze: Fewer eggs, Silver: Moderate collection, Gold: Most or all eggs\n\n" +
+                    "Angler Fish: 100 health, 20 damage per hit\n" +
+                    "Jellyfish: 10 damage, Electric Eel: 5 damage\n" +
+                    "Game ends if health reaches zero"
+                    ,skin);
             add(titleLabel).padTop(10f).expandX().center().row();
             add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
-            padBottom(-200f);
+            padBottom(-250f);
         }
     }
 
@@ -189,15 +211,15 @@ public class Slides {
     public static class StatsSlide extends Table {
         public StatsSlide(Skin skin) {
             Label titleLabel = new Label("Game Stats", skin, "title");
-            Label contentLabel = new Label("Each animal in every kingdom has five core stats:\n\n" +
-                                           "Health: Determines how long they survive in battle\n" +
-                                           "Strength: Shows how much damage they can deal\n" +
-                                           "Defense: Reflects how resistant they are to attacks.\n" +
-                                           "Speed: Measures how quickly they strike and move\n" +
-                                           "Stamina:Indicates how long they can keep fighting.\n\n" +
-                                           "Every animal has unique levels, so choose wisely!\n\n" +
-                                           "You can collect various items like apples in the game.\n" +
-                                           "Press P to add them to your inventory and use E to access it."
+            Label contentLabel = new Label("Each animal in every kingdom has five core stats\n\n" +
+                                           "Health: Determines how long they survive during battle\n" +
+                                           "Strength: Indicates how much damage they are capable of dealing\n" +
+                                           "Defense: Reflects their resistance to enemy attacks\n" +
+                                           "Speed: Measures how quickly they move and strike in combat\n" +
+                                           "Stamina: Determines how long they can keep fighting\n\n" +
+                                           "Every animal has unique levels, so choose them carefully\n\n" +
+                                           "You can collect various items like apples during the game\n" +
+                                           "Press P to add them to your inventory, and use E to access it"
                     , skin);
 
             add(titleLabel).padTop(-10f).expandX().center().row();

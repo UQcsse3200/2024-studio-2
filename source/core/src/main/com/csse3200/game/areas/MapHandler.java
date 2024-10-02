@@ -10,7 +10,6 @@ public class MapHandler {
   private static MapType previousMap = MapType.NONE;
 
   private static ForestGameArea forestGameArea;
-  private static WaterGameArea waterGameArea;
 
   private static boolean isSavedPrevious;
   // private static GameArea savedPrevioud;
@@ -47,10 +46,7 @@ public class MapHandler {
     if (mapType == MapType.FOREST) {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
-    } else if (mapType == MapType.WATER) {
-      currentGameArea = new WaterGameArea(terrainFactory, game);
-      currentGameArea.create();
-    }
+    } 
 
     previousMap = currentMap;
     currentMap = mapType;
@@ -78,8 +74,6 @@ public class MapHandler {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
     } else if (mapType == MapType.WATER) {
-      currentGameArea = new WaterGameArea(terrainFactory, game);
-      currentGameArea.create();
     }
 
     return currentGameArea;
@@ -94,7 +88,6 @@ public class MapHandler {
     currentGameArea = null;
     isSavedPrevious = false;
     forestGameArea = null;
-    waterGameArea = null;
   }
 
   /**
@@ -118,8 +111,6 @@ public class MapHandler {
     switch (mapType) {
       case FOREST:
         return (ForestGameArea) currentGameArea;
-      case WATER:
-        return (WaterGameArea) currentGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
     }
@@ -129,6 +120,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, COMBAT, NONE
+    FOREST, WATER, AIR, COMBAT, MAZE_MINIGAME, NONE
   }
 }

@@ -4,6 +4,7 @@ package com.csse3200.game.components.quests;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.ui.UIComponent;
@@ -46,7 +47,7 @@ public class AchievementPopup extends UIComponent {
         if (!showing) {
             generate();
         }
-        SaveHandler.save(GameState.class, "saves");
+//        SaveHandler.save(GameState.class, "saves", FileLoader.Location.EXTERNAL);
     }
 
     /**
