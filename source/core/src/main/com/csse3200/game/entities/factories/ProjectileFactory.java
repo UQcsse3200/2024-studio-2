@@ -61,11 +61,11 @@ public class ProjectileFactory {
   public static Entity createWaterSpiral(Entity target) {
     BaseEnemyEntityConfig config = configs.waterSpiral;
     
-    TextureAtlas windGustAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-    AnimationRenderComponent animator = new AnimationRenderComponent(windGustAtlas);
+    TextureAtlas waterSpiralAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+    AnimationRenderComponent animator = new AnimationRenderComponent(waterSpiralAtlas);
     animator.addAnimation("waterSpiral", 0.1f, Animation.PlayMode.LOOP);
     
-    Entity waterSpiral = createBaseProjectile(target, config, 3f, animator, new WindGustAnimationController());
+    Entity waterSpiral = createBaseProjectile(target, config, 3f, animator, new WaterSpiralAnimationController());
 
     AITaskComponent aiTaskComponent = new AITaskComponent();
     aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
