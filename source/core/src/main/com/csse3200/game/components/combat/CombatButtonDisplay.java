@@ -319,7 +319,7 @@ public class CombatButtonDisplay extends UIComponent {
         BossCombatDialogueData dialogueData = new BossCombatDialogueData();
         endText = dialogueData.getDialogue(bossEntity.getEnemyType().toString(), winStatus);
 
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
 
     /**
