@@ -38,15 +38,16 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         actions.resetSelection();
     }
 
-    // Abstract method to be implemented by subclasses
     protected abstract AnimalSelectionDisplay createDisplay(Stage stage, Skin skin);
 
-    private void createUI(Skin skin) {
+    void createUI(Skin skin) {
         waterAnimalsButton = new TextButton("Water Animals", skin);
         airAnimalsButton = new TextButton("Air Animals", skin);
 
         addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen.class);
         addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
+
+        updateButtonPositions();
     }
 
     @Override
@@ -67,13 +68,11 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    // Method to add buttons to switch between different screens
     private void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    // Switch to the new screen
                     ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
                     game.setScreen(newScreen);
                 } catch (Exception e) {
@@ -85,12 +84,10 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
     }
 
     private void updateButtonPositions() {
-        // Define button dimensions
         float buttonWidth = 200;
         float buttonHeight = 50;
         float padding = 20;
 
-        // Position buttons dynamically
         float xPos = padding;
         float yPosWater = stage.getViewport().getScreenHeight() - buttonHeight - padding;
         float yPosAir = yPosWater - buttonHeight - padding;

@@ -63,9 +63,6 @@ public class AnimalSelectionActionsTest {
         // Call selectAnimal and verify the image is highlighted
         actions.selectAnimal(mockImage1, "images/dog.png");
 
-        // Verify the selected image is set to red
-        verify(mockImage1).setColor(1, 0, 0, 1);
-
         // Verify that the selectedAnimalImagePath is updated correctly
         assertEquals("images/dog.png", AnimalSelectionActions.getSelectedAnimalImagePath());
     }

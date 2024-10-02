@@ -16,8 +16,10 @@ public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
     private final TextButton nextButton;
+    private final TextButton backButton;
     private final Image animalImage;
     private Table statsTable;
+    private Runnable callback;
 
     private final float dialogWidth;
     private final float dialogHeight;
@@ -73,11 +75,15 @@ public class PopupDialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Confirm", skin);
+        nextButton = new TextButton("Confirm and Start game", skin);
+        backButton = new TextButton("Back", skin);
         addActionListeners();
         createDialogLayout();
     }
 
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
+    }
     /**
      * Adds action listeners to the buttons in the dialog.
      */
@@ -85,11 +91,25 @@ public class PopupDialogBox extends Dialog {
         nextButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                proceedToNext();
+                hide();
+                if (callback != null) {
+                    callback.run();
+                }
+            }
+        });
+
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hide(); // Hide the dialog
+                // You can add additional logic here if needed when going back
             }
         });
     }
 
+    /**
+     * Creates and configures the layout of the dialog box.
+     */
     /**
      * Creates and configures the layout of the dialog box.
      */
@@ -119,9 +139,14 @@ public class PopupDialogBox extends Dialog {
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
         innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add inner table and next button to contentTable
+        // Create a button table to hold the next and back buttons
+        Table buttonTable = new Table();
+        buttonTable.add(nextButton).padTop(20).padRight(20).expandX().right();
+        buttonTable.add(backButton).padTop(20).padLeft(20).expandX().left(); // Pad the left side of the back button to keep it visible
+
+        // Add inner table and button table to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20);
+        contentTable.add(buttonTable).expandX().center().padBottom(10); // Center buttons and add padding
 
         getContentTable().add(contentTable).expand().center();
 
@@ -131,6 +156,7 @@ public class PopupDialogBox extends Dialog {
 
         updateStatsTable(); // Update stats table with the current animal's stats
     }
+
 
     /**
      * Updates the stats table with the current animal's stats.
@@ -158,6 +184,9 @@ public class PopupDialogBox extends Dialog {
             updateStatsTable(); // Update stats table when changing pages
         } else {
             hide();  // Hide dialog when content is done
+            if (callback != null) {
+                callback.run();  // Execute the callback when dialog is closed
+            }
         }
     }
 

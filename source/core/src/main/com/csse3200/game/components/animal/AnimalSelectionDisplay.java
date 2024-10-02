@@ -4,98 +4,64 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
-/**
- * Base class that represents the common functionality for animal selection screens.
- * Manages the UI components for all types of animal selection.
- */
 public abstract class AnimalSelectionDisplay {
     private final Stage stage;
     private final Skin skin;
-    private final Image[] animalImages;
-    private final TextButton[] animalButtons;
+    private Image animalImage;
     private final TextButton selectButton;
     private final TextButton backButton;
+    private final TextButton leftButton;
+    private final TextButton rightButton;
 
-    /**
-     * Constructor for AnimalSelectionDisplay to initialize UI components and layout.
-     *
-     * @param stage The stage where UI elements are added.
-     * @param skin  The skin for styling UI elements.
-     */
     public AnimalSelectionDisplay(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
 
-        // Initialize arrays to hold images and buttons for the animals
-        this.animalImages = new Image[3];
-        this.animalButtons = new TextButton[3];
-
-        // Initialize the select and back buttons
         this.selectButton = new TextButton("Ready?", skin);
         this.backButton = new TextButton("Go Back", skin);
+        this.leftButton = new TextButton("<", skin);
+        this.rightButton = new TextButton(">", skin);
 
-        // Set up the display of the selection screen
         initializeDisplay();
     }
 
-    /**
-     * Abstract method that must be implemented to provide the background image path for the screen.
-     * @return The background image path.
-     */
     protected abstract String getBackgroundImagePath();
+    public abstract String[] getAnimalImagePaths();
+    public abstract String getAnimalDescription(int index);
+    public abstract String getAnimalType(int index);
 
-    /**
-     * Abstract method to provide the animal image paths for the screen.
-     * @return Array of animal image paths.
-     */
-    protected abstract String[] getAnimalImagePaths();
-
-    /**
-     * Initializes the display by setting up the layout of images and buttons on the stage.
-     */
     private void initializeDisplay() {
-        // Add the background image to the stage
         BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
         stage.addActor(backgroundImage);
 
-        // Create the main table layout for positioning UI elements
         Table mainTable = new Table();
         mainTable.setFillParent(true);
-        mainTable.top().padTop(80);
         stage.addActor(mainTable);
 
-        // Add images and buttons for each animal
         String[] animalImagePaths = getAnimalImagePaths();
-        for (int i = 0; i < 3; i++) {
-            animalImages[i] = new Image(new Texture(animalImagePaths[i]));
-            animalButtons[i] = new TextButton("Animal " + (i + 1), skin);
+        animalImage = new Image(new Texture(animalImagePaths[0]));
 
-            Table animalTable = new Table();
-            animalTable.add(animalImages[i]).pad(65).padLeft(180);
-            animalTable.row();
-            animalTable.add(animalButtons[i]).pad(10).padLeft(180);
+        Table animalTable = new Table();
+        animalTable.add(leftButton).padRight(20);
+        animalTable.add(animalImage).size(300, 300);
+        animalTable.add(rightButton).padLeft(20);
 
-            mainTable.add(animalTable).pad(10).expandX();
-        }
-
+        mainTable.add(animalTable).expand().center();
         mainTable.row();
-        mainTable.add().expandY();
 
-        // Create a table for the select and back buttons
         Table buttonTable = new Table();
-        buttonTable.add(selectButton).padBottom(10).width(300).height(60).padRight(250);
-        buttonTable.add(backButton).padBottom(10).width(300).height(60).padRight(380);
+        buttonTable.add(selectButton).width(200).height(50).padRight(20);
+        buttonTable.add(backButton).width(200).height(50);
 
-        mainTable.add(buttonTable).center().padBottom(60).colspan(60).bottom();
+        mainTable.add(buttonTable).padBottom(50);
     }
 
-    // Getters for accessing the UI elements
-    public Image[] getAnimalImages() {
-        return animalImages;
+    public void updateAnimalImage(String imagePath) {
+        animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
     }
 
-    public TextButton[] getAnimalButtons() {
-        return animalButtons;
+    public Image getAnimalImage() {
+        return animalImage;
     }
 
     public TextButton getSelectButton() {
@@ -104,6 +70,14 @@ public abstract class AnimalSelectionDisplay {
 
     public TextButton getBackButton() {
         return backButton;
+    }
+
+    public TextButton getLeftButton() {
+        return leftButton;
+    }
+
+    public TextButton getRightButton() {
+        return rightButton;
     }
 
     public Skin getSkin() {
