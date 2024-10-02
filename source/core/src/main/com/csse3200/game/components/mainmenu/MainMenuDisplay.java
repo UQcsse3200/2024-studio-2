@@ -218,7 +218,7 @@ public class MainMenuDisplay extends UIComponent {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                chatbotDialog.hide(); // Close the chatbot dialog
+                chatbotDialog.hide(Actions.sequence(Actions.alpha(0f), Actions.run(() -> isChatbotDialogVisible = false))); // Close without fade effect
             }
         });
 
