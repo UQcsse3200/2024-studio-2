@@ -53,6 +53,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
   @Override
   public void update() {
+    System.out.println(getPriority());
     // Check if the entity should switch from waiting to shooting
     if (((timer.getTime() - lastShotTime) > waitTime) || numShots == 0) {
       startShooting();  // Start shooting if enough time has passed or no shots have been fired yet
@@ -76,7 +77,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
    */
   private int getActivePriority() {
     float dst = getDistanceToTarget();
-    if (dst > range) {
+    if (dst > range || (timer.getTimeSince(lastShotTime) < waitTime)) {
       return -1; // Too far, stop shooting
     }
     return PRIORITY;
@@ -89,7 +90,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
    */
   private int getInactivePriority() {
     float dst = getDistanceToTarget();
-    if (dst <= range) {
+    if (dst <= range && (timer.getTimeSince(lastShotTime) > waitTime)) {
       return PRIORITY;
     }
     return -1;
