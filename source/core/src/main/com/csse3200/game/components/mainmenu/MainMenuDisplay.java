@@ -1,4 +1,5 @@
 package com.csse3200.game.components.mainmenu;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -34,6 +35,8 @@ import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.ArrayList;
+
 /**
  * A UI component for displaying the Main menu.
  */
@@ -59,6 +62,15 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture birdTexture;
     private Texture cursorTexture;
+
+    private Table chatbotIconTable;
+    private Dialog chatbotDialog;
+    private TextField userInputField;
+    private Label chatbotResponseLabel;
+    private java.util.List<String> predefinedQuestions;
+    private ChatbotService chatbotService;
+    private boolean isChatbotDialogVisible = false;
+
     private Image dog2Image;
     private Image crocImage;
     private Image birdImage;
@@ -87,10 +99,6 @@ public class MainMenuDisplay extends UIComponent {
     private final float fullScreenuttonHeight = 80;
     private final float fullScreenButtonSpacing = 30;
 
-    // Add these variables to track the window size
-    private float lastScreenWidth;
-    private float lastScreenHeight;
-
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
@@ -110,15 +118,151 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         setupCustomCursor();
         addActors();
+        chatbotService = new ChatbotService();
+        setupPredefinedQuestions();
+        addChatbotIcon();
         animateAnimals();
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
-        updateOwlPosition();
+    }
 
-        // Initialize the screen size tracking
-        lastScreenWidth = Gdx.graphics.getWidth();
-        lastScreenHeight = Gdx.graphics.getHeight();
+    private void addChatbotIcon() {
+        chatbotIconTable = new Table();
+        chatbotIconTable.bottom().right();
+        chatbotIconTable.setFillParent(true);
+        chatbotIconTable.pad(20).padBottom(50).padRight(50);
+
+        ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
+        chatbotIcon.setSize(100, 100);
+
+        chatbotIcon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (isChatbotDialogVisible) {
+                    closeChatbotDialog();
+                } else {
+                    openChatbotDialog();
+                }
+            }
+        });
+
+        chatbotIconTable.add(chatbotIcon);
+        stage.addActor(chatbotIconTable);
+    }
+
+    /**
+     * Opens the chatbot dialog in the center of the screen.
+     */
+    private void openChatbotDialog() {
+        chatbotDialog = new Dialog("", skin) {
+            @Override
+            protected void result(Object object) {
+                logger.info("Chatbot dialog closed.");
+            }
+        };
+
+        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100); // Dynamically set width
+        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100); // Dynamically set height
+        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
+
+        // Background for the chatbot window
+        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png")));
+        chatbotDialog.setBackground(backgroundDrawable);
+
+        // Title
+        Label titleLabel = new Label("Chatbot", skin, "title-white");
+        titleLabel.setAlignment(Align.center);
+
+        // Predefined questions
+        Table questionTable = new Table();
+        for (String question : predefinedQuestions) {
+            TextButton questionButton = new TextButton(question, skin);
+            questionButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    processChatInput(question);
+                }
+            });
+            questionTable.add(questionButton).pad(5).expandX().fillX().row(); // Add each question button with padding and fill
+        }
+
+        // User input field
+        userInputField = new TextField("", skin);
+        userInputField.setMessageText("Type your question...");
+        userInputField.setAlignment(Align.center);
+
+        // Submit button
+        TextButton sendButton = new TextButton("Send", skin);
+        sendButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                processChatInput(userInputField.getText());
+            }
+        });
+
+        // Response label
+        chatbotResponseLabel = new Label("", skin);
+        chatbotResponseLabel.setWrap(true);
+        chatbotResponseLabel.setAlignment(Align.center);
+        chatbotResponseLabel.setWidth(500);
+
+        // Close button
+        TextButton closeButton = new TextButton("Close", skin);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chatbotDialog.hide(); // Close the chatbot dialog
+            }
+        });
+
+        // Layout the dialog
+        Table contentTable = new Table();
+        contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
+        contentTable.add(questionTable).expandX().fillX().pad(20).row(); // Add question buttons
+        contentTable.add(userInputField).width(600).pad(10).row(); // Add input field
+        contentTable.add(sendButton).pad(10).row(); // Add send button
+        contentTable.add(chatbotResponseLabel).width(600).pad(10).row(); // Add response label
+        contentTable.add(closeButton).pad(10).row(); // Add close button
+
+        chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
+        chatbotDialog.show(stage); // Show the dialog
+
+        // Center the dialog on screen after showing it
+        centerDialogOnScreen();
+    }
+
+    private void centerDialogOnScreen() {
+        chatbotDialog.setPosition(
+                (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
+        );
+    }
+
+    private void setupPredefinedQuestions() {
+        predefinedQuestions = new ArrayList<>();
+        predefinedQuestions.add("How do I move?");
+        predefinedQuestions.add("How do I attack?");
+        predefinedQuestions.add("What's the objective?");
+        predefinedQuestions.add("How can I save my game?");
+        predefinedQuestions.add("Hello");
+    }
+
+    private void processChatInput(String userInput) {
+        String chatbotResponse = chatbotService.getResponse(userInput);
+        chatbotResponseLabel.setText(chatbotResponse);
+    }
+
+
+
+    /**
+     * Closes the chatbot dialog.
+     */
+    private void closeChatbotDialog() {
+        if (chatbotDialog != null && isChatbotDialogVisible) {
+            chatbotDialog.hide();
+            isChatbotDialogVisible = false;
+        }
     }
 
     /**
@@ -140,6 +284,17 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
+    public void updateChatbotDialogPosition() {
+        if (chatbotDialog != null) {
+            float screenWidth = Gdx.graphics.getWidth();
+            float screenHeight = Gdx.graphics.getHeight();
+            chatbotDialog.setPosition(
+                    (screenWidth - chatbotDialog.getWidth()) / 2,
+                    (screenHeight - chatbotDialog.getHeight()) / 2
+            );
+        }
+    }
+
     /**
      * Load the textures for the mute and unmute button states.
      */
@@ -156,13 +311,14 @@ public class MainMenuDisplay extends UIComponent {
         birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
+        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
         Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
         owlImage = new Image(owlTexture); // Create owl image actor
     }
+
     // Add owl facts
     private void setupOwlFacts() {
-        owlFacts = new String[] {
+        owlFacts = new String[]{
                 "A dogs nose print is as unique as a human fingerprint.",
                 "Crocodiles have been around for over 200 million years!",
                 "Some birds, like the Arctic Tern, migrate over 40,000 miles a year.",
@@ -176,37 +332,16 @@ public class MainMenuDisplay extends UIComponent {
                 "The heart of a hummingbird beats over 1,200 times per minute!"
         };
     }
-    /**
-     * Updates the owl's position to always stay in the bottom-right corner of the screen.
-     */
-    private void updateOwlPosition() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
 
-        // Check if the game is in fullscreen mode
-        if (Gdx.graphics.isFullscreen()) {
-            // Make the owl larger in fullscreen mode
-            owlImage.setSize(300, 450); // Increase the size
-        } else {
-            // Reset to normal size in windowed mode
-            owlImage.setSize(200, 300); // Normal size
-        }
-
-        // Set owl's position to bottom-right
-        owlImage.setPosition(screenWidth - owlImage.getWidth() - 20, 20); // 20px padding from the edges
-
-        // Set fact label's position near the owl
-        factLabel.setPosition(screenWidth - 500, 130); // Adjust the x position for the fact label
-    }
     private void addOwlToMenu() {
         // Set owl initial position
-        owlImage.setPosition(1720, 350);// Adjust the position as needed
-        owlImage.setSize(200,300);
+        owlImage.setPosition(1720, 150);// Adjust the position as needed
+        owlImage.setSize(200, 300);
         stage.addActor(owlImage);
 
         // Create label for displaying facts
         factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(1400,130 ); // Position it near the owl
+        factLabel.setPosition(1400, 130); // Position it near the owl
         factLabel.setFontScale(1f);
         stage.addActor(factLabel);
 
@@ -472,6 +607,7 @@ public class MainMenuDisplay extends UIComponent {
 
     /**
      * set the label styles of menu buttons' labels
+     *
      * @param style the style that is set
      */
     private void setMenuLabelsStyle(String style) {
@@ -866,13 +1002,11 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
-                    updateOwlPosition();
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
                     // Fullscreen mode
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = true;
-                    updateOwlPosition();
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
@@ -1055,17 +1189,6 @@ public class MainMenuDisplay extends UIComponent {
         batch.begin();
         batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
-
-        // Check if the screen size has changed
-        float currentScreenWidth = Gdx.graphics.getWidth();
-        float currentScreenHeight = Gdx.graphics.getHeight();
-
-        // If the window size has changed, update the owl's position
-        if (currentScreenWidth != lastScreenWidth || currentScreenHeight != lastScreenHeight) {
-            updateOwlPosition();
-            lastScreenWidth = currentScreenWidth;
-            lastScreenHeight = currentScreenHeight;
-        }
     }
 
     @Override
