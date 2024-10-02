@@ -826,10 +826,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Checks if collisions with non-game terminating objects</div>
 </dd>
-<dt><a href="com/csse3200/game/components/combat/CombatManager.html#checkForConfusion(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">checkForConfusion(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
-<dd>
-<div class="block">Checks if the player is confused and randomly selects a new action for them if they are.</div>
-</dd>
 <dt><a href="com/csse3200/game/minigames/birdieDash/collision/CollisionHandler.html#checkSpikes()" class="member-name-link">checkSpikes()</a> - Method in class com.csse3200.game.minigames.birdieDash.collision.<a href="com/csse3200/game/minigames/birdieDash/collision/CollisionHandler.html" title="class in com.csse3200.game.minigames.birdieDash.collision">CollisionHandler</a></dt>
 <dd>
 <div class="block">Determines if the bird is touching the spikes</div>
@@ -1251,7 +1247,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructs a new ConfigComponent with the specified configuration object.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html#CONFUSION" class="member-name-link">CONFUSION</a> - Enum constant in enum class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></dt>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html#CONFUSED" class="member-name-link">CONFUSED</a> - Enum constant in enum class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/Maze.html#connect(com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">connect(GridPoint2, GridPoint2)</a> - Method in class com.csse3200.game.minigames.maze.<a href="com/csse3200/game/minigames/maze/Maze.html" title="class in com.csse3200.game.minigames.maze">Maze</a></dt>
 <dd>
@@ -4145,6 +4141,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the current status of the task.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#getStatusEffectDuration(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">getStatusEffectDuration(CombatStatsComponent.StatusEffect)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
+<dd>
+<div class="block">Gets the duration of a StatusEffect type</div>
+</dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.html#getStrength()" class="member-name-link">getStrength()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
 <dd>
 <div class="block">Returns the entity's strength.</div>
@@ -4424,9 +4424,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Handles the option button click event to navigate to the specific hint.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/CombatManager.html#handlePlayerConfusion()" class="member-name-link">handlePlayerConfusion()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
+<dd>
+<div class="block">Randomly select a move to replace the player's selected move if the player has the Confusion status effect</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/snake/SnakeGame.html#handleSnakeInput(com.csse3200.game.minigames.Direction)" class="member-name-link">handleSnakeInput(Direction)</a> - Method in class com.csse3200.game.minigames.snake.<a href="com/csse3200/game/minigames/snake/SnakeGame.html" title="class in com.csse3200.game.minigames.snake">SnakeGame</a></dt>
 <dd>
 <div class="block">Update snake direction based on an input direction.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/CombatManager.html#handleStatusEffects()" class="member-name-link">handleStatusEffects()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
+<dd>
+<div class="block">Process Special Move status effects on the Player by reducing Player health and/or stamina.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html#handleTargetMovedAway()" class="member-name-link">handleTargetMovedAway()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></dt>
 <dd>&nbsp;</dd>
@@ -4495,6 +4503,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#hasStatus(java.lang.String)" class="member-name-link">hasStatus(String)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
 <div class="block">Checks whether the entity has a given status.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#hasStatusEffect()" class="member-name-link">hasStatusEffect()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
+<dd>
+<div class="block">Checks if the entity has any applied status effects.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.html#hasStatusEffect(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">hasStatusEffect(CombatStatsComponent.StatusEffect)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
 <dd>
@@ -6237,10 +6249,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/ui/terminal/Terminal.html#processMessage()" class="member-name-link">processMessage()</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/Terminal.html" title="class in com.csse3200.game.ui.terminal">Terminal</a></dt>
 <dd>
 <div class="block">Processes the completed message entered by the user.</div>
-</dd>
-<dt><a href="com/csse3200/game/components/combat/CombatManager.html#processStatusEffects(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">processStatusEffects(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
-<dd>
-<div class="block">Processes status effects such as BLEEDING, which inflicts damage each round.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/login/LoginRegisterDisplay.html#progressBar" class="member-name-link">progressBar</a> - Variable in class com.csse3200.game.components.login.<a href="com/csse3200/game/components/login/LoginRegisterDisplay.html" title="class in com.csse3200.game.components.login">LoginRegisterDisplay</a></dt>
 <dd>&nbsp;</dd>
@@ -8753,6 +8761,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/mainmenu/MainMenuDisplay.html#updateSettingMenu()" class="member-name-link">updateSettingMenu()</a> - Method in class com.csse3200.game.components.mainmenu.<a href="com/csse3200/game/components/mainmenu/MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a></dt>
 <dd>
 <div class="block">Updates the position of the settings menu based on screen size.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/CombatStatsDisplay.html#updateStatusEffectUI(com.csse3200.game.components.CombatStatsComponent.StatusEffect)" class="member-name-link">updateStatusEffectUI(CombatStatsComponent.StatusEffect)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatStatsDisplay.html" title="class in com.csse3200.game.components.combat">CombatStatsDisplay</a></dt>
+<dd>
+<div class="block">Method used to display the relevant status effect that the player is afflicted with</div>
 </dd>
 <dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#updateSwimmingSound(boolean,float)" class="member-name-link">updateSwimmingSound(boolean, float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
 <dd>

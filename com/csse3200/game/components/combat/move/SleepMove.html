@@ -205,7 +205,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="execute(com.csse3200.game.components.CombatStatsComponent)">
 <h3>execute</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">execute</span><wbr><span class="parameters">(<a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;attackerStats)</span></div>
-<div class="block">Executes the sleep move, restoring 25% of the user's maximum stamina and 10% of their maximum health.</div>
+<div class="block">Executes the sleep move, restoring 25% of the user's maximum stamina and 10% of their maximum health.
+ Health will not be restored if the Poisoned status effect is applied.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="CombatMove.html#execute(com.csse3200.game.components.CombatStatsComponent)">execute</a></code>&nbsp;in class&nbsp;<code><a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></code></dd>
