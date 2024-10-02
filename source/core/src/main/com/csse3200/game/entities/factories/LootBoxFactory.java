@@ -45,8 +45,7 @@ public class LootBoxFactory {
                 int code = lootBoxJson.getInt("code");
 
                 // Create the loot box
-                UniversalLootBox lootBox = new UniversalLootBox(lootTable, rolls, player, description, imagePath, code);
-                return lootBox;
+                return new UniversalLootBox(lootTable, rolls, player, description, imagePath, code);
             }
         }
 
@@ -75,7 +74,6 @@ public class LootBoxFactory {
 
             // Try to create the item using reflection and add it to the loot table
             try {
-                AbstractItem item = createItem(itemClass, paramTypes, constructorArgs);
                 lootTable.addItem((Class<? extends AbstractItem>) itemClass, weight, paramTypes, constructorArgs);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -124,18 +122,4 @@ public class LootBoxFactory {
         return new Object[][]{constructorArgs, paramTypes};  // Return both arguments and types
     }
 
-    /**
-     * Dynamically instantiates an item using reflection based on the provided class, constructor argument types,
-     * and constructor arguments.
-     *
-     * @param itemClass The class of the item to create.
-     * @param paramTypes The types of the constructor parameters.
-     * @param constructorArgs The arguments to pass to the constructor.
-     * @return A new instance of the AbstractItem.
-     * @throws Exception If there is an error creating the item via reflection.
-     */
-    private AbstractItem createItem(Class<?> itemClass, Class<?>[] paramTypes, Object[] constructorArgs) throws Exception {
-        Constructor<?> constructor = itemClass.getDeclaredConstructor(paramTypes);
-        return (AbstractItem) constructor.newInstance(constructorArgs);  // Create the item with the correct argument types
-    }
 }

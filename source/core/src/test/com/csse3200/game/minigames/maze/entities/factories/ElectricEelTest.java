@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.entities.Entity;
@@ -37,6 +38,10 @@ public class ElectricEelTest {
 
     private ElectricEel electricEel;
     private static final String[] TEXTURE_ATLASES = {"images/minigames/eels.atlas"};
+
+    private static final String[] PARTICLE_EFFECTS = {"images/minigames/electricparticles.p"};
+
+    private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
     private MazeEntityConfig config;
     private Entity target;
 
@@ -44,8 +49,9 @@ public class ElectricEelTest {
     void setup() {
         LightingEngine mockLightingEngine = mock(LightingEngine.class);
         LightingService mockLightingService = mock(LightingService.class);
+        PointLight mockPointLight = mock(PointLight.class);
         when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
-        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(mockPointLight);
         ServiceLocator.registerLightingService(mockLightingService);
 
         PhysicsService physicsService = new PhysicsService();
@@ -57,7 +63,10 @@ public class ElectricEelTest {
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
         resourceService.loadTextureAtlases(TEXTURE_ATLASES);
+        resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
+
+        ElectricEel.resetParticlePool();
 
         target = mock(Entity.class);
         config = new MazeEntityConfig();
