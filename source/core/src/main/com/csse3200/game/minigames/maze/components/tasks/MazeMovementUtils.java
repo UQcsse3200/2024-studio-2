@@ -31,11 +31,11 @@ public class MazeMovementUtils {
     }
 
     /**
-     * Tests whether the line starting at from and ending at to intersects an obstacle.
+     * Tests whether the line starting at from parameter and ending at to parameter intersects an obstacle.
      * Draws ray lines on the debug renderer.
      * @param from starting point of ray
      * @param to ending point of ray
-     * @return whether the line starting at from and ending at to intersects an obstacle.
+     * @return true if intersecting, otherwise false
      */
     private static boolean testRay(Vector2 from, Vector2 to) {
         PhysicsEngine physics = ServiceLocator.getPhysicsService().getPhysics();
@@ -60,7 +60,7 @@ public class MazeMovementUtils {
 
     /**
      * Decrement modulo 4
-     * @param corner
+     * @param corner the previous corner
      * @return the previous corner mod 4
      */
     private static int prevCorner(int corner) {
