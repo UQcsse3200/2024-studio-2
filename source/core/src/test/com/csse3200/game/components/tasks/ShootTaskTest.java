@@ -1,11 +1,25 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.ConfigComponent;
+import com.csse3200.game.components.TouchAttackComponent;
+import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.events.listeners.EventListener1;
+import com.csse3200.game.events.listeners.EventListener2;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
+import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsService;
+import com.csse3200.game.physics.components.ColliderComponent;
+import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.DebugRenderer;
@@ -44,16 +58,21 @@ class ShootTaskTest {
     target.setPosition(1f, 1f);
 
     ShootTask shootTask = new ShootTask(1f, target, 5f);  // Wait time of 1 second, range of 5 units
-    Entity entity = makePhysicsEntity();
-    AITaskComponent ai = new AITaskComponent().addTask(shootTask);
-    entity.addComponent(ai);
-    entity.create();
+    AITaskComponent aiComponent = new AITaskComponent();
+    aiComponent.addTask(shootTask);
+    
+    Entity entity = new Entity().addComponent(aiComponent);
+    entity.setEnemyType(Entity.EnemyType.MONKEY);
+    
+    //AITaskComponent ai = new AITaskComponent().addTask(shootTask);
+    //entity.addComponent(ai);
+    //entity.create();
     entity.setPosition(0f, 0f);
 
     // Set up a real EventHandler and add a listener to verify "FireBanana" is triggered
     EventHandler eventHandler = entity.getEvents();
-    EventListener1<Entity> fireBananaListener = mock(EventListener1.class);
-    eventHandler.addListener("FireBanana", fireBananaListener);
+    EventListener2<Entity, Entity.EnemyType> fireBananaListener = mock(EventListener2.class);
+    eventHandler.addListener("Shoot", fireBananaListener);
 
     // Fast forward time to trigger shooting
     when(ServiceLocator.getTimeSource().getTime()).thenReturn(1000L);  // 1 second later
@@ -61,7 +80,7 @@ class ShootTaskTest {
     shootTask.update(); // Trigger the task update
 
     // Verify that "FireBanana" event was triggered
-    verify(fireBananaListener, times(1)).handle(entity);
+    verify(fireBananaListener, times(1)).handle(entity, Entity.EnemyType.MONKEY);
   }
 
   /**
@@ -71,33 +90,38 @@ class ShootTaskTest {
   void shouldShootOnlyWhenInDistance() {
     Entity target = new Entity();
     target.setPosition(0f, 6f);
-
+    
     ShootTask shootTask = new ShootTask(1f, target, 5f);  // Wait time of 1 second, range of 5 units
-    Entity entity = makePhysicsEntity();
-    AITaskComponent ai = new AITaskComponent().addTask(shootTask);
-    entity.addComponent(ai);
-    entity.create();
+    AITaskComponent aiComponent = new AITaskComponent();
+    aiComponent.addTask(shootTask);
+    
+    Entity entity = new Entity().addComponent(aiComponent);
+    entity.setEnemyType(Entity.EnemyType.MONKEY);
+    
+    //AITaskComponent ai = new AITaskComponent().addTask(shootTask);
+    //entity.addComponent(ai);
+    //entity.create();
     entity.setPosition(0f, 0f);
 
     // Set up a real EventHandler and add a listener to verify "FireBanana" is triggered
     EventHandler eventHandler = entity.getEvents();
-    EventListener1<Entity> fireBananaListener = mock(EventListener1.class);
-    eventHandler.addListener("FireBanana", fireBananaListener);
+    EventListener2<Entity, Entity.EnemyType> fireBananaListener = mock(EventListener2.class);
+    eventHandler.addListener("Shoot", fireBananaListener);
 
     // Not currently active, target is too far, should have negative priority
     assertTrue(shootTask.getPriority() < 0);
 
     // When in view distance, should give higher priority
+    when(ServiceLocator.getTimeSource().getTimeSince(0)).thenReturn(1001L);  // 1 second later
     target.setPosition(0f, 4f);
     assertEquals(5, shootTask.getPriority());
 
     // Simulate shooting
-    when(ServiceLocator.getTimeSource().getTime()).thenReturn(1000L);  // 1 second later
     shootTask.start();
     shootTask.update();
 
     // Verify "FireBanana" event triggered when in range and wait time passed
-    verify(fireBananaListener, times(1)).handle(entity);
+    verify(fireBananaListener, times(1)).handle(entity, Entity.EnemyType.MONKEY);
 
     // When active, should not shoot outside range
     target.setPosition(0f, 12f);
