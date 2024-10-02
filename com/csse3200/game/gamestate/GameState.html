@@ -141,9 +141,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Checks whether GameState correctly loaded.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resetState()" class="member-name-link">resetState</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#clearState()" class="member-name-link">clearState</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Clears the contents of the GameState.</div>
+<div class="block">Clears all the GameState contents and resets them to their empty state.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resetState()" class="member-name-link">resetState</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Clears the contents of the GameState and replaces them with the default saves.</div>
 </div>
 </div>
 </div>
@@ -204,7 +209,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="resetState()">
 <h3>resetState</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetState</span>()</div>
-<div class="block">Clears the contents of the GameState.</div>
+<div class="block">Clears the contents of the GameState and replaces them with the default saves.</div>
 </section>
 </li>
 <li>
@@ -214,8 +219,16 @@ loadScripts(document, 'script');</script>
 <div class="block">Checks whether GameState correctly loaded.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>a boolean to indicate whether GameState was correctly loaded.</dd>
+<dd>a boolean to indicate whether GameState was correctly loaded.
+ Returns true if the load failed, and false otherwise.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clearState()">
+<h3>clearState</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clearState</span>()</div>
+<div class="block">Clears all the GameState contents and resets them to their empty state.</div>
 </section>
 </li>
 </ul>

@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 <div class="block">An abstract Quest class that contains the design for Quest classes that store quest
   and subtask progression (# of subtasks completed), descriptions and hints.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D,boolean,boolean,int)" class="member-name-link">AbstractQuest(String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[], boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.List,java.lang.String%5B%5D,boolean,boolean,int,java.lang.String%5B%5D)" class="member-name-link">AbstractQuest(String, String, List&lt;Task&gt;, Boolean, List&lt;DialogueKey&gt;, String[], boolean, boolean, int, String[])</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
 <dd>
 <div class="block">Constructor design for implementing subclasses.</div>
 </dd>
@@ -924,6 +924,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/inventory/InventoryInterface.html#clearInventory()" class="member-name-link">clearInventory()</a> - Method in interface com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></dt>
 <dd>
 <div class="block">Clears all items from the inventory.</div>
+</dd>
+<dt><a href="com/csse3200/game/gamestate/GameState.html#clearState()" class="member-name-link">clearState()</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
+<dd>
+<div class="block">Clears all the GameState contents and resets them to their empty state.</div>
 </dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#clearStatus()" class="member-name-link">clearStatus()</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
@@ -2097,7 +2101,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Key to identify dialogues based on the NPC's.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#%3Cinit%3E(java.lang.String,java.lang.Integer)" class="member-name-link">DialogueKey(String, Integer)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
+<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#%3Cinit%3E(java.lang.String,java.lang.String%5B%5D%5B%5D)" class="member-name-link">DialogueKey(String, String[][])</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
 <dd>
 <div class="block">Constructs a new DialogueKey.</div>
 </dd>
@@ -2741,10 +2745,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
-<dd>
-<div class="block">Checks if this DialogueKey is equal to another object.</div>
-</dd>
 <dt><a href="com/csse3200/game/entities/Entity.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/snake/Snake.Segment.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class com.csse3200.game.minigames.snake.<a href="com/csse3200/game/minigames/snake/Snake.Segment.html" title="class in com.csse3200.game.minigames.snake">Snake.Segment</a></dt>
@@ -3223,6 +3223,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainComponent.html#getActiveChunks()" class="member-name-link">getActiveChunks()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/quests/QuestManager.html#getActiveQuests()" class="member-name-link">getActiveQuests()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestManager.html" title="class in com.csse3200.game.components.quests">QuestManager</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#getActiveStatuses()" class="member-name-link">getActiveStatuses()</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/Maze.html#getAdjacent(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getAdjacent(GridPoint2)</a> - Method in class com.csse3200.game.minigames.maze.<a href="com/csse3200/game/minigames/maze/Maze.html" title="class in com.csse3200.game.minigames.maze">Maze</a></dt>
@@ -3469,9 +3471,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/AudioManager.html#getDesiredSoundVolume()" class="member-name-link">getDesiredSoundVolume()</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/AudioManager.html" title="class in com.csse3200.game.services">AudioManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#getDialogue(java.lang.String)" class="member-name-link">getDialogue(String)</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#getDialogue()" class="member-name-link">getDialogue()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
 <dd>
-<div class="block">Returns the current quest dialogue for the given npc</div>
+<div class="block">Returns the dialogue for the dialogue task.</div>
 </dd>
 <dt><a href="com/csse3200/game/services/ServiceContainer.html#getDialogueBoxService()" class="member-name-link">getDialogueBoxService()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceContainer.html" title="class in com.csse3200.game.services">ServiceContainer</a></dt>
 <dd>
@@ -3580,6 +3582,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getExperience()" class="member-name-link">getExperience()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#getFixture()" class="member-name-link">getFixture()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#getFollowQuests()" class="member-name-link">getFollowQuests()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html#getForwardButton()" class="member-name-link">getForwardButton()</a> - Method in class com.csse3200.game.ui.dialoguebox.<a href="com/csse3200/game/ui/dialoguebox/DialogueBox.html" title="class in com.csse3200.game.ui.dialoguebox">DialogueBox</a></dt>
 <dd>
@@ -3922,6 +3926,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method to get the grid cells not adjacent to a specific cell (taking into account walls)</div>
 </dd>
+<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#getNpcName()" class="member-name-link">getNpcName()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
+<dd>
+<div class="block">Retrieves the name of the NPC.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#getNumCols()" class="member-name-link">getNumCols()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
 <dd>
 <div class="block">return the num of cols</div>
@@ -4114,6 +4122,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Getter method for the quest description.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#getQuestDialogue()" class="member-name-link">getQuestDialogue()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#getQuestName()" class="member-name-link">getQuestName()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
 <dd>
 <div class="block">Returns quest name.</div>
@@ -4631,10 +4641,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
-<dd>
-<div class="block">Returns the hash code value for this DialogueKey</div>
-</dd>
 <dt><a href="com/csse3200/game/entities/Entity.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/snake/Snake.Segment.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class com.csse3200.game.minigames.snake.<a href="com/csse3200/game/minigames/snake/Snake.Segment.html" title="class in com.csse3200.game.minigames.snake">Snake.Segment</a></dt>
@@ -5065,10 +5071,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/AbstractItem.html#itemCode" class="member-name-link">itemCode</a> - Variable in class com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/inventory/Inventory.html#itemCollectionSuccessful()" class="member-name-link">itemCollectionSuccessful()</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
-<dd>
-<div class="block">Quests item collection completion - used to send out "items collected"</div>
-</dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">ItemFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
 <dd>
 <div class="block">A factory class for creating various item entities in the game.</div>
@@ -6600,7 +6602,7 @@ loadScripts(document, 'script');</script>
 <div class="block">A basic Quest class that stores quest and subtask progression (# of
  subtasks completed), descriptions and hints.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/quests/QuestBasic.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.Map,java.lang.String%5B%5D,boolean,boolean,int)" class="member-name-link">QuestBasic(String, String, List&lt;Task&gt;, Boolean, Map&lt;DialogueKey, String[]&gt;, String[], boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestBasic.html" title="class in com.csse3200.game.components.quests">QuestBasic</a></dt>
+<dt><a href="com/csse3200/game/components/quests/QuestBasic.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.List,java.lang.Boolean,java.util.List,java.lang.String%5B%5D,boolean,boolean,int,java.lang.String%5B%5D)" class="member-name-link">QuestBasic(String, String, List&lt;Task&gt;, Boolean, List&lt;DialogueKey&gt;, String[], boolean, boolean, int, String[])</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestBasic.html" title="class in com.csse3200.game.components.quests">QuestBasic</a></dt>
 <dd>
 <div class="block">A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
   and completion triggers (messages to send on completion).</div>
@@ -6617,10 +6619,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/QuestHidden.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">QuestHidden(String, String)</a> - Constructor for class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/QuestHidden.html" title="class in com.csse3200.game.components.quests">QuestHidden</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/inventory/Inventory.html#questItemListen(java.lang.String,int)" class="member-name-link">questItemListen(String, int)</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
-<dd>
-<div class="block">Inventory listen for quests item collection tasks</div>
-</dd>
 <dt><a href="com/csse3200/game/components/quests/QuestManager.html" class="type-name-link" title="class in com.csse3200.game.components.quests">QuestManager</a> - Class in <a href="com/csse3200/game/components/quests/package-summary.html">com.csse3200.game.components.quests</a></dt>
 <dd>
 <div class="block">Manages, tracks and updates the quests within the game.</div>
@@ -6983,7 +6981,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/gamestate/GameState.html#resetState()" class="member-name-link">resetState()</a> - Static method in class com.csse3200.game.gamestate.<a href="com/csse3200/game/gamestate/GameState.html" title="class in com.csse3200.game.gamestate">GameState</a></dt>
 <dd>
-<div class="block">Clears the contents of the GameState.</div>
+<div class="block">Clears the contents of the GameState and replaces them with the default saves.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html#resetVelocity()" class="member-name-link">resetVelocity()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/KeyboardPlayerInputComponent.html" title="class in com.csse3200.game.components.player">KeyboardPlayerInputComponent</a></dt>
 <dd>
@@ -7291,6 +7289,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the idle task to be active (when AI is not moving)</div>
 </dd>
+<dt><a href="com/csse3200/game/components/quests/AbstractQuest.html#setActive(boolean)" class="member-name-link">setActive(boolean)</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/AbstractQuest.html" title="class in com.csse3200.game.components.quests">AbstractQuest</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/DebugRenderer.html#setActive(boolean)" class="member-name-link">setActive(boolean)</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/PopUpDialogBox/PopupDialogBox.html#setAnimalIndex(int)" class="member-name-link">setAnimalIndex(int)</a> - Method in class com.csse3200.game.ui.PopUpDialogBox.<a href="com/csse3200/game/ui/PopUpDialogBox/PopupDialogBox.html" title="class in com.csse3200.game.ui.PopUpDialogBox">PopupDialogBox</a></dt>
@@ -8627,10 +8627,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/quests/Achievement.html#toString()" class="member-name-link">toString()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Achievement.html" title="class in com.csse3200.game.components.quests">Achievement</a></dt>
 <dd>
 <div class="block">Returns a string representation of the achievement.</div>
-</dd>
-<dt><a href="com/csse3200/game/components/quests/DialogueKey.html#toString()" class="member-name-link">toString()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/DialogueKey.html" title="class in com.csse3200.game.components.quests">DialogueKey</a></dt>
-<dd>
-<div class="block">Returns a string representation of this DialogueKey.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/stats/Stat.html#toString()" class="member-name-link">toString()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
 <dd>

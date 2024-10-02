@@ -192,26 +192,15 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the inventory is full.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#itemCollectionSuccessful()" class="member-name-link">itemCollectionSuccessful</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadInventoryFromSave()" class="member-name-link">loadInventoryFromSave</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Quests item collection completion - used to send out "items collected"</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadInventoryFromSave()" class="member-name-link">loadInventoryFromSave</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Loads and initialises the contents of the inventory from a save.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#numFreeSlots()" class="member-name-link">numFreeSlots</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the number of free slots available in the inventory.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#questItemListen(java.lang.String,int)" class="member-name-link">questItemListen</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;itemName,
- int&nbsp;quantity)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#numFreeSlots()" class="member-name-link">numFreeSlots</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Inventory listen for quests item collection tasks</div>
+<div class="block">Returns the number of free slots available in the inventory.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sortByCode()" class="member-name-link">sortByCode</a>()</code></div>
@@ -562,31 +551,6 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="InventoryInterface.html#sortByName()">sortByName</a></code>&nbsp;in interface&nbsp;<code><a href="InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="questItemListen(java.lang.String,int)">
-<h3>questItemListen</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">questItemListen</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;itemName,
- int&nbsp;quantity)</span></div>
-<div class="block">Inventory listen for quests item collection tasks</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>itemName</code> - - the item name that will be listened for</dd>
-<dd><code>quantity</code> - - the number of item occurrences required for
-                 the quest to be completed.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="itemCollectionSuccessful()">
-<h3>itemCollectionSuccessful</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">itemCollectionSuccessful</span>()</div>
-<div class="block">Quests item collection completion - used to send out "items collected"</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>True if specified numbers of item has been collected.</dd>
 </dl>
 </section>
 </li>
