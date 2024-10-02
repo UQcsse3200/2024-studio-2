@@ -35,7 +35,6 @@ public class QuestManager extends Component {
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
     private final Sound achievementComplete = ServiceLocator.getResourceService().getAsset("sounds/achievement-sound.mp3", Sound.class);
     /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
-    private final Map<String, String[]> relevantQuests;
 
     private final Entity player;
 
@@ -44,213 +43,12 @@ public class QuestManager extends Component {
     public QuestManager(Entity player) {
         this.quests = new LinkedHashMap<>();
         this.player = player;
-        this.relevantQuests = Map.of(
-                "Cow", new String[]{"2 Task Quest"}
-        );
-//        this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
         AchievementManager achievementManager = new AchievementManager();
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
-        // TODO: check if it works
-        player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
-        createQuestDialogues();
 
     }
 
-
-    /**
-     * Sets up the tasks for the quests and dialogues.
-     */
-
-
-    private Task[] createWaterTasks() {
-        Task talkToWaterSage = new Task(
-                "talkToWaterSage",
-                "Talk to the Water Sage",
-                "Speak with the Water Sage to gain their trust and begin your quest.",
-                1, 0, false, false
-        );
-
-        Task collectSeaPearls = new Task(
-                "collectSeaPearls",
-                "Collect Sea Pearls",
-                "Find six Sea Pearls hidden around for the Water Sage's research.",
-                1, 0, false, false
-        );
-
-        Task defeatSeaCreatures = new Task(
-                "defeatSeaCreatures",
-                "Defeat the Sea Creatures",
-                "Show your strength by defeating the hostile sea creatures in the Water Kingdom.",
-                1, 0, false, false
-        );
-
-        Task completeFlappyMinigame = new Task(
-                "completeFlappyMinigame",
-                "Complete the Flappy Bird Minigame",
-                "Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!",
-                1, 0, false, false
-        );
-
-        Task defeatWater = new Task(
-                "defeatWater",
-                "Defeat the Water Boss",
-                "Prepare yourself and face the Water Boss to protect the kingdom.",
-                1, 0, false, false
-        );
-
-        return new Task[] {
-                talkToWaterSage, collectSeaPearls, defeatSeaCreatures, completeFlappyMinigame, defeatWater
-        };
-
-    }
-
-    private Task[] createSkyTasks() {
-        Task talkToCloudSage = new Task(
-                "talkToCloudSage",
-                "Talk to the Cloud Sage",
-                "Speak with the Cloud Sage to begin your quest in the Sky Kingdom.",
-                1, 0, false, false
-        );
-
-        Task collectSkyCrystals = new Task(
-                "collectSkyCrystals",
-                "Collect Sky Crystals",
-                "Gather seven Sky Crystals for the Cloud Sage.",
-                1, 0, false, false
-        );
-
-        Task defeatFlyingBeasts = new Task(
-                "defeatFlyingBeasts",
-                "Defeat the Flying Beasts",
-                "Prove your bravery by facing the flying beasts that roam the skies.",
-                1, 0, false, false
-        );
-
-        Task completeGame = new Task(
-                "completeTempestMinigame",
-                "Calm the Tempests Minigame",
-                "Complete the minigame to go onto your next quest!",
-                1, 0, false, false
-        );
-
-        Task defeatSkySeraph = new Task(
-                "defeatSkySeraph",
-                "Defeat the Sky Seraph",
-                "Prepare yourself and confront the Sky Seraph in an epic battle!",
-                1, 0, false, false
-        );
-
-        return new Task[] {
-                talkToCloudSage, collectSkyCrystals, defeatFlyingBeasts, completeGame, defeatSkySeraph
-        };
-    }
-
-
-    /**
-     * Sets up the dialogue for quests.
-     */
-
-    //needs to be changed depending on biome
-    private List<DialogueKey> createQuestDialogues() {
-
-        List<DialogueKey> dialogues = new ArrayList<>();
-
-
-        String[][] cowInitialDialogue = {
-                {"Moo there adventurer, welcome to the Animal Kingdom! I’m your guide. To prove your worth, you’ll need to complete a few tasks. Are you ready?"}
-        };
-
-
-        String[][] potionDialogue = {
-                {"I need five potions to help our people! They’re scattered throughout the kingdom. Can you find them?"}
-        };
-
-
-        String[][] defeatEnemiesDialogue = {
-                {"Defeat the wild creatures that threaten the peace of our land."}
-        };
-
-
-        String[][] snakeMinigameDialogue = {
-                {"Help the snake eat apples to train for your upcoming final battle!"}  // Alternate dialogue for the minigame
-        };
-
-
-        String[][] kangaBossDialogue = {
-                {"Once you’ve completed your tasks, face the Kangaroo Boss and bring peace back to the kingdom."}
-        };
-
-        String[][] talkToWSageDialogue = {
-                {"Greetings, brave adventurer! You’ve entered the Water Kingdom. To gain my trust, you must complete some essential tasks."}
-        };
-
-        String[][] seaPearlsDialogue = {
-                {"I need six Sea Pearls for my research. They’re hidden in the underwater caverns. Can you help me?"}
-        };
-
-        String[][] skyEnemiesDialogue = {
-                {"Watch out for hostile sea creatures! Defeat them to show your strength."}
-        };
-
-        String[][] secondMinigameDialogue = {
-                {"Play the flappy bird minigame to unlock the next stage of your quest!"}
-        };
-
-        String[][] defeatSkyBossDialogue = {
-                {"Once you’re ready, face the Water Leviathan and protect our kingdom. Good luck, brave adventurer!"}
-        };
-
-        String[][] talkToSSage = {
-                {"Welcome, traveler of the skies! You’ve arrived in the Sky Kingdom. Complete these tasks to challenge the Sky Seraph."}
-        };
-
-        String[][] collectSkyCrystalsDialogue = {
-                {"I need seven Sky Crystals that drift on the winds. Will you help me gather them?"}
-        };
-
-        String[][] defeatFlyingBeasts = {
-                {"Face the flying beasts that roam the skies to prove your bravery."}
-        };
-
-        String[][] MinigameDialogue = {
-                {"..."}
-        };
-
-        String[][] defeatWaterBossDialogue = {
-                {"When you’re prepared, confront the Sky Seraph in an epic battle!"}
-        };
-
-
-        dialogues.add(new DialogueKey("Cow", cowInitialDialogue));
-        dialogues.add(new DialogueKey("Cow", potionDialogue));
-        dialogues.add(new DialogueKey("Cow", defeatEnemiesDialogue));
-        dialogues.add(new DialogueKey("Cow", snakeMinigameDialogue));
-        dialogues.add(new DialogueKey("Cow", kangaBossDialogue));
-
-
-
-        return dialogues;
-    }
-
-
-
-    /** Setup item collection task listener (1 at a time).
-     * Note: limitation on item collection - 1 item collection per kingdom
-     *      w completion string "item collection task successful"
-     * @param itemName the item to be collected
-     * @param quantity the number of items needed for successful item completion task
-     * @param completionTrigger the string to be triggered (task name) on successful item collection
-     *      */
-    private void setupItemCollectionsTask(String itemName, int quantity, String completionTrigger) {
-        try {
-            Inventory inventory = entity.getComponent(InventoryComponent.class).getInventory();
-            inventory.questItemListen(itemName, quantity, completionTrigger);
-        } catch (NullPointerException nullPointerException) {
-            // Ignore - no inventory given
-        }
-
-    }
 
 
     private void setupAchievements(){
@@ -283,20 +81,6 @@ public class QuestManager extends Component {
     private void handleItemAdvancement(AbstractItem item){
         player.getEvents().trigger(item.getName() + "Advancement");
     }
-
-    private void handleEnemyQuest(Entity enemy) {
-        String type = enemy.getEnemyType().toString();
-        player.getEvents().trigger("defeat" + type);
-
-    }
-
-    private void handleBossQuest(Entity boss) {
-
-        String type = boss.getEnemyType().toString();
-        player.getEvents().trigger("defeat" + type);
-
-    }
-
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -334,19 +118,6 @@ public class QuestManager extends Component {
         for (QuestBasic quest : GameState.quests.quests) {
             addQuest(quest);
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
-
-            // Setup item collection tasks (if inventory exists)
-            if (quest.getQuestName().equals("Guide's Request")) {
-                if (!quest.isQuestCompleted()) {
-                    setupItemCollectionsTask("Defense Potion", 5, "collectPotions");
-                } else {
-                    setupItemCollectionsTask("Candy", 6, "collectCandy");
-                }
-                continue;
-            }
-            if (quest.getQuestName().equals("Water Sage's research") && quest.isQuestCompleted()) {
-                setupItemCollectionsTask("Apple", 4, "collectApples");
-            }
         }
     }
 
@@ -417,15 +188,6 @@ public class QuestManager extends Component {
                 && quest.isActive();
     }
 
-    private boolean canStartQuest(QuestBasic quest) {
-        for (String questName : quest.getFollowQuests()) {
-            if(!getQuest(questName).isQuestCompleted()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public ArrayList<QuestBasic> getActiveQuests() {
         ArrayList<QuestBasic> newList = new ArrayList<>();
         for(QuestBasic quest : quests.values()) {
@@ -469,13 +231,6 @@ public class QuestManager extends Component {
             }
             questCheck.setActive(newActive);
         }
-
-//        if (quest.getQuestName().equals("Guide's Request")) {
-//            setupItemCollectionsTask("Candy", 6, "collectCandy");
-//        }
-//        if (quest.getQuestName().equals("Water Sage's research")) {
-//            setupItemCollectionsTask("Apple", 4, "collectApples");
-//        }
     }
 
 
