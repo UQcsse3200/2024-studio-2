@@ -37,7 +37,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li>Field</li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
@@ -57,7 +57,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -94,6 +94,21 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="DialogueBoxService.DialoguePriority.html" class="type-name-link" title="enum class in com.csse3200.game.services">DialogueBoxService.DialoguePriority</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -151,13 +166,15 @@ loadScripts(document, 'script');</script>
 <div class="block">Resizes the DialogueBox in the event the screen changes size</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateText(java.lang.String%5B%5D%5B%5D)" class="member-name-link">updateText</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateText(java.lang.String%5B%5D%5B%5D,int)" class="member-name-link">updateText</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text,
+ int&nbsp;priority)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the current chat overlay if it exists also responsible for unhighlighting an entity if it exists.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateText(java.lang.String%5B%5D%5B%5D,com.csse3200.game.entities.Entity)" class="member-name-link">updateText</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text,
- <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateText(java.lang.String%5B%5D%5B%5D,com.csse3200.game.entities.Entity,int)" class="member-name-link">updateText</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text,
+ <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ int&nbsp;priority)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the current chat overlay if it exists also responsible for highlighting an entity.</div>
 </div>
@@ -235,17 +252,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="updateText(java.lang.String[][])">
+<section class="detail" id="updateText(java.lang.String[][],int)">
 <h3>updateText</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateText</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateText</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text,
+ int&nbsp;priority)</span></div>
 <div class="block">Update the current chat overlay if it exists also responsible for unhighlighting an entity if it exists.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="updateText(java.lang.String[][],com.csse3200.game.entities.Entity)">
+<section class="detail" id="updateText(java.lang.String[][],com.csse3200.game.entities.Entity,int)">
 <h3>updateText</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateText</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;text,
- <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</span></div>
+ <a href="../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ int&nbsp;priority)</span></div>
 <div class="block">Update the current chat overlay if it exists also responsible for highlighting an entity.</div>
 </section>
 </li>
