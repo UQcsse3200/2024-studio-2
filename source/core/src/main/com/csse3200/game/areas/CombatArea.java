@@ -32,6 +32,7 @@ public class CombatArea extends GameArea {
             "images/tree.png",
             "images/ghost_king.png",
             "images/final_boss_kangaroo_idle.png",
+            "images/friendly_npcs/friendly-npcs.png",
             "images/water_boss_idle.png",
             "images/air_boss_idle.png",
             "images/Cow.png",
@@ -78,6 +79,8 @@ public class CombatArea extends GameArea {
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
+            "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",

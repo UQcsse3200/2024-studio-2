@@ -1,5 +1,7 @@
 package com.csse3200.game.services;
 
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ public class DialogueBoxService {
     private DialogueBox currentOverlay;
     private String[][] hints;
     private int curPriority;
+    private Entity currentEntity;
 
     /**
      * Create a new chat overlay with the given hint text.
@@ -79,7 +82,7 @@ public class DialogueBoxService {
     }
 
     /**
-     * Update the current chat overlay if it exists.
+     * Update the current chat overlay if it exists also responsible for unhighlighting an entity if it exists.
      */
     public void updateText(String[][] text, int priority) {
         hints = text;
@@ -89,10 +92,43 @@ public class DialogueBoxService {
                 // handling if it ever gets deleted when not supposed to
                 currentOverlay = new DialogueBox(hints);
             } else {
-                currentOverlay.showDialogueBox(text);
+                updateTextHelper();
             }
         }
+        if (currentEntity != null) {
+            AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
+            if (animator != null) {
+                animator.startAnimation("float");
+            }
+            currentEntity = null;
+        }
+    }
 
+    /**
+     * Update the current chat overlay if it exists also responsible for highlighting an entity.
+     */
+    public void updateText(String[][] text, Entity entity, int priority) {
+        hints = text;
+        if (priority <= curPriority) {
+            curPriority = priority;
+            if (currentOverlay == null) {
+                // handling if it ever gets deleted when not supposed to
+                currentOverlay = new DialogueBox(hints);
+            } else {
+                updateTextHelper();
+            }
+        }
+        if (currentEntity != null) {
+            AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
+            if (animator != null) {
+                animator.startAnimation("float");
+            }
+        }
+        currentEntity = entity;
+        AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
+        if (animator != null) {
+            animator.startAnimation("selected");
+        }
     }
 
     /**
@@ -100,5 +136,17 @@ public class DialogueBoxService {
      */
     public void resizeElements() {
         currentOverlay.resizeElements();
+    }
+
+    /**
+     * Update the current chat overlay if it exists.
+     */
+    private void updateTextHelper() {
+        if (currentOverlay == null) {
+            // handling if it ever gets deleted when not supposed to
+            currentOverlay = new DialogueBox(hints);
+        } else {
+            currentOverlay.showDialogueBox(hints);
+        }
     }
 }
