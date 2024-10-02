@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,9 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
@@ -31,7 +27,6 @@ import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.dermetfan.gdx.physics.box2d.PositionController;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
@@ -51,7 +46,6 @@ public class MainMenuDisplay extends UIComponent {
     private Table loginRegisterTable;
     private SettingsMenuDisplay settingsMenuDisplay;
     private LoginRegisterDisplay loginRegisterDisplay;
-    private TextButton toggleWindowBtn;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
     private Texture toggleTexture;
@@ -61,7 +55,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture unmuteTexture;  // Texture for unmute state
     private Texture dog2Texture;
     private Texture crocTexture;
-    private Texture birdTexture;
     private Texture cursorTexture;
 
     private Table chatbotIconTable;
@@ -71,9 +64,6 @@ public class MainMenuDisplay extends UIComponent {
     private java.util.List<String> predefinedQuestions;
     private ChatbotService chatbotService;
     private boolean isChatbotDialogVisible = false;
-
-    private Image dog2Image;
-    private Image crocImage;
     private Image birdImage;
     private Image owlImage;
     private Sound owlSound;
@@ -82,7 +72,6 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-
     private Button startBtn;
     private Button loadBtn;
     private Button minigamesBtn;
@@ -95,11 +84,9 @@ public class MainMenuDisplay extends UIComponent {
     private final float windowButtonWidth = 200;
     private final float windowButtonHeight = 45;
     private final float windowButtonSpacing = 15;
-
     private final float fullScreenButtonWidth = 320;
     private final float fullScreenuttonHeight = 80;
     private final float fullScreenButtonSpacing = 30;
-
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
@@ -107,12 +94,10 @@ public class MainMenuDisplay extends UIComponent {
     private Label settingLabel;
     private Label exitLabel;
     private Label achievementsLabel;
-
     private Image birdAniImage;
     private TextureAtlas birdAtlas;
     private Array<TextureRegion> birdTextures;
     private boolean birdDirection = true;
-
     int birdCurrentFrame = 0;
     private float timer;
     /**
@@ -129,7 +114,6 @@ public class MainMenuDisplay extends UIComponent {
         chatbotService = new ChatbotService();
         setupPredefinedQuestions();
         addChatbotIcon();
-        animateAnimals();
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
@@ -330,7 +314,7 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        birdTexture = new Texture("images/bird.png");
+        //birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
@@ -393,53 +377,13 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Animates the dog2, croc, and bird images to move across the screen repeatedly.
-     */
-    private void animateAnimals() {
-        float screenHeight = Gdx.graphics.getHeight();
-        float screenWidth = Gdx.graphics.getWidth();
-//
-//        // Use the generic method to animate each animal
-//        animateAnimal(dog2Image, screenHeight / 3, 10f);  // Dog moves in 10 seconds
-//        animateAnimal(crocImage, screenHeight / 2, 8f);   // Crocodile moves in 8 seconds
-
-        //animateAnimal(birdAniImage, 2 * screenHeight / 3, 6f); // Bird moves in 6 seconds
-    }
-
-
-    /**
-     * Adds an animation to the specified animal image to move from left to right across the screen and repeat forever.
-     *
-     * @param image    The animal image to animate.
-     * @param startY   The starting Y position of the animal.
-     * @param moveTime The time it takes for the animal to move across the screen.
-     */
-    private void animateAnimal(Image image, float startY, float moveTime) {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        // Set starting position (off-screen to the left)
-        image.setPosition(-image.getWidth(), startY);
-
-        // Animate the animal to move from left to right and repeat forever
-        image.addAction(Actions.forever(Actions.sequence(
-                Actions.moveTo(screenWidth, startY, moveTime),  // Move across the screen in moveTime seconds
-                Actions.moveTo(-image.getWidth(), startY)       // Reset position to the left
-        )));
-    }
-
-
-    /**
      * Adds all UI elements (buttons, labels, etc.) to the main menu.
      */
     private void addActors() {
         initializeTables();
-        initializeImages();
         initializeMenuButtons();
         initializeLabels();
-
         stage.addActor(NotifManager.addNotificationTable());
-
         addMenuButtonEffects();
         addMenuButtonsListeners();
         addExitConfirmation();
@@ -472,21 +416,6 @@ public class MainMenuDisplay extends UIComponent {
         settingMenu = new Table();
         userTable = new Table();
         loginRegisterTable = new Table();
-    }
-
-    /**
-     * Initialize all images in the main menu
-     */
-    private void initializeImages() {
-        // Create Image actors for the animals
-        //dog2Image = new Image(dog2Texture);
-        //crocImage = new Image(crocTexture);
-        birdImage = new Image(birdTexture);
-
-        // Add animal images to the stage
-        //stage.addActor(dog2Image);
-        //stage.addActor(crocImage);
-        stage.addActor(birdImage);
     }
 
     /**
@@ -1253,7 +1182,6 @@ public class MainMenuDisplay extends UIComponent {
         table.clear();
         dog2Texture.dispose();
         crocTexture.dispose();
-        birdTexture.dispose();
         super.dispose();
         clickSound.dispose();
         if (customCursor != null) {
