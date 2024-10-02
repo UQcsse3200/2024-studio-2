@@ -111,6 +111,7 @@ public class MainMenuDisplay extends UIComponent {
     private Image birdAniImage;
     private TextureAtlas birdAtlas;
     private Array<TextureRegion> birdTextures;
+    private boolean birdDirection = true;
 
     int birdCurrentFrame = 0;
     private float timer;
@@ -143,10 +144,9 @@ public class MainMenuDisplay extends UIComponent {
         TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
         birdAniImage.setDrawable(drawable);
         birdAniImage.setSize(128, 112);
-        birdAniImage.setPosition(500, 500);
+        birdAniImage.setPosition(1500, 500);
         timer = 0f;
         stage.addActor(birdAniImage);
-
     }
 
     private void addChatbotIcon() {
@@ -397,11 +397,13 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void animateAnimals() {
         float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
 //
 //        // Use the generic method to animate each animal
 //        animateAnimal(dog2Image, screenHeight / 3, 10f);  // Dog moves in 10 seconds
 //        animateAnimal(crocImage, screenHeight / 2, 8f);   // Crocodile moves in 8 seconds
-        animateAnimal(birdImage, 2 * screenHeight / 3, 6f); // Bird moves in 6 seconds
+
+        //animateAnimal(birdAniImage, 2 * screenHeight / 3, 6f); // Bird moves in 6 seconds
     }
 
 
@@ -1216,6 +1218,21 @@ public class MainMenuDisplay extends UIComponent {
             }
             birdAniImage.setDrawable(drawable);
         }
+        float birdX = birdAniImage.getX();
+        if (birdX < -200 && birdDirection) {
+            birdDirection = false;
+            birdAniImage.setScale(-1,1);
+        } else if (birdX > 1500 && !birdDirection) {
+            birdDirection = true;
+            birdAniImage.setScale(1,1);
+        }
+
+        if (birdDirection) {
+            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * -100;
+        } else {
+            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * 100;
+        }
+        birdAniImage.setPosition(birdX, 500);
     }
 
     @Override
