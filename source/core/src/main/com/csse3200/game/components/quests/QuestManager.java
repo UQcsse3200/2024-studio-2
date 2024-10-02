@@ -34,8 +34,6 @@ public class QuestManager extends Component {
     /** Sound effect for quest completion. */
     private final Sound questComplete = ServiceLocator.getResourceService().getAsset("sounds/QuestComplete.wav", Sound.class);
     private final Sound achievementComplete = ServiceLocator.getResourceService().getAsset("sounds/achievement-sound.mp3", Sound.class);
-    /** Map of relevant quests. As of Sprint 1 the String[] should contain only one quest as only one is accessed*/
-    private final Map<String, String[]> relevantQuests;
 
     private final Entity player;
 
