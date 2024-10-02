@@ -139,11 +139,9 @@ public class MainMenuDisplay extends UIComponent {
         chatbotIconTable.setFillParent(true);
         chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
-        // Load the chatbot icon texture
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
-        chatbotIcon.setSize(100, 100); // Initial size of the chatbot icon
+        chatbotIcon.setSize(100, 100);
 
-        // Add hover effect to enlarge the icon when mouse enters, and shrink when mouse exits
         chatbotIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -153,21 +151,8 @@ public class MainMenuDisplay extends UIComponent {
                     openChatbotDialog();
                 }
             }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                // Enlarge the icon on hover
-                chatbotIcon.addAction(Actions.scaleTo(1.2f, 1.2f, 0.1f)); // Enlarge to 120% over 0.1 seconds
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // Shrink back to original size when mouse exits
-                chatbotIcon.addAction(Actions.scaleTo(1f, 1f, 0.1f)); // Shrink back to original size over 0.1 seconds
-            }
         });
 
-        // Add the chatbot icon to the table
         chatbotIconTable.add(chatbotIcon);
         stage.addActor(chatbotIconTable);
     }
