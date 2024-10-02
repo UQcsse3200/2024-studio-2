@@ -1,22 +1,17 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.components.inventory.CombatInventoryDisplay;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityConverter;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
  * This class listens to events relevant to the combat screen and does something when one of the
@@ -62,10 +57,11 @@ public class CombatActions extends Component {
    * 'Kills' enemy entity on return to combat screen.
    */
   private void onCombatWin(Entity enemy) {
-    logger.info("Returning to main game screen after combat win.");
+    logger.debug("Returning to main game screen after combat win.");
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
 
@@ -89,10 +85,8 @@ public class CombatActions extends Component {
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
   private void onCombatLoss(Entity enemy) {
-    logger.info("Returning to main game screen after combat loss.");
-
+    logger.debug("Returning to main game screen after combat loss.");
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
@@ -112,7 +106,7 @@ public class CombatActions extends Component {
    * Signalled by clicking guard button, to then signal the GUARD combat move in the manager.
    */
   private void onGuard(Screen screen, ServiceContainer container) {
-    logger.info("before Guard");
+    logger.debug("before Guard");
     manager.onPlayerActionSelected("GUARD");
     entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
@@ -121,7 +115,7 @@ public class CombatActions extends Component {
    * TODO: Switches to the end game stats screen upon defeating the final Kanga Boss, and open up new area.
    */
   private void onKangaDefeated() {
-    logger.info("Switching to end game stats screen.");
+    logger.debug("Switching to end game stats screen.");
     game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
   }
 
@@ -153,7 +147,13 @@ public class CombatActions extends Component {
    * Signalled by clicking items button.
    */
   private void onItems(Screen screen, ServiceContainer container) {
-    logger.info("Clicked Items");
+    logger.debug("Clicked Items");
+    entity.getEvents().trigger("toggleCombatInventory");
+    entity.getComponent(CombatInventoryDisplay.class).regenerateDisplay();
+    if (Objects.equals(entity.getEvents().getLastTriggeredEvent(), "itemUsed")) {
+      manager.onPlayerActionSelected("ITEM");
+      entity.getEvents().trigger("onItems", manager.getPlayerStats(), manager.getEnemyStats());
+    }
   }
 
   /**

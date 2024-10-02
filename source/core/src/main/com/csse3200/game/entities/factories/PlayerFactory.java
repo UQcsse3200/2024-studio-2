@@ -63,6 +63,7 @@ public class PlayerFactory {
         moveSet.add(new AttackMove("Player Attack", 10));
         moveSet.add(new GuardMove("Player Guard", 5));
         moveSet.add(new SleepMove("Player Sleep", 0));
+        moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
 
