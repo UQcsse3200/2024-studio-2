@@ -27,6 +27,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   private final boolean isBoss;
   private static final String heartbeat = "sounds/heartbeat.mp3";
   private final Vector2 bossSpeed;
+  private boolean chaseDir = false; // 0 left, 1 right
 
   /**
    * @param target The entity to chase.
@@ -56,8 +57,6 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
   public void start() {
     super.start();
 
-    String event = this.isBoss ? "kangaChaseStart" : "chaseStart";
-
       // Set movementTask based on npc type
       Vector2 currentPos = owner.getEntity().getPosition();
       Vector2 targetPos = target.getPosition();
@@ -66,23 +65,19 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       movementTask.create(owner);
       movementTask.start();
 
-      this.owner.getEntity().getEvents().trigger(event);
-
       if (this.isBoss) {
           playTensionSound();
           this.target.getEvents().trigger("startHealthBarBeating");
       }
-      if (targetPos.x - currentPos.x < 0 && !this.isBoss) {
+      if (targetPos.x - currentPos.x < 0) {
           this.owner.getEntity().getEvents().trigger("chaseLeft");
       } else {
           this.owner.getEntity().getEvents().trigger("chaseRight");
       }
-
-      this.owner.getEntity().getEvents().trigger("chaseStart");
   }
 
-    void playTensionSound() {
-        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
+  void playTensionSound() {
+    if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
       heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
       heartbeatSound.setLooping(true);
       heartbeatSound.setVolume(1.0f);
@@ -115,12 +110,13 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
       movementTask.start();
     }
 
-    if (targetPos.x - currentPos.x < 0) {
+    if (targetPos.x - currentPos.x < 0 && chaseDir) {
+      chaseDir = false;
       this.owner.getEntity().getEvents().trigger("chaseLeft");
-    } else {
+    } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+      chaseDir = true;
       this.owner.getEntity().getEvents().trigger("chaseRight");
     }
-
   }
 
   public float getViewDistance() {
@@ -133,8 +129,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask.stop();
 
     if (this.isBoss) {
-        stopTensionSound();
-        this.target.getEvents().trigger("stopHealthBarBeating");
+      stopTensionSound();
+      this.target.getEvents().trigger("stopHealthBarBeating");
     }
   }
 

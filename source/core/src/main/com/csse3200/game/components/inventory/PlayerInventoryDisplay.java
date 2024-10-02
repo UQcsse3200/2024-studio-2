@@ -57,6 +57,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
+
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
@@ -318,7 +319,7 @@ public class PlayerInventoryDisplay extends UIComponent {
      * Regenerates the inventory display by toggling it off and on.
      * This method is used to refresh the inventory UI without duplicating code.
      */
-    void regenerateDisplay() {
+    public void regenerateDisplay() {
         toggleDisplay(); // Hacky way to regenerate inventory without duplicating code
         toggleDisplay();
 }

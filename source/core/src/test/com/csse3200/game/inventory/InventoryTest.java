@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.csse3200.game.components.quests.Quest;
-import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
@@ -20,9 +18,6 @@ import com.csse3200.game.inventory.items.potions.HealingPotion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.List;
-
 
 @ExtendWith(GameExtension.class)
 class InventoryTest {
