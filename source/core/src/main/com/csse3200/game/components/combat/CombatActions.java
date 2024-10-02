@@ -50,7 +50,7 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("landBossDefeated", this::onKangaDefeated);
+    entity.getEvents().addListener("bossCombatWin", this::onBossCombatWin);
     entity.getEvents().addListener("waterBossDefeated", this::onWaterBossDefeated);
     entity.getEvents().addListener("airBossDefeated", this::onAirBossDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
@@ -101,7 +101,7 @@ public class CombatActions extends Component {
     logger.info("Returning to main game screen after combat loss.");
 
     // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, false);
+    entity.getEvents().trigger("endOfBossCombatDialogue", enemy, false);
   }
 
   /**
@@ -122,11 +122,13 @@ public class CombatActions extends Component {
   }
 
   /**
-   * Switches back to the main game after updating player stats and experience, upon defeating the Kanga Boss.
-   * Disposes of Kanga Boss entity after post combat dialogue.
+   * If boss is defeated, update player stats and display boss combat win dialogue.
+   * Disposes of Boss entity after post combat dialogue.
+   *
+   * @param bossEnemy The boss entity defeated by the player
    * TODO: open up new area.
    */
-    private void onKangaDefeated(Entity enemy) {
+    private void onBossCombatWin(Entity bossEnemy) {
     logger.info("Switching back to main game after defeating kangaroo boss.");
 
     // Reset player's stamina.
@@ -136,8 +138,8 @@ public class CombatActions extends Component {
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
 
     // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    entity.getEvents().trigger("endOfBossCombatDialogue", bossEnemy, true);
+    int enemyExp = bossEnemy.getComponent(CombatStatsComponent.class).getExperience();
     manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 

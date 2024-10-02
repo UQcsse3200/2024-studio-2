@@ -59,7 +59,7 @@ public class CombatButtonDisplay extends UIComponent {
                 }
             }
         };
-        entity.getEvents().addListener("endOfLandBossCombatDialogue", this::displayLandBossEndCombatDialogue);
+        entity.getEvents().addListener("endOfBossCombatDialogue", this::displayBossEndCombatDialogue);
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -180,13 +180,14 @@ public class CombatButtonDisplay extends UIComponent {
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 
+
     /**
      * Function used to display the specific text for the DialogueBox at the end of combat
      * with the land Kangaroo Boss
      * @param bossEntity Entity of the boss enemy that was encountered in combat
      * @param winStatus Boolean that states if the player has won in combat or not (false)
      */
-    public void displayLandBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
+    public void displayBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
@@ -211,17 +212,11 @@ public class CombatButtonDisplay extends UIComponent {
 
         // New listener for end of game
         stage.addListener(endDialogueListener);
-        if (winStatus) {
-            endText = new String[][]{{"*Kanga limps forward*..."
-                    ,"You may have defeated me *cough* "
-                    ,"The seas rage north from here... you won't last long!"
-                    ,"*DIES*"}};
-        } else {
-            endText = new String[][]{{"HAHAHAHAHAHA!!"
-                    , "You were weaker than I thought"
-                    , "Maybe level up or something"
-                    , "*Hops Away*"}};
-        }
+
+        // Get dialogue from DialogueData class
+        BossDialogueData dialogueData = new BossDialogueData();
+        endText = dialogueData.getDialogue(bossEntity.getEnemyType().toString(), winStatus);
+
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
 
