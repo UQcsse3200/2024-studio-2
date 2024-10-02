@@ -45,14 +45,12 @@ public class CombatActions extends Component {
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLoss", this::onCombatLoss);
-    entity.getEvents().addListener("combatLossBoss", this::onCombatLossBoss);
+    entity.getEvents().addListener("bossCombatWin", this::onBossCombatWin);
+    entity.getEvents().addListener("bossCombatLoss", this::onBossCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("bossCombatWin", this::onBossCombatWin);
-    entity.getEvents().addListener("waterBossDefeated", this::onWaterBossDefeated);
-    entity.getEvents().addListener("airBossDefeated", this::onAirBossDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
@@ -95,9 +93,32 @@ public class CombatActions extends Component {
   }
 
   /**
+   * If boss is defeated, update player stats and display boss combat win dialogue.
+   * Disposes of Boss entity after post combat dialogue.
+   *
+   * @param bossEnemy The boss entity defeated by the player
+   * TODO: open up new area depending on bossEnemy type. Unable to do at
+   *                 this stage, map team has not completed functionality
+   */
+  private void onBossCombatWin(Entity bossEnemy) {
+    logger.info("Switching back to main game after defeating kangaroo boss.");
+
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfBossCombatDialogue", bossEnemy, true);
+    int enemyExp = bossEnemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
+  }
+
+  /**
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
    */
-  private void onCombatLossBoss(Entity enemy) {
+  private void onBossCombatLoss(Entity enemy) {
     logger.info("Returning to main game screen after combat loss.");
 
     // For CombatButtonDisplay DialogueBox
@@ -121,65 +142,7 @@ public class CombatActions extends Component {
     entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
   }
 
-  /**
-   * If boss is defeated, update player stats and display boss combat win dialogue.
-   * Disposes of Boss entity after post combat dialogue.
-   *
-   * @param bossEnemy The boss entity defeated by the player
-   * TODO: open up new area.
-   */
-    private void onBossCombatWin(Entity bossEnemy) {
-    logger.info("Switching back to main game after defeating kangaroo boss.");
 
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
-    // For CombatStatsDisplay to update
-    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-
-    // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfBossCombatDialogue", bossEnemy, true);
-    int enemyExp = bossEnemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
-  }
-
-  /**
-   * Switches back to the main game after updating player stats and experience, upon defeating the Water Boss.
-   * Disposes of Water Boss entity after post combat dialogue.
-   */
-  private void onWaterBossDefeated(Entity enemy) {
-    logger.info("Switching back to main game after defeating kangaroo boss.");
-
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
-    // For CombatStatsDisplay to update
-    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-
-    // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
-  }
-
-  /**
-   * Switches back to the main game after updating player stats and experience, upon defeating the Air Boss.
-   * Disposes of Air Boss entity after post combat dialogue.
-   */
-  private void onAirBossDefeated(Entity enemy) {
-    logger.info("Switching back to main game after defeating kangaroo boss.");
-
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
-    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
-    // For CombatStatsDisplay to update
-    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
-
-    // For CombatButtonDisplay DialogueBox
-    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
-  }
 
   /**
    * Signalled by clicking sleep button, to then signal the SLEEP combat move in the manager.

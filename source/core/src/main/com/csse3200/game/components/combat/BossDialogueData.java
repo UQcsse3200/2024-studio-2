@@ -22,12 +22,24 @@ public class BossDialogueData {
                         "*Hops Away*"}
         });
 
-        dialogues.put("Boss2", new String[][]{
-                {"Boss 2 wins dialogue..."},
-                {"Boss 2 loses dialogue..."}
+        dialogues.put("WATER_BOSS", new String[][]{
+                {"*flop* *flop*",
+                    "ARRRGGGHH!! HOW CAN THIS BE?!??!!?",
+                    "the world Eater must... rest now",
+                    "*sinks to depths of ocean*"},
+                {"I AM STILL HUNGRY",
+                        "GIVE ME MORE!! I WANT MOOOOOOOOORE!!!!"}
         });
 
-        // Add more entities as needed
+        dialogues.put("AIR_BOSS", new String[][]{
+                {"*fwoosh*",
+                        "*The mighty gryphon falls from the sky*",
+                        "You think you have won?",
+                        "Enjoy this empty world with your silly little friends",
+                        "I need to find my feet anyway"},
+                {"So close...",
+                        "but now... so... so... far"}
+        });
     }
 
     /**
