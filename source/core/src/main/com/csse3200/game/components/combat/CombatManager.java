@@ -1,5 +1,9 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -10,6 +14,7 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
@@ -29,6 +34,7 @@ public class CombatManager extends Component {
      * Enum representing the possible actions in combat: ATTACK, GUARD, SLEEP, SPECIAL, or ITEM.
      */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
+    private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
 
     private final Entity player;
     private final Entity enemy;
@@ -40,6 +46,8 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+    private InputListener dialogueBoxCombatListener;
+    private TextButton contButton;
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
@@ -258,6 +266,7 @@ public class CombatManager extends Component {
 
         switch (playerAction) {
             case ATTACK -> {
+                combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
@@ -283,6 +292,7 @@ public class CombatManager extends Component {
                 }
             }
             case GUARD -> {
+                combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
                         playerMove.executeMove(playerAction);
@@ -295,6 +305,7 @@ public class CombatManager extends Component {
                 }
             }
             case SLEEP -> {
+                combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
@@ -346,6 +357,7 @@ public class CombatManager extends Component {
                 this.getEntity().getEvents().trigger("combatLoss");
                 //Clear inventory/other normal death events
             }
+            // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         } else if (enemyStats.getHealth() <= 0) {
             if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
                 this.getEntity().getEvents().trigger("landBossDefeated");
@@ -356,6 +368,7 @@ public class CombatManager extends Component {
             } else {
                 this.getEntity().getEvents().trigger("combatWin", enemy);
             }
+            // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         }
     }
 
@@ -520,6 +533,63 @@ public class CombatManager extends Component {
         moveText[0] = moveTextList.toArray(new String[0]);
 
         ServiceLocator.getDialogueBoxService().updateText(moveText);
+
+        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
+        addDialogueBoxListener();
+
         entity.getEvents().trigger("displayCombatResults");
     }
+
+    /**
+     * Add listener to continue button in dialogue box in combat to allow syncing of
+     * enemy animations after player animations and when continue button is pressed as enemy attack is
+     * described in dialogue box
+     */
+    public void addDialogueBoxListener() {
+
+        // Get the continue button for the dialogue box
+        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
+
+        dialogueBoxCombatListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                combatAnimationDisplay.dispose();
+
+                Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
+                String currentText = String.valueOf(db.getText());
+
+                //            TODO: replace Label code with code below due in next PR
+                //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
+                //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
+                //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
+                //            String currentText = String.valueOf(fullText[index][index2]);
+
+                if (currentText.equals("The enemy decided to ATTACK")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+                } else if (currentText.equals("The enemy decided to SLEEP")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+                } else if (currentText.equals("The enemy decided to GUARD")){
+                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+                }
+
+                return true;
+            }
+        };
+
+        contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
+    }
+
+    /**
+     * Remove the input listener for the continue button of the dialogue box used to
+     * sync the animations of enemy players with when continue button was clicked
+     */
+    private void nullifyCombatDialogueListener(){
+        if (dialogueBoxCombatListener != null) {
+            contButton.removeListener(dialogueBoxCombatListener);
+            dialogueBoxCombatListener = null;
+        }
+    }
+
+
 }
