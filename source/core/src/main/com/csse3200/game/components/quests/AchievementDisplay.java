@@ -96,8 +96,6 @@ public class AchievementDisplay extends UIComponent {
 
         Table exitButton = makeExitButton();
 
-        Table clearButton = makeClearButton();
-
         Stack tabContentStack = new Stack();
 
         Table itemsTable = makeLogbookTable(Achievement.AchievementType.ITEM);
@@ -119,7 +117,6 @@ public class AchievementDisplay extends UIComponent {
         rootTable.add(tabs).fillX().row();
         rootTable.add(tabContentStack).expand().fill().row();
         rootTable.add(exitButton.left().bottom()).left().bottom();
-        rootTable.add(clearButton).right().bottom();
         stage.addActor(rootTable);
     }
 
@@ -305,32 +302,11 @@ public class AchievementDisplay extends UIComponent {
         return table;
     }
 
-    private Table makeClearButton() {
-        Table table = new Table();
-        TextButton button = new TextButton("Clear", skin);
-        addButtonElevationEffect(button);
-        button.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("clear button clicked");
-                        clearAchievements();
-                    }
-                });
-        table.add(button);
-        return table;
-    }
-
     /**
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
         saveAchievements(achievements,"saves/achievements.json");
-        game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-    }
-
-    private void clearAchievements() {
-        // TODO: Achievements.resetState() when implemented. Requires an import.
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
