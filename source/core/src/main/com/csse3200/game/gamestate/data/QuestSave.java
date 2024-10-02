@@ -115,6 +115,23 @@ public class QuestSave implements Json.Serializable {
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
             }
 
+            Iterator<JsonValue> followList;
+            if(!quest.has("followQuests")) {
+                followList = null;
+            } else {
+                followList = quest.get("followQuests").iterator();
+            }
+
+            quest.get("followQuests");
+            List<String> newFollows = new ArrayList<String>();
+            if(followList != null) {
+                while(followList.hasNext()) {
+                    JsonValue follow = followList.next();
+                    newFollows.add(follow.asString());
+                }
+            }
+
+
             QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),
                     quest.getString("questDescription"),
                     newTasks,
@@ -123,7 +140,8 @@ public class QuestSave implements Json.Serializable {
                     finalTriggers,
                     quest.getBoolean("isActive"),
                     quest.getBoolean("isFailed"),
-                    quest.getInt("currentTaskIndex"));
+                    quest.getInt("currentTaskIndex"),
+                    newFollows.toArray(new String[]{}));
             newQuests.add(nextQuest);
         }
         quests = newQuests;

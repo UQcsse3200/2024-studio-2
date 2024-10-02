@@ -48,18 +48,14 @@ public class QuestDisplay extends UIComponent {
 
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
-        if (q1.isActive() && !q2.isActive()) {
-            return -1;
-        } else if (!q1.isActive() && q2.isActive()) {
+        if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
             return 1;
-        } else if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
-            return -1;
         } else if (!q1.isQuestCompleted() && q2.isQuestCompleted()) {
-            return 1;
-        } else if (q1.isFailed() && !q2.isFailed()) {
             return -1;
-        } else if (!q1.isFailed() && q2.isFailed()) {
+        } else if (q1.isFailed() && !q2.isFailed()) {
             return 1;
+        } else if (!q1.isFailed() && q2.isFailed()) {
+            return -1;
         } else {
             return 0;
         }
@@ -89,7 +85,7 @@ public class QuestDisplay extends UIComponent {
         addQuestsCompletedLabel(table);
 
         if (questManager != null) {
-            listOfQuests = questManager.getAllQuests();
+            listOfQuests = questManager.getActiveQuests();
             listOfQuests.sort(questComparator);
             //
             int start = currPage * numOfQuestsPerPage;

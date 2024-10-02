@@ -413,7 +413,27 @@ public class QuestManager extends Component {
     private boolean canProgressQuest(QuestBasic quest, String taskName) {
         return !quest.isQuestCompleted() &&
                 !quest.isFailed() &&
-                Objects.equals(taskName, quest.getTasks().get(quest.getProgression()).getTaskName());
+                Objects.equals(taskName, quest.getTasks().get(quest.getProgression()).getTaskName())
+                && quest.isActive();
+    }
+
+    private boolean canStartQuest(QuestBasic quest) {
+        for (String questName : quest.getFollowQuests()) {
+            if(!getQuest(questName).isQuestCompleted()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public ArrayList<QuestBasic> getActiveQuests() {
+        ArrayList<QuestBasic> newList = new ArrayList<>();
+        for(QuestBasic quest : quests.values()) {
+            if(quest.isActive() || quest.isQuestCompleted()) {
+                newList.add(quest);
+            }
+        }
+        return newList;
     }
 
     /**
@@ -421,8 +441,8 @@ public class QuestManager extends Component {
      * @param quest The quest to be completed.
      */
     private void completeTask(QuestBasic quest) {
-        quest.progressQuest(player); //advance quest progression
-        if (quest.isQuestCompleted()) {
+        ; //advance quest progression
+        if (quest.progressQuest(player)) {
             handleQuestCompletion(quest);
         } else {
             logger.info("Progress: {}/{}", quest.getProgression(), quest.getTasks().size());
@@ -440,13 +460,22 @@ public class QuestManager extends Component {
             player.getEvents().trigger(quest.getQuestName());
             logger.info("{} completed!", quest.getQuestName());
         }
+        for(QuestBasic questCheck : quests.values()) {
+            boolean newActive = true;
+            for(String name : questCheck.getFollowQuests()) {
+                if(quests.containsKey(name)) {
+                    newActive = getQuest(name).isQuestCompleted();
+                }
+            }
+            questCheck.setActive(newActive);
+        }
 
-        if (quest.getQuestName().equals("Guide's Request")) {
-            setupItemCollectionsTask("Candy", 6, "collectCandy");
-        }
-        if (quest.getQuestName().equals("Water Sage's research")) {
-            setupItemCollectionsTask("Apple", 4, "collectApples");
-        }
+//        if (quest.getQuestName().equals("Guide's Request")) {
+//            setupItemCollectionsTask("Candy", 6, "collectCandy");
+//        }
+//        if (quest.getQuestName().equals("Water Sage's research")) {
+//            setupItemCollectionsTask("Apple", 4, "collectApples");
+//        }
     }
 
 

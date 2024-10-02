@@ -10,8 +10,8 @@ public class QuestBasic extends AbstractQuest {
     public QuestBasic(String questName, String questDescription, List<Task> tasks,
                       Boolean isSecretQuest, List<DialogueKey> dialogue,
                       String[] taskCompletionTriggers, boolean active, boolean failed,
-                      int currentTaskIndex) {
+                      int currentTaskIndex, String[] followQuests) {
         super(questName, questDescription, tasks, isSecretQuest, dialogue,
-                taskCompletionTriggers, active, failed, currentTaskIndex);
+                taskCompletionTriggers, active, failed, currentTaskIndex, followQuests);
     }
 }

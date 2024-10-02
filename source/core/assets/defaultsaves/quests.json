@@ -30,7 +30,8 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: true
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: null
 		}
 		{
 			questName: Guide's Request
@@ -63,7 +64,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Guide's Intro"
+			]
 		}
 		{
 			questName: Defeat Enemies
@@ -96,7 +100,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Guide's Intro"
+			]
 		}
 		{
 			questName: Play Snake Minigame
@@ -127,7 +134,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Guide's Intro"
+			]
 		}
 		{
 			questName: Kangaroo Boss Challenge
@@ -159,7 +169,12 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Guide's Request",
+				"Defeat Enemies",
+				"Play Snake Minigame"
+			]
 		}
 		{
 			questName: Water Sage's Intro

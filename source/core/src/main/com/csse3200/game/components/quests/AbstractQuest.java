@@ -45,8 +45,10 @@ public abstract class AbstractQuest {
     /** Triggers for task completion. */
     private final String[] taskCompletionTriggers;
 
+    private String[] followQuests;
+
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex)
+    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex, String[] followQuests)
     {
         this.questName = questName;
         this.questDescription = questDescription;
@@ -57,6 +59,7 @@ public abstract class AbstractQuest {
         this.currentTaskIndex = currentTaskIndex;
         this.questDialogue = dialogue;
         this.taskCompletionTriggers = taskCompletionTriggers;
+        this.followQuests = followQuests;
 
     }
 
@@ -106,7 +109,8 @@ public abstract class AbstractQuest {
         return tasks.get(currentTaskIndex).getHint();
     }
     /** Progress (increments) number of quest subtasks completed. */
-    public void progressQuest(Entity player) {
+    public boolean progressQuest(Entity player) {
+        boolean questCompletionTrack = false;
         if (!isQuestCompleted() && !isFailed) {
             if(taskCompletionTriggers!=null){
                 player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
@@ -114,11 +118,15 @@ public abstract class AbstractQuest {
             currentTaskIndex++;
         }
         if(isQuestCompleted()){
+            if(this.isActive) {
+                questCompletionTrack = true;
+            }
             this.isActive = false;
             if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
             }
         }
+        return questCompletionTrack;
     }
 
     /** Returns true if quest is failed. */
@@ -163,8 +171,9 @@ public abstract class AbstractQuest {
         return isActive;
     }
 
+    public void setActive(boolean active) { this.isActive = active; }
+
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
-    public void setQuestDialogue(List<DialogueKey> key) { questDialogue = key; }
-
+    public String[] getFollowQuests() { return followQuests; }
 }
