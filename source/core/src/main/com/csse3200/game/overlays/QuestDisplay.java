@@ -130,15 +130,20 @@ public class QuestDisplay extends UIComponent {
         Color questShownActive = determineQuestColor(quest);
 
         Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
-        questTitle.setFontScaleX(0.8f);
+        questTitle.setFontScaleX(0.5f);
+
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
-        questProgressBar.setSize(0.5f, 0.5f);
+
+
+        questProgressBar.setSize(270, 20);
+
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
 
-        table.add(questTitle).expandX().fillX().padRight(10f);
-        table.add(questProgressBar).expandX().fillX().padRight(10f);
+
+        table.add(questTitle).expandX().fillX().padRight(5f);
+        table.add(questProgressBar).width(150).height(20).padRight(5f);
         table.add(questCheckbox).padRight(10f);
         table.row().padTop(5f);
 
@@ -167,9 +172,12 @@ public class QuestDisplay extends UIComponent {
      * @param quest The quest whose task hints are to be added to.
      */
     private void addQuestInfo(Table table, AbstractQuest quest) {
+
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
         descLabel.setFontScale(0.70f);
+        descLabel.setWrap(true);
+        descLabel.setWidth(300);
 
         table.add(descLabel).expandX().fillX().colspan(10);
         table.row().padTop(1f);
@@ -178,6 +186,10 @@ public class QuestDisplay extends UIComponent {
             Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
             hintLabel.setColor(Color.GRAY);
             hintLabel.setFontScale(0.70f);
+
+
+            hintLabel.setWrap(true);
+            hintLabel.setWidth(300);
 
             table.add(hintLabel).expandX().fillX().colspan(10);
             table.row().padTop(1f);
