@@ -13,10 +13,9 @@
     "itemProbability": 0.0
   },
   "cow": {
-    "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
-      "We will be your guides",
-      "but before you can roam free...",
-      "you must complete the first steps and 2 step quests."]],
+    "baseHint": [[
+      "Go complete your quest adventurer!"
+      ]],
     "spritePath": "images/friendly_npcs/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
@@ -51,10 +50,7 @@
   },
   "snake": {
     "baseHint": [
-      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-        "You look very tasty and I am very hungry",
-        "Go play a game and collect me some apples...",
-        "/msOr I will eat you whole!"]
+      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!"]
     ],
     "spritePath": "images/friendly_npcs/snake.atlas",
     "animationSpeed": 0.2,
@@ -64,10 +60,7 @@
   },
 
   "magpie": {
-    "baseHint": [["WHO GOES THERE!!",
-                 "If you want to get past me you must pay",
-                 "Go play a game and collect me some coins",
-                 "/mbOr I will claw your eyes out!"]],
+    "baseHint": [["I LOVE GOLD!!"]],
     "spritePath": "images/friendly_npcs/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],

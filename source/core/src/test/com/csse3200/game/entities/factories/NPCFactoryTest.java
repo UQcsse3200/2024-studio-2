@@ -270,12 +270,11 @@ class NPCFactoryTest {
     void TestCowHasCorrectBaseHint() {
         String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
-                "We will be your guides",
-                "but before you can roam free...",
-                "you must complete the first steps and 2 step quests."}});
-    }
+        Assertions.assertArrayEquals(baseHint, new String[][]{{
+                "Go complete your quest adventurer!"
 
+        }});
+    }
     /**
      * Tests that the cow has an idle animation.
      */
@@ -585,10 +584,7 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectBaseHint() {
         String[][] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-                "You look very tasty and I am very hungry",
-                "Go play a game and collect me some apples...",
-                "/msOr I will eat you whole!"}});
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!"}});
     }
 
     /**
@@ -666,10 +662,7 @@ class NPCFactoryTest {
     void TestMagpieHasCorrectBaseHint() {
         String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"WHO GOES THERE!!",
-                "If you want to get past me you must pay",
-                "Go play a game and collect me some coins",
-                "/mbOr I will claw your eyes out!"}}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"I LOVE GOLD!!"}}, baseHint);
     }
 
     /**
