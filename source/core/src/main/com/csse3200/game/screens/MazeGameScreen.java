@@ -184,10 +184,8 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void endGame(int score) {
         this.EndScore = score;
-        if (GameState.minigame != null) {
-            GameState.minigame.addHighScore("maze", score);
-            logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
-        }
+        GameState.minigame.addHighScore("maze", score);
+        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
     }
 
     /**
@@ -230,7 +228,6 @@ public class MazeGameScreen extends PausableScreen {
 
     /**
      * Called from event to restart the game
-     * TODO: call if R key is pressed
      */
     void restartGame() {
         dispose();

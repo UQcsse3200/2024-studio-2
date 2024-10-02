@@ -56,25 +56,19 @@ public class ScoreBoard {
             bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
-            if (GameState.minigame != null) {
-                this.highscore = GameState.minigame.getHighScore("snake");
-            }
+            this.highscore = GameState.minigame.getHighScore("snake");
         } else if (gameName == BIRD) {
             this.scale = 0.6;
             bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
-            if (GameState.minigame != null) {
-                this.highscore =  GameState.minigame.getHighScore("bird");
-            }
+            this.highscore =  GameState.minigame.getHighScore("bird");
         } else { // MAZE
             this.scale = 1;
             bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
-            if (GameState.minigame != null) {
-                this.highscore = GameState.minigame.getHighScore("maze");
-            }
+            this.highscore = GameState.minigame.getHighScore("maze");
         }
 
         Stage stage = ServiceLocator.getRenderService().getStage();
@@ -86,12 +80,10 @@ public class ScoreBoard {
         scoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         scoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
-        if (GameState.minigame != null) {
-            highscoreLabel = new Label("High Score: " + highscore, skin, "default-white");
-            highscoreLabel.setFontScale((float) (2.0f * scale));
-            highscoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-            highscoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
-        }
+        highscoreLabel = new Label("High Score: " + highscore, skin, "default-white");
+        highscoreLabel.setFontScale((float) (2.0f * scale));
+        highscoreLabel.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        highscoreLabel.setAlignment(com.badlogic.gdx.utils.Align.left);
 
         medalLabel = new Label("Medals", skin, "default-white");
         medalLabel.setFontScale((float) (2.0f * scale));
@@ -115,10 +107,8 @@ public class ScoreBoard {
 
         table.add(scoreLabel).center().padTop(100).padBottom(10).expandX().fillX().padLeft(120);
         table.row();
-        if (GameState.minigame != null) {
-            table.add(highscoreLabel).center().padTop(20).padBottom(10).expandX().fillX().padLeft(120);
-            table.row();
-        }
+        table.add(highscoreLabel).center().padTop(20).padBottom(10).expandX().fillX().padLeft(120);
+        table.row();
         table.add(medalLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
         table.row();
         table.add(bronzeLabel).center().padTop(20).padBottom(20).expandX().fillX().padLeft(120);
@@ -157,9 +147,7 @@ public class ScoreBoard {
     public void dispose() {
         if (table != null) table.remove();
         if (scoreLabel != null) scoreLabel.remove();
-        if (GameState.minigame != null) {
-            if (highscoreLabel != null) highscoreLabel.remove();
-        }
+        if (highscoreLabel != null) highscoreLabel.remove();
         if (bronzeLabel != null) bronzeLabel.remove();
         if (silverLabel != null) silverLabel.remove();
         if (goldLabel != null) goldLabel.remove();
@@ -189,9 +177,7 @@ public class ScoreBoard {
 
         // Adjust padding and font sizes within the table for the scaling factor
         scoreLabel.setFontScale(2.0f * scaleFactor);
-        if (GameState.minigame != null) {
-            highscoreLabel.setFontScale(2.0f * scaleFactor);
-        }
+        highscoreLabel.setFontScale(2.0f * scaleFactor);
         medalLabel.setFontScale(2.0f * scaleFactor);
         bronzeLabel.setFontScale(1.5f * scaleFactor);
         silverLabel.setFontScale(1.5f * scaleFactor);
@@ -200,10 +186,8 @@ public class ScoreBoard {
         table.clear();
         table.add(scoreLabel).center().padTop(100 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
         table.row();
-        if (GameState.minigame != null) {
-            table.add(highscoreLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
-            table.row();
-        }
+        table.add(highscoreLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.row();
         table.add(medalLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
         table.row();
         table.add(bronzeLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
