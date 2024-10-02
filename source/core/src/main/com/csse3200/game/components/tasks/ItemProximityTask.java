@@ -58,7 +58,7 @@ public class ItemProximityTask extends ProximityTask {
                     ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
                 }
             } else {
-                logger.error("PlayerInventoryDisplay component not found on target entity.");
+                logger.error("Inventory not found on target entity.");
             }
         } else if (!targetInProximity()) {
             logger.debug("Player is not close enough to pick up the item.");

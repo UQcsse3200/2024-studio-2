@@ -109,6 +109,10 @@ public class CombatMoveComponent extends Component {
                         return move;
                     }
                     break;
+                case ITEM:
+                    if (move instanceof ItemMove) {
+                        return move;
+                    }
                 default:
                     return null;
             }
