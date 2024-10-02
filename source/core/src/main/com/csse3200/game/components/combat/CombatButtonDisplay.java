@@ -198,8 +198,13 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 // Check if the DialogueBox is not visible
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, combat screen can be exited.");
-                    entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                    if (!winStatus) {
+                        logger.info("Switching screens to gamer over lose after losing to boss.");
+                        entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else {
+                        logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                        entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                    }
                 }
             }
         };
@@ -212,8 +217,10 @@ public class CombatButtonDisplay extends UIComponent {
                     ,"The seas rage north from here... you won't last long!"
                     ,"*DIES*"}};
         } else {
-            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
-                    "before battling again."}};
+            endText = new String[][]{{"HAHAHAHAHAHA!!"
+                    , "You were weaker than I thought"
+                    , "Maybe level up or something"
+                    , "*Hops Away*"}};
         }
         ServiceLocator.getDialogueBoxService().updateText(endText);
     }
