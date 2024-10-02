@@ -14,11 +14,12 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
-import com.csse3200.game.overlays.CombatAnimationDisplay;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The CombatManager class is responsible for managing the turn-based combat loop between two entities (player and enemy).
@@ -51,6 +52,10 @@ public class CombatManager extends Component {
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
 
+    private int statusEffectDuration;
+    private Boolean moveChangedByConfusion;
+
+
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
      * It initializes player and enemy stats, their moves, and actions.
@@ -72,6 +77,8 @@ public class CombatManager extends Component {
 
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
+
+        this.moveChangedByConfusion = false;
     }
 
     /**
@@ -137,52 +144,77 @@ public class CombatManager extends Component {
             return;
         }
 
-        // Apply confusion effect if it exists.
-        checkForConfusion(playerStats);
-
         enemyAction = selectEnemyMove();
+
+        handlePlayerConfusion();
+
         logger.info("(BEFORE) PLAYER {}: health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
         logger.info("(BEFORE) ENEMY {}: health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
 
-        // Process any status effects after the actions are taken.
-        processStatusEffects(playerStats);
-        processStatusEffects(enemyStats);
+        handleStatusEffects();
 
         checkCombatEnd();
     }
 
     /**
-     * Checks if the player is confused and randomly selects a new action for them if they are.
-     *
-     * @param playerStats the player's combat statistics, which include status effects.
+     * Randomly select a move to replace the player's selected move if the player has the Confusion status effect
      */
-    public void checkForConfusion(CombatStatsComponent playerStats) {
-        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSION)) {
+    public void handlePlayerConfusion() {
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
             logger.info("PLAYER is CONFUSED");
-
-            int rand = (int) (Math.random() * 3);
-            playerAction = switch (rand) {
-                case 0 -> Action.ATTACK;
-                case 1 -> Action.GUARD;
-                case 2 -> Action.SLEEP;
-                case 3 -> Action.ITEM;
-                default -> null;
-            };
+            ArrayList<Action> actions = new ArrayList<>(List.of(Action.ATTACK, Action.GUARD, Action.SLEEP));
+            actions.remove(playerAction);
+            playerAction = actions.get((int) (Math.random() * actions.size()));
+            moveChangedByConfusion = true;
         }
     }
 
     /**
-     * Processes status effects such as BLEEDING, which inflicts damage each round.
-     *
-     * @param entityStats the combat statistics of the entity to process status effects on.
+     * Process Special Move status effects on the Player by reducing Player health and/or stamina.
+     * Updates the statusEffectDuration and removes expired effects. Confusion only lasts 1 round and is always removed.
      */
-    public void processStatusEffects(CombatStatsComponent entityStats) {
-        if (entityStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            logger.info("{} is BLEEDING", entityStats.isPlayer() ? "PLAYER" : "ENEMY");
-            entityStats.setHealth(entityStats.getHealth() - 5);
+    public void handleStatusEffects() {
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
+            if (moveChangedByConfusion) {
+                playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
+                moveChangedByConfusion = false;
+            }
+        }
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
+            if (statusEffectDuration == 0) {
+                statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.BLEEDING);
+            } else {
+                // Bleeding reduces health and stamina by 9%, 6%, and 3% respectively each round.
+                double reductionMultiplier = (double) (-3 * statusEffectDuration) / 100;
+                playerStats.addHealth((int) (reductionMultiplier * playerStats.getMaxHealth()));
+                playerStats.addStamina((int) (reductionMultiplier * playerStats.getMaxStamina()));
+                if (--statusEffectDuration <= 0) {
+                    playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
+                }
+            }
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+            if (statusEffectDuration == 0) {
+                statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.POISONED);
+            } else {
+                // Poison reduces stamina by 30% each round.
+                playerStats.addStamina((int) (-0.3 * playerStats.getMaxStamina()));
+                if (--statusEffectDuration <= 0) {
+                    playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.POISONED);
+                }
+            }
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
+            if (statusEffectDuration == 0) {
+                statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.SHOCKED);
+            } else {
+                // Shock reduces health by 15% each round.
+                playerStats.addHealth((int) (-0.15 * playerStats.getMaxHealth()));
+                if (--statusEffectDuration <= 0) {
+                    playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED);
+                }
+            }
         }
     }
 
@@ -198,7 +230,8 @@ public class CombatManager extends Component {
             return Action.SLEEP;
         }
 
-        int rand = enemyMove.hasSpecialMove() ? (int) (Math.random() * 4) : (int) (Math.random() * 3);
+        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
+                (int) (Math.random() * 4) : (int) (Math.random() * 3);
         enemyAction = switch (rand) {
             case 0 -> Action.ATTACK;
             case 1 -> Action.GUARD;
@@ -431,10 +464,29 @@ public class CombatManager extends Component {
     }
 
     /**
+     * A function used to construct the strings describing Status Effects applied to the Player
+     * @return A string array containing the details of status effects (Bleeding, Shocked, or Poisoned).
+     */
+    private String playerStatusEffects() {
+        String effectDetails = "";
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING) && statusEffectDuration == 0) {
+            effectDetails += "You're bleeding! Your GUARDs will be less effective.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)
+                && statusEffectDuration == 0) {
+            effectDetails += "You've been poisoned! SLEEPing won't heal you.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)
+                && statusEffectDuration == 0) {
+            effectDetails += "You've been shocked! Your ATTACKs will be weakened.";
+        }
+
+        return effectDetails;
+    }
+
+    /**
      * Displays the results of the combat moves in that turn on the game screen in a DialogueBox
      */
     private void displayCombatResults() {
-        String[][] moveText;
+        List<String> moveTextList = new ArrayList<>();
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
         boolean playerStatChange = false;
@@ -450,27 +502,37 @@ public class CombatManager extends Component {
         }
         logger.info(entityStatChanges[1]);
         logger.info(String.format("The enemyStat change value is %b", enemyStatChange));
-        if (playerStatChange && enemyStatChange) {
-            logger.info("THERE'S STATS CHANGES FOR PLAYER AND ENEMY");
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0],
-                    entityStatChanges[1]}};
-            logger.info("1");
-        } else if (playerStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[0]}};
-            logger.info("2");
-        } else if (enemyStatChange) {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails), entityStatChanges[1]}};
-            logger.info("3");
+
+
+        if (moveChangedByConfusion) {
+            moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
+        } else if (playerMoveDetails.equals("ITEM")) {
+            moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
         } else {
-            moveText = new String[][]{{String.format("You decided to %s", playerMoveDetails),
-                    String.format("The enemy decided to %s", enemyMoveDetails),
-                    "No stats were changed, try again!"}};
-            logger.info("Player move details: {}", playerMoveDetails);
-            logger.info("Enemy move details: {}", enemyMoveDetails);
+            moveTextList.add(String.format("You decided to %s.", playerMoveDetails));
         }
+        if (enemyMoveDetails.equals("SLEEP") || enemyMoveDetails.equals("GUARD")) {
+            moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
+        } else {
+            moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
+        }
+
+        if (playerStatChange) {
+            moveTextList.add(entityStatChanges[0]);
+        }
+        if (enemyStatChange) {
+            moveTextList.add(entityStatChanges[1]);
+        }
+
+        String statusEffects = playerStatusEffects();
+
+        if (!statusEffects.isEmpty()) {
+            moveTextList.add(statusEffects);
+        }
+
+        // Convert the ArrayList to a 2D array for updateText
+        String[][] moveText = new String[1][moveTextList.size()];
+        moveText[0] = moveTextList.toArray(new String[0]);
 
         ServiceLocator.getDialogueBoxService().updateText(moveText);
 
@@ -505,7 +567,6 @@ public class CombatManager extends Component {
                 //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
                 //            String currentText = String.valueOf(fullText[index][index2]);
 
-                System.out.println(currentText);
                 if (currentText.equals("The enemy decided to ATTACK")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
                 } else if (currentText.equals("The enemy decided to SLEEP")){
