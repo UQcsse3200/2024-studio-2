@@ -33,6 +33,10 @@ public class ObstacleFactory {
     return tree;
   }
 
+  /**
+   * Creates a cloud entity.
+   * @return entity
+   */
   public static Entity createCloud() {
     Entity cloud =
             new Entity()
@@ -47,6 +51,10 @@ public class ObstacleFactory {
     return cloud;
   }
 
+  /**
+   * Creates a seaweed entity.
+   * @return entity
+   */
   public static Entity createSeaweed() {
     Entity seaweed =
             new Entity()
@@ -61,6 +69,10 @@ public class ObstacleFactory {
     return seaweed;
   }
 
+  /**
+   * Creates a starfish entity.
+   * @return entity
+   */
   public static Entity createStarfish() {
     Entity starfish =
             new Entity()
