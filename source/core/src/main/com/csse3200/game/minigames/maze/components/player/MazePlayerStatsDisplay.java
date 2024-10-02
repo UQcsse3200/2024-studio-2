@@ -10,7 +10,7 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
 /**
- * A UI component for displaying player stats, e.g. health.
+ * A UI component for displaying player stats, e.g. health and score
  */
 public class MazePlayerStatsDisplay extends UIComponent {
 

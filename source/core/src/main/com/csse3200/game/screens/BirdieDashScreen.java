@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
@@ -117,6 +118,10 @@ public class BirdieDashScreen extends PausableScreen {
         if (birdGame.getIsGameOver()) {
             dispose();
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
+            if (GameState.minigame != null) {
+                GameState.minigame.addHighScore("bird", birdGame.getScore());
+                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
+            }
         }
     }
 
@@ -199,7 +204,7 @@ public class BirdieDashScreen extends PausableScreen {
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
-         .addComponent(new KeyboardMiniGameInputComponent());
+                .addComponent(new KeyboardMiniGameInputComponent());
 
         ui.getEvents().addListener("flap", this::flap);
         ui.getEvents().addListener("addOverlay", this::addOverlay);
@@ -211,20 +216,20 @@ public class BirdieDashScreen extends PausableScreen {
     }
 
     /**
-    * Called from event key press to trigger bird propulsion
-    */
+     * Called from event key press to trigger bird propulsion
+     */
     private void flap() {
-            // Trigger the flap action in BirdieDashGame
-            birdGame.flapBird();
-            AudioManager.playSound("sounds/minigames/birdie-flap.mp3");
+        // Trigger the flap action in BirdieDashGame
+        birdGame.flapBird();
+        AudioManager.playSound("sounds/minigames/birdie-flap.mp3");
     }
 
     /**
      * Called from event to restart the game
      */
     void restartGame() {
-       dispose();
-       game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+        dispose();
+        game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
     }
 
     /**
