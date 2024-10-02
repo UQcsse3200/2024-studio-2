@@ -38,6 +38,7 @@ public class CombatStatsDisplay extends UIComponent {
     private static Animation<TextureRegion> enemyHealthBarAnimation;
     private static Animation<TextureRegion> playerHungerBarAnimation;
     private static Animation<TextureRegion> xpBarAnimation;
+    private static Table statusTable;
     private float barImageWidth;
     private float barImageHeight;
     private static final int totalFrames = 11;
@@ -68,6 +69,7 @@ public class CombatStatsDisplay extends UIComponent {
         entity.getEvents().addListener("statusEffectAdded", (CombatStatsComponent.StatusEffect statusEffect) -> {
             updateStatusEffectUI(statusEffect);
         });
+        entity.getEvents().addListener("statusEffectRemoved", this::removeStatusUI);
     }
 
     /**
@@ -296,12 +298,16 @@ public class CombatStatsDisplay extends UIComponent {
 
     }
 
+    /**
+     * Method used to display the relevant status effect that the player is afflicted with
+     * @param statusEffect An ENUM that stores the type of status effect the player has been afflicted with
+     */
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
         float tableTopPadding = 40f;
         float tableLeftPadding = 750f;
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
         statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
-        Table statusTable = new Table();
+        statusTable = new Table();
         statusTable.add(statusEffectImage);
         statusTable.top().left();
         statusTable.row();
@@ -312,6 +318,13 @@ public class CombatStatsDisplay extends UIComponent {
         statusTable.setFillParent(true);
         statusTable.padTop(tableTopPadding).padLeft(tableLeftPadding);
         stage.addActor(statusTable);
+    }
+
+    /**
+     * Method to remove the status effect bar and text from the combat screen
+     */
+    private void removeStatusUI() {
+        statusTable.remove();
     }
 
     @Override

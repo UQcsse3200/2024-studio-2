@@ -394,6 +394,7 @@ public class CombatStatsComponent extends Component {
     if (statusEffects.contains(effect)) {
       statusEffects.remove(effect);
       logger.info("Removed status effect: {}", effect);
+      entity.getEvents().trigger("statusEffectRemoved");
     }
   }
 
