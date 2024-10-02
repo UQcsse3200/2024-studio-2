@@ -50,7 +50,6 @@ public class QuestManager extends Component {
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
         player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
-        createQuestDialogues();
         player.getEvents().addListener("landBossDefeated",
               () ->  player.getEvents().trigger("defeatKangarooBoss"));
         player.getEvents().addListener("waterBossDefeated",
@@ -60,11 +59,7 @@ public class QuestManager extends Component {
 
     }
 
-    private void handleEnemyQuest(Entity enemy) {
-        String type = enemy.getEnemyType().toString();
-        player.getEvents().trigger("defeat" + type);
 
-    }
 
     private void setupAchievements(){
         // Init logbook listeners and handlers
@@ -106,6 +101,7 @@ public class QuestManager extends Component {
         String type = enemy.getEnemyType().toString();
         player.getEvents().trigger("defeat" + type);
     }
+
     /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
@@ -213,9 +209,9 @@ public class QuestManager extends Component {
                 && quest.isActive();
     }
 
-    public ArrayList<QuestBasic> getActiveQuests() {
-        ArrayList<QuestBasic> newList = new ArrayList<>();
-        for(QuestBasic quest : quests.values()) {
+    public ArrayList<Quest> getActiveQuests() {
+        ArrayList<Quest> newList = new ArrayList<>();
+        for(Quest quest : quests.values()) {
             if(quest.isActive() || quest.isQuestCompleted()) {
                 newList.add(quest);
             }
@@ -248,7 +244,7 @@ public class QuestManager extends Component {
             logger.info("{} completed!", quest.getQuestName());
         }
 
-        for(QuestBasic questCheck : quests.values()) {
+        for(Quest questCheck : quests.values()) {
             boolean newActive = true;
             if(questCheck.getFollowQuests() != null) {
                 for(String name : questCheck.getFollowQuests()) {

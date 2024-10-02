@@ -43,8 +43,6 @@ class QuestManagerTest {
 
     @Test
     void AddQuest() {
-        // check merge, old quests have no final string
-        // Quest quest = new Quest("Test Quest",  "Test Description", List.of(), false, null, null, true, false, 0);
         Quest quest = new Quest("Test Quest",  "Test Description", List.of(), false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
