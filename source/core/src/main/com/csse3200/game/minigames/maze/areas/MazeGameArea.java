@@ -16,6 +16,7 @@ import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -54,11 +55,14 @@ public class MazeGameArea extends GameArea {
             "images/PauseOverlay/Button.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
+            "images/minigames/inksplat.png"
     };
     private static final String[] mazeTextureAtlases = {
             "images/minigames/angler.atlas", "images/minigames/fish.atlas",
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
-            "images/minigames/GreenJellyfish.atlas"
+            "images/minigames/GreenJellyfish.atlas",
+            "images/minigames/octopus.atlas",
+            "images/minigames/turtle.atlas"
     };
     private static final String mazeParticleEffectImageDir = "images/minigames";
     private static final String[] mazeParticleEffects = {
@@ -114,6 +118,12 @@ public class MazeGameArea extends GameArea {
         spawnFishEggs();
 
         playMusic();
+
+        Entity ink =  new Entity()
+                .addComponent(new TextureRenderComponent("images/minigames/inksplat.png"));
+        ink.setPosition(player.getCenterPosition().sub(2,2));
+        ink.setScale(4, 4);
+        spawnEntity(ink);
     }
 
     /**
