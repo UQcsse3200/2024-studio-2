@@ -1,13 +1,10 @@
 package com.csse3200.game.components.mainmenu;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import java.awt.*;
-
-public class Animation {
+public class BirdAnimation {
     private Array<TextureRegion> frames;
     private float maxFrameTime;
     private float currentFrameTime;
@@ -15,7 +12,7 @@ public class Animation {
     private int frame;
     private Image image;
 
-    public Animation(TextureRegion region, int frameCount, float cycleTime) {
+    public BirdAnimation(TextureRegion region, int frameCount, float cycleTime) {
         frames = new Array<TextureRegion>();
         int frameWidth = region.getRegionWidth() /frameCount;
         for (int i = 0; i < frameCount; i++){
@@ -41,13 +38,5 @@ public class Animation {
 
     public TextureRegion getFrame(){
         return frames.get(frame);
-    }
-
-    public TextureRegion getFrameAt(int index){
-        return frames.get(index);
-    }
-
-    public int getFrameCount(){
-        return this.frameCount;
     }
 }
