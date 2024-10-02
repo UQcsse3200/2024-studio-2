@@ -387,7 +387,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Sets the entity's level.
    *
-   * @param sets entity level to number
+   * @param level sets entity's level
    */
   public void setLevel(int level){
     this.level = level;
@@ -396,7 +396,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Add int to entity's level
    *
-   * @param adds int to the current level
+   * @param level adds int to the current level
    */
   public void addLevel(int level){
     setLevel(this.level + level);
