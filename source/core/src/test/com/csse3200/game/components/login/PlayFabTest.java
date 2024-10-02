@@ -115,4 +115,7 @@ public class PlayFabTest {
         assertNotNull(result.Error, "Result should not be null");
         assertEquals("Email address not available", result.Error.errorMessage);
     }
+
+    // Login Test
+    // Importing Login Unit Testing will cause throttling, so we won't import it.
 }
