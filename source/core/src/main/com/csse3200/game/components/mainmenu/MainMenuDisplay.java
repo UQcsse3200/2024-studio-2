@@ -1,4 +1,5 @@
 package com.csse3200.game.components.mainmenu;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -222,6 +223,7 @@ public class MainMenuDisplay extends UIComponent {
 
         isChatbotDialogVisible = true;
     }
+
     /**
      * Closes the chatbot dialog.
      */
@@ -246,12 +248,14 @@ public class MainMenuDisplay extends UIComponent {
 
     /**
      * Processes user input or predefined questions and updates the response.
+     *
      * @param userInput The user input (either custom or predefined).
      */
     private void processChatInput(String userInput) {
         String chatbotResponse = chatbotService.getResponse(userInput);  // Get chatbot response
         chatbotResponseLabel.setText(chatbotResponse);  // Update response label
     }
+
     /**
      * Sets up the custom cursor.
      */
@@ -303,9 +307,10 @@ public class MainMenuDisplay extends UIComponent {
         Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
         owlImage = new Image(owlTexture); // Create owl image actor
     }
+
     // Add owl facts
     private void setupOwlFacts() {
-        owlFacts = new String[] {
+        owlFacts = new String[]{
                 "A dogs nose print is as unique as a human fingerprint.",
                 "Crocodiles have been around for over 200 million years!",
                 "Some birds, like the Arctic Tern, migrate over 40,000 miles a year.",
@@ -319,15 +324,16 @@ public class MainMenuDisplay extends UIComponent {
                 "The heart of a hummingbird beats over 1,200 times per minute!"
         };
     }
+
     private void addOwlToMenu() {
         // Set owl initial position
         owlImage.setPosition(1720, 150);// Adjust the position as needed
-        owlImage.setSize(200,300);
+        owlImage.setSize(200, 300);
         stage.addActor(owlImage);
 
         // Create label for displaying facts
         factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(1400,130 ); // Position it near the owl
+        factLabel.setPosition(1400, 130); // Position it near the owl
         factLabel.setFontScale(1f);
         stage.addActor(factLabel);
 
@@ -593,6 +599,7 @@ public class MainMenuDisplay extends UIComponent {
 
     /**
      * set the label styles of menu buttons' labels
+     *
      * @param style the style that is set
      */
     private void setMenuLabelsStyle(String style) {
