@@ -13,6 +13,7 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
@@ -665,7 +666,7 @@ public class CombatManager extends Component {
         String[][] moveText = new String[1][moveTextList.size()];
         moveText[0] = moveTextList.toArray(new String[0]);
 
-        ServiceLocator.getDialogueBoxService().updateText(moveText);
+        ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
         // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
         addDialogueBoxListener();

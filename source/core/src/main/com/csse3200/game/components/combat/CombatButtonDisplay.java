@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
@@ -266,7 +267,7 @@ public class CombatButtonDisplay extends UIComponent {
             endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
                     "before battling again."}};
         }
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
 
     /**
@@ -278,7 +279,7 @@ public class CombatButtonDisplay extends UIComponent {
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
         logger.debug(String.format("Item %s was clicked.", item.getName()));
         String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
-        ServiceLocator.getDialogueBoxService().updateText(checkText);
+        ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
 
         entity.getEvents().trigger("toggleCombatInventory");
         entity.getEvents().trigger("itemConfirmed", item, index, context);
