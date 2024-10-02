@@ -86,7 +86,6 @@
     "baseAttack": 50,
     "defense": 50,
     "speed": 25,
-    "experience": 50,
     "isEnemy": 1
   },
   "joey": {
