@@ -663,7 +663,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     resourceService.unloadAssets(config.textures.forestTextureAtlases);
     resourceService.unloadAssets(config.sounds.gameSounds);
     resourceService.unloadAssets(config.sounds.gameMusic);
-    resourceService.unloadAssets(forestMusic);
   }
 
   @Override
