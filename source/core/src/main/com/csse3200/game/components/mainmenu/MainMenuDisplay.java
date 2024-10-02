@@ -133,9 +133,9 @@ public class MainMenuDisplay extends UIComponent {
         birdAniImage.setDrawable(drawable);
         birdAniImage.setSize(128, 112);
         birdAniImage.setPosition(1500, 500);
+        stage.addActor(birdAniImage);
 
         // Add dog animation
-        stage.addActor(dogAniImage);
         dogAniImage = new Image();
         dogAtlas = new TextureAtlas("spriteSheets/DogMain.atlas");
         dogTextures = new Array<>(4);
