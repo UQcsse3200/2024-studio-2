@@ -232,7 +232,9 @@ public class MainMenuDisplay extends UIComponent {
         contentTable.add(closeButton).pad(10).row(); // Add close button
 
         chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
-        chatbotDialog.show(stage); // Show the dialog
+
+        // Show the dialog without fade-in effect
+        chatbotDialog.show(stage, Actions.sequence(Actions.alpha(1f))); // Ensure full opacity without any fade effect
 
         // Center the dialog on screen after showing it
         centerDialogOnScreen();
@@ -258,8 +260,6 @@ public class MainMenuDisplay extends UIComponent {
         String chatbotResponse = chatbotService.getResponse(userInput);
         chatbotResponseLabel.setText(chatbotResponse);
     }
-
-
 
     /**
      * Closes the chatbot dialog.
