@@ -8,6 +8,7 @@ import com.csse3200.game.services.GameTime;
 public class SpeedPotion extends TimedUseItem {
     private final static String path = "images/potiontexture/speed.png";
     private final static long duration = 120000;
+    private final static String msg = "Cannot use speed potion during combat";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -15,7 +16,7 @@ public class SpeedPotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public SpeedPotion(int quantity) {
-        super("Speed Potion", 52, 3, quantity, 25, duration);
+        super("Speed Potion", 52, 3, quantity, 25, duration, msg);
         this.setTexturePath(path);
         this.setDescription("This is a speed potion");
     }
@@ -37,10 +38,8 @@ public class SpeedPotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        if (isExpired(context)) {
             CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
             stats.setSpeed(stats.getSpeed() - this.effectAmount);
-        }
     }
 }
 

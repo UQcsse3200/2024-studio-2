@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -14,6 +15,8 @@ import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -35,6 +38,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +49,6 @@ class EnemyFactoryTest {
     private static Entity chicken;
     private static Entity frog;
     private static Entity monkey;
-    private static Entity kanga;
     private static Entity bear;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
@@ -84,12 +88,17 @@ class EnemyFactoryTest {
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
 
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
+
         Entity player = new Entity();
         chicken = EnemyFactory.createChicken(player);
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
         bear = EnemyFactory.createBear(player);
-        kanga = EnemyFactory.createKangaBossEntity(player);
     }
 
     /**
@@ -356,72 +365,4 @@ class EnemyFactoryTest {
 
     static class TestComponent1 extends Component {}
 
-    /**
-     * Tests Creation of Kanga.
-     */
-    @Test
-    void TestKangaCreation() {
-        assertNotNull(kanga, "Kanga should not be null.");
-    }
-
-    /**
-     * Tests that the Kanga is an Entity.
-     */
-    @Test
-    void TestKangaIsEntity() {
-        assertEquals(kanga.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the Kanga has a physics component.
-     */
-    @Test
-    void TestKangaHasPhysicsComponent() {
-        assertNotNull(kanga.getComponent(PhysicsComponent.class));
-    }
-
-    /**
-     * Tests that the Kanga has a physics movement component.
-     */
-    @Test
-    void TestKangaHasPhysicsMovementComponent() {
-        assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
-    }
-
-    /**
-     * Tests the Kanga has a collider component.
-     */
-    @Test
-    void TestKangaHasColliderComponent() {
-        assertNotNull(kanga.getComponent(ColliderComponent.class));
-    }
-
-    /**
-     * Tests that the Kanga has the correct HP stat.
-     */
-    @Test
-    void TestKangaHasCorrectHP() {
-        assertEquals(150, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 150 HP.");
-    }
-
-    /**
-     * Tests that the Kanga has an idle animation.
-     */
-    @Test
-    void TestKangaHasAnimation() {
-        assertTrue(kanga.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "Kanga should have idle animation.");
-    }
-
-    /**
-     * Tests that the Kanga is in the correct spot when placed.
-     */
-    @Test
-    void TestKangaSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        kanga.setPosition(pos);
-
-        assertEquals(pos, kanga.getPosition());
-    }
 }

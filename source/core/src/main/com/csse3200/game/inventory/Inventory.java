@@ -1,6 +1,5 @@
 package com.csse3200.game.inventory;
 
-import com.badlogic.gdx.Game;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.data.InventorySave;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -59,9 +58,6 @@ public class Inventory implements InventoryInterface {
      * @see InventorySave
      */
     public void loadInventoryFromSave() {
-//        if(GameState.inventory == null) {
-//            GameState.inventory = new InventorySave();
-//        }
         if(GameState.inventory.inventoryContent.length != 0) {
             reconstructFromArray(GameState.inventory.inventoryContent);
         } else {
@@ -154,7 +150,6 @@ public class Inventory implements InventoryInterface {
     public int getIndex(int code) {
         return this.getItemIndex(code).orElse(-1);
     }
-
     /**
      * Retrieves the index of the first occurrence of an item with the given name.
      *
@@ -180,6 +175,22 @@ public class Inventory implements InventoryInterface {
     }
 
     /**
+     * Swaps the items between two inventory slots. If the target slot is empty,
+     * the item from the source slot is moved to the target slot. If the target slot
+     * contains an item, the items between the source and target slots are swapped.
+     *
+     * @param src    The index of the source slot from which the item is being moved.
+     * @param target The index of the target slot to which the item is being moved.
+     */
+    public void swap(int src, int target)
+    {
+        AbstractItem from = deleteItemAt(src);
+        AbstractItem to = deleteItemAt(target);
+        if (from != null) {addAt(target, from);}
+        if (to != null) {addAt(src, to);}
+    }
+
+    /**
      * Deletes the first occurrence of an item with the specified code from the inventory.
      * <p>Currently removes the item entirely. Needs to be updated to reduce quantity if
      * applicable - ie if we only want to delete <b>n</b> of the item.</p>
@@ -199,12 +210,15 @@ public class Inventory implements InventoryInterface {
      * index.</p>
      *
      * @param index the index of the item to delete.
+     * @return the item that was removed (or null if there was no item at that index)
      */
     @Override
-    public void deleteItemAt(int index) {
-        if (memoryView[index] != null) {
+    public AbstractItem deleteItemAt(int index) {
+        AbstractItem item = memoryView[index];
+        if (item != null) {
             this.removeAt(index);
         }
+        return item;
     }
 
     /**
@@ -416,6 +430,7 @@ public class Inventory implements InventoryInterface {
     private Optional<Integer> getItemIndex(int code) {
         return this.hasItem(code) ? Optional.of(codeToIndices.get(code).first()) : Optional.empty();
     }
+
 
     /**
      * Retrieves the index of the first occurrence of an item with the specified name.

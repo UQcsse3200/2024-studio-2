@@ -1,0 +1,124 @@
+effects.png
+size: 1216, 192
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+waterSpiral
+  rotate: false
+  xy: 0, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 0
+waterSpiral
+  rotate: false
+  xy: 68, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 1
+waterSpiral
+  rotate: false
+  xy: 136, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 2
+waterSpiral
+  rotate: false
+  xy: 204, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 3
+waterSpiral
+  rotate: false
+  xy: 272, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 4
+waterSpiral
+  rotate: false
+  xy: 340, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 5
+waterSpiral
+  rotate: false
+  xy: 408, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 6
+waterSpiral
+  rotate: false
+  xy: 476, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 7
+waterSpiral
+  rotate: false
+  xy: 544, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 8
+waterSpiral
+  rotate: false
+  xy: 612, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 9
+waterSpiral
+  rotate: false
+  xy: 680, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 10
+waterSpiral
+  rotate: false
+  xy: 748, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 11
+waterSpiral
+  rotate: false
+  xy: 816, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 12
+waterSpiral
+  rotate: false
+  xy: 884, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 13
+waterSpiral
+  rotate: false
+  xy: 952, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 14
+waterSpiral
+  rotate: false
+  xy: 1020, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 15
+waterSpiral
+  rotate: false
+  xy: 1088, 0
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: 16

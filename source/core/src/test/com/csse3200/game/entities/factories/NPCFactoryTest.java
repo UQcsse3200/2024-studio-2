@@ -1,9 +1,16 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.extensions.GameExtension;
@@ -13,15 +20,17 @@ import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.dialoguebox.KeyboardDialogueBoxInputComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,42 +53,58 @@ class NPCFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private static String[] textures = {
-            "images/Cow.png",
-            "images/Lion-Spritesheet.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/turtle.png",
-            "images/magpie.png",
-            "images/Fish.png",
+            "images/friendly_npcs/friendly-npcs.png",
             "images/final_boss_kangaroo.png"
     };
 
     private static String[] atlas = {
-            "images/Cow.atlas",
-            "images/lion.atlas",
-            "images/snake.atlas",
-            "images/eagle.atlas",
-            "images/turtle.atlas",
-            "images/magpie.atlas",
-            "images/Fish.atlas",
+            "images/friendly_npcs/Cow.atlas",
+            "images/friendly_npcs/lion.atlas",
+            "images/friendly_npcs/snake.atlas",
+            "images/friendly_npcs/eagle.atlas",
+            "images/friendly_npcs/turtle.atlas",
+            "images/friendly_npcs/magpie.atlas",
+            "images/friendly_npcs/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
     @BeforeAll
     static void setup() {
+        // Mock GameTime and register it
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
+
+        // Register services
         ServiceLocator.registerPhysicsService(new PhysicsService());
-        RenderService render = new RenderService();
-        render.setDebug(mock(DebugRenderer.class));
-        ServiceLocator.registerRenderService(render);
+
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
+        ServiceLocator.registerInputService(new InputService());
+
+        // lighting service
+        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+        LightingService mockLightingService = mock(LightingService.class);
+        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingEngine.createPointLight(anyFloat(), anyFloat(), anyFloat(), any(Color.class))).thenReturn(null);
+        ServiceLocator.registerLightingService(mockLightingService);
+
+        // Load resources
         resourceService.loadTextures(textures);
         resourceService.loadTextureAtlases(atlas);
         resourceService.loadAll();
 
+        ServiceLocator.registerRenderService(renderService);
+
+        // Create and register the Stage
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        when(renderService.getStage()).thenReturn(stage);
+        DialogueBoxService entityChatService = new DialogueBoxService(stage);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
+
+        // Create NPCs
         Entity player = new Entity();
         List<Entity> enemies = new ArrayList<>();
         cow = NPCFactory.createCow(player, enemies);
@@ -89,6 +114,32 @@ class NPCFactoryTest {
         snake = NPCFactory.createSnake(player, enemies);
         magpie = NPCFactory.createMagpie(player, enemies);
         fish = NPCFactory.createFish(player, enemies);
+    }
+
+    /**
+     * Test keys control an animals dialogue appropriately
+     */
+    @Test
+    @Order(1)
+    public void testDialogueInputTriggersForwardAndBackward() {
+        RenderService renderService = mock(RenderService.class);
+        when(renderService.getStage()).thenReturn(mock(Stage.class));
+        ServiceLocator.registerRenderService(renderService);
+        Stage stage = ServiceLocator.getRenderService().getStage();
+        DialogueBoxService entityChatService = new DialogueBoxService(stage);
+        ServiceLocator.registerDialogueBoxService(entityChatService);
+
+        InputComponent inputComponent = cow.getComponent(KeyboardDialogueBoxInputComponent.class);
+        Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
+
+        cow.getEvents().trigger("CowPauseStart");
+        ServiceLocator.getDialogueBoxService().updateText(new String[][] {{"1", "2"}});
+        String firstHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
+        inputComponent.keyDown(Input.Keys.RIGHT);
+        String secondHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
+        Assertions.assertNotEquals(firstHint, secondHint);
+        inputComponent.keyDown(Input.Keys.LEFT);
+        Assertions.assertEquals(firstHint, ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString());
     }
 
     /**
@@ -137,7 +188,11 @@ class NPCFactoryTest {
     void TestFishHasCorrectBaseHint() {
         String[][] baseHint = configs.fish.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!", "I am Finny the Fish."}}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Help me please!",
+                "A strong current just scattered all my eggs and now I am lost",
+                "It is getting dark now, they are in great danger!",
+                "I must get them back and find my way home!",
+                "/muHelp me collect all the fish eggs an get back home before it is too late"}}, baseHint);
     }
 
     /**

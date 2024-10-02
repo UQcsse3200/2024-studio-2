@@ -1,18 +1,27 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.services.ServiceLocator;
+
+import java.util.Objects;
 
 /**
  * Pauses near a target entity until they move too far away or out of sight.
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
+    private static final Logger logger = new Logger("PauseTask");
+
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
+    private String animalName;
+    private boolean hasEndedConversation;
 
     /**
      * Constructs a new PauseTask that will pause near a target entity.
@@ -27,6 +36,7 @@ public class PauseTask extends ChaseTask {
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.hasEndedConversation = false;
     }
 
     /**
@@ -48,12 +58,11 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
-            String animalName = (config).getAnimalName();
+            animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
-            entity.getEvents().trigger(eventName, hintText);
+            entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
         }
@@ -93,6 +102,17 @@ public class PauseTask extends ChaseTask {
             hasApproached = true;
             movementTask.stop();
         }
+
+        if (hasApproached && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())
+            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), String.format("PauseStart%s", animalName))
+            && !Objects.equals(entity.getEvents().getLastTriggeredEvent(), "PlayerFinishedInteracting")) {
+            triggerPauseEvent();
+        }
+
+        if (!hasEndedConversation && Boolean.FALSE.equals(ServiceLocator.getDialogueBoxService().getIsVisible())) {
+            hasEndedConversation = true;
+            entity.getEvents().trigger("PlayerFinishedInteracting");
+        }
     }
 
     /**
@@ -103,8 +123,9 @@ public class PauseTask extends ChaseTask {
         super.stop();
         movementTask.start();
 
-        // Ensure the chat box doesn't hang around when its not supposed to
-        this.hasApproached = false;
+        // Ensure the chat box doesn't hang around when it's not supposed to
+        hasApproached = false;
+        hasEndedConversation = false;
         triggerPauseEventEnd();
     }
 
