@@ -53,24 +53,18 @@ class NPCFactoryTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private static String[] textures = {
-            "images/Cow.png",
-            "images/Lion-Spritesheet.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/turtle.png",
-            "images/magpie.png",
-            "images/Fish.png",
+            "images/friendly_npcs/friendly-npcs.png",
             "images/final_boss_kangaroo.png"
     };
 
     private static String[] atlas = {
-            "images/Cow.atlas",
-            "images/lion.atlas",
-            "images/snake.atlas",
-            "images/eagle.atlas",
-            "images/turtle.atlas",
-            "images/magpie.atlas",
-            "images/Fish.atlas",
+            "images/friendly_npcs/Cow.atlas",
+            "images/friendly_npcs/lion.atlas",
+            "images/friendly_npcs/snake.atlas",
+            "images/friendly_npcs/eagle.atlas",
+            "images/friendly_npcs/turtle.atlas",
+            "images/friendly_npcs/magpie.atlas",
+            "images/friendly_npcs/Fish.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
@@ -139,7 +133,7 @@ class NPCFactoryTest {
         Assertions.assertNotNull(inputComponent, "InputComponent should be added to the NPC");
 
         cow.getEvents().trigger("CowPauseStart");
-        ServiceLocator.getDialogueBoxService().updateText(new String[] {"1", "2"});
+        ServiceLocator.getDialogueBoxService().updateText(new String[][] {{"1", "2"}});
         String firstHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
         inputComponent.keyDown(Input.Keys.RIGHT);
         String secondHint = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel().toString();
@@ -276,11 +270,13 @@ class NPCFactoryTest {
     void TestCowHasCorrectBaseHint() {
         String[][] baseHint = configs.cow.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"Moo there, adventurer! Welcome to the kingdom.",
-                "Complete your first quest",
-               }});
+        Assertions.assertArrayEquals(baseHint, new String[][]{{
+            "Moo there, adventurer! Welcome to the kingdom.",
+            "We will be your guides",
+            "but before you can roam free...",
+            "you must complete the first steps and 2 step quests."
+        }});
     }
-
     /**
      * Tests that the cow has an idle animation.
      */
