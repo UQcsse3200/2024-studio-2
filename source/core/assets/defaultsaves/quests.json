@@ -206,7 +206,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Kangaroo Boss Challenge"
+			]
 		}
 		{
 			questName: Water Sage's research
@@ -239,7 +242,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Water Sage's Intro"
+			]
 		}
 		{
 			questName: Defeat Sea Enemies,
@@ -271,7 +277,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Water Sage's Intro"
+			]
 		}
 		{
 			questName: Play Flappy Game.
@@ -302,7 +311,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Water Sage's Intro"
+			]
 		}
 		{
 			questName: Defeat Water Boss,
@@ -333,7 +345,12 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Water Sage's research",
+				"Defeat Sea Enemies",
+				"Play Flappy Game"
+			]
 		}
 		{
 			questName: Talk To Sage
@@ -364,7 +381,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Water Boss"
+			]
 		}
 		{
 			questName: Gathering Sky Crystals
@@ -395,7 +415,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Talk To Sage"
+			]
 		}
 		{
 			questName: Brave the Skies
@@ -425,7 +448,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Talk To Sage"
+			]
 		}
 		{
 			questName: Tempest’s Challenge
@@ -455,7 +481,10 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Talk To Sage"
+			]
 		}
 		{
 			questName: Fight Seraph
@@ -485,7 +514,12 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Gathering Sky Crystals",
+				"Brave the Skies",
+				"Tempest’s Challenge"
+			]
 		}
 	]
 }
