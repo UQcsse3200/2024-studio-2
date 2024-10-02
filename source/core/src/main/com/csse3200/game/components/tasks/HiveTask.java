@@ -39,7 +39,7 @@ public class HiveTask extends DefaultTask implements PriorityTask {
     
     @Override
     public int getPriority() {
-        return 1; // Low priority task
+        return 11; // Low priority task
     }
     
     /**

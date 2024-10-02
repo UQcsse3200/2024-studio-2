@@ -477,7 +477,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         spawnShooterEnemy(generator, config.spawns.NUM_MACAW, 0.1, 3);
 
         //Hive
-        generator = () -> EnemyFactory.createHive(player);
+        generator = () -> ProjectileFactory.createHive(player);
         spawnHive(generator, 5, 0.1, 1);
     }
     
@@ -618,7 +618,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         for (int i = 0; i < numHives; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-            Entity enemy = EnemyFactory.createHive(player);
+            Entity enemy = ProjectileFactory.createHive(player);
             spawnEntityAt(enemy, randomPos, true, false);
             enemies.add(enemy);
             enemy.addComponent(new ProximityComponent(player, proximityRange));

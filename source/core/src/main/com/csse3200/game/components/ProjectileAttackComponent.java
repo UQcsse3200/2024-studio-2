@@ -4,11 +4,13 @@ package com.csse3200.game.components;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
+import com.csse3200.game.components.tasks.HiveTask;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.components.HitboxComponent;
 import static com.csse3200.game.entities.Entity.EnemyType.ELECTRICORB;
+import static com.csse3200.game.entities.Entity.EnemyType.HIVE;
 
 
 /**
@@ -53,7 +55,14 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
         
         // disposes of projectile
         Entity owner = getEntity();
-        ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
-        if (task != null) task.getMovementTask().stop();
+        if (owner.getEnemyType() == HIVE) {
+            HiveTask task = (HiveTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
+            if (task != null) {
+                task.stop();
+            }
+        } else {
+            ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
+            if (task != null) task.getMovementTask().stop();
+        }
     }
 }

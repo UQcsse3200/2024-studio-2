@@ -6,10 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ProjectileAttackComponent;
-import com.csse3200.game.components.npc.BananaAnimationController;
-import com.csse3200.game.components.npc.OrbAnimationController;
-import com.csse3200.game.components.npc.WaterSpiralAnimationController;
-import com.csse3200.game.components.npc.WindGustAnimationController;
+import com.csse3200.game.components.npc.*;
+import com.csse3200.game.components.tasks.HiveTask;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -138,6 +136,28 @@ public class ProjectileFactory {
     Entity worm = createBaseProjectile(target, configs.worm, 0.5f, animator, new BananaAnimationController());
     worm.setEnemyType(Entity.EnemyType.WORM);
     return worm;
+  }
+
+  /**
+   * Creates a hive enemy.
+   *
+   * @param target entity which the spawned bees will chase
+   * @return enemy hive entity
+   */
+  public static Entity createHive(Entity target) {
+    BaseEnemyEntityConfig config = configs.hive;
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+    Entity hive = createBaseProjectile(target, config, 0.5f, animator, new HiveAnimationController());
+
+    hive.getComponent(AITaskComponent.class).addTask(new HiveTask(target));
+    hive.setEnemyType(Entity.EnemyType.HIVE);
+
+    return hive;
   }
   
   /**

@@ -335,31 +335,6 @@ public class EnemyFactory {
     }
 
     /**
-     * Creates a hive enemy.
-     *
-     * @param target entity which the spawned bees will chase
-     * @return enemy hive entity
-     */
-    public static Entity createHive(Entity target) {
-        BaseEnemyEntityConfig config = configs.hive;
-        Entity hive = createBaseEnemy(target, EnemyType.HIVE, config);
-        hive.setEnemyType(Entity.EnemyType.HIVE);
-
-        AnimationRenderComponent animator =
-                new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-
-        hive
-                .addComponent(animator)
-                .addComponent(new HiveAnimationController());
-
-        hive.getComponent(AnimationRenderComponent.class).scaleEntity();
-
-        return hive;
-    }
-
-    /**
      * Creates a joey enemy.
      *
      * @param target entity to chase (player in most cases, but does not have to be)
@@ -434,9 +409,6 @@ public class EnemyFactory {
             }
             case EnemyType.PIGEON -> {
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
-            }
-            case EnemyType.HIVE -> {
-                aiComponent.addTask(new HiveTask(target));
             }
             case EnemyType.MACAW -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
