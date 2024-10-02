@@ -41,10 +41,13 @@ public class Entity {
   private EnemyType enemyType;
   public enum EnemyType {
     KANGAROO,
+    WATER_BOSS,
+    AIR_BOSS,
     CHICKEN,
     MONKEY,
     FROG,
     BEAR,
+    JOEY,
     MAZE_ANGLER,
     MAZE_EEL,
     MAZE_JELLYFISH

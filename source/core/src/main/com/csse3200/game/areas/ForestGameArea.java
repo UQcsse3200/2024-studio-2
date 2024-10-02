@@ -64,6 +64,8 @@ public class ForestGameArea extends GameArea {
 
   // Boolean to ensure that only a single boss entity is spawned when a trigger happens
   private boolean kangarooBossSpawned = false;
+  private boolean waterBossSpawned = false;
+  private boolean airBossSpawned = false;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -115,7 +117,12 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
+
       player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      // TODO: change to correct listener eventName string
+      player.getEvents().addListener("spawnKangaBoss", this::spawnWaterBoss);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnAirBoss);
+
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       player.getEvents().addListener("unlockArea", this::unlockArea);
       kangarooBossSpawned = false;
@@ -310,13 +317,35 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-    private void spawnKangarooBoss() {
-        if (!kangarooBossSpawned) {
-            Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
-            spawnEntityOnMap(kangarooBoss);
-            kangarooBossSpawned = true;
-        }
+  private void spawnKangarooBoss() {
+      if (!kangarooBossSpawned) {
+          Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
+          kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+          spawnEntityOnMap(kangarooBoss);
+          enemies.add(kangarooBoss);
+          kangarooBossSpawned = true;
+      }
+  }
+
+  private void spawnWaterBoss() {
+    if (!waterBossSpawned) {
+      Entity waterBoss = BossFactory.createWaterBossEntity(player);
+      waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
+      spawnEntityOnMap(waterBoss);
+      enemies.add(waterBoss);
+      waterBossSpawned = true;
     }
+  }
+
+  private void spawnAirBoss() {
+    if (!airBossSpawned) {
+      Entity airBoss = BossFactory.createAirBossEntity(player);
+      airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
+      spawnEntityOnMap(airBoss);
+      enemies.add(airBoss);
+      airBossSpawned = true;
+    }
+  }
 
   private void spawnEntityOnMap(Entity entity) {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
@@ -544,6 +573,49 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     
     //spawns
     spawnEntityAtVector(banana, pos);
+  }
+
+  private void spawnJoeyEnemy(Entity kanga) {
+    if (kanga != null) {
+      Entity joey = EnemyFactory.createJoey(player);
+
+      Vector2 kangarooBossPos = kanga.getPosition();
+
+      // Define the area around the Kangaroo boss where the Joey can be spawned
+      GridPoint2 minPos = new GridPoint2((int) kangarooBossPos.x - 2, (int) kangarooBossPos.y - 2);
+      GridPoint2 maxPos = new GridPoint2((int) kangarooBossPos.x + 2, (int) kangarooBossPos.y + 2);
+
+      GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+      spawnEntityAt(joey, spawnPos, true, false);
+      enemies.add(joey);
+    }
+  }
+
+  private void spawnWaterSpiral(Entity boss) {
+    if (boss != null) {
+      Entity waterSpiral = ProjectileFactory.createWaterSpiral(player);
+
+      float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+      float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+      Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+
+      spawnEntityAtVector(waterSpiral, pos);
+    }
+  }
+
+  private void spawnWindGust(Entity boss) {
+    if (boss != null) {
+      Entity windGust = ProjectileFactory.createWindGust(player);
+
+      float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+      float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+      Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+
+      spawnEntityAtVector(windGust, pos);
+    }
   }
 
   /**

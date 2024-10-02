@@ -5,6 +5,7 @@
     "baseAttack": 1,
     "defense": 2,
     "speed": 2,
+    "experience": 50,
     "isEnemy": 1
   },
   "frog": {
@@ -13,6 +14,7 @@
     "baseAttack": 25,
     "defense": 25,
     "speed": 1,
+    "experience": 50,
     "isEnemy": 1
   },
   "monkey": {
@@ -21,6 +23,7 @@
     "baseAttack": 25,
     "defense": 25,
     "speed": 1.5,
+    "experience": 50,
     "isEnemy": 1
   },
   "bear": {
@@ -40,12 +43,52 @@
     "speed": 25,
     "isEnemy": 1
   },
+  "joey": {
+    "spritePath": "images/joey.atlas",
+    "health": 50,
+    "baseAttack": 25,
+    "defense": 25,
+    "speed": 3,
+    "isEnemy": 1
+  },
   "banana": {
     "spritePath": "images/banana.atlas",
     "health": 100,
     "baseAttack": 100,
     "defense": 100,
     "speed": 2,
+    "isEnemy": 1
+  },
+  "waterSpiral": {
+    "spritePath": "images/effects.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 2,
+    "isEnemy": 1
+  },
+  "waterBoss": {
+    "spritePath": "images/water_boss.atlas",
+    "health": 150,
+    "baseAttack": 50,
+    "defense": 50,
+    "speed": 25,
+    "isEnemy": 1
+  },
+  "airBoss": {
+    "spritePath": "images/air_boss.atlas",
+    "health": 150,
+    "baseAttack": 50,
+    "defense": 50,
+    "speed": 25,
+    "isEnemy": 1
+  },
+  "windGust": {
+    "spritePath": "images/griffinEffects.atlas",
+    "health": 100,
+    "baseAttack": 100,
+    "defense": 100,
+    "speed": 3,
     "isEnemy": 1
   }
 }
