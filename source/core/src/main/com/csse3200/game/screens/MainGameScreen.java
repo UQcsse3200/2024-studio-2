@@ -166,6 +166,13 @@ public class MainGameScreen extends PausableScreen {
       // Check if 'M' key is pressed to toggle map visibility
       if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
           isMapVisible = !isMapVisible;
+
+          // Pause the game when the map is opened, resume when the map is closed
+          if (isMapVisible) {
+              pause();
+          } else {
+              resume();
+          }
       }
 
       // Check if the 'X' button is clicked while the map is visible
