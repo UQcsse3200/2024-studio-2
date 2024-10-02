@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.minigames.Direction;
 import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.minigames.snake.controller.KeyboardSnakeInputComponent;
@@ -149,6 +150,8 @@ public class SnakeScreen extends PausableScreen {
         }
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
+            GameState.minigame.addHighScore("snake", snakeGame.getScore());
+            logger.info("{}", GameState.minigame.getHighScore("snake"));
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }
@@ -274,4 +277,3 @@ public class SnakeScreen extends PausableScreen {
         game.setOldScreen(oldScreen, oldScreenServices);
     }
 }
-

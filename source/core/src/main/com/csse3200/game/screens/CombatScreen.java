@@ -2,6 +2,9 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.csse3200.game.components.inventory.CombatInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
@@ -17,6 +20,7 @@ import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -37,7 +41,9 @@ public class CombatScreen extends ScreenAdapter {
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
-          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
+          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png",
+          "images/statuses/bleeding_stat.png", "images/statuses/confused_stat.png",
+          "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
 
   };
   private boolean isPaused = false;
@@ -101,6 +107,8 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
+    gameArea.spawnTerrain();
+
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
@@ -109,7 +117,7 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void pause() {
     isPaused = true;
-    logger.info("Game paused");
+    logger.debug("Game paused");
   }
 
   /** Resume the game, unpause music, when implemented
@@ -117,7 +125,7 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resume() {
     isPaused = false;
-    logger.info("Game resumed");
+    logger.debug("Game resumed");
   }
 
   @Override
@@ -158,10 +166,13 @@ public class CombatScreen extends ScreenAdapter {
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);
+    Inventory playerInv = player.getComponent(InventoryComponent.class).getInventory();
+    int numCols = player.getComponent(PlayerInventoryDisplay.class).getNumCols();
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new CombatExitDisplay(enemy))
+        .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0))
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))

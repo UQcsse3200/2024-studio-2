@@ -1,7 +1,5 @@
 package com.csse3200.game.entities.configs;
 
-import com.csse3200.game.inventory.items.food.AbstractFood;
-
 import java.util.Map;
 
 /**
@@ -15,6 +13,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int speed = 1;
     private int experience = 100;
     private int stamina = 100;
+    private int level = 1;
     private Boolean isBoss = false;
     public Map<Integer, String[]> hints;
     public int hintLevel = 0;
@@ -213,4 +212,8 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public int getStamina() { return stamina; }
 
     public void setStamina(int stamina) { this.stamina = stamina; }
+
+    public int getLevel() { return level; }
+
+    public void setLevel(int level) { this.level = level; }
 }
