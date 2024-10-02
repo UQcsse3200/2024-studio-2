@@ -20,7 +20,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * A UI component for displaying the Main menu.
+ * This class represents the login and registration display for the game.
+ * It allows users to either login or register by using the PlayFab service.
  */
 public class LoginRegisterDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(LoginRegisterDisplay.class);
@@ -39,16 +40,30 @@ public class LoginRegisterDisplay extends UIComponent {
     private boolean isLoginMode = true;
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
+    private PlayFab playFab;
 
+    /**
+     * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
+     * and prepares the display for user interaction.
+     */
     public LoginRegisterDisplay() {
         super();
+        playFab = new PlayFab("DBB26");
     }
 
+
+    /**
+     * Loads the necessary textures for the UI components.
+     */
     private void loadTextures() {
         backgroundTexture = new Texture("images/SettingBackground.png");
         closeButtonTexture = new Texture("images/CloseButton.png");
     }
 
+    /**
+     * Initializes the layout of the table.
+     * This includes setting up the background, size, and title label.
+     */
     public void initializeTable() {
         table = new Table();
         topTable = new Table();
@@ -57,7 +72,12 @@ public class LoginRegisterDisplay extends UIComponent {
         table.setSize(663, 405);
         title = new Label("Login", skin, "title-white");
     }
-
+    /**
+     * Constructs and returns the layout table containing all UI components, including input fields,
+     * buttons, and dynamic mode switching for login and registration.
+     *
+     * @return Table containing the login or registration form.
+     */
     public Table makeLoginRegisterTable() {// Create table for layout
         loadTextures();
         initializeTable();
@@ -68,6 +88,9 @@ public class LoginRegisterDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Adds the input fields for username, password, and email to the UI.
+     */
     private void addInputField() {
         usernameField = new TextField("", skin);
         passwordField = new TextField("", skin);
@@ -76,6 +99,9 @@ public class LoginRegisterDisplay extends UIComponent {
         emailField = new TextField("", skin);
     }
 
+    /**
+     * Adds buttons for form submission, switching between login/register modes, and closing the display.
+     */
     private void addButtons() {
         closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
         submitButton = new TextButton("Submit", skin);
@@ -101,6 +127,9 @@ public class LoginRegisterDisplay extends UIComponent {
         });
     }
 
+    /**
+     * Updates the UI elements to reflect the current mode (login or register).
+     */
     private void updateUI() {
         table.clear();  // Clear the table to re-add elements
 
@@ -123,9 +152,11 @@ public class LoginRegisterDisplay extends UIComponent {
         submitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                PlayFab playFab = new PlayFab("DBB26");
-                playFab.loginUser(usernameField.getText(), passwordField.getText());
-                NotifManager.displayNotif("login");
+                PlayFab.Response response = playFab.loginUser(usernameField.getText(), passwordField.getText());
+                NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
+                if (response.getIsSucceed()) {
+                    table.setVisible(false);
+                }
 
             }
         });
@@ -137,7 +168,6 @@ public class LoginRegisterDisplay extends UIComponent {
             submitButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    PlayFab playFab = new PlayFab("DBB26");
                     PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
                     NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
                 }
