@@ -53,7 +53,7 @@ public class GameAreaDisplay extends UIComponent {
         switch (playerImagePath) {
             case "images/dog.png" -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
-                minimapFrameTexture = new Texture(Gdx.files.internal("images/minimap_frame_forest.png"));
+                minimapFrameTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
             }
             case "images/croc.png" -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sea.png"));
@@ -65,7 +65,7 @@ public class GameAreaDisplay extends UIComponent {
             }
             default -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png")); // Default icon
-                minimapFrameTexture = new Texture(Gdx.files.internal("images/minimap_frame_forest.png")); // Default for minimap
+                minimapFrameTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png")); // Default for minimap
             }
         }
 
@@ -75,7 +75,7 @@ public class GameAreaDisplay extends UIComponent {
 
         // Set the size of the icons
         float titleHeight = title.getPrefHeight();
-        float playerIconScaleFactor = 5f;   // Size for the player icon
+        float playerIconScaleFactor = 5.5f;   // Size for the player icon
         float minimapScaleFactor = 10f;      // Larger size for the minimap frame
 
         playerIcon.setSize(titleHeight * playerIconScaleFactor, titleHeight * playerIconScaleFactor);
@@ -83,34 +83,41 @@ public class GameAreaDisplay extends UIComponent {
 
         // Create a table for the top UI
         Table topTable = new Table();
+        Table Tabletwo = new Table();
         topTable.setFillParent(true);
+        Tabletwo.setFillParent(true);
 
         // Align the table to the top left corner
-        topTable.top().left();
+//        topTable.top().left();
 
         // Add the player icon to the left side of the table
         topTable.add(playerIcon)
                 .size(titleHeight * playerIconScaleFactor, titleHeight * playerIconScaleFactor)
                 .align(Align.left | Align.top)
-                .pad(15); // Padding from the edges
+                .pad(5); // Padding from the edges
+
+        topTable.top().left();
 
         // Add space to push the title and minimap frame to their respective locations
-        topTable.add().expandX();
+//        topTable.add().expandX();
 
         // Add the title in the center
-        topTable.add(title).align(Align.center | Align.top).pad(10);
+//        topTable.add(title).align(Align.center | Align.top).pad(10);
 
         // Add space between the title and the minimap frame
-        topTable.add().expandX();
+//        topTable.add().expandX();
 
         // Add the minimap frame to the right side of the table
-        topTable.add(minimapFrame)
+        Tabletwo.add(minimapFrame)
                 .size(titleHeight * minimapScaleFactor, titleHeight * minimapScaleFactor)
-                .align(Align.right | Align.top)
-                .pad(30); // Padding from the edges
+                .align(Align.left | Align.bottom)
+                .pad(5); // Padding from the edges
+
+        Tabletwo.bottom().left();
 
         // Add the table to the stage
         stage.addActor(topTable);
+        stage.addActor(Tabletwo);
     }
 
     /**
@@ -121,8 +128,8 @@ public class GameAreaDisplay extends UIComponent {
     @Override
     public void draw(SpriteBatch batch) {
         int screenHeight = Gdx.graphics.getHeight();
-        float offsetX = 10f;
-        float offsetY = 30f;
+        float offsetX = 1f;
+        float offsetY = 1f;
 
         title.setPosition(offsetX, screenHeight - offsetY);
     }

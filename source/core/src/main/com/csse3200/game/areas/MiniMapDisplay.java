@@ -1,23 +1,13 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.ui.UIComponent;
-import com.csse3200.game.areas.MapHandler;
-import org.lwjgl.Sys;
-import org.lwjgl.opengl.Drawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +16,12 @@ public class MiniMapDisplay extends UIComponent {
     private Entity player;
     private List<Entity> enemies;
     private Texture miniMapBackground;
-    private Image greenDotPointImage;
+    private Image blueDotPointImage;
     private List<Image> redDotPointImages;
     private GameArea gameArea;
     private int scaleFactor = 50;
-    private float miniMapX = 950;  // Minimap's X position on the screen
-    private float miniMapY = 450;  // Minimap's Y position on the screen
+    private float miniMapX = 15;  // Minimap's X position on the screen
+    private float miniMapY = 15;  // Minimap's Y position on the screen
     private int miniMapSize = 300;  // Size of the minimap
 
     public MiniMapDisplay(GameArea gameArea) {
@@ -47,7 +37,7 @@ public class MiniMapDisplay extends UIComponent {
     }
     private void addActors() {
         initializeImages();
-        stage.addActor(greenDotPointImage);
+        stage.addActor(blueDotPointImage);
         for (Image redDot : redDotPointImages) {
             stage.addActor(redDot);
         }
@@ -58,16 +48,16 @@ public class MiniMapDisplay extends UIComponent {
         pixmap.setColor(1, 1, 1, 1);
         pixmap.fillCircle(miniMapSize / 2, miniMapSize / 2, miniMapSize / 2);
         // Convert the Pixmap to a texture
-        miniMapBackground = new Texture(pixmap);
+        miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
         // Dispose the Pixmap after creating the texture (no longer needed)
         pixmap.dispose();
-        greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
-        greenDotPointImage.setSize(7, 7);
+        blueDotPointImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
+        blueDotPointImage.setSize(12, 13);
         redDotPointImages = new ArrayList<>();
         for(Entity enemy : enemies) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
-            redDotImage.setSize(5, 5);
+            redDotImage.setSize(10, 10);
             redDotPointImages.add(redDotImage);
         }
 
@@ -94,7 +84,7 @@ public class MiniMapDisplay extends UIComponent {
         float minimapRadius = miniMapSize / 2;
         //Update green point position (player in minimap)
         Vector2 playerMiniMapPos = transferToMiniMapPos(player);
-        greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
+        blueDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
         //Update red points position (enemies in minimap)
 
         for (int i = 0; i < enemies.size(); i++) {
