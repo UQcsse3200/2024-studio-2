@@ -12,6 +12,8 @@ public abstract class AnimalRouletteDisplay {
     private final TextButton backButton;
     private final TextButton leftButton;
     private final TextButton rightButton;
+    public abstract Image[] getAnimalImages();
+    public abstract TextButton[] getAnimalButtons();
 
     public AnimalRouletteDisplay(Stage stage, Skin skin) {
         this.stage = stage;

@@ -21,7 +21,7 @@ public class AnimalSelectionActionsTest {
     private LandAnimalSelectionDisplay mockDisplay;
     private PopUpHelper mockDialogHelper;
     private GdxGame mockGame;
-    private AnimalSelectionActions actions;
+    private AnimalRouletteActions actions;
     private Image mockImage1;
     private Image mockImage2;
     private Image mockImage3;
@@ -55,7 +55,7 @@ public class AnimalSelectionActionsTest {
         when(mockDisplay.getBackButton()).thenReturn(mockBackButton);
 
         // Create the instance of AnimalSelectionActions with mocked dependencies
-        actions = new AnimalSelectionActions(mockDisplay, mockDialogHelper, mockGame);
+        actions = new AnimalRouletteActions(mockDisplay, mockDialogHelper, mockGame);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class AnimalSelectionActionsTest {
         actions.selectAnimal(mockImage1, "images/dog.png");
 
         // Verify that the selectedAnimalImagePath is updated correctly
-        assertEquals("images/dog.png", AnimalSelectionActions.getSelectedAnimalImagePath());
+        assertEquals("images/dog.png", AnimalRouletteActions.getSelectedAnimalImagePath());
     }
 
     @Test
