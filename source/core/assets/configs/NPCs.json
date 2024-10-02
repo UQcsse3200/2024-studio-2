@@ -13,8 +13,8 @@
     "itemProbability": 0.0
   },
   "cow": {
-    "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
-      "We will be your guides"
+    "baseHint": [[
+      "Go complete your quest adventurer!"
       ]],
     "spritePath": "images/friendly_npcs/Cow.atlas",
     "animationSpeed": 0.2,
