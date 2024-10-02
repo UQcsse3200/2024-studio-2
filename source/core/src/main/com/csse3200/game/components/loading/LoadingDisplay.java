@@ -9,6 +9,7 @@ import com.csse3200.game.ui.UIComponent;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A UI component for displaying the loading screen with a moon representing the loading progress.
@@ -20,7 +21,7 @@ public class LoadingDisplay extends UIComponent {
     private Table table;
     private Label loadingLabel;
     private final String[] loadingMessages = {
-                "Fetching the best bones... please wait!",
+            "Fetching the best bones... please wait!",
             "The jungle is waking up... loading soon!",
             "Watering the game plants... almost done!",
             "Wagging tails, flapping wings, hang tight!",
@@ -47,6 +48,11 @@ public class LoadingDisplay extends UIComponent {
     private int currentMessageIndex;
 
     private MoonActor moonActor;  // Moon actor to represent loading progress
+
+    private Random random = new Random();
+    public void setRandom(Random random) {
+        this.random = random;
+    }
 
     public LoadingDisplay() {
         elapsedTime = 0;
@@ -92,7 +98,7 @@ public class LoadingDisplay extends UIComponent {
         if (messageElapsedTime >= MESSAGE_INTERVAL) {
             int newMessageIndex;
             do {
-                newMessageIndex = (int) (Math.random() * loadingMessages.length);
+                newMessageIndex = random.nextInt(loadingMessages.length);
             } while (newMessageIndex == currentMessageIndex);
 
             currentMessageIndex = newMessageIndex;
@@ -131,6 +137,9 @@ public class LoadingDisplay extends UIComponent {
     public void dispose() {
         table.clear();
         //moonActor.dispose();  // Dispose the moon actor
+        stage.clear();
         super.dispose();
+
     }
 }
+
