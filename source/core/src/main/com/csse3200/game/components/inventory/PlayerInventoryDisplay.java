@@ -99,4 +99,5 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
         inventory.useItemAt(index, context);
         entity.getEvents().trigger("itemUsed", item);
     }
+
 }
