@@ -58,7 +58,7 @@ public abstract class InventoryDisplay extends UIComponent {
             throw new IllegalArgumentException(msg);
         }
 
-        if (hotBarCapacity < 1) {
+        if (hotBarCapacity < 0) {
             String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
             throw new IllegalArgumentException(msg);
         }
