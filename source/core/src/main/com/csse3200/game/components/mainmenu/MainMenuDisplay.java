@@ -136,6 +136,7 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdAniImage);
 
         // Add dog animation
+        /*
         dogAniImage = new Image();
         dogAtlas = new TextureAtlas("spriteSheets/DogMain.atlas");
         dogTextures = new Array<>(4);
@@ -147,6 +148,7 @@ public class MainMenuDisplay extends UIComponent {
         dogAniImage.setSize(336, 312);
         dogAniImage.setPosition(-100, 100);
         stage.addActor(dogAniImage);
+        */
 
         timer = 0f;
     }
@@ -1173,13 +1175,14 @@ public class MainMenuDisplay extends UIComponent {
                 birdCurrentFrame = 0;
             }
             birdAniImage.setDrawable(drawable);
-
+/*
             TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(dogCurrentFrame));
             dogCurrentFrame++;
             if (dogCurrentFrame >= 3) {
                 dogCurrentFrame = 0;
             }
             dogAniImage.setDrawable(drawableDog);
+ */
         }
 
         // animate the bird left to right
@@ -1200,6 +1203,7 @@ public class MainMenuDisplay extends UIComponent {
         birdAniImage.setPosition(birdX, 500);
 
         // animate the dog left to right
+        /*
         float dogX = dogAniImage.getX();
         if (dogX < -200 && dogDirection) {
             dogDirection = false;
@@ -1215,6 +1219,7 @@ public class MainMenuDisplay extends UIComponent {
             dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * 150;
         }
         dogAniImage.setPosition(dogX, 100);
+         */
     }
 
     @Override
