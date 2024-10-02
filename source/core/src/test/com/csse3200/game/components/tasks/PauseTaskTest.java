@@ -59,7 +59,7 @@ class PauseTaskTest {
     };
 
     private static String[] atlas = {
-            "images/Cow.atlas",
+            "images/friendly_npcs/Cow.atlas",
     };
 
     private static String[] sounds = {
