@@ -37,10 +37,11 @@
   },
   "kangarooBoss": {
     "spritePath": "images/final_boss_kangaroo.atlas",
-    "health": 150,
+    "health": 1,
     "baseAttack": 50,
     "defense": 50,
     "speed": 25,
+    "experience": 50,
     "isEnemy": 1
   },
   "joey": {
