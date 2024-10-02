@@ -100,6 +100,7 @@ public class MainMenuDisplay extends UIComponent {
     private boolean birdDirection = true;
     int birdCurrentFrame = 0;
     private float timer;
+
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -1144,6 +1145,7 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
     }
+
     @Override
     public void update() {
         timer += Gdx.graphics.getDeltaTime();
@@ -1159,10 +1161,10 @@ public class MainMenuDisplay extends UIComponent {
         float birdX = birdAniImage.getX();
         if (birdX < -200 && birdDirection) {
             birdDirection = false;
-            birdAniImage.setScale(-1,1);
+            birdAniImage.setScale(-1, 1);
         } else if (birdX > 1500 && !birdDirection) {
             birdDirection = true;
-            birdAniImage.setScale(1,1);
+            birdAniImage.setScale(1, 1);
         }
 
         if (birdDirection) {
