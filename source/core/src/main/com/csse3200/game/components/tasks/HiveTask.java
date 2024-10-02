@@ -68,9 +68,6 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      */
     @Override
     public void update() {
-        System.out.println("updating");
-        System.out.println(bees.isEmpty());
-        System.out.println(waitTask.getStatus());
         if (bees.isEmpty() && waitTask.getStatus() == Status.ACTIVE) {
             waitTask.stop();
             spawnBee();
