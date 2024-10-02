@@ -1,28 +1,28 @@
 package com.csse3200.game.entities.factories;
 
+import box2dLight.PositionalLight;
+import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
-import com.csse3200.game.components.player.InventoryComponent;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.player.PlayerActions;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.quests.AchievementPopup;
-import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.components.stats.StatManager;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
 import com.csse3200.game.entities.configs.PlayerConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -31,7 +31,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
 
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class PlayerFactory {
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player =
-                new Entity()
+                new Entity() // Set that this entity is the player
                         .addComponent(new TextureRenderComponent(imagePath))
                         .addComponent(new CameraZoomComponent())
                         .addComponent(new PhysicsComponent(true))
@@ -64,6 +63,7 @@ public class PlayerFactory {
         moveSet.add(new AttackMove("Player Attack", 10));
         moveSet.add(new GuardMove("Player Guard", 5));
         moveSet.add(new SleepMove("Player Sleep", 0));
+        moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
 
@@ -72,13 +72,13 @@ public class PlayerFactory {
         // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 20, 100, true, false));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, 100, true, false, 1));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 100, 100, true, false));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, 100, true, false, 1));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 100, 100, true, false));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, 100, true, false, 1));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss()));
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
 
         }
 
@@ -90,9 +90,9 @@ public class PlayerFactory {
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
-        InventoryComponent inventoryComponent = new InventoryComponent(45);
+        InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9))
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9, 5))
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
@@ -104,6 +104,12 @@ public class PlayerFactory {
         player.getComponent(TextureRenderComponent.class).scaleEntity();
         //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
         player.getComponent(QuestManager.class).loadQuests();
+
+        PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
+        player.addComponent(new LightingComponent().attach(light))
+              .addComponent(new FadeLightsDayTimeComponent());
+
+        player.setIsPlayer(true);
 
         return player;
     }
@@ -118,7 +124,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false, 1));
 
         combatPlayer.scaleHeight(90.0f);
 

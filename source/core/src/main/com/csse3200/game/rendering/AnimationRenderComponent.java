@@ -38,9 +38,9 @@ public class AnimationRenderComponent extends RenderComponent {
   private final GameTime timeSource;
   private final TextureAtlas atlas;
   private final Map<String, Animation<TextureRegion>> animations;
-  private Animation<TextureRegion> currentAnimation;
-  private String currentAnimationName;
-  private float animationPlayTime;
+  protected Animation<TextureRegion> currentAnimation;
+  protected String currentAnimationName;
+  protected float animationPlayTime;
   private boolean flipX = false;
 
   /**
@@ -191,5 +191,9 @@ public class AnimationRenderComponent extends RenderComponent {
   public void dispose() {
     atlas.dispose();
     super.dispose();
+  }
+
+  public TextureAtlas getAtlas() {
+    return atlas;
   }
 }

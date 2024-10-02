@@ -9,15 +9,18 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.areas.MapHandler.MapType;
+import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainComponent.TerrainResource;
 import com.csse3200.game.areas.terrain.TerrainComponent.Tile;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.lwjgl.util.mapped.MappedType;
+
 import java.util.BitSet;
 import java.util.Arrays;
 
@@ -32,23 +35,19 @@ public class TerrainChunk {
   private GridPoint2 position;
   private TiledMap tiledMap;
 
-  public Array<Tile> tiles;
   public Array<BitSet> grid;
   private BitSet collapsedTiles;
 
+  public HashMap<String, Integer> tileTypeCount;
+  public int totalTiles = 0;
+  public MapType inArea; 
+ 
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
+    this.tileTypeCount = new HashMap<String, Integer>();
     this.grid = new Array<BitSet>(256);
     this.collapsedTiles = new BitSet(256);
-
-    for (int i = 0; i < 256; ++i) {
-      BitSet bitset = new BitSet(TerrainResource.TILE_SIZE);
-      bitset.set(0, TerrainResource.TILE_SIZE, true);
-      this.grid.add(bitset);
-    }
-
-    updateGrid();
   }
 
   /**
@@ -59,13 +58,43 @@ public class TerrainChunk {
    * @param terrainResource The terrain resource to use for generating the terrain
    */
   public void generateTiles(GridPoint2 chunkPos, Map<GridPoint2, TerrainChunk> loadedChunks,
-                            TerrainResource terrainResource) {
+      TerrainResource terrainResource) {
     int cPosX = chunkPos.x * CHUNK_SIZE;
     int cPosY = chunkPos.y * CHUNK_SIZE;
 
+    // if chunk is in another area, then terrainResource load assest for that area
+    // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
+    inArea = checkAreaType(position);
+    if (inArea == MapType.FOREST) {
+      totalTiles = TerrainResource.FOREST_SIZE;
+    } else if (inArea == MapType.WATER) {
+      totalTiles = TerrainResource.WATER_SIZE;
+    } else {
+      totalTiles = TerrainResource.AIR_SIZE;
+    }
+
+    for (int i = 0; i < 256; ++i) {
+      BitSet bitset = new BitSet(totalTiles);
+      bitset.set(0, totalTiles, true);
+      this.grid.add(bitset);
+    }
+
+    updateGrid(terrainResource);
+
     while (true)
-      if (collapseAll(cPosX, cPosY, terrainResource))
+      if (collapseAll(cPosX, cPosY, terrainResource, inArea))
         break;
+  }
+
+  private MapType checkAreaType(GridPoint2 chunkPos) {
+    if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3) {
+      return MapType.FOREST;
+    } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
+      return MapType.WATER;
+    } else {
+      // TODO: change to air 
+      return MapType.WATER;
+    }
   }
 
   /**
@@ -78,7 +107,7 @@ public class TerrainChunk {
    *
    * @return true if all tiles are collapsed, false otherwise
    */
-  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource) {
+  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource, MapType type) {
     boolean allCollapsed = true;
     for (int t = 0; t < 256; ++t) {
 
@@ -102,8 +131,6 @@ public class TerrainChunk {
         break;
 
       Integer randomTile = minentropyTiles.random();
-      // int randomTile = t;
-      GridPoint2 toGridpos = new GridPoint2(randomTile % 16, randomTile / 16);
 
       // ranodm pick a tile
       int numTrueBits = grid.get(randomTile).cardinality();
@@ -118,51 +145,76 @@ public class TerrainChunk {
       // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
 
-      CCell cell = new CCell();
-      cell.setTile(terrainResource.getTilebyIndex(randomTrueBitIndex), terrainResource);
-      ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + toGridpos.x, cPosY + toGridpos.y, cell);
+      collapseTile(cPosX + randomTile % 16, cPosY + randomTile / 16, terrainResource, randomTrueBitIndex);
       collapsedTiles.set(randomTile);
 
-      updateGrid();
+      updateGrid(terrainResource);
     }
     // set the rest of the empty tiles
     int currentBit = 0;
     for (int i = 0; i < collapsedTiles.size() - collapsedTiles.cardinality(); ++i) {
       currentBit = collapsedTiles.nextClearBit(currentBit);
-
-      GridPoint2 Gridpos = new GridPoint2(currentBit % 16, currentBit / 16);
-      
-      CCell cell = new CCell();
-      cell.setTile(terrainResource.getTilebyIndex(4), terrainResource);
-      ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(cPosX + Gridpos.x, cPosY + Gridpos.y, cell);
-      
+      collapseTile(cPosX + currentBit % 16, cPosY + currentBit / 16, terrainResource, 4);
       currentBit++;
     }
-    
-
 
     return allCollapsed;
   }
 
   /**
+   *  Set the selected tile on the map.
+   *  Also strores the type of the tile infomation 
+   *
+   *  @param x               x position of the tile
+   *  @param y               y position of the tile
+   *  @param terrainResource Terrain resource to use for generating the terrain
+   *  @param tileIndex       The index of the tile to set
+   */
+  private void collapseTile(int x, int y, TerrainResource terrainResource, int tileIndex) {
+    CCell cell = new CCell();
+    Tile tile = terrainResource.getMapTilebyIndex(tileIndex, inArea);
+    //Tile tile = terrainResource.getTilebyIndex(tileIndex);
+    cell.setTile(tile, terrainResource);
+    ((TiledMapTileLayer) tiledMap.getLayers().get(0)).setCell(x, y, cell);
+
+    if (tileTypeCount.containsKey(tile.getCentre())) {
+      tileTypeCount.put(tile.getCentre(), tileTypeCount.get(tile.getCentre()) + 1);
+    } else {
+      tileTypeCount.put(tile.getCentre(), 1);
+    }
+  }
+
+  /**
+   * Get the tile type count for a given tile type. 
+   * Returns null if the tile type does not exist.
+   * 
+   * @param tileType The tile type to get the count for
+   * @return The count of the tile type
+   */
+  public Integer getTileTypeCount(String tileType) {
+    return tileTypeCount.get(tileType);
+  }
+
+
+  /**
    * Update the grid of possible tiles for each cell in the chunk.
    */
-  private void updateGrid() {
+  private void updateGrid(TerrainResource terrainResource) {
     for (int i = 0; i < grid.size; ++i) {
-      // for (int i = 0; i < 32; ++i) {
       int x = position.x * 16 + (i % 16);
       int y = position.y * 16 + (i / 16);
       CCell thisCell = ((CCell) ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getCell(x, y));
       if (thisCell != null)
         continue;
-      BitSet up = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet down = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet left = new BitSet(TerrainResource.TILE_SIZE);
-      BitSet right = new BitSet(TerrainResource.TILE_SIZE);
-      up.set(0, TerrainResource.TILE_SIZE, true);
-      down.set(0, TerrainResource.TILE_SIZE, true);
-      left.set(0, TerrainResource.TILE_SIZE, true);
-      right.set(0, TerrainResource.TILE_SIZE, true);
+      int tSize = terrainResource.getMapTiles(inArea).size();
+      BitSet up = new BitSet(tSize);
+      BitSet down = new BitSet(tSize);
+      BitSet left = new BitSet(tSize);
+      BitSet right = new BitSet(tSize);
+      up.set(0, tSize, true);
+      down.set(0, tSize, true);
+      left.set(0, tSize, true);
+      right.set(0, tSize, true);
 
       // position is the chunk position, needs to be converted to world position
       // System.out.println("position: " + x + " " + y + " i: " + i);
@@ -200,7 +252,7 @@ public class TerrainChunk {
    * @return The updated bitset for this cell
    */
   private BitSet analyseTile(BitSet up, BitSet down, BitSet left, BitSet right,
-                             BitSet currentBitCell) {
+      BitSet currentBitCell) {
     BitSet gridCell = currentBitCell;
     if (up != null)
       currentBitCell.and(up);
@@ -227,18 +279,18 @@ public class TerrainChunk {
     private BitSet possibleRight;
 
     public boolean isCollapsed;
-    private BitSet options;
+    //private BitSet options;
 
     CCell() {
       super();
-      this.possibleUp = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleDown = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleLeft = new BitSet(TerrainResource.TILE_SIZE);
-      this.possibleRight = new BitSet(TerrainResource.TILE_SIZE);
+      this.possibleUp = new BitSet();
+      this.possibleDown = new BitSet();
+      this.possibleLeft = new BitSet();
+      this.possibleRight = new BitSet();
       this.isCollapsed = false;
 
-      this.options = new BitSet(TerrainResource.TILE_SIZE);
-      this.options.set(0, TerrainResource.TILE_SIZE, true);
+      //this.options = new BitSet(TerrainResource.TILE_SIZE);
+      //this.options.set(0, TerrainResource.TILE_SIZE, true);
     }
 
     /**
@@ -287,7 +339,7 @@ public class TerrainChunk {
      */
     public CCell setTile(Tile tile, TerrainResource terrainResource) {
       super.setTile(new TerrainTile(tile.getTexture()));
-      terrainResource.getTilebyName(tile.getName());
+      //terrainResource.getTilebyName(tile.getName());
 
       this.possibleUp = tile.getUp();
       this.possibleDown = tile.getDown();
@@ -298,5 +350,9 @@ public class TerrainChunk {
       return this;
     }
 
+  }
+
+  public enum TileType {
+    GRASS, WATER, SAND, NONE
   }
 }

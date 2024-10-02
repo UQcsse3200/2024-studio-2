@@ -6,7 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,22 +20,24 @@ import org.slf4j.LoggerFactory;
  */
 public class CombatButtonDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
-    private static final float Z_INDEX = 2f;
+    private static final float Z_INDEX = 1f;
     private Table table;
-    private Screen screen;
-    private ServiceContainer container;
-    TextButton AttackButton ;
-    TextButton GuardButton ;
+    private final Screen screen;
+    private final ServiceContainer container;
+    TextButton AttackButton;
+    TextButton GuardButton;
     TextButton SleepButton;
     TextButton ItemsButton;
+    ChangeListener dialogueBoxListener;
 
 
     /**
      * Initialises the CombatButtonDisplay UIComponent
-     * @param screen The current screen that the buttons are being rendered onto
+     *
+     * @param screen    The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public  CombatButtonDisplay(Screen screen, ServiceContainer container ) {
+    public CombatButtonDisplay(Screen screen, ServiceContainer container) {
         this.screen = screen;
         this.container = container;
     }
@@ -39,9 +45,25 @@ public class CombatButtonDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-            logger.info("CombatButtonDisplay::Create() , before calling addActors");
-            addActors();
-
+        logger.debug("CombatButtonDisplay::Create() , before calling addActors");
+        addActors();
+        entity.getEvents().addListener("displayCombatResults", this::hideButtons);
+        entity.getEvents().addListener("itemClicked", this::onItemClicked);
+        entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
+        entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
+        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
+                displayEndCombatDialogue(enemy, winStatus));
+        // Add a listener to the stage to monitor the DialogueBox visibility
+        dialogueBoxListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.debug("DialogueBox is no longer visible, adding actors back.");
+                    addActors();
+                }
+            }
+        };
+        stage.addListener(dialogueBoxListener);
     }
 
     /**
@@ -84,6 +106,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        hideButtons();
                     }
                 });
 
@@ -98,14 +121,57 @@ public class CombatButtonDisplay extends UIComponent {
     }
 
     /**
-     * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
-     * @param iHealthCheck an integer representing the health of the entity
-     * @param AttackStatus a boolean stating if the current entity has attacked
-     * @param GuardStatus a boolean stating if the current entity has guarded
+     * Hides the buttons on the combat screen
      */
-    private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus){
-        logger.info("CombatButtonDisplay::ChangeActors::entering");
-        //Button enabling status logic
+    public void hideButtons() {
+        logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
+        table.remove();
+    }
+
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * @param enemyEntity Entity of the enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
+    public void displayEndCombatDialogue(Entity enemyEntity, boolean winStatus) {
+        String[][] endText;
+        stage.removeListener(dialogueBoxListener);
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.debug("DialogueBox is no longer visible, combat screen can be exited.");
+                    entity.getEvents().trigger("finishedEndCombatDialogue", enemyEntity);
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+        if (winStatus) {
+            endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
+        } else {
+            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
+                    "before battling again."}};
+        }
+        ServiceLocator.getDialogueBoxService().updateText(endText);
+    }
+
+    /**
+     * Handles when an item is selected in the CombatInventoryDisplay.
+     * Prompts the user if they would like to confirm their choice, then upon confirmation uses the item.
+     * If the user does not confirm that they would like to use the item, nothing happens.
+     * @param item selected from the inventory.
+     */
+    private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
+        logger.debug(String.format("Item %s was clicked.", item.getName()));
+        String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
+        ServiceLocator.getDialogueBoxService().updateText(checkText);
+
+        entity.getEvents().trigger("toggleCombatInventory");
+        entity.getEvents().trigger("itemConfirmed", item, index, context);
     }
 
     @Override

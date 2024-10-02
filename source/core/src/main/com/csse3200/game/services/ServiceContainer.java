@@ -1,11 +1,10 @@
 package com.csse3200.game.services;
 
-import com.csse3200.game.entities.DialogueBoxService;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.entities.DialogueBoxService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +20,7 @@ public class ServiceContainer {
     private GameTime timeSource;
     private InputService inputService;
     private ResourceService resourceService;
+    private LightingService lightingService;
     private DialogueBoxService dialogueBoxService;
 
     public ServiceContainer() {
@@ -30,6 +30,7 @@ public class ServiceContainer {
         this.timeSource = ServiceLocator.getTimeSource();
         this.inputService = ServiceLocator.getInputService();
         this.resourceService = ServiceLocator.getResourceService();
+        this.lightingService = ServiceLocator.getLightingService();
         this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
         logger.debug("Services stored");
     }
@@ -64,6 +65,11 @@ public class ServiceContainer {
      * @return the ResourceService stored in this container
      */
     public ResourceService getResourceService() {return resourceService;}
+    /**
+     * Gets the LightingService stored in this container
+     * @return the LightingService stored in this container
+     */
+    public LightingService getLightingService() {return lightingService;}
     /**
      * Gets the DialogueBoxService stored in this container
      * @return the DialogueBoxService stored in this container

@@ -1,29 +1,25 @@
 package com.csse3200.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.DialogueBox;
-import com.csse3200.game.entities.DialogueBoxService;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(GameExtension.class)
 class DialogueBoxServiceTest {
     private DialogueBoxService entityChatService;
-    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
     Stage stage;
     @BeforeEach
     void beforeEach() {
@@ -43,13 +39,104 @@ class DialogueBoxServiceTest {
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
 
-        Stage stage = ServiceLocator.getRenderService().getStage();
+        stage = ServiceLocator.getRenderService().getStage();
+
         // Mock the behavior of RenderService to return the Stage instance
         when(renderService.getStage()).thenReturn(stage);
         entityChatService = new DialogueBoxService(stage);
         ServiceLocator.registerDialogueBoxService(entityChatService);
-        this.stage = stage;
     }
+
+    @Test
+    void shouldReturnCorrectVisibilityBoolean() {
+        DialogueBox mockCurrentOverlay = mock(DialogueBox.class);
+
+        when(mockCurrentOverlay.getIsVisible()).thenReturn(true);
+        Assertions.assertTrue(mockCurrentOverlay.getIsVisible());
+        when(mockCurrentOverlay.getIsVisible()).thenReturn(false);
+        Assertions.assertFalse(mockCurrentOverlay.getIsVisible());
+    }
+
+    @Test
+    void shouldHighlightEntitySprite() {
+        String[][] text = {{"Test 1"}, {"Test 2"}};
+
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(text, mockEntity);
+
+        verify(mockAnimator).startAnimation("selected");
+        Assertions.assertArrayEquals(text, entityChatService.getHints());
+
+    }
+
+    @Test
+    void shouldUnhighlightEntitySprite() {
+        String[][] oldText = {{"Old Test"}};
+        String[][] newText = {{"New Test"}};
+
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(oldText, mockEntity);
+
+        entityChatService.updateText(newText);
+
+        verify(mockAnimator).startAnimation("float");
+    }
+
+    @Test
+    void shouldNotStartFloatAnimationIfNoPreviousEntity() {
+        String[][] oldText = {{"Old Test"}};
+        String[][] newText = {{"New Test"}};
+        Entity mockEntity = mock(Entity.class);
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(oldText);
+        entityChatService.updateText(newText);
+
+        verify(mockAnimator, never()).startAnimation("float");
+    }
+
+    @Test
+    void shouldUnhighlightEntitySpriteAndHighlightNewEntity() {
+        String[][] oldText = {{"Test 1"}, {"Test 2"}};
+        String[][] newText = {{"Test 3"}, {"Test 4"}};
+
+        Entity previousEntity = mock(Entity.class);
+        AnimationRenderComponent previousAnimator = mock(AnimationRenderComponent.class);
+        when(previousEntity.getComponent(AnimationRenderComponent.class)).thenReturn(previousAnimator);
+        entityChatService.updateText(oldText, previousEntity);
+
+        Entity newEntity = mock(Entity.class);
+        AnimationRenderComponent newAnimator = mock(AnimationRenderComponent.class);
+        when(newEntity.getComponent(AnimationRenderComponent.class)).thenReturn(newAnimator);
+
+        entityChatService.updateText(newText, newEntity);
+
+        verify(previousAnimator).startAnimation("float");
+        verify(newAnimator).startAnimation("selected");
+        Assertions.assertArrayEquals(newText, entityChatService.getHints());
+    }
+
+
+    @Test
+    void shouldStartAnimationWhenAnimatorIsNotNull() {
+        AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
+        Entity mockEntity = mock(Entity.class);
+        when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
+
+        entityChatService.updateText(new String[][] {{"Test 1"}});
+        entityChatService.updateText(new String[][] {{"Test 2"}}, mockEntity);
+
+        verify(mockAnimator).startAnimation("selected");
+    }
+
+
 
     @Test
     void hideChatBox() {
@@ -57,6 +144,9 @@ class DialogueBoxServiceTest {
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
         entityChatService.updateText(new String[][] {{"1", "2"}});
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
+        Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
+        Assertions.assertFalse(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
+        entityChatService.getCurrentOverlay().handleForwardButtonClick();
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
         entityChatService.hideCurrentOverlay();
@@ -73,21 +163,12 @@ class DialogueBoxServiceTest {
     @Test
     void testButtonPresses() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        for (int i = 0; i < 2; i++) {
-            if (i == 0) {
-                entityChatService.updateText(new String[][]{{"1", "2"}});
-            } else {
-                entityChatService.updateText(new String[]{"1", "2"});
-            }
-            entityChatService.getCurrentOverlay().handleForwardButtonClick();
-            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-            entityChatService.getCurrentOverlay().handleForwardButtonClick();
-            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
-            Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-            entityChatService.getCurrentOverlay().handleBackwardButtonClick();
-            Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        }
+        entityChatService.updateText(new String[][]{{"1", "2"}});
+        entityChatService.getCurrentOverlay().handleForwardButtonClick();
+        Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+        entityChatService.getCurrentOverlay().handleBackwardButtonClick();
+        Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
+
     }
 
     @Test

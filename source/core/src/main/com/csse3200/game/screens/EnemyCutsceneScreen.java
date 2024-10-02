@@ -238,9 +238,25 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 enemyImageTexture = new Texture("images/bear_idle.png");
                 enemyNameLabel = new Label("Bear", labelStyle);
                 break;
-            default:
+            case JOEY:
+                enemyImageTexture = new Texture("images/joey_idle.png");
+                enemyNameLabel = new Label("Joey", labelStyle);
+                break;
+            case KANGAROO:
                 enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
                 enemyNameLabel = new Label("Kanga", labelStyle);
+                break;
+            case WATER_BOSS:
+                enemyImageTexture = new Texture("images/water_boss_idle.png");
+                enemyNameLabel = new Label("Leviathan", labelStyle);
+                break;
+            case AIR_BOSS:
+                enemyImageTexture = new Texture("images/air_boss_idle.png");
+                enemyNameLabel = new Label("Griffin", labelStyle);
+                break;
+            default:
+                enemyImageTexture = new Texture("");
+                enemyNameLabel = new Label("", labelStyle);
                 break;
         }
 

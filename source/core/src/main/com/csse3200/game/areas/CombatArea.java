@@ -7,6 +7,7 @@ import com.csse3200.game.components.combat.CombatExitDisplay;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
@@ -31,6 +32,9 @@ public class CombatArea extends GameArea {
             "images/tree.png",
             "images/ghost_king.png",
             "images/final_boss_kangaroo_idle.png",
+            "images/friendly_npcs/friendly-npcs.png",
+            "images/water_boss_idle.png",
+            "images/air_boss_idle.png",
             "images/Cow.png",
             "images/snake.png",
             "images/eagle.png",
@@ -67,14 +71,19 @@ public class CombatArea extends GameArea {
             "images/bear_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
+            "images/bear_idle.png",
+            "images/joey_idle.png",
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
+            "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas"
+            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
+            "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -121,7 +130,15 @@ public class CombatArea extends GameArea {
             spawnChicken();
         } else if (enemy.getEnemyType() == Entity.EnemyType.BEAR) {
             spawnBear();
-        } else { // Kangaroo Boss
+        } else if (enemy.getEnemyType() == Entity.EnemyType.JOEY) {
+            spawnJoey();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            spawnKangaBoss();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            spawnWaterBoss();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            spawnAirBoss();
+        } else { // Default to Kanga
             spawnCombatEnemy();
         }
         playMusic();
@@ -185,7 +202,25 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = EnemyFactory.createKangaBossCombatEntity();
+        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnKangaBoss() {
+        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnWaterBoss() {
+        Entity combatEnemyNPC = BossFactory.createWaterBossCombatEntity();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+    }
+
+    /** Spawn a combat enemy. Different to a regular enemy npc */
+    private void spawnAirBoss() {
+        Entity combatEnemyNPC = BossFactory.createAirBossCombatEntity();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 
@@ -216,6 +251,14 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
+    }
+
+    /**
+     * spawns a joey enemy, with the player entity as its target
+     */
+    private void spawnJoey() {
+        Entity combatEnemyNPC = EnemyFactory.createJoeyCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
     }
 
