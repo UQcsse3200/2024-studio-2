@@ -8,6 +8,7 @@ import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.Objects;
 
@@ -75,8 +76,7 @@ public class PauseTask extends ChaseTask {
                 // Try resetting it for next time
                 this.questManager = target.getComponent(QuestManager.class);
             }
-
-            entity.getEvents().trigger(eventName, hintText);
+            entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
         }
