@@ -133,26 +133,35 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(birdAniImage);
     }
 
+    /**
+     * Adds a chatbot icon to the UI, positioned in the bottom-right corner of the screen.
+     * The icon allows the user to open and close a chatbot dialog.
+     */
     private void addChatbotIcon() {
+        // Create a table to hold the chatbot icon and position it in the bottom-right corner.
         chatbotIconTable = new Table();
         chatbotIconTable.bottom().right();
         chatbotIconTable.setFillParent(true);
         chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
+        // Load the chatbot icon image and set its initial size.
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
         chatbotIcon.setSize(100, 100);
 
+        // Add a listener to the chatbot icon for click events
         chatbotIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                // Toggle the chatbot dialog's visibility when the icon is clicked.
                 if (isChatbotDialogVisible) {
-                    closeChatbotDialog();
+                    closeChatbotDialog();  // Close the chatbot dialog if it is currently visible.
                 } else {
-                    openChatbotDialog();
+                    openChatbotDialog();   // Open the chatbot dialog if it is currently hidden.
                 }
             }
         });
 
+        // Add the chatbot icon to the table and the table to the stage.
         chatbotIconTable.add(chatbotIcon);
         stage.addActor(chatbotIconTable);
     }
