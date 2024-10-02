@@ -1,7 +1,10 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -24,7 +27,9 @@ public class ObstacleFactory {
         new Entity()
             .addComponent(new TextureRenderComponent("images/tree.png"))
             .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+            .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
+            .addComponent(new FadeLightsDayTimeComponent());
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
@@ -49,5 +54,20 @@ public class ObstacleFactory {
 
   private ObstacleFactory() {
     throw new IllegalStateException("Instantiating static util class");
+  }
+
+  /**
+   * Create a visible physics wall.
+   * @param width Wall width in world units
+   * @param height Wall height in world units
+   * @return Wall entity of given width and height
+   */
+  public static Entity createVisibleWall(float width, float height) {
+    Entity wall = new Entity()
+        .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
+        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+    wall.setScale(width, height);
+    return wall;
   }
 }

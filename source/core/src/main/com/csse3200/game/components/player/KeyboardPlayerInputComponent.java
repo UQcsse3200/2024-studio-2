@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 
 import java.util.HashMap;
@@ -18,6 +20,9 @@ import java.util.Map;
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = new Vector2();
   private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
+  private boolean paralyzed = false;
+  private long startTime = 0;
+  GameTime timeSource;
 
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
@@ -29,6 +34,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     buttonPressed.put(Keys.A, false);
     buttonPressed.put(Keys.S, false);
     buttonPressed.put(Keys.D, false);
+    timeSource = ServiceLocator.getTimeSource();
   }
 
   /**
@@ -83,14 +89,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.Q:
         entity.getEvents().trigger("quest");
         return true;
-      // >  temporary keybinds for switching maps
-      case Keys.L:
-        entity.getEvents().trigger("switchMap");
-        return true;
-      case Keys.K:
-        entity.getEvents().trigger("stoF");
-        return true;
-      // > end 
       case Keys.I:
         entity.getEvents().trigger("statsInfo");
         return true;
@@ -147,6 +145,15 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
 
   private void triggerWalkEvent() {
+    if (paralyzed) {
+      if (timeSource.getTimeSince(startTime) > 2000) {
+        unParalyze();
+      } else {
+        resetVelocity();
+        entity.getEvents().trigger("walkStop");
+        return;
+      }
+    }
     if (walkDirection.len() > 0) {
       walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
@@ -170,5 +177,20 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       walkDirection.add(Vector2Utils.RIGHT);
     }
     triggerWalkEvent();
+  }
+  
+  public boolean isParalyzed() {
+    return paralyzed;
+  }
+  
+  public void paralyze() {
+    paralyzed = true;
+    startTime = timeSource.getTime();
+    triggerWalkEvent();
+  }
+  
+  public void unParalyze() {
+    paralyzed = false;
+    startTime = 0;
   }
 }

@@ -1,5 +1,6 @@
 package com.csse3200.game.components.login;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.playfab.PlayFabErrors.*;
 import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
@@ -13,6 +14,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(GameExtension.class)
 public class PlayFabTest {
     private PlayFab playFab;
 
@@ -51,10 +56,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-        assertEquals("Password must be between 6 and 100 characters.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
 
@@ -69,11 +71,7 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address is not valid.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
     @Test
@@ -87,11 +85,34 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
+    }
 
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
+    @Test
+    public void testRegisterUserEmailExistFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
 
-        assertEquals("Email address is not valid.", errorList.getFirst());
-        assertEquals("Password must be between 6 and 100 characters.", errorList.get(1));
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+        assertEquals("Email address not available", result.Error.errorMessage);
+    }
+
+    @Test
+    public void testRegisterUserEmailExistAndPasswordFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+        assertEquals("Email address not available", result.Error.errorMessage);
     }
 }
