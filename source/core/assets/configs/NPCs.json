@@ -9,7 +9,8 @@
     "spritePath": "images/friendly_npcs/lion.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
-    "animalName": "Lion"
+    "animalName": "Lion",
+    "itemProbability": 0.0
   },
   "cow": {
     "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
@@ -19,7 +20,8 @@
     "spritePath": "images/friendly_npcs/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
-    "animalName": "Cow"
+    "animalName": "Cow",
+    "itemProbability": 0.4
   },
   "turtle": {
     "baseHint": [
@@ -31,7 +33,8 @@
     "spritePath": "images/friendly_npcs/turtle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/turtle-hiss.wav"],
-    "animalName": "Turtle"
+    "animalName": "Turtle",
+    "itemProbability": 0.0
   },
   "eagle": {
     "baseHint": [
@@ -43,7 +46,8 @@
     "spritePath": "images/friendly_npcs/eagle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eagle-scream.wav"],
-    "animalName": "Eagle"
+    "animalName": "Eagle",
+    "itemProbability": 0.0
   },
   "snake": {
     "baseHint": [
@@ -55,7 +59,8 @@
     "spritePath": "images/friendly_npcs/snake.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.wav"],
-    "animalName": "Snake"
+    "animalName": "Snake",
+    "itemProbability": 0.0
   },
 
   "magpie": {
@@ -66,7 +71,8 @@
     "spritePath": "images/friendly_npcs/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
-    "animalName": "Magpie"
+    "animalName": "Magpie",
+    "itemProbability": 0.0
     },
 
   "fish": {
@@ -80,7 +86,8 @@
     "spritePath": "images/friendly_npcs/Fish.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
-    "animalName": "Fish"
+    "animalName": "Fish",
+    "itemProbability": 0.0
   },
   "friendlyChicken": {
     "baseHint": [
@@ -89,7 +96,8 @@
     "spritePath": "images/chicken.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
-    "animalName": "Chicken"
+    "animalName": "Chicken",
+    "itemProbability": 0.0
   },
   "friendlyFrog": {
     "baseHint": [
@@ -98,7 +106,8 @@
     "spritePath": "images/frog.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
-    "animalName": "Frog"
+    "animalName": "Frog",
+    "itemProbability": 0.0
   },
   "friendlyMonkey": {
     "baseHint": [
@@ -107,6 +116,7 @@
     "spritePath": "images/monkey.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
-    "animalName": "Monkey"
+    "animalName": "Monkey",
+    "itemProbability": 0.0
   }
 }

@@ -4,6 +4,14 @@
     "images/tree.png",
     "images/final_boss_kangaroo.png",
     "images/friendly_npcs/friendly-npcs.png",
+    "images/water_boss.png",
+    "images/air_boss.png",
+    "images/joey.png",
+    "images/Cow.png",
+    "images/snake.png",
+    "images/eagle.png",
+    "images/lion.png",
+    "images/turtle.png",
     "images/magpie.png",
     "images/grass_1.png",
     "images/grass_2.png",
@@ -20,6 +28,8 @@
     "images/bird.png",
     "images/Healthpotion.png",
     "images/foodtextures/apple.png",
+    "images/effects.png",
+    "images/griffinEffects.png",
 
     "images/grass_tile_1_around_sand/upper_left_corner_grass_1_around_sand.jpg",
     "images/grass_tile_1_around_sand/upper_middle_grass_1_around_sand.jpg",
@@ -161,12 +171,15 @@
     "images/Healthpotion.png",
     "images/foodtextures/apple.png",
     "images/foodtextures/carrot.png",
+    "images/foodtextures/Milk.png",
+    "images/foodtextures/Sushi.png",
     "images/foodtextures/chicken_leg.png",
     "images/foodtextures/meat.png",
     "images/foodtextures/candy.png",
     "images/potiontexture/speed.png",
     "images/potiontexture/defense.png",
-    "images/potiontexture/attack.png"
+    "images/potiontexture/attack.png",
+    "images/wolf.png"
   ],
   "forestTextureAtlases" : [
     "images/terrain_iso_grass.atlas",
@@ -174,6 +187,8 @@
     "images/frog.atlas",
     "images/monkey.atlas",
     "images/banana.atlas",
+    "images/effects.atlas",
+    "images/griffinEffects.atlas",
     "images/bear.atlas",
     "images/friendly_npcs/Cow.atlas",
     "images/friendly_npcs/Fish.atlas",
@@ -183,8 +198,12 @@
     "images/friendly_npcs/turtle.atlas",
     "images/friendly_npcs/magpie.atlas",
     "images/final_boss_kangaroo.atlas",
+    "images/water_boss.atlas",
+    "images/air_boss.atlas",
+    "images/joey.atlas",
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
-    "images/enemy-chicken.atlas"
+    "images/enemy-chicken.atlas",
+    "images/wolf.atlas"
   ]
 }

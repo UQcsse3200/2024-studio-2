@@ -1,38 +1,33 @@
 package com.csse3200.game.screens;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.maze.MazeGame;
+import com.csse3200.game.components.CameraComponent;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
+import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
+import com.csse3200.game.physics.PhysicsEngine;
+import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.ui.minigames.ScoreBoard;
+import com.csse3200.game.ui.terminal.Terminal;
+import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
-import static com.csse3200.game.components.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.components.minigames.MiniGameNames.MAZE;
+import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 
 /**
  * Class for Underwater Maze Game Screen
@@ -40,154 +35,121 @@ import static com.csse3200.game.components.minigames.MiniGameNames.MAZE;
 public class MazeGameScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
+    private static final String[] mazeGameTextures = {"images/heart.png"};
     private final Renderer renderer;
-    private final BitmapFont font;
-    private final Skin skin;
-    private final Stage stage;
-    private float scale;
-    private final Table exitButtonTable;
-    private final ScoreBoard scoreBoard;
+    private final PhysicsEngine physicsEngine;
+    private final LightingEngine lightingEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
-    private final MazeGame mazeGame;
+    private static final float GAME_WIDTH = 5f;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
-        this.scale = 1;
-        this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
-        this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+
         logger.debug("Initialising maze game screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
         ServiceLocator.registerTimeSource(new GameTime());
+
+        PhysicsService physicsService = new PhysicsService();
+        ServiceLocator.registerPhysicsService(physicsService);
+        physicsEngine = physicsService.getPhysics();
+
+        ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
 
-        renderer = RenderFactory.createRenderer();
+        ServiceLocator.registerEntityService(new EntityService());
+        ServiceLocator.registerRenderService(new RenderService());
 
-        font = new BitmapFont();
-        font.setColor(Color.WHITE);
-        font.getData().setScale(5.0f);
+        Entity camera = createCamera();
+        ServiceLocator.getEntityService().register(camera);
+        CameraComponent camComponent = camera.getComponent(CameraComponent.class);
 
-        this.stage = ServiceLocator.getRenderService().getStage();
-        this.mazeGame = new MazeGame();
+        renderer = new Renderer(camComponent, GAME_WIDTH);
 
-        this.scoreBoard = new ScoreBoard(0, MAZE);
+        renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-//        logger.debug("Initialising maze game entities");
+        lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
 
-        setupExitButton();
+        ServiceLocator.getRenderService().register(lightingEngine);
+
+        ServiceLocator.registerLightingService(new LightingService(lightingEngine));
+
+        loadAssets();
         createUI();
+
+        logger.debug("Initialising maze game screen entities");
+        MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
+        MazeGameArea mazeGameArea = new MazeGameArea(terrainFactory);
+        mazeGameArea.create();
     }
 
-    /**
-     * Renders the game
-     * @param delta The time in seconds since the last render.
-     */
     @Override
     public void render(float delta) {
-        clearBackground();
-        mazeGame.render();
-
-//        scoreBoard.updateScore(mazeGame.getScore());
-
-        stage.act(delta);   // Update the stage
-        stage.draw();       // Draw the UI (pause overlay)
+        physicsEngine.update();
+        ServiceLocator.getEntityService().update();
+        renderer.render();
     }
 
-    /**
-     * Clears the screen background
-     */
-    public void clearBackground() {
-        Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
-    /**
-     * Resizes the game based on screen size.
-     * @param width new screen width
-     * @param height new screen height
-     */
     @Override
     public void resize(int width, int height) {
-        Viewport viewport = stage.getViewport();
-        viewport.update(width, height, true);
-        float baseWidth = 1920;
-        float baseHeight = 1200;
-        float scaleWidth = width / baseWidth;
-        float scaleHeight = height / baseHeight;
-        scale = Math.min(scaleWidth, scaleHeight);
-        setupExitButton();
-        scoreBoard.resize();
-        /*if(viewport.getRightGutterWidth() > 0){
-            rayHandler.useCustomViewport(viewport.getRightGutterWidth()-5,viewport.getBottomGutterHeight()-5, (int)(height*1920f/1200)+10,height+10);
-        }else{
-            rayHandler.useCustomViewport(viewport.getRightGutterWidth()-5,viewport.getBottomGutterHeight()-5, width+10,(int)(width/1920f*1200)+10);
-        }*/
+        renderer.resize(width, height);
+        logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
-    /**
-     * Dispose of assets
-     */
+    @Override
+    public void pause() {
+        logger.info("Game paused");
+    }
+
+    @Override
+    public void resume() {
+        logger.info("Game resumed");
+    }
+
     @Override
     public void dispose() {
-        Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-
-        logger.debug("Disposing underwater maze screen");
+        logger.debug("Disposing main game screen");
 
         renderer.dispose();
-        mazeGame.dispose();
+        unloadAssets();
+
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getResourceService().dispose();
+
         ServiceLocator.clear();
-        font.dispose();
-        skin.dispose();
+    }
+
+    private void loadAssets() {
+        logger.debug("Loading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadTextures(mazeGameTextures);
+        ServiceLocator.getResourceService().loadAll();
+    }
+
+    private void unloadAssets() {
+        logger.debug("Unloading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(mazeGameTextures);
     }
 
     /**
-     * Set up the exit button in the top right
-     */
-    private void setupExitButton() {
-        exitButtonTable.clear();
-        TextButton exitButton = new TextButton("Exit", skin);
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                exitGame();
-            }
-        });
-
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-        stage.addActor(exitButtonTable);
-    }
-
-    /**
-     * set up ui for key inputs
+     * Creates the main game's ui including components for rendering ui elements to the screen and
+     * capturing and handling ui input.
      */
     private void createUI() {
-        logger.debug("Creating maze ui");
+        logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        //InputComponent inputComponent = new KeyboardBirdInputComponent();
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
         Entity ui = new Entity();
-        ui
-                .addComponent(new InputDecorator(stage, 10))
+        ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                //.addComponent(inputComponent)
-                .addComponent(new KeyboardMiniGameInputComponent());
-
-//        ui.getEvents().addListener("addOverlay", this::addOverlay);
-//        ui.getEvents().addListener("removeOverlay", this::removeOverlay);
-        ui.getEvents().addListener("restart", this::restartGame);
-        ui.getEvents().addListener("exit", this::exitGame);
+                .addComponent(new Terminal())
+                .addComponent(inputComponent)
+                .addComponent(new TerminalDisplay());
 
         ServiceLocator.getEntityService().register(ui);
     }
