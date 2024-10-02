@@ -1,11 +1,9 @@
 package com.csse3200.game.components.mainmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,25 +17,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
-import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import net.dermetfan.gdx.physics.box2d.PositionController;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.Assert.*;
 
-
+@ExtendWith(GameExtension.class)
 public class MainMenuDisplayTest {
     private String[] owlFacts;
 
