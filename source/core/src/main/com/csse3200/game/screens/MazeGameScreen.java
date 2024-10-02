@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.Screen;
@@ -46,17 +47,29 @@ import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 public class MazeGameScreen extends PausableScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
+
+    // Textures and renders
     private static final String[] mazeGameTextures = {"images/heart.png"};
     private final Renderer renderer;
+
+    // Physics engine
     private final PhysicsEngine physicsEngine;
+
+    // Used for preserving screen
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private static final float GAME_WIDTH = 5f;
+
+    // Used for putting elements on the screen
     private final Stage stage;
     private final Skin skin;
+
+    // Scale for resizing the screen
     private float scale;
     private final MazeGameArea mazeGameArea;
-    private int score = -1;
+
+    // the end game score
+    private int EndScore = -1;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -66,6 +79,7 @@ public class MazeGameScreen extends PausableScreen {
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
+        // Load and Initialise Game Services
         logger.debug("Initialising maze game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
 
@@ -93,6 +107,7 @@ public class MazeGameScreen extends PausableScreen {
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
+        // Make stage to load elements on to
         this.stage = ServiceLocator.getRenderService().getStage();
 
         loadAssets();
@@ -108,28 +123,45 @@ public class MazeGameScreen extends PausableScreen {
         mazeGameArea.getPlayer().getEvents().addListener("restMenu", this::restMenu);
     }
 
+    /**
+     * Renders the game onto the screen and checks score to end the game
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
-        if (score != -1) {
+        // Score is -1 until the game has ended
+        if (EndScore != -1) {
             logger.info("End of Maze Mini-Game");
             dispose();
-            game.setScreen(new EndMiniGameScreen(game, score, MiniGameNames.MAZE, oldScreen, oldScreenServices));
+            game.setScreen(new EndMiniGameScreen(game, EndScore, MiniGameNames.MAZE, oldScreen, oldScreenServices));
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
+            restartGame();
         }
     }
 
+    /**
+     * Pauses the game
+     */
     @Override
     public void pause() {
         logger.info("Game paused");
     }
 
+    /**
+     * Resumes the game
+     */
     @Override
     public void resume() {
         logger.info("Game resumed");
     }
 
+    /**
+     * Dispose of the screen
+     */
     @Override
     public void dispose() {
         logger.debug("Disposing main game screen");
@@ -146,14 +178,21 @@ public class MazeGameScreen extends PausableScreen {
         skin.dispose();
     }
 
+    /**
+     * Ends the game and sets the high score
+     * @param score the ending game score
+     */
     private void endGame(int score) {
-        this.score = score;
+        this.EndScore = score;
         if (GameState.minigame != null) {
             GameState.minigame.addHighScore("maze", score);
             logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
         }
     }
 
+    /**
+     * Loads mazeGameTextures onto the screen
+     */
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -161,6 +200,9 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadAll();
     }
 
+    /**
+     * Unloads teh mazeGameTextures from the screen
+     */
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -188,12 +230,16 @@ public class MazeGameScreen extends PausableScreen {
 
     /**
      * Called from event to restart the game
+     * TODO: call if R key is pressed
      */
     void restartGame() {
         dispose();
         game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
     }
 
+    /**
+     * Shows the pause menu
+     */
     private void restMenu() {
         logger.info("Sending Pause");
         addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
