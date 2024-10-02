@@ -20,11 +20,13 @@ public class ObstacleFactoryTest {
     private Entity tree;
     private Entity cloud;
     private Entity starfish;
+    private Entity seaweed;
 
     String[] obstacleTextures = {
             "images/tree.png",
             "images/cloud.png",
             "images/starfish.png",
+            "images/seaweed.png",
     };
 
     @BeforeEach
@@ -52,6 +54,7 @@ public class ObstacleFactoryTest {
         tree = ObstacleFactory.createTree();
         cloud = ObstacleFactory.createCloud();
         starfish = ObstacleFactory.createStarfish();
+        seaweed = ObstacleFactory.createSeaweed();
     }
 
     @Test
@@ -82,5 +85,15 @@ public class ObstacleFactoryTest {
     @Test
     void testStarfishEntityType() {
         assert(starfish.getClass() == Entity.class);
+    }
+
+    @Test
+    void testSeaweedCreation() {
+        assertNotNull(seaweed, "Seaweed should not be null");
+    }
+
+    @Test
+    void testSeaweedEntityType() {
+        assert(seaweed.getClass() == Entity.class);
     }
 }
