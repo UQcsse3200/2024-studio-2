@@ -6,13 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A UI component for displaying the loading screen with a moon actor representing the loading progress.
- * The class handles loading progress display and cycling through a list of loading messages.
+ * A UI component for displaying the loading screen with a moon representing the loading progress.
  */
 public class LoadingDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
@@ -20,8 +19,9 @@ public class LoadingDisplay extends UIComponent {
     private static final float MESSAGE_INTERVAL = 2f;
     private Table table;
     private Label loadingLabel;
-    private final String[] loadingMessages = {
-                "Fetching the best bones... please wait!",
+
+    private final List<String> loadingMessages = new LinkedList<>(List.of(
+            "Fetching the best bones... please wait!",
             "The jungle is waking up... loading soon!",
             "Watering the game plants... almost done!",
             "Wagging tails, flapping wings, hang tight!",
@@ -41,7 +41,9 @@ public class LoadingDisplay extends UIComponent {
             "Ready to unleash the wild... almost there!",
             "Stampeding towards adventure... loading complete soon!",
             "Snoozing under a tree... game will wake up soon!"
-    };
+    ));
+
+    private List<String> shuffledMessages;
     private float elapsedTime;
     private float messageElapsedTime = 0;
     private String currentMessage;
@@ -49,27 +51,19 @@ public class LoadingDisplay extends UIComponent {
 
     private MoonActor moonActor;  // Moon actor to represent loading progress
 
-    /**
-     * Constructs a new LoadingDisplay component, initializing message index and elapsed time.
-     */
     public LoadingDisplay() {
         elapsedTime = 0;
-        currentMessageIndex = (int) (Math.random() * loadingMessages.length);
-        currentMessage = loadingMessages[currentMessageIndex];
+        shuffleMessages();  // Shuffle the messages at the beginning
+        currentMessageIndex = 0;
+        currentMessage = shuffledMessages.get(currentMessageIndex);  // Start with the first message in the shuffled list
     }
 
-    /**
-     * Creates and initializes the loading display, adding actors to the stage.
-     */
     @Override
     public void create() {
         super.create();
         addActors();
     }
 
-    /**
-     * Adds the moon actor and the loading label to the stage for rendering.
-     */
     private void addActors() {
         // Create and add the moon actor
         moonActor = new MoonActor();
@@ -83,23 +77,16 @@ public class LoadingDisplay extends UIComponent {
         table.row();
 
         stage.addActor(table);  // Add the table to the stage
-
-
     }
 
     /**
-     * Checks if the loading process has finished based on the elapsed time.
-     *
-     * @return true if loading is finished, false otherwise.
+     * Shuffles the list of messages to ensure random order.
      */
-    public boolean isLoadingFinished() {
-        return elapsedTime >= LOADING_DURATION;
+    private void shuffleMessages() {
+        shuffledMessages = new LinkedList<>(loadingMessages);
+        Collections.shuffle(shuffledMessages);  // Randomly shuffle the messages
     }
 
-    /**
-     * Updates the loading display, including message cycling and progress update.
-     * This method is called periodically to reflect time progress.
-     */
     @Override
     public void update() {
         super.update();
@@ -107,15 +94,17 @@ public class LoadingDisplay extends UIComponent {
         elapsedTime += deltaTime;
         messageElapsedTime += deltaTime;
 
-        // Update loading messages
+        // Update loading messages at regular intervals
         if (messageElapsedTime >= MESSAGE_INTERVAL) {
-            int newMessageIndex;
-            do {
-                newMessageIndex = (int) (Math.random() * loadingMessages.length);
-            } while (newMessageIndex == currentMessageIndex);
+            currentMessageIndex++;
 
-            currentMessageIndex = newMessageIndex;
-            currentMessage = loadingMessages[currentMessageIndex];
+            // If we've reached the end of the shuffled list, reshuffle
+            if (currentMessageIndex >= shuffledMessages.size()) {
+                shuffleMessages();
+                currentMessageIndex = 0;
+            }
+
+            currentMessage = shuffledMessages.get(currentMessageIndex);
             loadingLabel.setText(currentMessage);
             messageElapsedTime = 0;
         }
@@ -125,58 +114,35 @@ public class LoadingDisplay extends UIComponent {
         moonActor.setProgress(progress);  // Update moon actor progress
     }
 
-    /**
-     * Retrieves the Z-index of the loading display, which determines the rendering order.
-     *
-     * @return Z-index value.
-     */
     @Override
     public float getZIndex() {
         return Z_INDEX;
     }
 
-    /**
-     * Retrieves the MoonActor that represents the loading progress.
-     *
-     * @return the MoonActor used in the loading display.
-     */
+    public boolean isLoadingFinished() {
+        return elapsedTime >= LOADING_DURATION;
+    }
+
     public MoonActor getMoonActor() {
         return moonActor;
     }
 
-    /**
-     * Retrieves the list of all possible loading messages.
-     *
-     * @return a list of loading messages.
-     */
     public List<String> getAllMessages() {
-        return Arrays.asList(loadingMessages);
+        return loadingMessages;
     }
-
-    /**
-     * Retrieves the current loading message displayed on the screen.
-     *
-     * @return the currently displayed loading message.
-     */
 
     public String getCurrentMessage() {
         return currentMessage;
     }
 
-
     @Override
     protected void draw(SpriteBatch batch) {
-
+        // No custom draw logic needed
     }
 
-    /**
-     * Disposes of the resources used by the loading display.
-     * It clears the table and disposes of other actors if necessary.
-     */
     @Override
     public void dispose() {
         table.clear();
-        //moonActor.dispose();  // Dispose the moon actor
         super.dispose();
     }
 }
