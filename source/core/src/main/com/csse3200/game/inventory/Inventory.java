@@ -487,36 +487,4 @@ public class Inventory implements InventoryInterface {
             nextIndex = index;
         }
     }
-
-    // Quests additions - starting here
-
-    /** Inventory listen for quests item collection tasks
-     * @param itemName - the item name that will be listened for
-     * @param quantity - the number of item occurrences required for
-     *                 the quest to be completed. */
-    public void questItemListen(String itemName, int quantity, String collectionTrigger){
-        this.questItem = itemName;
-        this.questItemCount = quantity;
-        this.collectionTrigger = collectionTrigger;
-    }
-
-    /** @return trigger string upon completion of item collection task. */
-    public String getCollectionTrigger() {
-        return collectionTrigger;
-    }
-
-    /** Quests item collection completion - used to send out "items collected"
-     * @return True if specified numbers of item has been collected. */
-    public boolean itemCollectionSuccessful() {
-        int count = 0;
-        for (int item = 0; item < this.nextIndex; item++) {
-            if (memoryView[item].getName().equals(this.questItem)) {
-                count += memoryView[item].getQuantity();
-            }
-        }
-        if (count > 0) {
-            return count >= this.questItemCount;
-        }
-        return false;
-    }
 }

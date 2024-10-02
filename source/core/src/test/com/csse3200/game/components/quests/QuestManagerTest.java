@@ -31,6 +31,7 @@ class QuestManagerTest {
         player = mock(Entity.class);
 
         Sound mockSound = mock(Sound.class);
+
         when(resourceService.getAsset("sounds/QuestComplete.wav", Sound.class)).thenReturn(mockSound);
 
 

@@ -38,10 +38,10 @@
 			questDescription: Follow the cow's request and collect items.
 			tasks: [
 				{
-					taskName: collectPotions
+					taskName: pickUpDefense Potion
 					description: Collect Potions
 					hint: Find 5 defense potions scattered throughout the kingdom.
-					requiredTriggers: 1
+					requiredTriggers: 5
 					triggerCount: 0
 					completed: false
 					failed: false
