@@ -3531,6 +3531,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/GameArea.html#getEnemies()" class="member-name-link">getEnemies()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#getEnemies()" class="member-name-link">getEnemies()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html#getEnemies()" class="member-name-link">getEnemies()</a> - Method in class com.csse3200.game.minigames.maze.areas.<a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html" title="class in com.csse3200.game.minigames.maze.areas">MazeGameArea</a></dt>
 <dd>
 <div class="block">Gets the list of enemies</div>
@@ -3975,6 +3977,8 @@ loadScripts(document, 'script');</script>
 <div class="block">gets the player</div>
 </dd>
 <dt><a href="com/csse3200/game/areas/GameArea.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.html#getPlayer()" class="member-name-link">getPlayer()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
 <dd>&nbsp;</dd>
@@ -5868,10 +5872,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A UI component responsible for displaying a mini map in the game.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#%3Cinit%3E()" class="member-name-link">MiniMapDisplay()</a> - Constructor for class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#%3Cinit%3E(com.csse3200.game.areas.GameArea)" class="member-name-link">MiniMapDisplay(GameArea)</a> - Constructor for class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
 <dd>
 <div class="block">Constructor for the MiniMapDisplay component.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#miniMapSize" class="member-name-link">miniMapSize</a> - Variable in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#miniMapX" class="member-name-link">miniMapX</a> - Variable in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#miniMapY" class="member-name-link">miniMapY</a> - Variable in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#monkey" class="member-name-link">monkey</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/Entity.EnemyType.html#MONKEY" class="member-name-link">MONKEY</a> - Enum constant in enum class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a></dt>
@@ -8717,6 +8729,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed</div>
+</dd>
+<dt><a href="com/csse3200/game/areas/MiniMapDisplay.html#transferToMiniMapPos(com.csse3200.game.entities.Entity)" class="member-name-link">transferToMiniMapPos(Entity)</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MiniMapDisplay.html" title="class in com.csse3200.game.areas">MiniMapDisplay</a></dt>
+<dd>
+<div class="block">Transfers an entity's world position to a minimap position based on the player's position
+ with a scale factor to fit the world into the minimap.</div>
 </dd>
 <dt><a href="com/csse3200/game/events/EventHandler.html#trigger(java.lang.String)" class="member-name-link">trigger(String)</a> - Method in class com.csse3200.game.events.<a href="com/csse3200/game/events/EventHandler.html" title="class in com.csse3200.game.events">EventHandler</a></dt>
 <dd>
