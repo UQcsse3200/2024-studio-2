@@ -46,14 +46,14 @@ class SpecialAirMoveTest {
         verify(mockTargetStats).addStrength(-30);
         verify(mockTargetStats).addDefense(-25);
 
-        // Capture the added status effect (CONFUSION or SHOCKED).
+        // Capture the added status effect (CONFUSED or SHOCKED).
         ArgumentCaptor<CombatStatsComponent.StatusEffect> statusCaptor = ArgumentCaptor.forClass(CombatStatsComponent.StatusEffect.class);
         verify(mockTargetStats).addStatusEffect(statusCaptor.capture());
 
         CombatStatsComponent.StatusEffect appliedEffect = statusCaptor.getValue();
-        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSION ||
+        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSED ||
                         appliedEffect == CombatStatsComponent.StatusEffect.SHOCKED,
-                "Random status effect should be CONFUSION or SHOCKED.");
+                "Random status effect should be CONFUSED or SHOCKED.");
     }
 
     /**

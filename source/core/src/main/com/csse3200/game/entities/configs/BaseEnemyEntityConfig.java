@@ -154,16 +154,16 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     public void setStamina(int stamina) { this.stamina = stamina; }
 
     /**
-     * Returns the stamina value for this entity.
+     * Returns the level value for this entity.
      *
-     * @return the stamina value as an int.
+     * @return the level value as an int.
      */
     public int getLevel() { return level; }
 
     /**
-     * Sets the stamina value for this entity.
+     * Sets the level value for this entity.
      *
-     * @param stamina the new stamina value.
+     * @param level the new level value.
      */
     public void setLevel(int level) { this.level = level; }
 }

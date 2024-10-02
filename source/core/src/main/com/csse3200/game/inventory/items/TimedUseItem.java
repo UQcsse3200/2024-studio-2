@@ -33,6 +33,7 @@ public abstract class TimedUseItem extends ConsumableItem {
     private final long duration;
     protected GameTime gameTime = ServiceLocator.getTimeSource();
     protected long effectStartTime;
+    protected String warn;
 
     /**
      * Constructs a new {@code Potion} with the specified quantity and a list of possible effects.
@@ -41,10 +42,11 @@ public abstract class TimedUseItem extends ConsumableItem {
      *
      * potion can apply
      */
-    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, long duration) {
+    protected TimedUseItem(String name, int itemCode, int limit, int quantity, int effectAmount, long duration, String warn) {
         super(name, itemCode, limit, quantity);
         this.effectAmount = effectAmount;
         this.duration = duration;
+        this.warn = warn;
     }
 
     /**
@@ -59,6 +61,14 @@ public abstract class TimedUseItem extends ConsumableItem {
      */
     public boolean isExpired(ItemUsageContext context) {
         return (this.gameTime.getTime() - this.effectStartTime >= this.getDuration());
+    }
+
+    /**
+     * Return warning message for potions that cant be used in certain environment
+     * @return  warning message
+     */
+    public String getWarning() {
+        return this.warn;
     }
 
     /**

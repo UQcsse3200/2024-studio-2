@@ -48,8 +48,6 @@ public class PlayerFactory {
 
     public static Entity createPlayer(GdxGame game) {
         String imagePath = GameState.player.selectedAnimalPath;
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
         Entity player =
                 new Entity() // Set that this entity is the player
@@ -63,6 +61,7 @@ public class PlayerFactory {
         moveSet.add(new AttackMove("Player Attack", 10));
         moveSet.add(new GuardMove("Player Guard", 5));
         moveSet.add(new SleepMove("Player Sleep", 0));
+        moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
 
@@ -80,7 +79,9 @@ public class PlayerFactory {
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
 
         }
-
+        InputComponent inputComponent =
+                ServiceLocator.getInputService().getInputFactory().createForPlayer();
+        
         player.addComponent(inputComponent)
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
