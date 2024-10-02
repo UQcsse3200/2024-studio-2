@@ -152,12 +152,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Draw the renderable.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startAnimation(java.lang.String)" class="member-name-link">startAnimation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Start playback of an animation.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.rendering.AnimationRenderComponent">Methods inherited from class&nbsp;com.csse3200.game.rendering.<a href="AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></h3>
-<code><a href="AnimationRenderComponent.html#addAnimation(java.lang.String,float)">addAnimation</a>, <a href="AnimationRenderComponent.html#addAnimation(java.lang.String,float,com.badlogic.gdx.graphics.g2d.Animation.PlayMode)">addAnimation</a>, <a href="AnimationRenderComponent.html#dispose()">dispose</a>, <a href="AnimationRenderComponent.html#getAtlas()">getAtlas</a>, <a href="AnimationRenderComponent.html#getCurrentAnimation()">getCurrentAnimation</a>, <a href="AnimationRenderComponent.html#hasAnimation(java.lang.String)">hasAnimation</a>, <a href="AnimationRenderComponent.html#isFinished()">isFinished</a>, <a href="AnimationRenderComponent.html#removeAnimation(java.lang.String)">removeAnimation</a>, <a href="AnimationRenderComponent.html#scaleEntity()">scaleEntity</a>, <a href="AnimationRenderComponent.html#setFlipX(boolean)">setFlipX</a>, <a href="AnimationRenderComponent.html#startAnimation(java.lang.String)">startAnimation</a>, <a href="AnimationRenderComponent.html#stopAnimation()">stopAnimation</a></code></div>
+<code><a href="AnimationRenderComponent.html#addAnimation(java.lang.String,float)">addAnimation</a>, <a href="AnimationRenderComponent.html#addAnimation(java.lang.String,float,com.badlogic.gdx.graphics.g2d.Animation.PlayMode)">addAnimation</a>, <a href="AnimationRenderComponent.html#dispose()">dispose</a>, <a href="AnimationRenderComponent.html#getAtlas()">getAtlas</a>, <a href="AnimationRenderComponent.html#getCurrentAnimation()">getCurrentAnimation</a>, <a href="AnimationRenderComponent.html#hasAnimation(java.lang.String)">hasAnimation</a>, <a href="AnimationRenderComponent.html#isFinished()">isFinished</a>, <a href="AnimationRenderComponent.html#removeAnimation(java.lang.String)">removeAnimation</a>, <a href="AnimationRenderComponent.html#scaleEntity()">scaleEntity</a>, <a href="AnimationRenderComponent.html#setFlipX(boolean)">setFlipX</a>, <a href="AnimationRenderComponent.html#stopAnimation()">stopAnimation</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.rendering.RenderComponent">Methods inherited from class&nbsp;com.csse3200.game.rendering.<a href="RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></h3>
 <code><a href="RenderComponent.html#compareTo(com.csse3200.game.rendering.Renderable)">compareTo</a>, <a href="RenderComponent.html#create()">create</a>, <a href="RenderComponent.html#getLayer()">getLayer</a>, <a href="RenderComponent.html#getZIndex()">getZIndex</a>, <a href="RenderComponent.html#render(com.badlogic.gdx.graphics.g2d.SpriteBatch)">render</a></code></div>
@@ -203,6 +208,19 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addSound</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sound,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;animationName,
  int&nbsp;index)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="startAnimation(java.lang.String)">
+<h3>startAnimation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startAnimation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Start playback of an animation. The animation must have been added using addAnimation().</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="AnimationRenderComponent.html#startAnimation(java.lang.String)">startAnimation</a></code>&nbsp;in class&nbsp;<code><a href="AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>name</code> - Name of the animation to play.</dd>
+</dl>
 </section>
 </li>
 <li>

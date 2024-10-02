@@ -99,7 +99,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MazeGameScreen</span>
 <span class="extends-implements">extends <a href="PausableScreen.html" title="class in com.csse3200.game.screens">PausableScreen</a></span></div>
-<div class="block">Class for Underwater Maze Game Screen</div>
+<div class="block">Class for Underwater Maze Mini-Game Screen</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -140,20 +140,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Dispose of the screen</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Pauses the game</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(float)" class="member-name-link">render</a><wbr>(float&nbsp;delta)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Renders the game onto the screen and checks score to end the game</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
  int&nbsp;height)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resize function that automatically gets called when the screen is resized.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resume()" class="member-name-link">resume</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resumes the game</div>
+</div>
 </div>
 </div>
 </div>
@@ -197,24 +207,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="render(float)">
 <h3>render</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(float&nbsp;delta)</span></div>
+<div class="block">Renders the game onto the screen and checks score to end the game</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>render</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
 <dt>Overrides:</dt>
 <dd><code>render</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="resize(int,int)">
-<h3>resize</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resize</span><wbr><span class="parameters">(int&nbsp;width,
- int&nbsp;height)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code>resize</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
-<dt>Overrides:</dt>
-<dd><code>resize</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
+<dt>Parameters:</dt>
+<dd><code>delta</code> - The time in seconds since the last render.</dd>
 </dl>
 </section>
 </li>
@@ -222,6 +222,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="pause()">
 <h3>pause</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pause</span>()</div>
+<div class="block">Pauses the game</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>pause</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
@@ -234,6 +235,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="resume()">
 <h3>resume</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resume</span>()</div>
+<div class="block">Resumes the game</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>resume</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
@@ -246,11 +248,31 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
+<div class="block">Dispose of the screen</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>dispose</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
 <dt>Overrides:</dt>
 <dd><code>dispose</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="resize(int,int)">
+<h3>resize</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resize</span><wbr><span class="parameters">(int&nbsp;width,
+ int&nbsp;height)</span></div>
+<div class="block">Resize function that automatically gets called when the screen is resized.
+ Resizes all components with a consistent scale to maintain the screen's
+ original design.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>resize</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
+<dt>Overrides:</dt>
+<dd><code>resize</code>&nbsp;in class&nbsp;<code>com.badlogic.gdx.ScreenAdapter</code></dd>
+<dt>Parameters:</dt>
+<dd><code>width</code> - The width of the resized screen.</dd>
+<dd><code>height</code> - The height of the resized screen.</dd>
 </dl>
 </section>
 </li>

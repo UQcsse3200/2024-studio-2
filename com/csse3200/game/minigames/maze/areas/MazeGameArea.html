@@ -166,14 +166,24 @@ loadScripts(document, 'script');</script>
 <div class="block">Create the game area, including terrain, static entities (trees), dynamic entities (player)</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#displayUI()" class="member-name-link">displayUI</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Displays the maze game area</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Disposes of assets used by this component, including the maze background music</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemies()" class="member-name-link">getEnemies</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the list of enemies</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemies()" class="member-name-link">getEnemies</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnemies(com.csse3200.game.entities.Entity.EnemyType)" class="member-name-link">getEnemies</a><wbr>(<a href="../../../entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;enemyType)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the list of enemies (angler fish)</div>
+<div class="block">Gets the list of enemies</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
@@ -183,12 +193,24 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pauseMusic()" class="member-name-link">pauseMusic</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Stops the music (TODO: See if properly implemented)</div>
+<div class="block">Stops the music</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playMusic()" class="member-name-link">playMusic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Playes backgroun music for the maze mini-game</div>
+<div class="block">Plays background music for the maze mini-game</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnGreenJellyfish(int,float)" class="member-name-link">spawnGreenJellyfish</a><wbr>(int&nbsp;number,
+ float&nbsp;minDistToPlayer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Spawns in the jellyfish npc.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnJellyfish(int,float)" class="member-name-link">spawnJellyfish</a><wbr>(int&nbsp;number,
+ float&nbsp;minDistToPlayer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Spawns in the jellyfish npc.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unloadAssets()" class="member-name-link">unloadAssets</a>()</code></div>
@@ -338,10 +360,35 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="displayUI()">
+<h3>displayUI</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">displayUI</span>()</div>
+<div class="block">Displays the maze game area</div>
+</section>
+</li>
+<li>
+<section class="detail" id="spawnJellyfish(int,float)">
+<h3>spawnJellyfish</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnJellyfish</span><wbr><span class="parameters">(int&nbsp;number,
+ float&nbsp;minDistToPlayer)</span></div>
+<div class="block">Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
+ the player.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="spawnGreenJellyfish(int,float)">
+<h3>spawnGreenJellyfish</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnGreenJellyfish</span><wbr><span class="parameters">(int&nbsp;number,
+ float&nbsp;minDistToPlayer)</span></div>
+<div class="block">Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
+ the player.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="playMusic()">
 <h3>playMusic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playMusic</span>()</div>
-<div class="block">Playes backgroun music for the maze mini-game</div>
+<div class="block">Plays background music for the maze mini-game</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../areas/GameArea.html#playMusic()">playMusic</a></code>&nbsp;in class&nbsp;<code><a href="../../../areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></dd>
@@ -352,7 +399,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="pauseMusic()">
 <h3>pauseMusic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pauseMusic</span>()</div>
-<div class="block">Stops the music (TODO: See if properly implemented)</div>
+<div class="block">Stops the music</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../areas/GameArea.html#pauseMusic()">pauseMusic</a></code>&nbsp;in class&nbsp;<code><a href="../../../areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></dd>
@@ -400,10 +447,23 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEnemies()">
 <h3>getEnemies</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;</span>&nbsp;<span class="element-name">getEnemies</span>()</div>
-<div class="block">Gets the list of enemies (angler fish)</div>
+<div class="block">Gets the list of enemies</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../areas/GameArea.html#getEnemies()">getEnemies</a></code>&nbsp;in class&nbsp;<code><a href="../../../areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></dd>
+<dt>Returns:</dt>
+<dd>the list of enemies</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getEnemies(com.csse3200.game.entities.Entity.EnemyType)">
+<h3>getEnemies</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;</span>&nbsp;<span class="element-name">getEnemies</span><wbr><span class="parameters">(<a href="../../../entities/Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;enemyType)</span></div>
+<div class="block">Gets the list of enemies</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>enemyType</code> - the type of enemy to get a list for</dd>
 <dt>Returns:</dt>
 <dd>the list of enemies</dd>
 </dl>

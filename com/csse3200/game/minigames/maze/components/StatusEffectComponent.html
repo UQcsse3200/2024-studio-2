@@ -179,20 +179,26 @@ loadScripts(document, 'script');</script>
 <div class="block">Remove a status from being applied to the entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMinStatusExpiry(java.lang.String,float)" class="member-name-link">setMinStatusExpiry</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExpiryIfInactive(java.lang.String,float)" class="member-name-link">setExpiryIfInactive</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
  float&nbsp;duration)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the duration before a status expires to at least a specified amount.</div>
+<div class="block">Sets the time before a status expires only if the entity does not currently have that status.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStatusExpiry(java.lang.String,float)" class="member-name-link">setStatusExpiry</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMinStatusExpiry(java.lang.String,float)" class="member-name-link">setMinStatusExpiry</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
  float&nbsp;duration)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the time before a status expires.</div>
+<div class="block">Sets the duration before a status expires to at least a specified amount.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStatusExpiry(java.lang.String,float)" class="member-name-link">setStatusExpiry</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
+ float&nbsp;duration)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the time before a status expires.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Called every frame of game.</div>
 </div>
 </div>
@@ -311,6 +317,19 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>status</code> - the status</dd>
 <dd><code>duration</code> - the minimum expiry duration (in seconds)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setExpiryIfInactive(java.lang.String,float)">
+<h3>setExpiryIfInactive</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setExpiryIfInactive</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;status,
+ float&nbsp;duration)</span></div>
+<div class="block">Sets the time before a status expires only if the entity does not currently have that status.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>status</code> - the status</dd>
+<dd><code>duration</code> - the duration (in seconds)</dd>
 </dl>
 </section>
 </li>
