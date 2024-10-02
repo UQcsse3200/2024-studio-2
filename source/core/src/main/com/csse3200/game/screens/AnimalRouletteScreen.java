@@ -10,19 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
-import com.csse3200.game.components.animal.AnimalSelectionDisplay;
+import com.csse3200.game.components.animal.AnimalRouletteActions;
+import com.csse3200.game.components.animal.AnimalRouletteDisplay;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 
-public abstract class AnimalSelectionScreen extends ScreenAdapter {
+public abstract class AnimalRouletteScreen extends ScreenAdapter {
     protected Stage stage;
-    protected AnimalSelectionDisplay display;
-    protected AnimalSelectionActions actions;
+    protected AnimalRouletteDisplay display;
+    protected AnimalRouletteActions actions;
     protected GdxGame game;
     private TextButton waterAnimalsButton;
     private TextButton airAnimalsButton;
+    private TextButton landAnimalsButton;
 
-    public AnimalSelectionScreen(GdxGame game) {
+    public AnimalRouletteScreen(GdxGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -31,21 +32,27 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         PopUpHelper dialogHelper = new PopUpHelper(skin, stage);
 
         display = createDisplay(stage, skin);
-        actions = new AnimalSelectionActions(display, dialogHelper, game);
+        actions = new AnimalRouletteActions(display, dialogHelper, game);
 
         createUI(skin);
 
         actions.resetSelection();
     }
 
-    protected abstract AnimalSelectionDisplay createDisplay(Stage stage, Skin skin);
+    protected abstract AnimalRouletteDisplay createDisplay(Stage stage, Skin skin);
+
+    protected AnimalRouletteActions createActions(AnimalRouletteDisplay display, PopUpHelper dialogHelper, GdxGame game) {
+        return new AnimalRouletteActions(display, dialogHelper, game);
+    }
 
     void createUI(Skin skin) {
         waterAnimalsButton = new TextButton("Water Animals", skin);
         airAnimalsButton = new TextButton("Air Animals", skin);
+        landAnimalsButton = new TextButton("Land Animals", skin);
 
         addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen.class);
         addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen.class);
+        addButtonToSwitchScreen(landAnimalsButton, LandAnimalSelectionScreen.class);
 
         updateButtonPositions();
     }
@@ -83,6 +90,10 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         stage.addActor(button);
     }
 
+    protected TextButton getWaterAnimalsButton() { return waterAnimalsButton; }
+    protected TextButton getAirAnimalsButton() { return airAnimalsButton; }
+    protected TextButton getLandAnimalsButton() { return landAnimalsButton; }
+
     private void updateButtonPositions() {
         float buttonWidth = 200;
         float buttonHeight = 50;
@@ -91,8 +102,11 @@ public abstract class AnimalSelectionScreen extends ScreenAdapter {
         float xPos = padding;
         float yPosWater = stage.getViewport().getScreenHeight() - buttonHeight - padding;
         float yPosAir = yPosWater - buttonHeight - padding;
+        float yPosLand = yPosAir - buttonHeight - padding;
 
         waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
         airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
+        landAnimalsButton.setBounds(xPos, yPosLand, buttonWidth, buttonHeight);
+
     }
 }

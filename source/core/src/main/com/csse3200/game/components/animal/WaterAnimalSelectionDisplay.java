@@ -3,7 +3,7 @@ package com.csse3200.game.components.animal;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class WaterAnimalSelectionDisplay extends AnimalSelectionDisplay {
+public class WaterAnimalSelectionDisplay extends AnimalRouletteDisplay {
     public WaterAnimalSelectionDisplay(Stage stage, Skin skin) {
         super(stage, skin);
     }
