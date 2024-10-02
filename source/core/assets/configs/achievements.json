@@ -167,7 +167,7 @@
     "completed": false,
     "seen": false,
     "type": "ENEMY",
-    "iconPath": "images/water_boss.png"
+    "iconPath": "images/water_boss_idle.png"
   },
   {
     "questName": "AIR_BOSS",
@@ -175,6 +175,6 @@
     "completed": false,
     "seen": false,
     "type": "ENEMY",
-    "iconPath": "images/air_boss.png"
+    "iconPath": "images/air_boss_idle.png"
   }
 ]
