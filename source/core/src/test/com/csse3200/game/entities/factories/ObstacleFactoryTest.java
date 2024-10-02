@@ -18,9 +18,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(GameExtension.class)
 public class ObstacleFactoryTest {
     private Entity tree;
+    private Entity cloud;
 
     String[] obstacleTextures = {
-            "images/tree.png"
+            "images/tree.png",
+            "images/cloud.png"
     };
 
     @BeforeEach
@@ -46,6 +48,7 @@ public class ObstacleFactoryTest {
 
         // Creating a tree entity
         tree = ObstacleFactory.createTree();
+        cloud = ObstacleFactory.createCloud();
     }
 
     @Test
@@ -56,5 +59,15 @@ public class ObstacleFactoryTest {
     @Test
     void testTreeEntityType() {
         assert(tree.getClass() == Entity.class);
+    }
+
+    @Test
+    void testCloudCreation() {
+        assertNotNull(cloud, "Cloud should not be null");
+    }
+
+    @Test
+    void testCloudEntityType() {
+        assert(cloud.getClass() == Entity.class);
     }
 }
