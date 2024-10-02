@@ -33,10 +33,15 @@ public class MiniMapDisplay extends UIComponent {
     private List<Image> redDotPointImages;
     private GameArea gameArea;
     private int scaleFactor = 50;
-    private float miniMapX = 950;  // Minimap's X position on the screen
-    private float miniMapY = 450;  // Minimap's Y position on the screen
-    private int miniMapSize = 300;  // Size of the minimap
+    public float miniMapX = 950;  // Minimap's X position on the screen
+    public float miniMapY = 450;  // Minimap's Y position on the screen
+    public int miniMapSize = 300;  // Size of the minimap
 
+    public MiniMapDisplay() {
+        player = new Entity();
+        enemies = new ArrayList<>();
+
+    }
     /**
      * Constructor for the MiniMapDisplay component. It links the minimap to the current game area.
      *
@@ -100,7 +105,7 @@ public class MiniMapDisplay extends UIComponent {
      * @param entity The entity whose position needs to be transferred to the minimap.
      * @return The transformed position in minimap coordinates.
      */
-    private Vector2 transferToMiniMapPos(Entity entity) {
+    public Vector2 transferToMiniMapPos(Entity entity) {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
 
@@ -156,5 +161,13 @@ public class MiniMapDisplay extends UIComponent {
         batch.begin();
         batch.draw(miniMapBackground, miniMapX, miniMapY, miniMapSize, miniMapSize);
         batch.end();
+    }
+
+    public Entity getPlayer() {
+        return player;
+    }
+
+    public List<Entity> getEnemies() {
+        return enemies;
     }
 }
