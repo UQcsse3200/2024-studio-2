@@ -91,6 +91,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">LootBoxFactory</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Factory class responsible for creating different types of loot boxes based on a JSON configuration file.
+ The loot boxes are dynamically generated using reflection, allowing for flexible and easily modifiable
+ loot tables and loot box properties without needing to hard-code specific classes.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -121,7 +124,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createLootBox(java.lang.String,com.csse3200.game.entities.Entity)" class="member-name-link">createLootBox</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;lootBoxName,
  <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a loot box for a player based on its name, using the configuration defined in the JSON file.</div>
+</div>
 </div>
 </div>
 </div>
@@ -159,9 +164,17 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../inventory/items/lootbox/UniversalLootBox.html" title="class in com.csse3200.game.inventory.items.lootbox">UniversalLootBox</a></span>&nbsp;<span class="element-name">createLootBox</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;lootBoxName,
  <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player)</span>
                                throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></span></div>
+<div class="block">Creates a loot box for a player based on its name, using the configuration defined in the JSON file.
+ The loot box is dynamically generated based on its name, rolls, description, image, and loot table.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>lootBoxName</code> - The name of the loot box to create.</dd>
+<dd><code>player</code> - The player entity that will receive the loot box.</dd>
+<dt>Returns:</dt>
+<dd>A UniversalLootBox object that is configured for the specified player and loot box name.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></code> - If any class referenced in the loot table is not found.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the specified loot box name does not exist in the JSON configuration.</dd>
 </dl>
 </section>
 </li>
