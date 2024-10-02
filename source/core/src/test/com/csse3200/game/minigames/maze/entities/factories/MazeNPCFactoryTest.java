@@ -1,6 +1,10 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
 import box2dLight.PointLight;
+import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.lighting.LightingEngine;
@@ -16,44 +20,81 @@ import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.util.ReflectionUtils;
+import org.mockito.Mock;
 import org.mockito.MockedConstruction;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(GameExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class MazeNPCFactoryTest {
 
     private static final String[] TEXTURE_ATLASES = {"images/minigames/angler.atlas", "images/minigames/eels.atlas", "images/minigames/Jellyfish.atlas"};
     private static final String[] SOUNDS = {"sounds/minigames/angler-chomp.mp3"};
     private static final String[] TEXTURE_MAZE = { "images/minigames/fishegg.png",  };
 
+    private static final String[] PARTICLE_EFFECTS = {
+            "images/minigames/electricparticles.p",
+            "images/minigames/starlight.p"
+    };
+
+    private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
+
+    @Mock
+    RayHandler rayHandler;
+
+    @Mock
+    Camera camera;
+
     @BeforeEach
-    public void setUp() {
-        LightingEngine mockLightingEngine = mock(LightingEngine.class);
+    public void setUp() throws IllegalAccessException {
+        LightingEngine engine = new LightingEngine(rayHandler, camera);
         LightingService mockLightingService = mock(LightingService.class);
-        when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
+        when(mockLightingService.getLighting()).thenReturn(engine);
         ServiceLocator.registerLightingService(mockLightingService);
 
-        try (MockedConstruction<PointLight> mockPointLight = mockConstruction(PointLight.class)) {
-            PhysicsService physicsService = new PhysicsService();
-            ServiceLocator.registerPhysicsService(physicsService);
-            RenderService renderService = new RenderService();
-            ServiceLocator.registerRenderService(renderService);
-            ResourceService resourceService = new ResourceService();
-            ServiceLocator.registerResourceService(resourceService);
-            resourceService.loadTextures(TEXTURE_MAZE);
-            resourceService.loadTextureAtlases(TEXTURE_ATLASES);
-            resourceService.loadSounds(SOUNDS);
-            resourceService.loadAll();
-        }
+        PhysicsService physicsService = new PhysicsService();
+        ServiceLocator.registerPhysicsService(physicsService);
+        RenderService renderService = new RenderService();
+        ServiceLocator.registerRenderService(renderService);
+        ResourceService resourceService = new ResourceService();
+        ServiceLocator.registerResourceService(resourceService);
+        resourceService.loadTextures(TEXTURE_MAZE);
+        resourceService.loadTextureAtlases(TEXTURE_ATLASES);
+        resourceService.loadSounds(SOUNDS);
+        resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
+        resourceService.loadAll();
+
+        // mock needs to at least add lights to an internal light list
+        Field field = ReflectionUtils
+                .findFields(RayHandler.class, f -> f.getName().equals("lightList"),
+                        ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
+                .getFirst();
+
+        field.setAccessible(true);
+        field.set(rayHandler, new Array<>());
+
+        field = ReflectionUtils
+                .findFields(RayHandler.class, f -> f.getName().equals("disabledLights"),
+                        ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
+                .getFirst();
+
+        field.setAccessible(true);
+        field.set(rayHandler, new Array<>());
+
+        ElectricEel.resetParticlePool();
+        FishEgg.resetParticlePool();
     }
 
     @Test
     void testCreateAngler() {
-//        Entity target = new Entity();
-//        AnglerFish anglerFish = MazeNPCFactory.createAngler(target);
-//        assertNotNull(anglerFish, "AnglerFish should not be null");
+        Entity target = new Entity();
+        AnglerFish anglerFish = MazeNPCFactory.createAngler(target);
+        assertNotNull(anglerFish, "AnglerFish should not be null");
     }
 
     @Test

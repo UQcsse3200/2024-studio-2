@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.entities.factories;
 
 
 import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 
@@ -25,7 +26,7 @@ public class MazePlayerFactory {
      *
      * @return the player NPC
      */
-    public static MazePlayer createPlayer() {
-        return new MazePlayer(stats);
+    public static MazePlayer createPlayer(MazeGameArea gameArea) {
+        return new MazePlayer(stats, gameArea);
     }
 }

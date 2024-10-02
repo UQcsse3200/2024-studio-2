@@ -1,10 +1,7 @@
 package com.csse3200.game.gamestate;
 
 import com.csse3200.game.files.FileLoader;
-import com.csse3200.game.gamestate.data.InventorySave;
-import com.csse3200.game.gamestate.data.PlayerSave;
-import com.csse3200.game.gamestate.data.QuestSave;
-import com.csse3200.game.gamestate.data.StatSave;
+import com.csse3200.game.gamestate.data.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +21,8 @@ public class GameState {
 
     public static StatSave stats = new StatSave();
 
+    public static MinigameHighscore minigame = new MinigameHighscore();
+
     /**
      * Clears the contents of the GameState.
      */
@@ -39,8 +38,7 @@ public class GameState {
      */
 
     public static boolean checkState() {
-        Logger logger = LoggerFactory.getLogger(GameState.class);
-        logger.info("states: {} {} {} {}", quests, inventory, player, stats);
-        return (quests == null || inventory == null || player == null || stats == null);
+        return (quests == null || inventory == null || player == null
+                || stats == null || minigame == null);
     }
 }

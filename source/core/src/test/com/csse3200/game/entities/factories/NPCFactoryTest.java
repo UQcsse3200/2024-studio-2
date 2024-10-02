@@ -1,6 +1,5 @@
 package com.csse3200.game.entities.factories;
 
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -406,11 +405,6 @@ class NPCFactoryTest {
 
         Assertions.assertEquals(pos, fish.getPosition());
     }
-
-
-
-
-
 
 
     /**

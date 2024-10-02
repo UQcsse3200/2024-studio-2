@@ -57,15 +57,9 @@ public class Maze {
 
     /**
      * Method to get the grid cells not adjacent to a specific cell (taking into account walls)
-     * @param x x-position/column
-     * @param y y-position/row
+     * @param cell Grid cell
      * @return the cell of the maze at the coordinate
      */
-    //TODO: James do we need this?
-    public List<GridPoint2> getNotMazeAdjacent(int x, int y) {
-        return getNotMazeAdjacent(new GridPoint2(x, y));
-    }
-
     public List<GridPoint2> getNotMazeAdjacent(GridPoint2 cell) {
         List<GridPoint2> cells = new ArrayList<>();
         for (GridPoint2 adjacentCell : getAdjacent(cell)) {
@@ -80,6 +74,14 @@ public class Maze {
         return isWall(new GridPoint2(x, y), direction);
     }
 
+
+    /**
+     * Method to check if moving 1 cell in a given direction from a grid cell will
+     * run into a wall.
+     * @param cell Grid cell
+     * @param direction Direction to check
+     * @return whether there is a wall in that direction from this grid cell.
+     */
     public boolean isWall(GridPoint2 cell, GridPoint2 direction) {
         return !getMazeAdjacent(cell).contains(cell.cpy().add(direction));
     }
@@ -100,15 +102,9 @@ public class Maze {
 
     /**
      * Method to get the grid cells adjacent to a specific cell (ignoring maze walls)
-     * @param x x-position/column
-     * @param y y-position/row
+     * @param cell Grid cell
      * @return the cell of the maze at the coordinate
      */
-    //TODO: James do we need this?
-    public List<GridPoint2> getAdjacent(int x, int y) {
-        return getAdjacent(new GridPoint2(x, y));
-    }
-
     public List<GridPoint2> getAdjacent(GridPoint2 cell) {
         List<GridPoint2> adjacent = new ArrayList<>();
         for (GridPoint2 delta : GRID_DIRECTIONS) {
@@ -147,8 +143,14 @@ public class Maze {
     }
 
     /**
-     * TODO: James can you fill this in thanks
-     * @return
+     * Find a new start location that is reasonably well spaced from all other
+     * start locations.
+     * Maintains a spanning tree connecting the current set of start locations. Then
+     * uses BFS to find the most distant cell from this spanning tree and returns it.
+     * I think I have a proof this approach constructs the set of n starting locations that
+     * maximises the minimum time to walk between every location for a tree graph, but since our
+     * maze has cycles, this is not guaranteed.
+     * @return The starting location grid cell
      */
     public GridPoint2 getNextStartLocation() {
 
@@ -164,9 +166,11 @@ public class Maze {
     }
 
     /**
-     * TODO: James can you fill this in thankss
-     * @param cell
-     * @param rand
+     * Implements the recursive backtracking maze generation algorithm.
+     * Recursively construct a maze by breaking walls to adjacent cells that
+     * have not yet been explored and backtracking when no such cell exists.
+     * @param cell Current cell
+     * @param rand The random source for shuffling dfs order.
      */
     private void recursiveBacktracking(GridPoint2 cell, Random rand) {
         List<GridPoint2> adjacent = getAdjacent(cell);
@@ -225,7 +229,7 @@ public class Maze {
         }
 
         /**
-         * get shorted path from initial grid cell to current
+         * Get the shortest path from initial grid cell to current
          * @param end the grid cell to search for
          * @return the shortest path
          */
@@ -239,8 +243,7 @@ public class Maze {
         }
 
         /**
-         * TODO: James can you fill this in
-         * @return
+         * @return The most distant grid cell from the set of start locations in the BFS
          */
         public GridPoint2 getMostDistant() {
             return mostDistant;

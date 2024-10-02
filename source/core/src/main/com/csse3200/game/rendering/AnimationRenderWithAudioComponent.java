@@ -39,6 +39,16 @@ public class AnimationRenderWithAudioComponent extends AnimationRenderComponent 
     soundAtFrames.get(animationName).put(index, sound);
   }
 
+  /**
+   * Start playback of an animation. The animation must have been added using addAnimation().
+   * @param name Name of the animation to play.
+   */
+  @Override
+  public void startAnimation(String name) {
+    lastIndex=-1;
+    super.startAnimation(name);
+  }
+
   @Override
   protected void draw(SpriteBatch batch) {
     super.draw(batch);

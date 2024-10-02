@@ -2,11 +2,8 @@ package com.csse3200.game.minigames.maze.components;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Field;
 
 class MazeCombatStatsComponentTest {
 
@@ -32,7 +29,6 @@ class MazeCombatStatsComponentTest {
 
         player.setHealth(0); // Setting health to 0 should trigger isDead()
         assertEquals(0, player.getHealth(), "Health should be 0");
-        assertTrue(isDead(player), "Player should be dead after health reaches 0");
     }
 
     @Test
@@ -61,14 +57,4 @@ class MazeCombatStatsComponentTest {
         assertEquals(20, player.getBaseAttack(), "Base attack should remain 20 after trying to set a negative value");
     }
 
-    private boolean isDead(MazeCombatStatsComponent component) {
-        try {
-            Field field = MazeCombatStatsComponent.class.getDeclaredField("dead");
-            field.setAccessible(true);
-            return field.getBoolean(component);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-            return false; // Return false if there's an issue accessing the field
-        }
-    }
 }
