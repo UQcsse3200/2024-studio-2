@@ -156,15 +156,9 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Opens the chatbot dialog in the center of the screen.
      */
-    /**
-     * Opens the chatbot dialog in the center of the screen.
-     */
-    /**
-     * Opens the chatbot dialog in the center of the screen.
-     */
     private void openChatbotDialog() {
         if (chatbotDialog != null && isChatbotDialogVisible) {
-            return; // If the dialog is already open, return
+            return;
         }
 
         chatbotDialog = new Dialog("Chatbot", skin) {
@@ -174,19 +168,15 @@ public class MainMenuDisplay extends UIComponent {
             }
         };
 
-        // Set the dialog size
-        float dialogWidth = 900;  // Increase width
-        float dialogHeight = 700; // Increase height
+        float dialogWidth = 900;
+        float dialogHeight = 700;
         chatbotDialog.setSize(dialogWidth, dialogHeight);
 
-        // Load a custom background texture for the dialog
-        Texture dialogBackgroundTexture = new Texture(Gdx.files.internal("images/SettingBackground.png")); // Your background image
+        Texture dialogBackgroundTexture = new Texture(Gdx.files.internal("images/SettingBackground.png"));
         Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(dialogBackgroundTexture));
 
-        // Set the custom background to the dialog and stretch it to fit the size
         chatbotDialog.setBackground(dialogBackground);
 
-        // Predefined questions
         Table questionTable = new Table();
         for (String question : predefinedQuestions) {
             TextButton questionButton = new TextButton(question, skin);
@@ -196,15 +186,13 @@ public class MainMenuDisplay extends UIComponent {
                     processChatInput(question);
                 }
             });
-            questionTable.add(questionButton).pad(10).row();  // Increased padding for better spacing
+            questionTable.add(questionButton).pad(10).row();
         }
 
-        // User input field for custom queries
         userInputField = new TextField("", skin);
         userInputField.setMessageText("Type your question...");
-        userInputField.setSize(600, 50); // Adjust size for better alignment
+        userInputField.setSize(600, 50);
 
-        // Button to submit custom input
         TextButton sendButton = new TextButton("Send", skin);
         sendButton.addListener(new ClickListener() {
             @Override
@@ -212,13 +200,11 @@ public class MainMenuDisplay extends UIComponent {
                 processChatInput(userInputField.getText());
             }
         });
-        sendButton.setSize(600, 50); // Adjust size to match input field width
+        sendButton.setSize(100, 50);
 
-        // Chatbot response label
         chatbotResponseLabel = new Label("", skin);
         chatbotResponseLabel.setWrap(true);
 
-        // Close button
         TextButton closeButton = new TextButton("Close", skin);
         closeButton.addListener(new ClickListener() {
             @Override
@@ -227,38 +213,22 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
-        // Layout the chatbot dialog with consistent padding and adjust widths
-        chatbotDialog.getContentTable().add(questionTable).pad(20).growX().row();  // Add question buttons with padding
-        chatbotDialog.getContentTable().add(userInputField).width(800).pad(20).row(); // Add input field with padding
-        chatbotDialog.getContentTable().add(sendButton).width(800).pad(20).row(); // Add send button with padding
-        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(800).pad(20).growX().row(); // Add response label
-        chatbotDialog.getButtonTable().add(closeButton).pad(20); // Add close button at the bottom with padding
+        chatbotDialog.getContentTable().add(questionTable).pad(10).growX().row();
+        chatbotDialog.getContentTable().add(userInputField).width(600).pad(10).row();
+        chatbotDialog.getContentTable().add(sendButton).width(100).pad(10).row();
+        chatbotDialog.getContentTable().add(chatbotResponseLabel).width(800).pad(10).growX().row();
+        chatbotDialog.getButtonTable().add(closeButton).pad(10);
+        chatbotDialog.show(stage);
 
-        chatbotDialog.show(stage);  // Show the dialog
-
-        // Center the dialog on the screen AFTER it is shown
-        centerDialogOnScreen();
-
-        isChatbotDialogVisible = true; // Set the flag to true when the dialog is shown
+        isChatbotDialogVisible = true;
     }
     /**
      * Closes the chatbot dialog.
      */
     private void closeChatbotDialog() {
         if (chatbotDialog != null && isChatbotDialogVisible) {
-            chatbotDialog.hide(); // Close the dialog
-            isChatbotDialogVisible = false; // Set the flag to false when the dialog is closed
-        }
-    }
-    /**
-     * Centers the chatbot dialog on the screen based on the current window size.
-     */
-    private void centerDialogOnScreen() {
-        if (chatbotDialog != null) {
-            chatbotDialog.setPosition(
-                    (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
-                    (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
-            );
+            chatbotDialog.hide();
+            isChatbotDialogVisible = false;
         }
     }
 
