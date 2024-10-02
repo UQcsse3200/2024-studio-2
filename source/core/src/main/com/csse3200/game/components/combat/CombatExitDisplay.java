@@ -56,7 +56,7 @@ public class CombatExitDisplay extends UIComponent {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
           if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
-            entity.getEvents().trigger("landBossDefeated");
+            entity.getEvents().trigger("landBossDefeated", enemy);
           } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
             entity.getEvents().trigger("waterBossDefeated");
           } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {

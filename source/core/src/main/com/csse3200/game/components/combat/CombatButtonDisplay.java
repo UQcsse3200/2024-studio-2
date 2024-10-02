@@ -48,8 +48,18 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
-        entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
-                displayEndCombatDialogue(enemy, winStatus));
+        entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
+        // Add a listener to the stage to monitor the DialogueBox visibility
+        dialogueBoxListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    addActors();
+                }
+            }
+        };
+        entity.getEvents().addListener("endOfLandBossCombatDialogue", this::displayLandBossEndCombatDialogue);
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -145,6 +155,9 @@ public class CombatButtonDisplay extends UIComponent {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
         ChangeListener endDialogueListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -160,6 +173,44 @@ public class CombatButtonDisplay extends UIComponent {
         stage.addListener(endDialogueListener);
         if (winStatus) {
             endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
+        } else {
+            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
+                    "before battling again."}};
+        }
+        ServiceLocator.getDialogueBoxService().updateText(endText);
+    }
+
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * with the land Kangaroo Boss
+     * @param bossEntity Entity of the boss enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
+    public void displayLandBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
+        String[][] endText;
+        stage.removeListener(dialogueBoxListener);
+
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                    entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+        if (winStatus) {
+            endText = new String[][]{{"*Kanga limps forward*..."
+                    ,"You may have defeated me *cough* "
+                    ,"The seas rage north from here... you won't last long!"
+                    ,"*DIES*"}};
         } else {
             endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
                     "before battling again."}};

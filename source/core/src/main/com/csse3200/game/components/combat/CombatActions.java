@@ -73,16 +73,6 @@ public class CombatActions extends Component {
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
     int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
     manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
-    // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
-
-
-//    if (previousScreen instanceof MainGameScreen mainGameScreen) {
-//      ForestGameArea gameArea = mainGameScreen.getGameArea();
-//      List<Entity> enemies = gameArea.getEnemies();
-//
-//      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
-//    }
-//    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
@@ -120,9 +110,19 @@ public class CombatActions extends Component {
   /**
    * TODO: Switches to the end game stats screen upon defeating the final Kanga Boss, and open up new area.
    */
-  private void onKangaDefeated() {
-    logger.info("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  private void onKangaDefeated(Entity enemy) {
+    logger.info("Switching back to main game after defeating kangaroo boss.");
+
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**
