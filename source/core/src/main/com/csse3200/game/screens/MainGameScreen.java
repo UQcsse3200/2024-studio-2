@@ -33,7 +33,7 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +91,8 @@ public class MainGameScreen extends PausableScreen {
   private Texture playerLocationTexture;
   private Texture landmarkIconTexture;
   private List<Vector2> landmarks;
-
+  private Texture xButtonTexture;
+  private Rectangle xButtonBounds;
   /**
    * Constructs a MainGameScreen instance.
    * 
@@ -124,6 +125,9 @@ public class MainGameScreen extends PausableScreen {
     landmarkIconTexture = new Texture(Gdx.files.internal("map/landmark_icon.png"));
     batch = new SpriteBatch();
     preloadLandmarks();
+    // Load the 'X' button texture and set up the bounds
+    xButtonTexture = new Texture(Gdx.files.internal("map/x_button.jpg"));
+    xButtonBounds = new Rectangle(Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50, 40, 40);
 
     loadAssets();
     createUI();
@@ -164,6 +168,16 @@ public class MainGameScreen extends PausableScreen {
           isMapVisible = !isMapVisible;
       }
 
+      // Check if the 'X' button is clicked while the map is visible
+      if (isMapVisible && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+          float mouseX = Gdx.input.getX();
+          float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+          if (xButtonBounds.contains(mouseX, mouseY)) {
+              isMapVisible = false; // Close the map
+          }
+      }
+
       if (!isPaused){
           physicsEngine.update();
           ServiceLocator.getEntityService().update();
@@ -198,6 +212,7 @@ public class MainGameScreen extends PausableScreen {
           batch.draw(landmarkIconTexture, mapPos.x, mapPos.y, 32, 32);
       }
 
+      batch.draw(xButtonTexture, Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50, 40, 40);
       batch.end();
   }
 
@@ -260,6 +275,7 @@ public class MainGameScreen extends PausableScreen {
       mapTexture.dispose();
       playerLocationTexture.dispose();
       landmarkIconTexture.dispose();
+      xButtonTexture.dispose();
       unloadAssets();
       
       ServiceLocator.getEntityService().dispose();
