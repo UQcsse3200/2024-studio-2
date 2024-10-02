@@ -1,7 +1,6 @@
 package com.csse3200.game.components.quests;
 
 import java.util.List;
-import java.util.Map;
 
 /** A basic Quest class that stores quest and subtask progression (# of
  * subtasks completed), descriptions and hints. **/

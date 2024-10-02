@@ -2,10 +2,7 @@ package com.csse3200.game.components.quests;
 
 import com.csse3200.game.entities.Entity;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /** An abstract Quest class that contains the design for Quest classes that store quest
  *  and subtask progression (# of subtasks completed), descriptions and hints. **/
