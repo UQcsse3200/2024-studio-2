@@ -152,7 +152,7 @@ public class ProjectileFactory {
                     ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
 
-    Entity hive = createBaseProjectile(target, config, 0.5f, animator, new HiveAnimationController());
+    Entity hive = createBaseProjectile(target, config, 2f, animator, new HiveAnimationController());
 
     hive.getComponent(AITaskComponent.class).addTask(new HiveTask(target));
     hive.setEnemyType(Entity.EnemyType.HIVE);
