@@ -113,7 +113,9 @@ public class PauseTask extends ChaseTask {
         if (this.config != null) {
             String eventName = String.format("PauseEnd%s", (config).getAnimalName());
             entity.getEvents().trigger(eventName);
-            this.target.getEvents().trigger(this.taskName);
+            if (this.taskName.equals("talkToGuide") || this.taskName.equals("talkToWaterSage") || this.taskName.equals("talkToCloudSage")) {
+                this.target.getEvents().trigger(this.taskName);
+            }
             this.taskName = "";
         } else {
             entity.getEvents().trigger("pauseEnd");
