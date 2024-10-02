@@ -48,6 +48,9 @@ public class Entity {
     FROG,
     BEAR,
     JOEY,
+    MAZE_ANGLER,
+    MAZE_EEL,
+    MAZE_JELLYFISH
   }
 
 
