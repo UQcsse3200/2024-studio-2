@@ -301,7 +301,7 @@ public class CombatManager extends Component {
                 this.getEntity().getEvents().trigger("combatLoss");
                 //Clear inventory/other normal death events
             }
-//            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
+            // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         } else if (enemyStats.getHealth() <= 0) {
             if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO){
                 this.getEntity().getEvents().trigger("landBossDefeated");
@@ -312,7 +312,7 @@ public class CombatManager extends Component {
             } else {
                 this.getEntity().getEvents().trigger("combatWin", enemy);
             }
-//            nullifyCombatDialogueListener(); // remove the listener added for animation syncing
+            // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         }
     }
 
