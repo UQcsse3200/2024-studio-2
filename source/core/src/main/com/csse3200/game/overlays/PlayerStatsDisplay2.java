@@ -5,11 +5,6 @@ import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.stats.Stat;
-import com.csse3200.game.components.stats.StatManager;
-import com.csse3200.game.components.quests.QuestManager;
-import com.csse3200.game.components.quests.QuestPopup;
-import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -52,17 +47,19 @@ public class PlayerStatsDisplay2 extends UIComponent {
             addStatRow(table, "Strength", stats.getStrength());
             addStatRow(table, "Defense", stats.getDefense());
             addStatRow(table, "Speed", stats.getSpeed());
-            addStatRow(table, "Experience", stats.getExperience());
+            addStatRow(table, "Experience", stats.getExperience(), stats.getMaxExperience()); // Show experience as current/max
+            addStatRow(table, "Level", stats.getLevel(), 10); // Show level as current/10
         }
 
         return table;
     }
 
+
     private void addStatRow(Table table, String name, int value, int maxValue) {
         Label nameLabel = new Label(name, skin, "default");
         Label valueLabel = new Label(value + "/" + maxValue, skin, "default");
         table.add(nameLabel).expandX().left();
-        table.add(valueLabel).expandX().right();
+        table.add(valueLabel).expandX().right().padLeft(25f);
         table.row().padTop(5f);
     }
 
@@ -70,7 +67,15 @@ public class PlayerStatsDisplay2 extends UIComponent {
         Label nameLabel = new Label(name, skin, "default");
         Label valueLabel = new Label(String.valueOf(value), skin, "default");
         table.add(nameLabel).expandX().left();
-        table.add(valueLabel).expandX().right();
+        table.add(valueLabel).expandX().right().padLeft(25f);
+        table.row().padTop(5f);
+    }
+
+    private void addStatRow(Table table, String name, float value) {
+        Label nameLabel = new Label(name, skin, "default");
+        Label valueLabel = new Label(String.valueOf(value), skin, "default");
+        table.add(nameLabel).expandX().left();
+        table.add(valueLabel).expandX().right().padLeft(25f);
         table.row().padTop(5f);
     }
 
@@ -100,8 +105,6 @@ public class PlayerStatsDisplay2 extends UIComponent {
                 ServiceLocator.getResourceService()
                         .getAsset("images/QuestsOverlay/Quest_SBG.png", Texture.class));
 
-
-
         // Create the title and description labels
         Label title = new Label("PLAYER STATS", skin, "title");
         title.setColor(Color.RED);
@@ -112,28 +115,37 @@ public class PlayerStatsDisplay2 extends UIComponent {
 
         // Create the background table and set the background image
         backgroundTable = new Table();
-        backgroundTable.setSize(600, 800);
-        backgroundTable.setPosition(660, 140);
+        backgroundTable.setFillParent(true);
         backgroundTable.add(statsBackground).expand().fill();
+        backgroundTable.center();
+
         stage.addActor(backgroundTable);
 
         // Create the stats and menu tables
         Table statsTable = makeStatsTable();
         Table menuBtns = makeMenuBtns();
 
+        // Create a content table to hold all elements
+        Table contentTable = new Table();
+        contentTable.setSize(300, 100); // Set the size of the content table
+        contentTable.center(); // Center the content table
+
+        // Add components to the content table
+        contentTable.add(title).padTop(10f).colspan(2).center(); // Title at the top
+        contentTable.row().padTop(10f);
+        contentTable.add(playerSprite).left().padTop(20f).padLeft(20f);
+        contentTable.add(description).left().padTop(20f).padLeft(10f);
+        contentTable.row().padTop(10f);
+        contentTable.add(statsTable).padBottom(10f).padTop(10f).colspan(2);
+        contentTable.row();
+        contentTable.add(menuBtns).center().padTop(10f).colspan(2); // Center menu buttons
+
+        // Create the root table
         rootTable = new Table();
-        rootTable.setSize(backgroundTable.getWidth(), backgroundTable.getHeight());
-        rootTable.setFillParent(true);
+        rootTable.setFillParent(true); // Make the rootTable fill the stage
+        rootTable.add(contentTable).expand().center(); // Center contentTable in rootTable
 
-        // Add components to the root table
-        rootTable.add(playerSprite).left().padTop(20f).padLeft(20f);
-        rootTable.add(description).left().padTop(20f).padLeft(10f);
-        rootTable.row().padTop(10f);
-        rootTable.add(statsTable).padBottom(10f).padTop(10f).colspan(2);
-        rootTable.row();
-        rootTable.add(menuBtns).center().padTop(10f);
-
-        // Add the root table to the stage
+        // Finally, add the root table to the stage
         stage.addActor(rootTable);
     }
 

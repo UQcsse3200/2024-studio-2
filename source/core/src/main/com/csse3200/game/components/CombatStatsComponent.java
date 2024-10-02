@@ -29,6 +29,8 @@ public class CombatStatsComponent extends Component {
   private int speed;
   private int experience;
   private int stamina;
+  private int level;
+  private final int maxLevel;
   private final int maxStamina;
   private final int maxHunger;
   private int maxExperience;
@@ -48,13 +50,14 @@ public class CombatStatsComponent extends Component {
    * @param stamina Initial stamina value
    * @param isPlayer Boolean indicating if this entity is the player
    */
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
-    this.maxExperience=100;
+    this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     this.maxStamina = stamina;
     this.isPlayer = isPlayer;
     this.isBoss = isBoss;
+    this.maxLevel = 10;
     setHealth(health);
     setHunger(hunger);
     setStrength(strength);
@@ -270,17 +273,19 @@ public class CombatStatsComponent extends Component {
   public void setExperience(int experience) {
     this.experience = Math.max(0, experience);
 
-    if (this.experience >= this.maxExperience && isPlayer) {
+    if (this.experience >= this.maxExperience && isPlayer && (this.level < this.maxLevel)) {
       int experienceDiff = this.experience - this.maxExperience;
-      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+
       setExperience(experienceDiff);
 
-      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
-      this.maxHealth += healthDiff;
-      addHealth(healthDiff);
-      addStrength((int) Math.ceil(this.strength * 0.02));
-      addDefense((int) Math.ceil(this.defense * 0.02));
-      addSpeed((int) Math.ceil(this.speed * 0.02));
+
+      this.maxHealth += 1;
+      addHealth(1);
+      addStrength(1);
+      addDefense(1);
+      addSpeed(1);
+      addLevel(1);
+      this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     }
 
     if (this.experience >= this.maxExperience && !isPlayer) {
@@ -333,7 +338,7 @@ public class CombatStatsComponent extends Component {
    * @return entity's max experience
    */
   public int getMaxExperience() {
-    return maxExperience;
+    return this.maxExperience;
   }
 
   /**
@@ -370,6 +375,31 @@ public class CombatStatsComponent extends Component {
    */
   public int getMaxStamina() {
     return maxStamina;
+  }
+
+  /**
+   * Returns the entity's level.
+   *
+   * @return entity's level
+   */
+  public int getLevel(){ return level; }
+
+  /**
+   * Sets the entity's level.
+   *
+   * @param level sets entity's level
+   */
+  public void setLevel(int level){
+    this.level = level;
+  }
+
+  /**
+   * Add int to entity's level
+   *
+   * @param level adds int to the current level
+   */
+  public void addLevel(int level){
+    setLevel(this.level + level);
   }
 
   /**

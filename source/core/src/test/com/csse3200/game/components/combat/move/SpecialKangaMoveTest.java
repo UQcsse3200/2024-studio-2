@@ -3,9 +3,11 @@ package com.csse3200.game.components.combat.move;
 import com.csse3200.game.components.CombatStatsComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the SpecialKangaMove class.
@@ -32,24 +34,33 @@ class SpecialKangaMoveTest {
     }
 
     /**
-     * Test to verify that the applyDebuffs method correctly applies the CONFUSION
-     * and BLEEDING status effects to the target.
+     * Test to verify that the applyDebuffs method correctly applies the debuff to the target
+     * by reducing strength and defense, and applies a random status effect.
      */
-    //@Test
+    @Test
     void testApplyDebuffs() {
         // Act: Apply the debuffs to the target stats.
         specialKangaMove.applyDebuffs(mockTargetStats);
 
-        // Assert: Verify that CONFUSED and BLEEDING status effects are added to the target.
-        verify(mockTargetStats).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
-        verify(mockTargetStats).addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
+        // Assert: Verify that the target's strength and defense are decreased.
+        verify(mockTargetStats).addStrength(-15);
+        verify(mockTargetStats).addDefense(-15);
+
+        // Capture the added status effect (CONFUSED or BLEEDING).
+        ArgumentCaptor<CombatStatsComponent.StatusEffect> statusCaptor = ArgumentCaptor.forClass(CombatStatsComponent.StatusEffect.class);
+        verify(mockTargetStats).addStatusEffect(statusCaptor.capture());
+
+        CombatStatsComponent.StatusEffect appliedEffect = statusCaptor.getValue();
+        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSED ||
+                        appliedEffect == CombatStatsComponent.StatusEffect.BLEEDING,
+                "Random status effect should be CONFUSED or BLEEDING.");
     }
 
     /**
      * Test to verify that the applyBuffs method correctly buffs Kanga's strength
      * and defense by the expected amounts.
      */
-    //@Test
+    @Test
     void testApplyBuffs() {
         // Act: Apply the buffs to the attacker's stats.
         specialKangaMove.applyBuffs(mockAttackerStats);
@@ -63,24 +74,27 @@ class SpecialKangaMoveTest {
      * Test to ensure that the logger outputs the correct message when applyDebuffs is called.
      * We can test the side effects (logging) of the method using Mockito's verification features.
      */
-    //@Test
+    @Test
     void testApplyDebuffsLogsCorrectMessage() {
         // Act: Apply the debuffs to trigger the logger.
         specialKangaMove.applyDebuffs(mockTargetStats);
 
-        // Assert: Verify that the logger logs the correct message for debuffs.
-        // Since logger is a static field, we'd normally need to mock or spy on it, but
-        // here we assume it's just outputting the message and focus on behaviour verification.
-        verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED);
-        verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
+        // Since logger is static and logs to output, here we focus on behaviour verification (mock calls).
+        verify(mockTargetStats).addStrength(-15);
+        verify(mockTargetStats).addDefense(-15);
+        verify(mockTargetStats, times(1)).addStatusEffect(any(CombatStatsComponent.StatusEffect.class));
     }
 
     /**
      * Test to ensure that the logger outputs the correct message when applyBuffs is called.
      * Again, this is focused on verifying behaviour and state, not direct logging output.
      */
-    //@Test
+    @Test
     void testApplyBuffsLogsCorrectMessage() {
+        // Set up mock stats to return specific values.
+        when(mockAttackerStats.getStrength()).thenReturn(30);
+        when(mockAttackerStats.getDefense()).thenReturn(20);
+
         // Act: Apply the buffs to trigger the logger.
         specialKangaMove.applyBuffs(mockAttackerStats);
 

@@ -1,5 +1,7 @@
 package com.csse3200.game.entities.configs;
 
+import com.csse3200.game.inventory.items.food.AbstractFood;
+
 import java.util.Map;
 
 /**
@@ -13,6 +15,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int speed = 1;
     private int experience = 100;
     private int stamina = 100;
+    private int level = 1;
     private Boolean isBoss = false;
     public Map<Integer, String[]> hints;
     public int hintLevel = 0;
@@ -23,6 +26,8 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     protected String spritePath;
     protected final float animationSpeed = 0.1f;
     protected String[] soundPath;
+    public float itemProbability = 0;
+    public String foodItem;
 
     protected BaseFriendlyEntityConfig() {}
 
@@ -192,16 +197,25 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public int getExperience() {
         return experience;
     }
-    public Boolean isBoss() {
-        return isBoss;
-    }
-
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    // Getter for item drop probability
+    public float getItemProbability() {
+        return itemProbability;
+    }
+
+    public Boolean isBoss() {
+        return isBoss;
     }
 
     // Getter and setter for stamina.
     public int getStamina() { return stamina; }
 
     public void setStamina(int stamina) { this.stamina = stamina; }
+
+    public int getLevel() { return level; }
+
+    public void setLevel(int level) { this.level = level; }
 }

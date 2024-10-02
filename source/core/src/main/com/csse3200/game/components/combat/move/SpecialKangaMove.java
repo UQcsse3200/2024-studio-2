@@ -25,16 +25,20 @@ public class SpecialKangaMove extends SpecialMove {
     /**
      * Applies a random status effect to the target player after the move is executed
      *
+     * Also apply debuff which decreases Player's strength by 15 and defense by 10.
+     *
      * @param targetStats combat stats of the target (player) that will be affected by the debuffs.
      */
     @Override
     protected void applyDebuffs(CombatStatsComponent targetStats) {
-        int rand = (int) (Math.random() * 4);
+        // Applies debuffs to target's stats
+        targetStats.addStrength(-15);
+        targetStats.addDefense(-15);
+
+        int rand = (int) (Math.random() * 2);
         CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
             case 0 -> CombatStatsComponent.StatusEffect.CONFUSED;
             case 1 -> CombatStatsComponent.StatusEffect.BLEEDING;
-            case 2 -> CombatStatsComponent.StatusEffect.POISONED;
-            case 3 -> CombatStatsComponent.StatusEffect.SHOCKED;
             default -> throw new IllegalStateException("Unexpected value: " + rand);
         };
         targetStats.addStatusEffect(statusEffect);
@@ -44,7 +48,7 @@ public class SpecialKangaMove extends SpecialMove {
     /**
      * Buffs Kanga's strength and defense stats after the special move.
      *
-     * This method increases Kanga's strength by 15 and defense by 10, making Kanga stronger and more resilient.
+     * This method increases Kanga's strength by 15 and defense by 10.
      *
      * @param attackerStats combat stats of Kanga, who is performing the special move.
      */

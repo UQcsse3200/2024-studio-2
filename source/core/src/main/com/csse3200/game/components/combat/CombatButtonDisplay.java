@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -20,8 +22,8 @@ public class CombatButtonDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
     private static final float Z_INDEX = 1f;
     private Table table;
-    private Screen screen;
-    private ServiceContainer container;
+    private final Screen screen;
+    private final ServiceContainer container;
     TextButton AttackButton;
     TextButton GuardButton;
     TextButton SleepButton;
@@ -43,9 +45,10 @@ public class CombatButtonDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        logger.info("CombatButtonDisplay::Create() , before calling addActors");
+        logger.debug("CombatButtonDisplay::Create() , before calling addActors");
         addActors();
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
+        entity.getEvents().addListener("itemClicked", this::onItemClicked);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", (Entity enemy, Boolean winStatus) ->
@@ -55,12 +58,11 @@ public class CombatButtonDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    logger.debug("DialogueBox is no longer visible, adding actors back.");
                     addActors();
                 }
             }
         };
-
         stage.addListener(dialogueBoxListener);
     }
 
@@ -104,6 +106,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        hideButtons();
                     }
                 });
 
@@ -118,21 +121,10 @@ public class CombatButtonDisplay extends UIComponent {
     }
 
     /**
-     * A function to be implemented in further sprints to deactivate buttons when combat dialog appears
-     * @param iHealthCheck an integer representing the health of the entity
-     * @param AttackStatus a boolean stating if the current entity has attacked
-     * @param GuardStatus  a boolean stating if the current entity has guarded
-     */
-    private void ChangeActors(int iHealthCheck, boolean AttackStatus, boolean GuardStatus) {
-        logger.info("CombatButtonDisplay::ChangeActors::entering");
-        //Button enabling status logic
-    }
-
-    /**
      * Hides the buttons on the combat screen
      */
     public void hideButtons() {
-        logger.info(String.format("The dialog box is present in CombatButDispl: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
+        logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
         table.remove();
     }
 
@@ -150,7 +142,7 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 // Check if the DialogueBox is not visible
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                    logger.debug("DialogueBox is no longer visible, combat screen can be exited.");
                     entity.getEvents().trigger("finishedEndCombatDialogue", enemyEntity);
                 }
             }
@@ -165,6 +157,21 @@ public class CombatButtonDisplay extends UIComponent {
                     "before battling again."}};
         }
         ServiceLocator.getDialogueBoxService().updateText(endText);
+    }
+
+    /**
+     * Handles when an item is selected in the CombatInventoryDisplay.
+     * Prompts the user if they would like to confirm their choice, then upon confirmation uses the item.
+     * If the user does not confirm that they would like to use the item, nothing happens.
+     * @param item selected from the inventory.
+     */
+    private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
+        logger.debug(String.format("Item %s was clicked.", item.getName()));
+        String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
+        ServiceLocator.getDialogueBoxService().updateText(checkText);
+
+        entity.getEvents().trigger("toggleCombatInventory");
+        entity.getEvents().trigger("itemConfirmed", item, index, context);
     }
 
     @Override

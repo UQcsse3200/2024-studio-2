@@ -7,11 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigames.Direction;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
-import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.snake.controller.KeyboardSnakeInputComponent;
+import com.csse3200.game.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,11 @@ import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.minigames.snake.SnakeGame;
+import com.csse3200.game.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.csse3200.game.components.minigames.MiniGameNames;
+import com.csse3200.game.minigames.MiniGameNames;
+
+import static com.csse3200.game.minigames.snake.AssetPaths.SOUNDS;
 
 /**
  * Represents the screen for the Snake game.
@@ -82,6 +85,12 @@ public class SnakeScreen extends PausableScreen {
         logger.debug("Initialising snake minigame entities");
         this.snakeGame = new SnakeGame();
         this.snakeRenderer = new SnakeGameRenderer(snakeGame);
+
+        // ensure sounds are loaded
+        ServiceLocator.getResourceService().loadSounds(SOUNDS);
+        ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/snake-bg.mp3"});
+        ServiceLocator.getResourceService().loadAll();
+        AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
         setupExitButton();
         createUI();

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.Inventory;
@@ -85,15 +86,15 @@ class StatTest {
     }
 
     @Test
-    void shouldSaveLoadInventoryContents() {
+    void shouldSaveLoadStats() {
 
         GameState.stats.stats.add(stat);
 
-        SaveHandler.save(GameState.class, "test/saves/stats");
+        SaveHandler.save(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         GameState.stats.stats = new Array<>();
 
-        SaveHandler.load(GameState.class, "test/saves/stats");
+        SaveHandler.load(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         assertEquals("ApplesCollected", GameState.stats.stats.get(0).getStatName());
         assertEquals(10, GameState.stats.stats.get(0).getStatMax());
@@ -101,7 +102,7 @@ class StatTest {
 
         GameState.stats.stats = new Array<>();
 
-        SaveHandler.delete(GameState.class, "test/saves/stats");
+        SaveHandler.delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
     }
 
 //    @Test
