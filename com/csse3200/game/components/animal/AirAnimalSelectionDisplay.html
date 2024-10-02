@@ -85,15 +85,14 @@ loadScripts(document, 'script');</script>
 <h1 title="Class AirAnimalSelectionDisplay" class="title">Class AirAnimalSelectionDisplay</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">com.csse3200.game.components.animal.AnimalSelectionDisplay</a>
+<div class="inheritance"><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">com.csse3200.game.components.animal.AnimalRouletteDisplay1</a>
 <div class="inheritance">com.csse3200.game.components.animal.AirAnimalSelectionDisplay</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AirAnimalSelectionDisplay</span>
-<span class="extends-implements">extends <a href="AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AnimalSelectionDisplay</a></span></div>
-<div class="block">Class representing the air animal selection screen.</div>
+<span class="extends-implements">extends <a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -122,22 +121,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.TextButton[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalButtons()" class="member-name-link">getAnimalButtons</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalDescription(int)" class="member-name-link">getAnimalDescription</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalImagePaths()" class="member-name-link">getAnimalImagePaths</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Abstract method to provide the animal image paths for the screen.</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Image[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalImages()" class="member-name-link">getAnimalImages</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAnimalType(int)" class="member-name-link">getAnimalType</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBackgroundImagePath()" class="member-name-link">getBackgroundImagePath</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Abstract method that must be implemented to provide the background image path for the screen.</div>
-</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-com.csse3200.game.components.animal.AnimalSelectionDisplay">Methods inherited from class&nbsp;com.csse3200.game.components.animal.<a href="AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AnimalSelectionDisplay</a></h3>
-<code><a href="AnimalSelectionDisplay.html#getAnimalButtons()">getAnimalButtons</a>, <a href="AnimalSelectionDisplay.html#getAnimalImages()">getAnimalImages</a>, <a href="AnimalSelectionDisplay.html#getBackButton()">getBackButton</a>, <a href="AnimalSelectionDisplay.html#getSelectButton()">getSelectButton</a>, <a href="AnimalSelectionDisplay.html#getSkin()">getSkin</a>, <a href="AnimalSelectionDisplay.html#getStage()">getStage</a></code></div>
+<h3 id="methods-inherited-from-class-com.csse3200.game.components.animal.AnimalRouletteDisplay1">Methods inherited from class&nbsp;com.csse3200.game.components.animal.<a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></h3>
+<code><a href="AnimalRouletteDisplay1.html#getAnimalImage()">getAnimalImage</a>, <a href="AnimalRouletteDisplay1.html#getBackButton()">getBackButton</a>, <a href="AnimalRouletteDisplay1.html#getLeftButton()">getLeftButton</a>, <a href="AnimalRouletteDisplay1.html#getRightButton()">getRightButton</a>, <a href="AnimalRouletteDisplay1.html#getSelectButton()">getSelectButton</a>, <a href="AnimalRouletteDisplay1.html#getSkin()">getSkin</a>, <a href="AnimalRouletteDisplay1.html#getStage()">getStage</a>, <a href="AnimalRouletteDisplay1.html#updateAnimalImage(java.lang.String)">updateAnimalImage</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -171,27 +178,59 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getBackgroundImagePath()">
 <h3>getBackgroundImagePath</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getBackgroundImagePath</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="AnimalSelectionDisplay.html#getBackgroundImagePath()">AnimalSelectionDisplay</a></code></span></div>
-<div class="block">Abstract method that must be implemented to provide the background image path for the screen.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="AnimalSelectionDisplay.html#getBackgroundImagePath()">getBackgroundImagePath</a></code>&nbsp;in class&nbsp;<code><a href="AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AnimalSelectionDisplay</a></code></dd>
-<dt>Returns:</dt>
-<dd>The background image path.</dd>
+<dd><code><a href="AnimalRouletteDisplay1.html#getBackgroundImagePath()">getBackgroundImagePath</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getAnimalImagePaths()">
 <h3>getAnimalImagePaths</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getAnimalImagePaths</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="AnimalSelectionDisplay.html#getAnimalImagePaths()">AnimalSelectionDisplay</a></code></span></div>
-<div class="block">Abstract method to provide the animal image paths for the screen.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">getAnimalImagePaths</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="AnimalSelectionDisplay.html#getAnimalImagePaths()">getAnimalImagePaths</a></code>&nbsp;in class&nbsp;<code><a href="AnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">AnimalSelectionDisplay</a></code></dd>
-<dt>Returns:</dt>
-<dd>Array of animal image paths.</dd>
+<dd><code><a href="AnimalRouletteDisplay1.html#getAnimalImagePaths()">getAnimalImagePaths</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAnimalDescription(int)">
+<h3>getAnimalDescription</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAnimalDescription</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="AnimalRouletteDisplay1.html#getAnimalDescription(int)">getAnimalDescription</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAnimalType(int)">
+<h3>getAnimalType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAnimalType</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="AnimalRouletteDisplay1.html#getAnimalType(int)">getAnimalType</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAnimalImages()">
+<h3>getAnimalImages</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Image[]</span>&nbsp;<span class="element-name">getAnimalImages</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="AnimalRouletteDisplay1.html#getAnimalImages()">getAnimalImages</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAnimalButtons()">
+<h3>getAnimalButtons</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.TextButton[]</span>&nbsp;<span class="element-name">getAnimalButtons</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="AnimalRouletteDisplay1.html#getAnimalButtons()">getAnimalButtons</a></code>&nbsp;in class&nbsp;<code><a href="AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></code></dd>
 </dl>
 </section>
 </li>
