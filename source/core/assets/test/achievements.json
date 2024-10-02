@@ -181,6 +181,24 @@
 }
 {
 	class: com.csse3200.game.components.quests.Achievement
+	questName: WATER_BOSS
+	questDescription: Defeat the FIERCE LEVIATHAN!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/water_boss_idle.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
+	questName: AIR_BOSS
+	questDescription: Defeat the ILLUSTRIOUS GRYPHON!
+	completed: false
+	seen: false
+	type: ENEMY
+	iconPath: images/air_boss_idle.png
+}
+{
+	class: com.csse3200.game.components.quests.Achievement
 	questName: New Quest
 	questDescription: A new quest description
 	completed: false
