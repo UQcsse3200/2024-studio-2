@@ -58,7 +58,7 @@ public class CombatManager extends Component {
 
 
     // HashMap stores information on enemies when attack
-    static Map<String,ArrayList> EnemyMoveStore;
+    private static Map<String,ArrayList> EnemyMoveStore;
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -83,7 +83,6 @@ public class CombatManager extends Component {
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
 
         this.moveChangedByConfusion = false;
-       // enemies = new HashMap<String,Entity>();
         EnemyMoveStore = new LinkedHashMap<>();
     }
 
@@ -293,10 +292,10 @@ public class CombatManager extends Component {
         boolean NoSpecialMoveComboFlag= false;
         ArrayList itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
         logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()) {
-
-    logger.info("Map<String,ArrayList> ::  " +entry.getKey()+ " :: "+entry.getValue() );
-}
+        for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet())
+        {
+            logger.info("Map<String,ArrayList> ::  " +entry.getKey()+ " :: "+entry.getValue() );
+        }
         String enemyMoves = "";
 
         // compare enemy move seq to last 3 enemy moves)
