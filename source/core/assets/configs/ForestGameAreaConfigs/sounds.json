@@ -20,6 +20,9 @@
   "characterSounds" : [
     "sounds/animal/panting.mp3",
     "sounds/animal/bark.mp3",
-    "sounds/animal/catgrowl.mp3"
+    "sounds/animal/catgrowl.mp3",
+    "sounds/animal/birdscreech.mp3",
+    "sounds/animal/flap.mp3",
+    "sounds/animal/waterwhoosh.mp3"
   ]
 }

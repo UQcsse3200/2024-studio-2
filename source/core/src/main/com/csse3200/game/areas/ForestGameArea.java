@@ -64,6 +64,8 @@ public class ForestGameArea extends GameArea {
 
   // Boolean to ensure that only a single boss entity is spawned when a trigger happens
   private boolean kangarooBossSpawned = false;
+  private boolean waterBossSpawned = false;
+  private boolean airBossSpawned = false;
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -115,7 +117,12 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
+
       player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
+      // TODO: change to correct listener eventName string
+      player.getEvents().addListener("spawnKangaBoss", this::spawnWaterBoss);
+      player.getEvents().addListener("spawnKangaBoss", this::spawnAirBoss);
+
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       player.getEvents().addListener("unlockArea", this::unlockArea);
       kangarooBossSpawned = false;
@@ -310,65 +317,87 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-    private void spawnKangarooBoss() {
-        if (!kangarooBossSpawned) {
-            Entity kangarooBoss = EnemyFactory.createKangaBossEntity(player);
-            spawnEntityOnMap(kangarooBoss);
-            kangarooBossSpawned = true;
-        }
+  private void spawnKangarooBoss() {
+      if (!kangarooBossSpawned) {
+          Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
+          kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+          spawnEntityOnMap(kangarooBoss);
+          enemies.add(kangarooBoss);
+          kangarooBossSpawned = true;
+      }
+  }
+
+  private void spawnWaterBoss() {
+    if (!waterBossSpawned) {
+      Entity waterBoss = BossFactory.createWaterBossEntity(player);
+      waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
+      spawnEntityOnMap(waterBoss);
+      enemies.add(waterBoss);
+      waterBossSpawned = true;
     }
-    
-    private void spawnEntityOnMap(Entity entity) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-        spawnEntityAt(entity, randomPos, true, true);
+  }
+
+  private void spawnAirBoss() {
+    if (!airBossSpawned) {
+      Entity airBoss = BossFactory.createAirBossEntity(player);
+      airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
+      spawnEntityOnMap(airBoss);
+      enemies.add(airBoss);
+      airBossSpawned = true;
     }
-    
-    /**
-     * Spawns an entity near the player within a specified radius, ensuring the entity
-     * is placed within the correct chunk boundaries and loaded areas of the game map.
-     *
-     * This function calculates a valid spawn position near the player's current location,
-     * considering the player's world position and current chunk. It ensures that the entity
-     * is spawned within the boundaries of the current chunk to avoid positioning the entity
-     * in an unloaded or inaccessible area.
-     *
-     * @param entity The entity to be spawned near the player.
-     * @param radius The radius around the player's position within which the entity will be spawned.
-     *               The spawn position is randomly selected within this radius but is constrained
-     *               to be within the current chunk boundaries.
-     *
-     */
-    private void spawnEntityNearPlayer(Entity entity, int radius) {
-        // Get the player's current position in the world
-        Vector2 playerWorldPos = player.getPosition();
-        
-        // Convert player's position to chunk coordinates
-        GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
-        
-        // Calculate potential spawn positions within the specified radius
-        GridPoint2 minPos = new GridPoint2(
-                Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
-                Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
-        );
-        
-        GridPoint2 maxPos = new GridPoint2(
-                Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
-                Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
-        );
-        
-        // Randomly select a position within the radius
-        GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
-        
-        // Spawn the entity at the calculated position
-        spawnEntityAt(entity, spawnPos, true, true);
-        logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
-                entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
-    }
-    
-    private void spawnItems(GridPoint2 pos) {
-        Supplier<Entity> generator;
+  }
+
+  private void spawnEntityOnMap(Entity entity) {
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    spawnEntityAt(entity, randomPos, true, true);
+  }
+
+/**
+ * Spawns an entity near the player within a specified radius, ensuring the entity
+ * is placed within the correct chunk boundaries and loaded areas of the game map.
+ *
+ * This function calculates a valid spawn position near the player's current location,
+ * considering the player's world position and current chunk. It ensures that the entity
+ * is spawned within the boundaries of the current chunk to avoid positioning the entity
+ * in an unloaded or inaccessible area.
+ *
+ * @param entity The entity to be spawned near the player.
+ * @param radius The radius around the player's position within which the entity will be spawned.
+ *               The spawn position is randomly selected within this radius but is constrained
+ *               to be within the current chunk boundaries.
+ *
+ */
+private void spawnEntityNearPlayer(Entity entity, int radius) {
+    // Get the player's current position in the world
+    Vector2 playerWorldPos = player.getPosition();
+
+    // Convert player's position to chunk coordinates
+    GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
+
+    // Calculate potential spawn positions within the specified radius
+    GridPoint2 minPos = new GridPoint2(
+            Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
+            Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
+    );
+
+    GridPoint2 maxPos = new GridPoint2(
+            Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
+            Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
+    );
+
+    // Randomly select a position within the radius
+    GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+    // Spawn the entity at the calculated position
+    spawnEntityAt(entity, spawnPos, true, true);
+    logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+            entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
+  }
+
+  private void spawnItems(GridPoint2 pos) {
+    Supplier<Entity> generator;
 
         // Health Potions
         generator = () -> ItemFactory.createHealthPotion(player);
@@ -575,6 +604,49 @@ public class ForestGameArea extends GameArea {
         
         //spawns
         spawnEntityAtVector(projectile, pos);
+    }
+    
+    private void spawnJoeyEnemy(Entity kanga) {
+        if (kanga != null) {
+            Entity joey = EnemyFactory.createJoey(player);
+            
+            Vector2 kangarooBossPos = kanga.getPosition();
+            
+            // Define the area around the Kangaroo boss where the Joey can be spawned
+            GridPoint2 minPos = new GridPoint2((int) kangarooBossPos.x - 2, (int) kangarooBossPos.y - 2);
+            GridPoint2 maxPos = new GridPoint2((int) kangarooBossPos.x + 2, (int) kangarooBossPos.y + 2);
+            
+            GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+            
+            spawnEntityAt(joey, spawnPos, true, false);
+            enemies.add(joey);
+        }
+    }
+    
+    private void spawnWaterSpiral(Entity boss) {
+        if (boss != null) {
+            Entity waterSpiral = ProjectileFactory.createWaterSpiral(player);
+            
+            float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+            float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+            
+            Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+            
+            spawnEntityAtVector(waterSpiral, pos);
+        }
+    }
+    
+    private void spawnWindGust(Entity boss) {
+        if (boss != null) {
+            Entity windGust = ProjectileFactory.createWindGust(player);
+            
+            float posX = (boss.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+            float posY = (boss.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+            
+            Vector2 pos = new Vector2(boss.getPosition().x + posX, boss.getPosition().y + posY);
+            
+            spawnEntityAtVector(windGust, pos);
+        }
     }
     
     /**

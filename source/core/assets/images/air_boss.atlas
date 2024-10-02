@@ -1,0 +1,82 @@
+air_boss.png
+size: 730, 324
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 0
+wander
+  rotate: false
+  xy: 0, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 0
+wander
+  rotate: false
+  xy: 146, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 1
+wander
+  rotate: false
+  xy: 292, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 2
+wander
+  rotate: false
+  xy: 438, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 3
+wander
+  rotate: false
+  xy: 584, 0
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 4
+chase
+  rotate: false
+  xy: 0, 162
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 0
+chase
+  rotate: false
+  xy: 146, 162
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 1
+chase
+  rotate: false
+  xy: 292, 162
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 2
+chase
+  rotate: false
+  xy: 438, 162
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 3
+chase
+  rotate: false
+  xy: 584, 162
+  size: 146, 162
+  orig: 146, 162
+  offset: 0, 0
+  index: 4

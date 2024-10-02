@@ -41,6 +41,8 @@ public class Entity {
   private EnemyType enemyType;
   public enum EnemyType {
     KANGAROO,
+    WATER_BOSS,
+    AIR_BOSS,
     CHICKEN,
     MONKEY,
     FROG,
@@ -52,7 +54,8 @@ public class Entity {
     MACAW,
     BANANA,
     ELECTRICORB,
-    WORM
+    WORM,
+    JOEY
   }
 
 

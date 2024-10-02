@@ -8,6 +8,8 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.components.npc.BananaAnimationController;
 import com.csse3200.game.components.npc.OrbAnimationController;
+import com.csse3200.game.components.npc.WaterSpiralAnimationController;
+import com.csse3200.game.components.npc.WindGustAnimationController;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -55,6 +57,44 @@ public class ProjectileFactory {
     banana.setEnemyType(Entity.EnemyType.BANANA);
     return banana;
   }
+
+  public static Entity createWaterSpiral(Entity target) {
+    BaseEnemyEntityConfig config = configs.waterSpiral;
+    
+    TextureAtlas windGustAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+    AnimationRenderComponent animator = new AnimationRenderComponent(windGustAtlas);
+    animator.addAnimation("waterSpiral", 0.1f, Animation.PlayMode.LOOP);
+    
+    Entity waterSpiral = createBaseProjectile(target, config, 3f, animator, new WindGustAnimationController());
+
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+
+    waterSpiral.addComponent(aiTaskComponent);
+    
+    waterSpiral.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return waterSpiral;
+  }
+
+  public static Entity createWindGust(Entity target) {
+    BaseEnemyEntityConfig config = configs.windGust;
+    
+    TextureAtlas windGustAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+    AnimationRenderComponent animator = new AnimationRenderComponent(windGustAtlas);
+    animator.addAnimation("windGust", 0.1f, Animation.PlayMode.LOOP);
+    
+    Entity windGust = createBaseProjectile(target, config, 5f, animator, new WindGustAnimationController());
+
+    AITaskComponent aiTaskComponent = new AITaskComponent();
+    aiTaskComponent.addTask(new ProjectileMovementTask(target, 10));
+
+    windGust.addComponent(aiTaskComponent);
+
+    windGust.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
+
+    return windGust;
+  }
   
   /**
    * Creates an orb projectile entity (for eel).
@@ -100,8 +140,17 @@ public class ProjectileFactory {
     return worm;
   }
   
+  /**
+   *
+   * @param target Entity
+   * @param config BaseEnemyEntityConfig
+   * @param scale float
+   * @param animator AnimationRenderComponent
+   * @param controller Component (animation controller
+   * @return Projectile Entity
+   */
   private static Entity createBaseProjectile(Entity target, BaseEnemyEntityConfig config, float scale,
-                                             AnimationRenderComponent animator, Component controler) {
+                                             AnimationRenderComponent animator, Component controller) {
     Entity projectile =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -119,7 +168,7 @@ public class ProjectileFactory {
     
     projectile
             .addComponent(animator)
-            .addComponent(controler);
+            .addComponent(controller);
     projectile.setScale(scale, scale);
     
     projectile.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));

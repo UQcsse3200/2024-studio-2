@@ -59,15 +59,13 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         Vector2 newPos = getRandomPosInRange();
         if (this.isBoss) {
             // Wait for the spawn event to complete or for a specified duration before starting to wander
-            waitTask = new WaitTask(2.0f); // Adjust the wait time if needed
+            waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
             waitTask.create(owner);
             movementTask = new MovementTask(getRandomPosInRange());
             movementTask.create(owner);
             movementTask.start();
             
             currentTask = movementTask;
-            
-            this.owner.getEntity().getEvents().trigger("kangaWanderStart");
         } else if(!isSpawned) {
             logger.debug("Triggering spawn event");
             this.owner.getEntity().getEvents().trigger("spawnStart");
@@ -101,6 +99,8 @@ public class WanderTask extends DefaultTask implements PriorityTask {
                 startWandering();
             } else if (currentTask == movementTask) {
                 startWaiting();
+            } else {
+                startMoving();
             }
         }
         currentTask.update();

@@ -35,8 +35,9 @@ public class PopUpHelper {
      * @param width           The width of the dialog box.
      * @param height          The height of the dialog box.
      * @param animalIndex     The index of the selected animal (0 for bird, 1 for croc, 2 for dog).
+     * @param callback        A Runnable to be executed when the dialog is closed.
      */
-    public void displayDialog(String title, String content, String animalImagePath, float width, float height, int animalIndex) {
+    public void displayDialog(String title, String content, String animalImagePath, float width, float height, int animalIndex, Runnable callback) {
         PopupDialogBox dialogBox = new PopupDialogBox(
                 new String[]{title},
                 new String[]{content},
@@ -49,6 +50,12 @@ public class PopUpHelper {
                 strengthStats
         );
         dialogBox.setAnimalIndex(animalIndex); // Set the correct animal index
+        dialogBox.setCallback(callback); // Set the callback to be executed when the dialog is closed
         dialogBox.display(stage);
+    }
+
+    // Keep the old method for backward compatibility
+    public void displayDialog(String title, String content, String animalImagePath, float width, float height, int animalIndex) {
+        displayDialog(title, content, animalImagePath, width, height, animalIndex, null);
     }
 }

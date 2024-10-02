@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -68,10 +69,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         movementTask.start();
         
         if (this.isBoss) {
-            owner.getEntity().getEvents().trigger("kangaChaseStart");
             playTensionSound();
             this.target.getEvents().trigger("startHealthBarBeating");
-            return;
         }
 
         if (this.owner.getEntity().getEnemyType() == Entity.EnemyType.EEL) {
@@ -124,6 +123,10 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             chaseDir = true;
             this.owner.getEntity().getEvents().trigger("chaseRight");
         }
+    }
+    
+    public float getViewDistance() {
+        return this.viewDistance;
     }
     
     @Override
