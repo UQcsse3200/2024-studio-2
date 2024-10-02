@@ -4,15 +4,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
-import com.csse3200.game.components.tasks.ChaseTask;
-import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.GameTime;
@@ -26,7 +22,7 @@ import com.csse3200.game.components.audio.WaterAnimalSoundPlayer;
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
   private static final float SPEED_MULTIPLIER = 0.03f; // Adjust this to balance speed differences
-  private static final int SOUND_INTERVAL = 5000; // milli-secs
+  private static final int SOUND_INTERVAL = 10000; // milli-secs
   private static final int SOUND_LENGTH = 1000; // milli-secs
 
   private PhysicsComponent physicsComponent;
@@ -104,13 +100,13 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     if (moving) {
-      if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_INTERVAL) {
-        playSound();
-        lastTimeSoundPlayed = gameTime.getTime();
-      } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
-        stopSound();
-      }
       updateSpeed();
+    }
+    if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_INTERVAL) {
+      playSound();
+      lastTimeSoundPlayed = gameTime.getTime();
+    } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
+      stopSound();
     }
   }
 
