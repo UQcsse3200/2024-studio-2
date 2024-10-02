@@ -1,69 +1,92 @@
 package com.csse3200.game.components.animal;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.components.Component;
+import com.badlogic.gdx.graphics.Texture;
 
-public class AnimalRouletteDisplay extends Component {
-    private Table table;
+public abstract class AnimalRouletteDisplay {
+    private final Stage stage;
+    private final Skin skin;
     private Image animalImage;
-    private final String[] animalImages = {
-            "images/dog.png",
-            "images/croc.png",
-            "images/bird.png"};
-    private int currentAnimalIndex = 0;
-    private Skin skin;
-    private Stage stage;
+    private final TextButton selectButton;
+    private final TextButton backButton;
+    private final TextButton leftButton;
+    private final TextButton rightButton;
+    public abstract Image[] getAnimalImages();
+    public abstract TextButton[] getAnimalButtons();
 
-    @Override
-    public void create() {
-        super.create();
-        createRouletteUI();
+    public AnimalRouletteDisplay(Stage stage, Skin skin) {
+        this.stage = stage;
+        this.skin = skin;
+
+        this.selectButton = new TextButton("Ready?", skin);
+        this.backButton = new TextButton("Go Back", skin);
+        this.leftButton = new TextButton("<", skin);
+        this.rightButton = new TextButton(">", skin);
+
+        initializeDisplay();
     }
 
-    /**
-     * Creates the UI for the roulette screen.
-     */
-    private void createRouletteUI() {
-        table = new Table();
-        table.setFillParent(true);
+    protected abstract String getBackgroundImagePath();
+    public abstract String[] getAnimalImagePaths();
+    public abstract String getAnimalDescription(int index);
+    public abstract String getAnimalType(int index);
 
-        // Create animal image display
-        animalImage = new Image(new Texture(animalImages[currentAnimalIndex]));
+    private void initializeDisplay() {
+        BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
+        stage.addActor(backgroundImage);
 
-        // Add left and right buttons for navigation
-        TextButton leftButton = new TextButton("<", skin);
-        TextButton rightButton = new TextButton(">", skin);
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
-        leftButton.addListener(event -> {
-            currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
-            animalImage.setDrawable(new TextureRegionDrawable(new Texture(animalImages[currentAnimalIndex])));
-            return true;
-        });
+        String[] animalImagePaths = getAnimalImagePaths();
+        animalImage = new Image(new Texture(animalImagePaths[0]));
 
-        rightButton.addListener(event -> {
-            currentAnimalIndex = (currentAnimalIndex + 1) % animalImages.length;
-            animalImage.setDrawable(new TextureRegionDrawable(new Texture(animalImages[currentAnimalIndex])));
-            return true;
-        });
+        Table animalTable = new Table();
+        animalTable.add(leftButton).padRight(20);
+        animalTable.add(animalImage).size(300, 300);
+        animalTable.add(rightButton).padLeft(20);
 
-        // Set up layout
-        table.add(leftButton).expandX().left();
-        table.add(animalImage).center();
-        table.add(rightButton).expandX().right();
+        mainTable.add(animalTable).expand().center();
+        mainTable.row();
 
-        stage.addActor(table);
+        Table buttonTable = new Table();
+        buttonTable.add(selectButton).width(200).height(50).padRight(20);
+        buttonTable.add(backButton).width(200).height(50);
+
+        mainTable.add(buttonTable).padBottom(50);
     }
 
-    public String getSelectedAnimal() {
-        return animalImages[currentAnimalIndex];
+    public void updateAnimalImage(String imagePath) {
+        animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
     }
 
-    public int getCurrentAnimalIndex() {
-        return currentAnimalIndex;
+    public Image getAnimalImage() {
+        return animalImage;
     }
 
+    public TextButton getSelectButton() {
+        return selectButton;
+    }
+
+    public TextButton getBackButton() {
+        return backButton;
+    }
+
+    public TextButton getLeftButton() {
+        return leftButton;
+    }
+
+    public TextButton getRightButton() {
+        return rightButton;
+    }
+
+    public Skin getSkin() {
+        return skin;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
 }
