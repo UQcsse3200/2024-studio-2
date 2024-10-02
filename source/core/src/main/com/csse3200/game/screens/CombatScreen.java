@@ -41,7 +41,9 @@ public class CombatScreen extends ScreenAdapter {
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
-          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png"
+          "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png",
+          "images/statuses/bleeding_stat.png", "images/statuses/confused_stat.png",
+          "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
 
   };
   private boolean isPaused = false;
@@ -105,6 +107,8 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
+    gameArea.spawnTerrain();
+
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 

@@ -46,14 +46,14 @@ class SpecialKangaMoveTest {
         verify(mockTargetStats).addStrength(-15);
         verify(mockTargetStats).addDefense(-15);
 
-        // Capture the added status effect (CONFUSION or BLEEDING).
+        // Capture the added status effect (CONFUSED or BLEEDING).
         ArgumentCaptor<CombatStatsComponent.StatusEffect> statusCaptor = ArgumentCaptor.forClass(CombatStatsComponent.StatusEffect.class);
         verify(mockTargetStats).addStatusEffect(statusCaptor.capture());
 
         CombatStatsComponent.StatusEffect appliedEffect = statusCaptor.getValue();
-        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSION ||
+        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSED ||
                         appliedEffect == CombatStatsComponent.StatusEffect.BLEEDING,
-                "Random status effect should be CONFUSION or BLEEDING.");
+                "Random status effect should be CONFUSED or BLEEDING.");
     }
 
     /**

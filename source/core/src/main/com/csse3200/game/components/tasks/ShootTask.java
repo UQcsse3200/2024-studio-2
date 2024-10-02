@@ -1,13 +1,9 @@
 
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.ProjectileFactory;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -18,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ShootTask extends DefaultTask implements PriorityTask {
   private static final Logger logger = LoggerFactory.getLogger(ShootTask.class);
-  private final int priority = 5;
+  private static final int PRIORITY = 5;
   private final float waitTime; // Time to wait between firing
   private final Entity target;  // The target entity to aim at
   private final float range;    // Range within which to start shooting
@@ -80,10 +76,10 @@ public class ShootTask extends DefaultTask implements PriorityTask {
    */
   private int getActivePriority() {
     float dst = getDistanceToTarget();
-    if (dst > range) {
+    if (dst > range || (timer.getTimeSince(lastShotTime) < waitTime)) {
       return -1; // Too far, stop shooting
     }
-    return priority;
+    return PRIORITY;
   }
 
   /**
@@ -93,8 +89,8 @@ public class ShootTask extends DefaultTask implements PriorityTask {
    */
   private int getInactivePriority() {
     float dst = getDistanceToTarget();
-    if (dst <= range) {
-      return priority;
+    if (dst <= range && (timer.getTimeSince(lastShotTime) > waitTime)) {
+      return PRIORITY;
     }
     return -1;
   }
@@ -116,6 +112,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     // this.owner.getEntity().getEvents().trigger("shooting");  // Trigger shooting event
     lastShotTime = timer.getTime();  // Update the time of the last shot
     numShots++;  // Increase shot count
-    owner.getEntity().getEvents().trigger("FireBanana", owner.getEntity());
+    owner.getEntity().getEvents().trigger("Shoot", owner.getEntity(), owner.getEntity().getEnemyType());
   }
 }

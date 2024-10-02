@@ -129,3 +129,17 @@ default
   orig: 77, 53
   offset: 0, 0
   index: 0
+alert
+  rotate: false
+  xy: 343, 296
+  size: 77, 80
+  orig: 77, 53
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 427, 322
+  size: 77, 53
+  orig: 77, 53
+  offset: 0, 0
+  index: 1

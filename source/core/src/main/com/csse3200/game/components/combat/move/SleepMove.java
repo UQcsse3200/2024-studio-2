@@ -23,15 +23,17 @@ public class SleepMove extends CombatMove {
 
     /**
      * Executes the sleep move, restoring 25% of the user's maximum stamina and 10% of their maximum health.
+     * Health will not be restored if the Poisoned status effect is applied.
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
      */
     @Override
     public void execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
-            // Restore 25% of the user's stamina and 10% of their health
             attackerStats.addStamina((int) (0.25 * attackerStats.getMaxStamina()));
-            attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
+            if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+                attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
+            }
             logger.info("{} sleeps: increased stamina to {} and health to {}.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     attackerStats.getStamina(),

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -59,20 +60,32 @@ public class LootBoxOverlayComponent extends UIComponent {
         // Clear the previous contents of the overlay
         overlayWindow.clearChildren();
 
-        // Add new items to the overlay
+        // Create a new table for displaying the loot items
         Table contentTable = new Table(skin);
+
+        // Set up a grid-like layout to prevent cramming, adjust columns based on items
+        int numColumns = 4;  // Adjust the number of columns to suit your layout
+        int itemCount = 0;
+
         for (AbstractItem item : items) {
             Texture itemTexture = new Texture(item.getTexturePath());
             Image itemImage = new Image(itemTexture);
             Label itemLabel = new Label(item.getName(), skin);
 
-            // Add each item to the overlay table
-            contentTable.add(itemImage).pad(5);
-            contentTable.add(itemLabel).pad(5);
-            contentTable.row();
+            // Set a fixed size for each image, ensuring they are uniform and not cramped
+            itemImage.setSize(64, 64);  // Adjust the size as needed
+            contentTable.add(itemImage).size(64, 64).pad(10);  // Add padding between items
+            contentTable.add(itemLabel).pad(10).align(Align.center);
+
+            itemCount++;
+
+            // Add a new row after every 'numColumns' items
+            if (itemCount % numColumns == 0) {
+                contentTable.row();
+            }
         }
 
-        // Add the content to the overlay window
+        // Add the content table to the overlay window and make it expand/fill
         overlayWindow.add(contentTable).expand().fill().row();
 
         // Create and add a close button
@@ -82,24 +95,25 @@ public class LootBoxOverlayComponent extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Close button clicked.");
-                hideOverlay(); // Call method to hide the overlay
-
+                hideOverlay();
             }
         });
 
         // Add the close button to the window
         overlayWindow.add(closeButton).padTop(10);
 
-        // Set position and size of the overlay
-        overlayWindow.setSize(500, 400);
+        // Automatically resize the window based on the content
+        overlayWindow.pack();  // This will resize the window to fit its contents
+
+        // Ensure the window is centered on the screen
         overlayWindow.setPosition(
                 (stage.getWidth() - overlayWindow.getWidth()) / 2,
                 (stage.getHeight() - overlayWindow.getHeight()) / 2
         );
 
-        // Set Z-Index to be high and bring to front
+        // Set Z-Index to ensure it's on top
         overlayWindow.setZIndex(stage.getActors().size + 1);
-        overlayWindow.toFront(); // Bring the overlay to the front
+        overlayWindow.toFront();  // Bring the overlay to the front
 
         // Make the overlay visible
         overlayWindow.setVisible(true);

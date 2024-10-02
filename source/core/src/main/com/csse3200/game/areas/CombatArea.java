@@ -11,7 +11,7 @@ import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
+import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
@@ -35,11 +35,6 @@ public class CombatArea extends GameArea {
             "images/friendly_npcs/friendly-npcs.png",
             "images/water_boss_idle.png",
             "images/air_boss_idle.png",
-            "images/Cow.png",
-            "images/snake.png",
-            "images/eagle.png",
-            "images/lion.png",
-            "images/turtle.png",
             "images/grass_1.png",
             "images/grass_2.png",
             "images/grass_3.png",
@@ -69,13 +64,23 @@ public class CombatArea extends GameArea {
             "images/combat_background.png",
             "images/chicken_idle.png",
             "images/bear_idle.png",
+            "images/bee_idle.png",
+            "images/eel_idle.png",
+            "images/pigeon_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
             "images/bear_idle.png",
+            "images/macaw_idle.png",
+            "images/bigsawfish_idle.png",
             "images/joey_idle.png",
             "images/dog.png",
             "images/croc.png",
             "images/bird.png",
+            "images/zzz.png",
+            "images/shield.png",
+            "images/shield_flipped.png",
+            "images/single_fireball.png",
+            "images/flipped_fireball.png",
     };
     private static final String[] forestTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
@@ -84,6 +89,7 @@ public class CombatArea extends GameArea {
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
+            "images/bigsawfish.atlas", "images/macaw.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -96,7 +102,6 @@ public class CombatArea extends GameArea {
     private Entity enemy;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
     private static GdxGame game;
-
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -138,7 +143,17 @@ public class CombatArea extends GameArea {
             spawnWaterBoss();
         } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
             spawnAirBoss();
-        } else { // Default to Kanga
+        } else if(enemy.getEnemyType() == Entity.EnemyType.BEE){
+            spawnBee();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.PIGEON) {
+            spawnPigeon();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
+            spawnEel();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.BIGSAWFISH) {
+            spawnBigsawfish();
+        } else if (enemy.getEnemyType() == Entity.EnemyType.MACAW) {
+            spawnMacaw();
+        } else { // Kangaroo Boss
             spawnCombatEnemy();
         }
         playMusic();
@@ -153,7 +168,7 @@ public class CombatArea extends GameArea {
     /** Spawns the official backgrond terrain for
      * combat using combat terrain factory
      */
-    private void spawnTerrain() {
+    public void spawnTerrain() {
         terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
@@ -172,7 +187,7 @@ public class CombatArea extends GameArea {
          * The following entity is the real entity of the player to be used for combat,
          * with health, stats, etc.
          */
-        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath == "images/croc.png"){
             PLAYER_SPAWN = new GridPoint2(332, 335);
@@ -194,7 +209,7 @@ public class CombatArea extends GameArea {
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
          */
-        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         nP.setPosition(520, 250);
@@ -251,7 +266,47 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity combatEnemyNPC = EnemyFactory.createBearCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a macaw enemy, with the player entity as its target
+     */
+    private void spawnMacaw() {
+        Entity combatEnemyNPC = EnemyFactory.createMacawCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a bee enemy, with the player entity as its target
+     */
+    private void spawnBee() {
+        Entity combatEnemyNPC = EnemyFactory.createBeeCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a pigeon enemy, with the player entity as its target
+     */
+    private void spawnPigeon() {
+        Entity combatEnemyNPC = EnemyFactory.createPigeonCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns an eel enemy, with the player entity as its target
+     */
+    private void spawnEel() {
+        Entity combatEnemyNPC = EnemyFactory.createEelCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
+    }
+
+    /**
+     * spawns a big saw fish enemy, with the player entity as its target
+     */
+    private void spawnBigsawfish() {
+        Entity combatEnemyNPC = EnemyFactory.createBigsawfishCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 
     /**

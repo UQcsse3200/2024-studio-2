@@ -37,7 +37,7 @@ public class SpecialAirMove extends SpecialMove {
 
         int rand = (int) (Math.random() * 2);
         CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
-            case 0 -> CombatStatsComponent.StatusEffect.CONFUSION;
+            case 0 -> CombatStatsComponent.StatusEffect.CONFUSED;
             case 1 -> CombatStatsComponent.StatusEffect.SHOCKED;
             default -> throw new IllegalStateException("Unexpected value: " + rand);
         };

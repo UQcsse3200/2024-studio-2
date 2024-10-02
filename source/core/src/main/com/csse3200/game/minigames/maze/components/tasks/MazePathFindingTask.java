@@ -21,7 +21,7 @@ import static com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtil
 
 /**
  * Move to a given position, finishing when you get close enough. Requires an entity with a
- * PhysicsMovementComponent..
+ * PhysicsMovementComponent.
  */
 public class MazePathFindingTask extends DefaultTask {
     private static final Logger logger = LoggerFactory.getLogger(MazePathFindingTask.class);
@@ -32,7 +32,6 @@ public class MazePathFindingTask extends DefaultTask {
     private final PhysicsEngine physics;
     private final DebugRenderer debugRenderer;
     private final RaycastHit hit = new RaycastHit();
-
 
     public MazePathFindingTask(GridPoint2 target, Maze maze) {
         this.target = target;
@@ -53,6 +52,7 @@ public class MazePathFindingTask extends DefaultTask {
 
     /**
      * Gets the next move in the path computed
+     *
      * @return the next movement
      */
     private Vector2 getNextMovement() {
@@ -93,7 +93,7 @@ public class MazePathFindingTask extends DefaultTask {
     }
 
     /**
-     * Updates this task, updates the mext target in the movement task, computes new path
+     * Updates this task, updates the next target in the movement task, computes new path
      */
     @Override
     public void update() {
@@ -107,6 +107,7 @@ public class MazePathFindingTask extends DefaultTask {
 
     /**
      * Sets the target to find the path to
+     *
      * @param target the target to find the path to
      */
     public void setTarget(GridPoint2 target) {
