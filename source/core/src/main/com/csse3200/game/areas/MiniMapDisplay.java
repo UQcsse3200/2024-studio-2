@@ -55,6 +55,7 @@ public class MiniMapDisplay extends UIComponent {
         super.create();
         player = gameArea.getPlayer();
         enemies = gameArea.getEnemies();
+        System.out.println(enemies);
         addActors();
     }
 
@@ -85,7 +86,7 @@ public class MiniMapDisplay extends UIComponent {
         greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
         greenDotPointImage.setSize(7, 7);
         redDotPointImages = new ArrayList<>();
-        for(Entity enemy : enemies) {
+        for (int i = 0; i < enemies.size(); i++) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
             redDotImage.setSize(5, 5);
             redDotPointImages.add(redDotImage);
@@ -128,7 +129,7 @@ public class MiniMapDisplay extends UIComponent {
         greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
 
         //Update red points position (enemies in minimap)
-        for (int i = 0; i < enemies.size() - 1; i++) {
+        for (int i = 0; i < redDotPointImages.size(); i++) {
             Entity enemy = enemies.get(i);
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
 
@@ -140,7 +141,6 @@ public class MiniMapDisplay extends UIComponent {
             } else {
                 redDotPointImages.get(i).setVisible(false);
             }
-            System.out.println(enemyMiniMapPos);
         }
         // Try to take check enemies and put to the minimap
     }

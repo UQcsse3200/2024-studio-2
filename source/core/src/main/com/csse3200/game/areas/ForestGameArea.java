@@ -131,7 +131,7 @@ public class ForestGameArea extends GameArea {
       //Initialise inventory and quests with loaded data
       player.getComponent(InventoryComponent.class).loadInventoryFromSave();
       player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
-    player.getComponent(QuestManager.class).loadQuests();
+      player.getComponent(QuestManager.class).loadQuests();
   }
 
   /**
