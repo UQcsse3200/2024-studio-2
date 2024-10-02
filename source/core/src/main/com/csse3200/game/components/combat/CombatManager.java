@@ -279,7 +279,7 @@ public class CombatManager extends Component {
             }
             case ITEM -> {
                 // Player's move is using an item in the CombatInventoryDisplay.
-                entity.getEvents().trigger("itemMove", playerItem, playerItemIndex, playerItemContext);
+                entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
                 enemyMove.executeMove(enemyAction);
             }
         }

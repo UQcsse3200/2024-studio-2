@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.*;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -354,5 +355,16 @@ public abstract class InventoryDisplay extends UIComponent {
      */
     public int getNumCols() {
         return this.numCols;
+    }
+
+    /**
+     * Consumes an item from the inventory and triggers an event if successful.
+     * @param item The item to be consumed.
+     * @param context The context in which the item is being used.
+     * @param index The index of the item in the inventory.
+     */
+    protected void consumeItem(AbstractItem item, ItemUsageContext context, int index) {
+        inventory.useItemAt(index, context);
+        entity.getEvents().trigger("itemUsed", item);
     }
 }

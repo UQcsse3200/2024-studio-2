@@ -3,7 +3,6 @@ package com.csse3200.game.components.inventory;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 
 public class CombatInventoryDisplay extends InventoryDisplay {
@@ -19,6 +18,12 @@ public class CombatInventoryDisplay extends InventoryDisplay {
      */
     public CombatInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
         super(inventory, numCols, hotBarCapacity, false);
+    }
+
+    @Override
+    public void create() {
+        super.create();
+        entity.getEvents().addListener("itemUsedInCombat", this::useItemInCombat);
     }
 
     @Override
@@ -43,5 +48,15 @@ public class CombatInventoryDisplay extends InventoryDisplay {
             String[][] itemText = {{"This item can only be used on the map!"}};
             ServiceLocator.getDialogueBoxService().updateText(itemText);
         }
+    }
+
+    /**
+     * Uses the item in combat.
+     * @param item   The item to use.
+     * @param context The context in which the item is used.
+     * @param index The index of the item in the inventory.
+     */
+    private void useItemInCombat(AbstractItem item, ItemUsageContext context, int index) {
+        super.consumeItem(item, context, index);
     }
 }
