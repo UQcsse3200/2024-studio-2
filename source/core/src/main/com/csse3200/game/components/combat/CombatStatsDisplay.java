@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -43,6 +44,11 @@ public class CombatStatsDisplay extends UIComponent {
     private float barImageHeight;
     private static final int totalFrames = 11;
     private static final Logger logger = LoggerFactory.getLogger(CombatStatsDisplay.class);
+    private Table hoverTextTable;
+    private Label hoverTextLabel;
+    private Image backgroundImage;
+    private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
     /**
      * Initialises the required components for the CombatStatsDisplays
@@ -71,6 +77,9 @@ public class CombatStatsDisplay extends UIComponent {
             updateStatusEffectUI(statusEffect);
         });
         entity.getEvents().addListener("statusEffectRemoved", this::removeStatusUI);
+
+        createBackgroundForHints();
+        createTextForHints();
     }
 
     /**
@@ -327,6 +336,21 @@ public class CombatStatsDisplay extends UIComponent {
         statusTable.add(statusEffectLabel);
         statusTable.setFillParent(true);
         statusTable.padTop(tableTopPadding).padLeft(tableLeftPadding);
+        statusTable.addListener(new InputListener() {
+            // Brings up the status effect description when the user hovers over the statusTable
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                setTextForStatusEffectHint();
+                return true;
+            }
+            // hides the combat hint when the user is no longer hovering over the attack button
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                hoverTextTable.setVisible(false);  // Hide the hover text when not hovering
+                backgroundImage.setVisible(false);
+            }
+        });
+
         stage.addActor(statusTable);
     }
 
@@ -336,6 +360,56 @@ public class CombatStatsDisplay extends UIComponent {
     private void removeStatusUI() {
         logger.trace("Removing status bar assest in CombatStatsDisplay");
         statusTable.remove();
+    }
+
+    /**
+     * Create a text box pop up to provide the user with description of status effects when hovering over with mouse
+     */
+    private void createTextForHints() {
+        hoverTextLabel = new Label("", SKIN, "default-white");
+        hoverTextTable = new Table(SKIN);
+        hoverTextTable.clear();
+        hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
+        hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
+        hoverTextTable.setVisible(false);  // Initially hidden
+        stage.addActor(hoverTextTable);
+    }
+
+    /**
+     * Create a background for the text hints
+     */
+    private void createBackgroundForHints() {
+        // Create a label and a table to display the hover text
+        backgroundImage = new Image(new TextureRegionDrawable(BACKGROUND_TEXTURE));
+        backgroundImage.setVisible(false);
+        stage.addActor(backgroundImage);
+    }
+
+    private void setTextForStatusEffectHint() {
+        String effectDescription = "";
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
+            effectDescription = "While bleeding, your GUARDs are less effective.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
+            effectDescription = "While shocked, Your ATTACKs are weakened.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+            effectDescription = "While poisoned, SLEEPing won't heal you.";
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
+            effectDescription = "While confused, your animal might make a wrong move.";
+        }
+        hoverTextLabel.setText(effectDescription);  // Set hover text
+        // set the position of the status effect hint text
+        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.5f,
+                Gdx.graphics.getHeight() * 0.70f);
+        // set the position of the background for the status effect hint text
+        float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
+        // combat background is proportional to the combatHintTextLength
+        float combatHintBackgroundWidth = hoverTextLabel.getWidth() + Gdx.graphics.getWidth() * 0.1f;
+        backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
+        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
+                , Gdx.graphics.getHeight() * 0.7f -
+                        combatHintBackgroundHeight * 0.5f);
+        backgroundImage.setVisible(true); // Show the background for status effect hints
+        hoverTextTable.setVisible(true);  // Show the status effect hint text
     }
 
     @Override
