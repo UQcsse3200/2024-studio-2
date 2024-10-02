@@ -105,6 +105,8 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
+    gameArea.spawnTerrain();
+
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
