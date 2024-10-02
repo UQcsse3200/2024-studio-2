@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat;
 
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 /**
@@ -22,7 +23,9 @@ public class CombatAnimationController extends Component {
     }
 
     private void animateIdleLeft() {
-        animator.setFlipX(true);
+        if (this.entity.getEnemyType() != Entity.EnemyType.BEE) {
+            animator.setFlipX(true);
+        }
         animator.startAnimation("combat_idle");
     }
 
@@ -32,7 +35,9 @@ public class CombatAnimationController extends Component {
     }
 
     private void animateMoveLeft() {
-        animator.setFlipX(true);
+        if (this.entity.getEnemyType() != Entity.EnemyType.BEE) {
+            animator.setFlipX(true);
+        }
         animator.startAnimation("combat_move");
     }
 
