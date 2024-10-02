@@ -56,7 +56,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture cursorTexture;
-
     private Table chatbotIconTable;
     private Dialog chatbotDialog;
     private TextField userInputField;
@@ -64,7 +63,6 @@ public class MainMenuDisplay extends UIComponent {
     private java.util.List<String> predefinedQuestions;
     private ChatbotService chatbotService;
     private boolean isChatbotDialogVisible = false;
-    private Image birdImage;
     private Image owlImage;
     private Sound owlSound;
     private Label factLabel;
@@ -95,10 +93,15 @@ public class MainMenuDisplay extends UIComponent {
     private Label exitLabel;
     private Label achievementsLabel;
     private Image birdAniImage;
+    private Image dogAniImage;
     private TextureAtlas birdAtlas;
+    private TextureAtlas dogAtlas;
     private Array<TextureRegion> birdTextures;
+    private Array<TextureRegion> dogTextures;
     private boolean birdDirection = true;
+    private boolean dogDirection = true;
     int birdCurrentFrame = 0;
+    int dogCurrentFrame = 0;
     private float timer;
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -122,15 +125,29 @@ public class MainMenuDisplay extends UIComponent {
         birdAniImage = new Image();
         birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
         birdTextures = new Array<>(3);
-        for (int i = 1; i <= 3; i++) {
-            birdTextures.add(birdAtlas.findRegion("fly" + i));
+        for (int frameBird = 1; frameBird <= 3; frameBird++) {
+            birdTextures.add(birdAtlas.findRegion("fly" + frameBird));
         }
         TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
         birdAniImage.setDrawable(drawable);
         birdAniImage.setSize(128, 112);
         birdAniImage.setPosition(1500, 500);
+
+        // Add dog animation
+        stage.addActor(dogAniImage);
+        dogAniImage = new Image();
+        dogAtlas = new TextureAtlas("spriteSheets/DogMain.atlas");
+        dogTextures = new Array<>(4);
+        for (int frameDog = 1; frameDog <= 4; frameDog++) {
+            dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
+        }
+        TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(0));
+        dogAniImage.setDrawable(drawableDog);
+        dogAniImage.setSize(336, 312);
+        dogAniImage.setPosition(-100, 100);
+        stage.addActor(dogAniImage);
+
         timer = 0f;
-        stage.addActor(birdAniImage);
     }
 
     private void addChatbotIcon() {
@@ -314,7 +331,6 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        //birdTexture = new Texture("images/bird.png");
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
@@ -1146,7 +1162,16 @@ public class MainMenuDisplay extends UIComponent {
                 birdCurrentFrame = 0;
             }
             birdAniImage.setDrawable(drawable);
+
+            TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(dogCurrentFrame));
+            dogCurrentFrame++;
+            if (dogCurrentFrame >= 3) {
+                dogCurrentFrame = 0;
+            }
+            dogAniImage.setDrawable(drawableDog);
         }
+
+        // animate the bird left to right
         float birdX = birdAniImage.getX();
         if (birdX < -200 && birdDirection) {
             birdDirection = false;
@@ -1162,6 +1187,23 @@ public class MainMenuDisplay extends UIComponent {
             birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * 100;
         }
         birdAniImage.setPosition(birdX, 500);
+
+        // animate the dog left to right
+        float dogX = dogAniImage.getX();
+        if (dogX < -200 && dogDirection) {
+            dogDirection = false;
+            dogAniImage.setScale(-1,1);
+        } else if (dogX > 1500 && !dogDirection) {
+            dogDirection = true;
+            dogAniImage.setScale(1,1);
+        }
+
+        if (dogDirection) {
+            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * -150;
+        } else {
+            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * 150;
+        }
+        dogAniImage.setPosition(dogX, 100);
     }
 
     @Override
