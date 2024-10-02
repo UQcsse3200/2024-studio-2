@@ -45,7 +45,7 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
     Vector2 newPos = getRandomPosInRange();
 
       if (!isSpawned) {
-          logger.debug("Triggering spawnChicken event");
+          logger.debug("Triggering spawn event");
           this.owner.getEntity().getEvents().trigger("spawnStart");
           isSpawned = true;
 
