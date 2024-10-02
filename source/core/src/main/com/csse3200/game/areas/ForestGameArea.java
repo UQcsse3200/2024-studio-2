@@ -67,9 +67,6 @@ public class ForestGameArea extends GameArea {
   private boolean waterBossSpawned = false;
   private boolean airBossSpawned = false;
 
-  private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
-  private static final String[] forestMusic = {backgroundMusic};
-
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
@@ -526,6 +523,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
 
     if (Objects.equals(selectedTrack, "Track 1")) {
+      loadAssets();
       AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
     } else if (Objects.equals(selectedTrack, "Track 2")) {
         AudioManager.playMusic("sounds/track_2.mp3", true);
@@ -644,7 +642,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     logger.debug("LOADING ASSETS");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
-    resourceService.loadMusic(forestMusic);
+    // resourceService.loadMusic(forestMusic);
 
     resourceService.loadTextures(config.textures.forestTextures);
     resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
