@@ -19,10 +19,12 @@ import static org.mockito.Mockito.*;
 public class ObstacleFactoryTest {
     private Entity tree;
     private Entity cloud;
+    private Entity starfish;
 
     String[] obstacleTextures = {
             "images/tree.png",
-            "images/cloud.png"
+            "images/cloud.png",
+            "images/starfish.png",
     };
 
     @BeforeEach
@@ -49,6 +51,7 @@ public class ObstacleFactoryTest {
         // Creating a tree entity
         tree = ObstacleFactory.createTree();
         cloud = ObstacleFactory.createCloud();
+        starfish = ObstacleFactory.createStarfish();
     }
 
     @Test
@@ -69,5 +72,15 @@ public class ObstacleFactoryTest {
     @Test
     void testCloudEntityType() {
         assert(cloud.getClass() == Entity.class);
+    }
+
+    @Test
+    void testStarfishCreation() {
+        assertNotNull(starfish, "Starfish should not be null");
+    }
+
+    @Test
+    void testStarfishEntityType() {
+        assert(starfish.getClass() == Entity.class);
     }
 }
