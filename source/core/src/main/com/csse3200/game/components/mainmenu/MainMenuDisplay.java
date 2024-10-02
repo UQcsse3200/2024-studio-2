@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -20,6 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Array;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -27,7 +29,6 @@ import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.UIComponent;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.dermetfan.gdx.physics.box2d.PositionController;
@@ -107,6 +108,12 @@ public class MainMenuDisplay extends UIComponent {
     private Label exitLabel;
     private Label achievementsLabel;
 
+    private Image birdAniImage;
+    private TextureAtlas birdAtlas;
+    private Array<TextureRegion> birdTextures;
+
+    int birdCurrentFrame = 0;
+    private float timer;
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -125,6 +132,21 @@ public class MainMenuDisplay extends UIComponent {
         applyUserSettings();
         setupOwlFacts();
         addOwlToMenu(); // Add owl to the menu
+
+        //Add bird animation
+        birdAniImage = new Image();
+        birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
+        birdTextures = new Array<>(3);
+        for (int i = 1; i <= 3; i++) {
+            birdTextures.add(birdAtlas.findRegion("fly" + i));
+        }
+        TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
+        birdAniImage.setDrawable(drawable);
+        birdAniImage.setSize(128, 112);
+        birdAniImage.setPosition(500, 500);
+        timer = 0f;
+        stage.addActor(birdAniImage);
+
     }
 
     private void addChatbotIcon() {
@@ -1181,6 +1203,19 @@ public class MainMenuDisplay extends UIComponent {
                 stage.addActor(dialog);
             }
         });
+    }
+    @Override
+    public void update() {
+        timer += Gdx.graphics.getDeltaTime();
+        if (timer >= 0.25) {
+            timer = 0;
+            TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(birdCurrentFrame));
+            birdCurrentFrame++;
+            if (birdCurrentFrame >= 2) {
+                birdCurrentFrame = 0;
+            }
+            birdAniImage.setDrawable(drawable);
+        }
     }
 
     @Override
