@@ -38,7 +38,7 @@ class ProjectileAttackComponentTest {
   Entity createProjectile(short targetLayer) {
     Entity projectile = new Entity()
             .addComponent(new ProjectileAttackComponent(targetLayer))
-            .addComponent(new CombatStatsComponent(0, 100, 2, 0, 0, 0, 0, false, false))  // Attack damage is 2
+            .addComponent(new CombatStatsComponent(0, 100, 2, 0, 0, 0, 0, false, false, 1))  // Attack damage is 2
             .addComponent(new PhysicsComponent())
             .addComponent(new HitboxComponent());
     projectile.create();
@@ -47,7 +47,7 @@ class ProjectileAttackComponentTest {
 
   Entity createTarget(short layer) {
     Entity target = new Entity()
-            .addComponent(new CombatStatsComponent(10, 100, 0, 0, 0, 0, 0, false, false))  // Initial health is 10
+            .addComponent(new CombatStatsComponent(10, 100, 0, 0, 0, 0, 0, false, false, 1))  // Initial health is 10
             .addComponent(new PhysicsComponent())
             .addComponent(new HitboxComponent().setLayer(layer));
     target.create();

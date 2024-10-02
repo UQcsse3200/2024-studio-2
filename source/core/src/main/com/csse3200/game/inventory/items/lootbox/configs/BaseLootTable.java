@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BaseLootTable is an abstract class representing a basic loot table used to manage and generate loot items.
+ * BaseLootTable is a concrete class representing a basic loot table used to manage and generate loot items.
  * It provides functionality to add items with specified weights, retrieve single or multiple random items,
  * and calculate their probabilities based on the assigned weights.
  */
-public abstract class  BaseLootTable {
+public class BaseLootTable {
+
     // List to hold loot items and their weights
     protected List<LootItemConfig> items;
 
     /**
      * Constructs a BaseLootTable and initializes the list of items.
-     * This constructor sets up the internal structure needed to manage loot items.
      */
-    protected BaseLootTable() {
+    public BaseLootTable() {
         this.items = new ArrayList<>();
     }
 
@@ -41,7 +41,9 @@ public abstract class  BaseLootTable {
      *
      * @return List of LootItemConfig objects representing the items and their weights in the loot table.
      */
-    public List<LootItemConfig> getItems() {return this.items;}
+    public List<LootItemConfig> getItems() {
+        return this.items;
+    }
 
     /**
      * Selects a random item from the loot table based on the weights of each item.
@@ -58,13 +60,13 @@ public abstract class  BaseLootTable {
             cumulativeWeight += item.getWeight();
             if (randomValue <= cumulativeWeight) {
                 try {
-                    return item.createNewItem(); // Create a new item instance with parameters
+                    return item.createNewItem();  // Create a new item instance with parameters
                 } catch (Exception e) {
-                    e.printStackTrace(); // Handle instantiation exceptions
+                    e.printStackTrace();  // Handle instantiation exceptions
                 }
             }
         }
-        return null; // Should not reach here if weights are set correctly
+        return null;  // Should not reach here if weights are set correctly
     }
 
     /**
