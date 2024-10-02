@@ -701,13 +701,13 @@ public class MainMenuDisplay extends UIComponent {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        userTable.setSize(122, 522);
+        userTable.setSize(175, 175);
 
         userTable.setVisible(true);
 
-        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        userTable.add(profileBtn).size(100, 100).top().padTop(30).expandY();
+        userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
 
         profileBtn.addListener(new ChangeListener() {
             @Override
@@ -760,7 +760,7 @@ public class MainMenuDisplay extends UIComponent {
     public void updateUserTable() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        userTable.setPosition(screenWidth - 150, screenHeight - 600);
+        userTable.setPosition(165, screenHeight - 190);
     }
 
     /**

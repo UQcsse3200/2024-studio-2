@@ -1,5 +1,6 @@
 package com.csse3200.game.components.login;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.playfab.PlayFabErrors.*;
 import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
@@ -13,6 +14,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(GameExtension.class)
 public class PlayFabTest {
     private PlayFab playFab;
 
