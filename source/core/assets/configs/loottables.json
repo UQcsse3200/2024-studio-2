@@ -1,0 +1,58 @@
+{
+  "lootBoxes": [
+    {
+      "name": "EarlyGameLootBox",
+      "rolls": 3,
+      "description": "This is an EarlyGameLootBox, Open it Up for Goodies!!!!",
+      "image": "images/chests/ordinary-chest.png",
+      "code": 1001,
+      "items": [
+        { "class": "com.csse3200.game.inventory.items.potions.HealingPotion", "weight": 100, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Apple", "weight": 10, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Carrot", "weight": 20, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Meat", "weight": 30, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$ChickenLeg", "weight": 40, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Candy", "weight": 60, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.AttackPotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.DefensePotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.SpeedPotion", "weight": 70, "constructorArgs": [1] }
+      ]
+    },
+    {
+      "name": "MediumGameLootBox",
+      "rolls": 5,
+      "description": "This is a MediumGameLootBox, Open it Up for Goodies!!!!",
+      "image": "images/chests/fancy-chest.png",
+      "code": 1002,
+      "items": [
+        { "class": "com.csse3200.game.inventory.items.potions.HealingPotion", "weight": 100, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Apple", "weight": 10, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Carrot", "weight": 20, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Meat", "weight": 30, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$ChickenLeg", "weight": 40, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Candy", "weight": 60, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.AttackPotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.DefensePotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.SpeedPotion", "weight": 70, "constructorArgs": [1] }
+      ]
+    },
+    {
+      "name": "LateGameLootBox",
+      "rolls": 7,
+      "description": "This is a LateGameLootBox, Open it Up for Goodies!!!!",
+      "image": "images/chests/fancy-smancy-chest.png",
+      "code": 1003,
+      "items": [
+        { "class": "com.csse3200.game.inventory.items.potions.HealingPotion", "weight": 100, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Apple", "weight": 10, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Carrot", "weight": 20, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Meat", "weight": 30, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$ChickenLeg", "weight": 40, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.food.Foods$Candy", "weight": 60, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.AttackPotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.DefensePotion", "weight": 70, "constructorArgs": [1] },
+        { "class": "com.csse3200.game.inventory.items.potions.SpeedPotion", "weight": 70, "constructorArgs": [1] }
+      ]
+    }
+  ]
+}

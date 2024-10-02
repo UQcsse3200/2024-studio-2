@@ -56,7 +56,10 @@ public class Entity {
     HIVE,
     ELECTRICORB,
     WORM,
-    JOEY
+    JOEY,
+    MAZE_ANGLER,
+    MAZE_EEL,
+    MAZE_JELLYFISH
   }
 
 
