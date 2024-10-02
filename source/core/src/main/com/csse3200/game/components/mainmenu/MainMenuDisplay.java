@@ -341,7 +341,7 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addOwlToMenu() {
         // Set owl initial position
-        owlImage.setPosition(1720, 730);// Adjust the position as needed
+        owlImage.setPosition(1750, 730);// Adjust the position as needed
         owlImage.setSize(200, 300);
         stage.addActor(owlImage);
 
