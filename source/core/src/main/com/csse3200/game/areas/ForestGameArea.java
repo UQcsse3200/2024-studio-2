@@ -29,6 +29,7 @@ import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
+import org.lwjgl.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
@@ -474,6 +475,10 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         //Macaw
         generator = () -> EnemyFactory.createMacaw(player);
         spawnShooterEnemy(generator, config.spawns.NUM_MACAW, 0.1, 3);
+
+        //Hive
+        generator = () -> EnemyFactory.createHive(player);
+        spawnHive(generator, 5, 0.1, 1);
     }
     
     private void spawnFriendlyNPCs() {
@@ -604,6 +609,25 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         
         //spawns
         spawnEntityAtVector(projectile, pos);
+    }
+
+    private void spawnHive(Supplier<Entity> creator, int numHives, double proximityRange, int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
+
+        for (int i = 0; i < numHives; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity enemy = EnemyFactory.createHive(player);
+            spawnEntityAt(enemy, randomPos, true, false);
+            enemies.add(enemy);
+            enemy.addComponent(new ProximityComponent(player, proximityRange));
+            enemy.getEvents().addListener("spawnBee", this::spawnBee);
+        }
+    }
+
+    private void spawnBee(Entity bee, Vector2 pos) {
+        spawnEntityAtVector(bee, pos);
+        enemies.add(bee);
     }
     
     private void spawnJoeyEnemy(Entity kanga) {

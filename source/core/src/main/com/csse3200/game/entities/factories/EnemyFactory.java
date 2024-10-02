@@ -31,6 +31,7 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +73,8 @@ public class EnemyFactory {
         PIGEON,
         BIGSAWFISH,
         MACAW,
-        JOEY;
+        JOEY,
+        HIVE;
     }
     
     /**
@@ -331,7 +333,32 @@ public class EnemyFactory {
         
         return monkey;
     }
-    
+
+    /**
+     * Creates a hive enemy.
+     *
+     * @param target entity which the spawned bees will chase
+     * @return enemy hive entity
+     */
+    public static Entity createHive(Entity target) {
+        BaseEnemyEntityConfig config = configs.hive;
+        Entity hive = createBaseEnemy(target, EnemyType.HIVE, config);
+        hive.setEnemyType(Entity.EnemyType.HIVE);
+
+        AnimationRenderComponent animator =
+                new AnimationRenderComponent(
+                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+        animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+
+        hive
+                .addComponent(animator)
+                .addComponent(new HiveAnimationController());
+
+        hive.getComponent(AnimationRenderComponent.class).scaleEntity();
+
+        return hive;
+    }
+
     /**
      * Creates a joey enemy.
      *
@@ -342,27 +369,27 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.joey;
         Entity joey = createBaseEnemy(target, EnemyType.JOEY, config);
         joey.setEnemyType(Entity.EnemyType.JOEY);
-        
+
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
         animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("spawn", 1.0f, Animation.PlayMode.NORMAL);
-        
+
         joey
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false, 1))
                 .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new JoeyAnimationController());
-        
+
         joey.getComponent(AnimationRenderComponent.class).scaleEntity();
         joey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));
-        
+
         return joey;
     }
-    
-    
+
+
     /**
      * Creates a generic Enemy with specific tasks depending on the enemy type.
      *
@@ -384,6 +411,7 @@ public class EnemyFactory {
             case BIGSAWFISH -> configs.bigsawfish;
             case MACAW -> configs.macaw;
             case JOEY -> configs.joey;
+            case HIVE -> configs.hive;
         };
         
         switch (type) {
@@ -406,6 +434,9 @@ public class EnemyFactory {
             }
             case EnemyType.PIGEON -> {
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
+            }
+            case EnemyType.HIVE -> {
+                aiComponent.addTask(new HiveTask(target));
             }
             case EnemyType.MACAW -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
@@ -439,7 +470,7 @@ public class EnemyFactory {
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
                         .addComponent(new FadeLightsDayTimeComponent());
-        
+
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
     }
@@ -462,7 +493,7 @@ public class EnemyFactory {
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(),
                 config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false, 1));
-        
+
         return npc;
     }
     

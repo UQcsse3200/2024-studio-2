@@ -25,6 +25,7 @@ public class EntitySpawnConfig {
     public int NUM_EELS;
     public int NUM_BIGSAWFISH;
     public int NUM_MACAW;
+    public int NUM_HIVES;
 
     // NPCs
     public int NUM_COWS;
