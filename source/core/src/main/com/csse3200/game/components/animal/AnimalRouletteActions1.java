@@ -11,9 +11,9 @@ import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AnimalRouletteActions {
-    private static final Logger logger = LoggerFactory.getLogger(AnimalRouletteActions.class);
-    private final AnimalRouletteDisplay display;
+public class AnimalRouletteActions1 {
+    private static final Logger logger = LoggerFactory.getLogger(AnimalRouletteActions1.class);
+    private final AnimalRouletteDisplay1 display;
     private final PopUpHelper dialogHelper;
     private static Image selectedAnimalImage;
     private final GdxGame game;
@@ -21,7 +21,7 @@ public class AnimalRouletteActions {
     private int currentAnimalIndex = 0;
     private final String[] animalImagePaths;
 
-    public AnimalRouletteActions(AnimalRouletteDisplay display, PopUpHelper dialogHelper, GdxGame game) {
+    public AnimalRouletteActions1(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
         this.dialogHelper = dialogHelper;
         this.game = game;

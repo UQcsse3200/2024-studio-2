@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
-public abstract class AnimalRouletteDisplay {
+public abstract class AnimalRouletteDisplay1 {
     private final Stage stage;
     private final Skin skin;
     private Image animalImage;
@@ -15,7 +15,7 @@ public abstract class AnimalRouletteDisplay {
     public abstract Image[] getAnimalImages();
     public abstract TextButton[] getAnimalButtons();
 
-    public AnimalRouletteDisplay(Stage stage, Skin skin) {
+    public AnimalRouletteDisplay1(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
 

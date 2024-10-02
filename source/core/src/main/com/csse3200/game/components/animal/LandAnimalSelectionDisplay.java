@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class LandAnimalSelectionDisplay extends AnimalRouletteDisplay {
+public class LandAnimalSelectionDisplay extends AnimalRouletteDisplay1 {
     private Image[] animalImages;
     private TextButton[] animalButtons;
     public LandAnimalSelectionDisplay(Stage stage, Skin skin) {
