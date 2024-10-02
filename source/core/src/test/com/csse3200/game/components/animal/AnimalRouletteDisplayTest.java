@@ -51,15 +51,23 @@ public class AnimalRouletteDisplayTest {
 
     }
 
+    /**
+     * This test is used to show that the dog is the default
+     * animal displayed
+     */
     @Test
-    void testDefaultAnimal() {
+    void defaultAnimalShouldBeDog() {
         // Default animal should be dog
         assertEquals(display.getSelectedAnimal(), "images/dog.png");
         assertEquals(display.getCurrentAnimalIndex(), 0);
     }
 
+    /**
+     * This test is used to show that animals are cycle through
+     * anti-clockwise when left button is pressed
+     */
     @Test
-    void leftButtonShouldCycleCorrectly() {
+    void leftButtonShouldCycleACW() {
         TextButton leftButton = display.getLeftButton();
 
         // Set up button touch event
@@ -82,8 +90,12 @@ public class AnimalRouletteDisplayTest {
         assertEquals(display.getCurrentAnimalIndex(), 0);
     }
 
+    /**
+     * This test is used to show that animals are cycle through
+     * clockwise when right button is pressed
+     */
     @Test
-    void rightButtonShouldCycleCorrectly() {
+    void rightButtonShouldCycleCW() {
         TextButton rightButton = display.getRightButton();
 
         // Set up button touch event
