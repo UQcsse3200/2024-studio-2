@@ -91,6 +91,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PlayFab</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">The PlayFab class handles user registration and login via PlayFab's client API.
+ It allows initializing the PlayFab client with a Title ID and provides methods
+ for user registration and login.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,7 +108,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static class&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="PlayFab.Response.html" class="type-name-link" title="class in com.csse3200.game.components.login">PlayFab.Response</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">A class used to return the result of a user action (registration/login).</div>
+</div>
 </div>
 </section>
 </li>
@@ -118,7 +123,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String)" class="member-name-link">PlayFab</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;titleId)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor to initialize PlayFab with the given Title ID.</div>
+</div>
 </div>
 </section>
 </li>
@@ -133,18 +140,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login">PlayFab.Response</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#loginUser(java.lang.String,java.lang.String)" class="member-name-link">loginUser</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Logs in a user via PlayFab with the provided username and password.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#main(java.lang.String%5B%5D)" class="member-name-link">main</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Main method to test user registration functionality.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login">PlayFab.Response</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#registerUser(java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">registerUser</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;email,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Registers a new user in PlayFab with the provided credentials.</div>
+</div>
 </div>
 </div>
 </div>
@@ -166,6 +179,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.lang.String)">
 <h3>PlayFab</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PlayFab</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;titleId)</span></div>
+<div class="block">Constructor to initialize PlayFab with the given Title ID.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>titleId</code> - The PlayFab Title ID to be used for authentication.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -180,6 +198,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="main(java.lang.String[])">
 <h3>main</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">main</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</span></div>
+<div class="block">Main method to test user registration functionality.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>args</code> - Command line arguments (not used).</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -188,13 +211,30 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login">PlayFab.Response</a></span>&nbsp;<span class="element-name">registerUser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;email,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password)</span></div>
+<div class="block">Registers a new user in PlayFab with the provided credentials.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>username</code> - The desired username for the user.</dd>
+<dd><code>email</code> - The email address associated with the user.</dd>
+<dd><code>password</code> - The desired password for the user.</dd>
+<dt>Returns:</dt>
+<dd>A <a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login"><code>PlayFab.Response</code></a> object containing a success or failure message.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="loginUser(java.lang.String,java.lang.String)">
 <h3>loginUser</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loginUser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login">PlayFab.Response</a></span>&nbsp;<span class="element-name">loginUser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password)</span></div>
+<div class="block">Logs in a user via PlayFab with the provided username and password.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>username</code> - The username of the registered account.</dd>
+<dd><code>password</code> - The password of the registered account.</dd>
+<dt>Returns:</dt>
+<dd>A <a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login"><code>PlayFab.Response</code></a> object containing a success or failure message.</dd>
+</dl>
 </section>
 </li>
 </ul>
