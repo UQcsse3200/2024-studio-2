@@ -1,6 +1,7 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.files.FileLoader;
@@ -112,5 +113,4 @@ public class MainMenuActions extends Component {
   public static boolean getGameLoaded() {
     return loaded;
   }
-
 }

@@ -47,18 +47,14 @@ public class QuestDisplay extends UIComponent {
 
     /** Comparator to sort quests showing active, completed then failed quests */
     private final Comparator<Quest> questComparator = (q1, q2) -> {
-        if (q1.isActive() && !q2.isActive()) {
-            return -1;
-        } else if (!q1.isActive() && q2.isActive()) {
+        if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
             return 1;
-        } else if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
-            return -1;
         } else if (!q1.isQuestCompleted() && q2.isQuestCompleted()) {
-            return 1;
-        } else if (q1.isFailed() && !q2.isFailed()) {
             return -1;
-        } else if (!q1.isFailed() && q2.isFailed()) {
+        } else if (q1.isFailed() && !q2.isFailed()) {
             return 1;
+        } else if (!q1.isFailed() && q2.isFailed()) {
+            return -1;
         } else {
             return 0;
         }
@@ -88,7 +84,7 @@ public class QuestDisplay extends UIComponent {
         addQuestsCompletedLabel(table);
 
         if (questManager != null) {
-            listOfQuests = questManager.getAllQuests();
+            listOfQuests = questManager.getActiveQuests();
             listOfQuests.sort(questComparator);
             //
             int start = currPage * numOfQuestsPerPage;
@@ -129,15 +125,20 @@ public class QuestDisplay extends UIComponent {
         Color questShownActive = determineQuestColor(quest);
 
         Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
-        questTitle.setFontScaleX(0.8f);
+        questTitle.setFontScaleX(0.5f);
+
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
-        questProgressBar.setSize(0.5f, 0.5f);
+
+
+        questProgressBar.setSize(270, 20);
+
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
 
-        table.add(questTitle).expandX().fillX().padRight(10f);
-        table.add(questProgressBar).expandX().fillX().padRight(10f);
+
+        table.add(questTitle).expandX().fillX().padRight(5f);
+        table.add(questProgressBar).width(150).height(20).padRight(5f);
         table.add(questCheckbox).padRight(10f);
         table.row().padTop(5f);
 
@@ -169,6 +170,8 @@ public class QuestDisplay extends UIComponent {
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
         descLabel.setFontScale(0.70f);
+        descLabel.setWrap(true);
+        descLabel.setWidth(300);
 
         table.add(descLabel).expandX().fillX().colspan(10);
         table.row().padTop(1f);
@@ -177,6 +180,10 @@ public class QuestDisplay extends UIComponent {
             Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
             hintLabel.setColor(Color.GRAY);
             hintLabel.setFontScale(0.70f);
+
+
+            hintLabel.setWrap(true);
+            hintLabel.setWidth(300);
 
             table.add(hintLabel).expandX().fillX().colspan(10);
             table.row().padTop(1f);

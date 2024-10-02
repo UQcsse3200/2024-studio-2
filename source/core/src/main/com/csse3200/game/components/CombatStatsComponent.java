@@ -15,7 +15,7 @@ public class CombatStatsComponent extends Component {
 
   // Enum for status effects
   public enum StatusEffect {
-    CONFUSION, BLEEDING, POISONED, SHOCKED
+    CONFUSED, BLEEDING, POISONED, SHOCKED
   }
 
   // Set to hold active status effects
@@ -387,7 +387,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Sets the entity's level.
    *
-   * @param sets entity level to number
+   * @param level sets entity's level
    */
   public void setLevel(int level){
     this.level = level;
@@ -396,7 +396,7 @@ public class CombatStatsComponent extends Component {
   /**
    * Add int to entity's level
    *
-   * @param adds int to the current level
+   * @param level adds int to the current level
    */
   public void addLevel(int level){
     setLevel(this.level + level);
@@ -404,12 +404,13 @@ public class CombatStatsComponent extends Component {
 
   /**
    * Adds a status effect to the entity. Status effects can impact combat in different ways.
-   * For example, 'CONFUSION' may cause an entity to randomly attack, while 'BLEEDING' may
+   * For example, 'CONFUSED' may cause an entity to randomly attack, while 'BLEEDING' may
    * cause gradual health loss over time.
    * @param effect The status effect to add
    */
   public void addStatusEffect(StatusEffect effect) {
     statusEffects.add(effect);
+    entity.getEvents().trigger("statusEffectAdded", effect);
     logger.info("Added status effect: {}", effect);
   }
 
@@ -423,6 +424,7 @@ public class CombatStatsComponent extends Component {
     if (statusEffects.contains(effect)) {
       statusEffects.remove(effect);
       logger.info("Removed status effect: {}", effect);
+      entity.getEvents().trigger("statusEffectRemoved");
     }
   }
 
@@ -434,5 +436,32 @@ public class CombatStatsComponent extends Component {
    */
   public boolean hasStatusEffect(StatusEffect effect) {
     return statusEffects.contains(effect);
+  }
+
+  /**
+   * Checks if the entity has any applied status effects.
+   *
+   * @return true if the entity has a status effect, false otherwise
+   */
+  public boolean hasStatusEffect() {
+    return !statusEffects.isEmpty();
+  }
+
+  /**
+   * Gets the duration of a StatusEffect type
+   *
+   * @param effect The status effect to check
+   * @return the number of rounds a StatusEffect will be applied
+   */
+  public int getStatusEffectDuration(StatusEffect effect) {
+    switch (effect) {
+      case BLEEDING, SHOCKED -> {
+        return 3;
+      }
+      case POISONED -> {
+        return 2;
+      }
+    }
+    return 0;
   }
 }

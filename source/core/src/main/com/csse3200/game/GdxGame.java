@@ -151,7 +151,7 @@ public class GdxGame extends Game {
         //player.getComponent(CombatStatsComponent.addExperience())
         //enemy.getComponent(CombatStatsComponent.getExperience());
         //
-        enemy.dispose();
+        enemy.specialDispose();
     }
 
     @Override

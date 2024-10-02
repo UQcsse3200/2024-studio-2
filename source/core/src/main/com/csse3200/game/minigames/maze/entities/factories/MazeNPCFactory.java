@@ -1,13 +1,11 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.entities.configs.MazeNPCConfigs;
-import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
-import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
+import com.csse3200.game.minigames.maze.entities.mazenpc.*;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -58,6 +56,17 @@ public class MazeNPCFactory {
         MazeEntityConfig config = configs.jellyfish;
         return new Jellyfish(config);
     }
+
+    /**
+     * Creates the green jellyfish npc
+     *
+     * @return the jellyfish
+     */
+    public static GreenJellyfish createGreenJellyfish() {
+        MazeEntityConfig config = configs.jellyfish;
+        return new GreenJellyfish(config);
+    }
+
 
     /**
      * Creates the fish egg npc
