@@ -45,7 +45,7 @@ public class CombatManager extends Component {
     private ItemUsageContext playerItemContext;
 
     // HashMap stores information on enemies when attack
-    static Map<String,ArrayList> specialmoveStore;
+    static Map<String,ArrayList> EnemyMoveStore;
 
     /**
      * Initializes the CombatManager for handling the combat between a player and an enemy.
@@ -69,7 +69,7 @@ public class CombatManager extends Component {
         this.playerMove = player.getComponent(CombatMoveComponent.class);
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
        // enemies = new HashMap<String,Entity>();
-        specialmoveStore = new LinkedHashMap<>();
+        EnemyMoveStore = new LinkedHashMap<>();
     }
 
     /**
@@ -193,7 +193,7 @@ public class CombatManager extends Component {
         Action enemyAction;
 
         if (enemyStats.getStamina() < 25) {
-            UpdateSpecialMoveStore(Action.SLEEP);
+            UpdateEnemyMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
 
@@ -207,7 +207,7 @@ public class CombatManager extends Component {
         };
 
         //stores enemyAction
-        UpdateSpecialMoveStore(enemyAction);
+        UpdateEnemyMoveStore(enemyAction);
         return enemyAction;
     }
     /**
@@ -217,8 +217,8 @@ public class CombatManager extends Component {
      * @param value The enemy action to store.
      */
 
-    private void UpdateSpecialMoveStore(Action value) {
-        ArrayList itemsList = specialmoveStore.get(enemy.getEnemyType().toString());
+    private void UpdateEnemyMoveStore(Action value) {
+        ArrayList itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
 
         if (itemsList == null)
         {
@@ -229,12 +229,12 @@ public class CombatManager extends Component {
         //particular enemy has already made a move
         {
             logger.info("removing existing record in hashmap");
-            itemsList = specialmoveStore.remove(enemy.getEnemyType().toString());
+            itemsList = EnemyMoveStore.remove(enemy.getEnemyType().toString());
         }
 
 
         itemsList.add(value);
-        specialmoveStore.put(enemy.getEnemyType().toString(), itemsList);
+        EnemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
         if(itemsList.size()>2)
         {
             logger.info("1- item list size: {}", itemsList.size());
@@ -250,9 +250,9 @@ public class CombatManager extends Component {
     private void CheckSpecialMoveCombination()
     {
         boolean NoSpecialMoveComboFlag= false;
-        ArrayList itemsList = specialmoveStore.get(enemy.getEnemyType().toString());
+        ArrayList itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
         logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()) {
+        for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()) {
 
     logger.info("Map<String,ArrayList> ::  " +entry.getKey()+ " :: "+entry.getValue() );
 }
@@ -262,7 +262,7 @@ public class CombatManager extends Component {
         switch (enemy.getEnemyType().toString())
         {
             case "FROG" -> {
-                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
 
                     enemyMoves += entry.getValue().toString();
                     enemyMoves += ", ";
@@ -272,10 +272,11 @@ public class CombatManager extends Component {
                 logger.info("enemy move combination" +enemyMoves);
                 if (enemyMoves=="[ATTACK, ATTACK, ATTACK, ]"){
                     logger.info("special move combination achieved");
+                    //special effect
                 }
             }
             case "CHICKEN" -> {
-                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
 
                     enemyMoves += entry.getValue().toString();
                     enemyMoves += ", ";
@@ -287,7 +288,7 @@ public class CombatManager extends Component {
 
             }
             case "MONKEY" -> {
-                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
 
                     enemyMoves += entry.getValue().toString();
                     enemyMoves += ", ";
@@ -299,7 +300,7 @@ public class CombatManager extends Component {
 
             }
             case "BEAR" -> {
-                for (Map.Entry<String, ArrayList> entry : specialmoveStore.entrySet()){
+                for (Map.Entry<String, ArrayList> entry : EnemyMoveStore.entrySet()){
 
                     enemyMoves += entry.getValue().toString();
                     enemyMoves += ", ";
