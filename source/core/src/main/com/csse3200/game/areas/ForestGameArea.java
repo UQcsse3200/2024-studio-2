@@ -523,7 +523,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
 
     if (Objects.equals(selectedTrack, "Track 1")) {
-      loadAssets();
+      loadAssets(); // Music was not loading after resuming combat
       AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
     } else if (Objects.equals(selectedTrack, "Track 2")) {
         AudioManager.playMusic("sounds/track_2.mp3", true);
