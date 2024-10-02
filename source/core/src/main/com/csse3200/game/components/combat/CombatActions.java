@@ -126,7 +126,7 @@ public class CombatActions extends Component {
    * Disposes of Kanga Boss entity after post combat dialogue.
    * TODO: open up new area.
    */
-  private void onKangaDefeated(Entity enemy) {
+    private void onKangaDefeated(Entity enemy) {
     logger.info("Switching back to main game after defeating kangaroo boss.");
 
     // Reset player's stamina.
@@ -142,19 +142,41 @@ public class CombatActions extends Component {
   }
 
   /**
-   * TODO: Switches to the end game stats screen upon defeating the Water Boss, and open up new area.
+   * Switches back to the main game after updating player stats and experience, upon defeating the Water Boss.
+   * Disposes of Water Boss entity after post combat dialogue.
    */
-  private void onWaterBossDefeated() {
-    logger.info("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  private void onWaterBossDefeated(Entity enemy) {
+    logger.info("Switching back to main game after defeating kangaroo boss.");
+
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, true);
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**
-   * TODO: Switches to the end game stats screen upon defeating the Air Boss, and open up new area.
+   * Switches back to the main game after updating player stats and experience, upon defeating the Air Boss.
+   * Disposes of Air Boss entity after post combat dialogue.
    */
-  private void onAirBossDefeated() {
-    logger.info("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  private void onAirBossDefeated(Entity enemy) {
+    logger.info("Switching back to main game after defeating kangaroo boss.");
+
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfLandBossCombatDialogue", enemy, true);
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**

@@ -58,9 +58,9 @@ public class CombatExitDisplay extends UIComponent {
           if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
             entity.getEvents().trigger("landBossDefeated", enemy);
           } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
-            entity.getEvents().trigger("waterBossDefeated");
+            entity.getEvents().trigger("waterBossDefeated", enemy);
           } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-            entity.getEvents().trigger("airBossDefeated");
+            entity.getEvents().trigger("airBossDefeated", enemy);
           } else {
             entity.getEvents().trigger("combatWin", enemy);
           }

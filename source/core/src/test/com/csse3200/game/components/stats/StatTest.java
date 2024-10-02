@@ -105,42 +105,6 @@ class StatTest {
         SaveHandler.delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
     }
 
-//    @Test
-//    void testJsonWrite() {
-//        // Mock Json write behaviour for verifying the output
-//        stat.write(mockJson);
-//
-//        // Verify that the correct values are written to the Json object
-//        verify(mockJson).writeValue("statName", "ApplesCollected");
-//        verify(mockJson).writeValue("statDescription", "Number of apples collected");
-//        verify(mockJson).writeValue("statCurrent", 0);
-//        verify(mockJson).writeValue("statMax", 10);
-//        verify(mockJson).writeValue("statHasMax", true);
-//        verify(mockJson).writeValue("type", "ITEM");
-//    }
-//
-//    @Test
-//    void testJsonRead() {
-//        // Mock the JsonValue object to return expected data for each key
-//        when(mockJsonValue.getString("statName")).thenReturn("ApplesCollected");
-//        when(mockJsonValue.getString("statDescription")).thenReturn("Number of apples collected");
-//        when(mockJsonValue.getInt("statCurrent")).thenReturn(5);
-//        when(mockJsonValue.getBoolean("statHasMax")).thenReturn(true);
-//        when(mockJsonValue.getInt("statMax")).thenReturn(10);
-//        when(mockJsonValue.getString("type")).thenReturn("ITEM");
-//
-//        // Read the mocked Json data
-//        stat.read(mockJson, mockJsonValue);
-//
-//        // Verify that the stat object has been populated correctly
-//        assertEquals("ApplesCollected", stat.getStatName());
-//        assertEquals("Number of apples collected", stat.getStatDescription());
-//        assertEquals(5, stat.getCurrent());
-//        assertTrue(stat.hasMax());
-//        assertEquals(10, stat.getStatMax());
-//        assertEquals(Stat.StatType.ITEM, stat.getType());
-//    }
-
     @Test
     void testToString() {
         // Verify the correct string representation of the stat object

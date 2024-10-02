@@ -1,12 +1,12 @@
 [
-{
-  "questName": "AppleAdvancement",
-  "questDescription": "Collect your first apple!",
-  "completed": false,
-  "seen": false,
-  "type": "ITEM",
-  "iconPath": "images/foodtextures/apple.png"
-},
+  {
+    "questName": "AppleAdvancement",
+    "questDescription": "Collect your first apple!",
+    "completed": false,
+    "seen": false,
+    "type": "ITEM",
+    "iconPath": "images/foodtextures/apple.png"
+  },
   {
     "questName": "Attack PotionAdvancement",
     "questDescription": "Collect your first Attack Potion!",
@@ -102,8 +102,7 @@
     "seen": false,
     "type": "ADVANCEMENT",
     "iconPath": "images/logbook/icons/snake-gold.png"
-  }
-,
+  },
   {
     "questName": "BRONZE BIRD",
     "questDescription": "Finish the bird mini game with a bronze medal",
@@ -161,5 +160,21 @@
     "seen": false,
     "type": "ENEMY",
     "iconPath": "images/final_boss_kangaroo_idle.png"
+  },
+  {
+    "questName": "WATER_BOSS",
+    "questDescription": "Defeat the FIERCE LEVIATHAN!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/water_boss.png"
+  },
+  {
+    "questName": "AIR_BOSS",
+    "questDescription": "Defeat the ILLUSTRIOUS GRYPHON!",
+    "completed": false,
+    "seen": false,
+    "type": "ENEMY",
+    "iconPath": "images/air_boss.png"
   }
 ]
