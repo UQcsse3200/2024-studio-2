@@ -7,7 +7,6 @@ import com.csse3200.game.inventory.items.TimedUseItem;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
-import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
@@ -96,8 +95,6 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
             logger.warn("Cannot use combat items outside of combat.");
             return;
         }
-        // Otherwise, allow item use
-        inventory.useItemAt(index, context);
-        entity.getEvents().trigger("itemUsed", item);
+        super.consumeItem(item, context, index);
     }
 }
