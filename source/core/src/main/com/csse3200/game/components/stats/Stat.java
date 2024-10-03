@@ -149,7 +149,6 @@ public class Stat {
         return this.type;
     }
 
-
     /**
      * Convert stats json to a human-readable string
      *
