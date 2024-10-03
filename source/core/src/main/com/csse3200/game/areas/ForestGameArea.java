@@ -510,6 +510,10 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         generator = () -> EnemyFactory.createEel(player);
         spawnShooterEnemy(generator, config.spawns.NUM_EELS, 0.1, 2);
 
+        //Octopus
+        generator = () -> EnemyFactory.createOctopus(player);
+        spawnRandomEnemy(generator, config.spawns.NUM_OCTOPUS, 0.06, 2);
+
         //Big saw fish
         generator = () -> EnemyFactory.createBigsawfish(player);
         spawnShooterEnemy(generator, config.spawns.NUM_BIGSAWFISH, 0.1, 2);
