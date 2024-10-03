@@ -7,6 +7,9 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.EntityConverter;
+import com.csse3200.game.screens.GameOverLoseScreen;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +42,18 @@ public class CombatActions extends Component {
   public void create() {
     entity.getEvents().addListener("combatWin", this::onCombatWin);
     entity.getEvents().addListener("combatLoss", this::onCombatLoss);
+    entity.getEvents().addListener("bossCombatWin", this::onBossCombatWin);
+    entity.getEvents().addListener("bossCombatLoss", this::onBossCombatLoss);
     entity.getEvents().addListener("Attack", this::onAttack);
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("landBossDefeated", this::onKangaDefeated);
-    entity.getEvents().addListener("waterBossDefeated", this::onWaterBossDefeated);
-    entity.getEvents().addListener("airBossDefeated", this::onAirBossDefeated);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
-
+    entity.getEvents().addListener("finishedBossLossCombatDialogue", () -> {
+      game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    });
   }
 
   /**
@@ -69,16 +73,6 @@ public class CombatActions extends Component {
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
     int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
     manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
-    // CODE REQUIRED BY TEAM 4 TO IMPLEMENT CONVERSIONS:
-
-
-//    if (previousScreen instanceof MainGameScreen mainGameScreen) {
-//      ForestGameArea gameArea = mainGameScreen.getGameArea();
-//      List<Entity> enemies = gameArea.getEnemies();
-//
-//      EntityConverter.convertToFriendly(manager.getEnemy(), manager.getPlayer(), enemies);
-//    }
-//    game.returnFromCombat(previousScreen, previousServices, enemy);
   }
 
   /**
@@ -92,6 +86,39 @@ public class CombatActions extends Component {
 
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, false);
+  }
+
+  /**
+   * If boss is defeated, update player stats and display boss combat win dialogue.
+   * Disposes of Boss entity after post combat dialogue.
+   *
+   * @param bossEnemy The boss entity defeated by the player
+   * TODO: open up new area depending on bossEnemy type. Unable to do at
+   *                 this stage, map team has not completed functionality
+   */
+  private void onBossCombatWin(Entity bossEnemy) {
+    logger.info("Switching back to main game after defeating kangaroo boss.");
+
+    // Reset player's stamina.
+    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
+    // For CombatStatsDisplay to update
+    entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfBossCombatDialogue", bossEnemy, true);
+    int enemyExp = bossEnemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
+  }
+
+  /**
+   * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
+   */
+  private void onBossCombatLoss(Entity enemy) {
+    logger.info("Returning to main game screen after combat loss.");
+
+    // For CombatButtonDisplay DialogueBox
+    entity.getEvents().trigger("endOfBossCombatDialogue", enemy, false);
   }
 
   /**
@@ -109,30 +136,6 @@ public class CombatActions extends Component {
     logger.debug("before Guard");
     manager.onPlayerActionSelected("GUARD");
     entity.getEvents().trigger("onGuard", manager.getPlayerStats(), manager.getEnemyStats());
-  }
-
-  /**
-   * TODO: Switches to the end game stats screen upon defeating the final Kanga Boss, and open up new area.
-   */
-  private void onKangaDefeated() {
-    logger.debug("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
-  }
-
-  /**
-   * TODO: Switches to the end game stats screen upon defeating the Water Boss, and open up new area.
-   */
-  private void onWaterBossDefeated() {
-    logger.info("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
-  }
-
-  /**
-   * TODO: Switches to the end game stats screen upon defeating the Air Boss, and open up new area.
-   */
-  private void onAirBossDefeated() {
-    logger.info("Switching to end game stats screen.");
-    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
   }
 
   /**
