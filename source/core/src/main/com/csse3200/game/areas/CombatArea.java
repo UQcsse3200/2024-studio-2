@@ -11,7 +11,7 @@ import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
-import com.csse3200.game.components.animal.AnimalSelectionActions;
+import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
@@ -190,7 +190,7 @@ public class CombatArea extends GameArea {
          * The following entity is the real entity of the player to be used for combat,
          * with health, stats, etc.
          */
-        String imagePath = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath == "images/croc.png"){
             PLAYER_SPAWN = new GridPoint2(332, 335);
@@ -212,7 +212,7 @@ public class CombatArea extends GameArea {
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
          */
-        String iP = AnimalSelectionActions.getSelectedAnimalImagePath();
+        String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         nP.setPosition(520, 250);

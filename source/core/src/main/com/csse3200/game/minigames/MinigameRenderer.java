@@ -1,5 +1,6 @@
 package com.csse3200.game.minigames;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,7 +25,7 @@ public class MinigameRenderer {
         this.cam = new OrthographicCamera(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         cam.position.set(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2, 0);
         cam.update();
-        this.background = null;
+        this.background = new Texture("images/minigames/Background.png");;
     }
 
     public void addRenderable(MinigameRenderable renderable) {
@@ -43,7 +44,7 @@ public class MinigameRenderer {
     public void renderBackground() {
         if(background != null) {
             sb.begin();
-            sb.draw(background, 0, 0);
+            sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             sb.end();
         }
     }

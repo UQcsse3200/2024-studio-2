@@ -7,8 +7,8 @@ import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.TouchAttackComponent;
-import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.lootboxview.LootBoxOverlayComponent;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.player.PlayerStatsDisplay;
@@ -64,7 +64,6 @@ public class PlayerFactory {
         moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
-
         player.addComponent(new PlayerActions(game, player, imagePath));
 
         // Set different stats for each animal type
@@ -102,8 +101,7 @@ public class PlayerFactory {
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
-        player.getComponent(QuestManager.class).loadQuests();
+
 
         PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
         player.addComponent(new LightingComponent().attach(light))

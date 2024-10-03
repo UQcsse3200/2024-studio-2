@@ -82,7 +82,7 @@ public class AchievementManager {
      * Returns the current save (list of all achievements).
      * @return achievements An Array of Achievement objects representing all achievements.
      */
-    public Array<Achievement> getAchievements() {
+    public Array<Achievement>getAchievements() {
         return achievements;
     }
 

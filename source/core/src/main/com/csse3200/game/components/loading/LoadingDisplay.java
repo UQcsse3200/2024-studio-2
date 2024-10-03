@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,8 +19,9 @@ public class LoadingDisplay extends UIComponent {
     private static final float MESSAGE_INTERVAL = 2f;
     private Table table;
     private Label loadingLabel;
-    private final String[] loadingMessages = {
-                "Fetching the best bones... please wait!",
+
+    private final List<String> loadingMessages = new LinkedList<>(List.of(
+            "Fetching the best bones... please wait!",
             "The jungle is waking up... loading soon!",
             "Watering the game plants... almost done!",
             "Wagging tails, flapping wings, hang tight!",
@@ -40,7 +41,9 @@ public class LoadingDisplay extends UIComponent {
             "Ready to unleash the wild... almost there!",
             "Stampeding towards adventure... loading complete soon!",
             "Snoozing under a tree... game will wake up soon!"
-    };
+    ));
+
+    private List<String> shuffledMessages;
     private float elapsedTime;
     private float messageElapsedTime = 0;
     private String currentMessage;
@@ -50,8 +53,9 @@ public class LoadingDisplay extends UIComponent {
 
     public LoadingDisplay() {
         elapsedTime = 0;
-        currentMessageIndex = (int) (Math.random() * loadingMessages.length);
-        currentMessage = loadingMessages[currentMessageIndex];
+        shuffleMessages();  // Shuffle the messages at the beginning
+        currentMessageIndex = 0;
+        currentMessage = shuffledMessages.get(currentMessageIndex);  // Start with the first message in the shuffled list
     }
 
     @Override
@@ -73,12 +77,14 @@ public class LoadingDisplay extends UIComponent {
         table.row();
 
         stage.addActor(table);  // Add the table to the stage
-
-
     }
 
-    public boolean isLoadingFinished() {
-        return elapsedTime >= LOADING_DURATION;
+    /**
+     * Shuffles the list of messages to ensure random order.
+     */
+    private void shuffleMessages() {
+        shuffledMessages = new LinkedList<>(loadingMessages);
+        Collections.shuffle(shuffledMessages);  // Randomly shuffle the messages
     }
 
     @Override
@@ -88,15 +94,17 @@ public class LoadingDisplay extends UIComponent {
         elapsedTime += deltaTime;
         messageElapsedTime += deltaTime;
 
-        // Update loading messages
+        // Update loading messages at regular intervals
         if (messageElapsedTime >= MESSAGE_INTERVAL) {
-            int newMessageIndex;
-            do {
-                newMessageIndex = (int) (Math.random() * loadingMessages.length);
-            } while (newMessageIndex == currentMessageIndex);
+            currentMessageIndex++;
 
-            currentMessageIndex = newMessageIndex;
-            currentMessage = loadingMessages[currentMessageIndex];
+            // If we've reached the end of the shuffled list, reshuffle
+            if (currentMessageIndex >= shuffledMessages.size()) {
+                shuffleMessages();
+                currentMessageIndex = 0;
+            }
+
+            currentMessage = shuffledMessages.get(currentMessageIndex);
             loadingLabel.setText(currentMessage);
             messageElapsedTime = 0;
         }
@@ -110,27 +118,31 @@ public class LoadingDisplay extends UIComponent {
     public float getZIndex() {
         return Z_INDEX;
     }
+
+    public boolean isLoadingFinished() {
+        return elapsedTime >= LOADING_DURATION;
+    }
+
     public MoonActor getMoonActor() {
         return moonActor;
     }
 
     public List<String> getAllMessages() {
-        return Arrays.asList(loadingMessages);
+        return loadingMessages;
     }
+
     public String getCurrentMessage() {
         return currentMessage;
     }
 
-
     @Override
     protected void draw(SpriteBatch batch) {
-
+        // No custom draw logic needed
     }
 
     @Override
     public void dispose() {
         table.clear();
-        //moonActor.dispose();  // Dispose the moon actor
         super.dispose();
     }
 }

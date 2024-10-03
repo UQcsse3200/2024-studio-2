@@ -1,0 +1,68 @@
+@startuml
+
+
+class PlayFab::Response {
+    - result: String
+    - isSucceed: Boolean
+    + getResult(): String
+    + getIsSucceed(): Boolean
+}
+
+
+class PlayFab {
+    + PlayFab(titleId: String)
+    + registerUser(username: String, email: String, password: String): Response
+    + loginUser(username: String, password: String): Response
+}
+
+class LoginRegisterDisplay {
+    - Z_INDEX: float
+    - table: Table
+    - topTable: Table
+    - contentTable: Table
+    - progressBar: ProgressBar
+    - title: Label
+    - usernameField: TextField
+    - passwordField: TextField
+    - emailField: TextField
+    - submitButton: TextButton
+    - switchButton: TextButton
+    - closeButton: Button
+    - isLoginMode: boolean
+    - backgroundTexture: Texture
+    - closeButtonTexture: Texture
+    - playFab: PlayFab
+
+    + LoginRegisterDisplay()
+    - loadTextures()
+    - initializeTable()
+    + makeLoginRegisterTable(): Table
+    - addInputField()
+    - addButtons()
+    - updateUI()
+    + update()
+    + draw(batch: SpriteBatch)
+    + getZIndex(): float
+    + dispose()
+}
+
+class NotifManager {
+    - notifNormalBackground: Texture
+    - notifErrorBackground: Texture
+    - notifSuccessBackground: Texture
+    - notifLabel: Label
+    - notifTable: Table
+    - dropDuration: float
+    + addNotificationTable(): Table
+    + displayNotif(contents: String, isSucceed: Boolean)
+    + displayNotif(contents: String)
+    + hideNotif()
+    + update()
+    + draw(batch: SpriteBatch)
+}
+
+LoginRegisterDisplay --|> UIComponent
+LoginRegisterDisplay --> PlayFab
+LoginRegisterDisplay --> NotifManager
+NotifManager --|> UIComponent
+@enduml

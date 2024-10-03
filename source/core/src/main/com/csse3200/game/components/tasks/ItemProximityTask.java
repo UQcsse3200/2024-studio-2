@@ -52,7 +52,8 @@ public class ItemProximityTask extends ProximityTask {
             if (inventory != null) {
                 if (!inventory.getInventory().isFull()) {
                     this.target.getEvents().trigger("addItem", item);
-                    logger.debug("Item added to inventory.");
+                    this.target.getEvents().trigger("pickUp" + item.getName());
+                    logger.info("Item added to inventory {}.", item.getName());
                     itemPickedUp = true; // Set flag to prevent further triggering
                     owner.getEntity().dispose();
                     ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
@@ -95,7 +96,7 @@ public class ItemProximityTask extends ProximityTask {
     @Override
     public void handleTargetMovedClose() {
         String[][] itemText = {{item.getDescription() + " - press P to pick it up."}};
-        ServiceLocator.getDialogueBoxService().updateText(itemText);
+        ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
     }
 
     /**

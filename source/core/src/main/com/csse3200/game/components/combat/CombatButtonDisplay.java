@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
@@ -63,6 +64,16 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
         // Add a listener to the stage to monitor the DialogueBox visibility
+        dialogueBoxListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    addActors();
+                }
+            }
+        };
+        entity.getEvents().addListener("endOfBossCombatDialogue", this::displayBossEndCombatDialogue);
         dialogueBoxListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -247,6 +258,9 @@ public class CombatButtonDisplay extends UIComponent {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
         ChangeListener endDialogueListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -266,7 +280,46 @@ public class CombatButtonDisplay extends UIComponent {
             endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
                     "before battling again."}};
         }
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
+    }
+
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * with the land Kangaroo Boss
+     * @param bossEntity Entity of the boss enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
+    public void displayBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
+        String[][] endText;
+        stage.removeListener(dialogueBoxListener);
+
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    if (!winStatus) {
+                        logger.info("Switching screens to gamer over lose after losing to boss.");
+                        entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else {
+                        logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                        entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                    }
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+
+        // Get dialogue from DialogueData class
+        BossCombatDialogueData dialogueData = new BossCombatDialogueData();
+        endText = dialogueData.getDialogue(bossEntity.getEnemyType().toString(), winStatus);
+
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
 
     /**
@@ -278,7 +331,7 @@ public class CombatButtonDisplay extends UIComponent {
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
         logger.debug(String.format("Item %s was clicked.", item.getName()));
         String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
-        ServiceLocator.getDialogueBoxService().updateText(checkText);
+        ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
 
         entity.getEvents().trigger("toggleCombatInventory");
         entity.getEvents().trigger("itemConfirmed", item, index, context);

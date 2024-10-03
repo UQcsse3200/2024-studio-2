@@ -55,12 +55,8 @@ public class CombatExitDisplay extends UIComponent {
             new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
-            entity.getEvents().trigger("landBossDefeated");
-          } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
-            entity.getEvents().trigger("waterBossDefeated");
-          } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-            entity.getEvents().trigger("airBossDefeated");
+          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+            entity.getEvents().trigger("bossCombatWin", enemy);
           } else {
             entity.getEvents().trigger("combatWin", enemy);
           }
@@ -73,7 +69,7 @@ public class CombatExitDisplay extends UIComponent {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
           if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-            entity.getEvents().trigger("combatLossBoss");
+            entity.getEvents().trigger("bossCombatLoss", enemy);
           } else {
             entity.getEvents().trigger("combatLoss", enemy);
           }
