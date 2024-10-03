@@ -1,6 +1,7 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.files.FileLoader;
@@ -54,9 +55,7 @@ public class MainMenuActions extends Component {
     logger.info("Load game");
 
     SaveHandler.load(GameState.class, "saves", FileLoader.Location.LOCAL);
-//    if(GameState.player == null) {
-//      GameState.player = new PlayerSave();
-//    }
+
     if(GameState.checkState()) {
       GameState.resetState();
     }
@@ -114,5 +113,4 @@ public class MainMenuActions extends Component {
   public static boolean getGameLoaded() {
     return loaded;
   }
-
 }

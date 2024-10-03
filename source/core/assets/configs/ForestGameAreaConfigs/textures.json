@@ -2,17 +2,14 @@
   "forestTextures" : [
     "images/box_boy_leaf.png",
     "images/tree.png",
+    "images/cloud.png",
+    "images/seaweed.png",
+    "images/starfish.png",
     "images/final_boss_kangaroo.png",
     "images/friendly_npcs/friendly-npcs.png",
     "images/water_boss.png",
     "images/air_boss.png",
     "images/joey.png",
-    "images/Cow.png",
-    "images/snake.png",
-    "images/eagle.png",
-    "images/lion.png",
-    "images/turtle.png",
-    "images/magpie.png",
     "images/grass_1.png",
     "images/grass_2.png",
     "images/grass_3.png",
@@ -28,8 +25,11 @@
     "images/bird.png",
     "images/Healthpotion.png",
     "images/foodtextures/apple.png",
+    "images/hive.png",
     "images/effects.png",
     "images/griffinEffects.png",
+
+    "images/fog-gate.jpg",
 
     "images/grass_tile_1_around_sand/upper_left_corner_grass_1_around_sand.jpg",
     "images/grass_tile_1_around_sand/upper_middle_grass_1_around_sand.jpg",
@@ -190,6 +190,14 @@
     "images/effects.atlas",
     "images/griffinEffects.atlas",
     "images/bear.atlas",
+    "images/eel.atlas",
+    "images/pigeon.atlas",
+    "images/bee.atlas",
+    "images/bigsawfish.atlas",
+    "images/macaw.atlas",
+    "images/banana.atlas",
+    "images/orb.atlas",
+    "images/worm.atlas",
     "images/friendly_npcs/Cow.atlas",
     "images/friendly_npcs/Fish.atlas",
     "images/friendly_npcs/snake.atlas",
@@ -204,6 +212,9 @@
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
     "images/enemy-chicken.atlas",
-    "images/wolf.atlas"
+    "images/enemy-bear.atlas"
+    "images/enemy-chicken.atlas",
+    "images/wolf.atlas",
+    "images/hive.atlas"
   ]
 }

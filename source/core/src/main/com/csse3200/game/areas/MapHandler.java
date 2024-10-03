@@ -1,5 +1,10 @@
 package com.csse3200.game.areas;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.GdxGame;
@@ -8,14 +13,16 @@ public class MapHandler {
   private static GameArea currentGameArea;
   private static MapType currentMap = MapType.NONE;
   private static MapType previousMap = MapType.NONE;
+  private static boolean unlockedWater = false;
+  private static boolean unlockedAir = false;
+  private static int bossDefeat = 0;
 
   private static ForestGameArea forestGameArea;
 
-  private static boolean isSavedPrevious;
-  // private static GameArea savedPrevioud;
-
+  /**
+   *
+   */
   private MapHandler() {
-    isSavedPrevious = false;
   }
 
   /**
@@ -31,12 +38,6 @@ public class MapHandler {
    * @return 
    */
   public static GameArea switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
-    // TODO: save state
-    if (saveState && currentMap != MapType.NONE) {
-      // currentMap.saveState();
-      isSavedPrevious = true;
-    }
-
     if (currentMap != MapType.NONE) {
       getCurrentMap().dispose();
     }
@@ -73,10 +74,45 @@ public class MapHandler {
     if (mapType == MapType.FOREST) {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
-    } else if (mapType == MapType.WATER) {
     }
 
     return currentGameArea;
+  }
+
+  /**
+   * Unlock the next area.
+   * Water is unlocked first, then air.
+   */
+  public static void unlockNextArea() {
+    if (unlockedWater) {
+      unlockedAir = true;
+      currentGameArea.unlockArea("Air");
+    }
+    unlockedWater = true;
+    currentGameArea.unlockArea("Water");
+  }
+
+  /**
+   * checks if the water map is unlcked yet
+   * @return true iff the map is unlocked
+   */
+  public static boolean getUnlockedOcean() {
+    return MapHandler.unlockedWater;
+  }
+
+  /**
+   * Updates the count of bosses defeated
+   */
+  public static void updateBossDefeatCount() {
+    MapHandler.bossDefeat += 1;
+  }
+
+  /**
+   * sets the state of unlocked water map
+   * @param unlockedWater the state of unlocked map
+   */
+  public static void setUnlockedWater(boolean unlockedWater) {
+    MapHandler.unlockedWater = unlockedWater;
   }
 
   /**
@@ -86,7 +122,6 @@ public class MapHandler {
     currentMap = MapType.NONE;
     previousMap = MapType.NONE;
     currentGameArea = null;
-    isSavedPrevious = false;
     forestGameArea = null;
   }
 
@@ -120,6 +155,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, AIR, COMBAT, MAZE_MINIGAME, NONE
+    FOREST, WATER, AIR, COMBAT, FOG, MAZE_MINIGAME, NONE
   }
 }

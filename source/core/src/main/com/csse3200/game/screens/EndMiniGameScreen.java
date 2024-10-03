@@ -185,7 +185,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
             }
         }
     }
-
     /**
      * Changes the screen if backspace or R is pressed (to mini-games menu or back to game respectively)
      */

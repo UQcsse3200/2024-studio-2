@@ -72,7 +72,13 @@ public class TerrainFactory {
 
     TiledMap tiledMap = new TiledMap();
     TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
+    TiledMapTileLayer fogLayer_water = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
+    fogLayer_water.setName("Water");
+    TiledMapTileLayer fogLayer_air = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
+    fogLayer_air.setName("Air");
     tiledMap.getLayers().add(layer);
+    tiledMap.getLayers().add(fogLayer_water);
+    tiledMap.getLayers().add(fogLayer_air);
 
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 1000);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, mapType);

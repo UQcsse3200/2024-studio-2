@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.maingame.TimeDisplay;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
@@ -33,7 +34,7 @@ import com.csse3200.game.components.maingame.MainGameExitDisplay;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.csse3200.game.areas.MiniMapDisplay;
 
 /**
  * The game screen containing the main game.
@@ -121,10 +122,10 @@ public class MainGameScreen extends PausableScreen {
     dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
 
     loadAssets();
+    this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
     createUI();
     logger.debug("Initialising main game screen entities");
 
-    this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
@@ -243,7 +244,9 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new MainGameExitDisplay(mainGameActions))
               .addComponent(new Terminal())
               .addComponent(inputComponent)
-              .addComponent(new TerminalDisplay());
+              .addComponent(new TerminalDisplay())
+              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);
   }

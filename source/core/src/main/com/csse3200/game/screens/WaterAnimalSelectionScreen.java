@@ -127,7 +127,7 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
         landAnimalsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Land Animals button clicked!"); // Log statement
+                // System.out.println("Land Animals button clicked!"); // Log statement
                 game.setScreen(new AnimalRouletteScreen(game));
             }
         });
