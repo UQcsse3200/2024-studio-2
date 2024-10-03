@@ -147,29 +147,34 @@ loadScripts(document, 'script');</script>
 <div class="block">checks if the water map is unlcked yet</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setUnlockedWater(boolean)" class="member-name-link">setUnlockedWater</a><wbr>(boolean&nbsp;unlockedWater)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resetMapHandler()" class="member-name-link">resetMapHandler</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Deletes references to all maps and resets to original state.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setUnlockedWater(boolean)" class="member-name-link">setUnlockedWater</a><wbr>(boolean&nbsp;unlockedWater)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">sets the state of unlocked water map</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#switchMapTo(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame,boolean)" class="member-name-link">switchMapTo</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#switchMapTo(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame,boolean)" class="member-name-link">switchMapTo</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
  <a href="../rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a>&nbsp;renderer,
  <a href="../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game,
  boolean&nbsp;saveState)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Switch to a NEW map
 
  Set saveState to true will remember the previous map state, which can
  be restored later.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unlockNextArea()" class="member-name-link">unlockNextArea</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unlockNextArea()" class="member-name-link">unlockNextArea</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Unlock the next area.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#updateBossDefeatCount()" class="member-name-link">updateBossDefeatCount</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#updateBossDefeatCount()" class="member-name-link">updateBossDefeatCount</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Updates the count of bosses defeated</div>
 </div>
 </div>
@@ -264,6 +269,13 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>unlockedWater</code> - the state of unlocked map</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="resetMapHandler()">
+<h3>resetMapHandler</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetMapHandler</span>()</div>
+<div class="block">Deletes references to all maps and resets to original state.</div>
 </section>
 </li>
 <li>
