@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class HiveTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(HiveTask.class);
 
-    private WaitTask waitTask;
+    WaitTask waitTask;
     private final Entity target;
     ArrayList<Entity> bees;
 

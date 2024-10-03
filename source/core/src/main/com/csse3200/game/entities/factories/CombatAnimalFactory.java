@@ -253,31 +253,93 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.joey;
         joeyEnemy.setEnemyType(Entity.EnemyType.JOEY);
 
+        TextureAtlas joeyAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(joeyAtlas);
+
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+
         joeyEnemy
-                .addComponent(new TextureRenderComponent("images/joey_idle.png"));
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
         joeyEnemy.scaleHeight(90.0f);
 
         return joeyEnemy;
     }
 
     /**
-     * Creates a Kangaroo Boss entity for combat. This functions the same as createKangaBossEntity() however
-     * there is no chase task included. This is where abilities components will be added.
-     * loaded.
+     * Creates kangaroo boss enemy as entity for combat display
      *
      * @return entity
-     */
+     * */
     public static Entity createKangaBossCombatEntity() {
         Entity kangarooBoss = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.kangarooBoss;
         kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
 
+        TextureAtlas kangarooAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(kangarooAtlas);
+
+        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
+
         kangarooBoss
-                .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"));
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
 
         kangarooBoss.scaleHeight(120.0f);
 
         return kangarooBoss;
+    }
+
+    /**
+     * Creates water boss enemy as entity for combat display
+     *
+     * @return entity
+     * */
+    public static Entity createWaterBossCombatEntity() {
+        Entity waterBoss = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.waterBoss;
+        waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
+
+        TextureAtlas waterBossAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(waterBossAtlas);
+
+        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
+
+        waterBoss
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+
+        waterBoss.scaleHeight(120.0f);
+
+        return waterBoss;
+    }
+
+    /**
+     * Creates air boss enemy as entity for combat display
+     *
+     * @return entity
+     * */
+    public static Entity createAirBossCombatEntity() {
+        Entity airBoss = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.airBoss;
+        airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
+
+        TextureAtlas airBossAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(airBossAtlas);
+
+        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
+
+        airBoss
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+
+        airBoss.scaleHeight(120.0f);
+
+        return airBoss;
     }
 
     private CombatAnimalFactory() {

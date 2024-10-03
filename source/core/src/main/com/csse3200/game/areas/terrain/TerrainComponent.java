@@ -1,26 +1,34 @@
 package com.csse3200.game.areas.terrain;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
+import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
+import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.*;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -38,15 +46,13 @@ public class TerrainComponent extends RenderComponent {
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
-  private MapType mapType;
-
+  
   // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
   //  TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
   private Set<GridPoint2> activeChunks = new HashSet<>();
   private Set<GridPoint2> previouslyActive = new HashSet<>();
   private Set<GridPoint2> newChunks = new HashSet<>();
   private Set<GridPoint2> oldChunks = new HashSet<>();
-
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
 
@@ -73,8 +79,6 @@ public class TerrainComponent extends RenderComponent {
     this.orientation = orientation;
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
-    this.mapType = mapType;
-
     this.terrainResource = new TerrainResource(mapType);
   }
 
@@ -252,17 +256,21 @@ public class TerrainComponent extends RenderComponent {
     private ArrayList<Tile> forestTiles;
     private ArrayList<Tile> waterTiles;
     private ArrayList<Tile> airTiles;
-
+    private ArrayList<Tile> fogTiles;
     // total number of tiles
     public static int FOREST_SIZE = 0;
     public static int WATER_SIZE = 0;
     public static int AIR_SIZE = 0;
+    public static int FOG_SIZE = 0;
+    private boolean unlockedWater;
 
     public TerrainResource(MapType mapType) {
       ResourceService resourceService = ServiceLocator.getResourceService();
       forestTiles = new ArrayList<Tile>();
       waterTiles = new ArrayList<Tile>();
       airTiles = new ArrayList<Tile>();
+      fogTiles = new ArrayList<Tile>();
+      this.unlockedWater = false;
       switch(mapType) {
         case FOREST:
           // load forest tiles
@@ -281,14 +289,26 @@ public class TerrainComponent extends RenderComponent {
 
           // load water tiles
           OceanMapTiles oceanTileConfig;
+          FogMapTiles fogTileConfig;
           oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
-          for (OceanTileConfig tile: oceanTileConfig.waterMapTiles) {
-            waterTiles.add(new Tile(tile.id, 
-                new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), 
-                tile.edges, 
-                tile.centre));
+          fogTileConfig = FileLoader.readClass(FogMapTiles.class, "configs/FogGameAreaConfigs/fogTiles.json");
+
+          for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
+            waterTiles.add(new Tile(tile.id,
+                    new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                    tile.edges,
+                    tile.centre));
           }
           WATER_SIZE = waterTiles.size();
+
+          // load fog tiles
+          for (FogTileConfig tile : fogTileConfig.fogTiles) {
+            fogTiles.add(new Tile(tile.id,
+                    new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                    tile.edges,
+                    tile.centre));
+          }
+          FOG_SIZE = fogTiles.size();
 
           break;
         case COMBAT:
@@ -310,6 +330,8 @@ public class TerrainComponent extends RenderComponent {
           return waterTiles;
         case AIR:
           return airTiles;
+        case FOG:
+          return fogTiles;
         case COMBAT:
           return null;
         default:
@@ -333,6 +355,13 @@ public class TerrainComponent extends RenderComponent {
         setPossibleRight(this.waterTiles.get(i), this.waterTiles);
         setPossibleDown(this.waterTiles.get(i), this.waterTiles);
         setPossibleLeft(this.waterTiles.get(i), this.waterTiles);
+      }
+
+      for (int i = 0; i < this.fogTiles.size(); i++) {
+        setPossibleUp(this.fogTiles.get(i), this.fogTiles);
+        setPossibleRight(this.fogTiles.get(i), this.fogTiles);
+        setPossibleDown(this.fogTiles.get(i), this.fogTiles);
+        setPossibleLeft(this.fogTiles.get(i), this.fogTiles);
       }
     }
 
@@ -407,6 +436,8 @@ public class TerrainComponent extends RenderComponent {
       switch(mapType) {
         case FOREST:
           return forestTiles.get(index);
+        case FOG:
+          return fogTiles.get(index);
         case WATER:
           return waterTiles.get(index);
         case AIR:

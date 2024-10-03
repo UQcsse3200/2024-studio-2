@@ -1,3 +1,5 @@
+package com.csse3200.game.components.stats;
+
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import org.junit.Before;

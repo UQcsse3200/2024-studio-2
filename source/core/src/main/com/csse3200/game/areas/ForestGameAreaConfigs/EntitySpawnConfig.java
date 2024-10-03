@@ -3,6 +3,9 @@ package com.csse3200.game.areas.ForestGameAreaConfigs;
 public class EntitySpawnConfig {
     // Map Obstacles
     public int NUM_TREES;
+    public int NUM_CLOUDS;
+    public int NUM_SEAWEED;
+    public int NUM_STARFISH;
 
     // Items
     public int NUM_APPLES;
@@ -23,6 +26,7 @@ public class EntitySpawnConfig {
     public int NUM_PIGEONS;
     public int NUM_BEES;
     public int NUM_EELS;
+    public int NUM_OCTOPUS;
     public int NUM_BIGSAWFISH;
     public int NUM_MACAW;
     public int NUM_HIVES;
