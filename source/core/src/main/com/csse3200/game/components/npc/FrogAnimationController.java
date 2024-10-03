@@ -9,42 +9,37 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
  */
 public class FrogAnimationController extends Component {
   AnimationRenderComponent animator;
+  private boolean flipped;
 
   @Override
   public void create() {
     super.create();
+    flipped = false;
     animator = this.entity.getComponent(AnimationRenderComponent.class);
-    entity.getEvents().addListener("wanderLeft", this::animateWanderLeft);
-    entity.getEvents().addListener("wanderRight", this::animateWanderRight);
-    entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
-    entity.getEvents().addListener("chaseRight", this::animateChaseRight);
-    entity.getEvents().addListener("spawnStart", this::animateSpawn);
+    entity.getEvents().addListener("wanderLeft", this::animateLeft);
+    entity.getEvents().addListener("wanderRight", this::animateRight);
+    entity.getEvents().addListener("chaseLeft", this::animateLeft);
+    entity.getEvents().addListener("chaseRight", this::animateRight);
+    entity.getEvents().addListener("spawnStart", this::animateStill);
   }
-
-  private void animateSpawn() {
-    animator.startAnimation("spawn");
-  }
-
+  
   //The following methods will be updated with new animations in future sprints,
   //so are currently placeholders
 
-  void animateWanderLeft() {
+  void animateLeft() {
+    flipped = true;
     animator.setFlipX(true);
-    animator.startAnimation("float");
+    animator.startAnimation("jump");
   }
-  void animateWanderRight() {
+  
+  void animateRight() {
+    flipped = false;
     animator.setFlipX(false);
-    animator.startAnimation("float");
+    animator.startAnimation("jump");
   }
-
-  void animateChaseLeft() {
-    animator.setFlipX(true);
-    animator.startAnimation("angry_float");
+  
+  void animateStill() {
+    animator.setFlipX(flipped);
+    animator.startAnimation("still");
   }
-
-  void animateChaseRight() {
-    animator.setFlipX(false);
-    animator.startAnimation("angry_float");
-  }
-
 }

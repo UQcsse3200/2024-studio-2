@@ -58,6 +58,8 @@ public class NPCFactory {
 
     AnimationRenderComponent animator = init_animator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
+    animator.addAnimation("selected", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
+
     InputComponent inputComponent =
             ServiceLocator.getInputService().getInputFactory().createForDialogue();
 
@@ -74,7 +76,8 @@ public class NPCFactory {
     if (animalSoundPaths != null && animalSoundPaths.length > 0) {
       String eventPausedStart = String.format("PauseStart%s", config.getAnimalName());
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
-      npc.getEvents().addListener(eventPausedStart, (String[][] hintText) -> initiateDialogue(animalSoundPaths, hintText));
+      npc.getEvents().addListener(eventPausedStart, (String[][] hintText, Entity entity) -> initiateDialogue(animalSoundPaths, hintText, entity));
+
       npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
     }
 
@@ -192,9 +195,29 @@ public class NPCFactory {
       dialogueBoxService = ServiceLocator.getDialogueBoxService();
     }
 
-    dialogueBoxService.updateText(hintText);
+    dialogueBoxService.updateText(hintText, DialogueBoxService.DialoguePriority.FRIENDLYNPC);
 
-    if (animalSoundPaths != null && animalSoundPaths.length > 0) {
+
+    if (animalSoundPaths != null) {
+      for (String animalSoundPath : animalSoundPaths) {
+        AudioManager.playSound(animalSoundPath);
+      }
+    }
+  }
+
+  public static void initiateDialogue(String[] animalSoundPaths, String[][] hintText, Entity entity) {
+    DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+
+    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+    if (dialogueBoxService == null) {
+      Stage stage = ServiceLocator.getRenderService().getStage();
+      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
+      dialogueBoxService = ServiceLocator.getDialogueBoxService();
+    }
+
+    dialogueBoxService.updateText(hintText, entity, DialogueBoxService.DialoguePriority.FRIENDLYNPC);
+
+    if (animalSoundPaths != null) {
       for (String animalSoundPath : animalSoundPaths) {
         AudioManager.playSound(animalSoundPath);
       }

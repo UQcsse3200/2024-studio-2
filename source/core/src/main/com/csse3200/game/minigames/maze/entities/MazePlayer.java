@@ -8,8 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
-import com.csse3200.game.minigames.maze.components.MazeTouchAttackComponent;
+import com.csse3200.game.minigames.maze.MazeDifficultyIncrease;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
+import com.csse3200.game.minigames.maze.components.*;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
@@ -34,8 +35,10 @@ public class MazePlayer extends Entity {
      *
      * @param stats The configuration stats for the player entity, including health and
      *              attack power.
+     *
+     * @param gameArea The maze game area the player is playing in.
      */
-    public MazePlayer(MazePlayerConfig stats) {
+    public MazePlayer(MazePlayerConfig stats, MazeGameArea gameArea) {
         super();
 
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
@@ -55,8 +58,13 @@ public class MazePlayer extends Entity {
                 .addComponent(new MazeTouchAttackComponent(PhysicsLayer.NPC, 15f))
                 .addComponent(inputComponent)
                 .addComponent(new FaceMoveDirectionXComponent())
-                .addComponent(new MazePlayerStatsDisplay());
-        this.addComponent(new MazeEntityAnimationController());
+                .addComponent(new MazePlayerStatsDisplay())
+                .addComponent(new MazePlayerScoreDisplay())
+                .addComponent(new StatusEffectComponent().registerStatusEffect("stun", new PlayerStunStatusEffect()))
+                .addComponent(new MazeEntityAnimationController())
+                .addComponent(new MazeGameManagerComponent())
+                .addComponent(new MazeDifficultyIncrease(gameArea))
+                .addComponent(new ParticleEffectComponent("images/minigames/trail.p"));
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);

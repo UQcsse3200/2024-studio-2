@@ -1,11 +1,15 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.utils.Logger;
+import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.components.quests.DialogueKey;
+import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-
 import java.util.Objects;
 
 /**
@@ -19,7 +23,9 @@ public class PauseTask extends ChaseTask {
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
+    QuestManager questManager;
     private String animalName;
+    private String taskName;
     private boolean hasEndedConversation;
 
     /**
@@ -31,10 +37,12 @@ public class PauseTask extends ChaseTask {
      * @param maxPauseDistance Maximum distance from the entity to pause.
      */
     public PauseTask(Entity target, int priority, float viewDistance, float maxPauseDistance, boolean isBoss) {
-        super(target, priority, viewDistance, maxPauseDistance, isBoss);
+        super(target, priority, viewDistance, maxPauseDistance, null, isBoss);
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.questManager = target.getComponent(QuestManager.class);
+        this.taskName = "";
         this.hasEndedConversation = false;
     }
 
@@ -57,16 +65,44 @@ public class PauseTask extends ChaseTask {
         ConfigComponent<BaseFriendlyEntityConfig> configComponent = entity.getComponent(ConfigComponent.class);
         this.config = configComponent.getConfig();
 
-
         if (this.config != null) {
             String[][] hintText = this.config.getBaseHint();
             animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
-            entity.getEvents().trigger(eventName, hintText);
+
+            if (questManager != null) {
+                hintText = findDialogueHint(hintText);
+            } else {
+                // Try resetting it for next time
+                this.questManager = target.getComponent(QuestManager.class);
+            }
+            entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
         }
     }
+
+    /**
+     * Helper function to find the correct dialogue hint text from the quest manager.
+     */
+    private String[][] findDialogueHint(String[][] hintText) {
+        for (AbstractQuest quest: questManager.getAllQuests()) {
+            int progression = quest.getProgression();
+            if (!quest.isActive()) {
+                continue;
+            }
+
+            for (DialogueKey dialogueKey : quest.getQuestDialogue()) {
+                String npcName = dialogueKey.getNpcName();
+                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
+                    this.taskName = quest.getTasks().get(progression).getTaskName();
+                    return dialogueKey.getDialogue();
+                }
+            }
+        }
+        return hintText;
+    }
+
 
     /**
      * Triggers an event to end the pause behavior.
@@ -75,9 +111,12 @@ public class PauseTask extends ChaseTask {
      */
     protected void triggerPauseEventEnd() {
         if (this.config != null) {
-            String animalName = (config).getAnimalName();
-            String eventName = String.format("PauseEnd%s", animalName);
+            String eventName = String.format("PauseEnd%s", (config).getAnimalName());
             entity.getEvents().trigger(eventName);
+            if (this.taskName.equals("talkToGuide") || this.taskName.equals("talkToWaterSage") || this.taskName.equals("talkToCloudSage")) {
+                this.target.getEvents().trigger(this.taskName);
+            }
+            this.taskName = "";
         } else {
             entity.getEvents().trigger("pauseEnd");
         }
@@ -137,42 +176,7 @@ public class PauseTask extends ChaseTask {
      */
     @Override
     public int getPriority() {
-        if (status == Status.ACTIVE) {
-            return getActivePriority();
-        }
-
-        return getInactivePriority();
-    }
-
-    /**
-     * Returns the priority level when the pause behavior is active.
-     * If the distance to the target is greater than the view distance or the target is not visible,
-     * the pause behavior should stop and the method returns -1.
-     *
-     * @return the active priority level or -1 if the behavior should stop.
-     */
-    @Override
-    protected int getActivePriority() {
-        float distance = getDistanceToTarget();
-        if (distance > getViewDistance() || !isTargetVisible()) {
-            this.hasApproached = false;
-            return -1; // Too far or not visible, stop the task
-        }
-        return priority;
-    }
-
-    /**
-     * Returns the priority level when the pause behavior is inactive.
-     * If the distance to the target is less than the view distance and the target is visible,
-     * the method returns the set priority; otherwise, it returns -1.
-     *
-     * @return the inactive priority level or -1 if the behavior should not activate.
-     */
-    @Override
-    protected int getInactivePriority() {
-        float distance = getDistanceToTarget();
-
-        if (distance < getViewDistance() && isTargetVisible()) {
+        if (getDistanceToTarget() < viewDistance && isTargetVisible()) {
             return priority;
         }
         return -1;

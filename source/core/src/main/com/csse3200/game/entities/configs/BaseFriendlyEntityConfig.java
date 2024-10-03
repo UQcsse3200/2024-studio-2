@@ -1,7 +1,5 @@
 package com.csse3200.game.entities.configs;
 
-import com.csse3200.game.inventory.items.food.AbstractFood;
-
 import java.util.Map;
 
 /**

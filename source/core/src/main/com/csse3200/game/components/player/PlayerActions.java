@@ -129,6 +129,12 @@ public class PlayerActions extends Component {
       waterAnimalSoundPlayer.stopSwimmingSound();
     }
   }
+  
+  /**
+   * Gets if the player is moving or not
+   * @return boolean of if the player currently moving
+   */
+  public boolean isMoving() {return moving;}
 
   private void updateSpeed() {
     Body body = physicsComponent.getBody();

@@ -45,9 +45,9 @@ class EntityConverterTest {
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
     private String[] textures = {
-            "images/chicken.png",
+            "images/chicken2.png",
             "images/monkey.png",
-            "images/frog.png",
+            "images/frog2.png",
     };
 
     private String[] atlas = {
