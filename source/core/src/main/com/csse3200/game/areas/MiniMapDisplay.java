@@ -1,9 +1,11 @@
 package com.csse3200.game.areas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
@@ -11,13 +13,14 @@ import com.csse3200.game.ui.UIComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniMapDisplay extends UIComponent {
-
+public class MiniMapDisplay extends UIComponent
+{
+    private Stage stage;
     private Entity player;
     private List<Entity> enemies;
     private Texture miniMapBackground;
-    private Image blueDotPointImage;
-    private List<Image> redDotPointImages;
+    Image blueDotPointImage;
+    List<Image> redDotPointImages;
     private GameArea gameArea;
     private int scaleFactor = 50;
     private float miniMapX = 15;  // Minimap's X position on the screen
@@ -29,11 +32,18 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     @Override
-    public void create() {
+    public void create()
+    {
         super.create();
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         player = gameArea.getPlayer();
         enemies = gameArea.getEnemies();
         addActors();
+    }
+    public Stage getStage()
+    {
+        return stage;
     }
     private void addActors() {
         initializeImages();
