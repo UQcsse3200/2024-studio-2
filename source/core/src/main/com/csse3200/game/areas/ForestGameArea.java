@@ -124,10 +124,9 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
-	  player.getEvents().addListener("defeatedEnemy", this::spawnConvertedNPCs);
-    player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
-    player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
-    player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
+      player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
+      player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
       kangarooBossSpawned = false;
       waterBossSpawned = false;
       airBossSpawned = false;
@@ -561,6 +560,9 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
     }
 	
+    /**
+     * Spawns defeated enemy NPCs are friendly NPCs in the same/similar location
+     */
 	@Override
 	public void spawnConvertedNPCs(Entity defeatedEnemy) {
 		loadAssets();
