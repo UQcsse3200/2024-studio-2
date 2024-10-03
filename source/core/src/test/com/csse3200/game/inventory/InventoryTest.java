@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.csse3200.game.components.quests.QuestBasic;
-import com.csse3200.game.components.quests.Task;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -19,9 +18,6 @@ import com.csse3200.game.inventory.items.potions.HealingPotion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.List;
-
 
 @ExtendWith(GameExtension.class)
 class InventoryTest {
@@ -247,17 +243,19 @@ class InventoryTest {
 
     @Test
     void shouldSaveLoadInventoryContents() {
+        GameState.clearState();
+
         Inventory inventory = new Inventory(3);
         inventory.loadInventoryFromSave();
 
         inventory.add(new Foods.Apple(1));
         inventory.add(new HealingPotion(2));
 
-        SaveHandler.save(GameState.class, "test/saves/inventory");
+        SaveHandler.save(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         GameState.inventory.inventoryContent = new AbstractItem[0];
 
-        SaveHandler.load(GameState.class, "test/saves/inventory");
+        SaveHandler.load(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         inventory.loadInventoryFromSave();
 
@@ -268,8 +266,63 @@ class InventoryTest {
         assertEquals("This is a health potion",
                 inventory.getAt(inventory.getIndex("Health Potion")).getDescription());
 
-        GameState.inventory.inventoryContent = new AbstractItem[0];
-
-        SaveHandler.delete(GameState.class, "test/saves/inventory");
+        SaveHandler.delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
     }
+
+    @Test
+    void testSwap() {
+        Inventory inventory = new Inventory(3);
+        AbstractItem itemInS0;
+        AbstractItem itemInS1;
+
+        // 1. Swapping 2 items
+            inventory.add(new Foods.Apple(1));
+            inventory.add(new HealingPotion(2));
+
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // Apple
+            itemInS1 = inventory.getAt(1); // Healin potion
+
+            inventory.swap(0, 1);
+
+            // After swapping
+            AbstractItem swapItems0 = inventory.getAt(0);//Healing potion
+            AbstractItem swapItems1 = inventory.getAt(1);//Apple
+
+            // Assert that items have been swapped correctly
+            assertEquals(itemInS1,swapItems0);
+            assertEquals(itemInS0,swapItems1);
+            inventory.clearInventory();
+
+        // 2. Swapping 1 item and null
+            inventory.add(new Foods.Apple(1));
+
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // Apple
+            itemInS1 = inventory.getAt(1); // null
+
+            inventory.swap(0, 1);
+
+            // After swapping
+            swapItems0 = inventory.getAt(0);//null
+            swapItems1 = inventory.getAt(1);//Apple
+
+            // Assert that items have been swapped correctly
+            assertEquals(itemInS1,swapItems0);
+            assertEquals(itemInS0,swapItems1);
+            inventory.clearInventory();
+
+        // 2. Swapping 2 null
+            // Before swapping
+            itemInS0 = inventory.getAt(0); // null
+            itemInS1 = inventory.getAt(1); // null
+
+            inventory.swap(0, 1);
+
+            // Assert that items have been swapped correctly
+            assertNull(itemInS1);
+            assertNull(itemInS0);
+            inventory.clearInventory();
+    }
+
 }

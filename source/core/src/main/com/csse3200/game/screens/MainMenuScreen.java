@@ -56,6 +56,7 @@ public class MainMenuScreen extends ScreenAdapter {
     mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
     mainMenuDisplay.addMenuButtonIcon();
+    mainMenuDisplay.updateChatbotDialogPosition();
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 

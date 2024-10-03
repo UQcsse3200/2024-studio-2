@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.screens.MainGameScreen;
@@ -68,6 +69,7 @@ public class PauseDisplay extends UIComponent {
         TextButton resumeBtn = new TextButton("Resume", skin);
         TextButton questsBtn = new TextButton("Quest Tracker", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
+        TextButton saveBtn = new TextButton("Save Game", skin);
         TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
 
         // Add listeners for buttons
@@ -94,20 +96,29 @@ public class PauseDisplay extends UIComponent {
             }
         });
 
+        saveBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+                    }
+                });
+
         // Triggers an event when the button is pressed.
         mainMenuBtn.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
-                        SaveHandler.save(GameState.class, "saves");
+                        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
                         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
                     }
                 });
 
+
         // Layout buttons in a table
         Table table = new Table();
-        Actor[] actors = {questsBtn, resumeBtn,settingsBtn, mainMenuBtn};
+        Actor[] actors = {questsBtn, resumeBtn,settingsBtn, saveBtn, mainMenuBtn};
         for ( Actor button : actors){
             Image buttonBackground = new Image(
                     ServiceLocator.getResourceService()

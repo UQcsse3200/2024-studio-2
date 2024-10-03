@@ -42,6 +42,8 @@ import java.util.LinkedList;
  */
 public class EnemyCutsceneScreen extends ScreenAdapter {
     private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
+    private int labelBuffer;
+    private int imagebuffer;
     private float timeElapsed = 0;
     private boolean transition;
 
@@ -72,6 +74,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         this.oldScreenServices = container;
         this.player = player;
         this.enemy = enemy;
+        setLabelBuffer(enemy.getEnemyType());
 
         logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -183,23 +186,8 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Set background image to cover the whole screen
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        // Create black bars
-        Texture topBarTexture = new Texture("images/black_bar.png");
-        Texture bottomBarTexture = new Texture("images/black_bar.png");
-
-        Image topBar = new Image(topBarTexture);
-        Image bottomBar = new Image(bottomBarTexture);
-
-        topBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-        bottomBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-
-        topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
-        bottomBar.setPosition(0, 0);
-
         // Add actors to stage
         stage.addActor(backgroundImage);
-        stage.addActor(topBar);
-        stage.addActor(bottomBar);
     }
 
     /**
@@ -238,9 +226,48 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 enemyImageTexture = new Texture("images/bear_idle.png");
                 enemyNameLabel = new Label("Bear", labelStyle);
                 break;
-            default:
+            case BEE:
+                enemyImageTexture = new Texture("images/bee_idle.png");
+                enemyNameLabel = new Label("Bee", labelStyle);
+                break;
+            case PIGEON:
+                enemyImageTexture = new Texture("images/pigeon_idle.png");
+                enemyNameLabel = new Label("Pigeon", labelStyle);
+                break;
+            case EEL:
+                enemyImageTexture = new Texture("images/eel_idle.png");
+                enemyNameLabel = new Label("Eel", labelStyle);
+                break;
+            case OCTOPUS:
+                enemyImageTexture = new Texture("images/octopus_idle.png");
+                enemyNameLabel = new Label ("Octopus", labelStyle);
+            case BIGSAWFISH:
+                enemyImageTexture = new Texture("images/bigsawfish_idle.png");
+                enemyNameLabel = new Label("Bigsawfish", labelStyle);
+                break;
+            case MACAW:
+                enemyImageTexture = new Texture("images/macaw_idle.png");
+                enemyNameLabel = new Label("Macaw", labelStyle);
+                break;
+            case JOEY:
+                enemyImageTexture = new Texture("images/joey_idle.png");
+                enemyNameLabel = new Label("Joey", labelStyle);
+                break;
+            case KANGAROO:
                 enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
                 enemyNameLabel = new Label("Kanga", labelStyle);
+                break;
+            case WATER_BOSS:
+                enemyImageTexture = new Texture("images/water_boss_idle.png");
+                enemyNameLabel = new Label("Leviathan", labelStyle);
+                break;
+            case AIR_BOSS:
+                enemyImageTexture = new Texture("images/air_boss_idle.png");
+                enemyNameLabel = new Label("Griffin", labelStyle);
+                break;
+            default:
+                enemyImageTexture = new Texture("");
+                enemyNameLabel = new Label("", labelStyle);
                 break;
         }
 
@@ -311,14 +338,14 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Animate enemy image (slide-in effect)
         enemyImage.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.imagebuffer, centerY, 2f, Interpolation.pow5Out)
                 )
         );
 
         // Animate enemy name label (slide-in effect)
         enemyNameLabel.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX + 200, centerY - 10, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.labelBuffer, centerY - 10, 2f, Interpolation.pow5Out)
                 )
         );
 
@@ -355,6 +382,27 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         logger.info("Screen is resting");
         //gameArea.pauseMusic();
         ServiceLocator.getEntityService().restWholeScreen();
+    }
+
+    public void setLabelBuffer(Entity.EnemyType enemy) {
+        switch (enemy) {
+            case FROG -> {
+                this.labelBuffer =  220;
+            }
+            case BEAR -> {
+                this.labelBuffer = 220;
+                this.imagebuffer = -55;
+            }
+            case EEL -> {
+                this.labelBuffer = 230;
+                this.imagebuffer = -30;
+            }
+            default -> {
+                this.labelBuffer =  200;
+                this.imagebuffer = 0;
+            }
+        }
+
     }
 
     /**

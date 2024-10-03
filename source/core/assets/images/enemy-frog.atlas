@@ -1,124 +1,194 @@
 enemy-frog.png
-size: 800, 444
+size: 704, 176
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-angry_float
+still
   rotate: false
-  xy: 13, 119
-  size: 47, 41
+  xy: 0, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 0
-angry_float
+still
   rotate: false
-  xy: 102, 119
-  size: 47, 41
+  xy: 88, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 1
-angry_float
+still
   rotate: false
-  xy: 191, 119
-  size: 47, 41
+  xy: 176, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 2
-angry_float
+still
   rotate: false
-  xy: 283, 106
-  size: 47, 37
+  xy: 264, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 3
-angry_float
+still
   rotate: false
-  xy: 369, 111
-  size: 47, 41
+  xy: 352, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 4
-angry_float
+still
   rotate: false
-  xy: 458, 111
-  size: 47, 41
+  xy: 440, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 5
-angry_float
+still
   rotate: false
-  xy: 547, 119
-  size: 47, 41
+  xy: 528, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 6
-angry_float
+still
   rotate: false
-  xy: 547, 119
-  size: 47, 41
+  xy: 616, 0
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 7
 default
   rotate: false
-  xy: 13, 119
-  size: 47, 41
+  xy: 0, 0
+  size: 88, 88
+  orig: 0, 0
+  offset: 0, 0
+  index: 0
+jump
+  rotate: false
+  xy: 0, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 0
-float
+jump
   rotate: false
-  xy: 13, 119
-  size: 47, 41
-  orig: 47, 37
-  offset: 0, 0
-  index: 0
-float
-  rotate: false
-  xy: 102, 119
-  size: 47, 41
+  xy: 88, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 1
-float
+jump
   rotate: false
-  xy: 191, 119
-  size: 47, 41
+  xy: 176, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 2
-float
+jump
   rotate: false
-  xy: 283, 106
-  size: 47, 41
+  xy: 264, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 3
-float
+jump
   rotate: false
-  xy: 369, 111
-  size: 47, 41
+  xy: 352, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 4
-float
+jump
   rotate: false
-  xy: 458, 111
-  size: 47, 41
+  xy: 440, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 5
-float
+jump
   rotate: false
-  xy: 547, 119
-  size: 47, 41
+  xy: 528, 88
+  size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 6
-float
+combat_idle
   rotate: false
-  xy: 547, 119
-  size: 47, 41
+  xy: 13, 27
+  size: 57, 45
   orig: 47, 37
   offset: 0, 0
-  index: 7
+  index: 0
+combat_idle
+  rotate: false
+  xy: 102, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 191, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 283, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 368, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 454, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 13, 205
+  size: 67, 45
+  orig: 77, 37
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 102, 205
+  size: 67, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 191, 205
+  size: 67, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 283, 205
+  size: 77, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 368, 205
+  size: 77, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 4

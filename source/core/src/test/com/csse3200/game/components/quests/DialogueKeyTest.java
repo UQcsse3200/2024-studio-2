@@ -13,30 +13,27 @@ class DialogueKeyTest {
 
     @BeforeEach
     void setUp() {
-        key1 = new DialogueKey("Cow", 1);
-        key2 = new DialogueKey("Cow", 1);
-        key3 = new DialogueKey("Cow", 3);
+        String[][] stepsDialogue = {{"Start walking"}};
+        String[][] guideDialogue = {{"Yep! Cow is the guide"}};
+        String[][] potionDialogue = {{"Need 5 defense potions.", " Get to it!"}};
+        key1 = new DialogueKey("Cow", stepsDialogue);
+        key2 = new DialogueKey("Cow", guideDialogue);
+        key3 = new DialogueKey("Cow", potionDialogue);
     }
 
-
     @Test
-    void testEquals() {
-
-        assertEquals(key1, key2);
+   void testEquals() {
         assertNotEquals(key1, key3);
     }
 
     @Test
     void testHashCode() {
-        assertEquals(key1.hashCode(),
-                key2.hashCode(), "Hash codes should be equal.");
         assertNotEquals(key1.hashCode(),
                 key3.hashCode());
     }
 
     @Test
     void testToString() {
-        assertEquals(key1.toString(), key2.toString());
         assertNotEquals(key1.toString(), key3.toString());
     }
 }

@@ -1,7 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.components.player.PlayerInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
@@ -48,18 +48,18 @@ public class ItemProximityTask extends ProximityTask {
      */
     public void addToInventory() {
         if (!itemPickedUp && targetInProximity()) { // Check if the item hasn't been picked up and player is near
-            PlayerInventoryDisplay display = this.target.getComponent(PlayerInventoryDisplay.class);
-            if (display != null) {
-                if (!display.hasSpaceFor()) {
-                    display.getEntity().getEvents().trigger("addItem", item);
-                    logger.debug("Item added to inventory.");
+            InventoryComponent inventory = this.target.getComponent(InventoryComponent.class);
+            if (inventory != null) {
+                if (!inventory.getInventory().isFull()) {
+                    this.target.getEvents().trigger("addItem", item);
+                    this.target.getEvents().trigger("pickUp" + item.getName());
+                    logger.info("Item added to inventory {}.", item.getName());
                     itemPickedUp = true; // Set flag to prevent further triggering
                     owner.getEntity().dispose();
-                    logger.debug("I WAS DISPOSED OF!");
                     ServiceLocator.getDialogueBoxService().hideCurrentOverlay();
                 }
             } else {
-                logger.error("PlayerInventoryDisplay component not found on target entity.");
+                logger.error("Inventory not found on target entity.");
             }
         } else if (!targetInProximity()) {
             logger.debug("Player is not close enough to pick up the item.");
@@ -96,7 +96,7 @@ public class ItemProximityTask extends ProximityTask {
     @Override
     public void handleTargetMovedClose() {
         String[][] itemText = {{item.getDescription() + " - press P to pick it up."}};
-        ServiceLocator.getDialogueBoxService().updateText(itemText);
+        ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
     }
 
     /**
