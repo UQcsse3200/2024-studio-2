@@ -390,7 +390,11 @@ public class CombatStatsComponent extends Component {
    * @param level sets entity's level
    */
   public void setLevel(int level){
-    this.level = level;
+
+    this.level = Math.max(0, level);
+    if (this.level > 10) {
+      this.level = 10;
+    }
   }
 
   /**
