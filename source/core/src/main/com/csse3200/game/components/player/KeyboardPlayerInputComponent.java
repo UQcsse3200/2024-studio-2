@@ -93,13 +93,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         entity.getEvents().trigger("statsInfo");
         return true;
       case Keys.NUM_1: // TEMPORARY: Press 1 to spawn the land boss
-        entity.getEvents().trigger("defeatLandBoss");
+        entity.getEvents().trigger("spawnLandBoss");
         return true;
       case Keys.NUM_2: // TEMPORARY: Press 2 to spawn the water boss
-        entity.getEvents().trigger("defeatWaterBoss");
+        entity.getEvents().trigger("spawnWaterBoss");
         return true;
       case Keys.NUM_3: // TEMPORARY: Press 3 to spawn the air boss
-        entity.getEvents().trigger("defeatAirBoss");
+        entity.getEvents().trigger("spawnAirBoss");
         return true;
       case Keys.U:
         entity.getEvents().trigger("unlockNextArea");
