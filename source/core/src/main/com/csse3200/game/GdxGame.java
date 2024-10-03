@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
@@ -28,6 +31,13 @@ public class GdxGame extends Game {
     public void create() {
         logger.info("Creating game");
         loadSettings();
+
+        SaveHandler.load(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+
+        if(Achievements.checkState()) {
+            Achievements.resetState();
+        }
+
         // Assign the gdxgame to a singleton
         GdxGameManager.setInstance(this);
 
