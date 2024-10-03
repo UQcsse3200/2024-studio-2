@@ -45,8 +45,10 @@ public class MoonActor extends Actor {
      * Set the moon's progress (from 0 to 1) to adjust how much of the moon is visible.
      */
     public void setProgress(float progress) {
-        this.progress = progress;
+        // Clamp the progress between 0 and 1
+        this.progress = Math.max(0, Math.min(progress, 1));  // Clamping logic
     }
+
 
     @Override
     public void act(float delta) {
@@ -56,7 +58,7 @@ public class MoonActor extends Actor {
      * Set the opacity for the moon. Values should be between 0 (completely transparent) and 1 (fully opaque).
      */
     public void setOpacity(float opacity) {
-        this.opacity = opacity;
+        this.opacity = Math.max(0, Math.min(opacity, 1));
     }
     public float getOpacity() {
         return opacity;

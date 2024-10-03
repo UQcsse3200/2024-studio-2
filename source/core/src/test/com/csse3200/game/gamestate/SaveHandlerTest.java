@@ -2,6 +2,7 @@ package com.csse3200.game.gamestate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.csse3200.game.components.stats.Stat;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import org.junit.jupiter.api.Test;
@@ -31,5 +32,39 @@ class SaveHandlerTest {
 
         FileHandle handle = Gdx.files.local(testDirectory);
         assertFalse(handle.exists());
+    }
+
+    @Test
+    void shouldResetState() {
+
+        GameState.resetState();
+
+        assertNotEquals(0, GameState.quests.quests.size());
+    }
+
+    @Test
+    void shouldClearState() {
+        GameState.resetState();
+        
+        GameState.stats.stats.add(new Stat());
+
+        GameState.clearState();
+
+        assertEquals(0, GameState.stats.stats.size);
+
+        GameState.clearState();
+    }
+
+    @Test
+    void shouldCheckState() {
+        GameState.clearState();
+
+        GameState.quests = null;
+
+        assertTrue(GameState.checkState());
+
+        GameState.resetState();
+
+        assertFalse(GameState.checkState());
     }
 }

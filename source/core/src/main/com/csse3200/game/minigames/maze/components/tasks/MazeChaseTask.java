@@ -23,7 +23,7 @@ public class MazeChaseTask extends ChaseTask {
      * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
      */
     public MazeChaseTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
-        super(target, priority, viewDistance, maxChaseDistance, false);
+        super(target, priority, viewDistance, maxChaseDistance, new Vector2(1,1),  false);
     }
 
     /**

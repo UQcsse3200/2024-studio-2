@@ -47,7 +47,19 @@ public class Entity {
     MONKEY,
     FROG,
     BEAR,
+    BEE,
+    EEL,
+    PIGEON,
+    BIGSAWFISH,
+    MACAW,
+    BANANA,
+    HIVE,
+    ELECTRICORB,
+    WORM,
     JOEY,
+    MAZE_ANGLER,
+    MAZE_EEL,
+    MAZE_JELLYFISH
   }
 
 
@@ -265,6 +277,17 @@ public class Entity {
   
   /** Dispose of the entity. This will dispose of all components on this entity. */
   public void dispose() {
+    for (Component component : createdComponents) {
+      component.dispose();
+    }
+    ServiceLocator.getEntityService().unregister(this);
+  }
+  
+  /** Dispose of the entity. This will dispose of all components on this entity
+   * EXCEPT FOR THE ANIMATION RENDER COMPONENT, this is needed when multiple entities share an animation,
+   * disposing of the animation component unloads the associated assets, causing black boxes to appear on entities
+   * that share the asset. */
+  public void specialDispose() {
     for (Component component : createdComponents) {
       if(!component.getClass().equals(AnimationRenderComponent.class)) component.dispose();
     }

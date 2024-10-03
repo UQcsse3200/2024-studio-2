@@ -15,10 +15,11 @@ public class MazePhysicsUtils {
 
     /**
      * Set the collider to the base of the entity, scaled relative to the entity size.
-     * @param entity
-     * @param scaleX
-     * @param scaleY
+     * @param entity the entitie to set the collider for
+     * @param scaleX the x scale
+     * @param scaleY the y scale
      */
+    // Is not used at the moment
     public static void setScaledCollider(Entity entity, float scaleX, float scaleY) {
         Vector2 boundingBox = entity.getScale().cpy().scl(scaleX, scaleY);
         entity
@@ -26,6 +27,12 @@ public class MazePhysicsUtils {
                 .setAsBox(boundingBox);
     }
 
+    /**
+     * Set the collider to the base of the entity, scaled relative to the entity size.
+     * @param entity the entitie to set the collider for
+     * @param scaleX the x scale
+     * @param scaleY the y scale
+     */
     public static void setScaledOvalCollider(Entity entity, float scaleX, float scaleY) {
         // Use oval shape for player to remove ghost collisions
         PolygonShape clipped = new PolygonShape();
@@ -40,7 +47,12 @@ public class MazePhysicsUtils {
         entity.getComponent(ColliderComponent.class).setShape(clipped);
     }
 
-    // Set the collider to the base of the entity, scaled relative to the entity size.
+    /**
+     * Set the hitbox to the base of the entity, scaled relative to the entity size.
+     * @param entity the entitie to set the hitbox for
+     * @param scaleX the x scale
+     * @param scaleY the y scale
+     */
     public static void setScaledHitBox(Entity entity, float scaleX, float scaleY) {
         Vector2 boundingBox = entity.getScale().cpy().scl(scaleX, scaleY);
         entity
@@ -48,7 +60,12 @@ public class MazePhysicsUtils {
                 .setAsBox(boundingBox);
     }
 
-    // Set the collider to the base of the entity, scaled relative to the entity size.
+    /**
+     * Set the hitbox and collider to the base of the entity, scaled relative to the entity size.
+     * @param entity the entitie to set the hitbox and collider for
+     * @param scaleX the x scale
+     * @param scaleY the y scale
+     */
     public static void setScaledColliderAndHitBox(Entity entity, float scaleX, float scaleY) {
         setScaledOvalCollider(entity, scaleX, scaleY);
         setScaledHitBox(entity, scaleX, scaleY);

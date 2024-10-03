@@ -30,7 +30,7 @@ public class Jellyfish extends MazeEntity {
     public Jellyfish(MazeEntityConfig config) {
         // Add AI tasks specific to Jellyfish (no chasing, only wandering)
         AITaskComponent aiComponent = new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
+                .addTask(new WanderTask(new Vector2(1.2f, 1.2f), 2f, false));
 
         // Add animations specific to Jellyfish in the future please
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(
@@ -42,7 +42,7 @@ public class Jellyfish extends MazeEntity {
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
-                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, Color.BLUE)))
+                .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(0.6f, 0.3f, 1f, 1f))))
                 .addComponent(aiComponent);
 
         // Update entities speed

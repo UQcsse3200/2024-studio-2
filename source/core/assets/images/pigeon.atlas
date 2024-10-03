@@ -1,0 +1,103 @@
+pigeon.png
+size: 559, 446
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+float
+  rotate: false
+  xy: 52, 17
+  size: 143, 94
+  orig: 143, 94
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 205, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy: 352, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 46, 143
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 3
+float
+  rotate: false
+  xy: 198, 135
+  size: 145, 103
+  orig: 145, 103
+  offset: 0, 0
+  index: 4
+float
+  rotate: false
+  xy: 340, 134
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 5
+float
+  rotate: false
+  xy: 48, 260
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 6
+float
+  rotate: false
+  xy: 207, 268
+  size: 143, 100
+  orig: 143, 100
+  offset: 0, 0
+  index: 7
+float
+  rotate: false
+  xy: 373, 273
+  size: 143, 90
+  orig: 143, 90
+  offset: 0, 0
+  index: 8
+spawn
+  rotate: false
+  xy: 50, 15
+  size: 145,100
+  orig: 145, 100
+  offset: 0, 0
+  index: 0
+default
+  rotate: false
+  xy: 50, 15
+  size: 145,100
+  orig: 145, 100
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 39, 400
+  size: 145,160
+  orig: 145, 160
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 210, 447
+  size: 145,90
+  orig: 145, 90
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 380, 390
+  size: 145,160
+  orig: 145, 160
+  offset: 0, 0
+  index: 0

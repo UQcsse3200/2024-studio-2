@@ -19,7 +19,7 @@ public class AvoidTask extends ChaseTask {
      */
     public AvoidTask(Entity target, int priority, float safeDistance, float minAvoidDistance, boolean isBoss) {
         // Call parent constructor
-        super(target, priority, safeDistance, minAvoidDistance, isBoss);
+        super(target, priority, safeDistance, minAvoidDistance, null, isBoss);
         this.safeDistance = safeDistance;
         this.minAvoidDistance = minAvoidDistance;
     }
@@ -61,11 +61,10 @@ public class AvoidTask extends ChaseTask {
      */
     @Override
     public int getPriority() {
-        if (status == Status.ACTIVE) {
-            return getActivePriority();
+        if (getDistanceToTarget() < safeDistance && isTargetVisible()) {
+            return priority;
         }
-
-        return getInactivePriority();
+        return -1;
     }
 
     /**
@@ -80,37 +79,5 @@ public class AvoidTask extends ChaseTask {
         Vector2 targetPosition = target.getPosition();
         Vector2 directionAway = entityPosition.cpy().sub(targetPosition).nor();
         return entityPosition.cpy().add(directionAway.scl(minAvoidDistance));
-    }
-
-    /**
-     * Returns the priority level when the avoidance behavior is active.
-     * If the distance to the target is greater than the safe distance or the target is not visible,
-     * the avoidance behavior should stop and the method returns -1.
-     *
-     * @return the active priority level or -1 if the behavior should stop.
-     */
-    @Override
-    protected int getActivePriority() {
-        float dst = super.getDistanceToTarget();
-        if (dst > safeDistance || !isTargetVisible()) {
-            return -1; // Safe distance reached, stop avoiding
-        }
-        return priority;
-    }
-
-    /**
-     * Returns the priority level when the avoidance behavior is inactive.
-     * If the distance to the target is less than the safe distance and the target is visible,
-     * the method returns the set priority; otherwise, it returns -1.
-     *
-     * @return the inactive priority level or -1 if the behavior should not activate.
-     */
-    @Override
-    protected int getInactivePriority() {
-        float dst = getDistanceToTarget();
-        if (dst < safeDistance && isTargetVisible()) {
-            return priority;
-        }
-        return -1;
     }
 }
