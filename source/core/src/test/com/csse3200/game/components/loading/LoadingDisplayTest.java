@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -132,6 +131,18 @@ public class LoadingDisplayTest {
         // Verify moon actor is added to the stage with the correct opacity
         verify(stage, atLeastOnce()).addActor(moonActor);
     }
+    @Test
+    void shouldNotRepeatMessagesConsecutively() {
+        when(Gdx.graphics.getDeltaTime()).thenReturn(2f);  // Each update represents 2 seconds
+        String firstMessage = loadingDisplay.getCurrentMessage();
+
+        for (int i = 0; i < 5; i++) {  // Update multiple times to check message cycling
+            loadingDisplay.update();
+            String newMessage = loadingDisplay.getCurrentMessage();
+            assertNotEquals(firstMessage, newMessage, "Loading messages should not repeat consecutively");
+            firstMessage = newMessage;  // Update the reference for the next iteration
+        }
+    }
 
     @Test
     void shouldDisplayAllLoadingMessagesOverTime() {
@@ -234,5 +245,21 @@ public class LoadingDisplayTest {
         assertEquals(1f, moonActor.getOpacity(), "Opacity should be clamped to 1 when set above 1");
     }
 
+    @Test
+    void shouldReflectResourceServiceProgressInLoadingCompletion() {
+        when(Gdx.graphics.getDeltaTime()).thenReturn(3f);  // Each update simulates 3 seconds
+        when(resourceService.getProgress()).thenReturn(50);  // 50% resource load progress
 
+        loadingDisplay.update();  // Simulate one update cycle
+
+        assertFalse(loadingDisplay.isLoadingFinished(), "Loading should not be finished at 50% resource progress");
+        assertEquals(0.5f, loadingDisplay.getMoonActor().getProgress(), 0.01f, "Moon actor progress should match resource progress");
+    }
+    ///@Test
+    //void shouldDisposeOfAllResourcesAndActors() {
+    //    loadingDisplay.dispose();
+    //
+    //    verify(stage, times(1)).clear();  // Check that stage.clear() is called
+    //}
 }
+
