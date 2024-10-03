@@ -280,10 +280,9 @@ public class ForestGameArea extends GameArea {
     SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
     OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
     // Make sure to get the correct CameraComponent type required by GameAreaDisplay
-    CameraComponent minimapCameraComponent = (CameraComponent) this.terrainFactory.getCameraComponent(); // Adjust as needed
 
     // Pass the required parameters to the GameAreaDisplay constructor
-    ui.addComponent(new GameAreaDisplay("Box Forest", batch, mainCamera, minimapCameraComponent));
+    ui.addComponent(new GameAreaDisplay("Box Forest"));
     ui.addComponent(new QuestPopup());
     spawnEntity(ui);
   }
@@ -836,7 +835,4 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         return dynamicItems;
     }
 
-    public GridPoint2 getMapSize() {
-        return MAP_SIZE;
-    }
 }
