@@ -53,7 +53,7 @@ public class MiniMapDisplay extends UIComponent {
         // Dispose the Pixmap after creating the texture (no longer needed)
         pixmap.dispose();
         blueDotPointImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
-        blueDotPointImage.setSize(12, 13);
+        blueDotPointImage.setSize(15, 15);
         redDotPointImages = new ArrayList<>();
         for(Entity enemy : enemies) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
