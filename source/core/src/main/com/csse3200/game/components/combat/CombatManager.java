@@ -395,7 +395,6 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
-
         switch (playerAction) {
             case ATTACK -> {
                 combatAnimationDisplay.initiateAnimation(Action.ATTACK);
@@ -455,7 +454,7 @@ public class CombatManager extends Component {
             }
             case ITEM -> {
                 // Player's move is using an item in the CombatInventoryDisplay.
-                entity.getEvents().trigger("itemMove", playerItem, playerItemIndex, playerItemContext);
+                entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
                 enemyMove.executeMove(enemyAction);
             }
         }

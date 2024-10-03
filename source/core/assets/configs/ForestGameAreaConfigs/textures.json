@@ -2,6 +2,9 @@
   "forestTextures" : [
     "images/box_boy_leaf.png",
     "images/tree.png",
+    "images/cloud.png",
+    "images/seaweed.png",
+    "images/starfish.png",
     "images/final_boss_kangaroo.png",
     "images/friendly_npcs/friendly-npcs.png",
     "images/water_boss.png",
@@ -25,6 +28,8 @@
     "images/hive.png",
     "images/effects.png",
     "images/griffinEffects.png",
+
+    "images/fog-gate.jpg",
 
     "images/grass_tile_1_around_sand/upper_left_corner_grass_1_around_sand.jpg",
     "images/grass_tile_1_around_sand/upper_middle_grass_1_around_sand.jpg",
@@ -206,6 +211,8 @@
     "images/joey.atlas",
     "images/enemy-frog.atlas",
     "images/enemy-monkey.atlas",
+    "images/enemy-chicken.atlas",
+    "images/enemy-bear.atlas"
     "images/enemy-chicken.atlas",
     "images/wolf.atlas",
     "images/hive.atlas"

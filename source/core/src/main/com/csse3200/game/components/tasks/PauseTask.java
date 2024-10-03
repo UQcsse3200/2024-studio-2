@@ -1,9 +1,8 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.utils.Logger;
-import com.csse3200.game.components.quests.AbstractQuest;
 import com.csse3200.game.components.quests.DialogueKey;
-import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
@@ -86,7 +85,7 @@ public class PauseTask extends ChaseTask {
      * Helper function to find the correct dialogue hint text from the quest manager.
      */
     private String[][] findDialogueHint(String[][] hintText) {
-        for (AbstractQuest quest: questManager.getAllQuests()) {
+        for (Quest quest: questManager.getAllQuests()) {
             int progression = quest.getProgression();
             if (!quest.isActive()) {
                 continue;

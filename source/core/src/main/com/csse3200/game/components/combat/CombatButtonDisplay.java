@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.areas.CombatArea;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.DialogueBoxService;
@@ -34,6 +35,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton SleepButton;
     TextButton ItemsButton;
     ChangeListener dialogueBoxListener;
+    CombatArea combatArea;
     // Create a Table to hold the hover text with a background
     private Table hoverTextTable;
     private Label hoverTextLabel;
@@ -48,9 +50,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen    The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public CombatButtonDisplay(Screen screen, ServiceContainer container) {
+    public CombatButtonDisplay(Screen screen, ServiceContainer container, CombatArea combatArea) {
         this.screen = screen;
         this.container = container;
+        this.combatArea = combatArea;
     }
 
     @Override
@@ -63,6 +66,10 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
+
+        // Start idle animations
+        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
+
         // Add a listener to the stage to monitor the DialogueBox visibility
         dialogueBoxListener = new ChangeListener() {
             @Override
@@ -80,6 +87,8 @@ public class CombatButtonDisplay extends UIComponent {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.debug("DialogueBox is no longer visible, adding actors back.");
                     addActors();
+                    // Resume idle animations
+                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
                 }
             }
         };
@@ -151,6 +160,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Attack", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         AttackButton.addListener(new InputListener() {
@@ -173,6 +183,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Guard", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         GuardButton.addListener(new InputListener() {
@@ -195,6 +206,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Sleep", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         SleepButton.addListener(new InputListener() {
@@ -215,6 +227,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                         hideButtons();
                     }
                 });

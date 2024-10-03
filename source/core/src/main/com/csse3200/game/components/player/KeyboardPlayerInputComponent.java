@@ -101,6 +101,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.NUM_3: // TEMPORARY: Press 3 to spawn the air boss
         entity.getEvents().trigger("defeatAirBoss");
         return true;
+      case Keys.U:
+        entity.getEvents().trigger("unlockNextArea");
+        return true;
       default:
         return false;
     }

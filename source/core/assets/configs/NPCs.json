@@ -88,7 +88,7 @@
     ],
     "spritePath": "images/chicken.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/chicken.wav"],
     "animalName": "Chicken",
     "itemProbability": 0.0
   },
@@ -98,7 +98,7 @@
     ],
     "spritePath": "images/frog.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/frog.wav"],
     "animalName": "Frog",
     "itemProbability": 0.0
   },
@@ -108,8 +108,18 @@
     ],
     "spritePath": "images/monkey.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/monkey.wav"],
     "animalName": "Monkey",
+    "itemProbability": 0.0
+  },
+  "friendlyBear": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Benny the Bear."]
+    ],
+    "spritePath": "images/bear.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
     "itemProbability": 0.0
   }
 }
