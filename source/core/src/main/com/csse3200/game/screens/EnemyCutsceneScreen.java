@@ -240,7 +240,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 break;
             case OCTOPUS:
                 enemyImageTexture = new Texture("images/octopus_idle.png");
-                enemyNameLabel = new Label ("Octopus", labelStyle)
+                enemyNameLabel = new Label ("Octopus", labelStyle);
             case BIGSAWFISH:
                 enemyImageTexture = new Texture("images/bigsawfish_idle.png");
                 enemyNameLabel = new Label("Bigsawfish", labelStyle);
