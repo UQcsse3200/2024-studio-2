@@ -1149,6 +1149,17 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatActions.html#%3Cinit%3E(com.csse3200.game.GdxGame,com.csse3200.game.components.combat.CombatManager,com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer)" class="member-name-link">CombatActions(GdxGame, CombatManager, Screen, ServiceContainer)</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatActions.html" title="class in com.csse3200.game.components.combat">CombatActions</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" class="type-name-link" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a> - Class in <a href="com/csse3200/game/entities/factories/package-summary.html">com.csse3200.game.entities.factories</a></dt>
+<dd>
+<div class="block">Factory to create display entities in the Combat Screen with predefined components.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/CombatAnimationController.html" class="type-name-link" title="class in com.csse3200.game.components.combat">CombatAnimationController</a> - Class in <a href="com/csse3200/game/components/combat/package-summary.html">com.csse3200.game.components.combat</a></dt>
+<dd>
+<div class="block">This class listens to events relevant to an entity's state in combat and plays the animation when one
+ of the events is triggered.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/combat/CombatAnimationController.html#%3Cinit%3E()" class="member-name-link">CombatAnimationController()</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatAnimationController.html" title="class in com.csse3200.game.components.combat">CombatAnimationController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" class="type-name-link" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a> - Class in <a href="com/csse3200/game/overlays/package-summary.html">com.csse3200.game.overlays</a></dt>
 <dd>
 <div class="block">CombatAnimationDisplay represents the UI displayed during combat, such as attack animations.</div>
@@ -1166,11 +1177,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
  has engaged combat with.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html" class="type-name-link" title="enum class in com.csse3200.game.areas">CombatArea.CombatAnimation</a> - Enum Class in <a href="com/csse3200/game/areas/package-summary.html">com.csse3200.game.areas</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/CombatButtonDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.combat">CombatButtonDisplay</a> - Class in <a href="com/csse3200/game/components/combat/package-summary.html">com.csse3200.game.components.combat</a></dt>
 <dd>
 <div class="block">Displays a button to exit the Main Game screen to the Main Menu screen.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/combat/CombatButtonDisplay.html#%3Cinit%3E(com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer)" class="member-name-link">CombatButtonDisplay(Screen, ServiceContainer)</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatButtonDisplay.html" title="class in com.csse3200.game.components.combat">CombatButtonDisplay</a></dt>
+<dt><a href="com/csse3200/game/components/combat/CombatButtonDisplay.html#%3Cinit%3E(com.badlogic.gdx.Screen,com.csse3200.game.services.ServiceContainer,com.csse3200.game.areas.CombatArea)" class="member-name-link">CombatButtonDisplay(Screen, ServiceContainer, CombatArea)</a> - Constructor for class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatButtonDisplay.html" title="class in com.csse3200.game.components.combat">CombatButtonDisplay</a></dt>
 <dd>
 <div class="block">Initialises the CombatButtonDisplay UIComponent</div>
 </dd>
@@ -1364,6 +1377,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Initialises the event listeners.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/CombatAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatAnimationController.html" title="class in com.csse3200.game.components.combat">CombatAnimationController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/CombatButtonDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatButtonDisplay.html" title="class in com.csse3200.game.components.combat">CombatButtonDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/CombatExitDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatExitDisplay.html" title="class in com.csse3200.game.components.combat">CombatExitDisplay</a></dt>
@@ -1641,15 +1656,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a bear enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createBearCombatEnemy()" class="member-name-link">createBearCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createBearCombatEnemy()" class="member-name-link">createBearCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
-<div class="block">Creates frog enemy as NPC entity for static combat</div>
+<div class="block">Creates bear enemy as NPC entity for static combat</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createBee(com.csse3200.game.entities.Entity)" class="member-name-link">createBee(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
 <dd>
 <div class="block">Creates a bee enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createBeeCombatEnemy()" class="member-name-link">createBeeCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createBeeCombatEnemy()" class="member-name-link">createBeeCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates bee enemy as NPC entity for static combat</div>
 </dd>
@@ -1657,7 +1672,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a big saw fish enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createBigsawfishCombatEnemy()" class="member-name-link">createBigsawfishCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createBigsawfishCombatEnemy()" class="member-name-link">createBigsawfishCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates big saw fish enemy as NPC entity for static combat</div>
 </dd>
@@ -1685,19 +1700,19 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createChicken(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createChicken(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createChickenCombatEnemy()" class="member-name-link">createChickenCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createChickenCombatEnemy()" class="member-name-link">createChickenCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
-<div class="block">Creates chicken enemy as NPC entity for static combat.</div>
+<div class="block">Creates chicken enemy as entity for combat display</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html#createChickenLeg(com.csse3200.game.entities.Entity)" class="member-name-link">createChickenLeg(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ItemFactory.html" title="class in com.csse3200.game.entities.factories">ItemFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createCombatBaseEnemy()" class="member-name-link">createCombatBaseEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
+<dd>
+<div class="block">Creates a base Combat NPC to be used by more specific NPC creation methods.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createCombatBossNPC()" class="member-name-link">createCombatBossNPC()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
 <div class="block">Creates a generic combat boss NPC without chase tasks.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createCombatNPC(com.csse3200.game.entities.configs.BaseEnemyEntityConfig)" class="member-name-link">createCombatNPC(BaseEnemyEntityConfig)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
-<dd>
-<div class="block">Creates a boss NPC to be used as a boss entity by more specific NPC creation methods.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/PlayerFactory.html#createCombatPlayer(java.lang.String)" class="member-name-link">createCombatPlayer(String)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/PlayerFactory.html" title="class in com.csse3200.game.entities.factories">PlayerFactory</a></dt>
 <dd>
@@ -1749,7 +1764,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates the eel npc</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createEelCombatEnemy()" class="member-name-link">createEelCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createEelCombatEnemy()" class="member-name-link">createEelCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates pigeon enemy as NPC entity for static combat</div>
 </dd>
@@ -1819,7 +1834,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createFrog(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createFrog(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createFrogCombatEnemy()" class="member-name-link">createFrogCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createFrogCombatEnemy()" class="member-name-link">createFrogCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates frog enemy as NPC entity for static combat</div>
 </dd>
@@ -1849,7 +1864,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a joey enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createJoeyCombatEnemy()" class="member-name-link">createJoeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createJoeyCombatEnemy()" class="member-name-link">createJoeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates joey enemy as NPC entity for static combat</div>
 </dd>
@@ -1858,6 +1873,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createKangaBossCombatEntity()" class="member-name-link">createKangaBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
 <div class="block">Creates a Kangaroo Boss entity for combat, without a chase task.</div>
+</dd>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createKangaBossCombatEntity()" class="member-name-link">createKangaBossCombatEntity()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
+<dd>
+<div class="block">Creates a Kangaroo Boss entity for combat.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/BossFactory.html#createKangaBossEntity(com.csse3200.game.entities.Entity)" class="member-name-link">createKangaBossEntity(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/BossFactory.html" title="class in com.csse3200.game.entities.factories">BossFactory</a></dt>
 <dd>
@@ -1875,7 +1894,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a green macaw enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createMacawCombatEnemy()" class="member-name-link">createMacawCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createMacawCombatEnemy()" class="member-name-link">createMacawCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates macaw enemy as NPC entity for static combat</div>
 </dd>
@@ -1895,7 +1914,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createMonkey(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMonkey(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createMonkeyCombatEnemy()" class="member-name-link">createMonkeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createMonkeyCombatEnemy()" class="member-name-link">createMonkeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates monkey enemy as NPC entity for static combat</div>
 </dd>
@@ -1917,7 +1936,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a pigeon enemy.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createPigeonCombatEnemy()" class="member-name-link">createPigeonCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
+<dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createPigeonCombatEnemy()" class="member-name-link">createPigeonCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates pigeon enemy as NPC entity for static combat</div>
 </dd>
@@ -4855,6 +4874,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/OceanGameAreaConfigs/OceanTileConfig.html#id" class="member-name-link">id</a> - Variable in class com.csse3200.game.areas.OceanGameAreaConfigs.<a href="com/csse3200/game/areas/OceanGameAreaConfigs/OceanTileConfig.html" title="class in com.csse3200.game.areas.OceanGameAreaConfigs">OceanTileConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html#IDLE" class="member-name-link">IDLE</a> - Enum constant in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html" title="enum class in com.csse3200.game.areas">CombatArea.CombatAnimation</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/tasks/IdleTask.html" class="type-name-link" title="class in com.csse3200.game.minigames.maze.components.tasks">IdleTask</a> - Class in <a href="com/csse3200/game/minigames/maze/components/tasks/package-summary.html">com.csse3200.game.minigames.maze.components.tasks</a></dt>
 <dd>
 <div class="block">A Priority task which listens to stun events and forces the AI to sleep for a duration</div>
@@ -5984,6 +6005,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Moves the snake in a direction</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html#MOVE" class="member-name-link">MOVE</a> - Enum constant in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html" title="enum class in com.csse3200.game.areas">CombatArea.CombatAnimation</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainLoader.html#movedChunk(com.badlogic.gdx.math.Vector2)" class="member-name-link">movedChunk(Vector2)</a> - Static method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainLoader.html" title="class in com.csse3200.game.areas.terrain">TerrainLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ai/movement/MovementController.html" class="type-name-link" title="interface in com.csse3200.game.ai.movement">MovementController</a> - Interface in <a href="com/csse3200/game/ai/movement/package-summary.html">com.csse3200.game.ai.movement</a></dt>
@@ -8288,12 +8311,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Starts the particle effect animation</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.html#startEnemyAnimation(com.csse3200.game.areas.CombatArea.CombatAnimation)" class="member-name-link">startEnemyAnimation(CombatArea.CombatAnimation)</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.html" title="class in com.csse3200.game.areas">CombatArea</a></dt>
+<dd>
+<div class="block">Plays an enemy animation in combat</div>
+</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#startHealthBarBeating()" class="member-name-link">startHealthBarBeating()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>
 <div class="block">Starts the beating animation for the health bar during boss chase.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#startHungerDecreaseTimer()" class="member-name-link">startHungerDecreaseTimer()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.html#startPlayerAnimation(com.csse3200.game.areas.CombatArea.CombatAnimation)" class="member-name-link">startPlayerAnimation(CombatArea.CombatAnimation)</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.html" title="class in com.csse3200.game.areas">CombatArea</a></dt>
+<dd>
+<div class="block">Plays a player animation in combat</div>
+</dd>
 <dt><a href="com/csse3200/game/components/stats/Stat.html" class="type-name-link" title="class in com.csse3200.game.components.stats">Stat</a> - Class in <a href="com/csse3200/game/components/stats/package-summary.html">com.csse3200.game.components.stats</a></dt>
 <dd>
 <div class="block">A simple class to hold values for stats to be tracked through the game.</div>
@@ -9293,6 +9324,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html" title="enum class in com.csse3200.game.areas">CombatArea.CombatAnimation</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -9378,6 +9413,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
 <dt><a href="com/csse3200/game/ai/tasks/Task.Status.html#values()" class="member-name-link">values()</a> - Static method in enum class com.csse3200.game.ai.tasks.<a href="com/csse3200/game/ai/tasks/Task.Status.html" title="enum class in com.csse3200.game.ai.tasks">Task.Status</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html#values()" class="member-name-link">values()</a> - Static method in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/CombatArea.CombatAnimation.html" title="enum class in com.csse3200.game.areas">CombatArea.CombatAnimation</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
