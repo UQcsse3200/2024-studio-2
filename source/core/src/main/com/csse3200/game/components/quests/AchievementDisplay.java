@@ -378,25 +378,6 @@ public class AchievementDisplay extends UIComponent {
     }
 
     /**
-     * Creates a clear achievements button that clears the achievements
-     */
-    private Table makeClearButton() {
-        Table table = new Table();
-        TextButton button = new TextButton("Clear", skin);
-        addButtonElevationEffect(button);
-        button.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("clear button clicked");
-                        clearAchievements();
-                    }
-                });
-        table.add(button);
-        return table;
-    }
-
-    /**
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
