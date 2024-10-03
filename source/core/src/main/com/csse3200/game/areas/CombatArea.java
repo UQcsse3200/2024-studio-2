@@ -69,6 +69,7 @@ public class CombatArea extends GameArea {
             "images/pigeon_idle.png",
             "images/monkey_idle.png",
             "images/frog_idle.png",
+            "images/octopus_idle.png",
             "images/bear_idle.png",
             "images/macaw_idle.png",
             "images/bigsawfish_idle.png",
@@ -83,7 +84,7 @@ public class CombatArea extends GameArea {
             "images/flipped_fireball.png",
     };
     private static final String[] forestTextureAtlases = {
-            "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas",
+            "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas", "images/octopus.atlas",
             "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
@@ -149,6 +150,8 @@ public class CombatArea extends GameArea {
             spawnPigeon();
         } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
             spawnEel();
+        }else if (enemy.getEnemyType() == Entity.EnemyType.OCTOPUS){
+            spawnOctopus();
         } else if (enemy.getEnemyType() == Entity.EnemyType.BIGSAWFISH) {
             spawnBigsawfish();
         } else if (enemy.getEnemyType() == Entity.EnemyType.MACAW) {
@@ -285,6 +288,13 @@ public class CombatArea extends GameArea {
         spawnEntityAt(combatEnemyNPC, new GridPoint2(785, 337), true, true);
     }
 
+    /**
+     * spawns an octopus enemy, with the player entity as its target
+     */
+    private void spawnOctopus() {
+        Entity combatEnemyNPC = EnemyFactory.createOctopusCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
+    }
     /**
      * spawns a pigeon enemy, with the player entity as its target
      */

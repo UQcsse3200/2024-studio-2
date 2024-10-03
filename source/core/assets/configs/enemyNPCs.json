@@ -44,6 +44,15 @@
     "experience": 10,
     "isEnemy": 1
   },
+  "octopus": {
+    "spritePath": "images/octopus.atlas",
+    "health": 8,
+    "baseAttack": 2,
+    "defense": 5,
+    "speed": 170,
+    "experience": 15,
+    "isEnemy": 1
+  },
   "bee": {
     "spritePath": "images/bee.atlas",
     "health": 10,

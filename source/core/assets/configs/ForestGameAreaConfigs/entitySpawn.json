@@ -16,6 +16,7 @@
   "NUM_PIGEONS" : 4,
   "NUM_BEES" : 3,
   "NUM_EELS" : 4,
+  "NUM_OCTOPUS": 3,
   "NUM_MACAW" : 5,
   "NUM_BIGSAWFISH" : 5,
   "NUM_COWS" : 2,

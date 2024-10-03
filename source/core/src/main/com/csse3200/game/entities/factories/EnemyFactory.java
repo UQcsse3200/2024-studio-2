@@ -70,6 +70,7 @@ public class EnemyFactory {
         BEAR,
         BEE,
         EEL,
+        OCTOPUS,
         PIGEON,
         BIGSAWFISH,
         MACAW,
@@ -167,7 +168,7 @@ public class EnemyFactory {
      * Creates a green macaw enemy.
      *
      * @param target entity to chase (player in most cases, but does not have to be)
-     * @return enemy bear entity
+     * @return enemy macaw entity
      */
     public static Entity createMacaw(Entity target) {
         BaseEnemyEntityConfig config = configs.macaw;
@@ -190,6 +191,34 @@ public class EnemyFactory {
         macaw.setScale(2f,1.38f);
 
         return macaw;
+    }
+
+    /**
+     * Creates an undersea octopus enemy.
+     *
+     * @param target entity to chase (player in most cases, but does not have to be)
+     * @return enemy octopus entity
+     */
+    public static Entity createOctopus(Entity target) {
+        BaseEnemyEntityConfig config = configs.octopus;
+        Entity octopus = createBaseEnemy(target, EnemyType.OCTOPUS, config);
+        octopus.setEnemyType(Entity.EnemyType.OCTOPUS);
+
+        TextureAtlas octopusAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+
+        AnimationRenderComponent animator = new AnimationRenderComponent(octopusAtlas);
+
+        animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("float", 0.5f, Animation.PlayMode.LOOP);
+
+        octopus
+                .addComponent(animator)
+                .addComponent(new OctopusAnimationController());
+
+
+        octopus.setScale(1.3f,1.0f);
+
+        return octopus;
     }
 
     /**
@@ -382,6 +411,7 @@ public class EnemyFactory {
             case BEAR -> configs.bear;
             case BEE -> configs.bee;
             case EEL -> configs.eel;
+            case OCTOPUS -> configs.octopus;
             case PIGEON -> configs.pigeon;
             case BIGSAWFISH -> configs.bigsawfish;
             case MACAW -> configs.macaw;
@@ -546,7 +576,23 @@ public class EnemyFactory {
         
         return beeEnemy;
     }
-    
+
+    /**
+     * Creates octopus enemy as NPC entity for static combat
+     * */
+    public static Entity createOctopusCombatEnemy() {
+        BaseEnemyEntityConfig config = configs.octopus;
+        Entity octopusEnemy = createCombatNPC(config);
+        octopusEnemy.setEnemyType(Entity.EnemyType.OCTOPUS);
+
+        octopusEnemy
+                .addComponent(new TextureRenderComponent("images/octopus_idle.png"));
+        octopusEnemy.scaleHeight(90.0f);
+
+        return octopusEnemy;
+    }
+
+
     /**
      * Creates big saw fish enemy as NPC entity for static combat
      * */
