@@ -319,22 +319,6 @@ public class TerrainComponent extends RenderComponent {
       this.setPossibleTiles();
     }
 
-    /**
-     * checks if the water map is unlcked yet
-     * @return true iff the map is unlocked
-     */
-    public boolean hasUnlockedWaterMap() {
-      return this.unlockedWater;
-    }
-
-    /**
-     * sets the state of unlocked water map
-     * @param unlockedWater the state of unlocked map
-     */
-    public void setUnlockedWater(boolean unlockedWater) {
-      this.unlockedWater = unlockedWater;
-    }
-
     public ArrayList<Tile> getMapTiles(MapType mapType) {
       switch(mapType) {
         case FOREST:

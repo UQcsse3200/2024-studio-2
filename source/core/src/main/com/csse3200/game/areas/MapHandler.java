@@ -15,6 +15,7 @@ public class MapHandler {
   private static MapType previousMap = MapType.NONE;
   private static boolean unlockedWater = false;
   private static boolean unlockedAir = false;
+  private static int bossDefeat = 0;
 
   private static ForestGameArea forestGameArea;
 
@@ -97,6 +98,13 @@ public class MapHandler {
    */
   public static boolean getUnlockedOcean() {
     return MapHandler.unlockedWater;
+  }
+
+  /**
+   * Updates the count of bosses defeated
+   */
+  public static void updateBossDefeatCount() {
+    MapHandler.bossDefeat += 1;
   }
 
   /**

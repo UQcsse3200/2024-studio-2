@@ -92,11 +92,12 @@ public class PlayerActions extends Component {
   }
 
   /**
-   * Checks if the bos in current area is defeat to unlock the next area
+   * Checks if the bos in current area is defeat to unlock the ocean area
    * @param player entity to check last triggered events
    */
   public void unlockOceanMap(Entity player) {
     if (Objects.equals(player.getEvents().getLastTriggeredEvent(), "kangaDefeated")) {
+      MapHandler.updateBossDefeatCount();
       MapHandler.setUnlockedWater(true);
     }
   }
