@@ -312,6 +312,8 @@ public class TerrainComponent extends RenderComponent {
           break;
         case COMBAT:
           break;
+        case MAZE_MINIGAME:
+          break;
         default:
           throw new IllegalArgumentException("Map type not supported: " + mapType);
       }

@@ -55,9 +55,8 @@ public class CombatExitDisplay extends UIComponent {
             new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
-          logger.info("enemy is: {}", enemy.getComponent(CombatStatsComponent.class).isBoss());
           if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-            entity.getEvents().trigger("kangaDefeated");
+            entity.getEvents().trigger("bossCombatWin", enemy);
           } else {
             entity.getEvents().trigger("combatWin", enemy);
           }
@@ -69,9 +68,13 @@ public class CombatExitDisplay extends UIComponent {
             new ChangeListener() {
               @Override
               public void changed(ChangeEvent changeEvent, Actor actor) {
-                entity.getEvents().trigger("combatLoss");
-              }
-            });
+          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+            entity.getEvents().trigger("bossCombatLoss", enemy);
+          } else {
+            entity.getEvents().trigger("combatLoss", enemy);
+          }
+        }
+      });
 
     // Add the buttons to the table with padding for layout spacing
     table.add(win).padTop(10f).padRight(10f);

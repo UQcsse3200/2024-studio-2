@@ -74,13 +74,13 @@ public class MapHandler {
     if (mapType == MapType.FOREST) {
       currentGameArea = new ForestGameArea(terrainFactory, game);
       currentGameArea.create();
-    } 
+    }
 
     return currentGameArea;
   }
- 
+
   /**
-   * Unlock the next area. 
+   * Unlock the next area.
    * Water is unlocked first, then air.
    */
   public static void unlockNextArea() {
@@ -155,6 +155,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, AIR, COMBAT, FOG, NONE
+    FOREST, WATER, AIR, COMBAT, FOG, MAZE_MINIGAME, NONE
   }
 }

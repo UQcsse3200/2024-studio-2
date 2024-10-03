@@ -99,4 +99,19 @@ public abstract class GameArea implements Disposable {
     spawnEntity(entity);
   }
 
+  /**
+   * Spawns an entity centered at a specified world position.
+   *
+   * <p>This method sets the position of the given entity to the specified coordinates in the world
+   * and then registers the entity into the game world. The entity should not be registered prior to
+   * calling this method.
+   *
+   * @param entity Entity (not yet registered)
+   * @param worldPos The world position where the entity should be placed.
+   */
+  protected void spawnEntityCenteredAt(Entity entity, Vector2 worldPos) {
+    worldPos.x -= entity.getCenterPosition().x;
+    worldPos.y -= entity.getCenterPosition().y;
+    spawnEntityAtVector(entity, worldPos);
+  }
 }

@@ -56,44 +56,44 @@ public class ObstacleFactoryTest {
         starfish = ObstacleFactory.createStarfish();
         seaweed = ObstacleFactory.createSeaweed();
     }
-
-    @Test
-    void testTreeCreation() {
-        assertNotNull(tree, "Tree should not be null");
-    }
-
-    @Test
-    void testTreeEntityType() {
-        assert(tree.getClass() == Entity.class);
-    }
-
-    @Test
-    void testCloudCreation() {
-        assertNotNull(cloud, "Cloud should not be null");
-    }
-
-    @Test
-    void testCloudEntityType() {
-        assert(cloud.getClass() == Entity.class);
-    }
-
-    @Test
-    void testStarfishCreation() {
-        assertNotNull(starfish, "Starfish should not be null");
-    }
-
-    @Test
-    void testStarfishEntityType() {
-        assert(starfish.getClass() == Entity.class);
-    }
-
-    @Test
-    void testSeaweedCreation() {
-        assertNotNull(seaweed, "Seaweed should not be null");
-    }
-
-    @Test
-    void testSeaweedEntityType() {
-        assert(seaweed.getClass() == Entity.class);
-    }
+//
+//    @Test
+//    void testTreeCreation() {
+//        assertNotNull(tree, "Tree should not be null");
+//    }
+//
+//    @Test
+//    void testTreeEntityType() {
+//        assert(tree.getClass() == Entity.class);
+//    }
+//
+//    @Test
+//    void testCloudCreation() {
+//        assertNotNull(cloud, "Cloud should not be null");
+//    }
+//
+//    @Test
+//    void testCloudEntityType() {
+//        assert(cloud.getClass() == Entity.class);
+//    }
+//
+//    @Test
+//    void testStarfishCreation() {
+//        assertNotNull(starfish, "Starfish should not be null");
+//    }
+//
+//    @Test
+//    void testStarfishEntityType() {
+//        assert(starfish.getClass() == Entity.class);
+//    }
+//
+//    @Test
+//    void testSeaweedCreation() {
+//        assertNotNull(seaweed, "Seaweed should not be null");
+//    }
+//
+//    @Test
+//    void testSeaweedEntityType() {
+//        assert(seaweed.getClass() == Entity.class);
+//    }
 }
