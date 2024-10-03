@@ -233,7 +233,7 @@
       iconPath: images/logbook/icons/update-3/lootbox.png
     }
     {
-      questName: BRONZE FISH
+      questName: BRONZE MAZE
       questDescription: Finish the FISH mini game with a bronze medal
       completed: false
       seen: false
@@ -241,7 +241,7 @@
       iconPath: images/logbook/icons/update-3/fish-bronze.png
     }
     {
-      questName: SILVER FISH
+      questName: SILVER MAZE
       questDescription: Finish the FISH mini game with a silver medal
       completed: false
       seen: false
@@ -249,7 +249,7 @@
       iconPath: images/logbook/icons/update-3/fish-silver.png
     }
     {
-      questName: GOLD FISH
+      questName: GOLD MAZE
       questDescription: Finish the FISH mini game with a gold medal
       completed: false
       seen: false

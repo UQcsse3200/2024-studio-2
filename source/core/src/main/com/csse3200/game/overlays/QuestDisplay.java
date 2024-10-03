@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.components.quests.AbstractQuest;
+import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
@@ -47,7 +47,7 @@ public class QuestDisplay extends UIComponent {
 
 
     /** Comparator to sort quests showing active, completed then failed quests */
-    private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
+    private final Comparator<Quest> questComparator = (q1, q2) -> {
         if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
             return 1;
         } else if (!q1.isQuestCompleted() && q2.isQuestCompleted()) {
@@ -95,7 +95,7 @@ public class QuestDisplay extends UIComponent {
 
 
 
-            for (AbstractQuest quest : questDisplay) {
+            for (Quest quest : questDisplay) {
                 if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
@@ -122,7 +122,7 @@ public class QuestDisplay extends UIComponent {
      * @param table The table to which quest components are added to.
      * @param quest The quest for which components are being added to.
      */
-    private void addQuestComponents(Table table, AbstractQuest quest) {
+    private void addQuestComponents(Table table, Quest quest) {
         Color questShownActive = determineQuestColor(quest);
 
         Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
@@ -152,7 +152,7 @@ public class QuestDisplay extends UIComponent {
      * Returns the color representing the quests' status.
      * @param quest The quest for which the color is based upon.
      */
-    private Color determineQuestColor(AbstractQuest quest) {
+    private Color determineQuestColor(Quest quest) {
         if (quest.isQuestCompleted()) {
             return Color.GOLDENROD;
         } else if (quest.isFailed()) {
@@ -167,7 +167,7 @@ public class QuestDisplay extends UIComponent {
      * @param table The table to which task hints are added to.
      * @param quest The quest whose task hints are to be added to.
      */
-    private void addQuestInfo(Table table, AbstractQuest quest) {
+    private void addQuestInfo(Table table, Quest quest) {
 
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
@@ -198,7 +198,7 @@ public class QuestDisplay extends UIComponent {
      * @param questList The list of quests.
      */
     private void updateQuestsCompletedLabel(Table table, List<QuestBasic> questList) {
-        long completedCount = questList.stream().filter(AbstractQuest::isQuestCompleted).count();
+        long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
         Label questsCompletedLabel = (Label) table.getChildren().get(0);
         questsCompletedLabel.setText("Quests Completed: " + completedCount);
     }

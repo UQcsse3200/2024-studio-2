@@ -6,7 +6,7 @@ import java.util.List;
 
 /** An abstract Quest class that contains the design for Quest classes that store quest
  *  and subtask progression (# of subtasks completed), descriptions and hints. **/
-public abstract class AbstractQuest {
+public abstract class Quest {
     /**
      * The name of the quest.
      * */
@@ -48,7 +48,7 @@ public abstract class AbstractQuest {
     private String[] followQuests;
 
     /** Constructor design for implementing subclasses. */
-    protected AbstractQuest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex, String[] followQuests)
+    protected Quest(String questName, String questDescription, List<Task> tasks, Boolean isSecretQuest, List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed, int currentTaskIndex, String[] followQuests)
     {
         this.questName = questName;
         this.questDescription = questDescription;

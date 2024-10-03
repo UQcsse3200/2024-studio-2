@@ -4,7 +4,7 @@ import java.util.List;
 
 /** A basic Quest class that stores quest and subtask progression (# of
  * subtasks completed), descriptions and hints. **/
-public class QuestBasic extends AbstractQuest {
+public class QuestBasic extends Quest {
     /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
      *  and completion triggers (messages to send on completion). */
     public QuestBasic(String questName, String questDescription, List<Task> tasks,

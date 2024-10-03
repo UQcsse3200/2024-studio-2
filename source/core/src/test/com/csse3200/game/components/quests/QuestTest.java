@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QuestBasicTest { // Also tests AbstractQuest class
+class QuestBasicTest { // Also tests Quest class
     private QuestBasic quest;
 
     @BeforeEach
