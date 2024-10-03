@@ -2,6 +2,8 @@ package com.csse3200.game.entities.factories;
 
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
@@ -43,6 +45,11 @@ public class ObstacleFactoryTest {
         RenderService renderService = new RenderService();
         renderService.setDebug(mock(DebugRenderer.class));
         ServiceLocator.registerRenderService(renderService);
+
+        // Registering lighting service with a mocked LightingEngine
+        LightingEngine lightingEngine = mock(LightingEngine.class);
+        LightingService lightingService = new LightingService(lightingEngine);
+        ServiceLocator.registerLightingService(lightingService);
 
         // Loading textures for the obstacle
         ResourceService resourceService = new ResourceService();
