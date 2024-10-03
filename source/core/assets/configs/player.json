@@ -3,6 +3,7 @@
   "strength": 10,
   "defense": 20,
   "speed": 10,
+  "level": 1,
   "gold": 50,
   "favouriteColour": "peach"
 }

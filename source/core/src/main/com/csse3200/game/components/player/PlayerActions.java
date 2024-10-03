@@ -4,25 +4,26 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
-import com.csse3200.game.components.tasks.ChaseTask;
-import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.physics.components.PhysicsComponent;
+import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
+import com.csse3200.game.components.audio.AirAnimalSoundPlayer;
+import com.csse3200.game.components.audio.WaterAnimalSoundPlayer;
 
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
   private static final float SPEED_MULTIPLIER = 0.03f; // Adjust this to balance speed differences
+  private static final int SOUND_INTERVAL = 10000; // milli-secs
+  private static final int SOUND_LENGTH = 1000; // milli-secs
 
   private PhysicsComponent physicsComponent;
   private CombatStatsComponent combatStatsComponent;
@@ -31,8 +32,13 @@ public class PlayerActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
   private DogSoundPlayer dogSoundPlayer;
+  private AirAnimalSoundPlayer airAnimalSoundPlayer;
+  private WaterAnimalSoundPlayer waterAnimalSoundPlayer;
   private final String selectedAnimal;
   private final GdxGame game;
+
+  private GameTime gameTime;
+  private long lastTimeSoundPlayed = 0;
 
   public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
     this.game = game;
@@ -42,6 +48,7 @@ public class PlayerActions extends Component {
 
   @Override
   public void create() {
+    gameTime = ServiceLocator.getTimeSource();
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     combatStatsComponent = entity.getComponent(CombatStatsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
@@ -54,10 +61,23 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("switchMap", this::switchMap);
     entity.getEvents().addListener("stoF", this::stof);
 
-    if ("images/dog.png".equals(selectedAnimal)) {
-      Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
-      Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
-      dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+    switch(selectedAnimal) {
+      case "images/dog.png":
+        Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
+        Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
+        dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+        break;
+      case "images/bird.png":
+        Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
+        Sound screechSound = ServiceLocator.getResourceService().getAsset("sounds/animal/birdscreech.mp3", Sound.class);
+        airAnimalSoundPlayer = new AirAnimalSoundPlayer(flappingSound, screechSound);
+        break;
+      case "images/croc.png":
+        Sound swimmingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/waterwhoosh.mp3", Sound.class);
+        waterAnimalSoundPlayer = new WaterAnimalSoundPlayer(swimmingSound);
+        break;
+      default:
+        logger.error("Unknown animal file path");
     }
   }
 
@@ -79,13 +99,42 @@ public class PlayerActions extends Component {
 
   @Override
   public void update() {
-    if (dogSoundPlayer != null) {
-      dogSoundPlayer.updatePantingSound(moving, 1.0f);
-    }
     if (moving) {
       updateSpeed();
     }
+    if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_INTERVAL) {
+      playSound();
+      lastTimeSoundPlayed = gameTime.getTime();
+    } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
+      stopSound();
+    }
   }
+
+  private void playSound() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.playPantingSound(0.5f);
+    } else if (airAnimalSoundPlayer != null) {
+      airAnimalSoundPlayer.playFlappingSound(0.5f);
+    } else {
+      waterAnimalSoundPlayer.playSwimmingSound(0.5f);
+    }
+  }
+
+  private void stopSound() {
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.stopPantingSound();
+    } else if (airAnimalSoundPlayer != null) {
+      airAnimalSoundPlayer.stopFlappingSound();
+    } else {
+      waterAnimalSoundPlayer.stopSwimmingSound();
+    }
+  }
+  
+  /**
+   * Gets if the player is moving or not
+   * @return boolean of if the player currently moving
+   */
+  public boolean isMoving() {return moving;}
 
   private void updateSpeed() {
     Body body = physicsComponent.getBody();
@@ -107,6 +156,7 @@ public class PlayerActions extends Component {
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
+    stopSound();
     moving = false;
     logger.info("Player stopped moving.");
   }
@@ -115,6 +165,15 @@ public class PlayerActions extends Component {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound(1.0f);
     }
+
+    if (airAnimalSoundPlayer != null) {
+      airAnimalSoundPlayer.playScreechSound(1.0f);
+    }
+
+    if (waterAnimalSoundPlayer != null) {
+      waterAnimalSoundPlayer.playSwimmingSound(1.0f);
+    }
+
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
     attackSound.play();
     player.getEvents().trigger("attackTask");
@@ -138,15 +197,23 @@ public class PlayerActions extends Component {
     mainGameScreen.addOverlay(OverlayType.PLAYER_STATS_OVERLAY);
   }
 
+  /**
+   * Initiates combat with a specified enemy entity. Depending on the type of enemy,
+   * it displays an appropriate cutscene screen.
+   *
+   * @param enemy The enemy entity that the player is engaging in combat with.
+   */
   public void startCombat(Entity enemy) {
-    AITaskComponent aiTaskComponent = enemy.getComponent(AITaskComponent.class);
-    PriorityTask currentTask = aiTaskComponent.getCurrentTask();
-
-    if ((currentTask instanceof WanderTask && ((WanderTask) currentTask).isBoss()) ||
-            (currentTask instanceof ChaseTask && ((ChaseTask) currentTask).isBoss())) {
-      currentTask.stop();
+    // Stop player movement
+    stopWalking();
+    // Check if the enemy is a boss type
+    if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO ||
+            enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS ||
+            enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+      // Add a boss cutscene screen for boss encounters
       game.addBossCutsceneScreen(player, enemy);
     } else {
+      // Add a standard enemy cutscene screen for regular encounters
       game.addEnemyCutsceneScreen(player, enemy);
     }
   }

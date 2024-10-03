@@ -19,7 +19,7 @@ public class FoodItemTest {
     void setUp() {
         // Initialise stats component with hunger half full:
         int maxHunger = 100;
-        CombatStatsComponent stat = new CombatStatsComponent(0, maxHunger, 0, 0, 0, 0,0, true, false);
+        CombatStatsComponent stat = new CombatStatsComponent(0, maxHunger, 0, 0, 0, 0,0, true, false, 1);
         stat.setHunger(50);
 
         // Create a sample player to test:
@@ -63,5 +63,21 @@ public class FoodItemTest {
     void testChickenLeg() {
         Foods.ChickenLeg chickenLeg = new Foods.ChickenLeg(1);
         helperTestFood(chickenLeg);
+    }
+
+    void testMilk() {
+        Foods.Milk milk = new Foods.Milk(1);
+        helperTestFood(milk);
+    }
+
+    @Test
+    void testCaviar() {
+        Foods.Sushi sushi = new Foods.Sushi(1);
+        helperTestFood(sushi);
+    }
+  
+    @Test
+    void testInitialisation() {
+        assertThrows(InstantiationException.class, Foods::new);
     }
 }
