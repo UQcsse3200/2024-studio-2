@@ -1,0 +1,26 @@
+BirdMain.png
+size: 384, 112
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fly1
+  rotate: false
+  xy: 0, 0
+  size: 128, 112
+  orig: 128, 112
+  offset: 0, 0
+  index: -1
+fly2
+  rotate: false
+  xy: 128, 0
+  size: 128, 112
+  orig: 128, 112
+  offset: 0, 0
+  index: -1
+fly3
+  rotate: false
+  xy: 256, 0
+  size: 128, 112
+  orig: 128, 112
+  offset: 0, 0
+  index: -1

@@ -65,7 +65,7 @@ class DialogueBoxServiceTest {
         AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
         when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
 
-        entityChatService.updateText(text, mockEntity);
+        entityChatService.updateText(text, mockEntity, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         verify(mockAnimator).startAnimation("selected");
         Assertions.assertArrayEquals(text, entityChatService.getHints());
@@ -81,9 +81,9 @@ class DialogueBoxServiceTest {
         AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
         when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
 
-        entityChatService.updateText(oldText, mockEntity);
+        entityChatService.updateText(oldText, mockEntity, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
-        entityChatService.updateText(newText);
+        entityChatService.updateText(newText, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         verify(mockAnimator).startAnimation("float");
     }
@@ -96,8 +96,8 @@ class DialogueBoxServiceTest {
         AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
         when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
 
-        entityChatService.updateText(oldText);
-        entityChatService.updateText(newText);
+        entityChatService.updateText(oldText, DialogueBoxService.DialoguePriority.NONEDEFAULT);
+        entityChatService.updateText(newText, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         verify(mockAnimator, never()).startAnimation("float");
     }
@@ -110,13 +110,13 @@ class DialogueBoxServiceTest {
         Entity previousEntity = mock(Entity.class);
         AnimationRenderComponent previousAnimator = mock(AnimationRenderComponent.class);
         when(previousEntity.getComponent(AnimationRenderComponent.class)).thenReturn(previousAnimator);
-        entityChatService.updateText(oldText, previousEntity);
+        entityChatService.updateText(oldText, previousEntity, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         Entity newEntity = mock(Entity.class);
         AnimationRenderComponent newAnimator = mock(AnimationRenderComponent.class);
         when(newEntity.getComponent(AnimationRenderComponent.class)).thenReturn(newAnimator);
 
-        entityChatService.updateText(newText, newEntity);
+        entityChatService.updateText(newText, newEntity, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         verify(previousAnimator).startAnimation("float");
         verify(newAnimator).startAnimation("selected");
@@ -130,8 +130,8 @@ class DialogueBoxServiceTest {
         Entity mockEntity = mock(Entity.class);
         when(mockEntity.getComponent(AnimationRenderComponent.class)).thenReturn(mockAnimator);
 
-        entityChatService.updateText(new String[][] {{"Test 1"}});
-        entityChatService.updateText(new String[][] {{"Test 2"}}, mockEntity);
+        entityChatService.updateText(new String[][] {{"Test 1"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
+        entityChatService.updateText(new String[][] {{"Test 2"}}, mockEntity, DialogueBoxService.DialoguePriority.NONEDEFAULT);
 
         verify(mockAnimator).startAnimation("selected");
     }
@@ -142,7 +142,7 @@ class DialogueBoxServiceTest {
     void hideChatBox() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
-        entityChatService.updateText(new String[][] {{"1", "2"}});
+        entityChatService.updateText(new String[][] {{"1", "2"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getLabel().isVisible());
         Assertions.assertTrue(entityChatService.getCurrentOverlay().getForwardButton().isVisible());
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getBackwardButton().isVisible());
@@ -156,45 +156,44 @@ class DialogueBoxServiceTest {
     @Test
     void shouldCreateEntityChat() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        entityChatService.updateText(new String[][] {{"1", "2"}});
+        entityChatService.updateText(new String[][] {{"1", "2"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         Assertions.assertArrayEquals(new String[][] {{"1", "2"}}, entityChatService.getHints());
     }
 
     @Test
     void testButtonPresses() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        entityChatService.updateText(new String[][]{{"1", "2"}});
+        entityChatService.updateText(new String[][]{{"1", "2"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleForwardButtonClick();
         Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
         entityChatService.getCurrentOverlay().handleBackwardButtonClick();
         Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-
     }
 
     @Test
     void testOptionButtonPresses() {
         String[][] dialogueOptions = new String[][] {{"/cOptions Dialogue/s01option1/s02option2/s03option3"},
                 {"1"}, {"2"}, {"3"}, {"4"}, {"5"}};
-        entityChatService.updateText(dialogueOptions);
+        entityChatService.updateText(dialogueOptions, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleOptionButtonClick(0);
         Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.updateText(dialogueOptions);
+        entityChatService.updateText(dialogueOptions, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleOptionButtonClick(1);
         Assertions.assertEquals("2", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.updateText(dialogueOptions);
+        entityChatService.updateText(dialogueOptions, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleOptionButtonClick(2);
         Assertions.assertEquals("3", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.updateText(dialogueOptions);
+        entityChatService.updateText(dialogueOptions, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleOptionButtonClick(3);
         Assertions.assertEquals("4", entityChatService.getCurrentOverlay().getLabel().getText().toString());
-        entityChatService.updateText(dialogueOptions);
+        entityChatService.updateText(dialogueOptions, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         entityChatService.getCurrentOverlay().handleOptionButtonClick(4);
         Assertions.assertEquals("5", entityChatService.getCurrentOverlay().getLabel().getText().toString());
     }
 
     @Test
     void shouldRemoveEntityChat() {
-        entityChatService.updateText(new String[][] {{"1", "2"}});
+        entityChatService.updateText(new String[][] {{"1", "2"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
         entityChatService.disposeCurrentOverlay();
         Assertions.assertNull(entityChatService.getCurrentOverlay());
@@ -208,7 +207,7 @@ class DialogueBoxServiceTest {
 
     @Test
     void shouldUpdateEntityChat() {
-        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}});
+        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
 
         DialogueBox chatOverlay = entityChatService.getCurrentOverlay();
@@ -221,7 +220,7 @@ class DialogueBoxServiceTest {
 
     @Test
     void buttonsExist() {
-        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}});
+        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
         Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
         Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());

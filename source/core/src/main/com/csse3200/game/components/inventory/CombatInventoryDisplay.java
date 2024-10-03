@@ -3,6 +3,9 @@ package com.csse3200.game.components.inventory;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+
+import com.csse3200.game.inventory.items.potions.SpeedPotion;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 
 public class CombatInventoryDisplay extends InventoryDisplay {
@@ -46,7 +49,7 @@ public class CombatInventoryDisplay extends InventoryDisplay {
             entity.getEvents().trigger("itemClicked", item, index, context);
         } else {
             String[][] itemText = {{"This item can only be used on the map!"}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText);
+            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.BATTLE);
         }
     }
 

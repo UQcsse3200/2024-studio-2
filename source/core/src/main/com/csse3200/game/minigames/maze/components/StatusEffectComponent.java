@@ -117,6 +117,17 @@ public class StatusEffectComponent extends Component {
     }
 
     /**
+     * Sets the time before a status expires only if the entity does not currently have that status.
+     * @param status the status
+     * @param duration the duration (in seconds)
+     */
+    public void setExpiryIfInactive(String status, float duration) {
+        if (!hasStatus(status)) {
+            setStatusExpiry(status, duration);
+        }
+    }
+
+    /**
      * Permanently applies a status to the entity (until removed).
      * @param status the status
      */

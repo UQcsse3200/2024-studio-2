@@ -46,14 +46,14 @@ class SpecialWaterMoveTest {
         verify(mockTargetStats).addStrength(-20);
         verify(mockTargetStats).addDefense(-10);
 
-        // Capture the added status effect (CONFUSION or POISONED).
+        // Capture the added status effect (CONFUSED or POISONED).
         ArgumentCaptor<CombatStatsComponent.StatusEffect> statusCaptor = ArgumentCaptor.forClass(CombatStatsComponent.StatusEffect.class);
         verify(mockTargetStats).addStatusEffect(statusCaptor.capture());
 
         CombatStatsComponent.StatusEffect appliedEffect = statusCaptor.getValue();
-        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSION ||
+        assertTrue(appliedEffect == CombatStatsComponent.StatusEffect.CONFUSED ||
                         appliedEffect == CombatStatsComponent.StatusEffect.POISONED,
-                "Random status effect should be CONFUSION or POISONED.");
+                "Random status effect should be CONFUSED or POISONED.");
     }
 
     /**

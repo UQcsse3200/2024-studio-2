@@ -24,7 +24,10 @@ import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -54,6 +57,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final Entity player;
     private PlayerInventoryDisplay display;
     private Table contentTable;
+    private static final String[] endMiniGameSounds = {
+            "sounds/minigames/fail.mp3",
+            "sounds/minigames/bronze.mp3",
+            "sounds/minigames/silver.mp3",
+            "sounds/minigames/gold.mp3",
+    };
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -75,8 +84,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
-                logger.info("Achievement trigger {} {}", gameName.name(),getMedal(score).name());
-                player.getEvents().trigger("miniGame",gameName,getMedal(score));
+                logger.info("Achievement trigger {} {}", gameName.name(), getMedal(score).name());
+                player.getEvents().trigger("miniGame", gameName, getMedal(score));
             }
         } else {
             this.player = null;
@@ -85,11 +94,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         setupExitButton();
+
+        ServiceLocator.registerResourceService(new ResourceService());
+        loadAssets();
+        playSoundEffect();
     }
 
     /**
      * Renders the screen. Sets the background colour, draws the UI elements (buttons) and
      * renders the message labels and handles key presses
+     *
      * @param delta The time in seconds since the last render.
      */
     @Override
@@ -133,14 +147,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
         });
 
         // Set up the table for UI layout
-        Table table = new Table();
-        table.setFillParent(true);
-        table.top().right();
-        table.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
+        Table exitButtonTable = new Table();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
 
         // Add the table to the stage
-        stage.addActor(table);
+        stage.addActor(exitButtonTable);
     }
 
     /**
@@ -150,22 +163,24 @@ public class EndMiniGameScreen extends ScreenAdapter {
         logger.info("Adding loot box to player's inventory.");
         LootBoxFactory lootBoxFactory = new LootBoxFactory();  // Create the factory to handle loot box creation
 
-        // Determine the medal and get the corresponding loot box
-        switch (getMedal(score)) {
-            case BRONZE -> {
-                // Create and add EarlyGameLootBox using the factory
-                UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
-                display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
-            }
-            case SILVER -> {
-                // Create and add MediumGameLootBox using the factory
-                UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
-                display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
-            }
-            case GOLD -> {
-                // Create and add LateGameLootBox using the factory
-                UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
-                display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+        // Determine the medal and get the corresponding loot box\
+        if (player != null) {
+            switch (getMedal(score)) {
+                case BRONZE -> {
+                    // Create and add EarlyGameLootBox using the factory
+                    UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
+                }
+                case SILVER -> {
+                    // Create and add MediumGameLootBox using the factory
+                    UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
+                }
+                case GOLD -> {
+                    // Create and add LateGameLootBox using the factory
+                    UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+                }
             }
         }
     }
@@ -176,20 +191,26 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Key functionality for escape and restart
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            dispose();
-            if (gameName == SNAKE) {
-                game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
-            }
-            else if (gameName == BIRD) {
-                game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
-            } else {
-                game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
-            }
+            setGameScreen();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
             Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
             game.setOldScreen(oldScreen, oldScreenServices);
+        }
+    }
+
+    /**
+     * Loads game screen based on the gameName
+     */
+    private void setGameScreen() {
+        dispose();
+        if (gameName == SNAKE) {
+            game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
+        } else if (gameName == BIRD) {
+            game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
+        } else {
+            game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
         }
     }
 
@@ -253,14 +274,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         tryAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                if (gameName == SNAKE) {
-                    game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
-                } else if (gameName == BIRD) {
-                    game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
-                } else {
-                    game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
-                }
+                setGameScreen();
             }
         });
 
@@ -302,6 +316,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     /**
      * Get the medal associated with the players score for current game
+     *
      * @param score: the players score
      * @return the medal associated with the score
      */
@@ -372,7 +387,30 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
+     * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
+     */
+    private void playSoundEffect() {
+        switch (getMedal(score)) {
+            case FAIL ->
+                // Failed
+                    AudioManager.playSound("sounds/minigames/fail.mp3");
+            case BRONZE ->
+                // Bronze
+                    AudioManager.playSound("sounds/minigames/bronze.mp3");
+            case SILVER ->
+                // Silver
+                    AudioManager.playSound("sounds/minigames/silver.mp3");
+            case GOLD ->
+                // Gold
+                    AudioManager.playSound("sounds/minigames/gold.mp3");
+            default -> throw new IllegalArgumentException("Unknown mini-game");
+        }
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
      * Gets the personalised massage based on score and mini-game
+     *
      * @return the message
      */
     private String getMessage() {
@@ -402,10 +440,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 bronzeMedalThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
                 silverMedalThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
                 goldMedalThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
-                failMessage = "Maze message FAIL";
-                bronzeMessage = "Maze message BRONZE";
-                silverMessage = "Maze message SILVER";
-                goldMessage = "Maze message GOLD";
+                failMessage = "You single-handedly committed mass genocide";
+                bronzeMessage = "At least you found Gerald";
+                silverMessage = "Unfortunately, we lost Gerald and Bruce :(";
+                goldMessage = "Yay! You got all the fishie babies!!";
             }
             default -> throw new IllegalArgumentException("Unknown mini-game");
         }
@@ -431,13 +469,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
+        unloadAssets();
+        ServiceLocator.getResourceService().dispose();
     }
 
     /**
      * Resize function that automatically gets called when the screen is resized.
      * Resizes all components with a consistent scale to maintain the screen's
      * original design.
-     * @param width The width of the resized screen.
+     *
+     * @param width  The width of the resized screen.
      * @param height The height of the resized screen.
      */
     @Override
@@ -452,5 +493,18 @@ public class EndMiniGameScreen extends ScreenAdapter {
         stage.clear();
         setupExitButton();
         renderEndMessage();
+    }
+
+    private void loadAssets() {
+        logger.debug("Loading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadSounds(endMiniGameSounds);
+        ServiceLocator.getResourceService().loadAll();
+    }
+
+    private void unloadAssets() {
+        logger.debug("Unloading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(endMiniGameSounds);
     }
 }
