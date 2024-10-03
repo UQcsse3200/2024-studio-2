@@ -122,9 +122,9 @@ public class ForestGameArea extends GameArea {
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
 	  player.getEvents().addListener("defeatedEnemy", this::spawnConvertedNPCs);
-      player.getEvents().addListener("defeatLandBoss", this::spawnKangarooBoss);
-      player.getEvents().addListener("defeatWaterBoss", this::spawnWaterBoss);
-      player.getEvents().addListener("defeatAirBoss", this::spawnAirBoss);
+    player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
+    player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
+    player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
       kangarooBossSpawned = false;
       waterBossSpawned = false;
       airBossSpawned = false;
