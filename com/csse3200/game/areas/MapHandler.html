@@ -141,6 +141,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Get map by type</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getUnlockedOcean()" class="member-name-link">getUnlockedOcean</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">checks if the water map is unlcked yet</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setUnlockedWater(boolean)" class="member-name-link">setUnlockedWater</a><wbr>(boolean&nbsp;unlockedWater)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">sets the state of unlocked water map</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#switchMapTo(com.csse3200.game.areas.MapHandler.MapType,com.csse3200.game.rendering.Renderer,com.csse3200.game.GdxGame,boolean)" class="member-name-link">switchMapTo</a><wbr>(<a href="MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a>&nbsp;mapType,
  <a href="../rendering/Renderer.html" title="class in com.csse3200.game.rendering">Renderer</a>&nbsp;renderer,
@@ -151,6 +161,16 @@ loadScripts(document, 'script');</script>
 
  Set saveState to true will remember the previous map state, which can
  be restored later.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unlockNextArea()" class="member-name-link">unlockNextArea</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Unlock the next area.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#updateBossDefeatCount()" class="member-name-link">updateBossDefeatCount</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Updates the count of bosses defeated</div>
 </div>
 </div>
 </div>
@@ -206,6 +226,43 @@ loadScripts(document, 'script');</script>
 <dd><code>renderer</code> - renderer</dd>
 <dd><code>game</code> - game</dd>
 <dt>Returns:</dt>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="unlockNextArea()">
+<h3>unlockNextArea</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unlockNextArea</span>()</div>
+<div class="block">Unlock the next area.
+ Water is unlocked first, then air.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getUnlockedOcean()">
+<h3>getUnlockedOcean</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getUnlockedOcean</span>()</div>
+<div class="block">checks if the water map is unlcked yet</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true iff the map is unlocked</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updateBossDefeatCount()">
+<h3>updateBossDefeatCount</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateBossDefeatCount</span>()</div>
+<div class="block">Updates the count of bosses defeated</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setUnlockedWater(boolean)">
+<h3>setUnlockedWater</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUnlockedWater</span><wbr><span class="parameters">(boolean&nbsp;unlockedWater)</span></div>
+<div class="block">sets the state of unlocked water map</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>unlockedWater</code> - the state of unlocked map</dd>
 </dl>
 </section>
 </li>
