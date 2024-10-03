@@ -1,25 +1,15 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.ui.UIComponent;
-import com.csse3200.game.areas.MapHandler;
-import org.lwjgl.Sys;
-import org.lwjgl.opengl.Drawable;
-import java.util.ArrayList;
-import java.util.List;
 /**
  * A UI component responsible for displaying a mini map in the game. The mini map shows the
  * player's position as a green dot and enemies as red dots. It updates in real time, showing

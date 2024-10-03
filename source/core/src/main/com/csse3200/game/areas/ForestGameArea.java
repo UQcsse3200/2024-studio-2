@@ -1,44 +1,47 @@
 package com.csse3200.game.areas;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Supplier;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.ForestGameAreaConfigs.*;
+import com.csse3200.game.areas.MapHandler.MapType;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestGameAreaConfig;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
+import com.csse3200.game.areas.terrain.TerrainLoader;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
+import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.QuestPopup;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.BossFactory;
+import com.csse3200.game.entities.factories.EnemyFactory;
+import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.entities.factories.ProjectileFactory;
 import com.csse3200.game.services.AudioManager;
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.areas.terrain.TerrainLoader;
-import com.csse3200.game.utils.math.GridPoint2Utils;
-import com.csse3200.game.utils.math.RandomUtils;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
-import org.lwjgl.Sys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.csse3200.game.entities.factories.ItemFactory;
-
-import java.util.Objects;
-import java.util.*;
-import java.util.function.Supplier;
+import com.csse3200.game.utils.math.GridPoint2Utils;
+import com.csse3200.game.utils.math.RandomUtils;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {

@@ -1,29 +1,34 @@
 package com.csse3200.game.areas.terrain;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
-import com.csse3200.game.areas.MapHandler;
-import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.*;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -36,14 +41,12 @@ public class TerrainComponent extends RenderComponent {
   public static final int CHUNK_SIZE = 16;
 
   private static final int TERRAIN_LAYER = 0;
-  private static final int FOG_LAYER = 1;
   private TiledMap tiledMap;
   private TiledMapRenderer tiledMapRenderer;
   private OrthographicCamera camera;
   private TerrainOrientation orientation;
   private float tileSize;
-  private MapType mapType;
-
+  
   // TODO: THESE ARE TEMPORARY PLACEHOLDERS FOR THE TILES - IN FUTURE THEY NEED TO BE CONVERTED
   //  TO TILED MAP SETS I WOULD IMAGINE (MAYBE NOT THO, WHO KNOWS)!
   private Set<GridPoint2> activeChunks = new HashSet<>();
@@ -76,8 +79,6 @@ public class TerrainComponent extends RenderComponent {
     this.orientation = orientation;
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
-    this.mapType = mapType;
-
     this.terrainResource = new TerrainResource(mapType);
   }
 

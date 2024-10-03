@@ -1,27 +1,22 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.GridPoint2;
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.gamearea.GameAreaDisplay;
-import com.csse3200.game.components.settingsmenu.UserSettings;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.BossFactory;
-import com.csse3200.game.services.AudioManager;
-import com.csse3200.game.areas.terrain.CombatTerrainFactory;
-import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
-import com.csse3200.game.entities.factories.CombatAnimalFactory;
-import com.csse3200.game.components.animal.AnimalRouletteActions1;
-import com.csse3200.game.entities.factories.EnemyFactory;
-import com.csse3200.game.entities.factories.PlayerFactory;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Objects;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.GridPoint2;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory;
+import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
+import com.csse3200.game.components.animal.AnimalRouletteActions1;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.factories.BossFactory;
+import com.csse3200.game.entities.factories.CombatAnimalFactory;
+import com.csse3200.game.entities.factories.PlayerFactory;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
