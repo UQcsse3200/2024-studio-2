@@ -317,6 +317,9 @@ public class CombatButtonDisplay extends UIComponent {
                     if (!winStatus) {
                         logger.info("Switching screens to gamer over lose after losing to boss.");
                         entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else if (bossEntity.getEnemyType() == Entity.EnemyType.AIR_BOSS){
+                        logger.info("Switching screen to end game stats.");
+                        entity.getEvents().trigger("finishedFinalCombatDialogue");
                     } else {
                         logger.info("DialogueBox is no longer visible, combat screen can be exited.");
                         entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
