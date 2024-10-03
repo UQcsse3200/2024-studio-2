@@ -48,11 +48,15 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
+    entity.getEvents().addListener("endGameStats", this::onEndGameStats);
     entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
       game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
     });
     entity.getEvents().addListener("finishedBossLossCombatDialogue", () -> {
       game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
+    });
+    entity.getEvents().addListener("finishedFinalCombatDialogue", () -> {
+      game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
     });
   }
 
@@ -130,6 +134,14 @@ public class CombatActions extends Component {
   }
 
   /**
+   * Upon defeating the Air Boss, display the players end game stats for their current playthrough
+   */
+  private void onEndGameStats(Screen screen, ServiceContainer container) {
+    logger.debug("Setting screen to end game stats.");
+    game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
+  }
+
+  /**
    * Signalled by clicking attack button, to then signal the ATTACK combat move in the manager.
    */
   private void onAttack(Screen screen, ServiceContainer container) {
@@ -166,6 +178,7 @@ public class CombatActions extends Component {
       entity.getEvents().trigger("onItems", manager.getPlayerStats(), manager.getEnemyStats());
     }
   }
+
 
   /**
    * Called when the screen is disposed to free resources.

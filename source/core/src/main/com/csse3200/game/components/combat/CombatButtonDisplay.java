@@ -301,9 +301,15 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 // Check if the DialogueBox is not visible
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    // If player lost set screen to game-over
                     if (!winStatus) {
-                        logger.info("Switching screens to gamer over lose after losing to boss.");
+                        logger.info("Switching screens to game over lose after losing to boss.");
                         entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                        // If final boss of the game set screen to stats
+                    } else if (bossEntity.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+                        logger.info("Switching screens to end game statistics.");
+                        entity.getEvents().trigger("finishedFinalCombatDialogue");
+                        // Else despawn the boss
                     } else {
                         logger.info("DialogueBox is no longer visible, combat screen can be exited.");
                         entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);

@@ -321,7 +321,7 @@ public class ForestGameArea extends GameArea {
     if (!kangarooBossSpawned) {
       Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
       kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-      spawnEntityOnMap(kangarooBoss);
+      spawnEntityNearPlayer(kangarooBoss, 30);
       enemies.add(kangarooBoss);
       kangarooBossSpawned = true;
     }
@@ -331,7 +331,7 @@ public class ForestGameArea extends GameArea {
     if (!waterBossSpawned) {
       Entity waterBoss = BossFactory.createWaterBossEntity(player);
       waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
-      spawnEntityOnMap(waterBoss);
+      spawnEntityNearPlayer(waterBoss, 30);
       enemies.add(waterBoss);
       waterBossSpawned = true;
     }
@@ -341,7 +341,7 @@ public class ForestGameArea extends GameArea {
     if (!airBossSpawned) {
       Entity airBoss = BossFactory.createAirBossEntity(player);
       airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
-      spawnEntityOnMap(airBoss);
+      spawnEntityNearPlayer(airBoss, 30);
       enemies.add(airBoss);
       airBossSpawned = true;
     }

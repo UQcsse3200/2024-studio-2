@@ -149,40 +149,6 @@ public class Stat {
         return this.type;
     }
 
-    /**
-     * Perform json write actions on the end game stats config file
-     *
-     * @param json The config containing stats to be tracked
-     */
-//    @Override
-//    public void write(Json json) {
-//        json.writeValue("statName", statName);
-//        json.writeValue("statDescription", statDescription);
-//        json.writeValue("statCurrent", current);
-//        json.writeValue("statMax", max);
-//        json.writeValue("statHasMax", hasMax);
-//        json.writeValue("type", type.name());
-//    }
-//
-//    /**
-//     * Perform json read actions on the end game stats config file
-//     *
-//     * @param json The config containing stats to be tracked
-//     */
-//    @Override
-//    public void read(Json json, JsonValue jsonData) {
-//        this.statName = jsonData.getString("statName");
-//        this.statDescription = jsonData.getString("statDescription");
-//        this.current = jsonData.getInt("statCurrent");
-//        this.hasMax = jsonData.getBoolean("statHasMax");
-//        // Check if json statMax is null
-//        if (this.hasMax) {
-//            this.max = jsonData.getInt("statMax");
-//        } else {
-//            this.max = null;
-//        }
-//        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
-//    }
 
     /**
      * Convert stats json to a human-readable string
