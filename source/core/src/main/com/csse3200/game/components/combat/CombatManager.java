@@ -395,7 +395,6 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
-
         switch (playerAction) {
             case ATTACK -> {
                 combatAnimationDisplay.initiateAnimation(Action.ATTACK);

@@ -59,3 +59,45 @@ spawn
   orig: 16, 16
   offset: 0, 0
   index: 3
+combat_idle
+  rotate: false
+  xy: 16, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 16, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
