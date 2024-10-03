@@ -154,7 +154,7 @@ class NPCFactoryTest {
                 {"Good luck!"}
         };
         NPCFactory.initiateDialogue(testSoundPath, testHintText);
-        verify(dialogueBoxService).updateText(testHintText);
+        verify(dialogueBoxService).updateText(testHintText, -2);
 
 //        for (String soundPath : testSoundPath) {
 //            AudioManager.playSound(soundPath);
@@ -199,7 +199,7 @@ class NPCFactoryTest {
     void TestChickenHasCorrectSoundPath() {
         String[] sound = configs.friendlyChicken.getSoundPath();
         Assertions.assertNotNull(sound);
-        Assertions.assertArrayEquals(new String[]{"sounds/FishBubble.wav"}, sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/chicken.wav"}, sound);
     }
 
     /**
@@ -282,7 +282,7 @@ class NPCFactoryTest {
     void TestFrogHasCorrectSoundPath() {
         String[] sound = configs.friendlyFrog.getSoundPath();
         Assertions.assertNotNull(sound);
-        Assertions.assertArrayEquals(new String[]{"sounds/FishBubble.wav"}, sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/frog.wav"}, sound);
     }
 
     /**
@@ -363,7 +363,7 @@ class NPCFactoryTest {
     void TestMonkeyHasCorrectSoundPath() {
         String[] sound = configs.friendlyMonkey.getSoundPath();
         Assertions.assertNotNull(sound);
-        Assertions.assertArrayEquals(new String[]{"sounds/FishBubble.wav"}, sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/monkey.wav"}, sound);
     }
 
     /**
