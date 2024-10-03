@@ -1,0 +1,27 @@
+
+sortButton.png
+size: 1024, 1024
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+e9_yOtsBihM7gZXXsXGJK8jb.ttf_0
+  rotate: false
+  xy: 834, 832
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 1, 245
+  size: 830, 355
+  orig: 830, 355
+  offset: 0, 0
+  index: -1
+buttondown
+  rotate: false
+  xy: 1, 602
+  size: 831, 358
+  orig: 831, 358
+  offset: 0, 0
+  index: -1
