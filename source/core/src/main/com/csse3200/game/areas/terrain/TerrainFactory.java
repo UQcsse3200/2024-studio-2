@@ -8,26 +8,18 @@ import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.areas.MapHandler.MapType;
+import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.components.CameraComponent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private GridPoint2 mapSize;
 
   public static final int CHUNK_SIZE = 16;
-  private static final int TUFT_TILE_COUNT = 1;
-  private static final int ROCK_TILE_COUNT = 1;
-
   protected final OrthographicCamera camera;
   private final CameraComponent cameraComponent;
   protected final TerrainOrientation orientation;
-  private final Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
-
   /**
    * Create a terrain factory with Orthogonal orientation
    *

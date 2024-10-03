@@ -1,16 +1,13 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.extensions.GameExtension;
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.extensions.GameExtension;
 
 @ExtendWith(GameExtension.class)
 public class MiniMapDisplayTest {

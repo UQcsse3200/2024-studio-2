@@ -1,13 +1,8 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.GdxGame;
 
 public class MapHandler {
   private static GameArea currentGameArea;
@@ -118,7 +113,7 @@ public class MapHandler {
   /**
    * Deletes references to all maps and resets to original state.
    */
-  private static void resetMapHandler() {
+  public static void resetMapHandler() {
     currentMap = MapType.NONE;
     previousMap = MapType.NONE;
     currentGameArea = null;
