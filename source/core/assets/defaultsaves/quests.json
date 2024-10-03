@@ -154,7 +154,7 @@
 			questDescription: Retrieve a weapon by completing the snake minigame.
 			tasks: [
 				{
-					taskName: defeatKangarooBoss
+					taskName: defeatLandBoss
 					description: Complete the minigame
 					hint: Face the Kangaroo Boss to bring peace to the kingdom.
 					requiredTriggers: 1
@@ -341,7 +341,7 @@
 			questDescription: Fill in
 			tasks: [
 				{
-					taskName: defeatWater
+					taskName: defeatWaterBoss
 					description: Defeat the Water Boss
 					hint: Prepare yourself and face the Water Boss to protect the kingdom.
 					requiredTriggers: 1
@@ -511,7 +511,7 @@
 			questDescription: Confront the Sky Seraph in a battle to save the Sky Kingdom
 			tasks: [
 				{
-					taskName: defeatSkySeraph
+					taskName: defeatAirBoss
 					description: Defeat the Sky Seraph
 					hint: Prepare yourself and confront the Sky Seraph in an epic battle!
 					requiredTriggers: 1

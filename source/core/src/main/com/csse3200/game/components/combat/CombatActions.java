@@ -99,6 +99,14 @@ public class CombatActions extends Component {
   private void onBossCombatWin(Entity bossEnemy) {
     logger.info("Switching back to main game after defeating kangaroo boss.");
 
+    if (bossEnemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+      entity.getEvents().trigger("landBossDefeated");
+    } else if (bossEnemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+      entity.getEvents().trigger("waterBossDefeated");
+    } else if (bossEnemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+      entity.getEvents().trigger("airBossDefeated");
+    }
+
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());

@@ -119,10 +119,9 @@ public class ForestGameArea extends GameArea {
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
 
-      player.getEvents().addListener("spawnKangaBoss", this::spawnKangarooBoss);
-      // TODO: change to correct listener eventName string
-      player.getEvents().addListener("spawnKangaBoss", this::spawnWaterBoss);
-      player.getEvents().addListener("spawnKangaBoss", this::spawnAirBoss);
+      player.getEvents().addListener("defeatLandBoss", this::spawnKangarooBoss);
+      player.getEvents().addListener("defeatWaterBoss", this::spawnWaterBoss);
+      player.getEvents().addListener("defeatAirBoss", this::spawnAirBoss);
 
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
       player.getEvents().addListener("unlockArea", this::unlockArea);
@@ -319,13 +318,13 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnKangarooBoss() {
-      if (!kangarooBossSpawned) {
-          Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
-          kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-          spawnEntityOnMap(kangarooBoss);
-          enemies.add(kangarooBoss);
-          kangarooBossSpawned = true;
-      }
+    if (!kangarooBossSpawned) {
+      Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
+      kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+      spawnEntityOnMap(kangarooBoss);
+      enemies.add(kangarooBoss);
+      kangarooBossSpawned = true;
+    }
   }
 
   private void spawnWaterBoss() {
@@ -349,9 +348,15 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnEntityOnMap(Entity entity) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 15, PLAYER_SPAWN.y - 15);
+    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 15, PLAYER_SPAWN.y + 15);
+
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    // Prevent spawn camping
+    while (Math.abs(randomPos.x - PLAYER_SPAWN.x) <= 5 && Math.abs(randomPos.y - PLAYER_SPAWN.y) <= 5) {
+      randomPos = RandomUtils.random(minPos, maxPos);
+    }
+
     spawnEntityAt(entity, randomPos, true, true);
   }
 
