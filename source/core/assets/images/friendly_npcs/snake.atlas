@@ -1,0 +1,124 @@
+friendly-npcs.png
+size: 3445, 3420
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+float
+  rotate: false
+  xy: 1672, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 1937, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2202, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2467, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2732, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 2997, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 3262, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+float
+  rotate: false
+  xy: 82, 3256
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 2987, 2790
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 3252, 2790
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 72, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 337, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 602, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 867, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 1132, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+selected
+  rotate: false
+  xy: 1397, 3018
+  size: 123, 123
+  orig: 123, 123
+  offset: 0, 0
+  index: -1
+default
+  rotate: false
+  xy: 1672, 3028
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1

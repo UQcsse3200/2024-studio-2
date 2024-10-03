@@ -11,6 +11,7 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     private int speed;
     private int experience;
     private int stamina;
+    private int level;
 
     /**
      * Returns the health value of this entity.
@@ -151,4 +152,18 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
      * @param stamina the new stamina value.
      */
     public void setStamina(int stamina) { this.stamina = stamina; }
+
+    /**
+     * Returns the level value for this entity.
+     *
+     * @return the level value as an int.
+     */
+    public int getLevel() { return level; }
+
+    /**
+     * Sets the level value for this entity.
+     *
+     * @param level the new level value.
+     */
+    public void setLevel(int level) { this.level = level; }
 }

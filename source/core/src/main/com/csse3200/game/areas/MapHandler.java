@@ -155,6 +155,6 @@ public class MapHandler {
    * Map types
    */
   public enum MapType {
-    FOREST, WATER, AIR, COMBAT, FOG, NONE
+    FOREST, WATER, AIR, COMBAT, FOG, MAZE_MINIGAME, NONE
   }
 }
