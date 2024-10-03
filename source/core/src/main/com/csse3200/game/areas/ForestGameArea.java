@@ -118,7 +118,7 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
-
+	  player.getEvents().addListener("defeatedEnemy", this::spawnConvertedNPCs);
       player.getEvents().addListener("defeatLandBoss", this::spawnKangarooBoss);
       player.getEvents().addListener("defeatWaterBoss", this::spawnWaterBoss);
       player.getEvents().addListener("defeatAirBoss", this::spawnAirBoss);
@@ -517,8 +517,61 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
         spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
     }
-    
-    private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
+	
+	@Override
+	public void spawnConvertedNPCs(Entity defeatedEnemy) {
+		loadAssets();
+		if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
+			logger.warn("Attempted to convert null entity or entity with null enemy type");
+			return;
+		}
+		
+		Vector2 pos = calculateSpawnPosition(defeatedEnemy);
+		Entity convertedNPC = null;
+		
+		switch (defeatedEnemy.getEnemyType()) {
+			case CHICKEN:
+				convertedNPC = NPCFactory.createChicken(player, this.enemies);
+				break;
+			case FROG:
+				convertedNPC = NPCFactory.createFrog(player, this.enemies);
+				break;
+			case MONKEY:
+				convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+				break;
+			case BEAR:
+				convertedNPC = NPCFactory.createBear(player, this.enemies);
+				break;
+			// Add other enemy types as needed
+			default:
+				logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
+				return;
+		}
+		
+		if (convertedNPC != null) {
+			spawnEntityAtVector(convertedNPC, pos);
+			convertedNPC.getEvents().trigger("wanderStart");
+			logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
+		}
+	}
+	
+	// Might remove this method later (pretty much a copy of spawnBanana)
+	private Vector2 calculateSpawnPosition(Entity entity) {
+		// Use the same logic as in spawnBanana method
+		float spawnX = (entity.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+		float spawnY = (entity.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+		
+		// Calculate the new position using Vector2
+		Vector2 pos = new Vector2(entity.getPosition().x + spawnX, entity.getPosition().y + spawnY);
+		
+		// Ensure the position is within map bounds
+		pos.x = Math.max(0, Math.min(pos.x, MAP_SIZE.x));
+		pos.y = Math.max(0, Math.min(pos.y, MAP_SIZE.y));
+		
+		return pos;
+	}
+	
+	private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
         GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
         GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
         

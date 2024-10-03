@@ -62,7 +62,10 @@ class EnemyFactoryTest {
             "images/monkey.png",
             "images/frog2.png",
             "images/bear2.png",
-            "images/pigeon2.png"
+            "images/pigeon2.png",
+		    "images/frog.png",
+		    "images/chicken.png",
+		    "images/bear.png"
     };
 
     private static String[] atlas = {
@@ -74,6 +77,7 @@ class EnemyFactoryTest {
             "images/enemy-frog.atlas",
             "images/bear.atlas",
             "images/pigeon.atlas",
+            "images/enemy-bear.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
