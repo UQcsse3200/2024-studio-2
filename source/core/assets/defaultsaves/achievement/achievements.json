@@ -41,7 +41,7 @@
       iconPath: images/potiontexture/speed.png
     }
     {
-      questName: Chicken LegAdvancement
+      questName: Chicken_LegAdvancement
       questDescription: Collect your first Chicken Leg!
       completed: false
       seen: false
@@ -159,6 +159,134 @@
       seen: false
       type: ENEMY
       iconPath: images/final_boss_kangaroo_idle.png
+    }
+    {
+      questName: BEAR
+      questDescription: Defeat the MIGHTY BEAR!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/bear.png
+    }
+    {
+      questName: BEE
+      questDescription: Defeat the MIGHTY BEE!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath:  images/logbook/icons/update-3/bee.png
+    }
+    {
+      questName: PIGEON
+      questDescription: Defeat the MIGHTY PIGEON!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/pigeon.png
+    }
+    {
+      questName: MACAW
+      questDescription: Defeat the MIGHTY MACAW!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/macaw.png
+    }
+    {
+      questName: EEL
+      questDescription: Defeat the MIGHTY EEL!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/eel.png
+    }
+    {
+      questName: BIGSAWFISH
+      questDescription: Defeat the MIGHTY BIG SAW FISH!!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/bigsawfish.png
+    }
+    {
+      questName: MilkAdvancement
+      questDescription: Got Milk
+      completed: false
+      seen: false
+      type: ITEM
+      iconPath: images/logbook/icons/update-3/milk.png
+    }
+    {
+      questName: CaviarAdvancement
+      questDescription: Find Sushi
+      completed: false
+      seen: false
+      type: ITEM
+      iconPath: images/logbook/icons/update-3/sushi.png
+    }
+    {
+      questName: LootBoxAdvancement
+      questDescription: Find a lootBox
+      completed: false
+      seen: false
+      type: ITEM
+      iconPath: images/logbook/icons/update-3/lootbox.png
+    }
+    {
+      questName: BRONZE MAZE
+      questDescription: Finish the FISH mini game with a bronze medal
+      completed: false
+      seen: false
+      type: ADVANCEMENT
+      iconPath: images/logbook/icons/update-3/fish-bronze.png
+    }
+    {
+      questName: SILVER MAZE
+      questDescription: Finish the FISH mini game with a silver medal
+      completed: false
+      seen: false
+      type: ADVANCEMENT
+      iconPath: images/logbook/icons/update-3/fish-silver.png
+    }
+    {
+      questName: GOLD MAZE
+      questDescription: Finish the FISH mini game with a gold medal
+      completed: false
+      seen: false
+      type: ADVANCEMENT
+      iconPath: images/logbook/icons/update-3/fish-gold.png
+    }
+    {
+      questName: WATERBOSS
+      questDescription: Defeat the MIGHTY WATER BOSS!!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/waterboss.png
+    }
+    {
+      questName: AIRBOSS
+      questDescription: Defeat the MIGHTY AIR BOSS!!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/airboss.png
+    }
+    {
+      questName: JOEY
+      questDescription: Defeat the MIGHTY AIR BOSS!!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/joey.png
+    }
+    {
+      questName: PIRANHA
+      questDescription: Defeat the piranha!
+      completed: false
+      seen: false
+      type: ENEMY
+      iconPath: images/logbook/icons/update-3/piranha.png
     }
   ]
 }
