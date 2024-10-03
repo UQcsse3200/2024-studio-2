@@ -356,7 +356,6 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-//        saveAchievements(achievements,"saves/achievements.json");
         SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
