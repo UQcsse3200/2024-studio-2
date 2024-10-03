@@ -30,7 +30,7 @@ public class Jellyfish extends MazeEntity {
     public Jellyfish(MazeEntityConfig config) {
         // Add AI tasks specific to Jellyfish (no chasing, only wandering)
         AITaskComponent aiComponent = new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f, false));
+                .addTask(new WanderTask(new Vector2(1.2f, 1.2f), 2f, false));
 
         // Add animations specific to Jellyfish in the future please
         AnimationRenderWithAudioComponent animator = new AnimationRenderWithAudioComponent(

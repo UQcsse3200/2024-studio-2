@@ -482,7 +482,7 @@ public class CombatManager extends Component {
     private void checkCombatEnd() {
         if (playerStats.getHealth() <= 0) {
             if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-                this.getEntity().getEvents().trigger("combatLossBoss");
+                this.getEntity().getEvents().trigger("bossCombatLoss", enemy);
                 GameState.resetState();
                 SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
@@ -491,12 +491,8 @@ public class CombatManager extends Component {
             }
             // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
         } else if (enemyStats.getHealth() <= 0) {
-            if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
-                this.getEntity().getEvents().trigger("landBossDefeated");
-            } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
-                this.getEntity().getEvents().trigger("waterBossDefeated");
-            } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-                this.getEntity().getEvents().trigger("airBossDefeated");
+            if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+                entity.getEvents().trigger("bossCombatWin", enemy);
             } else {
                 this.getEntity().getEvents().trigger("combatWin", enemy);
             }

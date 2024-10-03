@@ -246,4 +246,103 @@ class CombatStatsComponentTest {
     assertEquals(30, combat.getDefense());
     assertEquals(20, combat.getSpeed());
   }
+
+  @Test
+  public void testSimpleLevelUp() {
+
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 1);
+    combatStats.setLevel(0);
+    assertEquals(0, combatStats.getLevel());
+
+    combatStats.addLevel(5);
+    assertEquals(5, combatStats.getLevel());
+
+    combatStats.setLevel(1);
+    assertEquals(1, combatStats.getLevel());
+
+    combatStats.addLevel(5);
+    assertEquals(6, combatStats.getLevel());
+  }
+
+  @Test
+  public void testMaxLevel() {
+    int maxLevel = 10;
+
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 1);
+
+    combatStats.setLevel(10);
+    assertEquals(10, combatStats.getLevel());
+
+    combatStats.addLevel(1);
+    assertEquals(10, combatStats.getLevel());  // Cannot exceed max level
+  }
+
+  @Test
+  public void testAddXpLevelProgression() {
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 1);
+    combatStats.setLevel(0);
+    assertEquals(0, combatStats.getLevel());
+
+    combatStats.addExperience(100);
+    assertEquals(1, combatStats.getLevel());
+
+    combatStats.addLevel(2);
+    assertEquals(3, combatStats.getLevel());
+
+    combatStats.addExperience(190);
+    assertEquals(5, combatStats.getLevel());
+  }
+
+  @Test
+  public void testMaxLevelWithXp() {
+    int maxLevel = 10;
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 1);
+
+    combatStats.setLevel(0);
+    assertEquals(0, combatStats.getLevel());
+
+    combatStats.addLevel(10);
+    assertEquals(10, combatStats.getLevel());
+
+    combatStats.addExperience(1000);
+    assertEquals(10, combatStats.getLevel());
+  }
+
+  @Test
+  public void testNegativeXpAndLevel() {
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 0);
+    combatStats.setLevel(1);
+    assertEquals(1, combatStats.getLevel());
+
+    combatStats.addExperience(-100);
+    assertEquals(1, combatStats.getLevel());
+
+    combatStats.addLevel(-5);
+    assertEquals(0, combatStats.getLevel());
+  }
+
+  @Test
+  public void testSetLevelLowerThanCurrent() {
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 0);
+    combatStats.setLevel(1);
+    assertEquals(1, combatStats.getLevel());
+
+    combatStats.setLevel(5);
+    assertEquals(5, combatStats.getLevel());
+
+    combatStats.setLevel(0);
+    assertEquals(0, combatStats.getLevel());
+  }
+
+  @Test
+  public void testMaxXPAndLevel() {
+    CombatStatsComponent combatStats = new CombatStatsComponent(100, 100, 0, 0, 0, 0, 100, true, false, 0);
+
+    assertEquals(0, combatStats.getLevel());
+
+    combatStats.addExperience(9999);
+    assertEquals(10, combatStats.getLevel());
+  }
+
+
 }
