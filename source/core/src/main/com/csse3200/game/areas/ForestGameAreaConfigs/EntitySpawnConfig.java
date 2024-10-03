@@ -26,6 +26,7 @@ public class EntitySpawnConfig {
     public int NUM_PIGEONS;
     public int NUM_BEES;
     public int NUM_EELS;
+    public int NUM_OCTOPUS;
     public int NUM_BIGSAWFISH;
     public int NUM_MACAW;
     public int NUM_HIVES;
