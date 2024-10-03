@@ -41,7 +41,7 @@ class InventoryTest {
         QuestManager quest = new QuestManager(player);
 
         Task task = new Task("collectPotionTest", "", "", 2, 0, false, false);
-        quest.addQuest(new QuestBasic("Guide's Request test",
+        quest.addQuest(new Quest("Guide's Request test",
         "Follow the cow's request and collect items.", List.of(task),
         false, new ArrayList<>(), null, true, false, 0, null));
 

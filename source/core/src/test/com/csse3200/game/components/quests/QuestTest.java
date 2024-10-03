@@ -8,8 +8,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QuestBasicTest { // Also tests Quest class
-    private QuestBasic quest;
+class QuestTest {
+    private Quest quest;
 
     @BeforeEach
     void setUp() {
@@ -17,7 +17,8 @@ class QuestBasicTest { // Also tests Quest class
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5, 0, false, false);
 
         // Create the quest with the task
-        quest = new QuestBasic("First Steps",
+        quest = new Quest("First Steps",
+
                 "Take your first steps in this world!",
                 List.of(stepsTask),
                 false,

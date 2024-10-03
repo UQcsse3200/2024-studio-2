@@ -56,7 +56,7 @@ public class CombatScreen extends ScreenAdapter {
   private final Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-  private final CombatArea gameArea;
+  private final CombatArea combatArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -85,14 +85,13 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
 
     loadAssets();
-    createUI();
 
     logger.debug("Initialising main game dup screen entities");
     CombatTerrainFactory combatTerrainFactory = new CombatTerrainFactory(renderer.getCamera()); // create new combat terrain factory
-    this.gameArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
-    gameArea.create();
+    this.combatArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
+    combatArea.create();
 
-
+    createUI();
   }
 
   @Override
@@ -107,7 +106,7 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
-    gameArea.spawnTerrain();
+    combatArea.spawnTerrain();
 
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
@@ -181,7 +180,7 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(playerCombatStats)
         .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
-        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices));
+        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
   }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.components.quests.Quest;
-import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
 
@@ -43,7 +42,7 @@ public class QuestDisplay extends UIComponent {
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */
-    private List<QuestBasic> listOfQuests = new ArrayList<>();
+    private List<Quest> listOfQuests = new ArrayList<>();
 
 
     /** Comparator to sort quests showing active, completed then failed quests */
@@ -91,7 +90,7 @@ public class QuestDisplay extends UIComponent {
             int start = currPage * numOfQuestsPerPage;
             //
             int end = Math.min(start + numOfQuestsPerPage, listOfQuests.size());
-            List<QuestBasic> questDisplay = listOfQuests.subList(start, end);
+            List<Quest> questDisplay = listOfQuests.subList(start, end);
 
 
 
@@ -168,7 +167,6 @@ public class QuestDisplay extends UIComponent {
      * @param quest The quest whose task hints are to be added to.
      */
     private void addQuestInfo(Table table, Quest quest) {
-
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
         descLabel.setFontScale(0.70f);
@@ -197,7 +195,7 @@ public class QuestDisplay extends UIComponent {
      * @param table The table containing the label to update.
      * @param questList The list of quests.
      */
-    private void updateQuestsCompletedLabel(Table table, List<QuestBasic> questList) {
+    private void updateQuestsCompletedLabel(Table table, List<Quest> questList) {
         long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
         Label questsCompletedLabel = (Label) table.getChildren().get(0);
         questsCompletedLabel.setText("Quests Completed: " + completedCount);
