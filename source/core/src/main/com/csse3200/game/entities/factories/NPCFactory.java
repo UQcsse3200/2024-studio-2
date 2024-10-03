@@ -171,6 +171,11 @@ public class NPCFactory {
     BaseFriendlyEntityConfig config = configs.friendlyMonkey;
     return createFriendlyNPC(target, enemies, config);
   }
+  
+  public static Entity createBear(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyBear;
+    return createFriendlyNPC(target, enemies, config);
+  }
 
   private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
     return new AnimationRenderComponent(

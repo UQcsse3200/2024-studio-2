@@ -138,6 +138,7 @@ public class GdxGame extends Game {
 
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
+        ((MainGameScreen)screen).getGameArea().spawnConvertedNPCs(enemy);
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
             if (e.equals(enemy)) {

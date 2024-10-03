@@ -229,20 +229,23 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
-        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createKangaBossCombatEntity();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 346), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnWaterBoss() {
-        Entity combatEnemyNPC = BossFactory.createWaterBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createWaterBossCombatEntity();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 346), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
-        Entity combatEnemyNPC = BossFactory.createAirBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createAirBossCombatEntity();
+        spawnEntityAt(enemyDisplay, new GridPoint2(800, 346), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
 
     /** The following functions spawn chicken, monkey, and frog entities as NPC's for static combat

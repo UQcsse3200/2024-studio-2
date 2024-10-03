@@ -98,6 +98,8 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+  
+  public void spawnConvertedNPCs(Entity defeatedEnemy) {}
 
   /**
    * Spawns an entity centered at a specified world position.
