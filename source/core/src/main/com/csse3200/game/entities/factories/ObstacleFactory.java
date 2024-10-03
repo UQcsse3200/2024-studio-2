@@ -39,6 +39,60 @@ public class ObstacleFactory {
   }
 
   /**
+   * Creates a cloud entity.
+   * @return entity
+   */
+  public static Entity createCloud() {
+    Entity cloud =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/cloud.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    cloud.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    cloud.getComponent(TextureRenderComponent.class).scaleEntity();
+    cloud.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.2f);
+    return cloud;
+  }
+
+  /**
+   * Creates a seaweed entity.
+   * @return entity
+   */
+  public static Entity createSeaweed() {
+    Entity seaweed =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/seaweed.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    seaweed.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    seaweed.getComponent(TextureRenderComponent.class).scaleEntity();
+    seaweed.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(seaweed, 0.5f, 0.2f);
+    return seaweed;
+  }
+
+  /**
+   * Creates a starfish entity.
+   * @return entity
+   */
+  public static Entity createStarfish() {
+    Entity starfish =
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/starfish.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+
+    starfish.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    starfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    starfish.scaleHeight(2.5f);
+    PhysicsUtils.setScaledCollider(starfish, 0.5f, 0.2f);
+    return starfish;
+  }
+
+  /**
    * Creates an invisible physics wall.
    * @param width Wall width in world units
    * @param height Wall height in world units

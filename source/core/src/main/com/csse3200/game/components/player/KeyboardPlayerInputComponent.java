@@ -92,6 +92,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.I:
         entity.getEvents().trigger("statsInfo");
         return true;
+      case Keys.U:
+        entity.getEvents().trigger("unlockNextArea");
+        return true;
       default:
         return false;
     }

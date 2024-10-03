@@ -73,3 +73,45 @@ alert
   orig: 27, 30
   offset: 0, 0
   index: 1
+combat_idle
+  rotate: false
+  xy: 0, 0
+  size: 26,30
+  orig: 26, 30
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 25, 0
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 50, 0
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 75, 0
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 82, 30
+  size: 27, 30
+  orig: 27, 30
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 111, 28
+  size: 27, 30
+  orig: 27, 30
+  offset: 0, 0
+  index: 1

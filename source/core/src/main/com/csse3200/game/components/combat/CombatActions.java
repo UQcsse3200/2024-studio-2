@@ -7,7 +7,6 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityConverter;
 import com.csse3200.game.screens.GameOverLoseScreen;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
