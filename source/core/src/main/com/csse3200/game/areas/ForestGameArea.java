@@ -561,6 +561,9 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
     }
 	
+    /**
+     * Spawns defeated enemy NPCs are friendly NPCs in the same/similar location
+     */
 	@Override
 	public void spawnConvertedNPCs(Entity defeatedEnemy) {
 		loadAssets();
