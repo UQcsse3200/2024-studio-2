@@ -131,24 +131,22 @@ public class MainMenuDisplay extends UIComponent {
         }
         TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
         birdAniImage.setDrawable(drawable);
-        birdAniImage.setSize(128, 112);
-        birdAniImage.setPosition(1500, 500);
+        birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
+        birdAniImage.setPosition(Gdx.graphics.getWidth() + 200, 500);
         stage.addActor(birdAniImage);
 
         // Add dog animation
-        /*
         dogAniImage = new Image();
-        dogAtlas = new TextureAtlas("spriteSheets/DogMain.atlas");
+        dogAtlas = new TextureAtlas("spriteSheets/Dog.atlas");
         dogTextures = new Array<>(4);
         for (int frameDog = 1; frameDog <= 4; frameDog++) {
             dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
         }
         TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(0));
         dogAniImage.setDrawable(drawableDog);
-        dogAniImage.setSize(336, 312);
-        dogAniImage.setPosition(-100, 100);
+        dogAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 7f);
+        dogAniImage.setPosition(-200, Gdx.graphics.getHeight() / 6.8f);
         stage.addActor(dogAniImage);
-        */
 
         timer = 0f;
     }
@@ -1175,22 +1173,28 @@ public class MainMenuDisplay extends UIComponent {
                 birdCurrentFrame = 0;
             }
             birdAniImage.setDrawable(drawable);
-/*
+
             TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(dogCurrentFrame));
             dogCurrentFrame++;
             if (dogCurrentFrame >= 3) {
                 dogCurrentFrame = 0;
             }
             dogAniImage.setDrawable(drawableDog);
- */
         }
 
+        this.updateBirdFly();
+        this.updateDogRun();
+    }
+
+    public void updateBirdFly() {
+
+        birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         // animate the bird left to right
         float birdX = birdAniImage.getX();
         if (birdX < -200 && birdDirection) {
             birdDirection = false;
             birdAniImage.setScale(-1, 1);
-        } else if (birdX > 1500 && !birdDirection) {
+        } else if (birdX > Gdx.graphics.getWidth() + 200 && !birdDirection) {
             birdDirection = true;
             birdAniImage.setScale(1, 1);
         }
@@ -1201,25 +1205,29 @@ public class MainMenuDisplay extends UIComponent {
             birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * 100;
         }
         birdAniImage.setPosition(birdX, 500);
+    }
 
-        // animate the dog left to right
-        /*
+    public void updateDogRun() {
+        // resize
+        dogAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 7f);
+
+        // flip dog if out of screen
         float dogX = dogAniImage.getX();
         if (dogX < -200 && dogDirection) {
             dogDirection = false;
-            dogAniImage.setScale(-1,1);
-        } else if (dogX > 1500 && !dogDirection) {
-            dogDirection = true;
             dogAniImage.setScale(1,1);
+        } else if (dogX > Gdx.graphics.getWidth() + 200 && !dogDirection) {
+            dogDirection = true;
+            dogAniImage.setScale(-1,1);
         }
 
+        // move dog
         if (dogDirection) {
             dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * -150;
         } else {
             dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * 150;
         }
-        dogAniImage.setPosition(dogX, 100);
-         */
+        dogAniImage.setPosition(dogX, Gdx.graphics.getHeight() / 6.8f);
     }
 
     @Override
