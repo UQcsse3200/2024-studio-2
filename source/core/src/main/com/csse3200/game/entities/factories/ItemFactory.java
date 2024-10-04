@@ -12,7 +12,6 @@ import com.csse3200.game.inventory.items.potions.HealingPotion;
 import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.TextureRenderComponent;
-import com.csse3200.game.services.GameTime;
 
 /**
  * A factory class for creating various item entities in the game.

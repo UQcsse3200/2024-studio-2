@@ -1,15 +1,14 @@
 package com.csse3200.game.areas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.RandomUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents an area in the game, such as a level, indoor area, etc. An area has a terrain and
@@ -82,6 +81,8 @@ public abstract class GameArea implements Disposable {
 
   public abstract List<Entity> getEnemies();
 
+  public void unlockArea(String area) {};
+
   /**
    * Spawns an entity at a specified world position.
    *
@@ -96,5 +97,22 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+  
+  public void spawnConvertedNPCs(Entity defeatedEnemy) {}
 
+  /**
+   * Spawns an entity centered at a specified world position.
+   *
+   * <p>This method sets the position of the given entity to the specified coordinates in the world
+   * and then registers the entity into the game world. The entity should not be registered prior to
+   * calling this method.
+   *
+   * @param entity Entity (not yet registered)
+   * @param worldPos The world position where the entity should be placed.
+   */
+  protected void spawnEntityCenteredAt(Entity entity, Vector2 worldPos) {
+    worldPos.x -= entity.getCenterPosition().x;
+    worldPos.y -= entity.getCenterPosition().y;
+    spawnEntityAtVector(entity, worldPos);
+  }
 }

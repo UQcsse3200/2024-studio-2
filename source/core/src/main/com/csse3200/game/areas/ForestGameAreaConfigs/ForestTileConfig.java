@@ -9,5 +9,5 @@ public class ForestTileConfig {
   public String id;
   public String fp;
   public ArrayList<String> edges;
-
+  public String centre;
 }

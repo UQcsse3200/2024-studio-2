@@ -1,6 +1,5 @@
 package com.csse3200.game.components.login;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,21 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.csse3200.game.components.settingsmenu.UserSettings;
 
-import java.awt.*;
+import java.util.Map;
 
 /**
- * A UI component for displaying the Main menu.
+ * This class represents the login and registration display for the game.
+ * It allows users to either login or register by using the PlayFab service.
  */
 public class LoginRegisterDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(LoginRegisterDisplay.class);
@@ -34,23 +33,37 @@ public class LoginRegisterDisplay extends UIComponent {
     private Label title;
     private TextField usernameField;
     private TextField passwordField;
-    private TextField confirmPasswordField;
+    private TextField emailField;
     private TextButton submitButton;
     private TextButton switchButton;
     private Button closeButton;
     private boolean isLoginMode = true;
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
+    private PlayFab playFab;
 
+    /**
+     * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
+     * and prepares the display for user interaction.
+     */
     public LoginRegisterDisplay() {
         super();
+        playFab = new PlayFab("DBB26");
     }
 
+
+    /**
+     * Loads the necessary textures for the UI components.
+     */
     private void loadTextures() {
         backgroundTexture = new Texture("images/SettingBackground.png");
         closeButtonTexture = new Texture("images/CloseButton.png");
     }
 
+    /**
+     * Initializes the layout of the table.
+     * This includes setting up the background, size, and title label.
+     */
     public void initializeTable() {
         table = new Table();
         topTable = new Table();
@@ -59,7 +72,12 @@ public class LoginRegisterDisplay extends UIComponent {
         table.setSize(663, 405);
         title = new Label("Login", skin, "title-white");
     }
-
+    /**
+     * Constructs and returns the layout table containing all UI components, including input fields,
+     * buttons, and dynamic mode switching for login and registration.
+     *
+     * @return Table containing the login or registration form.
+     */
     public Table makeLoginRegisterTable() {// Create table for layout
         loadTextures();
         initializeTable();
@@ -70,20 +88,25 @@ public class LoginRegisterDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Adds the input fields for username, password, and email to the UI.
+     */
     private void addInputField() {
         usernameField = new TextField("", skin);
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        confirmPasswordField = new TextField("", skin);
-        confirmPasswordField.setPasswordMode(true);
-        confirmPasswordField.setPasswordCharacter('*');
+        emailField = new TextField("", skin);
     }
 
+    /**
+     * Adds buttons for form submission, switching between login/register modes, and closing the display.
+     */
     private void addButtons() {
         closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
         submitButton = new TextButton("Submit", skin);
         switchButton = new TextButton("Switch to Register", skin);
+
         switchButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -91,8 +114,6 @@ public class LoginRegisterDisplay extends UIComponent {
                 isLoginMode = !isLoginMode;
                 topTable.clear();
                 contentTable.clear();
-                usernameField.clear();
-                passwordField.clear();
                 updateUI();
             }
         });
@@ -106,6 +127,9 @@ public class LoginRegisterDisplay extends UIComponent {
         });
     }
 
+    /**
+     * Updates the UI elements to reflect the current mode (login or register).
+     */
     private void updateUI() {
         table.clear();  // Clear the table to re-add elements
 
@@ -125,16 +149,35 @@ public class LoginRegisterDisplay extends UIComponent {
         contentTable.add(new Label("Username:", skin)).padRight(10);
         contentTable.add(usernameField).width(200).padBottom(10);
         contentTable.row();
+        submitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                PlayFab.Response response = playFab.loginUser(usernameField.getText(), passwordField.getText());
+                NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
+                if (response.getIsSucceed()) {
+                    table.setVisible(false);
+                }
+
+            }
+        });
+        // If it's the register screen, add the confirm password field
+        if (!isLoginMode) {
+            contentTable.add(new Label("Email:", skin)).padRight(10);
+            contentTable.add(emailField).width(200).padBottom(10);
+            contentTable.row();
+            submitButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent changeEvent, Actor actor) {
+                    PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
+                    NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
+                }
+            });
+        }
+
+
         contentTable.add(new Label("Password:", skin)).padRight(10);
         contentTable.add(passwordField).width(200).padBottom(10);
         contentTable.row();
-        // If it's the register screen, add the confirm password field
-        if (!isLoginMode) {
-            contentTable.add(new Label("Confirm Password:", skin)).padRight(10);
-            contentTable.add(confirmPasswordField).width(200).padBottom(10);
-            contentTable.row();
-        }
-
 
         // Add submit and switch buttons
         contentTable.add(submitButton).colspan(2).padBottom(10);

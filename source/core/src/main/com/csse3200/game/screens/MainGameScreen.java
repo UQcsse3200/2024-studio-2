@@ -4,22 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.maingame.TimeDisplay;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.maingame.MainGameActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.LightingEngine;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -37,6 +42,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.csse3200.game.areas.MiniMapDisplay;
 
 /**
  * The game screen containing the main game.
@@ -78,6 +84,8 @@ public class MainGameScreen extends PausableScreen {
    * Physics engine for handling physics simulations in the game.
    */
   private final PhysicsEngine physicsEngine;
+  private final LightingEngine lightingEngine;
+  private final DayNightCycle dayNightCycle;
 
   /**
    * The game area containing the main game.
@@ -129,11 +137,22 @@ public class MainGameScreen extends PausableScreen {
     xButtonTexture = new Texture(Gdx.files.internal("map/x_button.jpg"));
     xButtonBounds = new Rectangle(Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50, 40, 40);
 
+    lightingEngine = new LightingEngine(physicsEngine.getWorld(),
+            renderer.getCamera().getCamera());
+
+    lightingEngine.getRayHandler().setAmbientLight(new Color(0.5f, 0.45f, 0.3f, 0.6f));
+
+    ServiceLocator.getRenderService().register(lightingEngine);
+
+    ServiceLocator.registerLightingService(new LightingService(lightingEngine));
+
+    dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
+
     loadAssets();
+    this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
     createUI();
     logger.debug("Initialising main game screen entities");
 
-    setMap(MapHandler.MapType.FOREST);
 
     Stage stage = ServiceLocator.getRenderService().getStage();
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
@@ -190,6 +209,7 @@ public class MainGameScreen extends PausableScreen {
       if (!isPaused){
           physicsEngine.update();
           ServiceLocator.getEntityService().update();
+          dayNightCycle.update();
           renderer.render();
       }
       // If map is visible, draw the map
@@ -332,7 +352,9 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new MainGameExitDisplay(mainGameActions))
               .addComponent(new Terminal())
               .addComponent(inputComponent)
-              .addComponent(new TerminalDisplay());
+              .addComponent(new TerminalDisplay())
+              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);
   }
