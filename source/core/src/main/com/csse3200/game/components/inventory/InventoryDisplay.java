@@ -119,11 +119,6 @@ public abstract class InventoryDisplay extends UIComponent {
 
         stage.addActor(inventoryDisplay);
         inventoryDisplay.setVisible(false);
-
-        // HOT-BAR:
-        if (hasHotBar) {
-            hotBarDisplay = new Table();
-        }
     }
 
     public abstract String toggleMsg(); // The event to listen for to toggle the display
@@ -248,6 +243,7 @@ public abstract class InventoryDisplay extends UIComponent {
      */
     void generateHotBar() {
         if (!hasHotBar) {return;} // Early exit if there should be no hotBar
+        hotBarDisplay = new Table();
         hotBarDisplay.clearChildren();
         hotBarDisplay.center().right();
         hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
