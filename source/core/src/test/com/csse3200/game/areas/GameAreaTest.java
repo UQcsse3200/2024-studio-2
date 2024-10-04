@@ -18,35 +18,46 @@ class GameAreaTest {
 
     GameArea gameArea =
         new GameArea() {
-          @Override
-          public void create() {}
+            @Override
+            public void create() {
+            }
 
-          @Override
-          public Entity getPlayer() {
-            return null;
-          }
+            @Override
+            public Entity getPlayer() {
+                return null;
+            }
 
-          @Override
-          public void unloadAssets() {
-          }
+            @Override
+            public List<Entity> getEnemies() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+            }
+            @Override
+            public List<Entity> getBosses() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getBosses'");
+            }
+            @Override
+            public List<Entity> getFriendlyNPCs() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+            }
 
-          @Override
-          public void pauseMusic() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'pauseMusic'");
-          }
+            @Override
+            public void unloadAssets() {
+            }
 
-          @Override
-          public void playMusic() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'playMusic'");
-          }
+            @Override
+            public void pauseMusic() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'pauseMusic'");
+            }
 
-          @Override
-          public List<Entity> getEnemies() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
-          }
+            @Override
+            public void playMusic() {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'playMusic'");
+            }
         };
 
     ServiceLocator.registerEntityService(new EntityService());
