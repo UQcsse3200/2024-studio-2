@@ -7,7 +7,6 @@ import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.Objects;
 
@@ -75,6 +74,7 @@ public class PauseTask extends ChaseTask {
                 // Try resetting it for next time
                 this.questManager = target.getComponent(QuestManager.class);
             }
+
             entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
@@ -83,6 +83,8 @@ public class PauseTask extends ChaseTask {
 
     /**
      * Helper function to find the correct dialogue hint text from the quest manager.
+     *
+     * @param hintText the base hintText to return if nothing is found.
      */
     private String[][] findDialogueHint(String[][] hintText) {
         for (Quest quest: questManager.getAllQuests()) {
@@ -105,8 +107,6 @@ public class PauseTask extends ChaseTask {
 
     /**
      * Triggers an event to end the pause behavior.
-     * If the entity has a config component, it fetches the dialogue or hint text
-     * associated with the entity to provide context for the pause event.
      */
     protected void triggerPauseEventEnd() {
         if (this.config != null) {

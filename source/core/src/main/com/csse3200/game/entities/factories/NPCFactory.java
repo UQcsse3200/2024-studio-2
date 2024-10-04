@@ -56,7 +56,7 @@ public class NPCFactory {
   private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseFriendlyEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
-    AnimationRenderComponent animator = init_animator(config);
+    AnimationRenderComponent animator = initAnimator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
     animator.addAnimation("selected", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
@@ -97,7 +97,13 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Cow NPC.
+   * Creates a Cow NPC, configures its behavior based on the provided target and enemies,
+   * and handles any conditional drops specific to the Cow NPC.
+   *
+   * @param target The entity that the Cow NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Cow NPC will be aware of or react to.
+   * @return A new Cow NPC entity with the appropriate behavior and configurations,
+   *         including handling conditional item drops.
    */
   public static Entity createCow(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.cow;
@@ -108,7 +114,13 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Fish NPC.
+   * Creates a Fish NPC, configures its behavior based on the provided target and enemies,
+   * and handles any conditional drops specific to the Fish NPC.
+   *
+   * @param target The entity that the Fish NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Fish NPC will be aware of or react to.
+   * @return A new Fish NPC entity with the appropriate behavior and configurations,
+   *         including handling conditional item drops.
    */
   public static Entity createFish(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.fish;
@@ -118,7 +130,11 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Lion NPC.
+   * Creates a Lion NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Lion NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Lion NPC will be aware of or react to.
+   * @return A new Lion NPC entity with the appropriate behavior and configurations.
    */
   public static Entity createLion(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.lion;
@@ -126,7 +142,11 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Turtle NPC.
+   * Creates a Turtle NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Turtle NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Turtle NPC will be aware of or react to.
+   * @return A new Turtle NPC entity with the appropriate behavior and configurations.
    */
   public static Entity createTurtle(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.turtle;
@@ -134,7 +154,11 @@ public class NPCFactory {
   }
 
   /**
-   * Creates an Eagle NPC.
+   * Creates an Eagle NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Eagle NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Eagle NPC will be aware of or react to.
+   * @return A new Eagle NPC entity with the appropriate behavior and configurations.
    */
   public static Entity createEagle(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.eagle;
@@ -142,7 +166,11 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Snake NPC.
+   * Creates a Snake NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Snake NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Snake NPC will be aware of or react to.
+   * @return A new Snake NPC entity with the appropriate behavior and configurations.
    */
   public static Entity createSnake(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.snake;
@@ -150,38 +178,77 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a Magpie NPC.
+   * Creates a Magpie NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Magpie NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Magpie NPC will be aware of or react to.
+   * @return A new Magpie NPC entity with the appropriate behavior and configurations.
    */
   public static Entity createMagpie(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.magpie;
     return createFriendlyNPC(target, enemies, config);
   }
-  
+
+  /**
+   * Creates a Chicken NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Chicken NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Chicken NPC will be aware of or react to.
+   * @return A new Chicken NPC entity with the appropriate behavior and configurations.
+   */
   public static Entity createChicken(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.friendlyChicken;
     return createFriendlyNPC(target, enemies, config);
   }
-  
+
+  /**
+   * Creates a Frog NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Frog NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Frog NPC will be aware of or react to.
+   * @return A new Frog NPC entity with the appropriate behavior and configurations.
+   */
   public static Entity createFrog(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.friendlyFrog;
     return createFriendlyNPC(target, enemies, config);
   }
-  
+
+  /**
+   * Creates a Monkey NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Monkey NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Monkey NPC will be aware of or react to.
+   * @return A new Monkey NPC entity with the appropriate behavior and configurations.
+   */
   public static Entity createMonkey(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.friendlyMonkey;
     return createFriendlyNPC(target, enemies, config);
   }
-  
+
+  /**
+   * Creates a Bear NPC and configures its behavior based on the provided target and enemies.
+   *
+   * @param target The entity that the Bear NPC will assist or follow.
+   * @param enemies A list of enemy entities that the Bear NPC will be aware of or react to.
+   * @return A new Bear NPC entity with the appropriate behavior and configurations.
+   */
   public static Entity createBear(Entity target, List<Entity> enemies) {
     BaseFriendlyEntityConfig config = configs.friendlyBear;
     return createFriendlyNPC(target, enemies, config);
   }
 
-  private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
+  /**
+   * Initializes an animation renderer for a friendly NPC entity based on its configuration.
+   *
+   * @param entityConfig The configuration for the entity, which contains the sprite path.
+   * @return A new AnimationRenderComponent for the friendly NPC, using the entity's sprite assets.
+   */
+  private static AnimationRenderComponent initAnimator(BaseFriendlyEntityConfig entityConfig) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
-                    .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
+                    .getAsset(entityConfig.getSpritePath(), TextureAtlas.class));
   }
+
 
   /**
    * Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.
@@ -192,42 +259,54 @@ public class NPCFactory {
    */
   public static void initiateDialogue(String[] animalSoundPaths, String[][] hintText) {
     DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
-
-    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
-    if (dialogueBoxService == null) {
-      Stage stage = ServiceLocator.getRenderService().getStage();
-      ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
-      dialogueBoxService = ServiceLocator.getDialogueBoxService();
-    }
-
+    dialogueBoxService = createDialogueIfDestroyed(dialogueBoxService);
     dialogueBoxService.updateText(hintText, DialogueBoxService.DialoguePriority.FRIENDLYNPC);
-
-
-    if (animalSoundPaths != null) {
-      for (String animalSoundPath : animalSoundPaths) {
-        AudioManager.playSound(animalSoundPath);
-      }
-    }
+    playAnimalSound(animalSoundPaths);
   }
 
+  /***
+   * Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.
+   * If the dialogue box service is not available, it creates a new instance.
+   *
+   * @param animalSoundPaths An array of sound asset paths to play. If null or empty, no sounds are played.
+   * @param hintText An array of strings to display in the dialogue box.
+   * @param entity The entity to highlight
+   * */
   public static void initiateDialogue(String[] animalSoundPaths, String[][] hintText, Entity entity) {
     DialogueBoxService dialogueBoxService = ServiceLocator.getDialogueBoxService();
+    dialogueBoxService = createDialogueIfDestroyed(dialogueBoxService);
+    dialogueBoxService.updateText(hintText, entity, DialogueBoxService.DialoguePriority.FRIENDLYNPC);
+    playAnimalSound(animalSoundPaths);
+  }
 
-    // Needs new chatOverlayService when screen recovered from preserving screen (e.g. to play mini-game)
+  /***
+   * Created a new DialgoyeBoxService if it ever happens to be deleted
+   *
+   * @param dialogueBoxService the current dialogue box service
+   * @return dialogueBoxService the new updated dialogueBoxService
+   */
+  private static DialogueBoxService createDialogueIfDestroyed(DialogueBoxService dialogueBoxService) {
     if (dialogueBoxService == null) {
       Stage stage = ServiceLocator.getRenderService().getStage();
       ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
       dialogueBoxService = ServiceLocator.getDialogueBoxService();
     }
+    return dialogueBoxService;
+  }
 
-    dialogueBoxService.updateText(hintText, entity, DialogueBoxService.DialoguePriority.FRIENDLYNPC);
-
+  /***
+   * Plays the specified animal path sounds (typically one sound)
+   *
+   * @param animalSoundPaths the entity's animal sound path
+   */
+  private static void playAnimalSound(String[] animalSoundPaths) {
     if (animalSoundPaths != null) {
       for (String animalSoundPath : animalSoundPaths) {
         AudioManager.playSound(animalSoundPath);
       }
     }
   }
+
 
   /**
    * Ends a dialogue and takes it off the screen
@@ -278,6 +357,9 @@ public class NPCFactory {
   /**
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
    *
+   * @param target the target (typically player) the entity should know of
+   * @param enemies the enemies the FNPC has to avoid
+   *
    * @return entity
    */
   private static Entity createFriendlyBaseNPC(Entity target, List<Entity> enemies) {
@@ -298,13 +380,9 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(aiComponent)
                     .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)))
-                    .addComponent(new FadeLightsDayTimeComponent());;
+                    .addComponent(new FadeLightsDayTimeComponent());
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
-  }
-
-  private NPCFactory() {
-    throw new IllegalStateException("Instantiating static util class");
   }
 }
