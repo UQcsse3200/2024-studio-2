@@ -167,11 +167,11 @@ public class MainGameScreen extends PausableScreen {
       if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
           isMapVisible = !isMapVisible;
 
-          // Pause the game when the map is opened, resume when the map is closed
+          // Pause the game logic without triggering the full game pause when the map is opened
           if (isMapVisible) {
-              pause();
+              isPaused = true;  // Pause game logic but don't call GdxGame.pause()
           } else {
-              resume();
+              isPaused = false; // Resume game logic
           }
       }
 
@@ -180,8 +180,10 @@ public class MainGameScreen extends PausableScreen {
           float mouseX = Gdx.input.getX();
           float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+          // If the X button is clicked, close the map and resume the game
           if (xButtonBounds.contains(mouseX, mouseY)) {
-              isMapVisible = false; // Close the map
+              isMapVisible = false;  // Close the map
+              isPaused = false;      // Resume game logic
           }
       }
 
