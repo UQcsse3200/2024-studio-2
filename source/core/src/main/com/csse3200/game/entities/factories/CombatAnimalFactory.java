@@ -178,6 +178,28 @@ public class CombatAnimalFactory {
 
         return bigsawfishEnemy;
     }
+    
+    /**
+     * Creates big saw fish enemy as NPC entity for static combat
+     * */
+    public static Entity createOctopusCombatEnemy() {
+        Entity octopus = createCombatBaseEnemy();
+        BaseEnemyEntityConfig config = configs.octopus;
+        octopus.setEnemyType(Entity.EnemyType.OCTOPUS);
+        
+        TextureAtlas octopusAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(octopusAtlas);
+        
+        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
+        
+        octopus
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        octopus.scaleHeight(90.0f);
+        
+        return octopus;
+    }
 
     /**
      * Creates macaw enemy as NPC entity for static combat

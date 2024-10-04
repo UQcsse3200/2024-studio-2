@@ -2,6 +2,8 @@ package com.csse3200.game.areas;
 
 import java.util.List;
 
+import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,36 +140,23 @@ public class CombatArea extends GameArea {
         displayUI();
         spawnTerrain();
         spawnPlayer();
-        if(enemy.getEnemyType() == Entity.EnemyType.MONKEY) { // get the enemy type player collided into for combat and spawn that
-            spawnMonkey();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.FROG) {
-            spawnFrog();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.CHICKEN) {
-            spawnChicken();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.BEAR) {
-            spawnBear();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.JOEY) {
-            spawnJoey();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
-            spawnKangaBoss();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
-            spawnWaterBoss();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-            spawnAirBoss();
-        } else if(enemy.getEnemyType() == Entity.EnemyType.BEE){
-            spawnBee();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.PIGEON) {
-            spawnPigeon();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.EEL) {
-            spawnEel();
-        }else if (enemy.getEnemyType() == Entity.EnemyType.OCTOPUS){
-            spawnOctopus();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.BIGSAWFISH) {
-            spawnBigsawfish();
-        } else if (enemy.getEnemyType() == Entity.EnemyType.MACAW) {
-            spawnMacaw();
-        } else { // Combat Enemy
-            spawnCombatEnemy();
+        // get the enemy type player collided into for combat and spawn that
+        switch (enemy.getEnemyType()) {
+            case MONKEY -> spawnMonkey();
+            case FROG -> spawnFrog();
+            case CHICKEN -> spawnChicken();
+            case BEAR -> spawnBear();
+            case JOEY -> spawnJoey();
+            case KANGAROO -> spawnKangaBoss();
+            case WATER_BOSS -> spawnWaterBoss();
+            case AIR_BOSS -> spawnAirBoss();
+            case BEE -> spawnBee();
+            case PIGEON -> spawnPigeon();
+            case EEL -> spawnEel();
+            case OCTOPUS -> spawnOctopus();
+            case BIGSAWFISH -> spawnBigsawfish();
+            case MACAW -> spawnMacaw();
+            case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         playMusic();
     }
@@ -312,9 +301,11 @@ public class CombatArea extends GameArea {
      * spawns an octopus enemy, with the player entity as its target
      */
     private void spawnOctopus() {
-        Entity combatEnemyNPC = EnemyFactory.createOctopusCombatEnemy();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 328), true, true);
+        Entity enemyDisplay = CombatAnimalFactory.createOctopusCombatEnemy();
+        spawnEntityAt(enemyDisplay, new GridPoint2(785, 337), true, true);
+        this.enemyDisplay = enemyDisplay;
     }
+    
     /**
      * spawns a pigeon enemy, with the player entity as its target
      */

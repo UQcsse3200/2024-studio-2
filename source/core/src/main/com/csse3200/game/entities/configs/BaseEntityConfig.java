@@ -5,13 +5,13 @@ package com.csse3200.game.entities.configs;
  */
 public class BaseEntityConfig {
 
-    public int health = 100;
-    public int hunger = 100;
-    public int defense = 0;
-    public int speed = 1;
-    public int experience = 10;
-    public boolean isPlayer = false;
-    public int isEnemy;
+    protected int health = 100;
+    protected int hunger = 100;
+    protected int defense = 0;
+    protected int speed = 1;
+    protected int experience = 10;
+    protected boolean isPlayer = false;
+    protected int isEnemy;
     protected String spritePath;
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;

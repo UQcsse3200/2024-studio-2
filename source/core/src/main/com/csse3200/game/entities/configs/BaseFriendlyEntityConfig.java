@@ -21,11 +21,8 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public int currentHintLine = 0;
     protected String animalName = "";
     protected String[][] baseHint;
-    protected String spritePath;
-    protected final float animationSpeed = 0.1f;
-    protected String[] soundPath;
-    public float itemProbability = 0;
-    public String foodItem;
+    protected float itemProbability = 0;
+    protected String foodItem; // Remove if not being used.
 
     protected BaseFriendlyEntityConfig() {}
 
@@ -47,52 +44,6 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
             hintLevel = hintLevel + 1;
             restartCurrentHint();
         }
-    }
-
-
-    /**
-     * Returns the path to the sprite image for this entity.
-     *
-     * @return the sprite path as a String.
-     */
-    public String getSpritePath() {
-        return this.spritePath;
-    }
-
-    /**
-     * Sets the sprite path for this entity.
-     *
-     * @param spritePath the path to the sprite image.
-     */
-    public void setSpritePath(String spritePath) {
-        this.spritePath = spritePath;
-    }
-
-    /**
-     * Returns the animation speed for this entity.
-     *
-     * @return the animation speed as a float.
-     */
-    public float getAnimationSpeed() {
-        return this.animationSpeed;
-    }
-
-    /**
-     * Returns the paths to the sound files associated with this entity.
-     *
-     * @return an array of String representing the sound paths.
-     */
-    public String[] getSoundPath() {
-        return this.soundPath;
-    }
-
-    /**
-     * Sets the sound paths for this entity.
-     *
-     * @param soundPath an array of String representing the new sound paths.
-     */
-    public void setSoundPath(String[] soundPath) {
-        this.soundPath = soundPath;
     }
 
     /**
