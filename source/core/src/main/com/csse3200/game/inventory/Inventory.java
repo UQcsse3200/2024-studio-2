@@ -21,12 +21,6 @@ public class Inventory implements InventoryInterface {
     private int nextIndex = 0; // The index where the next item can be stored.
     // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
-    /* Name of an item being searched for - used for quests */
-    private String questItem;
-    /* Name of an item being searched for - used for quests */
-    private int questItemCount;
-    /* The item collection task trigger. */
-    private String collectionTrigger;
 
     /**
      * Constructs an Inventory with a specified capacity.
@@ -74,7 +68,6 @@ public class Inventory implements InventoryInterface {
             }
         }
     }
-
 
     /**
      * @return the total capacity of the inventory.
@@ -133,6 +126,7 @@ public class Inventory implements InventoryInterface {
     public int getIndex(int code) {
         return this.getItemIndex(code).orElse(-1);
     }
+
     /**
      * Retrieves the index of the first occurrence of an item with the given name.
      *
@@ -165,8 +159,7 @@ public class Inventory implements InventoryInterface {
      * @param src    The index of the source slot from which the item is being moved.
      * @param target The index of the target slot to which the item is being moved.
      */
-    public void swap(int src, int target)
-    {
+    public void swap(int src, int target) {
         AbstractItem from = deleteItemAt(src);
         AbstractItem to = deleteItemAt(target);
         if (from != null) {addAt(target, from);}
@@ -248,25 +241,28 @@ public class Inventory implements InventoryInterface {
      * a new slot.
      *
      * @param item the item to add to the inventory.
-     * @return {@code true} if the item was added successfully, else {@code false}
+     * @return the index the item was added at (-1 if not added)
      */
     @Override
-    public boolean add(AbstractItem item) {
+    public int add(AbstractItem item) {
+       int i = 0;
         for (AbstractItem x : memoryView) {
             if (x != null && x.getItemCode() == item.getItemCode() && x.numAddable() > 0) {
                 x.add(1);
-                return true;
+                return i;
             }
+            i++;
         }
 
         // If there are no stacks this can be added to and no new slots.
         if (this.isFull()) {
-            return false;
+            return -1;
         }
 
         // Cannot add item to existing instances of item, so add to a new slot
+        i = nextIndex;
         this.addNewItem(item);
-        return true;
+        return i;
     }
 
     /**
