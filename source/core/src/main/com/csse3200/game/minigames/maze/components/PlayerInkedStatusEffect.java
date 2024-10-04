@@ -15,7 +15,7 @@ import com.csse3200.game.services.ServiceLocator;
  * When active, will show a black ink spill that covers the screen
  */
 public class PlayerInkedStatusEffect implements StatusEffect {
-    public static float INK_TIME = 3f;
+    public static float INK_TIME = 4f;
     private float timeLeft;
     Entity player;
     Entity ink;
