@@ -1,10 +1,12 @@
 package com.csse3200.game.areas;
 
 import java.util.List;
+import java.util.Objects;
 
+import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.GdxGame;
@@ -98,7 +100,7 @@ public class CombatArea extends GameArea {
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas"
+            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/enemy-bear.atlas"
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
@@ -106,6 +108,7 @@ public class CombatArea extends GameArea {
     private static final String[] heartbeatSound = {heartbeat};
     private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
     private static final String[] forestMusic = {backgroundMusic};
+    private static final String[] combatBackgroundMusic = {"sounds/combat_track1.mp3"};
     private CombatTerrainFactory combatTerrainFactory;
     private Entity player;
     private Entity enemy;
@@ -385,9 +388,9 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset("sounds/combat_track1.mp3", Music.class);
         music.setLooping(true);
-        music.setVolume(0.3f);
+        music.setVolume(0.5f);
         music.play();
     }
 
@@ -395,7 +398,7 @@ public class CombatArea extends GameArea {
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset("sounds/combat_track1.mp3", Music.class);
         music.pause();
     }
 
@@ -407,6 +410,7 @@ public class CombatArea extends GameArea {
         resourceService.loadSounds(forestSounds);
         resourceService.loadMusic(forestMusic);
         resourceService.loadSounds(questSounds);
+        resourceService.loadMusic(combatBackgroundMusic);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -422,12 +426,13 @@ public class CombatArea extends GameArea {
         resourceService.unloadAssets(forestSounds);
         resourceService.unloadAssets(forestMusic);
         resourceService.unloadAssets(questSounds);
+        resourceService.unloadAssets(combatBackgroundMusic);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset("sounds/combat_track1.mp3", Music.class).stop();
         this.unloadAssets();
     }
 
