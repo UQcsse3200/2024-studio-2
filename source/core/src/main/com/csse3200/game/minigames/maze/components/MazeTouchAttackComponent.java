@@ -84,6 +84,8 @@ public class MazeTouchAttackComponent extends Component {
                 stunDuration = 1;
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
+            } else if (targetEntity instanceof Octopus) {
+                stunDuration = 1f;
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
             AudioManager.playSound("sounds/minigames/maze-hit.mp3");
@@ -95,7 +97,7 @@ public class MazeTouchAttackComponent extends Component {
         }
 
         if (meEntity instanceof Octopus && targetEntity instanceof MazePlayer) {
-            targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("ink", 2.5f);
+            targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("ink", 2.5f);
             AudioManager.playSound("sounds/minigames/ink-splat.mp3");
         }
 
