@@ -28,7 +28,7 @@ public class MazeNPCFactory {
     /**
      * Creates the angler fish NPC
      *
-     * @param target entity associated with angular fish
+     * @param target entity that the angler chases
      * @return the angular fish
      */
     public static AnglerFish createAngler(Entity target) {
@@ -37,9 +37,20 @@ public class MazeNPCFactory {
     }
 
     /**
+     * Creates the octopus NPC
+     *
+     * @param target entity that the octopus chases
+     * @return the octopus
+     */
+    public static Octopus createOctopus(Entity target) {
+        MazeEntityConfig config = configs.octopus;
+        return new Octopus(target, config);
+    }
+
+    /**
      * Creates the eel npc
      *
-     * @param target the entity to be associated with the Eel npc
+     * @param target entity that the eel chases
      * @return the eel npc
      */
     public static ElectricEel createEel(Entity target) {

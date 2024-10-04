@@ -16,6 +16,7 @@ import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -39,7 +40,8 @@ public class MazeGameArea extends GameArea {
     // Number of entities spawned onto the maze
     public static final int NUM_WALL_BREAKS = 20;
     public static final int NUM_ANGLERS = 1;
-    public static final int NUM_EELS = 5;
+    public static final int NUM_OCTOPI = 2;
+    public static final int NUM_EELS = 4;
     public static final int NUM_JELLYFISH = 20;
     public static final int NUM_EGGS = 16;
 
@@ -54,11 +56,14 @@ public class MazeGameArea extends GameArea {
             "images/PauseOverlay/Button.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
+            "images/minigames/inksplat.png"
     };
     private static final String[] mazeTextureAtlases = {
             "images/minigames/angler.atlas", "images/minigames/fish.atlas",
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
-            "images/minigames/GreenJellyfish.atlas"
+            "images/minigames/GreenJellyfish.atlas",
+            "images/minigames/octopus.atlas",
+            "images/minigames/turtle.atlas"
     };
     private static final String mazeParticleEffectImageDir = "images/minigames";
     private static final String[] mazeParticleEffects = {
@@ -71,7 +76,8 @@ public class MazeGameArea extends GameArea {
             "sounds/minigames/eel-zap.mp3",
             "sounds/minigames/eel-electricity.mp3",
             "sounds/minigames/maze-hit.mp3",
-            "sounds/minigames/collect-fishegg.mp3"
+            "sounds/minigames/collect-fishegg.mp3",
+            "sounds/minigames/ink-splat.mp3"
     };
     private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
     private static final String[] mazeMusic = {mazeBackgroundMusic};
@@ -108,6 +114,7 @@ public class MazeGameArea extends GameArea {
         spawnWalls();
         player = spawnPlayer();
         spawnAngler();
+        spawnOctopi();
         spawnJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnGreenJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
@@ -192,6 +199,17 @@ public class MazeGameArea extends GameArea {
             angler.getComponent(AITaskComponent.class).addTask(
                     new MazeHuntTask(player, maze, 2));
             getEnemies(Entity.EnemyType.MAZE_ANGLER).add(angler);
+        }
+    }
+
+    /**
+     * Spawns the octopus entities
+     */
+    private void spawnOctopi() {
+        for (int i = 0; i < MazeGameArea.NUM_OCTOPI; i++) {
+            Entity octopus = MazeNPCFactory.createOctopus(player);
+            spawnEntityAt(octopus, getSimpleStartLocation(3f), true, true);
+            getEnemies(Entity.EnemyType.MAZE_OCTOPUS).add(octopus);
         }
     }
 
