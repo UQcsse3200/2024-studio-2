@@ -161,19 +161,19 @@ public abstract class InventoryDisplay extends UIComponent {
      */
     private void setupDragAndDrop (ImageButton slot, int targetIndex, AbstractItem item) {
         // Define the source
-        dragAndDrop.addSource(new DragAndDrop.Source(slot) {
-            @Override
-            public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-                DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                if(item != null) {
+        if (item != null) {
+            dragAndDrop.addSource(new DragAndDrop.Source(slot) {
+                @Override
+                public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
+                    DragAndDrop.Payload payload = new DragAndDrop.Payload();
                     payload.setObject(targetIndex);
                     Image draggedImage = new Image(new Texture(item.getTexturePath()));
                     draggedImage.setSize(80, 80);
                     payload.setDragActor(draggedImage);
+                    return payload;
                 }
-                return payload;
-            }
-        });
+            });
+        }
 
         // Define the target
         dragAndDrop.addTarget(new DragAndDrop.Target(slot) {
@@ -244,7 +244,6 @@ public abstract class InventoryDisplay extends UIComponent {
     void generateHotBar() {
         if (!hasHotBar) {return;} // Early exit if there should be no hotBar
         hotBarDisplay = new Table();
-        hotBarDisplay.clearChildren();
         hotBarDisplay.center().right();
         hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
         hotBarDisplay.setSize(160, 517);
