@@ -9,6 +9,7 @@ import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.minigames.maze.entities.mazenpc.Octopus;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -91,6 +92,11 @@ public class MazeTouchAttackComponent extends Component {
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
             targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("stun", 2f);
             AudioManager.playSound("sounds/minigames/eel-zap.mp3");
+        }
+
+        if (meEntity instanceof Octopus && targetEntity instanceof MazePlayer) {
+            targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("ink", 2.5f);
+            AudioManager.playSound("sounds/minigames/ink-splat.mp3");
         }
 
         // Change to maze combat stats

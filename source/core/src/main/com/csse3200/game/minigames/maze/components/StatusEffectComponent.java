@@ -47,10 +47,11 @@ public class StatusEffectComponent extends Component {
         for (String status : statusExpiry.keySet()) {
             if (statusExpiry.get(status) <= timeSource.getTime()) {
                 removeStatus(status);
-            } else {
-                if (hasEffect(status)) {
-                    statusEffect.get(status).update();
-                }
+            }
+        }
+        for (String status : statusExpiry.keySet()){
+            if (hasEffect(status)) {
+                statusEffect.get(status).update();
             }
         }
     }
