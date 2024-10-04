@@ -45,100 +45,105 @@ import com.csse3200.game.utils.math.RandomUtils;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
-  private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
-  // INFO: The Map is equally divied into three areaas. Each area is 160x48 tiles wide.
-  //
-  private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
-  public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
-  private static final float WALL_WIDTH = 0.1f;
-  private final TerrainFactory terrainFactory;
-  private final ArrayList<Entity> area1To2 = new ArrayList<Entity>();
-  private final ArrayList<Entity> area2To3 = new ArrayList<Entity>();
-  
-  private final List<Entity> enemies;
-  // private final List<Entity> staticItems;
-  private final Map<Integer, Entity> dynamicItems = new HashMap<>();
-  private int totalItems = 0;
-  private Entity player;
+    private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
+    private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
+    // INFO: The Map is equally divied into three areaas. Each area is 160x48 tiles wide.
+    //
+    private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
+    public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
+    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);
+    private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
+    private static final float WALL_WIDTH = 0.1f;
+    private final TerrainFactory terrainFactory;
+    private final ArrayList<Entity> area1To2 = new ArrayList<Entity>();
+    private final ArrayList<Entity> area2To3 = new ArrayList<Entity>();
 
-  private final GdxGame game;
+    private final List<Entity> enemies;
+    private final List<Entity> bosses;
+    private final List<Entity> friendlyNPCs;
+    // private final List<Entity> staticItems;
+    private final Map<Integer, Entity> dynamicItems = new HashMap<>();
+    private int totalItems = 0;
+    private Entity player;
 
-  // Boolean to ensure that only a single boss entity is spawned when a trigger happens
-  private boolean kangarooBossSpawned = false;
-  private boolean waterBossSpawned = false;
-  private boolean airBossSpawned = false;
+    private final GdxGame game;
 
-  /**
-   * Initialise this ForestGameArea to use the provided TerrainFactory.
-   * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
-   * @param game GdxGame needed for creating the player
-   * @requires terrainFactory != null
-   */
-  public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
-    super();
-    this.enemies = new ArrayList<>();
-    this.terrainFactory = terrainFactory;
-    this.game = game;
-  }
+    // Boolean to ensure that only a single boss entity is spawned when a trigger happens
+    private boolean kangarooBossSpawned = false;
+    private boolean waterBossSpawned = false;
+    private boolean airBossSpawned = false;
 
-  /**
-   * Create the game area, including terrain, static entities (trees),
-   * dynamic entities (player and NPCs), and ui
-   * */
-  @Override
-  public void create() {
-      loadAssets();
+    /**
+     * Initialise this ForestGameArea to use the provided TerrainFactory.
+     *
+     * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
+     * @param game           GdxGame needed for creating the player
+     * @requires terrainFactory != null
+     */
+    public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
+        super();
+        this.enemies = new ArrayList<>();
+        this.bosses = new ArrayList<>();
+        this.friendlyNPCs = new ArrayList<>();
+        this.terrainFactory = terrainFactory;
+        this.game = game;
+    }
 
-      displayUI();
+    /**
+     * Create the game area, including terrain, static entities (trees),
+     * dynamic entities (player and NPCs), and ui
+     */
+    @Override
+    public void create() {
+        loadAssets();
 
-      // Terrain
-      spawnTerrain();
+        displayUI();
 
-      // Player
-      player = spawnPlayer();
-      logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
-      TerrainLoader.setInitials(player.getPosition(), terrain);
+        // Terrain
+        spawnTerrain();
 
-      // Obstacles
-      spawnTrees();
-      spawnClouds();
-      spawnSeaweed();
-      spawnStarfish();
+        // Player
+        player = spawnPlayer();
+        logger.debug("Player is at ({}, {})", player.getPosition().x, player.getPosition().y);
+        TerrainLoader.setInitials(player.getPosition(), terrain);
 
-      // spawn area barriers
-      spawnWorldBarrier();
-      spawnFirstBerrier();
-      spawnSecondBerrier();
+        // Obstacles
+        spawnTrees();
+        spawnClouds();
+        spawnSeaweed();
+        spawnStarfish();
 
-      //Enemies
-      spawnEnemies();
+        // spawn area barriers
+        spawnWorldBarrier();
+        spawnFirstBerrier();
+        spawnSecondBerrier();
 
-      // items
-      handleItems();
+        //Enemies
+        spawnEnemies();
 
-      //Friendlies
-      spawnFriendlyNPCs();
+        // items
+        handleItems();
 
-      playMusic();
-      player.getEvents().addListener("setPosition", this::handleNewChunks);
-      player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
-      player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
-      player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
-      kangarooBossSpawned = false;
-      waterBossSpawned = false;
-      airBossSpawned = false;
+        //Friendlies
+        spawnFriendlyNPCs();
 
-      player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-      player.getEvents().addListener("unlockArea", this::unlockArea);
+        playMusic();
+        player.getEvents().addListener("setPosition", this::handleNewChunks);
+        player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
+        player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
+        player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
+        kangarooBossSpawned = false;
+        waterBossSpawned = false;
+        airBossSpawned = false;
 
-      //Initialise inventory and quests with loaded data
-      player.getComponent(InventoryComponent.class).loadInventoryFromSave();
-      player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
-      player.getComponent(QuestManager.class).loadQuests();
-  }
+        player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
+        player.getEvents().addListener("unlockArea", this::unlockArea);
+
+        //Initialise inventory and quests with loaded data
+        player.getComponent(InventoryComponent.class).loadInventoryFromSave();
+        player.getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+        player.getComponent(QuestManager.class).loadQuests();
+    }
 
 //  /**
 //   * Unlock an area of the map
@@ -148,300 +153,290 @@ public class ForestGameArea extends GameArea {
 //    terrain.getMap().getLayers().get(area).setVisible(false);
 //  }
 
-  /**
-   * Spwan the world barrier
-   */
-  private void spawnWorldBarrier() {
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+    /**
+     * Spwan the world barrier
+     */
+    private void spawnWorldBarrier() {
+        float tileSize = terrain.getTileSize();
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-     // Left
-     spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-         GridPoint2Utils.ZERO,
-         false,
-         false);
-     // Right
-     spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
-         new GridPoint2(tileBounds.x, 0),
-         false,
-         false);
-     // Top
-     spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-         new GridPoint2(0, tileBounds.y),
-         false,
-         false);
-     // Bottom
-     spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
-         GridPoint2Utils.ZERO,
-         false,
-         false);
-  }
+        // Left
+        spawnEntityAt(
+                ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+                GridPoint2Utils.ZERO,
+                false,
+                false);
+        // Right
+        spawnEntityAt(
+                ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+                new GridPoint2(tileBounds.x, 0),
+                false,
+                false);
+        // Top
+        spawnEntityAt(
+                ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+                new GridPoint2(0, tileBounds.y),
+                false,
+                false);
+        // Bottom
+        spawnEntityAt(
+                ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+                GridPoint2Utils.ZERO,
+                false,
+                false);
+    }
 
-  /**
-   * Spawns the first barrier
-   */
-  private void spawnFirstBerrier() {
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+    /**
+     * Spawns the first barrier
+     */
+    private void spawnFirstBerrier() {
+        float tileSize = terrain.getTileSize();
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
-    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 , WALL_WIDTH);
-    spawnEntityAt(
-        leftWall,
-        new GridPoint2(0, (int)(MAP_SIZE.y / 3)),
-        false,
-        false);
+        Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
+        Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_WIDTH);
+        spawnEntityAt(
+                leftWall,
+                new GridPoint2(0, (int) (MAP_SIZE.y / 3)),
+                false,
+                false);
 
-    spawnEntityAt(
-        rightWall,
-        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3)),
-        false,
-        false);
-    area1To2.add(leftWall);
-    area1To2.add(rightWall);
-  }
+        spawnEntityAt(
+                rightWall,
+                new GridPoint2((int) (worldBounds.x / 2), (int) (MAP_SIZE.y / 3)),
+                false,
+                false);
+        area1To2.add(leftWall);
+        area1To2.add(rightWall);
+    }
 
-  /**
-   * Spawns the second barrier
-   */
-  private void spawnSecondBerrier() {
-    float tileSize = terrain.getTileSize();
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+    /**
+     * Spawns the second barrier
+     */
+    private void spawnSecondBerrier() {
+        float tileSize = terrain.getTileSize();
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
-    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_WIDTH);
-    spawnEntityAt(
-        leftWall,
-        new GridPoint2(0, (int)(MAP_SIZE.y / 3 * 2)),
-        false,
-        false);
+        Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
+        Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_WIDTH);
+        spawnEntityAt(
+                leftWall,
+                new GridPoint2(0, (int) (MAP_SIZE.y / 3 * 2)),
+                false,
+                false);
 
-    spawnEntityAt(
-        rightWall,
-        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3 * 2)),
-        false,
-        false);
-  }
+        spawnEntityAt(
+                rightWall,
+                new GridPoint2((int) (worldBounds.x / 2), (int) (MAP_SIZE.y / 3 * 2)),
+                false,
+                false);
+    }
 
-  private void handleNewChunks(Vector2 playerPos) {
-    if (TerrainLoader.movedChunk(playerPos)) {
-      logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
-      handleItems();
+    private void handleNewChunks(Vector2 playerPos) {
+        if (TerrainLoader.movedChunk(playerPos)) {
+            logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
+            handleItems();
 //     TerrainComponent.loadChunks(playerPos);
 //     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
 //     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-    }
-  }
-
-  private void handleItems() {
-    // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
-    for (GridPoint2 pos : terrain.getNewChunks()) {
-      spawnItems(TerrainLoader.chunktoWorldPos(pos));
+        }
     }
 
-    // TODO: Despawn items on old chunks:
-    List<Integer> removals = new ArrayList<>();
-    for (int key : dynamicItems.keySet()) {
-      GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
-      if (!terrain.getActiveChunks().contains(chunkPos)) {
-        removals.add(key);
-      }
+    private void handleItems() {
+        // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
+        for (GridPoint2 pos : terrain.getNewChunks()) {
+            spawnItems(TerrainLoader.chunktoWorldPos(pos));
+        }
+
+        // TODO: Despawn items on old chunks:
+        List<Integer> removals = new ArrayList<>();
+        for (int key : dynamicItems.keySet()) {
+            GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
+            if (!terrain.getActiveChunks().contains(chunkPos)) {
+                removals.add(key);
+            }
+        }
+
+        for (int i : removals) {
+            dynamicItems.remove(i);
+        }
     }
 
-    for (int i : removals) {
-      dynamicItems.remove(i);
-    }
-  }
+    public void displayUI() {
+        Entity ui = new Entity();
 
-  /**
-   * gets the player
-   * @return player entity
-   */
-  @Override
-  public Entity getPlayer () {
-    return player;
-  }
+        // Create the necessary objects to pass to GameAreaDisplay
+        SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
+        OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
+        // Make sure to get the correct CameraComponent type required by GameAreaDisplay
 
-  public void displayUI()
-  {
-    Entity ui = new Entity();
-
-    // Create the necessary objects to pass to GameAreaDisplay
-    SpriteBatch batch = new SpriteBatch(); // Ensure you have a valid SpriteBatch
-    OrthographicCamera mainCamera = new OrthographicCamera(); // Initialize your main camera appropriately
-    // Make sure to get the correct CameraComponent type required by GameAreaDisplay
-
-    // Pass the required parameters to the GameAreaDisplay constructor
-    ui.addComponent(new GameAreaDisplay("Box Forest"));
-    ui.addComponent(new QuestPopup());
-    spawnEntity(ui);
-  }
-
-  private void spawnTerrain() {
-    // Background terrain
-    this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
-    Entity terrain = new Entity().addComponent(this.terrain);
-
-    terrain.getEvents().addListener("unlockArea", this::unlockArea);
-
-    terrain.getEvents().trigger("unlockArea", "water");
-    spawnEntity(terrain);
-  }
-
-  private void spawnTrees() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-
-    for (int i = 0; i < config.spawns.NUM_TREES; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
-    }
-  }
-
-  // Spawn Cloud Obstacles
-  private void spawnClouds() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-
-    for (int i = 0; i < config.spawns.NUM_CLOUDS; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity cloud = ObstacleFactory.createCloud();
-      spawnEntityAt(cloud, randomPos, true, false);
-    }
-  }
-
-  // Spawn Seaweed Obstacles
-  private void spawnSeaweed() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-
-    for (int i = 0; i < config.spawns.NUM_SEAWEED; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity seaweed = ObstacleFactory.createSeaweed();
-      spawnEntityAt(seaweed, randomPos, true, false);
-    }
-  }
-
-  //Spawn Starfish Obstacle
-  private void spawnStarfish() {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
-
-    for (int i = 0; i < config.spawns.NUM_STARFISH; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity starfish = ObstacleFactory.createStarfish();
-      spawnEntityAt(starfish, randomPos, true, false);
-    }
-  }
-
-  /**
-   * Creates the player entity for this screen
-   * @return the player entity
-   */
-  private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer(game);
-    newPlayer.addComponent(this.terrainFactory.getCameraComponent());
-    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-    return newPlayer;
-  }
-
-  private void spawnKangarooBoss() {
-    if (!kangarooBossSpawned) {
-      Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
-      kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-      spawnEntityOnMap(kangarooBoss);
-      enemies.add(kangarooBoss);
-      kangarooBossSpawned = true;
-    }
-  }
-
-  private void spawnWaterBoss() {
-    if (!waterBossSpawned) {
-      Entity waterBoss = BossFactory.createWaterBossEntity(player);
-      waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
-      spawnEntityOnMap(waterBoss);
-      enemies.add(waterBoss);
-      waterBossSpawned = true;
-    }
-  }
-
-  private void spawnAirBoss() {
-    if (!airBossSpawned) {
-      Entity airBoss = BossFactory.createAirBossEntity(player);
-      airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
-      spawnEntityOnMap(airBoss);
-      enemies.add(airBoss);
-      airBossSpawned = true;
-    }
-  }
-
-  private void spawnEntityOnMap(Entity entity) {
-    GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 15, PLAYER_SPAWN.y - 15);
-    GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 15, PLAYER_SPAWN.y + 15);
-
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-    // Prevent spawn camping
-    while (Math.abs(randomPos.x - PLAYER_SPAWN.x) <= 5 && Math.abs(randomPos.y - PLAYER_SPAWN.y) <= 5) {
-      randomPos = RandomUtils.random(minPos, maxPos);
+        // Pass the required parameters to the GameAreaDisplay constructor
+        ui.addComponent(new GameAreaDisplay("Box Forest"));
+        ui.addComponent(new QuestPopup());
+        spawnEntity(ui);
     }
 
-    spawnEntityAt(entity, randomPos, true, true);
-  }
+    private void spawnTerrain() {
+        // Background terrain
+        this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
+        Entity terrain = new Entity().addComponent(this.terrain);
 
-/**
- * Spawns an entity near the player within a specified radius, ensuring the entity
- * is placed within the correct chunk boundaries and loaded areas of the game map.
- *
- * This function calculates a valid spawn position near the player's current location,
- * considering the player's world position and current chunk. It ensures that the entity
- * is spawned within the boundaries of the current chunk to avoid positioning the entity
- * in an unloaded or inaccessible area.
- *
- * @param entity The entity to be spawned near the player.
- * @param radius The radius around the player's position within which the entity will be spawned.
- *               The spawn position is randomly selected within this radius but is constrained
- *               to be within the current chunk boundaries.
- *
- */
-private void spawnEntityNearPlayer(Entity entity, int radius) {
-    // Get the player's current position in the world
-    Vector2 playerWorldPos = player.getPosition();
+        terrain.getEvents().addListener("unlockArea", this::unlockArea);
 
-    // Convert player's position to chunk coordinates
-    GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
+        terrain.getEvents().trigger("unlockArea", "water");
+        spawnEntity(terrain);
+    }
 
-    // Calculate potential spawn positions within the specified radius
-    GridPoint2 minPos = new GridPoint2(
-            Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
-            Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
-    );
+    private void spawnTrees() {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    GridPoint2 maxPos = new GridPoint2(
-            Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
-            Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
-    );
+        for (int i = 0; i < config.spawns.NUM_TREES; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity tree = ObstacleFactory.createTree();
+            spawnEntityAt(tree, randomPos, true, false);
+        }
+    }
 
-    // Randomly select a position within the radius
-    GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+    // Spawn Cloud Obstacles
+    private void spawnClouds() {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    // Spawn the entity at the calculated position
-    spawnEntityAt(entity, spawnPos, true, true);
-    logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
-            entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
-  }
+        for (int i = 0; i < config.spawns.NUM_CLOUDS; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity cloud = ObstacleFactory.createCloud();
+            spawnEntityAt(cloud, randomPos, true, false);
+        }
+    }
 
-  private void spawnItems(GridPoint2 pos) {
-    Supplier<Entity> generator;
+    // Spawn Seaweed Obstacles
+    private void spawnSeaweed() {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+        for (int i = 0; i < config.spawns.NUM_SEAWEED; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity seaweed = ObstacleFactory.createSeaweed();
+            spawnEntityAt(seaweed, randomPos, true, false);
+        }
+    }
+
+    //Spawn Starfish Obstacle
+    private void spawnStarfish() {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+        for (int i = 0; i < config.spawns.NUM_STARFISH; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity starfish = ObstacleFactory.createStarfish();
+            spawnEntityAt(starfish, randomPos, true, false);
+        }
+    }
+
+    /**
+     * Creates the player entity for this screen
+     *
+     * @return the player entity
+     */
+    private Entity spawnPlayer() {
+        Entity newPlayer = PlayerFactory.createPlayer(game);
+        newPlayer.addComponent(this.terrainFactory.getCameraComponent());
+        spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+        return newPlayer;
+    }
+
+    private void spawnKangarooBoss() {
+        if (!kangarooBossSpawned) {
+            Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
+            kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
+            spawnEntityOnMap(kangarooBoss);
+            enemies.add(kangarooBoss);
+            kangarooBossSpawned = true;
+        }
+    }
+
+    private void spawnWaterBoss() {
+        if (!waterBossSpawned) {
+            Entity waterBoss = BossFactory.createWaterBossEntity(player);
+            waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
+            spawnEntityOnMap(waterBoss);
+            enemies.add(waterBoss);
+            waterBossSpawned = true;
+        }
+    }
+
+    private void spawnAirBoss() {
+        if (!airBossSpawned) {
+            Entity airBoss = BossFactory.createAirBossEntity(player);
+            airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
+            spawnEntityOnMap(airBoss);
+            enemies.add(airBoss);
+            airBossSpawned = true;
+        }
+    }
+
+    private void spawnEntityOnMap(Entity entity) {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 15, PLAYER_SPAWN.y - 15);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 15, PLAYER_SPAWN.y + 15);
+
+        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+        // Prevent spawn camping
+        while (Math.abs(randomPos.x - PLAYER_SPAWN.x) <= 5 && Math.abs(randomPos.y - PLAYER_SPAWN.y) <= 5) {
+            randomPos = RandomUtils.random(minPos, maxPos);
+        }
+
+        spawnEntityAt(entity, randomPos, true, true);
+    }
+
+    /**
+     * Spawns an entity near the player within a specified radius, ensuring the entity
+     * is placed within the correct chunk boundaries and loaded areas of the game map.
+     * <p>
+     * This function calculates a valid spawn position near the player's current location,
+     * considering the player's world position and current chunk. It ensures that the entity
+     * is spawned within the boundaries of the current chunk to avoid positioning the entity
+     * in an unloaded or inaccessible area.
+     *
+     * @param entity The entity to be spawned near the player.
+     * @param radius The radius around the player's position within which the entity will be spawned.
+     *               The spawn position is randomly selected within this radius but is constrained
+     *               to be within the current chunk boundaries.
+     */
+    private void spawnEntityNearPlayer(Entity entity, int radius) {
+        // Get the player's current position in the world
+        Vector2 playerWorldPos = player.getPosition();
+
+        // Convert player's position to chunk coordinates
+        GridPoint2 playerChunk = TerrainLoader.posToChunk(playerWorldPos);
+
+        // Calculate potential spawn positions within the specified radius
+        GridPoint2 minPos = new GridPoint2(
+                Math.max(playerChunk.x * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.x - radius),
+                Math.max(playerChunk.y * TerrainFactory.CHUNK_SIZE, (int) playerWorldPos.y - radius)
+        );
+
+        GridPoint2 maxPos = new GridPoint2(
+                Math.min((playerChunk.x + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.x + radius),
+                Math.min((playerChunk.y + 1) * TerrainFactory.CHUNK_SIZE - 1, (int) playerWorldPos.y + radius)
+        );
+
+        // Randomly select a position within the radius
+        GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
+
+        // Spawn the entity at the calculated position
+        spawnEntityAt(entity, spawnPos, true, true);
+        logger.debug("Spawned entity {} near player at chunk ({}, {}) at world position ({}, {})",
+                entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
+    }
+
+    private void spawnItems(GridPoint2 pos) {
+        Supplier<Entity> generator;
 
         // Health Potions
         generator = () -> ItemFactory.createHealthPotion(player);
@@ -505,7 +500,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         //Bee
         generator = () -> EnemyFactory.createBee(player);
-        spawnRandomEnemy(generator,config.spawns.NUM_BEES,0.1, 3);
+        spawnRandomEnemy(generator, config.spawns.NUM_BEES, 0.1, 3);
 
         //Eel
         generator = () -> EnemyFactory.createEel(player);
@@ -532,91 +527,91 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         Supplier<Entity> generator;
 
         // Cow
-        generator = () -> NPCFactory.createCow(player, this.enemies);
+        generator = () -> NPCFactory.createCow(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_COWS);
 
         // Fish
-        generator = () -> NPCFactory.createFish(player, this.enemies);
+        generator = () -> NPCFactory.createFish(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_FISH);
 
         // Lion
-        generator = () -> NPCFactory.createLion(player, this.enemies);
+        generator = () -> NPCFactory.createLion(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_LIONS);
 
         // Turtle
-        generator = () -> NPCFactory.createTurtle(player, this.enemies);
+        generator = () -> NPCFactory.createTurtle(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_TURTLES);
 
         // Eagle
-        generator = () -> NPCFactory.createEagle(player, this.enemies);
+        generator = () -> NPCFactory.createEagle(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_EAGLES);
 
         // Snake
-        generator = () -> NPCFactory.createSnake(player, this.enemies);
+        generator = () -> NPCFactory.createSnake(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
 
         // Magpie
-        generator = () -> NPCFactory.createMagpie(player, this.enemies);
+        generator = () -> NPCFactory.createMagpie(player, this.friendlyNPCs);
         spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
     }
-	
+
     /**
      * Spawns defeated enemy NPCs are friendly NPCs in the same/similar location
      */
-	@Override
-	public void spawnConvertedNPCs(Entity defeatedEnemy) {
-		loadAssets();
-		if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
-			logger.warn("Attempted to convert null entity or entity with null enemy type");
-			return;
-		}
-		
-		Vector2 pos = calculateSpawnPosition(defeatedEnemy);
-		Entity convertedNPC = null;
-		
-		switch (defeatedEnemy.getEnemyType()) {
-			case CHICKEN:
-				convertedNPC = NPCFactory.createChicken(player, this.enemies);
-				break;
-			case FROG:
-				convertedNPC = NPCFactory.createFrog(player, this.enemies);
-				break;
-			case MONKEY:
-				convertedNPC = NPCFactory.createMonkey(player, this.enemies);
-				break;
-			case BEAR:
-				convertedNPC = NPCFactory.createBear(player, this.enemies);
-				break;
-			// Add other enemy types as needed
-			default:
-				logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
-				return;
-		}
-		
-		if (convertedNPC != null) {
-			spawnEntityAtVector(convertedNPC, pos);
-			convertedNPC.getEvents().trigger("wanderStart");
-			logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
-		}
-	}
-	
-	// Might remove this method later (pretty much a copy of spawnBanana)
-	private Vector2 calculateSpawnPosition(Entity entity) {
-		// Use the same logic as in spawnBanana method
-		float spawnX = (entity.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
-		float spawnY = (entity.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
-		
-		// Calculate the new position using Vector2
-		Vector2 pos = new Vector2(entity.getPosition().x + spawnX, entity.getPosition().y + spawnY);
-		
-		// Ensure the position is within map bounds
-		pos.x = Math.max(0, Math.min(pos.x, MAP_SIZE.x));
-		pos.y = Math.max(0, Math.min(pos.y, MAP_SIZE.y));
-		
-		return pos;
-	}
-	
-	private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
+    @Override
+    public void spawnConvertedNPCs(Entity defeatedEnemy) {
+        loadAssets();
+        if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
+            logger.warn("Attempted to convert null entity or entity with null enemy type");
+            return;
+        }
+
+        Vector2 pos = calculateSpawnPosition(defeatedEnemy);
+        Entity convertedNPC = null;
+
+        switch (defeatedEnemy.getEnemyType()) {
+            case CHICKEN:
+                convertedNPC = NPCFactory.createChicken(player, this.enemies);
+                break;
+            case FROG:
+                convertedNPC = NPCFactory.createFrog(player, this.enemies);
+                break;
+            case MONKEY:
+                convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+                break;
+            case BEAR:
+                convertedNPC = NPCFactory.createBear(player, this.enemies);
+                break;
+            // Add other enemy types as needed
+            default:
+                logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
+                return;
+        }
+
+        if (convertedNPC != null) {
+            spawnEntityAtVector(convertedNPC, pos);
+            convertedNPC.getEvents().trigger("wanderStart");
+            logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
+        }
+    }
+
+    // Might remove this method later (pretty much a copy of spawnBanana)
+    private Vector2 calculateSpawnPosition(Entity entity) {
+        // Use the same logic as in spawnBanana method
+        float spawnX = (entity.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
+        float spawnY = (entity.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
+
+        // Calculate the new position using Vector2
+        Vector2 pos = new Vector2(entity.getPosition().x + spawnX, entity.getPosition().y + spawnY);
+
+        // Ensure the position is within map bounds
+        pos.x = Math.max(0, Math.min(pos.x, MAP_SIZE.x));
+        pos.y = Math.max(0, Math.min(pos.y, MAP_SIZE.y));
+
+        return pos;
+    }
+
+    private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
         GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
         GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
 
@@ -636,26 +631,29 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
             Entity npc = creator.get();
+            friendlyNPCs.add(npc);
             spawnEntityAt(npc, randomPos, true, false);
         }
     }
+
     public void playMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.setLooping(true);
 //    music.setVolume(0.5f);
 //    music.play();
-    // Get the selected music track from the user settings
-    UserSettings.Settings settings = UserSettings.get();
-    String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
 
-    if (Objects.equals(selectedTrack, "Track 1")) {
-      loadAssets(); // Music was not loading after resuming combat
-      AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
-    } else if (Objects.equals(selectedTrack, "Track 2")) {
-        AudioManager.playMusic("sounds/track_2.mp3", true);
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            loadAssets(); // Music was not loading after resuming combat
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
+        }
     }
-  }
-  public void pauseMusic() {
+
+    public void pauseMusic() {
 //    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
 //    music.pause();
         AudioManager.stopMusic();  // Stop the music
@@ -688,7 +686,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         }
     }
 
-    private void spawnProjectile(Entity enemy, Entity.EnemyType name)  {
+    private void spawnProjectile(Entity enemy, Entity.EnemyType name) {
         Entity projectile;
         switch (name) {
             case MONKEY:
@@ -799,7 +797,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     public void loadAssets() {
         logger.debug("LOADING ASSETS");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
+        resourceService.loadMusic(new String[]{"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
         //resourceService.loadMusic(forestMusic);
 
         resourceService.loadTextures(config.textures.forestTextures);
@@ -829,8 +827,28 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
         this.unloadAssets();
     }
+
+
+    /**
+     * gets the player
+     *
+     * @return player entity
+     */
+    @Override
+    public Entity getPlayer() {
+        return player;
+    }
+
     public List<Entity> getEnemies() {
         return enemies;
+    }
+
+    public List<Entity> getBosses() {
+        return bosses;
+    }
+
+    public List<Entity> getFriendlyNPCs() {
+        return friendlyNPCs;
     }
 
     public Map<Integer, Entity> getDynamicItems() {

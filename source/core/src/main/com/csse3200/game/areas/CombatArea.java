@@ -442,4 +442,18 @@ public class CombatArea extends GameArea {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
     }
+
+
+    @Override
+    public List<Entity> getBosses() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBosses'");
+    }
+
+
+    @Override
+    public List<Entity> getFriendlyNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+    }
 }
