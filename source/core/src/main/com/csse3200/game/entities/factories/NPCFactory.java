@@ -30,6 +30,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -86,11 +87,11 @@ public class NPCFactory {
 
   /** Drops an item near the player when called.
    *
-   * @param item - the item to drop
+   * @param itemGenerator - creates the item to drop
    * @param player - the player to drop the item next to.
    */
-  private static void handleDropItem(AbstractItem item, Entity player) {
-    Entity itemEntity = ItemFactory.createItem(player, item);
+  private static void handleDropItem(Supplier<AbstractItem> itemGenerator, Entity player) {
+    Entity itemEntity = ItemFactory.createItem(player, itemGenerator.get());
     itemEntity.setScale(new Vector2(0.4f, 0.4f));
     int radius = 2; // Spawn the item within this radius of the player
     player.getEvents().trigger("dropItems", itemEntity, radius);
@@ -256,21 +257,20 @@ public class NPCFactory {
     String npcName = configComponent.getAnimalName();
 
     if (Math.random() > probability) { // Attach according to probabilities
-      AbstractFood item = null;
+      Supplier<AbstractItem> itemGenerator;
       switch (npcName) {
-        case "Cow":
-          item = new Foods.Milk(1);
-          break;
-        case "Fish":
-          item = new Foods.Sushi(1);
-          break;
-        default:
-          return;
-      }
-      AbstractFood finalItem = item;
+          case "Cow":
+            itemGenerator = () -> new Foods.Milk(1);
+            break;
+          case "Fish":
+            itemGenerator = () -> new Foods.Sushi(1);
+            break;
+          default:
+            return;
+        }
       entity.getEvents().addListener(
               "PlayerFinishedInteracting",
-              () -> handleDropItem(finalItem, target)
+              () -> handleDropItem(itemGenerator, target)
       );
     }
   }
