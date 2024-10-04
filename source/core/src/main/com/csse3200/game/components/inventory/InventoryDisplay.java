@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -39,10 +38,7 @@ public abstract class InventoryDisplay extends UIComponent {
     protected final int numRows;
     private final int hotBarCapacity;
     private boolean toggle = false; // Whether inventory is toggled on;
-    private ImageButton[] slots;
-    // TODO: HOLD SLOTS WHICH CAN BE UPDATED DIRECTLY
-    //  SET AND REMOVE VISIBILITY RATHER THAN DISPOSING
-    //  PUSH AND CHECK SPEEDS!
+    private final ImageButton[] slots; // Each slot corresponding to a position in the inventory
 
     // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
@@ -90,14 +86,13 @@ public abstract class InventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+
         dragAndDrop = new DragAndDrop();
         initDisplays();
-        if (hasHotBar) {
-            generateHotBar();
-            hotBarDisplay.setVisible(false);
-        }
+
+        if (hasHotBar) {generateHotBar();}
         generateInventory();
-        inventoryDisplay.setVisible(false);
+
         entity.getEvents().addListener(toggleMsg(), this::toggleDisplay);
         entity.getEvents().addListener("addItem", this::addItem);
     }
@@ -106,8 +101,8 @@ public abstract class InventoryDisplay extends UIComponent {
         for (int i = 0; i < inventory.getCapacity(); i++) {
             createSlot(i);
         }
-        // INVENTORY:
-        // Create the inventory window (pop-up)
+
+        // Initialise the inventory window (pop-up)
         inventoryDisplay = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
@@ -118,7 +113,7 @@ public abstract class InventoryDisplay extends UIComponent {
         inventoryDisplay.getTitleLabel().setStyle(titleStyle);
 
         stage.addActor(inventoryDisplay);
-        inventoryDisplay.setVisible(false);
+        inventoryDisplay.setVisible(false); // Not displayed to start with
     }
 
     public abstract String toggleMsg(); // The event to listen for to toggle the display
@@ -146,7 +141,8 @@ public abstract class InventoryDisplay extends UIComponent {
      */
     public void toggleDisplay() {
         toggle = !toggle;
-        logger.debug("Inventory toggled " + (toggle ? "on." : "off."));
+        String msg = "Inventory toggled " + (toggle ? "on." : "off.");
+        logger.debug(msg);
         inventoryDisplay.setVisible(toggle);
     }
 
@@ -204,10 +200,11 @@ public abstract class InventoryDisplay extends UIComponent {
     /**
      * Generates the inventory window and populates it with inventory slots.
      */
-    public void generateInventory() {
+    private void generateInventory() {
         inventoryDisplay.clearChildren();
-        Table table = new Table();
+
         // Iterate over the inventory and add slots
+        Table table = new Table();
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 int index = row * numCols + col + hotBarCapacity;
@@ -231,6 +228,7 @@ public abstract class InventoryDisplay extends UIComponent {
         // Add the table to the window
         inventoryDisplay.add(table).expand().fill();
         inventoryDisplay.pack();
+
         // Set position in stage top-center
         inventoryDisplay.setPosition(
                 (stage.getWidth() - inventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
@@ -241,13 +239,19 @@ public abstract class InventoryDisplay extends UIComponent {
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
      */
-    void generateHotBar() {
+    private void generateHotBar() {
         if (!hasHotBar) {return;} // Early exit if there should be no hotBar
+
+        // Remove old hotBar from stage if it exists:
+        if (hotBarDisplay != null) {hotBarDisplay.remove();}
+
+        // Create new hotBar:
         hotBarDisplay = new Table();
         hotBarDisplay.center().right();
         hotBarDisplay.setBackground(new TextureRegionDrawable(hotBarTexture));
         hotBarDisplay.setSize(160, 517);
-        //creating slots
+
+        // Creating Slots:
         for (int i = 0; i < hotBarCapacity; i++) {
             hotBarDisplay.add(slots[i]).size(80, 80).pad(5).padRight(45);
             hotBarDisplay.row();
@@ -255,28 +259,28 @@ public abstract class InventoryDisplay extends UIComponent {
         float tableX = stage.getWidth() - hotBarDisplay.getWidth() - 20;
         float tableY = (stage.getHeight() - hotBarDisplay.getHeight()) / 2;
         hotBarDisplay.setPosition(tableX, tableY);
+
         stage.addActor(hotBarDisplay);
     }
 
     private void createSlot(int index) {
         slots[index] = new ImageButton(slotSkin);
-        populateSlot(index);
-    }
 
-    private void populateSlot(int index) {
         AbstractItem item = inventory.getAt(index);
         if (item != null) {
+            // Add event listeners and the image to the slot
             addSlotListeners(slots[index], item, index);
             Image itemImage = new Image(new Texture(item.getTexturePath()));
             slots[index].add(itemImage).center().size(70, 70);
+
             // Add a label for item quantity (subscript)
-            int itemCount = item.getQuantity();
-            Label itemCountLabel = new Label(String.valueOf(itemCount), new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-            itemCountLabel.setFontScale(1.2f); // Scale the font size of the label
-            slots[index].add(itemCountLabel).bottom().right(); // Position the label at the bottom right
+            Label quantity = new Label(String.valueOf(item.getQuantity()),
+                    new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+            quantity.setFontScale(1.2f);
+            slots[index].add(quantity).bottom().right();
         }
 
-        setupDragAndDrop(slots[index], index, item); // Setup drag and drop between hotBar and inventory
+        setupDragAndDrop(slots[index], index, item); // Setup drag and drop for hotBar and inventory
     }
 
     /**
@@ -330,25 +334,23 @@ public abstract class InventoryDisplay extends UIComponent {
         updateDisplay();
     }
 
-    private void updateDisplay() {
+    /**
+     * Updates the display of the inventory (does not regenerate any of the images for
+     * any slot, simply creates a new table to hold them).
+     */
+    public void updateDisplay() {
         generateHotBar();
         generateInventory();
     }
 
-    // TODO: CHECK IF THE FOLLOWING ACTUALLY WORKS!!!
     /**
-     * Regenerates the inventory display by toggling it off and on.
-     * This method is used to refresh the inventory UI without duplicating code.
+     * Regenerates the entire inventory and hotBar display (recreates every image)
+     * This should only be used if the inventory has been changed (ie after
+     * sorting or loading). Otherwise, use updateDisplay.
      */
     public void regenerateDisplay() {
-        for (int i = 0; i < inventory.getCapacity(); i++) {
-            createSlot(i);
-        }
+        for (int i = 0; i < inventory.getCapacity(); i++) {createSlot(i);}
         updateDisplay();
-//        generateInventory();
-//        generateHotBar();
-//        toggleDisplay(); // Hacky way to regenerate inventory without duplicating code
-//        toggleDisplay();
     }
 
     /**
