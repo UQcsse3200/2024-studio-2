@@ -459,13 +459,15 @@ public class CombatStatsComponent extends Component {
    */
   public int getStatusEffectDuration(StatusEffect effect) {
     switch (effect) {
-      case BLEEDING, SHOCKED -> {
-        return 3;
-      }
-      case POISONED -> {
+        case BLEEDING, SHOCKED -> {
+            return 3;
+        }
+        case POISONED -> {
         return 2;
-      }
+        }
+        default -> {
+          return 0;
+        }
     }
-    return 0;
   }
 }

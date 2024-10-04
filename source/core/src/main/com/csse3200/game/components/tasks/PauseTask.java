@@ -1,13 +1,11 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import java.util.Objects;
 
@@ -16,8 +14,6 @@ import java.util.Objects;
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
-    private static final Logger logger = new Logger("PauseTask");
-
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
