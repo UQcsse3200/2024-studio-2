@@ -132,7 +132,7 @@ public class MainMenuDisplay extends UIComponent {
         TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
         birdAniImage.setDrawable(drawable);
         birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        birdAniImage.setPosition(Gdx.graphics.getWidth() + 200, 500);
+        birdAniImage.setPosition(Gdx.graphics.getWidth() + 200, Gdx.graphics.getHeight() * 0.6f);
         stage.addActor(birdAniImage);
 
         // Add dog animation
@@ -341,7 +341,7 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight1.png"); // Night background
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
         Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
@@ -367,8 +367,8 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addOwlToMenu() {
         // Set owl initial position
-        owlImage.setPosition(1750, 720);// Adjust the position as needed
-        owlImage.setSize(200, 300);
+        owlImage.setPosition(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlImage.setSize(150, 200);
         stage.addActor(owlImage);
 
         // Create label for displaying facts
@@ -1182,12 +1182,16 @@ public class MainMenuDisplay extends UIComponent {
             dogAniImage.setDrawable(drawableDog);
         }
 
+        // Resize owl with screen
+        owlImage.setPosition(Gdx.graphics.getWidth() * 0.85f, Gdx.graphics.getHeight() * 0.55f);
+        owlImage.setSize(Gdx.graphics.getWidth() / 5.5f, Gdx.graphics.getHeight() / 4f);
+
+        // update bird and dog animations
         this.updateBirdFly();
         this.updateDogRun();
     }
 
     public void updateBirdFly() {
-
         birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         // animate the bird left to right
         float birdX = birdAniImage.getX();
@@ -1200,11 +1204,11 @@ public class MainMenuDisplay extends UIComponent {
         }
 
         if (birdDirection) {
-            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * -100;
+            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * (-Gdx.graphics.getWidth() / 7f);
         } else {
-            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * 100;
+            birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * (Gdx.graphics.getWidth() / 7f);
         }
-        birdAniImage.setPosition(birdX, 500);
+        birdAniImage.setPosition(birdX, Gdx.graphics.getHeight() * 0.6f);
     }
 
     public void updateDogRun() {
@@ -1223,9 +1227,9 @@ public class MainMenuDisplay extends UIComponent {
 
         // move dog
         if (dogDirection) {
-            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * -150;
+            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * (-Gdx.graphics.getWidth() / 5f);
         } else {
-            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * 150;
+            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * (Gdx.graphics.getWidth() / 5f);
         }
         dogAniImage.setPosition(dogX, Gdx.graphics.getHeight() / 6.8f);
     }
