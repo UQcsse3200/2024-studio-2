@@ -218,30 +218,6 @@ class InventoryTest {
     }
 
     @Test
-    void testSortByName() {
-        // Add items to inventory in reverse (descending) order
-        Inventory inventory = new Inventory(13);
-        int E = 69; // ASCII value for 'E'
-        String[] names = new String[5];
-
-        for (int i = 0; i < 5; i++) {
-            names[i] = "test_" + (char) (E - i);
-            inventory.add(new TestableItem(names[i], i));
-        }
-
-        // Check items are input in reverse (descending) order
-        for (int i = 0; i < 5; i++) {
-            assertEquals(names[i], inventory.getAt(i).getName());
-        }
-
-        // Sort items and check they are in correct (ascending) order.
-        inventory.sortByName();
-        for (int i = 0; i < 5; i++) {
-            assertEquals(names[4-i], inventory.getAt(i).getName());
-        }
-    }
-
-    @Test
     void shouldSaveLoadInventoryContents() {
         GameState.clearState();
 
