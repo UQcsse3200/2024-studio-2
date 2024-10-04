@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
+import com.csse3200.game.components.settingsmenu.SettingsMenu;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.CustomButton;
@@ -42,10 +43,9 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table menuButtonTable;
-    private Table settingMenu;
     private Table userTable;
     private Table loginRegisterTable;
-    private SettingsMenuDisplay settingsMenuDisplay;
+    private SettingsMenu settingsMenu;
     private LoginRegisterDisplay loginRegisterDisplay;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
@@ -406,7 +406,6 @@ public class MainMenuDisplay extends UIComponent {
         stage.addActor(NotifManager.addNotificationTable());
 
 
-        //addMenuButtonIcon();
         addTopLeftToggle();
         addTopRightButtons();
         addSettingMenu();
@@ -419,7 +418,6 @@ public class MainMenuDisplay extends UIComponent {
     private void initializeTables() {
         table = new Table();
         menuButtonTable = new Table();
-        settingMenu = new Table();
         userTable = new Table();
         loginRegisterTable = new Table();
     }
@@ -453,13 +451,12 @@ public class MainMenuDisplay extends UIComponent {
             entity.getEvents().trigger("SnakeGame");
         });
 
-        entity.getEvents().addListener("settings", this::setMenuUntouchable);  // Call the help window logic
 
         settingsBtn = createMenuButton("Settings", () -> {
             logger.info("Settings button clicked");
-            settingMenu.setVisible(true);
-            entity.getEvents().trigger("settings");
+            settingsMenu.showSettingsMenu();
         });
+
 
         achievementsBtn = createMenuButton("Achievements", () -> {
             logger.info("Achievements button clicked");
@@ -784,93 +781,10 @@ public class MainMenuDisplay extends UIComponent {
      * Adds a settings menu to the screen.
      */
     private void addSettingMenu() {
-
-        Drawable settingDrawable = new TextureRegionDrawable(new TextureRegion(settingBackground));
-
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        settingMenu.setSize(663, 405);
-
-        settingMenu.setBackground(settingDrawable);
-        settingMenu.setVisible(false);
-
-        Table topTable = new Table();
-        topTable.top().padTop(10);
-
-        Label title = new Label("Settings", skin, "title-white");
-
-        topTable.add(title).expandX().center().padTop(5);
-        topTable.row();
-
-        Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
-        topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
-
-        settingsMenuDisplay = new SettingsMenuDisplay();
-        Table contentTable = settingsMenuDisplay.makeSettingsTable();
-
-        // Create a table for the "Apply" button
-        Table bottomRightTable = new Table();
-        bottomRightTable.bottom(); // Align contents to bottom-right
-
-        // Update the Apply button to use CustomButton
-        CustomButton applyButton = new CustomButton("Apply", skin);
-        applyButton.setButtonSize(150f, 50f); // Set size of Apply button
-        bottomRightTable.add(applyButton).size(150f, 50f).padBottom(30f).padRight(30f);
-
-
-        settingMenu.add(topTable).expandX().fillX(); // Top-right table
-        settingMenu.row().padTop(30f);
-        settingMenu.add(contentTable).expandX().expandY().padLeft(50);
-        settingMenu.row().padTop(30f);
-        settingMenu.add(bottomRightTable).expandX().right().padLeft(100); // Bottom-right table
-
-        // Center the menu on the screen
-        settingMenu.setPosition(
-                (screenWidth - settingMenu.getWidth()) / 2,
-                (screenHeight - settingMenu.getHeight()) / 2
-        );
-
-        stage.addActor(settingMenu);
-
-
-        closeButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        settingMenu.setVisible(false);
-                        setMenuTouchable();
-                    }
-                });
-
-        // Add event listener for the "Apply" button
-        applyButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Apply button clicked");
-                        settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
-                        settingMenu.setVisible(false); // Optionally hide the settings menu
-                        setMenuTouchable();
-                        addTopRightButtons();
-                    }
-                });
+        settingsMenu = new SettingsMenu();  // Create an instance of SettingsMenu
+        settingsMenu.create();  // Initialize it
     }
 
-    /**
-     * Updates the position of the settings menu based on screen size.
-     */
-    public void updateSettingMenu() {
-        if (settingMenu != null) {
-            // Center the menu on the screen
-            float screenWidth = Gdx.graphics.getWidth();
-            float screenHeight = Gdx.graphics.getHeight();
-            settingMenu.setPosition(
-                    (screenWidth - settingMenu.getWidth()) / 2,
-                    (screenHeight - settingMenu.getHeight()) / 2
-            );
-        }
-    }
 
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.

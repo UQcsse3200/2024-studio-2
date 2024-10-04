@@ -53,7 +53,7 @@ public class MainMenuScreen extends ScreenAdapter {
   public void resize(int width, int height) {
     renderer.resize(width, height);
     mainMenuDisplay.updateUserTable();
-    mainMenuDisplay.updateSettingMenu();
+    //mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
     mainMenuDisplay.updateMenuButtonLayout();
     mainMenuDisplay.updateChatbotDialogPosition();
