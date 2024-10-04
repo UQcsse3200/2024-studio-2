@@ -11,7 +11,6 @@ import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
@@ -30,13 +29,26 @@ public class CombatAnimalFactory {
      *
      * @return entity
      */
-    public static Entity createCombatBaseEnemy() {
+    public static Entity createCombatBaseEnemy(BaseEnemyEntityConfig config, Entity.EnemyType type) {
         Entity entity =
                 new Entity()
                         .addComponent(new PhysicsComponent())
                         .addComponent(new ColliderComponent());
 
         PhysicsUtils.setScaledCollider(entity, 0.9f, 0.4f);
+        
+        entity.setEnemyType(type);
+        
+        TextureAtlas textureAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
+        AnimationRenderComponent animator = new AnimationRenderComponent(textureAtlas);
+        
+        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
+        
+        entity
+                .addComponent(animator)
+                .addComponent(new CombatAnimationController());
+        
         return entity;
     }
 
@@ -46,22 +58,9 @@ public class CombatAnimalFactory {
      * @return entity
      * */
     public static Entity createChickenCombatEnemy() {
-        Entity chickenEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.chicken;
-        chickenEnemy.setEnemyType(Entity.EnemyType.CHICKEN);
-
-        TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-
-        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
-
-        chickenEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity chickenEnemy = createCombatBaseEnemy(config, Entity.EnemyType.CHICKEN);
         chickenEnemy.scaleHeight(90.0f);
-
         return chickenEnemy;
     }
 
@@ -69,22 +68,9 @@ public class CombatAnimalFactory {
      * Creates monkey enemy as NPC entity for static combat
      * */
     public static Entity createMonkeyCombatEnemy() {
-        Entity monkeyEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.monkey;
-        monkeyEnemy.setEnemyType(Entity.EnemyType.MONKEY);
-
-        TextureAtlas monkeyAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(monkeyAtlas);
-
-        animator.addAnimation("combat_idle", 0.3f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        monkeyEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity monkeyEnemy = createCombatBaseEnemy(config, Entity.EnemyType.MONKEY);
         monkeyEnemy.scaleHeight(90.0f);
-
         return monkeyEnemy;
     }
 
@@ -92,22 +78,9 @@ public class CombatAnimalFactory {
      * Creates frog enemy as NPC entity for static combat
      * */
     public static Entity createFrogCombatEnemy() {
-        Entity frogEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.frog;
-        frogEnemy.setEnemyType(Entity.EnemyType.FROG);
-
-        TextureAtlas frogAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(frogAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        frogEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity frogEnemy = createCombatBaseEnemy(config, Entity.EnemyType.FROG);
         frogEnemy.setScale(120.0f, 90.0f);
-
         return frogEnemy;
     }
 
@@ -115,45 +88,18 @@ public class CombatAnimalFactory {
      * Creates bear enemy as NPC entity for static combat
      * */
     public static Entity createBearCombatEnemy() {
-        Entity bearEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.bear;
-        bearEnemy.setEnemyType(Entity.EnemyType.BEAR);
-
-        TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        bearEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity bearEnemy = createCombatBaseEnemy(config, Entity.EnemyType.BEAR);
         bearEnemy.setScale(150f,103.5f);
-        //bearEnemy.scaleHeight(150.0f);
-
         return bearEnemy;
     }
     /**
      * Creates bee enemy as NPC entity for static combat
      * */
     public static Entity createBeeCombatEnemy() {
-        Entity beeEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.bee;
-        beeEnemy.setEnemyType(Entity.EnemyType.BEE);
-
-        TextureAtlas beeAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(beeAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        beeEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity beeEnemy = createCombatBaseEnemy(config, Entity.EnemyType.BEE);
         beeEnemy.setScale(90f, 103.5f);
-
         return beeEnemy;
     }
 
@@ -161,21 +107,9 @@ public class CombatAnimalFactory {
      * Creates big saw fish enemy as NPC entity for static combat
      * */
     public static Entity createBigsawfishCombatEnemy() {
-        Entity bigsawfishEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.bigsawfish;
-        bigsawfishEnemy.setEnemyType(Entity.EnemyType.BIGSAWFISH);
-
-        TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(bigsawfishAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        bigsawfishEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity bigsawfishEnemy = createCombatBaseEnemy(config, Entity.EnemyType.BIGSAWFISH);
         bigsawfishEnemy.scaleHeight(90.0f);
-
         return bigsawfishEnemy;
     }
     
@@ -183,21 +117,9 @@ public class CombatAnimalFactory {
      * Creates big saw fish enemy as NPC entity for static combat
      * */
     public static Entity createOctopusCombatEnemy() {
-        Entity octopus = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.octopus;
-        octopus.setEnemyType(Entity.EnemyType.OCTOPUS);
-        
-        TextureAtlas octopusAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(octopusAtlas);
-        
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-        
-        octopus
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity octopus = createCombatBaseEnemy(config, Entity.EnemyType.OCTOPUS);
         octopus.scaleHeight(90.0f);
-        
         return octopus;
     }
 
@@ -205,21 +127,9 @@ public class CombatAnimalFactory {
      * Creates macaw enemy as NPC entity for static combat
      * */
     public static Entity createMacawCombatEnemy() {
-        Entity macawEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.macaw;
-        macawEnemy.setEnemyType(Entity.EnemyType.MACAW);
-
-        TextureAtlas macawAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(macawAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        macawEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity macawEnemy = createCombatBaseEnemy(config, Entity.EnemyType.MACAW);
         macawEnemy.scaleHeight(90.0f);
-
         return macawEnemy;
     }
 
@@ -227,21 +137,9 @@ public class CombatAnimalFactory {
      * Creates pigeon enemy as NPC entity for static combat
      * */
     public static Entity createPigeonCombatEnemy() {
-        Entity pigeonEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.pigeon;
-        pigeonEnemy.setEnemyType(Entity.EnemyType.PIGEON);
-
-        TextureAtlas pigeonAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        pigeonEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity pigeonEnemy = createCombatBaseEnemy(config, Entity.EnemyType.PIGEON);
         pigeonEnemy.setScale(100f,70f);
-
         return pigeonEnemy;
     }
 
@@ -249,21 +147,9 @@ public class CombatAnimalFactory {
      * Creates pigeon enemy as NPC entity for static combat
      * */
     public static Entity createEelCombatEnemy() {
-        Entity eelEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.eel;
-        eelEnemy.setEnemyType(Entity.EnemyType.EEL);
-
-        TextureAtlas eelAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(eelAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        eelEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity eelEnemy = createCombatBaseEnemy(config, Entity.EnemyType.EEL);
         eelEnemy.setScale(100f,70f);
-
         return eelEnemy;
     }
 
@@ -271,21 +157,9 @@ public class CombatAnimalFactory {
      * Creates joey enemy as NPC entity for static combat
      * */
     public static Entity createJoeyCombatEnemy() {
-        Entity joeyEnemy = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.joey;
-        joeyEnemy.setEnemyType(Entity.EnemyType.JOEY);
-
-        TextureAtlas joeyAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(joeyAtlas);
-
-        animator.addAnimation("combat_idle", 0.2f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.5f, Animation.PlayMode.LOOP);
-
-        joeyEnemy
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
+        Entity joeyEnemy = createCombatBaseEnemy(config, Entity.EnemyType.JOEY);
         joeyEnemy.scaleHeight(90.0f);
-
         return joeyEnemy;
     }
 
@@ -295,22 +169,9 @@ public class CombatAnimalFactory {
      * @return entity
      * */
     public static Entity createKangaBossCombatEntity() {
-        Entity kangarooBoss = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.kangarooBoss;
-        kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
-
-        TextureAtlas kangarooAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(kangarooAtlas);
-
-        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
-
-        kangarooBoss
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity kangarooBoss = createCombatBaseEnemy(config, Entity.EnemyType.KANGAROO);
         kangarooBoss.scaleHeight(120.0f);
-
         return kangarooBoss;
     }
 
@@ -320,22 +181,9 @@ public class CombatAnimalFactory {
      * @return entity
      * */
     public static Entity createWaterBossCombatEntity() {
-        Entity waterBoss = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.waterBoss;
-        waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
-
-        TextureAtlas waterBossAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(waterBossAtlas);
-
-        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
-
-        waterBoss
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity waterBoss = createCombatBaseEnemy(config, Entity.EnemyType.WATER_BOSS);
         waterBoss.scaleHeight(120.0f);
-
         return waterBoss;
     }
 
@@ -345,22 +193,9 @@ public class CombatAnimalFactory {
      * @return entity
      * */
     public static Entity createAirBossCombatEntity() {
-        Entity airBoss = createCombatBaseEnemy();
         BaseEnemyEntityConfig config = configs.airBoss;
-        airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
-
-        TextureAtlas airBossAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        AnimationRenderComponent animator = new AnimationRenderComponent(airBossAtlas);
-
-        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
-
-        airBoss
-                .addComponent(animator)
-                .addComponent(new CombatAnimationController());
-
+        Entity airBoss = createCombatBaseEnemy(config, Entity.EnemyType.AIR_BOSS);
         airBoss.scaleHeight(120.0f);
-
         return airBoss;
     }
 

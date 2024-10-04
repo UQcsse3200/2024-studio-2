@@ -56,7 +56,7 @@ public class NPCFactory {
   private static Entity createFriendlyNPC(Entity target, List<Entity> enemies, BaseFriendlyEntityConfig config) {
     Entity npc = createFriendlyBaseNPC(target, enemies);
 
-    AnimationRenderComponent animator = init_animator(config);
+    AnimationRenderComponent animator = initiateAnimator(config);
     animator.addAnimation("float", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
     animator.addAnimation("selected", config.getAnimationSpeed(), Animation.PlayMode.LOOP);
 
@@ -177,10 +177,10 @@ public class NPCFactory {
     return createFriendlyNPC(target, enemies, config);
   }
 
-  private static AnimationRenderComponent init_animator(BaseFriendlyEntityConfig entity_config) {
+  private static AnimationRenderComponent initiateAnimator(BaseFriendlyEntityConfig config) {
     return new AnimationRenderComponent(
             ServiceLocator.getResourceService()
-                    .getAsset(entity_config.getSpritePath(), TextureAtlas.class));
+                    .getAsset(config.getSpritePath(), TextureAtlas.class));
   }
 
   /**
@@ -298,7 +298,7 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(aiComponent)
                     .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)))
-                    .addComponent(new FadeLightsDayTimeComponent());;
+                    .addComponent(new FadeLightsDayTimeComponent());
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
