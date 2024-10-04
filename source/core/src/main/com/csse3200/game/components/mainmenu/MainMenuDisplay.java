@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,28 +71,22 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-    private Button startBtn;
-    private Button loadBtn;
-    private Button minigamesBtn;
-    private Button settingsBtn;
+
     private Cursor customCursor;
-    private Button achievementsBtn;
-    private Button helpBtn;
-    private Button exitBtn;
+    private CustomButton startBtn;
+    private CustomButton loadBtn;
+    private CustomButton minigamesBtn;
+    private CustomButton settingsBtn;
+    private CustomButton achievementsBtn;
+    private CustomButton helpBtn;
+    private CustomButton exitBtn;
     private Label versionLabel;
     private final float windowButtonWidth = 200;
     private final float windowButtonHeight = 45;
     private final float windowButtonSpacing = 15;
-    private final float fullScreenButtonWidth = 320;
-    private final float fullScreenuttonHeight = 80;
-    private final float fullScreenButtonSpacing = 30;
-    private Label startLabel;
-    private Label loadLabel;
-    private Label minigameLabel;
-    private Label helpLabel;
-    private Label settingLabel;
-    private Label exitLabel;
-    private Label achievementsLabel;
+    private final float fullScreenButtonWidth = 300;
+    private final float fullScreenButtonHeight = 60;
+    private final float fullScreenButtonSpacing = 20;
     private Image birdAniImage;
     private Image dogAniImage;
     private TextureAtlas birdAtlas;
@@ -408,31 +403,16 @@ public class MainMenuDisplay extends UIComponent {
     private void addActors() {
         initializeTables();
         initializeMenuButtons();
-        initializeLabels();
         stage.addActor(NotifManager.addNotificationTable());
-        addMenuButtonEffects();
-        addMenuButtonsListeners();
-        addExitConfirmation();
-        addMenuButtonIcon();
+
+
+        //addMenuButtonIcon();
         addTopLeftToggle();
         addTopRightButtons();
         addSettingMenu();
         addUserTable();
         addLoginRegisterTable();
     }
-
-    private void initializeLabels() {
-        startLabel = new Label("Start", skin, "button-red");
-        loadLabel = new Label("Load", skin, "button-red");
-        minigameLabel = new Label("Minigame", skin, "button-red");
-        helpLabel = new Label("Help", skin, "button-red");
-        settingLabel = new Label("Settings", skin, "button-red");
-        exitLabel = new Label("Exit", skin, "button-red");
-        achievementsLabel = new Label("Logbook", skin, "button-red");
-        versionLabel = new Label("Version 1.0", skin, "default-white");
-    }
-
-
     /**
      * Initialize all tables in the main menu
      */
@@ -448,66 +428,142 @@ public class MainMenuDisplay extends UIComponent {
      * Initialize menu buttons in the main menu
      */
     private void initializeMenuButtons() {
-        // Initialises buttons
-        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-    }
+        // Clear previous button settings to avoid duplicates
+        if (menuButtonTable != null) {
+            menuButtonTable.clear();
+        } else {
+            menuButtonTable = new Table();
+        }
 
-    /**
-     * Adds UI component (hover over buttons)
-     */
-    private void addMenuButtonEffects() {
-        addButtonElevationEffect(startBtn, startLabel);
-        addButtonElevationEffect(loadBtn, loadLabel);
-        addButtonElevationEffect(minigamesBtn, minigameLabel);
-        addButtonElevationEffect(settingsBtn, settingLabel);
-        addButtonElevationEffect(helpBtn, helpLabel);
-        addButtonElevationEffect(exitBtn, exitLabel);
-        addButtonElevationEffect(achievementsBtn, achievementsLabel);
-    }
-
-    /**
-     * Adds an elevation effect to buttons when hovered.
-     */
-    private void addButtonElevationEffect(final Button button, final Label label) {
-        // Add hover listener to the button
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
-
-                // Apply move and scale actions to both button and label
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, 5, 0.1f),
-                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-                ));
-                label.addAction(Actions.parallel(
-                        Actions.moveBy(0, 5, 0.1f),
-                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-                ));
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // Restore the custom cursor when the mouse exits the button
-                applyCustomCursor();
-
-                // Return to original position and scale for both button and label
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, -5, 0.1f),
-                        Actions.scaleTo(1f, 1f, 0.1f)
-                ));
-                label.addAction(Actions.parallel(
-                        Actions.moveBy(0, -5, 0.1f),
-                        Actions.scaleTo(1f, 1f, 0.1f)
-                ));
-            }
+        // Set Z index to ensure it is drawn above other components
+        menuButtonTable.setZIndex(10);
+        // Create all main menu buttons
+        startBtn = createMenuButton("Start", () -> {
+            logger.info("Start button clicked");
+            entity.getEvents().trigger("start");
         });
+
+        loadBtn = createMenuButton("Load", () -> {
+            logger.info("Load button clicked");
+            entity.getEvents().trigger("load");
+        });
+
+        minigamesBtn = createMenuButton("Minigame", () -> {
+            logger.info("Minigames button clicked");
+            entity.getEvents().trigger("SnakeGame");
+        });
+
+        entity.getEvents().addListener("settings", this::setMenuUntouchable);  // Call the help window logic
+
+        settingsBtn = createMenuButton("Settings", () -> {
+            logger.info("Settings button clicked");
+            settingMenu.setVisible(true);
+            entity.getEvents().trigger("settings");
+        });
+
+        achievementsBtn = createMenuButton("Achievements", () -> {
+            logger.info("Achievements button clicked");
+            entity.getEvents().trigger("achievements");
+        });
+
+        entity.getEvents().addListener("help", this::showHelpWindow);
+        helpBtn = createMenuButton("Help", () -> {
+            logger.info("Help button clicked");
+            setMenuUntouchable();
+            entity.getEvents().trigger("help");
+        });
+
+        entity.getEvents().addListener("exitConfirmation", this::handleExitConfirmation);  // Call the exit handler
+        exitBtn = createMenuButton("Exit", () -> {
+            logger.info("Exit button clicked");
+            entity.getEvents().trigger("exitConfirmation");
+        });
+        updateMenuButtonLayout();
+
+        stage.addActor(menuButtonTable);
+    }
+    /**
+     * Dynamically update the layout of menu buttons based on screen size and mode (fullscreen/windowed).
+     */
+    public void updateMenuButtonLayout() {
+        // Get screen dimensions and check fullscreen mode
+        boolean isFullscreen = Gdx.graphics.isFullscreen();
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+
+        float buttonWidth;
+        float buttonHeight;
+        float buttonSpacing;
+        float padTopSpacing;
+
+        // Adjust button dimensions based on the screen mode (fullscreen or windowed)
+        if (isFullscreen) {
+            buttonWidth = fullScreenButtonWidth;
+            buttonHeight = fullScreenButtonHeight;
+            buttonSpacing = fullScreenButtonSpacing;
+            padTopSpacing = 500;  // Top padding relative to screen height
+        } else {
+            buttonWidth = windowButtonWidth;
+            buttonHeight = windowButtonHeight;
+            buttonSpacing = windowButtonSpacing;
+            padTopSpacing = 350;  // Top padding relative to screen height
+        }
+
+        // Position the button table at the center of the screen
+        menuButtonTable.setPosition(screenWidth / 2, screenHeight / 2);
+        // Resize each button based on the screen size and button dimensions
+        float scaleFactorWidth = buttonWidth / screenWidth;
+
+        startBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        loadBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        minigamesBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        achievementsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        settingsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        helpBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        exitBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+
+        // Clear any existing buttons to prevent duplication
+        menuButtonTable.clear();
+
+        // Add buttons to the table with the correct sizes and spacings
+        menuButtonTable.add(startBtn).size(buttonWidth, buttonHeight).padTop(padTopSpacing).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(loadBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(helpBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(exitBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+    }
+
+    public void setMenuUntouchable() {
+        table.setTouchable(Touchable.disabled);
+        menuButtonTable.setTouchable(Touchable.disabled);
+    }
+
+    public void setMenuTouchable() {
+        table.setTouchable(Touchable.enabled);
+        menuButtonTable.setTouchable(Touchable.enabled);
+    }
+
+
+    /**
+     * Utility method to create a new menu button using CustomButton.
+     *
+     * @param labelText    The label text for the button.
+     * @param clickAction  The action to execute when the button is clicked.
+     * @return             The created CustomButton instance.
+     */
+    private CustomButton createMenuButton(String labelText, Runnable clickAction) {
+        CustomButton button = new CustomButton(labelText, skin);
+        button.addClickListener(clickAction);
+        button.setButtonSize(300, 80);  // Default size for all buttons
+        return button;
     }
 
     private void applyCustomCursor() {
@@ -515,159 +571,6 @@ public class MainMenuDisplay extends UIComponent {
             Gdx.graphics.setCursor(customCursor); // Reapply the custom cursor
         }
     }
-
-    /**
-     * Add listener for menu buttons
-     */
-    private void addMenuButtonsListeners() {
-        // Added handles for when clicked
-        startBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Start button clicked");
-                entity.getEvents().trigger("start");
-                clickSound.play(); // This will cause a click sound to play when the button is clicked.
-            }
-        });
-
-        // Added handles for when clicked
-        loadBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Load button clicked");
-                entity.getEvents().trigger("load");
-                clickSound.play();
-            }
-        });
-
-        // Added handles for when clicked
-        minigamesBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-
-                logger.debug("SnakeGame button clicked");
-                entity.getEvents().trigger("SnakeGame");
-                clickSound.play();
-            }
-        });
-
-        // Added handles for when clicked
-        settingsBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Settings button clicked");
-                settingMenu.setVisible(true);
-                table.setTouchable(Touchable.disabled);
-                clickSound.play();
-            }
-        });
-        // Added handles for when clicked
-        achievementsBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Achievements button clicked");
-                entity.getEvents().trigger("achievements");
-                clickSound.play();
-            }
-        });
-
-        // Added handles for when clicked
-        helpBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.info("Help button clicked");
-                entity.getEvents().trigger("help");
-                showHelpWindow();
-                clickSound.play();
-            }
-
-        });
-    }
-
-    /**
-     * set the label styles of menu buttons' labels
-     *
-     * @param style the style that is set
-     */
-    private void setMenuLabelsStyle(String style) {
-        startLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        loadLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        minigameLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        helpLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        settingLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        exitLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        achievementsLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-        versionLabel.setStyle(skin.get(style, Label.LabelStyle.class));
-    }
-
-    /**
-     * Add menu buttons icons and update the positions.
-     */
-    public void addMenuButtonIcon() {
-        float buttonWidth;
-        float buttonHeight;
-        float buttonSpacing;
-        float padTopSpacing;
-
-        if (Gdx.graphics.isFullscreen()) {
-            buttonWidth = fullScreenButtonWidth;
-            buttonHeight = fullScreenuttonHeight;
-            buttonSpacing = fullScreenButtonSpacing;
-            padTopSpacing = 500;
-            setMenuLabelsStyle("title-red");
-        } else {
-            buttonWidth = windowButtonWidth;
-            buttonHeight = windowButtonHeight;
-            buttonSpacing = windowButtonSpacing;
-            padTopSpacing = 350;
-            setMenuLabelsStyle("button-red");
-        }
-
-        menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
-        menuButtonTable.clear();
-
-        Stack startStack = createButtonWithLabelStack(startBtn, startLabel, buttonWidth, buttonHeight);
-        Stack loadStack = createButtonWithLabelStack(loadBtn, loadLabel, buttonWidth, buttonHeight);
-        Stack minigamesStack = createButtonWithLabelStack(minigamesBtn, minigameLabel, buttonWidth, buttonHeight);
-        Stack settingsStack = createButtonWithLabelStack(settingsBtn, settingLabel, buttonWidth, buttonHeight);
-        Stack helpStack = createButtonWithLabelStack(helpBtn, helpLabel, buttonWidth, buttonHeight);
-        Stack exitStack = createButtonWithLabelStack(exitBtn, exitLabel, buttonWidth, buttonHeight);
-        Stack achievementStack = createButtonWithLabelStack(achievementsBtn, achievementsLabel, buttonWidth, buttonHeight);
-
-        menuButtonTable.add(startStack).size(buttonWidth, buttonHeight).padTop(padTopSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(loadStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(minigamesStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(achievementStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(settingsStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(helpStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-        menuButtonTable.row();
-        menuButtonTable.add(exitStack).size(buttonWidth, buttonHeight).padTop(buttonSpacing);
-
-        stage.addActor(menuButtonTable);
-    }
-
-    /**
-     * Helper method to create a stack with a button and label, properly centered.
-     */
-    private Stack createButtonWithLabelStack(Button button, Label label, float buttonWidth, float buttonHeight) {
-        Stack stack = new Stack();
-
-        label.setTouchable(Touchable.disabled);
-        label.setAlignment(Align.center);
-        label.setSize(buttonWidth, buttonHeight);
-        label.setFontScale(1.2f);
-
-        stack.add(button);
-        stack.add(label);
-
-        return stack;
-    }
-
 
     /**
      * Adds a toggle button to the top left corner of the screen that allows switching
@@ -793,6 +696,7 @@ public class MainMenuDisplay extends UIComponent {
      * Displays the help window with slides for game instructions.
      */
     private void showHelpWindow() {
+        setMenuUntouchable();
         final int NUM_SLIDES = 7;
         final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
         final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
@@ -891,6 +795,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 helpWindow.remove(); // Close the help window
+                setMenuTouchable();
                 logger.info("Help window closed");
             }
         });
@@ -1076,7 +981,7 @@ public class MainMenuDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         settingMenu.setVisible(false);
-                        table.setTouchable(Touchable.enabled);
+                        setMenuTouchable();
                     }
                 });
 
@@ -1088,7 +993,7 @@ public class MainMenuDisplay extends UIComponent {
                         logger.info("Apply button clicked");
                         settingsMenuDisplay.applyChanges(); // Apply the settings when clicked
                         settingMenu.setVisible(false); // Optionally hide the settings menu
-                        table.setTouchable(Touchable.enabled);
+                        setMenuTouchable();
                         updateMuteButtonIcon();
                     }
                 });
@@ -1112,55 +1017,54 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
-    private void addExitConfirmation() {
-        exitBtn.addListener(new ChangeListener() {
+    /**
+     * Handles displaying the exit confirmation dialog when the exit button is clicked.
+     */
+    private void handleExitConfirmation() {
+        Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
+
+        final Dialog dialog = new Dialog("", skin);
+        dialog.setBackground(dialogBackground);
+        dialog.pad(40f);
+        dialog.setSize(500f, 300f);
+        dialog.setModal(true);
+
+        Label confirmLabel = new Label("Leave the game?", skin);
+        confirmLabel.setColor(Color.WHITE);
+        confirmLabel.setFontScale(1.5f);
+
+        TextButton yesBtn = new TextButton("Yes", skin);
+        TextButton noBtn = new TextButton("No", skin);
+        yesBtn.getLabel().setFontScale(1.2f);
+        noBtn.getLabel().setFontScale(1.2f);
+
+        yesBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
-
-                final Dialog dialog = new Dialog("", skin);
-                dialog.setBackground(dialogBackground);
-                dialog.pad(40f);
-                dialog.setSize(500f, 300f);
-                dialog.setModal(true);
-
-                Label confirmLabel = new Label("Leave the game?", skin);
-                confirmLabel.setColor(Color.WHITE);
-                confirmLabel.setFontScale(1.5f);
-
-                TextButton yesBtn = new TextButton("Yes", skin);
-                TextButton noBtn = new TextButton("No", skin);
-                yesBtn.getLabel().setFontScale(1.2f);
-                noBtn.getLabel().setFontScale(1.2f);
-
-                yesBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit confirmed, closing game");
-                        Gdx.app.exit();
-                    }
-                });
-
-                noBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit canceled");
-                        dialog.remove();
-                    }
-                });
-
-                dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
-                dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
-                dialog.getButtonTable().add(noBtn).width(150f).height(60f);
-
-                dialog.setPosition(
-                        (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
-                        (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
-                );
-                stage.addActor(dialog);
+                logger.info("Exit confirmed, closing game");
+                Gdx.app.exit();
             }
         });
+
+        noBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                logger.info("Exit canceled");
+                dialog.remove();
+            }
+        });
+
+        dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
+        dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
+        dialog.getButtonTable().add(noBtn).width(150f).height(60f);
+
+        dialog.setPosition(
+                (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
+        );
+        stage.addActor(dialog);
     }
+
 
     @Override
     public void update() {

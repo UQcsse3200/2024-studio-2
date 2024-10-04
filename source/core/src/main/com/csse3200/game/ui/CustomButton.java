@@ -118,6 +118,7 @@ public class CustomButton extends Stack {
         });
     }
 
+
     /**
      * Updates the button label text.
      *
@@ -137,6 +138,24 @@ public class CustomButton extends Stack {
         button.setSize(width, height);
         label.setSize(width, height);
         this.setSize(width, height);
+    }
+    /**
+     * Resize the button according to the screen's dimensions and a scaling factor.
+     * This allows dynamic resizing based on the screen size.
+     *
+     * @param screenWidth  The current screen width.
+     * @param screenHeight The current screen height.
+     * @param scaleFactor  The scale factor for resizing.
+     */
+    public void resize(float screenWidth, float screenHeight, float scaleFactor) {
+        // Calculate new button size based on the scale factor and screen dimensions
+        float newWidth = screenWidth * scaleFactor;
+        float newHeight = screenHeight * scaleFactor;
+
+        // Update button and label sizes accordingly
+        setButtonSize(newWidth, newHeight);
+
+        logger.info("Button resized to: {}x{}", newWidth, newHeight);
     }
 
     /**
