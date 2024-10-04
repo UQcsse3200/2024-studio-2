@@ -78,6 +78,16 @@ public class MazeNPCFactory {
         return new GreenJellyfish(config);
     }
 
+    /**
+     * Creates the turtle npc
+     *
+     * @return the turtle
+     */
+    public static Turtle createTurtle(Entity carry) {
+        MazeEntityConfig config = configs.turtle;
+        return new Turtle(carry, config);
+    }
+
 
     /**
      * Creates the fish egg npc

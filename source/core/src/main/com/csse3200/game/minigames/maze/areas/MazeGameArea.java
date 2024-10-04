@@ -42,6 +42,7 @@ public class MazeGameArea extends GameArea {
     public static final int NUM_ANGLERS = 1;
     public static final int NUM_OCTOPI = 2;
     public static final int NUM_EELS = 4;
+    public static final int NUM_TURTLES = 4;
     public static final int NUM_JELLYFISH = 20;
     public static final int NUM_EGGS = 16;
 
@@ -84,6 +85,7 @@ public class MazeGameArea extends GameArea {
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
+    private List<Entity> fishEggs;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -94,6 +96,7 @@ public class MazeGameArea extends GameArea {
         super();
         this.terrainFactory = terrainFactory;
         this.enemies = new HashMap<>();
+        this.fishEggs = new ArrayList<>();
     }
 
     /**
@@ -119,6 +122,7 @@ public class MazeGameArea extends GameArea {
         spawnGreenJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
         spawnFishEggs();
+        spawnTurtles();
 
         playMusic();
     }
@@ -294,12 +298,25 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
+     * Spawns the turtle entities
+     */
+    private void spawnTurtles() {
+        assert NUM_TURTLES <= NUM_EGGS;
+        for (int i = 0; i < MazeGameArea.NUM_TURTLES; i++) {
+            Entity fishEgg = fishEggs.get(i);
+            Entity turtle = MazeNPCFactory.createTurtle(fishEgg);
+            spawnEntityAt(turtle, MazeTerrainFactory.worldPosToGridPos(fishEgg.getCenterPosition()), true, true);
+        }
+    }
+
+    /**
      * Spawns in the fish egg npc.
      */
     private void spawnFishEggs() {
         for (int i = 0; i < MazeGameArea.NUM_EGGS; i++) {
             Entity fishEgg = MazeNPCFactory.createFishEgg();
             spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
+            fishEggs.add(fishEgg);
         }
     }
 

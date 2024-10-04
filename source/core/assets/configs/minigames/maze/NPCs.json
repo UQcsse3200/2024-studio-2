@@ -18,6 +18,11 @@
     "health": 100,
     "baseAttack": 15,
     "speed": 1
+  },
+  "turtle": {
+    "health": 100,
+    "baseAttack": 0,
+    "speed": 0.35
   }
 }
 
