@@ -120,7 +120,7 @@ class InventoryTest {
         assertTrue(test2.isFull());
 
         // Check adding a new item now does nothing.
-        assertNotEquals(-1, test2.add(items[3]));
+        assertTrue(test2.add(items[3]) == -1);
         assertFalse(test2.hasItem(items[3].getItemCode()));
 
         // Check deleting then adding an item works
