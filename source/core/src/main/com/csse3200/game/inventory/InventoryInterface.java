@@ -133,9 +133,4 @@ public interface InventoryInterface {
      * Sorts the inventory by item code.
      */
     void sortByCode();
-
-    /**
-     * Sorts the inventory by item name.
-     */
-    void sortByName();
 }
