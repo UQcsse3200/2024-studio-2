@@ -16,6 +16,7 @@ import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.Entity.EnemyType;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.files.FileLoader;
@@ -60,24 +61,6 @@ public class EnemyFactory {
     private static final String WANDER = "wander";
 
     /**
-     * types of enemies
-     */
-    private enum EnemyType {
-        FROG,
-        CHICKEN,
-        MONKEY,
-        BEAR,
-        BEE,
-        EEL,
-        OCTOPUS,
-        PIGEON,
-        BIGSAWFISH,
-        MACAW,
-        JOEY,
-        HIVE;
-    }
-
-    /**
      * Creates a chicken enemy.
      *
      * @param target entity to chase (player in most cases, but does not have to be)
@@ -85,7 +68,7 @@ public class EnemyFactory {
      */
     public static Entity createChicken(Entity target) {
         BaseEnemyEntityConfig config = configs.chicken;
-        Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN, config);
+        Entity chicken = createBaseEnemy(target,EnemyType.CHICKEN, config);
         chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
@@ -416,6 +399,7 @@ public class EnemyFactory {
             case MACAW -> configs.macaw;
             case JOEY -> configs.joey;
             case HIVE -> configs.hive;
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
 
         switch (type) {

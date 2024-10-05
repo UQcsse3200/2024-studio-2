@@ -72,7 +72,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity player
    */
-  public Boolean isPlayer() {
+  public boolean isPlayer() {
     return isPlayer;
   }
 
@@ -81,7 +81,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity dead
    */
-  public Boolean isDead() {
+  public boolean isDead() {
     return health == 0;
   }
 
@@ -90,7 +90,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is player dead
    */
-  public Boolean isBoss() {
+  public boolean isBoss() {
     return this.isBoss;
   }
 
