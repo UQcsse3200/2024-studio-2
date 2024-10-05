@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.gamearea.MapTabComponent;
 import com.csse3200.game.components.maingame.TimeDisplay;
 import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
@@ -92,15 +93,12 @@ public class MainGameScreen extends PausableScreen {
    */
   private GameArea gameArea;
 
-  // Map tab variables
-  private Texture mapTexture;
-  private boolean isMapVisible = false;
-  private SpriteBatch batch;
-  private Texture playerLocationTexture;
-  private Texture landmarkIconTexture;
-  private List<Vector2> landmarks;
-  private Texture xButtonTexture;
-  private Rectangle xButtonBounds;
+
+ /**
+  * Added this field to manage the map component.
+  */
+  private MapTabComponent mapTab;
+
   /**
    * Constructs a MainGameScreen instance.
    * 
@@ -127,16 +125,6 @@ public class MainGameScreen extends PausableScreen {
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-    // Load the map texture and initialise
-    mapTexture = new Texture(Gdx.files.internal("map/MAP.png"));
-    playerLocationTexture = new Texture(Gdx.files.internal("map/Lion_Icon.png"));
-    landmarkIconTexture = new Texture(Gdx.files.internal("map/landmark_icon.png"));
-    batch = new SpriteBatch();
-    preloadLandmarks();
-    // Load the 'X' button texture and set up the bounds
-    xButtonTexture = new Texture(Gdx.files.internal("map/x_button.jpg"));
-    xButtonBounds = new Rectangle(Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50, 40, 40);
-
     lightingEngine = new LightingEngine(physicsEngine.getWorld(),
             renderer.getCamera().getCamera());
 
@@ -158,15 +146,6 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerDialogueBoxService(new DialogueBoxService(stage));
   }
 
-    /**
-     * Preloads important landmarks with their coordinates.
-     */
-  private void preloadLandmarks() {
-    landmarks = new ArrayList<>();
-    landmarks.add(new Vector2(500, 800));  // Example
-    // ADD MORE
-  }
-
   /**
    * Sets the beginning map of the game.
    * 
@@ -182,80 +161,22 @@ public class MainGameScreen extends PausableScreen {
    */
   @Override
   public void render(float delta) {
-      // Check if 'M' key is pressed to toggle map visibility
-      if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-          isMapVisible = !isMapVisible;
-
-          // Pause the game logic without triggering the full game pause when the map is opened
-          if (isMapVisible) {
-              isPaused = true;  // Pause game logic but don't call GdxGame.pause()
-          } else {
-              isPaused = false; // Resume game logic
-          }
-      }
-
-      // Check if the 'X' button is clicked while the map is visible
-      if (isMapVisible && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-          float mouseX = Gdx.input.getX();
-          float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-          // If the X button is clicked, close the map and resume the game
-          if (xButtonBounds.contains(mouseX, mouseY)) {
-              isMapVisible = false;  // Close the map
-              isPaused = false;      // Resume game logic
-          }
-      }
-
       if (!isPaused){
           physicsEngine.update();
           ServiceLocator.getEntityService().update();
           dayNightCycle.update();
           renderer.render();
       }
-      // If map is visible, draw the map
-      if (isMapVisible) {
-          drawMap();
-      }
-  }
 
-  /**
-   * Draws the map on the screen when visible.
-   */
-  private void drawMap() {
-      batch.begin();
-      // Draw the map
-      batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-      // Get player position
-      Vector2 playerWorldPosition = gameArea.getPlayer().getPosition();
-
-      // Convert the player's game position to the map coordinates
-      Vector2 playerMapPosition = convertGamePositionToMap(playerWorldPosition);
-
-      // Draw the player location icon
-      batch.draw(playerLocationTexture, playerMapPosition.x, playerMapPosition.y, 32, 32);
-
-      // Draw all landmarks on the map, ADD LANDMARKS TO LIST !!!
-      for (Vector2 landmarkPosition : landmarks) {
-          Vector2 mapPos = convertGamePositionToMap(landmarkPosition);
-          batch.draw(landmarkIconTexture, mapPos.x, mapPos.y, 32, 32);
+      // Render the map if visible.
+      if (mapTab != null && mapTab.isMapVisible) {
+          mapTab.drawMap();
       }
 
-      batch.draw(xButtonTexture, Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50, 40, 40);
-      batch.end();
   }
 
-    /**
-     * Converts the player's position in the game world to the map's coordinate system.
-     */
-    private Vector2 convertGamePositionToMap(Vector2 gamePosition) {
-        // ASSUMING GAME WORLD IS 5000x5000 AND MAP IS 1024*1024
-        float scaleX = Gdx.graphics.getWidth() / 5000f;
-        float scaleY = Gdx.graphics.getHeight() / 5000f;
 
-        // Convert the player's position in the game world to the corresponding position on the map
-        return new Vector2(gamePosition.x * scaleX, gamePosition.y * scaleY);
-    }
   
   /**
    * Resizes the renderer to fit dimensions.
@@ -300,11 +221,6 @@ public class MainGameScreen extends PausableScreen {
       logger.debug("Disposing main game screen");
       
       renderer.dispose();
-      batch.dispose();
-      mapTexture.dispose();
-      playerLocationTexture.dispose();
-      landmarkIconTexture.dispose();
-      xButtonTexture.dispose();
       unloadAssets();
       
       ServiceLocator.getEntityService().dispose();
@@ -345,7 +261,10 @@ public class MainGameScreen extends PausableScreen {
       
       Entity ui = new Entity();
       
-      Component mainGameActions = new MainGameActions(this.game);
+      Component mainGameActions = new MainGameActions(this.game); // Initialise map tab component.
+
+      mapTab = new MapTabComponent(gameArea);
+
       ui.addComponent(new InputDecorator(stage, 10))
               .addComponent(new PerformanceDisplay())
               .addComponent(mainGameActions)
@@ -354,8 +273,8 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
               .addComponent(new MiniMapDisplay(gameArea))
-              .addComponent(new TimeDisplay());
-      
+              .addComponent(new TimeDisplay())
+              .addComponent(mapTab);
       ServiceLocator.getEntityService().register(ui);
   }
   
