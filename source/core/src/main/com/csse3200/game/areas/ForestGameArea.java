@@ -21,7 +21,6 @@ import com.csse3200.game.areas.ForestGameAreaConfigs.ForestGameAreaConfig;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.areas.terrain.TerrainLoader;
-import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.components.ProximityComponent;
 import com.csse3200.game.components.gamearea.GameAreaDisplay;
 import com.csse3200.game.components.inventory.InventoryComponent;
@@ -47,19 +46,18 @@ import com.csse3200.game.utils.math.RandomUtils;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
-  // INFO: The Map is equally divied into three areaas. Each area is 160x48 tiles wide.
-  //
+
+  // INFO: The Map is equally divided into three areas. Each area is 160x48 tiles wide.
   private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
   public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);
-  private static final GridPoint2 KANGAROO_BOSS_SPAWN = new GridPoint2(25, 10);
-  private static final float WALL_WIDTH = 0.1f;
+  private static final float WALL_LENGTH = 0.1f;
+  private static final String UNLOCK_AREA_EVENT = "unlockArea";
   private final TerrainFactory terrainFactory;
-  private final ArrayList<Entity> area1To2 = new ArrayList<Entity>();
-  private final ArrayList<Entity> area2To3 = new ArrayList<Entity>();
+  private final ArrayList<Entity> area1To2 = new ArrayList<>();
+  private final ArrayList<Entity> area2To3 = new ArrayList<>();
   
   private final List<Entity> enemies;
-  // private final List<Entity> staticItems;
   private final Map<Integer, Entity> dynamicItems = new HashMap<>();
   private int totalItems = 0;
   private Entity player;
@@ -73,9 +71,9 @@ public class ForestGameArea extends GameArea {
 
   /**
    * Initialise this ForestGameArea to use the provided TerrainFactory.
+   * Precondition: terrainFactory is not null
    * @param terrainFactory TerrainFactory used to create the terrain for the GameArea.
    * @param game GdxGame needed for creating the player
-   * @requires terrainFactory != null
    */
   public ForestGameArea(TerrainFactory terrainFactory, GdxGame game) {
     super();
@@ -110,8 +108,8 @@ public class ForestGameArea extends GameArea {
 
       // spawn area barriers
       spawnWorldBarrier();
-      spawnFirstBerrier();
-      spawnSecondBerrier();
+      spawnFirstBarrier();
+      spawnSecondBarrier();
 
       //Enemies
       spawnEnemies();
@@ -132,7 +130,7 @@ public class ForestGameArea extends GameArea {
       airBossSpawned = false;
 
       player.getEvents().addListener("dropItems", this::spawnEntityNearPlayer);
-      player.getEvents().addListener("unlockArea", this::unlockArea);
+      player.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
 
       //Initialise inventory and quests with loaded data
       player.getComponent(InventoryComponent.class).loadInventoryFromSave();
@@ -140,16 +138,8 @@ public class ForestGameArea extends GameArea {
       player.getComponent(QuestManager.class).loadQuests();
   }
 
-//  /**
-//   * Unlock an area of the map
-//   */
-//  @Override
-//  public void unlockArea(String area) {
-//    terrain.getMap().getLayers().get(area).setVisible(false);
-//  }
-
   /**
-   * Spwan the world barrier
+   * Spawn the world barrier
    */
   private void spawnWorldBarrier() {
     float tileSize = terrain.getTileSize();
@@ -158,25 +148,25 @@ public class ForestGameArea extends GameArea {
 
      // Left
      spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+         ObstacleFactory.createWall(WALL_LENGTH, worldBounds.y),
          GridPoint2Utils.ZERO,
          false,
          false);
      // Right
      spawnEntityAt(
-         ObstacleFactory.createWall(WALL_WIDTH, worldBounds.y),
+         ObstacleFactory.createWall(WALL_LENGTH, worldBounds.y),
          new GridPoint2(tileBounds.x, 0),
          false,
          false);
      // Top
      spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+         ObstacleFactory.createWall(worldBounds.x, WALL_LENGTH),
          new GridPoint2(0, tileBounds.y),
          false,
          false);
      // Bottom
      spawnEntityAt(
-         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH),
+         ObstacleFactory.createWall(worldBounds.x, WALL_LENGTH),
          GridPoint2Utils.ZERO,
          false,
          false);
@@ -185,22 +175,22 @@ public class ForestGameArea extends GameArea {
   /**
    * Spawns the first barrier
    */
-  private void spawnFirstBerrier() {
+  private void spawnFirstBarrier() {
     float tileSize = terrain.getTileSize();
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
-    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 , WALL_WIDTH);
+    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
+    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 , WALL_LENGTH);
     spawnEntityAt(
         leftWall,
-        new GridPoint2(0, (int)(MAP_SIZE.y / 3)),
+        new GridPoint2(0, MAP_SIZE.y / 3),
         false,
         false);
 
     spawnEntityAt(
         rightWall,
-        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3)),
+        new GridPoint2((int)(worldBounds.x / 2), MAP_SIZE.y / 3),
         false,
         false);
     area1To2.add(leftWall);
@@ -210,22 +200,22 @@ public class ForestGameArea extends GameArea {
   /**
    * Spawns the second barrier
    */
-  private void spawnSecondBerrier() {
+  private void spawnSecondBarrier() {
     float tileSize = terrain.getTileSize();
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_WIDTH);
-    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_WIDTH);
+    Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
+    Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_LENGTH);
     spawnEntityAt(
         leftWall,
-        new GridPoint2(0, (int)(MAP_SIZE.y / 3 * 2)),
+        new GridPoint2(0, MAP_SIZE.y / 3 * 2),
         false,
         false);
 
     spawnEntityAt(
         rightWall,
-        new GridPoint2((int)(worldBounds.x / 2), (int)(MAP_SIZE.y / 3 * 2)),
+        new GridPoint2((int)(worldBounds.x / 2), MAP_SIZE.y / 3 * 2),
         false,
         false);
   }
@@ -234,21 +224,16 @@ public class ForestGameArea extends GameArea {
     if (TerrainLoader.movedChunk(playerPos)) {
       logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
       handleItems();
-//     TerrainComponent.loadChunks(playerPos);
-//     handleItems(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleFriendlies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleEnemies(TerrainComponent.newChunks, TerrainComponent.oldChunks);
-//     handleMisc(TerrainComponent.newChunks, TerrainComponent.oldChunks);
     }
   }
 
   private void handleItems() {
-    // Spawn items on new chunks: TODO: ADD THIS TO A LIST OF DYNAMIC ENTITIES IN SPAWNER!
+    // Spawn items on new chunks
     for (GridPoint2 pos : terrain.getNewChunks()) {
       spawnItems(TerrainLoader.chunktoWorldPos(pos));
     }
 
-    // TODO: Despawn items on old chunks:
+    // TODO: De-spawn items on old chunks:
     List<Integer> removals = new ArrayList<>();
     for (int key : dynamicItems.keySet()) {
       GridPoint2 chunkPos = TerrainLoader.posToChunk(dynamicItems.get(key).getPosition());
@@ -291,9 +276,9 @@ public class ForestGameArea extends GameArea {
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     Entity terrain = new Entity().addComponent(this.terrain);
 
-    terrain.getEvents().addListener("unlockArea", this::unlockArea);
+    terrain.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
 
-    terrain.getEvents().trigger("unlockArea", "water");
+    terrain.getEvents().trigger(UNLOCK_AREA_EVENT, "water");
     spawnEntity(terrain);
   }
 
@@ -401,7 +386,6 @@ public class ForestGameArea extends GameArea {
 /**
  * Spawns an entity near the player within a specified radius, ensuring the entity
  * is placed within the correct chunk boundaries and loaded areas of the game map.
- *
  * This function calculates a valid spawn position near the player's current location,
  * considering the player's world position and current chunk. It ensures that the entity
  * is spawned within the boundaries of the current chunk to avoid positioning the entity
@@ -577,7 +561,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 		}
 		
 		Vector2 pos = calculateSpawnPosition(defeatedEnemy);
-		Entity convertedNPC = null;
+		Entity convertedNPC; // defaults to null
 		
 		switch (defeatedEnemy.getEnemyType()) {
 			case CHICKEN:
@@ -648,10 +632,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         }
     }
     public void playMusic() {
-//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
-//    music.setLooping(true);
-//    music.setVolume(0.5f);
-//    music.play();
     // Get the selected music track from the user settings
     UserSettings.Settings settings = UserSettings.get();
     String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
@@ -664,8 +644,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     }
   }
   public void pauseMusic() {
-//    Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
-//    music.pause();
         AudioManager.stopMusic();  // Stop the music
     }
 
@@ -697,20 +675,15 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     }
 
     private void spawnProjectile(Entity enemy, Entity.EnemyType name)  {
-        Entity projectile;
-        switch (name) {
-            case MONKEY:
-                projectile = ProjectileFactory.createBanana(player);
-                break;
-            case EEL:
-                projectile = ProjectileFactory.createElectricOrb(player);
-                break;
-            case MACAW:
-                projectile = ProjectileFactory.createWorm(player);
-                break;
-            default:
-                projectile = ProjectileFactory.createBanana(player);
-        }
+        Entity projectile = switch (name) {
+            case MONKEY -> ProjectileFactory.createBanana(player);
+            case EEL -> ProjectileFactory.createElectricOrb(player);
+            case MACAW -> ProjectileFactory.createWorm(player);
+            default -> {
+                logger.warn("Attempting to add a projectile to an Entity that may not support it");
+                yield ProjectileFactory.createBanana(player);
+            }
+        };
 
         // Calculate bananaX and bananaY based on target's relative position
         float bananaX = (enemy.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
@@ -729,7 +702,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         for (int i = 0; i < numHives; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-            Entity enemy = ProjectileFactory.createHive(player);
+            Entity enemy = creator.get();
             spawnEntityAt(enemy, randomPos, true, false);
             enemies.add(enemy);
             enemy.addComponent(new ProximityComponent(player, proximityRange));
@@ -742,11 +715,11 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         enemies.add(bee);
     }
 
-    private void spawnJoeyEnemy(Entity kanga) {
-        if (kanga != null) {
+    private void spawnJoeyEnemy(Entity kangaroo) {
+        if (kangaroo != null) {
             Entity joey = EnemyFactory.createJoey(player);
 
-            Vector2 kangarooBossPos = kanga.getPosition();
+            Vector2 kangarooBossPos = kangaroo.getPosition();
 
             // Define the area around the Kangaroo boss where the Joey can be spawned
             GridPoint2 minPos = new GridPoint2((int) kangarooBossPos.x - 2, (int) kangarooBossPos.y - 2);
@@ -808,7 +781,6 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         logger.debug("LOADING ASSETS");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
-        //resourceService.loadMusic(forestMusic);
 
         resourceService.loadTextures(config.textures.forestTextures);
         resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
