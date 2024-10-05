@@ -55,28 +55,11 @@ public abstract class TimedUseItem extends ConsumableItem {
     public GameTime getGameTime() {return this.gameTime;}
 
     /**
-     * Checks if the duration of potion usage is expired
-     * @param context the ItemUsageContext
-     * @return true if it is expired
-     */
-    public boolean isExpired(ItemUsageContext context) {
-        return (this.gameTime.getTime() - this.effectStartTime >= this.getDuration());
-    }
-
-    /**
      * Return warning message for potions that cant be used in certain environment
      * @return  warning message
      */
     public String getWarning() {
         return this.warn;
-    }
-
-    /**
-     * returns the effect amount value
-      * @return effectAmount - the amount added to the stats
-     */
-    public int getEffectAmount() {
-        return this.effectAmount;
     }
 
     /**
