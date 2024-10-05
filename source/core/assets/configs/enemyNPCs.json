@@ -27,7 +27,7 @@
     "isEnemy": 1
   },
   "bear": {
-    "spritePath": "images/bear.atlas",
+    "spritePath": "images/enemy-bear.atlas",
     "health": 15,
     "baseAttack": 10,
     "defense": 15,
@@ -95,6 +95,7 @@
     "baseAttack": 50,
     "defense": 50,
     "speed": 25,
+    "experience": 50,
     "isEnemy": 1
   },
   "joey": {

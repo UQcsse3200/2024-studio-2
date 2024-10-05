@@ -15,6 +15,7 @@ public class NPCConfigs {
   public BaseFriendlyEntityConfig friendlyChicken = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig friendlyFrog = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig friendlyMonkey = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyBear = new BaseFriendlyEntityConfig();
   public BaseEnemyEntityConfig chicken = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig frog = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig monkey = new BaseEnemyEntityConfig();

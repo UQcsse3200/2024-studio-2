@@ -5,87 +5,15 @@ filter: Nearest,Nearest
 repeat: none
 default
   rotate: false
-  xy: 86, 49
+  xy: 0, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 0
 walk
   rotate: false
-  xy: 102, 49
+  xy: 16, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
-walk
-  rotate: false
-  xy: 118, 49
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 2
-walk
-  rotate: false
-  xy: 134, 49
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 3
-spawn
-  rotate: false
-  xy: 87, 65
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 0
-spawn
-  rotate: false
-  xy: 102, 65
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 1
-spawn
-  rotate: false
-  xy: 118, 65
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 2
-spawn
-  rotate: false
-  xy: 134, 65
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: 3
-alert
-  rotate: false
-  xy: 86,81
-  size:16,25
-  orig:16,16
-  offset:0,0
-  index:0
-alert
-  rotate: false
-  xy: 102,90
-  size:16,16
-  orig:16,16
-  offset:0,0
-  index:1
-alert
-  rotate: false
-  xy: 118,81
-  size:16,25
-  orig:16,16
-  offset:0,0
-  index:2
-alert
-  rotate: false
-  xy: 134,90
-  size:16,16
-  orig:16,16
-  offset:0,0
-  index:3
-
-

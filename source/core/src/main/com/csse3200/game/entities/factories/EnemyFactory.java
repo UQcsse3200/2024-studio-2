@@ -59,7 +59,7 @@ public class EnemyFactory {
     );
     private static final String SPAWN = "spawn";
     private static final String FLOAT = "float";
-    
+
     /**
      * types of enemies
      */
@@ -77,7 +77,7 @@ public class EnemyFactory {
         JOEY,
         HIVE;
     }
-    
+
     /**
      * Creates a chicken enemy.
      *
@@ -88,24 +88,24 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.chicken;
         Entity chicken = createBaseEnemy(target, EnemyType.CHICKEN, config);
         chicken.setEnemyType(Entity.EnemyType.CHICKEN);
-        
+
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        
+
         AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-        
+
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         animator.addAnimation("walk", 0.25f, Animation.PlayMode.LOOP);
-        
-        
+
+
         chicken
                 .addComponent(animator)
                 .addComponent(new ChickenAnimationController());
-        
+
         chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
-        
+
         return chicken;
     }
-    
+
     /**
      * Creates a bear enemy.
      *
@@ -116,22 +116,22 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.bear;
         Entity bear = createBaseEnemy(target, EnemyType.BEAR, config);
         bear.setEnemyType(Entity.EnemyType.BEAR);
-        
+
         TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        
+
         AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
-        
+
         animator.addAnimation("chase", 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
-        
+
         bear
                 .addComponent(animator)
                 .addComponent(new BearAnimationController());
-        
-        
+
+
         bear.setScale(2f,1.38f);
-        
+
         return bear;
     }
 
@@ -247,7 +247,7 @@ public class EnemyFactory {
 
         return bee;
     }
-    
+
     /**
      * Creates a pigeon enemy.
      *
@@ -258,23 +258,23 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.pigeon;
         Entity pigeon = createBaseEnemy(target, EnemyType.PIGEON, config);
         pigeon.setEnemyType(Entity.EnemyType.PIGEON);
-        
+
         TextureAtlas pigeonAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-        
+
         AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
-        
+
         animator.addAnimation(FLOAT, 0.06f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
-        
+
         pigeon
                 .addComponent(animator)
                 .addComponent(new PigeonAnimationController());
-        
+
         pigeon.setScale(0.842f,0.55f);
-        
+
         return pigeon;
     }
-    
+
     /**
      * Creates a frog enemy.
      *
@@ -285,19 +285,19 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.frog;
         Entity frog = createBaseEnemy(target, EnemyType.FROG, config);
         frog.setEnemyType(Entity.EnemyType.FROG);
-        
+
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
         animator.addAnimation("jump", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
-        
+
         frog
                 .addComponent(animator)
                 .addComponent(new FrogAnimationController());
-        
+
         frog.getComponent(AnimationRenderComponent.class).scaleEntity();
-        
+
         return frog;
     }
 
@@ -329,7 +329,7 @@ public class EnemyFactory {
 
         return eel;
     }
-    
+
     /**
      * Creates a monkey enemy.
      *
@@ -340,7 +340,7 @@ public class EnemyFactory {
         BaseEnemyEntityConfig config = configs.monkey;
         Entity monkey = createBaseEnemy(target, EnemyType.MONKEY, config);
         monkey.setEnemyType(Entity.EnemyType.MONKEY);
-        
+
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
@@ -353,13 +353,13 @@ public class EnemyFactory {
         animator.addAnimation("run_left_up", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
-        
+
         monkey
                 .addComponent(animator)
                 .addComponent(new MonkeyAnimationController());
-        
+
         monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
-        
+
         return monkey;
     }
 
@@ -403,7 +403,7 @@ public class EnemyFactory {
      */
     private static Entity createBaseEnemy(Entity target, EnemyType type, BaseEnemyEntityConfig config) {
         AITaskComponent aiComponent = new AITaskComponent();
-        
+
         BaseEnemyEntityConfig configStats = switch (type) { // assign config variable depending on enemy to inherit speed stat
             case FROG -> configs.frog;
             case CHICKEN -> configs.chicken;
@@ -418,7 +418,7 @@ public class EnemyFactory {
             case JOEY -> configs.joey;
             case HIVE -> configs.hive;
         };
-        
+
         switch (type) {
             case EnemyType.MONKEY -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
@@ -455,7 +455,7 @@ public class EnemyFactory {
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
         }
-        
+
         Entity npc =
                 new Entity()
                         .addComponent(new PhysicsComponent())

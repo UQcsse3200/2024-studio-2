@@ -7,8 +7,12 @@ import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.input.InputFactory;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.physics.PhysicsEngine;
+import com.csse3200.game.physics.PhysicsService;
+import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.csse3200.game.extensions.GameExtension;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 @ExtendWith(GameExtension.class)
 class ForestGameAreaTest {
@@ -31,6 +42,12 @@ class ForestGameAreaTest {
     void setUp() {
         terrainFactory = mock(TerrainFactory.class);
         game = mock(GdxGame.class);
+
+        PhysicsService physicsService = mock(PhysicsService.class);
+        ServiceLocator.registerPhysicsService(physicsService);
+
+        RenderService renderService = mock(RenderService.class);
+        ServiceLocator.registerRenderService(renderService);
 
         // Register a mocked EntityService in ServiceLocator
         EntityService entityService = mock(EntityService.class);
@@ -108,4 +125,23 @@ class ForestGameAreaTest {
 //        // Ensure that the player entity was registered with the entity service
 //        verify(entityService, times(1)).register(any(Entity.class));
 //    }
+
+    @Test
+    void testSpawnConvertedNPCWithNullEntity() {
+        Entity defeatedEntity = null;
+        forestGameArea.spawnConvertedNPCs(defeatedEntity);
+        verify(ServiceLocator.getEntityService(), never()).register(any(Entity.class));
+
+    }
+
+    @Test
+    void testSpawnConvertedNPCWithNullEnemyType() {
+        Entity defeatedEntity = mock(Entity.class);
+        when(defeatedEntity.getEnemyType()).thenReturn(null);
+        forestGameArea.spawnConvertedNPCs(defeatedEntity);
+        verify(ServiceLocator.getEntityService(), never()).register(any(Entity.class));
+        verify(defeatedEntity, never()).getPosition();
+    }
+
+
 }

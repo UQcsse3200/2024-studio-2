@@ -4,9 +4,9 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
-import com.csse3200.game.inventory.items.potions.SpeedPotion;
 import com.csse3200.game.services.ServiceLocator;
 
 import java.util.ArrayList;
@@ -60,14 +60,14 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
     protected void enterSlot(AbstractItem item) {
         if (item instanceof DefensePotion) {
             String[][] itemText = {{((DefensePotion) item).getWarning()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText);
+            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
         } else if (item instanceof AttackPotion) {
             String[][] itemText = {{((AttackPotion) item).getWarning()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText);
+            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
         } else {
             String[][] itemText = {{item.getDescription() + ". Quantity: "
                     + item.getQuantity() + "/" + item.getLimit()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText);
+            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
         }
     }
 
@@ -95,8 +95,6 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
             logger.warn("Cannot use combat items outside of combat.");
             return;
         }
-        // Otherwise, allow item use
-        inventory.useItemAt(index, context);
-        entity.getEvents().trigger("itemUsed", item);
+        super.consumeItem(item, context, index);
     }
 }

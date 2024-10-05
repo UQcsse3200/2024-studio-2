@@ -9,8 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.areas.CombatArea;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
@@ -33,6 +35,7 @@ public class CombatButtonDisplay extends UIComponent {
     TextButton SleepButton;
     TextButton ItemsButton;
     ChangeListener dialogueBoxListener;
+    CombatArea combatArea;
     // Create a Table to hold the hover text with a background
     private Table hoverTextTable;
     private Label hoverTextLabel;
@@ -47,9 +50,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen    The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public CombatButtonDisplay(Screen screen, ServiceContainer container) {
+    public CombatButtonDisplay(Screen screen, ServiceContainer container, CombatArea combatArea) {
         this.screen = screen;
         this.container = container;
+        this.combatArea = combatArea;
     }
 
     @Override
@@ -62,13 +66,29 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
+
+        // Start idle animations
+        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
+
         // Add a listener to the stage to monitor the DialogueBox visibility
+        dialogueBoxListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    addActors();
+                }
+            }
+        };
+        entity.getEvents().addListener("endOfBossCombatDialogue", this::displayBossEndCombatDialogue);
         dialogueBoxListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.debug("DialogueBox is no longer visible, adding actors back.");
                     addActors();
+                    // Resume idle animations
+                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
                 }
             }
         };
@@ -140,6 +160,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Attack", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         AttackButton.addListener(new InputListener() {
@@ -162,6 +183,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Guard", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         GuardButton.addListener(new InputListener() {
@@ -184,6 +206,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Sleep", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
         SleepButton.addListener(new InputListener() {
@@ -204,6 +227,7 @@ public class CombatButtonDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                         hideButtons();
                     }
                 });
@@ -247,6 +271,9 @@ public class CombatButtonDisplay extends UIComponent {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
         ChangeListener endDialogueListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -266,7 +293,46 @@ public class CombatButtonDisplay extends UIComponent {
             endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
                     "before battling again."}};
         }
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
+    }
+
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * with the land Kangaroo Boss
+     * @param bossEntity Entity of the boss enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
+    public void displayBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
+        String[][] endText;
+        stage.removeListener(dialogueBoxListener);
+
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    if (!winStatus) {
+                        logger.info("Switching screens to gamer over lose after losing to boss.");
+                        entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else {
+                        logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                        entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                    }
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+
+        // Get dialogue from DialogueData class
+        BossCombatDialogueData dialogueData = new BossCombatDialogueData();
+        endText = dialogueData.getDialogue(bossEntity.getEnemyType().toString(), winStatus);
+
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
 
     /**
@@ -278,7 +344,7 @@ public class CombatButtonDisplay extends UIComponent {
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
         logger.debug(String.format("Item %s was clicked.", item.getName()));
         String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
-        ServiceLocator.getDialogueBoxService().updateText(checkText);
+        ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
 
         entity.getEvents().trigger("toggleCombatInventory");
         entity.getEvents().trigger("itemConfirmed", item, index, context);
