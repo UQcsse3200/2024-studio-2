@@ -22,22 +22,22 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class for displaying an inventory. Subclasses can extend this to implement specific types of inventory
- * displays, such as player inventories, with additional features (e.g., hotbar, drag-and-drop).
+ * displays, such as player inventories, with additional features (e.g., hotBar, drag-and-drop).
  */
 public abstract class InventoryDisplay extends UIComponent {
     protected static final Logger logger = LoggerFactory.getLogger(InventoryDisplay.class);
     private static final float Z_INDEX = 3f;
 
     protected final Inventory inventory;
-    private Window inventoryDisplay;
+    private Window mainInventoryDisplay;
     private Table hotBarDisplay;
     private DragAndDrop dragAndDrop;
+    private boolean toggle = false;
 
     private final boolean hasHotBar;
     protected final int numCols;
     protected final int numRows;
     private final int hotBarCapacity;
-    private boolean toggle = false; // Whether inventory is toggled on;
     private final ImageButton[] slots; // Each slot corresponding to a position in the inventory
 
     // Skins (created by @PratulW5):
@@ -53,7 +53,7 @@ public abstract class InventoryDisplay extends UIComponent {
      * @param numCols  The number of columns in the inventory display.
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public InventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity,
+    protected InventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity,
                             boolean displayHotBar) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
@@ -103,17 +103,17 @@ public abstract class InventoryDisplay extends UIComponent {
         }
 
         // Initialise the inventory window (pop-up)
-        inventoryDisplay = new Window("Inventory", inventorySkin);
-        Label.LabelStyle titleStyle = new Label.LabelStyle(inventoryDisplay.getTitleLabel().getStyle());
+        mainInventoryDisplay = new Window("Inventory", inventorySkin);
+        Label.LabelStyle titleStyle = new Label.LabelStyle(mainInventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
-        inventoryDisplay.getTitleLabel().setAlignment(Align.center);
-        inventoryDisplay.getTitleTable().padTop(150).padBottom(10);
+        mainInventoryDisplay.getTitleLabel().setAlignment(Align.center);
+        mainInventoryDisplay.getTitleTable().padTop(150).padBottom(10);
 
         // Create the table for inventory slots
-        inventoryDisplay.getTitleLabel().setStyle(titleStyle);
+        mainInventoryDisplay.getTitleLabel().setStyle(titleStyle);
 
-        stage.addActor(inventoryDisplay);
-        inventoryDisplay.setVisible(false); // Not displayed to start with
+        stage.addActor(mainInventoryDisplay);
+        mainInventoryDisplay.setVisible(false); // Not displayed to start with
     }
 
     public abstract String toggleMsg(); // The event to listen for to toggle the display
@@ -143,7 +143,7 @@ public abstract class InventoryDisplay extends UIComponent {
         toggle = !toggle;
         String msg = "Inventory toggled " + (toggle ? "on." : "off.");
         logger.debug(msg);
-        inventoryDisplay.setVisible(toggle);
+        mainInventoryDisplay.setVisible(toggle);
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class InventoryDisplay extends UIComponent {
      * Generates the inventory window and populates it with inventory slots.
      */
     private void generateInventory() {
-        inventoryDisplay.clearChildren();
+        mainInventoryDisplay.clearChildren();
 
         // Iterate over the inventory and add slots
         Table table = new Table();
@@ -226,13 +226,13 @@ public abstract class InventoryDisplay extends UIComponent {
         table.add(sortButton);
 
         // Add the table to the window
-        inventoryDisplay.add(table).expand().fill();
-        inventoryDisplay.pack();
+        mainInventoryDisplay.add(table).expand().fill();
+        mainInventoryDisplay.pack();
 
         // Set position in stage top-center
-        inventoryDisplay.setPosition(
-                (stage.getWidth() - inventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
-                (stage.getHeight() - inventoryDisplay.getHeight()) / 2 // Center vertically
+        mainInventoryDisplay.setPosition(
+                (stage.getWidth() - mainInventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
+                (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
 
@@ -358,9 +358,9 @@ public abstract class InventoryDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        if (inventoryDisplay != null) {
-            InventoryUtils.disposeGroupRecursively(inventoryDisplay);
-            inventoryDisplay =null;
+        if (mainInventoryDisplay != null) {
+            InventoryUtils.disposeGroupRecursively(mainInventoryDisplay);
+            mainInventoryDisplay =null;
         }
         if (hotBarDisplay != null) { // hotBarDisplay is null if hasHotBar is false
             InventoryUtils.disposeGroupRecursively(hotBarDisplay);
