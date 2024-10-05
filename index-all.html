@@ -439,8 +439,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseEntityConfig.html#animationSpeed" class="member-name-link">animationSpeed</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#animationSpeed" class="member-name-link">animationSpeed</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/terminal/Terminal.html#appendToMessage(char)" class="member-name-link">appendToMessage(char)</a> - Method in class com.csse3200.game.ui.terminal.<a href="com/csse3200/game/ui/terminal/Terminal.html" title="class in com.csse3200.game.ui.terminal">Terminal</a></dt>
 <dd>
 <div class="block">Appends the character to the end of the entered message.</div>
@@ -1668,7 +1666,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a bear enemy.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createBear(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createBear(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a Bear NPC and configures its behavior based on the provided target and enemies.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createBearCombatEnemy()" class="member-name-link">createBearCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates bear enemy as NPC entity for static combat</div>
@@ -1724,7 +1724,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a chicken enemy.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createChicken(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createChicken(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a Chicken NPC and configures its behavior based on the provided target and enemies.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createChickenCombatEnemy()" class="member-name-link">createChickenCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates chicken enemy as entity for combat display</div>
@@ -1769,7 +1771,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createCow(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createCow(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Cow NPC.</div>
+<div class="block">Creates a Cow NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Cow NPC.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html#createDefensePotion(com.csse3200.game.entities.Entity)" class="member-name-link">createDefensePotion(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ItemFactory.html" title="class in com.csse3200.game.entities.factories">ItemFactory</a></dt>
 <dd>
@@ -1791,7 +1794,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createEagle(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createEagle(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates an Eagle NPC.</div>
+<div class="block">Creates an Eagle NPC and configures its behavior based on the provided target and enemies.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/EnemyFactory.html#createEel(com.csse3200.game.entities.Entity)" class="member-name-link">createEel(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/EnemyFactory.html" title="class in com.csse3200.game.entities.factories">EnemyFactory</a></dt>
 <dd>
@@ -1815,7 +1818,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createFish(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createFish(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Fish NPC.</div>
+<div class="block">Creates a Fish NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Fish NPC.</div>
 </dd>
 <dt><a href="com/csse3200/game/minigames/maze/entities/factories/MazeNPCFactory.html#createFishEgg()" class="member-name-link">createFishEgg()</a> - Static method in class com.csse3200.game.minigames.maze.entities.factories.<a href="com/csse3200/game/minigames/maze/entities/factories/MazeNPCFactory.html" title="class in com.csse3200.game.minigames.maze.entities.factories">MazeNPCFactory</a></dt>
 <dd>
@@ -1874,7 +1878,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a frog enemy.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createFrog(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createFrog(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a Frog NPC and configures its behavior based on the provided target and enemies.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createFrogCombatEnemy()" class="member-name-link">createFrogCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates frog enemy as NPC entity for static combat</div>
@@ -1933,7 +1939,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createLion(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createLion(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Lion NPC.</div>
+<div class="block">Creates a Lion NPC and configures its behavior based on the provided target and enemies.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/LootBoxFactory.html#createLootBox(java.lang.String,com.csse3200.game.entities.Entity)" class="member-name-link">createLootBox(String, Entity)</a> - Method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/LootBoxFactory.html" title="class in com.csse3200.game.entities.factories">LootBoxFactory</a></dt>
 <dd>
@@ -1953,7 +1959,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createMagpie(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMagpie(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Magpie NPC.</div>
+<div class="block">Creates a Magpie NPC and configures its behavior based on the provided target and enemies.</div>
 </dd>
 <dt><a href="com/csse3200/game/minigames/maze/entities/factories/MazeObstacleFactory.html#createMazeWall(float,float)" class="member-name-link">createMazeWall(float, float)</a> - Static method in class com.csse3200.game.minigames.maze.entities.factories.<a href="com/csse3200/game/minigames/maze/entities/factories/MazeObstacleFactory.html" title="class in com.csse3200.game.minigames.maze.entities.factories">MazeObstacleFactory</a></dt>
 <dd>
@@ -1966,7 +1972,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a monkey enemy.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createMonkey(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMonkey(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a Monkey NPC and configures its behavior based on the provided target and enemies.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html#createMonkeyCombatEnemy()" class="member-name-link">createMonkeyCombatEnemy()</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/CombatAnimalFactory.html" title="class in com.csse3200.game.entities.factories">CombatAnimalFactory</a></dt>
 <dd>
 <div class="block">Creates monkey enemy as NPC entity for static combat</div>
@@ -2037,7 +2045,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createSnake(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createSnake(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Snake NPC.</div>
+<div class="block">Creates a Snake NPC and configures its behavior based on the provided target and enemies.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/ItemFactory.html#createSpeedPotion(com.csse3200.game.entities.Entity)" class="member-name-link">createSpeedPotion(Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/ItemFactory.html" title="class in com.csse3200.game.entities.factories">ItemFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -2059,7 +2067,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#createTurtle(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createTurtle(Entity, List&lt;Entity&gt;)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
-<div class="block">Creates a Turtle NPC.</div>
+<div class="block">Creates a Turtle NPC and configures its behavior based on the provided target and enemies.</div>
 </dd>
 <dt><a href="com/csse3200/game/screens/AirAnimalSelectionScreen1.html#createUI(com.badlogic.gdx.scenes.scene2d.ui.Skin)" class="member-name-link">createUI(Skin)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/AirAnimalSelectionScreen1.html" title="class in com.csse3200.game.screens">AirAnimalSelectionScreen1</a></dt>
 <dd>&nbsp;</dd>
@@ -2102,8 +2110,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainLoader.html#currentChunk" class="member-name-link">currentChunk</a> - Static variable in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainLoader.html" title="class in com.csse3200.game.areas.terrain">TerrainLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#currentHint" class="member-name-link">currentHint</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#currentHintLine" class="member-name-link">currentHintLine</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/GdxGame.ScreenType.html#CUTSCENE" class="member-name-link">CUTSCENE</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
 <dd>&nbsp;</dd>
@@ -3139,8 +3145,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/FogGameAreaConfigs/FogMapTiles.html#fogTiles" class="member-name-link">fogTiles</a> - Variable in class com.csse3200.game.areas.FogGameAreaConfigs.<a href="com/csse3200/game/areas/FogGameAreaConfigs/FogMapTiles.html" title="class in com.csse3200.game.areas.FogGameAreaConfigs">FogMapTiles</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#foodItem" class="member-name-link">foodItem</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/food/Foods.html" class="type-name-link" title="class in com.csse3200.game.inventory.items.food">Foods</a> - Class in <a href="com/csse3200/game/inventory/items/food/package-summary.html">com.csse3200.game.inventory.items.food</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/food/Foods.html#%3Cinit%3E()" class="member-name-link">Foods()</a> - Constructor for class com.csse3200.game.inventory.items.food.<a href="com/csse3200/game/inventory/items/food/Foods.html" title="class in com.csse3200.game.inventory.items.food">Foods</a></dt>
@@ -3630,7 +3634,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the defense value of this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getDefense()" class="member-name-link">getDefense()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the defense attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/services/GameTime.html#getDeltaTime()" class="member-name-link">getDeltaTime()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/GameTime.html" title="class in com.csse3200.game.services">GameTime</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/Task.html#getDescription()" class="member-name-link">getDescription()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Task.html" title="class in com.csse3200.game.components.quests">Task</a></dt>
@@ -3758,7 +3764,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the experience value of this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getExperience()" class="member-name-link">getExperience()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the experience points of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#getFixture()" class="member-name-link">getFixture()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/Quest.html#getFollowQuests()" class="member-name-link">getFollowQuests()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Quest.html" title="class in com.csse3200.game.components.quests">Quest</a></dt>
@@ -3856,7 +3864,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the hunger value of this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getHunger()" class="member-name-link">getHunger()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the current hunger level of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainTile.html#getId()" class="member-name-link">getId()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainTile.html" title="class in com.csse3200.game.areas.terrain">TerrainTile</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/ComponentType.html#getId()" class="member-name-link">getId()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/ComponentType.html" title="class in com.csse3200.game.components">ComponentType</a></dt>
@@ -3922,7 +3932,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets the item code of the item.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getItemProbability()" class="member-name-link">getItemProbability()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the item drop probability of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/inventory/items/lootbox/configs/BaseLootTable.html#getItems()" class="member-name-link">getItems()</a> - Method in class com.csse3200.game.inventory.items.lootbox.configs.<a href="com/csse3200/game/inventory/items/lootbox/configs/BaseLootTable.html" title="class in com.csse3200.game.inventory.items.lootbox.configs">BaseLootTable</a></dt>
 <dd>
 <div class="block">Retrieves the list of loot items in this loot table.</div>
@@ -3990,7 +4002,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the level value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getLevel()" class="member-name-link">getLevel()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the current level of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/lighting/LightingService.html#getLighting()" class="member-name-link">getLighting()</a> - Method in class com.csse3200.game.lighting.<a href="com/csse3200/game/lighting/LightingService.html" title="class in com.csse3200.game.lighting">LightingService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/services/ServiceContainer.html#getLightingService()" class="member-name-link">getLightingService()</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/ServiceContainer.html" title="class in com.csse3200.game.services">ServiceContainer</a></dt>
@@ -4447,7 +4461,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the speed value of this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getSpeed()" class="member-name-link">getSpeed()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the speed attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/birdieDash/entities/Spike.html#getSpikeBoundary()" class="member-name-link">getSpikeBoundary()</a> - Method in class com.csse3200.game.minigames.birdieDash.entities.<a href="com/csse3200/game/minigames/birdieDash/entities/Spike.html" title="class in com.csse3200.game.minigames.birdieDash.entities">Spike</a></dt>
 <dd>
 <div class="block">Ge the spikes boundary</div>
@@ -4475,7 +4491,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the stamina value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getStamina()" class="member-name-link">getStamina()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the stamina attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#getStaminaCost()" class="member-name-link">getStaminaCost()</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
 <dd>
 <div class="block">Gets the stamina cost required to perform the move.</div>
@@ -4513,7 +4531,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the strength value of this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getStrength()" class="member-name-link">getStrength()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Retrieves the strength attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getStringHintLevel()" class="member-name-link">getStringHintLevel()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>
 <div class="block">Retrieves the hints associated with the current hint level.</div>
@@ -4921,8 +4941,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#hintLevel" class="member-name-link">hintLevel</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#hints" class="member-name-link">hints</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/BlindBearTask.html#hit" class="member-name-link">hit</a> - Variable in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/BlindBearTask.html" title="class in com.csse3200.game.components.tasks">BlindBearTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/ChaseTask.html#hit" class="member-name-link">hit</a> - Variable in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ChaseTask.html" title="class in com.csse3200.game.components.tasks">ChaseTask</a></dt>
@@ -5035,7 +5053,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#initiateDialogue(java.lang.String%5B%5D,java.lang.String%5B%5D%5B%5D,com.csse3200.game.entities.Entity)" class="member-name-link">initiateDialogue(String[], String[][], Entity)</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
+</dd>
 <dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#initiateEnemyAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiateEnemyAnimation(CombatManager.Action)</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
 <dd>
 <div class="block">Initialise the intended animation passed as an animationType from the
@@ -5139,7 +5159,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/tasks/WanderTask.html#isBoss()" class="member-name-link">isBoss()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/WanderTask.html" title="class in com.csse3200.game.components.tasks">WanderTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#isBoss()" class="member-name-link">isBoss()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Determines if the entity is a boss.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainChunk.CCell.html#isCollapsed" class="member-name-link">isCollapsed</a> - Variable in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainChunk.CCell.html" title="class in com.csse3200.game.areas.terrain">TerrainChunk.CCell</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/quests/Achievement.html#isCompleted()" class="member-name-link">isCompleted()</a> - Method in class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Achievement.html" title="class in com.csse3200.game.components.quests">Achievement</a></dt>
@@ -5284,8 +5306,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructor to initialize the ItemMove with its name and stamina cost.</div>
 </dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#itemProbability" class="member-name-link">itemProbability</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
 <dd>
 <div class="block">A task that monitors when the proximity of a player to an item and handles item pick-up interactions.</div>
@@ -6171,6 +6191,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Factory to create non-playable character (NPC) entities with predefined components.</div>
 </dd>
+<dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#%3Cinit%3E()" class="member-name-link">NPCFactory()</a> - Constructor for class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/NPCStunStatusEffect.html" class="type-name-link" title="class in com.csse3200.game.minigames.maze.components">NPCStunStatusEffect</a> - Class in <a href="com/csse3200/game/minigames/maze/components/package-summary.html">com.csse3200.game.minigames.maze.components</a></dt>
 <dd>
 <div class="block">Class for the NPC stun affect</div>
@@ -7341,7 +7363,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/minigames/snake/controller/Events.html#RESTART" class="member-name-link">RESTART</a> - Enum constant in enum class com.csse3200.game.minigames.snake.controller.<a href="com/csse3200/game/minigames/snake/controller/Events.html" title="enum class in com.csse3200.game.minigames.snake.controller">Events</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#restartCurrentHint()" class="member-name-link">restartCurrentHint()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Restarts the current hint by resetting the current hint and line indices.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/PausableScreen.html#resting" class="member-name-link">resting</a> - Variable in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/PausableScreen.html" title="class in com.csse3200.game.screens">PausableScreen</a></dt>
 <dd>
 <div class="block">Flag indicating whether the screen is in a resting state.</div>
@@ -7529,14 +7553,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the base attack value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setBaseAttack(int)" class="member-name-link">setBaseAttack(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the base attack value for the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html#setBaseAttack(int)" class="member-name-link">setBaseAttack(int)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html" title="class in com.csse3200.game.minigames.maze.components">MazeCombatStatsComponent</a></dt>
 <dd>
 <div class="block">Sets the entity's attack damage.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setBaseHint(java.lang.String%5B%5D%5B%5D)" class="member-name-link">setBaseHint(String[][])</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>
-<div class="block">Sets the base hint messages for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html#setBaseSpeed(float)" class="member-name-link">setBaseSpeed(float)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html" title="class in com.csse3200.game.minigames.maze.components">MazeCombatStatsComponent</a></dt>
 <dd>
@@ -7577,7 +7599,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the defense value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setDefense(int)" class="member-name-link">setDefense(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the defense attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/physics/components/ColliderComponent.html#setDensity(float)" class="member-name-link">setDensity(float)</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/ColliderComponent.html" title="class in com.csse3200.game.physics.components">ColliderComponent</a></dt>
 <dd>
 <div class="block">Set density</div>
@@ -7619,7 +7643,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the experience value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setExperience(int)" class="member-name-link">setExperience(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the experience points for the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#setExpiryIfInactive(java.lang.String,float)" class="member-name-link">setExpiryIfInactive(String, float)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
 <div class="block">Sets the time before a status expires only if the entity does not currently have that status.</div>
@@ -7653,7 +7679,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the health value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setHealth(int)" class="member-name-link">setHealth(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the health of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html#setHealth(int)" class="member-name-link">setHealth(int)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/MazeCombatStatsComponent.html" title="class in com.csse3200.game.minigames.maze.components">MazeCombatStatsComponent</a></dt>
 <dd>
 <div class="block">Sets the entity's health.</div>
@@ -7667,7 +7695,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the hunger value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setHunger(int)" class="member-name-link">setHunger(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the hunger level of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainTile.html#setId(int)" class="member-name-link">setId(int)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainTile.html" title="class in com.csse3200.game.areas.terrain">TerrainTile</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/tasks/IdleTask.html#setInactive()" class="member-name-link">setInactive()</a> - Method in class com.csse3200.game.minigames.maze.components.tasks.<a href="com/csse3200/game/minigames/maze/components/tasks/IdleTask.html" title="class in com.csse3200.game.minigames.maze.components.tasks">IdleTask</a></dt>
@@ -7702,7 +7732,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the level value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setLevel(int)" class="member-name-link">setLevel(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the level of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/screens/MainGameScreen.html#setMap(com.csse3200.game.areas.MapHandler.MapType)" class="member-name-link">setMap(MapHandler.MapType)</a> - Method in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/MainGameScreen.html" title="class in com.csse3200.game.screens">MainGameScreen</a></dt>
 <dd>
 <div class="block">Sets the beginning map of the game.</div>
@@ -7880,7 +7912,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the speed value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setSpeed(int)" class="member-name-link">setSpeed(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the speed attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setSpritePath(java.lang.String)" class="member-name-link">setSpritePath(String)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
 <dd>
 <div class="block">Sets the sprite path for this entity.</div>
@@ -7898,7 +7932,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the stamina value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setStamina(int)" class="member-name-link">setStamina(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the stamina attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#setStatusExpiry(java.lang.String,float)" class="member-name-link">setStatusExpiry(String, float)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
 <div class="block">Sets the time before a status expires.</div>
@@ -7912,7 +7948,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the strength value for this entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setStrength(int)" class="member-name-link">setStrength(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Sets the strength attribute of the entity.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/tasks/MazePathFindingTask.html#setTarget(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">setTarget(GridPoint2)</a> - Method in class com.csse3200.game.minigames.maze.components.tasks.<a href="com/csse3200/game/minigames/maze/components/tasks/MazePathFindingTask.html" title="class in com.csse3200.game.minigames.maze.components.tasks">MazePathFindingTask</a></dt>
 <dd>
 <div class="block">Sets the target to find the path to</div>

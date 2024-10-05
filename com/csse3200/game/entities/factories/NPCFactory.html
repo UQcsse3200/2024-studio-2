@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li>Nested</li>
 <li>Field</li>
-<li>Constr</li>
+<li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 </li>
@@ -47,7 +47,7 @@ loadScripts(document, 'script');</script>
 <p>Detail:</p>
 <ul>
 <li>Field</li>
-<li>Constr</li>
+<li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
 </li>
@@ -59,13 +59,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
 </div>
@@ -102,6 +102,19 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<li>
+<section class="constructor-summary" id="constructor-summary">
+<h2>Constructor Summary</h2>
+<div class="caption"><span>Constructors</span></div>
+<div class="summary-table two-column-summary">
+<div class="table-header col-first">Constructor</div>
+<div class="table-header col-last">Description</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">NPCFactory</a>()</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -116,60 +129,70 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createBear(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createBear</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a Bear NPC and configures its behavior based on the provided target and enemies.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createChicken(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createChicken</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a Chicken NPC and configures its behavior based on the provided target and enemies.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createCow(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createCow</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Cow NPC.</div>
+<div class="block">Creates a Cow NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Cow NPC.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createEagle(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createEagle</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates an Eagle NPC.</div>
+<div class="block">Creates an Eagle NPC and configures its behavior based on the provided target and enemies.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createFish(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createFish</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Fish NPC.</div>
+<div class="block">Creates a Fish NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Fish NPC.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createFrog(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createFrog</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a Frog NPC and configures its behavior based on the provided target and enemies.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createLion(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createLion</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Lion NPC.</div>
+<div class="block">Creates a Lion NPC and configures its behavior based on the provided target and enemies.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createMagpie(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMagpie</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Magpie NPC.</div>
+<div class="block">Creates a Magpie NPC and configures its behavior based on the provided target and enemies.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createMonkey(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createMonkey</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a Monkey NPC and configures its behavior based on the provided target and enemies.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createSnake(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createSnake</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Snake NPC.</div>
+<div class="block">Creates a Snake NPC and configures its behavior based on the provided target and enemies.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTurtle(com.csse3200.game.entities.Entity,java.util.List)" class="member-name-link">createTurtle</a><wbr>(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a Turtle NPC.</div>
+<div class="block">Creates a Turtle NPC and configures its behavior based on the provided target and enemies.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endDialogue()" class="member-name-link">endDialogue</a>()</code></div>
@@ -186,7 +209,9 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#initiateDialogue(java.lang.String%5B%5D,java.lang.String%5B%5D%5B%5D,com.csse3200.game.entities.Entity)" class="member-name-link">initiateDialogue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;animalSoundPaths,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;hintText,
  <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
+</div>
 </div>
 </div>
 </div>
@@ -199,6 +224,20 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<li>
+<section class="constructor-details" id="constructor-detail">
+<h2>Constructor Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="&lt;init&gt;()">
+<h3>NPCFactory</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">NPCFactory</span>()</div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li>
 <section class="method-details" id="method-detail">
@@ -209,7 +248,16 @@ loadScripts(document, 'script');</script>
 <h3>createCow</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createCow</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Cow NPC.</div>
+<div class="block">Creates a Cow NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Cow NPC.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Cow NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Cow NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Cow NPC entity with the appropriate behavior and configurations,
+         including handling conditional item drops.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -217,7 +265,16 @@ loadScripts(document, 'script');</script>
 <h3>createFish</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createFish</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Fish NPC.</div>
+<div class="block">Creates a Fish NPC, configures its behavior based on the provided target and enemies,
+ and handles any conditional drops specific to the Fish NPC.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Fish NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Fish NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Fish NPC entity with the appropriate behavior and configurations,
+         including handling conditional item drops.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -225,7 +282,14 @@ loadScripts(document, 'script');</script>
 <h3>createLion</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createLion</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Lion NPC.</div>
+<div class="block">Creates a Lion NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Lion NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Lion NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Lion NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -233,7 +297,14 @@ loadScripts(document, 'script');</script>
 <h3>createTurtle</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createTurtle</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Turtle NPC.</div>
+<div class="block">Creates a Turtle NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Turtle NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Turtle NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Turtle NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -241,7 +312,14 @@ loadScripts(document, 'script');</script>
 <h3>createEagle</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createEagle</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates an Eagle NPC.</div>
+<div class="block">Creates an Eagle NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Eagle NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Eagle NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Eagle NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -249,7 +327,14 @@ loadScripts(document, 'script');</script>
 <h3>createSnake</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createSnake</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Snake NPC.</div>
+<div class="block">Creates a Snake NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Snake NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Snake NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Snake NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -257,7 +342,14 @@ loadScripts(document, 'script');</script>
 <h3>createMagpie</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createMagpie</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
-<div class="block">Creates a Magpie NPC.</div>
+<div class="block">Creates a Magpie NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Magpie NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Magpie NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Magpie NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -265,6 +357,14 @@ loadScripts(document, 'script');</script>
 <h3>createChicken</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createChicken</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
+<div class="block">Creates a Chicken NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Chicken NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Chicken NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Chicken NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -272,6 +372,14 @@ loadScripts(document, 'script');</script>
 <h3>createFrog</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createFrog</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
+<div class="block">Creates a Frog NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Frog NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Frog NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Frog NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -279,6 +387,14 @@ loadScripts(document, 'script');</script>
 <h3>createMonkey</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createMonkey</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
+<div class="block">Creates a Monkey NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Monkey NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Monkey NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Monkey NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -286,6 +402,14 @@ loadScripts(document, 'script');</script>
 <h3>createBear</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createBear</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&gt;&nbsp;enemies)</span></div>
+<div class="block">Creates a Bear NPC and configures its behavior based on the provided target and enemies.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The entity that the Bear NPC will assist or follow.</dd>
+<dd><code>enemies</code> - A list of enemy entities that the Bear NPC will be aware of or react to.</dd>
+<dt>Returns:</dt>
+<dd>A new Bear NPC entity with the appropriate behavior and configurations.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -308,6 +432,14 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initiateDialogue</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;animalSoundPaths,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[][]&nbsp;hintText,
  <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</span></div>
+<div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.
+ If the dialogue box service is not available, it creates a new instance.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>animalSoundPaths</code> - An array of sound asset paths to play. If null or empty, no sounds are played.</dd>
+<dd><code>hintText</code> - An array of strings to display in the dialogue box.</dd>
+<dd><code>entity</code> - The entity to highlight</dd>
+</dl>
 </section>
 </li>
 <li>
