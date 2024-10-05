@@ -1,35 +1,39 @@
 package com.csse3200.game.minigames.birdieDash.rendering;
-import com.badlogic.gdx.graphics.Texture;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
 import com.csse3200.game.minigames.birdieDash.entities.Bird;
-import com.csse3200.game.minigames.snake.AssetPaths;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
 
 /**
- * Class for rendering the bird in the bordie dash mini-game
+ * Class for rendering the bird with animation in the birdie dash mini-game.
  */
 public class BirdRenderer implements MinigameRenderable {
 
     private final Bird bird;
     private final SpriteBatch spriteBatch;
-    private Texture birdTexture;
+    private Animation<TextureRegion> birdAnimation;
+    private float stateTime; // To track animation time
 
     public BirdRenderer(Bird bird, MinigameRenderer renderer) {
         this.bird = bird;
         this.spriteBatch = renderer.getSb();
         loadAssets();
+        stateTime = 0f;
     }
 
     /**
-     * renders the bird
+     * Renders the bird with animation.
      */
     @Override
     public void render() {
-
-        spriteBatch.draw(birdTexture,
+        stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime, true);
+        spriteBatch.draw(currentFrame,
                 bird.getPosition().x,
                 bird.getPosition().y,
                 bird.getBoundingBox().getWidth(),
@@ -37,30 +41,23 @@ public class BirdRenderer implements MinigameRenderable {
     }
 
     /**
-     * laods the assets
+     * Loads the bird animation frames.
      */
     private void loadAssets() {
-        ResourceService rs = ServiceLocator.getResourceService();
-        rs.loadTextures(new String[]{AssetPaths.BIRD});
-        rs.loadAll();
-        birdTexture = rs.getAsset(AssetPaths.BIRD, Texture.class);
+        TextureAtlas birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
+        Array<TextureRegion> birdTextures = new Array<>(3);
+        for (int frameBird = 1; frameBird <= 3; frameBird++) {
+           TextureRegion region = birdAtlas.findRegion("fly" + frameBird);
+           region.flip(true, false);
+           birdTextures.add(region);
+        }
+        birdAnimation = new Animation<>(0.1f, birdTextures, Animation.PlayMode.LOOP);
     }
 
     /**
-     * unloads assets
-     */
-    private void unloadAssets() {
-        ResourceService rs = ServiceLocator.getResourceService();
-        rs.unloadAssets(new String[]{AssetPaths.BIRD});
-    }
-
-    /**
-     * dispose
+     * Disposes the bird texture.
      */
     public void dispose() {
-        unloadAssets();
-        if (birdTexture != null) {
-            birdTexture.dispose();
-        }
+        // Did not need a dispose method for the animations
     }
 }
