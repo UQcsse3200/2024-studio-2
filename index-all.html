@@ -3347,10 +3347,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates the popup and adds it to the stage.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#generateInventory()" class="member-name-link">generateInventory()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
-<dd>
-<div class="block">Generates the inventory window and populates it with inventory slots.</div>
-</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainChunk.html#generateTiles(com.badlogic.gdx.math.GridPoint2,java.util.Map,com.csse3200.game.areas.terrain.TerrainComponent.TerrainResource)" class="member-name-link">generateTiles(GridPoint2, Map&lt;GridPoint2, TerrainChunk&gt;, TerrainComponent.TerrainResource)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainChunk.html" title="class in com.csse3200.game.areas.terrain">TerrainChunk</a></dt>
 <dd>
 <div class="block">Generate the tiles for this chunk of terrain.</div>
@@ -6950,7 +6946,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#regenerateDisplay()" class="member-name-link">regenerateDisplay()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
 <dd>
-<div class="block">Regenerates the inventory display by toggling it off and on.</div>
+<div class="block">Regenerates the entire inventory and hotBar display (recreates every image)
+ This should only be used if the inventory has been changed (ie after
+ sorting or loading).</div>
 </dd>
 <dt><a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html#regenerateDisplay()" class="member-name-link">regenerateDisplay()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">PlayerInventoryDisplay</a></dt>
 <dd>&nbsp;</dd>
@@ -8155,14 +8153,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sorts the inventory by item code.</div>
 </dd>
-<dt><a href="com/csse3200/game/inventory/Inventory.html#sortByName()" class="member-name-link">sortByName()</a> - Method in class com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a></dt>
-<dd>
-<div class="block">Sorts the inventory by item name.</div>
-</dd>
-<dt><a href="com/csse3200/game/inventory/InventoryInterface.html#sortByName()" class="member-name-link">sortByName()</a> - Method in interface com.csse3200.game.inventory.<a href="com/csse3200/game/inventory/InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></dt>
-<dd>
-<div class="block">Sorts the inventory by item name.</div>
-</dd>
 <dt><a href="com/csse3200/game/utils/SortedIntMap.html" class="type-name-link" title="class in com.csse3200.game.utils">SortedIntMap&lt;V&gt;</a> - Class in <a href="com/csse3200/game/utils/package-summary.html">com.csse3200.game.utils</a></dt>
 <dd>
 <div class="block">A map sorted by the value of key with O(1) iteration.</div>
@@ -9287,6 +9277,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/minigames/snake/Snake.html#updateDirectionOnInput(com.csse3200.game.minigames.Direction)" class="member-name-link">updateDirectionOnInput(Direction)</a> - Method in class com.csse3200.game.minigames.snake.<a href="com/csse3200/game/minigames/snake/Snake.html" title="class in com.csse3200.game.minigames.snake">Snake</a></dt>
 <dd>
 <div class="block">Update snake direction based on an input direction.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#updateDisplay()" class="member-name-link">updateDisplay()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
+<dd>
+<div class="block">Updates the display of the inventory (does not regenerate any of the images for
+ any slot, simply creates a new table to hold them).</div>
 </dd>
 <dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#updateFlappingSound(boolean,float)" class="member-name-link">updateFlappingSound(boolean, float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>

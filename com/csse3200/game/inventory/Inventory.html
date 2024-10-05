@@ -129,7 +129,7 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">add</a><wbr>(<a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds an item to the inventory, either by stacking it with existing items or placing it in
@@ -208,26 +208,21 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <div class="block">Sorts the inventory by item code (in ascending order)</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sortByName()" class="member-name-link">sortByName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sorts the inventory by item name.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#swap(int,int)" class="member-name-link">swap</a><wbr>(int&nbsp;src,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#swap(int,int)" class="member-name-link">swap</a><wbr>(int&nbsp;src,
  int&nbsp;target)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Swaps the items between two inventory slots.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem</a><wbr>(int&nbsp;code,
- <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Uses the first occurrence of an item with the specified code in the inventory.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItemAt(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItemAt</a><wbr>(int&nbsp;index,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItem</a><wbr>(int&nbsp;code,
  <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uses the first occurrence of an item with the specified code in the inventory.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItemAt(int,com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">useItemAt</a><wbr>(int&nbsp;index,
+ <a href="items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Uses the item at the specified index in the inventory.</div>
 </div>
 </div>
@@ -502,7 +497,7 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <li>
 <section class="detail" id="add(com.csse3200.game.inventory.items.AbstractItem)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</span></div>
 <div class="block">Adds an item to the inventory, either by stacking it with existing items or placing it in
  a new slot.</div>
 <dl class="notes">
@@ -511,7 +506,7 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <dt>Parameters:</dt>
 <dd><code>item</code> - the item to add to the inventory.</dd>
 <dt>Returns:</dt>
-<dd><code>true</code> if the item was added successfully, else <code>false</code></dd>
+<dd>the index the item was added at (-1 if not added)</dd>
 </dl>
 </section>
 </li>
@@ -540,17 +535,6 @@ implements <a href="InventoryInterface.html" title="interface in com.csse3200.ga
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="InventoryInterface.html#sortByCode()">sortByCode</a></code>&nbsp;in interface&nbsp;<code><a href="InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="sortByName()">
-<h3>sortByName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">sortByName</span>()</div>
-<div class="block">Sorts the inventory by item name.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="InventoryInterface.html#sortByName()">sortByName</a></code>&nbsp;in interface&nbsp;<code><a href="InventoryInterface.html" title="interface in com.csse3200.game.inventory">InventoryInterface</a></code></dd>
 </dl>
 </section>
 </li>
