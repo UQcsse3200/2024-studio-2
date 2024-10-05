@@ -18,6 +18,9 @@ public class BirdRenderer implements MinigameRenderable {
     private final SpriteBatch spriteBatch;
     private Animation<TextureRegion> birdAnimation;
     private float stateTime; // To track animation time
+    private boolean isFlapping; // To track if the bird is flapping
+    private float flapTimeRemaining; // Time left for flapping
+    private final float flapDuration = 0.45f; // Flap duration (1 seconds)
 
     public BirdRenderer(Bird bird, MinigameRenderer renderer) {
         this.bird = bird;
@@ -27,12 +30,35 @@ public class BirdRenderer implements MinigameRenderable {
     }
 
     /**
+     * To animate the bird when flapped
+     */
+    public void flap() {
+        isFlapping = true;
+        flapTimeRemaining = flapDuration;
+        stateTime = 0f;
+    }
+
+    /**
      * Renders the bird with animation.
      */
     @Override
     public void render() {
-        stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime, true);
+        if (isFlapping) {
+            flapTimeRemaining -= com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+
+            // Update animation time while flapping
+            stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+
+            // Stop flapping when time runs out
+            if (flapTimeRemaining <= 0) {
+                isFlapping = false;
+                flapTimeRemaining = 0f;
+            }
+        }
+
+        // Get the current frame (if flapping, use animation, otherwise, use idle frame)
+        TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime, false);
+
         spriteBatch.draw(currentFrame,
                 bird.getPosition().x,
                 bird.getPosition().y,
