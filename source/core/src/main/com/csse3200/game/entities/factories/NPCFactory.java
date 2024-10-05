@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -45,6 +46,10 @@ public class NPCFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
+  private NPCFactory() {
+    throw new IllegalArgumentException("Do not instantiate factory class!");
+  }
+
   /**
    * Base method to create a friendly NPC.
    *
@@ -78,7 +83,7 @@ public class NPCFactory {
       String eventPausedEnd = String.format("PauseEnd%s", config.getAnimalName());
       npc.getEvents().addListener(eventPausedStart, (String[][] hintText, Entity entity) -> initiateDialogue(animalSoundPaths, hintText, entity));
 
-      npc.getEvents().addListener(eventPausedEnd, () -> endDialogue());
+      npc.getEvents().addListener(eventPausedEnd, NPCFactory::endDialogue);
     }
 
     return npc;
@@ -280,7 +285,7 @@ public class NPCFactory {
   }
 
   /***
-   * Created a new DialgoyeBoxService if it ever happens to be deleted
+   * Created a new DialogueBoxService if it ever happens to be deleted
    *
    * @param dialogueBoxService the current dialogue box service
    * @return dialogueBoxService the new updated dialogueBoxService
@@ -334,7 +339,7 @@ public class NPCFactory {
     float probability = configComponent.getItemProbability();
     String npcName = configComponent.getAnimalName();
 
-    if (Math.random() > probability) { // Attach according to probabilities
+    if (MathUtils.random() > probability) { // Attach according to probabilities
       Supplier<AbstractItem> itemGenerator;
       switch (npcName) {
           case "Cow":
@@ -357,7 +362,7 @@ public class NPCFactory {
    * Creates a generic Friendly NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @param target the target (typically player) the entity should know of
-   * @param enemies the enemies the FNPC has to avoid
+   * @param enemies the enemies the F_NPC has to avoid
    *
    * @return entity
    */

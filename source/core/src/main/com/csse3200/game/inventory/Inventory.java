@@ -19,7 +19,6 @@ public class Inventory implements InventoryInterface {
     private int capacity; // The maximum number of items the inventory can hold.
     private int freeSlots; // The current number of available slots in the inventory.
     private int nextIndex = 0; // The index where the next item can be stored.
-    // Array representing the inventory, holding items or null values.
     private AbstractItem[] memoryView; // Array of actual items & null values
 
     /**
