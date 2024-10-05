@@ -15,8 +15,6 @@ import java.util.Objects;
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
-    private static final Logger logger = new Logger("PauseTask");
-
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;

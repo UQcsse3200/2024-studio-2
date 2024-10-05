@@ -1,6 +1,5 @@
 package com.csse3200.game.components.tasks;
 
-import box2dLight.Light;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -38,14 +37,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.ArrayList;
-import static org.mockito.Mockito.*;  // For when(), thenReturn(), verify(), etc.
 import static org.mockito.ArgumentMatchers.anyFloat;  // For matching any float value
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
