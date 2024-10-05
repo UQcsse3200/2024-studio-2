@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
@@ -23,7 +24,7 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     private TextButton airAnimalsButton;
     private TextButton landAnimalsButton;
 
-    public AnimalRouletteScreen1(GdxGame game) {
+    protected AnimalRouletteScreen1(GdxGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -83,7 +84,7 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
                     ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
                     game.setScreen(newScreen);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new GdxRuntimeException("Tried to add screen " + screenClass.getName() + " to the screen via button: " + button.toString(), e);
                 }
             }
         });

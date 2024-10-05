@@ -254,6 +254,7 @@ public class MainGameScreen extends PausableScreen {
   /**
    * Puts the screen into a resting state, pausing music and resting all entities.
    */
+  @Override
   public void rest() {
       super.rest();
       gameArea.pauseMusic();
@@ -262,6 +263,7 @@ public class MainGameScreen extends PausableScreen {
   /**
    * Wakes the screen from a resting state.
    */
+  @Override
   public void wake() {
       super.wake();
       KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);

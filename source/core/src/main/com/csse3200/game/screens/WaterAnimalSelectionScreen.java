@@ -149,9 +149,9 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
         String title = waterAnimalNames[currentAnimalIndex];
         String content = waterAnimalDescriptions[currentAnimalIndex];
 
-        popUpHelper.displayDialog(title, content, waterAnimalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () -> {
-            game.setScreen(new StoryScreen(game, waterAnimalNames[currentAnimalIndex].toLowerCase()));
-        });
+        popUpHelper.displayDialog(title, content, waterAnimalImages[currentAnimalIndex],
+                600, 400, currentAnimalIndex, () ->
+                        game.setScreen(new StoryScreen(game, waterAnimalNames[currentAnimalIndex].toLowerCase())));
     }
 
     private void updateButtonPositions() {
