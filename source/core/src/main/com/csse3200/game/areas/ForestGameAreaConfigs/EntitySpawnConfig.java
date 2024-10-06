@@ -2,41 +2,41 @@ package com.csse3200.game.areas.ForestGameAreaConfigs;
 
 public class EntitySpawnConfig {
     // Map Obstacles
-    public int NUM_TREES;
-    public int NUM_CLOUDS;
-    public int NUM_SEAWEED;
-    public int NUM_STARFISH;
+    public static final int NUM_TREES = 7;
+    public static final int NUM_CLOUDS = 7;
+    public static final int NUM_SEAWEED = 7;
+    public static final int NUM_STARFISH = 7;
 
     // Items
-    public int NUM_APPLES;
-    public int NUM_CARROTS;
-    public int NUM_CHICKEN_LEGS;
-    public int NUM_MEAT;
-    public int NUM_CANDY;
-    public int NUM_HEALTH_POTIONS;
-    public int NUM_DEFENSE_POTIONS;
-    public int NUM_ATTACK_POTIONS;
-    public int NUM_SPEED_POTIONS;
+    public static final int NUM_APPLES = 2;
+    public static final int NUM_CARROTS = 3;
+    public static final int NUM_CHICKEN_LEGS = 2;
+    public static final int NUM_MEAT = 2;
+    public static final int NUM_CANDY = 2;
+    public static final int NUM_HEALTH_POTIONS = 2;
+    public static final int NUM_DEFENSE_POTIONS = 2;
+    public static final int NUM_ATTACK_POTIONS = 2;
+    public static final int NUM_SPEED_POTIONS = 4;
 
     // Enemies
-    public int NUM_CHICKENS;
-    public int NUM_FROGS;
-    public int NUM_MONKEYS;
-    public int NUM_BEARS;
-    public int NUM_PIGEONS;
-    public int NUM_BEES;
-    public int NUM_EELS;
-    public int NUM_OCTOPUS;
-    public int NUM_BIGSAWFISH;
-    public int NUM_MACAW;
-    public int NUM_HIVES;
+    public static final int NUM_CHICKENS = 4;
+    public static final int NUM_FROGS = 3;
+    public static final int NUM_MONKEYS = 4;
+    public static final int NUM_BEARS = 3;
+    public static final int NUM_PIGEONS = 4;
+    public static final int NUM_BEES = 3;
+    public static final int NUM_EELS = 4;
+    public static final int NUM_OCTOPUS = 3;
+    public static final int NUM_BIGSAWFISH = 5;
+    public static final int NUM_MACAW = 5;
+    public static final int NUM_HIVES = 3;
 
     // NPCs
-    public int NUM_COWS;
-    public int NUM_FISH;
-    public int NUM_LIONS;
-    public int NUM_TURTLES;
-    public int NUM_EAGLES;
-    public int NUM_SNAKES;
-    public int NUM_MAGPIES;
+    public static final int NUM_COWS = 2;
+    public static final int NUM_FISH = 2;
+    public static final int NUM_LIONS = 1;
+    public static final int NUM_TURTLES = 2;
+    public static final int NUM_EAGLES = 1;
+    public static final int NUM_SNAKES = 2;
+    public static final int NUM_MAGPIES = 1;
 }
