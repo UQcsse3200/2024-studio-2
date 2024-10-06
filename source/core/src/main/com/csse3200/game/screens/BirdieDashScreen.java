@@ -14,6 +14,7 @@ import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
@@ -51,6 +52,7 @@ public class BirdieDashScreen extends PausableScreen {
     private final ScoreBoard scoreBoard;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private final Entity ui;
 
     public BirdieDashScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
@@ -60,6 +62,7 @@ public class BirdieDashScreen extends PausableScreen {
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        this.ui = new Entity();
         logger.debug("Initialising birdie dash screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -146,6 +149,10 @@ public class BirdieDashScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
+        if (scale == 0) {  // Screen has been minimised
+            scale = 1;
+            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+        }
         setupExitButton();
         scoreBoard.resize();
     }
@@ -199,7 +206,6 @@ public class BirdieDashScreen extends PausableScreen {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = new KeyboardBirdInputComponent();
 
-        Entity ui = new Entity();
         ui
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
