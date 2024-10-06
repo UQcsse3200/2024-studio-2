@@ -51,7 +51,8 @@ public class MazeGameArea extends GameArea {
     // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
             "images/minigames/water.png",
-            "images/minigames/wall.png",
+            "images/minigames/wall_h.png",
+            "images/minigames/wall_v.png",
             "images/minigames/fishegg.png",
             "images/PauseOverlay/TitleBG.png",
             "images/PauseOverlay/Button.png",
