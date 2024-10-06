@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
@@ -31,6 +32,8 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
@@ -58,7 +61,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final Entity player;
     private PlayerInventoryDisplay display;
     private Table contentTable;
-    private Table buttonTable;
+    private Table imageTable;
+    private final Texture medalTexture;
+    private final Image medalImage;
     private static final String[] endMiniGameSounds = {
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -76,6 +81,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+
+        this.medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
+        this.medalImage = new Image(medalTexture);
 
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
@@ -111,14 +119,21 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Set the background color based on the score
         setBackgroundColor();
 
-        // Draw the exit button and other UI elements
-        stage.act(Gdx.graphics.getDeltaTime());
+        // Render the game over messages if not already added to the stage
+        if (contentTable.getStage() == null) {
+            stage.addActor(contentTable);
+        }
+
+//        // Draw the exit button and other UI elements
+//        stage.act(Gdx.graphics.getDeltaTime());
+//        stage.draw();
+        stage.act(delta);
         stage.draw();
 
         // Render the game over messages
-        renderEndMessage();
-        stage.addActor(contentTable);
-        //stage.addActor(buttonTable);
+        //renderEndMessage();
+//        stage.addActor(contentTable);
+        //stage.addActor(imageTable);
 
         handleKeyPress();
     }
@@ -185,10 +200,15 @@ public class EndMiniGameScreen extends ScreenAdapter {
      * Renders the labels with score, message and title.
      */
     private void renderEndMessage() {
-
         contentTable = new Table();
         contentTable.setFillParent(true);
-        //contentTable.debug();
+        contentTable.debug();
+
+
+        // Add in the medal Image
+        medalImage.setScaling(Scaling.fit); // Adjust to fit while keeping the aspect ratio
+        medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f); // Scale down to half, adjust as needed
+        contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
@@ -196,8 +216,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Label endGameLabel = new Label("End of Mini-Game", labelStyle);
         contentTable.row().colspan(3);
         contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
-//        contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
-//        contentTable.row();
 
         // Score label
         font26.getData().setScale(2f * scale);
@@ -205,10 +223,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Label scoreLabel = new Label("Score: " + score, labelStyle);
         contentTable.row().colspan(3);
         contentTable.add(scoreLabel).center().padBottom(20 * scale).row();
-//        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
-//        contentTable.row();
 
-        //Highscore label
+        // High-score label
         font26.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label highscoreLabel = new Label("HighScore: " + GameState.minigame.getHighScore(gameName), labelStyle);
@@ -223,8 +239,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
             Label medalLabel = new Label("You FAILED", labelStyle);
             contentTable.row().colspan(3);
             contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-//            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-//            contentTable.row();
 
         } else {
             font26.getData().setScale(2f * scale);
@@ -232,8 +246,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
             contentTable.row().colspan(3);
             contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-//            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-//            contentTable.row();
         }
 
         // Personalised message label
@@ -243,9 +255,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
         contentTable.row().colspan(3);
         contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
-//        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
-//        contentTable.row();
-
         makeButtons();
     }
 
@@ -294,25 +303,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 game.setOldScreen(oldScreen, oldScreenServices);
             }
         });
-//        // Add buttons to the table and align them at the bottom
-//        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
-//        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
-//        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).center().pad(10 * scale).row();
 
-        // Allign buttons in 1 row
+        // Align buttons in 1 row
         contentTable.row().expandX().fillX();
-        contentTable.add(tryAgainButton)
-                .width(tryAgainButton.getWidth() * scale)
-                .height(tryAgainButton.getHeight() * scale)
-                .padLeft(500 * scale);
-        contentTable.add(menuButton)
-                .width(menuButton.getWidth() * scale)
-                .height(menuButton.getHeight() * scale)
-                .center();
-        contentTable.add(oldScreenButton)
-                .width(oldScreenButton.getWidth() * scale)
-                .height(oldScreenButton.getHeight() * scale)
-                .padRight(500 * scale);
+        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).padLeft(500 * scale);
+        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center();
+        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).padRight(500 * scale);
     }
 
     /**
@@ -470,6 +466,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
+        medalTexture.dispose();
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
