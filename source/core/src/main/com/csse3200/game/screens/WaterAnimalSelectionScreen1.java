@@ -25,6 +25,7 @@ public class WaterAnimalSelectionScreen1 extends AnimalRouletteScreen1 {
         getWaterAnimalsButton().setVisible(false);
     }
 
+    @Override
     protected AnimalRouletteActions1 createActions(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {
         return new AnimalRouletteActions1(display, dialogHelper, game);
     }

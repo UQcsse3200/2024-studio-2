@@ -1,6 +1,5 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.utils.Logger;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestManager;

@@ -15,9 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -32,9 +29,6 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Manages the cutscene for Boss NPCs displayed before transitioning to the combat screen.
@@ -55,7 +49,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
     private final ServiceContainer oldScreenServices;
     private final Entity player;
     private final Entity enemy;
-    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
     /**
      * Creates a new cutscene screen.
@@ -94,9 +87,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         createUI();
 
         logger.debug("Initialising main game dup screen entities");
-        TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        //this.gameArea = new ForestGameArea(terrainFactory, game);
-        //this.gameArea.create();
     }
 
     @Override
@@ -110,7 +100,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
             if (timeElapsed >= CUTSCENE_DURATION && !transition) {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
-                // dispose();
                 game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
             }
         }
@@ -125,14 +114,12 @@ public class BossCutsceneScreen extends ScreenAdapter {
     @Override
     public void pause() {
         isPaused = true;
-        //gameArea.pauseMusic();
         logger.info("Game paused");
     }
 
     @Override
     public void resume() {
         isPaused = false;
-        //gameArea.playMusic();
         logger.info("Game resumed");
     }
 
@@ -332,17 +319,5 @@ public class BossCutsceneScreen extends ScreenAdapter {
         setupUIComponents();
         configureAndAddUIElements();
         addUIAnimations();
-    }
-
-    public void rest() {
-        logger.info("Screen is resting");
-        //gameArea.pauseMusic();
-        ServiceLocator.getEntityService().restWholeScreen();
-    }
-
-    public void wake() {
-        logger.info("Screen is Awake");
-        //gameArea.playMusic();
-        ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

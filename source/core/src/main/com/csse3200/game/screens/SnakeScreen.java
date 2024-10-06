@@ -88,11 +88,10 @@ public class SnakeScreen extends PausableScreen {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-        this.stage = ServiceLocator.getRenderService().getStage();
-        //Gdx.input.setInputProcessor(stage);
+        stage = ServiceLocator.getRenderService().getStage();
         logger.debug("Initialising snake minigame entities");
-        this.snakeGame = new SnakeGame();
-        this.snakeRenderer = new SnakeGameRenderer(snakeGame);
+        snakeGame = new SnakeGame();
+        snakeRenderer = new SnakeGameRenderer(snakeGame);
 
         // ensure sounds are loaded
         ServiceLocator.getResourceService().loadSounds(SOUNDS);
@@ -233,11 +232,11 @@ public class SnakeScreen extends PausableScreen {
         InputComponent inputComponent =
                 new KeyboardSnakeInputComponent();
 
-        Stage stage = ServiceLocator.getRenderService().getStage();
+        Stage uiStage = ServiceLocator.getRenderService().getStage();
 
         Entity ui = new Entity();
         ui
-                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new InputDecorator(uiStage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
@@ -247,7 +246,6 @@ public class SnakeScreen extends PausableScreen {
         ui.getEvents().addListener("move", this::handleSnakeInput);
         ui.getEvents().addListener("restart", this::restartGame);
         ui.getEvents().addListener("exit", this::exitGame);
-        //ui.getEvents().addListener("pause", this::pause);
         ServiceLocator.getEntityService().register(ui);
     }
 
