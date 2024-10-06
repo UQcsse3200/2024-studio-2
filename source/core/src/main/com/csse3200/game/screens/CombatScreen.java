@@ -11,9 +11,6 @@ import com.csse3200.game.components.combat.*;
 import com.csse3200.game.areas.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.combat.CombatStatsDisplay;
-import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -39,12 +36,11 @@ import org.slf4j.LoggerFactory;
 public class CombatScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/heart.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
           "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png",
           "images/statuses/bleeding_stat.png", "images/statuses/confused_stat.png",
           "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
-
   };
   private boolean isPaused = false;
   private final GdxGame game;
@@ -104,7 +100,6 @@ public class CombatScreen extends ScreenAdapter {
     }
   }
 
-
   @Override
   public void resize(int width, int height) {
     renderer.resize(width, height);
@@ -113,23 +108,17 @@ public class CombatScreen extends ScreenAdapter {
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
-  /** Pause the game, eventually will need to pause music
-   */
   @Override
   public void pause() {
     isPaused = true;
     logger.debug("Game paused");
   }
 
-  /**
-   * Resume the game, unpause music, when implemented
-   */
   @Override
   public void resume() {
     isPaused = false;
     logger.debug("Game resumed");
   }
-
 
   @Override
   public void dispose() {
@@ -158,14 +147,14 @@ public class CombatScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the main game's ui including components for rendering ui elements to the screen and
-   * capturing and handling ui input.
+   * Creates the main game's UI, including components for rendering UI elements to the screen and
+   * capturing and handling UI input.
    */
   private void createUI() {
-    logger.debug("Creating ui");
+    logger.debug("Creating UI");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForTerminal();
+            ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
     CombatManager manager = new CombatManager(player, enemy);
@@ -174,23 +163,21 @@ public class CombatScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatExitDisplay(enemy))
-        .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0))
-        .addComponent(manager)
-        .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
-        .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
-        .addComponent(new Terminal())
-        .addComponent(inputComponent)
-        .addComponent(playerCombatStats)
-        .addComponent(enemyCombatStats)
-        .addComponent(new TerminalDisplay())
-        .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
+            .addComponent(new CombatExitDisplay(enemy))
+            .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0))
+            .addComponent(manager)
+            .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
+            .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
+            .addComponent(new Terminal())
+            .addComponent(inputComponent)
+            .addComponent(playerCombatStats)
+            .addComponent(enemyCombatStats)
+            .addComponent(new TerminalDisplay())
+            .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
   }
 
-  // Inside render() method
-  // Add new method in CombatScreen class
   /**
    * Checks if the enemy has died and transitions to the VictoryScreen if true.
    */
@@ -200,9 +187,4 @@ public class CombatScreen extends ScreenAdapter {
       game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to VictoryScreen
     }
   }
-
-
-
-
-
 }
