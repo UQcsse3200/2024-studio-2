@@ -342,6 +342,4 @@ class CombatStatsComponentTest {
     combatStats.addExperience(9999);
     assertEquals(10, combatStats.getLevel());
   }
-
-
 }
