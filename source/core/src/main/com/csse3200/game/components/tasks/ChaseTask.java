@@ -6,6 +6,7 @@ import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
@@ -62,8 +63,13 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         // Set movementTask based on npc type
         Vector2 currentPos = owner.getEntity().getPosition();
         Vector2 targetPos = target.getPosition();
-        movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
-                new MovementTask(targetPos, speed);
+        // temporary fix as the behaviour of this was changed without changing the maze game.
+        if (owner.getEntity() instanceof MazeEntity) {
+            movementTask = new MovementTask(targetPos);
+        } else {
+            movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+                    new MovementTask(targetPos, speed);
+        }
         movementTask.create(owner);
         movementTask.start();
         

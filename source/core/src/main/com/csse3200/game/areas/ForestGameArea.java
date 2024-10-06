@@ -528,6 +528,9 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         spawnHive(generator, 5, 0.1, 1);
     }
 
+    /**
+     *  Spawns the friendly NPCs onto the map
+     */
     private void spawnFriendlyNPCs() {
         Supplier<Entity> generator;
 
@@ -562,6 +565,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 	
     /**
      * Spawns defeated enemy NPCs are friendly NPCs in the same/similar location
+     *
+     * @param defeatedEnemy the entity that has been defeated in combat
      */
 	@Override
 	public void spawnConvertedNPCs(Entity defeatedEnemy) {
@@ -589,19 +594,22 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 				break;
 			// Add other enemy types as needed
 			default:
-				logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
-				return;
+                return;
 		}
-		
-		if (convertedNPC != null) {
-			spawnEntityAtVector(convertedNPC, pos);
-			convertedNPC.getEvents().trigger("wanderStart");
-			logger.info("Converted " + defeatedEnemy.getEnemyType() + " to friendly NPC at " + pos);
-		}
-	}
-	
-	// Might remove this method later (pretty much a copy of spawnBanana)
-	private Vector2 calculateSpawnPosition(Entity entity) {
+
+        spawnEntityAtVector(convertedNPC, pos);
+        convertedNPC.getEvents().trigger("wanderStart");
+    }
+
+    /**
+     * Calculates a spawn position for an entity relative to the player's position.
+     * The position is adjusted based on the entity's current position in comparison to the player's
+     * and is clamped to ensure it stays within the map boundaries.
+     *
+     * @param entity the entity for which the spawn position is being calculated.
+     * @return a representing the new spawn position within the map bounds.
+     */
+    private Vector2 calculateSpawnPosition(Entity entity) {
 		// Use the same logic as in spawnBanana method
 		float spawnX = (entity.getPosition().x - player.getPosition().x) > 0 ? -1 : 1;
 		float spawnY = (entity.getPosition().y - player.getPosition().y) > 0 ? 1 : -1;
@@ -610,8 +618,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 		Vector2 pos = new Vector2(entity.getPosition().x + spawnX, entity.getPosition().y + spawnY);
 		
 		// Ensure the position is within map bounds
-		pos.x = Math.max(0, Math.min(pos.x, MAP_SIZE.x));
-		pos.y = Math.max(0, Math.min(pos.y, MAP_SIZE.y));
+        pos.x = Math.clamp(pos.x, 0, MAP_SIZE.x);
+        pos.y = Math.clamp(pos.y, 0, MAP_SIZE.y);
 		
 		return pos;
 	}

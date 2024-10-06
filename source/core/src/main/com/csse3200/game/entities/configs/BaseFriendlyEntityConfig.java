@@ -6,24 +6,19 @@ import java.util.Map;
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseFriendlyEntityConfig extends BaseEntityConfig {
-    private int health = 100;
-    private int hunger = 100;
     private int baseAttack = 0;
     private int strength = 0;
-    private int speed = 1;
-    private int experience = 100;
     private int stamina = 100;
     private int level = 1;
     private Boolean isBoss = false;
-    public Map<Integer, String[]> hints;
+    private Map<Integer, String[]> hints;
     public int hintLevel = 0;
     public int currentHint = 0;
-    public int currentHintLine = 0;
     protected String animalName = "";
     protected String[][] baseHint;
-    protected float itemProbability = 0;
-    protected String foodItem; // Remove if not being used.
-
+    protected String spritePath;
+    protected String[] soundPath;
+    private float itemProbability = 0;
     protected BaseFriendlyEntityConfig() {}
 
     /**
@@ -44,6 +39,52 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
             hintLevel = hintLevel + 1;
             restartCurrentHint();
         }
+    }
+
+
+    /**
+     * Returns the path to the sprite image for this entity.
+     *
+     * @return the sprite path as a String.
+     */
+    public String getSpritePath() {
+        return this.spritePath;
+    }
+
+    /**
+     * Sets the sprite path for this entity.
+     *
+     * @param spritePath the path to the sprite image.
+     */
+    public void setSpritePath(String spritePath) {
+        this.spritePath = spritePath;
+    }
+
+    /**
+     * Returns the animation speed for this entity.
+     *
+     * @return the animation speed as a float.
+     */
+    public float getAnimationSpeed() {
+        return this.animationSpeed;
+    }
+
+    /**
+     * Returns the paths to the sound files associated with this entity.
+     *
+     * @return an array of String representing the sound paths.
+     */
+    public String[] getSoundPath() {
+        return this.soundPath;
+    }
+
+    /**
+     * Sets the sound paths for this entity.
+     *
+     * @param soundPath an array of String representing the new sound paths.
+     */
+    public void setSoundPath(String[] soundPath) {
+        this.soundPath = soundPath;
     }
 
     /**
@@ -83,88 +124,173 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     }
 
     /**
-     * Sets the base hint messages for this entity.
-     *
-     * @param baseHint an array of String containing the new base hints.
+     * Restarts the current hint by resetting the current hint and line indices.
      */
-    public void setBaseHint(String[][] baseHint) {
-        this.baseHint = baseHint;
-    }
-
     public void restartCurrentHint() {
         if (hints != null) {
             this.currentHint = 0;
-            this.currentHintLine = 0;
         }
     }
 
+    /**
+     * Sets the health of the entity.
+     *
+     * @param health the new health value to set.
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
-    // Getter and setter for hunger
+    /**
+     * Retrieves the current hunger level of the entity.
+     *
+     * @return the current hunger level.
+     */
     public int getHunger() {
         return hunger;
     }
 
+    /**
+     * Sets the hunger level of the entity.
+     *
+     * @param hunger the new hunger level to set.
+     */
     public void setHunger(int hunger) {
         this.hunger = hunger;
     }
 
+    /**
+     * Sets the base attack value for the entity.
+     *
+     * @param baseAttack the new base attack value to set.
+     */
     public void setBaseAttack(int baseAttack) {
         this.baseAttack = baseAttack;
     }
 
-    // Getter and setter for strength
+    /**
+     * Retrieves the strength attribute of the entity.
+     *
+     * @return the current strength value.
+     */
     public int getStrength() {
         return strength;
     }
 
+    /**
+     * Sets the strength attribute of the entity.
+     *
+     * @param strength the new strength value to set.
+     */
     public void setStrength(int strength) {
         this.strength = strength;
     }
 
-    // Getter and setter for defense
+    /**
+     * Retrieves the defense attribute of the entity.
+     *
+     * @return the current defense value.
+     */
     public int getDefense() {
         return this.defense;
     }
 
+    /**
+     * Sets the defense attribute of the entity.
+     *
+     * @param defense the new defense value to set.
+     */
     public void setDefense(int defense) {
         this.defense = defense;
     }
 
-    // Getter and setter for speed
+    /**
+     * Retrieves the speed attribute of the entity.
+     *
+     * @return the current speed value.
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Sets the speed attribute of the entity.
+     *
+     * @param speed the new speed value to set.
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    // Getter and setter for experience
+    /**
+     * Retrieves the experience points of the entity.
+     *
+     * @return the current experience points.
+     */
     public int getExperience() {
         return experience;
     }
+
+    /**
+     * Sets the experience points for the entity.
+     *
+     * @param experience the new experience points to set.
+     */
     public void setExperience(int experience) {
         this.experience = experience;
     }
 
-    // Getter for item drop probability
+    /**
+     * Retrieves the item drop probability of the entity.
+     *
+     * @return the probability of an item drop occurring.
+     */
     public float getItemProbability() {
         return itemProbability;
     }
 
+    /**
+     * Determines if the entity is a boss.
+     *
+     * @return {@code true} if the entity is a boss, {@code false} otherwise.
+     */
     public Boolean isBoss() {
         return isBoss;
     }
 
-    // Getter and setter for stamina.
-    public int getStamina() { return stamina; }
+    /**
+     * Retrieves the stamina attribute of the entity.
+     *
+     * @return the current stamina value.
+     */
+    public int getStamina() {
+        return stamina;
+    }
 
-    public void setStamina(int stamina) { this.stamina = stamina; }
+    /**
+     * Sets the stamina attribute of the entity.
+     *
+     * @param stamina the new stamina value to set.
+     */
+    public void setStamina(int stamina) {
+        this.stamina = stamina;
+    }
 
-    public int getLevel() { return level; }
+    /**
+     * Retrieves the current level of the entity.
+     *
+     * @return the current level.
+     */
+    public int getLevel() {
+        return level;
+    }
 
-    public void setLevel(int level) { this.level = level; }
+    /**
+     * Sets the level of the entity.
+     *
+     * @param level the new level to set.
+     */
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }

@@ -117,9 +117,9 @@ public interface InventoryInterface {
      * stack.
      *
      * @param item the item to add to the inventory
-     * @return {@code true} if the item was added successfully, else {@code false}
+     * @return the index at which the item was added (-1 if could not be added)
      */
-    boolean add(AbstractItem item);
+    int add(AbstractItem item);
 
     /**
      * Adds an item to a specific index in the inventory, replacing any existing item at that index.
@@ -133,9 +133,4 @@ public interface InventoryInterface {
      * Sorts the inventory by item code.
      */
     void sortByCode();
-
-    /**
-     * Sorts the inventory by item name.
-     */
-    void sortByName();
 }
