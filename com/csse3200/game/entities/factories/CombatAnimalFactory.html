@@ -136,7 +136,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates chicken enemy as entity for combat display</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createCombatBaseEnemy()" class="member-name-link">createCombatBaseEnemy</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createCombatBaseEnemy(com.csse3200.game.entities.configs.BaseEnemyEntityConfig,com.csse3200.game.entities.Entity.EnemyType)" class="member-name-link">createCombatBaseEnemy</a><wbr>(<a href="../configs/BaseEnemyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEnemyEntityConfig</a>&nbsp;config,
+ <a href="../Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a base Combat NPC to be used by more specific NPC creation methods.</div>
 </div>
@@ -171,13 +172,18 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates monkey enemy as NPC entity for static combat</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPigeonCombatEnemy()" class="member-name-link">createPigeonCombatEnemy</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createOctopusCombatEnemy()" class="member-name-link">createOctopusCombatEnemy</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates pigeon enemy as NPC entity for static combat</div>
+<div class="block">Creates big saw fish enemy as NPC entity for static combat</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWaterBossCombatEntity()" class="member-name-link">createWaterBossCombatEntity</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPigeonCombatEnemy()" class="member-name-link">createPigeonCombatEnemy</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates pigeon enemy as NPC entity for static combat</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWaterBossCombatEntity()" class="member-name-link">createWaterBossCombatEntity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates water boss enemy as entity for combat display</div>
 </div>
 </div>
@@ -198,9 +204,10 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="createCombatBaseEnemy()">
+<section class="detail" id="createCombatBaseEnemy(com.csse3200.game.entities.configs.BaseEnemyEntityConfig,com.csse3200.game.entities.Entity.EnemyType)">
 <h3>createCombatBaseEnemy</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createCombatBaseEnemy</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createCombatBaseEnemy</span><wbr><span class="parameters">(<a href="../configs/BaseEnemyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEnemyEntityConfig</a>&nbsp;config,
+ <a href="../Entity.EnemyType.html" title="enum class in com.csse3200.game.entities">Entity.EnemyType</a>&nbsp;type)</span></div>
 <div class="block">Creates a base Combat NPC to be used by more specific NPC creation methods.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -251,6 +258,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createBigsawfishCombatEnemy()">
 <h3>createBigsawfishCombatEnemy</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createBigsawfishCombatEnemy</span>()</div>
+<div class="block">Creates big saw fish enemy as NPC entity for static combat</div>
+</section>
+</li>
+<li>
+<section class="detail" id="createOctopusCombatEnemy()">
+<h3>createOctopusCombatEnemy</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">createOctopusCombatEnemy</span>()</div>
 <div class="block">Creates big saw fish enemy as NPC entity for static combat</div>
 </section>
 </li>
