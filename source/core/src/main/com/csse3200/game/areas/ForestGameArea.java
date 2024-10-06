@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSoundsConfig;
 import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSpawnConfig;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTexturesConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestGameAreaConfig;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.areas.terrain.TerrainFactory.TerrainType;
 import com.csse3200.game.areas.terrain.TerrainLoader;
@@ -47,7 +47,6 @@ import com.csse3200.game.utils.math.RandomUtils;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final ForestGameAreaConfig config = new ForestGameAreaConfig();
 
   // INFO: The Map is equally divided into three areas. Each area is 160x48 tiles wide.
   private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
@@ -792,8 +791,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadMusic(new String[] {"sounds/BGM_03_mp3.mp3", "sounds/track_2.mp3"});
 
-        resourceService.loadTextures(config.textures.forestTextures);
-        resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
+        resourceService.loadTextures(ForestTexturesConfig.FOREST_TEXTURES);
+        resourceService.loadTextureAtlases(ForestTexturesConfig.FOREST_TEXTURE_ATLASES);
         resourceService.loadSounds(ForestSoundsConfig.GAME_SOUNDS);
         resourceService.loadMusic(ForestSoundsConfig.GAME_MUSIC);
         resourceService.loadSounds(ForestSoundsConfig.CHARACTER_SOUNDS);
@@ -807,8 +806,8 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
     public void unloadAssets() {
         logger.debug("UNLOADING ASSETS");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(config.textures.forestTextures);
-        resourceService.unloadAssets(config.textures.forestTextureAtlases);
+        resourceService.unloadAssets(ForestTexturesConfig.FOREST_TEXTURES);
+        resourceService.unloadAssets(ForestTexturesConfig.FOREST_TEXTURE_ATLASES);
         resourceService.unloadAssets(ForestSoundsConfig.GAME_SOUNDS);
         resourceService.unloadAssets(ForestSoundsConfig.GAME_MUSIC);
     }
