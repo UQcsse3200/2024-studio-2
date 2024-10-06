@@ -22,7 +22,7 @@ import java.lang.reflect.Constructor;
 public class MazeObstacleFactoryTest {
 
     private Entity wall;
-    private static final String[] TEXTURE_MAZE = { "images/minigames/wall.png" };
+    private static final String[] TEXTURE_MAZE = { "images/minigames/wall_v.png", "images/minigames/wall_h.png" };
 
     @BeforeEach
     void setUp() {
