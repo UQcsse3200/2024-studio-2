@@ -22,7 +22,6 @@ import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +59,8 @@ public class CombatManager extends Component {
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
 
-
     // HashMap stores information on enemies when attack
-    private static Map<String,ArrayList<Action>> EnemyMoveStore = new LinkedHashMap<>();
+    private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -278,7 +276,7 @@ public class CombatManager extends Component {
      */
 
     private void updateEnemyMoveStore(Action value) {
-        ArrayList<Action> itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
+        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
 
         if (itemsList == null)
         {
@@ -289,12 +287,12 @@ public class CombatManager extends Component {
         //particular enemy has already made a move
         {
             logger.info("removing existing record in hashmap");
-            itemsList = EnemyMoveStore.remove(enemy.getEnemyType().toString());
+            itemsList = enemyMoveStore.remove(enemy.getEnemyType().toString());
         }
 
 
         itemsList.add(value);
-        EnemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
+        enemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
         if(itemsList.size()>2)
         {
             logger.info("1- item list size: {}", itemsList.size());
@@ -310,9 +308,9 @@ public class CombatManager extends Component {
     private void checkSpecialMoveCombination()
     {
         boolean noSpecialMoveComboFlag = false;
-        ArrayList<Action> itemsList = EnemyMoveStore.get(enemy.getEnemyType().toString());
+        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
         logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList<Action>> entry : EnemyMoveStore.entrySet())
+        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet())
         {
             logger.info("Map<String,ArrayList> :: {} :: {}", entry.getKey(), entry.getValue());
         }
@@ -363,7 +361,7 @@ public class CombatManager extends Component {
     }
     
     private StringBuilder moveHelper(StringBuilder enemyMoves) {
-        for (Map.Entry<String, ArrayList<Action>> entry : EnemyMoveStore.entrySet()){
+        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet()){
             enemyMoves.append(entry.getValue().toString()).append(", ");
         }
         enemyMoves.append("");

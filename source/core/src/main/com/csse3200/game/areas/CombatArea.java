@@ -2,8 +2,6 @@ package com.csse3200.game.areas;
 
 import java.util.List;
 
-import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +14,6 @@ import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.entities.factories.CombatAnimalFactory;
-import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -24,7 +21,7 @@ import com.csse3200.game.services.ServiceLocator;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(CombatArea.class);
-    private static GridPoint2 PLAYER_SPAWN = new GridPoint2(290,  335); // 9, 14...384, 256
+    private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256
 
     private static final String[] combatTexture = {
             "images/box_boy_leaf.png",
@@ -54,8 +51,6 @@ public class CombatArea extends GameArea {
             "images/lower_middle_grass.png",
             "images/lower_right_grass.png",
             "images/full_sand_tile.png",
-            "images/dog.png",
-            "images/croc.png",
             "images/bird.png",
             "images/Healthpotion.png",
             "images/foodtextures/apple.png",
@@ -104,10 +99,9 @@ public class CombatArea extends GameArea {
     };
     private static final String[] questSounds = {"sounds/QuestComplete.wav"};
     private static final String[] forestSounds = {"sounds/Impact4.ogg"};
-    private static final String heartbeat = "sounds/heartbeat.mp3";
-    private static final String[] heartbeatSound = {heartbeat};
-    private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
-    private static final String[] forestMusic = {backgroundMusic};
+    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
+    private static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
+    private static final String[] forestMusic = {BACKGROUND_MUSIC};
     private CombatTerrainFactory combatTerrainFactory;
     private Entity player;
     private Entity enemy;
@@ -116,7 +110,7 @@ public class CombatArea extends GameArea {
     private Entity enemyDisplay;
     private Entity playerDisplay;
 
-    public enum CombatAnimation { IDLE, MOVE };
+    public enum CombatAnimation { IDLE, MOVE }
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -154,7 +148,7 @@ public class CombatArea extends GameArea {
             case PIGEON -> spawnPigeon();
             case EEL -> spawnEel();
             case OCTOPUS -> spawnOctopus();
-            case BIGSAWFISH -> spawnBigsawfish();
+            case BIGSAWFISH -> spawnBigSawfish();
             case MACAW -> spawnMacaw();
             case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
@@ -171,7 +165,7 @@ public class CombatArea extends GameArea {
      * combat using combat terrain factory
      */
     public void spawnTerrain() {
-        terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE);
+        terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
@@ -185,25 +179,26 @@ public class CombatArea extends GameArea {
     private void spawnPlayer() {
         spawnCameraInvisibleEntity(); // Create invisible entity to centre camera at centre of background
 
-        /**
+        /*
          * The following entity is the real entity of the player to be used for combat,
          * with health, stats, etc.
          */
         String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
-        if (imagePath == "images/croc.png"){
-            PLAYER_SPAWN = new GridPoint2(332, 335);
-        } else if (imagePath == "images/dog.png"){
-            PLAYER_SPAWN = new GridPoint2(337, 330);
+        if (imagePath.equals("images/croc.png")){
+            playerSpawn = new GridPoint2(332, 335);
+        } else if (imagePath.equals("images/dog.png")){
+            playerSpawn = new GridPoint2(337, 330);
         } else { //animal is bird
-            PLAYER_SPAWN = new GridPoint2(350, 335);
+            playerSpawn = new GridPoint2(350, 335);
             newPlayer.scaleHeight(150);
         }
-        spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+        spawnEntityAt(newPlayer, playerSpawn, true, true);
     }
 
     /** Spawns an invisible entity to set the camera at the centre of the screen without having to
-     * attach the camera to the real player entity. This entity should be ignored and it's health/stats etc.
+     * attach the camera to the real player entity. This entity should be ignored, and it's
+     * health/stats etc.
      * are NOT to be used for combat logic or anywehre else
      */
     private void spawnCameraInvisibleEntity(){
@@ -327,7 +322,7 @@ public class CombatArea extends GameArea {
     /**
      * spawns a big saw fish enemy, with the player entity as its target
      */
-    private void spawnBigsawfish() {
+    private void spawnBigSawfish() {
         Entity enemyDisplay = CombatAnimalFactory.createBigsawfishCombatEnemy();
         spawnEntityAt(enemyDisplay, new GridPoint2(785, 337), true, true);
         this.enemyDisplay = enemyDisplay;
@@ -376,7 +371,7 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
@@ -386,7 +381,7 @@ public class CombatArea extends GameArea {
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
         music.pause();
     }
 
@@ -418,7 +413,7 @@ public class CombatArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 
