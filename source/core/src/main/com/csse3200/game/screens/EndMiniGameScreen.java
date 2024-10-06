@@ -57,6 +57,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final Entity player;
     private PlayerInventoryDisplay display;
     private Table contentTable;
+    private Table buttonTable;
     private static final String[] endMiniGameSounds = {
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -93,8 +94,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         }
         Gdx.input.setInputProcessor(stage);
 
-        setupExitButton();
-
         ServiceLocator.registerResourceService(new ResourceService());
         loadAssets();
         playSoundEffect();
@@ -118,42 +117,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
         // Render the game over messages
         renderEndMessage();
         stage.addActor(contentTable);
+        //stage.addActor(buttonTable);
 
         handleKeyPress();
-    }
-
-    /**
-     * Puts the exit button in the top right of the screen.
-     * Will take the user back to the Main menu screen
-     */
-    private void setupExitButton() {
-
-        TextButton exitButton = new TextButton("Exit", skin);
-        // Scale the button's font
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Return to main menu and original screen colour
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                try {
-                    giveLootBox();
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                game.setOldScreen(oldScreen, oldScreenServices);
-            }
-        });
-
-        // Set up the table for UI layout
-        Table exitButtonTable = new Table();
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
-        // Add the table to the stage
-        stage.addActor(exitButtonTable);
     }
 
     /**
@@ -221,20 +187,25 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         contentTable = new Table();
         contentTable.setFillParent(true);
+        contentTable.debug();
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
         Label endGameLabel = new Label("End of Mini-Game", labelStyle);
+        contentTable.row().colspan(3);
         contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
-        contentTable.row();
+//        contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
+//        contentTable.row();
 
         // Score label
         font26.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label scoreLabel = new Label("Score: " + score, labelStyle);
+        contentTable.row().colspan(3);
         contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
-        contentTable.row();
+//        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
+//        contentTable.row();
 
         // Medal label
         MiniGameMedals medal = getMedal(score);
@@ -242,15 +213,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You FAILED", labelStyle);
+            contentTable.row().colspan(3);
             contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-            contentTable.row();
+//            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+//            contentTable.row();
 
         } else {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
+            contentTable.row().colspan(3);
             contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-            contentTable.row();
+//            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+//            contentTable.row();
         }
 
         // Personalised message label
@@ -258,8 +233,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
         labelStyle = new Label.LabelStyle(font18, Color.WHITE);
         String scoreMessage = getMessage();
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
+        contentTable.row().colspan(3);
         contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
-        contentTable.row();
+//        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
+//        contentTable.row();
 
         makeButtons();
     }
@@ -289,36 +266,52 @@ public class EndMiniGameScreen extends ScreenAdapter {
             }
         });
 
-        // Add buttons to the table and align them at the bottom
-        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
-        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
-
-        // Makes return to game button appear only if it came from the game screen
+        // Make either "Return to Game" or "Mini_Game Menu" button (where the player came from)
+        TextButton oldScreenButton;
         if (oldScreen instanceof MainGameScreen) {
-            // Make Mini-Game Menu Button
-            TextButton mainGameButton = new TextButton("Return to Game", skin);
-            mainGameButton.getLabel().setFontScale(scale);
-            mainGameButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                    try {
-                        giveLootBox();
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                    game.setOldScreen(oldScreen, oldScreenServices);
-                }
-            });
-            contentTable.add(mainGameButton).width(mainGameButton.getWidth() * scale).height(mainGameButton.getHeight() * scale).center().pad(10 * scale).row();
+            oldScreenButton = new TextButton("Return to Game", skin);
+        } else {
+            oldScreenButton = new TextButton("Mini-Game Menu", skin);
         }
+
+        oldScreenButton.getLabel().setFontScale(scale);
+        oldScreenButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    giveLootBox();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                game.setOldScreen(oldScreen, oldScreenServices);
+            }
+        });
+//        // Add buttons to the table and align them at the bottom
+//        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
+//        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
+//        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).center().pad(10 * scale).row();
+
+        // Allign buttons in 1 row
+        contentTable.row().expandX().fillX();
+        contentTable.add(tryAgainButton)
+                .width(tryAgainButton.getWidth() * scale)
+                .height(tryAgainButton.getHeight() * scale)
+                .padLeft(500 * scale);
+        contentTable.add(menuButton)
+                .width(menuButton.getWidth() * scale)
+                .height(menuButton.getHeight() * scale)
+                .center();
+        contentTable.add(oldScreenButton)
+                .width(oldScreenButton.getWidth() * scale)
+                .height(oldScreenButton.getHeight() * scale)
+                .padRight(500 * scale);
     }
 
     /**
      * Get the medal associated with the players score for current game
      *
      * @param score: the players score
-     * @return the medal associated with the score
+     * @return the medal associated with the score for each game
      */
     private MiniGameMedals getMedal(int score) {
 
@@ -484,17 +477,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         // Update the stage viewport
-        stage.getViewport().update(width, height, true);
         float baseWidth = 1920f;
         float baseHeight = 1200f;
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
+        stage.getViewport().update(width, height, true);
         scale = Math.min(scaleWidth, scaleHeight);
         stage.clear();
-        setupExitButton();
         renderEndMessage();
     }
 
+    /**
+     * Loads the sound assets
+     */
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -502,9 +497,47 @@ public class EndMiniGameScreen extends ScreenAdapter {
         ServiceLocator.getResourceService().loadAll();
     }
 
+    /**
+     * Unlaods the sound assets
+     */
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(endMiniGameSounds);
     }
+
+//    /**
+//     * Puts the exit button in the top right of the screen.
+//     * Will take the user back to the Main menu screen
+//     */
+//    private void setupExitButton() {
+//
+//        TextButton exitButton = new TextButton("Exit", skin);
+//        // Scale the button's font
+//        exitButton.getLabel().setFontScale(scale);
+//
+//        exitButton.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                // Return to main menu and original screen colour
+//                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+//                try {
+//                    giveLootBox();
+//                } catch (ClassNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                game.setOldScreen(oldScreen, oldScreenServices);
+//            }
+//        });
+//
+//        // Set up the table for UI layout
+//        Table exitButtonTable = new Table();
+//        exitButtonTable.setFillParent(true);
+//        exitButtonTable.top().right();
+//        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+//
+//        // Add the table to the stage
+//        stage.addActor(exitButtonTable);
+//    }
+
 }
