@@ -60,10 +60,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     private final Entity player;
     private PlayerInventoryDisplay display;
-    private Table contentTable;
-    private Table imageTable;
-    private final Texture medalTexture;
-    private final Image medalImage;
+    private final Table contentTable;
+    private final MiniGameMedals medal;
     private static final String[] endMiniGameSounds = {
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -78,12 +76,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.scale = 1;
         this.oldScreen = screen;
         this.oldScreenServices = container;
+        this.medal = getMedal(this.score);
 
         this.stage = new Stage(new ScreenViewport());
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        this.medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
-        this.medalImage = new Image(medalTexture);
+        contentTable = new Table();
+        contentTable.setFillParent(true);
+        //contentTable.debug();
 
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
@@ -147,7 +147,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Determine the medal and get the corresponding loot box\
         if (player != null) {
-            switch (getMedal(score)) {
+            switch (medal) {
                 case BRONZE -> {
                     // Create and add EarlyGameLootBox using the factory
                     UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
@@ -200,15 +200,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
      * Renders the labels with score, message and title.
      */
     private void renderEndMessage() {
-        contentTable = new Table();
-        contentTable.setFillParent(true);
-        contentTable.debug();
 
-
-        // Add in the medal Image
-        medalImage.setScaling(Scaling.fit); // Adjust to fit while keeping the aspect ratio
-        medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f); // Scale down to half, adjust as needed
-        contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
+        // Render the medal image
+        renderMedal();
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
@@ -232,7 +226,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         contentTable.add(highscoreLabel).center().padBottom(50 * scale).row();
 
         // Medal label
-        MiniGameMedals medal = getMedal(score);
         if (medal == MiniGameMedals.FAIL) {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
@@ -245,7 +238,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
             contentTable.row().colspan(3);
-            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+            contentTable.add(medalLabel).center().padBottom(100 * scale).row();
         }
 
         // Personalised message label
@@ -256,6 +249,30 @@ public class EndMiniGameScreen extends ScreenAdapter {
         contentTable.row().colspan(3);
         contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
         makeButtons();
+    }
+
+    private void renderMedal() {
+        System.out.println("HEREEEEEEEEEEEEEE2");
+        Texture medalTexture = null;
+        if (medal == MiniGameMedals.GOLD) {
+            System.out.println("GOLD");
+            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameGold.png"));
+        } else if (medal == MiniGameMedals.SILVER) {
+            System.out.println("SILVER");
+            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameSilver.png"));
+        } else {
+            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
+        }
+        if (medal == MiniGameMedals.FAIL) {
+            System.out.println("FAILLLLLLLLLLLL");
+        }
+        if (medal != MiniGameMedals.FAIL) {
+            // Add in the medal Image
+            Image medalImage = new Image(medalTexture);
+            medalImage.setScaling(Scaling.fit); // Adjust to fit while keeping the aspect ratio
+            medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f); // Scale down to half, adjust as needed
+            contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
+        }
     }
 
     /**
@@ -466,7 +483,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
-        medalTexture.dispose();
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
