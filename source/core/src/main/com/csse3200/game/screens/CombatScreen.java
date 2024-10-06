@@ -96,12 +96,14 @@ public class CombatScreen extends ScreenAdapter {
 
   @Override
   public void render(float delta) {
-    if (!isPaused){
-    physicsEngine.update();
-    ServiceLocator.getEntityService().update();
-    renderer.render();
+    if (!isPaused) {
+      physicsEngine.update();
+      ServiceLocator.getEntityService().update();
+      checkEnemyDeath(); // Check for enemy death here
+      renderer.render();
     }
   }
+
 
   @Override
   public void resize(int width, int height) {
@@ -196,6 +198,8 @@ public class CombatScreen extends ScreenAdapter {
       game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to VictoryScreen
     }
   }
+
+
 
 
 
