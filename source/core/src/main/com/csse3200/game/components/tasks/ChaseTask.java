@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
@@ -27,7 +26,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     protected MovementTask movementTask;
     private Music heartbeatSound;
     private final boolean isBoss;
-    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
     private final Vector2 bossSpeed;
     private boolean chaseDir = false; // 0 left, 1 right
     private Vector2 speed;
@@ -90,7 +89,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     
     void playTensionSound() {
         if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
+            heartbeatSound = ServiceLocator.getResourceService().getAsset(HEARTBEAT, Music.class);
             heartbeatSound.setLooping(true);
             heartbeatSound.setVolume(1.0f);
         }

@@ -13,8 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AnimalRouletteScreen extends ScreenAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(AnimalRouletteScreen.class);
     private final GdxGame game;
     private Stage stage;
     private Skin skin;
@@ -124,7 +127,7 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         waterAnimalsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Water Animals button clicked!"); // Log statement
+                logger.debug("Water Animals button clicked!"); // Log statement
                 game.setScreen(new WaterAnimalSelectionScreen(game));
             }
         });
@@ -146,9 +149,8 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         String title = animalNames[currentAnimalIndex];
         String content = animalDescriptions[currentAnimalIndex];
 
-        popUpHelper.displayDialog(title, content, animalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () -> {
-            game.setScreen(new StoryScreen(game, animalNames[currentAnimalIndex].toLowerCase()));
-        });
+        popUpHelper.displayDialog(title, content, animalImages[currentAnimalIndex], 600, 400, currentAnimalIndex, () ->
+                game.setScreen(new StoryScreen(game, animalNames[currentAnimalIndex].toLowerCase())));
     }
 
     private void updateButtonPositions() {

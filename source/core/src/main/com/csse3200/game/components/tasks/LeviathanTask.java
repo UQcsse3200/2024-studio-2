@@ -52,7 +52,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
 
     // Heartbeat sound for tension
     private Music heartbeatSound;
-    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
 
     // Speed of the Leviathan
     private final Vector2 bossSpeed;
@@ -214,7 +214,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
      */
     private void playTensionSound() {
         if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
+            heartbeatSound = ServiceLocator.getResourceService().getAsset(HEARTBEAT, Music.class);
             heartbeatSound.setLooping(true);
             heartbeatSound.setVolume(1.0f);
         }

@@ -379,9 +379,13 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(aiComponent)
                     .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)))
-                    .addComponent(new FadeLightsDayTimeComponent());
+                    .addComponent(new FadeLightsDayTimeComponent());;
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
+  }
+
+  private NPCFactory() {
+    throw new IllegalStateException("Instantiating static util class");
   }
 }
