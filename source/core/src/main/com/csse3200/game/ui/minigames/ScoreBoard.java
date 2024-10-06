@@ -168,7 +168,10 @@ public class ScoreBoard {
         float scaleFactorX = screenWidth / baseWidth; // Scale relative to screen size
         float scaleFactorY = screenHeight / baseHeight;
         float scaleFactor = Math.min(scaleFactorX, scaleFactorY);
+        if (scaleFactor == 0) {
+            scaleFactor = 1;
 
+        }
         // Scale the table's size and position based on screen dimensions
         table.setSize((float) (screenWidth * 0.22f * scale), ((float) (screenHeight * 0.5f * scale)));
         //table.setPosition(0, screenHeight - table.getHeight() - 15); // top right of screen

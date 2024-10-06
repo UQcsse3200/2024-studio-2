@@ -14,6 +14,7 @@ import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.minigames.snake.controller.KeyboardSnakeInputComponent;
 import com.csse3200.game.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class SnakeScreen extends PausableScreen {
     private final ServiceContainer oldScreenServices;
     private final Texture backgroundTexture;
     private final SpriteBatch spriteBatch;
+    private final Entity ui;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -69,6 +71,7 @@ public class SnakeScreen extends PausableScreen {
         this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
+        this.ui = new Entity();
 
         this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
 
@@ -170,6 +173,10 @@ public class SnakeScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
+        if (scale == 0) {  // Screen has been minimised
+            scale = 1;
+            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+        }
         setupExitButton();
         snakeRenderer.resize(width, height);
     }
@@ -235,7 +242,6 @@ public class SnakeScreen extends PausableScreen {
 
         Stage stage = ServiceLocator.getRenderService().getStage();
 
-        Entity ui = new Entity();
         ui
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
