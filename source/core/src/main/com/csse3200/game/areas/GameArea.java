@@ -81,7 +81,7 @@ public abstract class GameArea implements Disposable {
 
   public abstract List<Entity> getEnemies();
 
-  public void unlockArea(String area) {};
+  public void unlockArea(String area) {}
 
   /**
    * Spawns an entity at a specified world position.

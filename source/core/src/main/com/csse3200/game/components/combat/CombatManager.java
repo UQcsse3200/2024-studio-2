@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -174,7 +175,7 @@ public class CombatManager extends Component {
             logger.info("PLAYER is CONFUSED");
             ArrayList<Action> actions = new ArrayList<>(List.of(Action.ATTACK, Action.GUARD, Action.SLEEP));
             actions.remove(playerAction);
-            playerAction = actions.get((int) (Math.random() * actions.size()));
+            playerAction = actions.get((int) (MathUtils.random() * actions.size()));
             moveChangedByConfusion = true;
         }
     }
@@ -256,7 +257,7 @@ public class CombatManager extends Component {
         }
 
         int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-                (int) (Math.random() * 4) : (int) (Math.random() * 3);
+                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
         action = switch (rand) {
             case 0 -> Action.ATTACK;
             case 1 -> Action.GUARD;
@@ -498,8 +499,6 @@ public class CombatManager extends Component {
         }
     }
 
-    final Random random = new Random();
-
     /**
      * Simulates a multi-hit attack by the enemy.
      * The number of hits is based on the enemy's speed and is calculated using a Bernoulli distribution.
@@ -510,7 +509,7 @@ public class CombatManager extends Component {
         double successProbability = Math.exp(enemyStats.getSpeed() / 250.0) - 0.5;
         int successfulHits = 0;
         for (int i = 0; i < 4; i++) {
-            successfulHits += (random.nextDouble() < successProbability) ? 1 : 0;
+            successfulHits += (MathUtils.random() < successProbability) ? 1 : 0;
         }
         return successfulHits;
     }

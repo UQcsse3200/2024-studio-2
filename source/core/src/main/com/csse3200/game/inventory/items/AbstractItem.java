@@ -66,7 +66,10 @@ public abstract class AbstractItem {
      */
     public String getName() {return name;}
 
+    /** Whether an item can only be used in combat **/
     public boolean onlyCombatItem() {return onlyCombatItem;}
+
+    /** Whether an item can only be used on the map **/
     public boolean onlyMapItem() {return onlyMapItem;}
 
     /**

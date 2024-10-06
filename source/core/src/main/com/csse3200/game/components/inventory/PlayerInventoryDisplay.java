@@ -9,8 +9,9 @@ import com.csse3200.game.inventory.items.potions.AttackPotion;
 import com.csse3200.game.inventory.items.potions.DefensePotion;
 import com.csse3200.game.services.ServiceLocator;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.Deque;
 
 /**
  * PlayerInventoryDisplay extends InventoryDisplay and adds features like hotbar and drag-and-drop functionality.
@@ -28,17 +29,20 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
     public void updatePotions(ItemUsageContext context) {
         if (this.potions == null) { return;}
 
-        Stack<Integer> removals = new Stack<>();
+        Deque<Integer> removals = new ArrayDeque<>();
+
+        // Find all items to remove
         for (int i = 0; i < potions.size(); i++) {
             TimedUseItem potion = potions.get(i);
             if (potion.onlyCombatItem()) {
                 potions.get(i).update(context);
-                removals.add(i);
+                removals.addFirst(i);  // Equivalent to stack.push(i)
             }
         }
 
+        // Remove those items
         while (!removals.isEmpty()) {
-            int i = removals.pop();
+            int i = removals.removeFirst();  // Equivalent to stack.pop()
             potions.remove(i);
         }
     }
@@ -50,24 +54,28 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
     protected void useItem(AbstractItem item, int index) {
         ItemUsageContext context = new ItemUsageContext(entity);
         tryUseItem(item, context, index);
-        if (item instanceof TimedUseItem) {
-            potions.add((TimedUseItem) item);
+        if (item instanceof TimedUseItem timedUseItem) {
+            potions.add(timedUseItem);
         }
         entity.getEvents().trigger("itemUsed", item);
     }
 
     @Override
     protected void enterSlot(AbstractItem item) {
-        if (item instanceof DefensePotion) {
-            String[][] itemText = {{((DefensePotion) item).getWarning()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
-        } else if (item instanceof AttackPotion) {
-            String[][] itemText = {{((AttackPotion) item).getWarning()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
-        } else {
-            String[][] itemText = {{item.getDescription() + ". Quantity: "
-                    + item.getQuantity() + "/" + item.getLimit()}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
+        switch (item) {
+            case DefensePotion potion -> {
+                String[][] itemText = {{potion.getWarning()}};
+                ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
+            }
+            case AttackPotion potion -> {
+                String[][] itemText = {{potion.getWarning()}};
+                ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
+            }
+            default -> {
+                String[][] itemText = {{item.getDescription() + ". Quantity: "
+                        + item.getQuantity() + "/" + item.getLimit()}};
+                ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.ITEMINVENTORY);
+            }
         }
     }
 

@@ -15,23 +15,19 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UniversalLootBox extends ConsumableItem {
-
     private final BaseLootTable lootTable;
     private final int rolls;
-    private final String description;
-    private final String imagePath;
     private final Entity player;
     private static final Logger logger = LoggerFactory.getLogger(UniversalLootBox.class);
 
-    public UniversalLootBox(BaseLootTable lootTable, int rolls, Entity player, String description, String imagePath,
-                            int code) {
+    public UniversalLootBox(BaseLootTable lootTable, int rolls, Entity player, String description,
+                            String texturePath, int code) {
         super("LootBox", code, 999, 1);  // Assuming LootBox ID is 1001, can be changed
         this.lootTable = lootTable;
         this.rolls = rolls;
         this.player = player;
         this.description = description;
-        this.imagePath = imagePath;
-        this.setTexturePath(imagePath);
+        this.setTexturePath(texturePath);
         this.setDescription(description);
     }
 
@@ -84,15 +80,6 @@ public class UniversalLootBox extends ConsumableItem {
             player.getEvents().trigger("toggleInventory");
         }
         player.getEvents().trigger("showLoot", newItems);
-    }
-
-    // Getters for texture path and description
-    public String getDescription() {
-        return description;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     public Entity getPlayer() {
