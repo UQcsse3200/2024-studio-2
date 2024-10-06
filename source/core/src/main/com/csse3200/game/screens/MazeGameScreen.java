@@ -294,6 +294,10 @@ public class MazeGameScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
+        if (scale == 0) {  // Screen has been minimised
+            scale = 1;
+            mazeGameArea.getPlayer().getEvents().trigger("restMenu"); //Set the pause menu
+        }
         stage.clear();  // Clears exit button, title, health and score
         mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
         mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
