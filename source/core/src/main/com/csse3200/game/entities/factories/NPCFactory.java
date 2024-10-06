@@ -46,10 +46,6 @@ public class NPCFactory {
   private static final NPCConfigs configs =
       FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
-  private NPCFactory() {
-    throw new IllegalArgumentException("Do not instantiate factory class!");
-  }
-
   /**
    * Base method to create a friendly NPC.
    *
@@ -384,7 +380,7 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(aiComponent)
                     .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.FOREST)))
-                    .addComponent(new FadeLightsDayTimeComponent());;
+                    .addComponent(new FadeLightsDayTimeComponent());
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
