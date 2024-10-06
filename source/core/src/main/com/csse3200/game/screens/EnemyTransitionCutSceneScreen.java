@@ -33,4 +33,20 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
     private void initializeSkin() {
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json")); // Replace with the actual path to your skin file
     }
+
+    @Override
+    public void show() {
+        // Create and display the enemy transition cutscene when the screen is shown
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 1, 0, 1); // Clear the screen with a green color
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Update and draw the stage (which contains the cutscene)
+        stage.act(delta);
+        stage.draw();
+    }
+
 }
