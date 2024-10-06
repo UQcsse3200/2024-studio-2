@@ -138,6 +138,14 @@ public class ForestGameArea extends GameArea {
       player.getComponent(QuestManager.class).loadQuests();
   }
 
+//  /**
+//   * Unlock an area of the map
+//   */
+//  @Override
+//  public void unlockArea(String area) {
+//    terrain.getMap().getLayers().get(area).setVisible(false);
+//  }
+
   /**
    * Spawn the world barrier
    */
