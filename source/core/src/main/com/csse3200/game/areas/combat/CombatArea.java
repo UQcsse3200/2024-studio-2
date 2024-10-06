@@ -1,7 +1,8 @@
-package com.csse3200.game.areas;
+package com.csse3200.game.areas.combat;
 
 import java.util.List;
 
+import com.csse3200.game.areas.GameArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,94 +22,18 @@ import com.csse3200.game.services.ServiceLocator;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class CombatArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(CombatArea.class);
+
+    private GdxGame game;
+
+    private Entity player;
+    private Entity playerDisplay;
     private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256
 
-    private static final String[] combatTexture = {
-            "images/box_boy_leaf.png",
-            "images/tree.png",
-            "images/ghost_king.png",
-            "images/final_boss_kangaroo_idle.png",
-            "images/friendly_npcs/friendly-npcs.png",
-            "images/water_boss_idle.png",
-            "images/air_boss_idle.png",
-            "images/grass_1.png",
-            "images/grass_2.png",
-            "images/grass_3.png",
-            "images/hex_grass_1.png",
-            "images/hex_grass_2.png",
-            "images/hex_grass_3.png",
-            "images/iso_grass_1.png",
-            "images/iso_grass_2.png",
-            "images/iso_grass_3.png",
-            "images/gt.png",
-            "images/top_left_grass.png",
-            "images/top_middle_grass.png",
-            "images/top_right_grass.png",
-            "images/middle_left_grass.png",
-            "images/middle_grass.png",
-            "images/middle_right_grass.png",
-            "images/lower_left_grass.png",
-            "images/lower_middle_grass.png",
-            "images/lower_right_grass.png",
-            "images/full_sand_tile.png",
-            "images/bird.png",
-            "images/Healthpotion.png",
-            "images/foodtextures/apple.png",
-            "images/combat_background_one.png",
-            "images/combat_background.png",
-            "images/chicken_idle.png",
-            "images/bear_idle.png",
-            "images/bee_idle.png",
-            "images/eel_idle.png",
-            "images/pigeon_idle.png",
-            "images/monkey_idle.png",
-            "images/frog_idle.png",
-            "images/octopus_idle.png",
-            "images/bear_idle.png",
-            "images/macaw_idle.png",
-            "images/bigsawfish_idle.png",
-            "images/bee.png",
-            "images/eel.png",
-            "images/pigeon.png",
-            "images/monkey.png",
-            "images/macaw.png",
-            "images/bigsawfish.png",
-            "images/joey_idle.png",
-            "images/dog.png",
-            "images/croc.png",
-            "images/bird.png",
-            "images/zzz.png",
-            "images/shield.png",
-            "images/shield_flipped.png",
-            "images/single_fireball.png",
-            "images/flipped_fireball.png",
-            "images/enemy-chicken.png",
-            "images/frog.png",
-            "images/bear.png"
-    };
-    private static final String[] forestTextureAtlases = {
-            "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas", "images/octopus.atlas",
-            "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
-            "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
-            "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
-            "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas"
-    };
-    private static final String[] questSounds = {"sounds/QuestComplete.wav"};
-    private static final String[] forestSounds = {"sounds/Impact4.ogg"};
-    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
-    private static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
-    private static final String[] forestMusic = {BACKGROUND_MUSIC};
     private CombatTerrainFactory combatTerrainFactory;
-    private Entity player;
-    private Entity enemy;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
-    private GdxGame game;
+
+    private Entity enemy;
     private Entity enemyDisplay;
-    private Entity playerDisplay;
 
     public enum CombatAnimation { IDLE, MOVE }
 
@@ -202,7 +127,7 @@ public class CombatArea extends GameArea {
      * are NOT to be used for combat logic or anywehre else
      */
     private void spawnCameraInvisibleEntity(){
-        /** Entity nP is a non-visible entity placed at the centre of the background to
+        /* Entity nP is a non-visible entity placed at the centre of the background to
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
          */
@@ -371,7 +296,9 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+        Music music =
+                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
+                Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
@@ -381,18 +308,19 @@ public class CombatArea extends GameArea {
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
+        Music music =
+                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC, Music.class);
         music.pause();
     }
 
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(combatTexture);
-        resourceService.loadTextureAtlases(forestTextureAtlases);
-        resourceService.loadSounds(forestSounds);
-        resourceService.loadMusic(forestMusic);
-        resourceService.loadSounds(questSounds);
+        resourceService.loadTextures(CombatAreaConfig.combatTexture);
+        resourceService.loadTextureAtlases(CombatAreaConfig.forestTextureAtlases);
+        resourceService.loadSounds(CombatAreaConfig.forestSounds);
+        resourceService.loadMusic(CombatAreaConfig.forestMusic);
+        resourceService.loadSounds(CombatAreaConfig.questSounds);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -403,17 +331,18 @@ public class CombatArea extends GameArea {
     public void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(combatTexture);
-        resourceService.unloadAssets(forestTextureAtlases);
-        resourceService.unloadAssets(forestSounds);
-        resourceService.unloadAssets(forestMusic);
-        resourceService.unloadAssets(questSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatTexture);
+        resourceService.unloadAssets(CombatAreaConfig.forestTextureAtlases);
+        resourceService.unloadAssets(CombatAreaConfig.forestSounds);
+        resourceService.unloadAssets(CombatAreaConfig.forestMusic);
+        resourceService.unloadAssets(CombatAreaConfig.questSounds);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
+                Music.class).stop();
         this.unloadAssets();
     }
 
