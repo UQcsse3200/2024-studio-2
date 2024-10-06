@@ -193,14 +193,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createNewItem()">
 <h3>createNewItem</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></span>&nbsp;<span class="element-name">createNewItem</span>()
-                           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+                           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NoSuchMethodException.html" title="class or interface in java.lang" class="external-link">NoSuchMethodException</a>,
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a>,
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InstantiationException.html" title="class or interface in java.lang" class="external-link">InstantiationException</a>,
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a></span></div>
 <div class="block">Creates a new instance of the loot item using reflection, with the specified constructor parameters.
  This method finds the correct constructor based on the parameter types and instantiates the item.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>A new instance of the specified AbstractItem.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - If the item cannot be instantiated, including issues with constructor access or parameter mismatches.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NoSuchMethodException.html" title="class or interface in java.lang" class="external-link">NoSuchMethodException</a></code> - See below</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a></code> - See below</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InstantiationException.html" title="class or interface in java.lang" class="external-link">InstantiationException</a></code> - See below</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a></code> - If the item cannot be instantiated,
+     including issues with constructor access or parameter mismatches.</dd>
 </dl>
 </section>
 </li>

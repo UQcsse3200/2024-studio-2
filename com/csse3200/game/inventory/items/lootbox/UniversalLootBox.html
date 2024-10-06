@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.inventory.items.AbstractItem">Fields inherited from class&nbsp;com.csse3200.game.inventory.items.<a href="../AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></h3>
-<code><a href="../AbstractItem.html#itemCode">itemCode</a>, <a href="../AbstractItem.html#limit">limit</a>, <a href="../AbstractItem.html#name">name</a>, <a href="../AbstractItem.html#onlyCombatItem">onlyCombatItem</a>, <a href="../AbstractItem.html#onlyMapItem">onlyMapItem</a>, <a href="../AbstractItem.html#quantity">quantity</a></code></div>
+<code><a href="../AbstractItem.html#description">description</a>, <a href="../AbstractItem.html#itemCode">itemCode</a>, <a href="../AbstractItem.html#limit">limit</a>, <a href="../AbstractItem.html#name">name</a>, <a href="../AbstractItem.html#onlyCombatItem">onlyCombatItem</a>, <a href="../AbstractItem.html#onlyMapItem">onlyMapItem</a>, <a href="../AbstractItem.html#quantity">quantity</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -119,7 +119,7 @@ loadScripts(document, 'script');</script>
  int&nbsp;rolls,
  <a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;imagePath,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;texturePath,
  int&nbsp;code)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -136,14 +136,6 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDescription()" class="member-name-link">getDescription</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a description of how the current item can be used and what it does</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getImagePath()" class="member-name-link">getImagePath</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -162,7 +154,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.inventory.items.AbstractItem">Methods inherited from class&nbsp;com.csse3200.game.inventory.items.<a href="../AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></h3>
-<code><a href="../AbstractItem.html#add(int)">add</a>, <a href="../AbstractItem.html#getItemCode()">getItemCode</a>, <a href="../AbstractItem.html#getLimit()">getLimit</a>, <a href="../AbstractItem.html#getName()">getName</a>, <a href="../AbstractItem.html#getQuantity()">getQuantity</a>, <a href="../AbstractItem.html#getTexturePath()">getTexturePath</a>, <a href="../AbstractItem.html#isEmpty()">isEmpty</a>, <a href="../AbstractItem.html#numAddable()">numAddable</a>, <a href="../AbstractItem.html#onlyCombatItem()">onlyCombatItem</a>, <a href="../AbstractItem.html#onlyMapItem()">onlyMapItem</a>, <a href="../AbstractItem.html#setDescription(java.lang.String)">setDescription</a>, <a href="../AbstractItem.html#setTexturePath(java.lang.String)">setTexturePath</a></code></div>
+<code><a href="../AbstractItem.html#add(int)">add</a>, <a href="../AbstractItem.html#getDescription()">getDescription</a>, <a href="../AbstractItem.html#getItemCode()">getItemCode</a>, <a href="../AbstractItem.html#getLimit()">getLimit</a>, <a href="../AbstractItem.html#getName()">getName</a>, <a href="../AbstractItem.html#getQuantity()">getQuantity</a>, <a href="../AbstractItem.html#getTexturePath()">getTexturePath</a>, <a href="../AbstractItem.html#isEmpty()">isEmpty</a>, <a href="../AbstractItem.html#numAddable()">numAddable</a>, <a href="../AbstractItem.html#onlyCombatItem()">onlyCombatItem</a>, <a href="../AbstractItem.html#onlyMapItem()">onlyMapItem</a>, <a href="../AbstractItem.html#setDescription(java.lang.String)">setDescription</a>, <a href="../AbstractItem.html#setTexturePath(java.lang.String)">setTexturePath</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -184,7 +176,7 @@ loadScripts(document, 'script');</script>
  int&nbsp;rolls,
  <a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;player,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;imagePath,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;texturePath,
  int&nbsp;code)</span></div>
 </section>
 </li>
@@ -222,26 +214,6 @@ loadScripts(document, 'script');</script>
 <dt>Throws:</dt>
 <dd><code><a href="../exceptions/ConsumedException.html" title="class in com.csse3200.game.inventory.items.exceptions">ConsumedException</a></code> - If the loot box has already been fully consumed and has no remaining uses.</dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getDescription()">
-<h3>getDescription</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getDescription</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../AbstractItem.html#getDescription()">AbstractItem</a></code></span></div>
-<div class="block">Returns a description of how the current item can be used and what it does</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="../AbstractItem.html#getDescription()">getDescription</a></code>&nbsp;in class&nbsp;<code><a href="../AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a></code></dd>
-<dt>Returns:</dt>
-<dd>description of item</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getImagePath()">
-<h3>getImagePath</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getImagePath</span>()</div>
 </section>
 </li>
 <li>

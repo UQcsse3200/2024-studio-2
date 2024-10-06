@@ -191,23 +191,13 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">return the duration of the effect</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEffectAmount()" class="member-name-link">getEffectAmount</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">returns the effect amount value</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../services/GameTime.html" title="class in com.csse3200.game.services">GameTime</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGameTime()" class="member-name-link">getGameTime</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWarning()" class="member-name-link">getWarning</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Return warning message for potions that cant be used in certain environment</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isExpired(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">isExpired</a><wbr>(<a href="ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../services/GameTime.html" title="class in com.csse3200.game.services">GameTime</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGameTime()" class="member-name-link">getGameTime</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWarning()" class="member-name-link">getWarning</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks if the duration of potion usage is expired</div>
+<div class="block">Return warning message for potions that cant be used in certain environment</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#update(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">update</a><wbr>(<a href="ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
@@ -310,19 +300,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="isExpired(com.csse3200.game.inventory.items.ItemUsageContext)">
-<h3>isExpired</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isExpired</span><wbr><span class="parameters">(<a href="ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</span></div>
-<div class="block">Checks if the duration of potion usage is expired</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>context</code> - the ItemUsageContext</dd>
-<dt>Returns:</dt>
-<dd>true if it is expired</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getWarning()">
 <h3>getWarning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getWarning</span>()</div>
@@ -330,17 +307,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>warning message</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getEffectAmount()">
-<h3>getEffectAmount</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getEffectAmount</span>()</div>
-<div class="block">returns the effect amount value</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>effectAmount - the amount added to the stats</dd>
 </dl>
 </section>
 </li>
