@@ -34,7 +34,7 @@ public class BirdieDashGame {
     public BirdieDashGame() {
         this.pipes = createPipes();
         this.coins = createCoins();
-        this.bird = new Bird(920, 600);
+        this.bird = new Bird(920, 1200);
         this.spike = new Spike(0);
         this.background = new Background(START_SPEED / 3, 1920);
         this.renderer = new MinigameRenderer();
