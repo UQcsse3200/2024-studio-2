@@ -121,13 +121,15 @@ public class CombatScreen extends ScreenAdapter {
     logger.debug("Game paused");
   }
 
-  /** Resume the game, unpause music, when implemented
+  /**
+   * Resume the game, unpause music, when implemented
    */
   @Override
   public void resume() {
     isPaused = false;
     logger.debug("Game resumed");
   }
+
 
   @Override
   public void dispose() {
