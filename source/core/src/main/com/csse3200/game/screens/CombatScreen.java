@@ -185,4 +185,18 @@ public class CombatScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().register(ui);
   }
 
+  // Inside render() method
+  // Add new method in CombatScreen class
+  /**
+   * Checks if the enemy has died and transitions to the VictoryScreen if true.
+   */
+  private void checkEnemyDeath() {
+    if (enemyCombatStats.getHealth() <= 0) {
+      logger.debug("Enemy has been defeated, transitioning to victory screen.");
+      game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to VictoryScreen
+    }
+  }
+
+
+
 }
