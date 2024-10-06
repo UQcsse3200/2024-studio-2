@@ -19,17 +19,6 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
         initializeSkin(); // Load or initialize a skin for UI components
     }
 
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        // Dispose of any resources
-        stage.dispose();
-    }
-
     private void initializeSkin() {
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json")); // Replace with the actual path to your skin file
     }
@@ -48,5 +37,17 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
         stage.act(delta);
         stage.draw();
     }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void dispose() {
+        // Dispose of any resources
+        stage.dispose();
+    }
+
 
 }
