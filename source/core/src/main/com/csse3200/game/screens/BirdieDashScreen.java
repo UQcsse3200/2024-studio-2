@@ -35,6 +35,7 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
+import static com.csse3200.game.minigames.MiniGameNames.MAZE;
 
 /**
  * Class for Birdie Dash Game Screen
@@ -123,7 +124,7 @@ public class BirdieDashScreen extends PausableScreen {
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
-                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
+                logger.info("Highscore is {}", GameState.minigame.getHighScore(MAZE));
             }
         }
     }

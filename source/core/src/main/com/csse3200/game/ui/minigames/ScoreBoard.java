@@ -12,8 +12,7 @@ import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.minigames.MiniGameConstants;
 
-import static com.csse3200.game.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
+import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
  * UI component for displaying the scoreboard in all mini-games.
@@ -30,7 +29,6 @@ public class ScoreBoard {
     private Table table;
     private final MiniGameNames gameName;
     private final int initialScore;
-    private int highscore;
     private double scale; // scale relative to the game
 
     /**
@@ -51,24 +49,25 @@ public class ScoreBoard {
         int bronzeThreshold;
         int silverThreshold;
         int goldThreshold;
+        int highscore;
         if (gameName == SNAKE) {
             this.scale = 1;
             bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
-            this.highscore = GameState.minigame.getHighScore("snake");
+            highscore = GameState.minigame.getHighScore(SNAKE);
         } else if (gameName == BIRD) {
             this.scale = 0.6;
             bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
-            this.highscore =  GameState.minigame.getHighScore("bird");
+            highscore =  GameState.minigame.getHighScore(BIRD);
         } else { // MAZE
             this.scale = 1;
             bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
             silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
             goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
-            this.highscore = GameState.minigame.getHighScore("maze");
+            highscore = GameState.minigame.getHighScore(MAZE);
         }
 
         Stage stage = ServiceLocator.getRenderService().getStage();

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.minigames.MiniGameConstants;
 
@@ -68,7 +69,7 @@ public class MazePlayerScoreDisplay extends UIComponent {
 
         if (GameState.minigame != null) {
             CharSequence highScore = String.format("High Score %d",
-                    GameState.minigame.getHighScore("maze"));
+                    GameState.minigame.getHighScore(MiniGameNames.MAZE));
             highScoreLabel = new Label(highScore, skin, "large-white");
         }
 

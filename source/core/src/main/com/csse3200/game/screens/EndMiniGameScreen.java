@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.factories.LootBoxFactory;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
 import com.csse3200.game.minigames.MiniGameConstants;
 import com.csse3200.game.minigames.MiniGameMedals;
@@ -187,7 +188,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         contentTable = new Table();
         contentTable.setFillParent(true);
-        contentTable.debug();
+        //contentTable.debug();
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
@@ -203,9 +204,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label scoreLabel = new Label("Score: " + score, labelStyle);
         contentTable.row().colspan(3);
-        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
+        contentTable.add(scoreLabel).center().padBottom(20 * scale).row();
 //        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
 //        contentTable.row();
+
+        //Highscore label
+        font26.getData().setScale(2f * scale);
+        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
+        Label highscoreLabel = new Label("HighScore: " + GameState.minigame.getHighScore(gameName), labelStyle);
+        contentTable.row().colspan(3);
+        contentTable.add(highscoreLabel).center().padBottom(50 * scale).row();
 
         // Medal label
         MiniGameMedals medal = getMedal(score);
@@ -483,6 +491,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
         float scaleHeight = height / baseHeight;
         stage.getViewport().update(width, height, true);
         scale = Math.min(scaleWidth, scaleHeight);
+        if (scale == 0) { // Screen is minimised
+            scale = 1;
+        }
         stage.clear();
         renderEndMessage();
     }
