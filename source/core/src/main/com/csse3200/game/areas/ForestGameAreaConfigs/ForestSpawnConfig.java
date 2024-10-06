@@ -1,6 +1,6 @@
 package com.csse3200.game.areas.ForestGameAreaConfigs;
 
-public class EntitySpawnConfig {
+public class ForestSpawnConfig {
     // Map Obstacles
     public static final int NUM_TREES = 7;
     public static final int NUM_CLOUDS = 7;
@@ -39,4 +39,8 @@ public class EntitySpawnConfig {
     public static final int NUM_EAGLES = 1;
     public static final int NUM_SNAKES = 2;
     public static final int NUM_MAGPIES = 1;
+
+    private ForestSpawnConfig() {
+        throw new IllegalArgumentException("Do not instantiate static util class!");
+    }
 }

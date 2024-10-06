@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import com.csse3200.game.areas.ForestGameAreaConfigs.EntitySpawnConfig;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSoundsConfig;
+import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSpawnConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -295,7 +296,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < EntitySpawnConfig.NUM_TREES; i++) {
+    for (int i = 0; i < ForestSpawnConfig.NUM_TREES; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
@@ -307,7 +308,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < EntitySpawnConfig.NUM_CLOUDS; i++) {
+    for (int i = 0; i < ForestSpawnConfig.NUM_CLOUDS; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity cloud = ObstacleFactory.createCloud();
       spawnEntityAt(cloud, randomPos, true, false);
@@ -319,7 +320,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < EntitySpawnConfig.NUM_SEAWEED; i++) {
+    for (int i = 0; i < ForestSpawnConfig.NUM_SEAWEED; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity seaweed = ObstacleFactory.createSeaweed();
       spawnEntityAt(seaweed, randomPos, true, false);
@@ -331,7 +332,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
     GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
 
-    for (int i = 0; i < EntitySpawnConfig.NUM_STARFISH; i++) {
+    for (int i = 0; i < ForestSpawnConfig.NUM_STARFISH; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity starfish = ObstacleFactory.createStarfish();
       spawnEntityAt(starfish, randomPos, true, false);
@@ -438,39 +439,39 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Health Potions
         generator = () -> ItemFactory.createHealthPotion(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_HEALTH_POTIONS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_HEALTH_POTIONS);
 
         // Defense Potions
         generator = () -> ItemFactory.createDefensePotion(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_DEFENSE_POTIONS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS);
 
         // Attack potions
         generator = () -> ItemFactory.createAttackPotion(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_ATTACK_POTIONS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_ATTACK_POTIONS);
 
         // Speed potions
         generator = () -> ItemFactory.createSpeedPotion(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_SPEED_POTIONS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_SPEED_POTIONS);
 
         // Apples
         generator = () -> ItemFactory.createApple(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_APPLES);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_APPLES);
 
         // Carrots
         generator = () -> ItemFactory.createCarrot(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_CARROTS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CARROTS);
 
         // Meat
         generator = () -> ItemFactory.createMeat(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_MEAT);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_MEAT);
 
         // Chicken legs
         generator = () -> ItemFactory.createChickenLeg(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_CHICKEN_LEGS);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CHICKEN_LEGS);
 
         // Candy
         generator = () -> ItemFactory.createCandy(player);
-        spawnRandomItem(pos, generator, EntitySpawnConfig.NUM_CANDY);
+        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CANDY);
     }
 
     private void spawnEnemies() {
@@ -478,43 +479,43 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Chicken
         generator = () -> EnemyFactory.createChicken(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_CHICKENS, 0.05, 1);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_CHICKENS, 0.05, 1);
 
         // Monkey
         generator = () -> EnemyFactory.createMonkey(player);
-        spawnShooterEnemy(generator, EntitySpawnConfig.NUM_MONKEYS, 0.04, 1);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MONKEYS, 0.04, 1);
 
         // Pigeon
         generator = () -> EnemyFactory.createPigeon(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_PIGEONS, 0.06, 3);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_PIGEONS, 0.06, 3);
 
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_FROGS, 0.06, 2);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_FROGS, 0.06, 2);
 
         //Bear
         generator = () -> EnemyFactory.createBear(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_BEARS, 0.1, 1);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_BEARS, 0.1, 1);
 
         //Bee
         generator = () -> EnemyFactory.createBee(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_BEES,0.1, 3);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_BEES,0.1, 3);
 
         //Eel
         generator = () -> EnemyFactory.createEel(player);
-        spawnShooterEnemy(generator, EntitySpawnConfig.NUM_EELS, 0.1, 2);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_EELS, 0.1, 2);
 
         //Octopus
         generator = () -> EnemyFactory.createOctopus(player);
-        spawnRandomEnemy(generator, EntitySpawnConfig.NUM_OCTOPUS, 0.06, 2);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_OCTOPUS, 0.06, 2);
 
         //Big saw fish
         generator = () -> EnemyFactory.createBigsawfish(player);
-        spawnShooterEnemy(generator, EntitySpawnConfig.NUM_BIGSAWFISH, 0.1, 2);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_BIGSAWFISH, 0.1, 2);
 
         //Macaw
         generator = () -> EnemyFactory.createMacaw(player);
-        spawnShooterEnemy(generator, EntitySpawnConfig.NUM_MACAW, 0.1, 3);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MACAW, 0.1, 3);
 
         //Hive
         generator = () -> ProjectileFactory.createHive(player);
@@ -529,31 +530,31 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Cow
         generator = () -> NPCFactory.createCow(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_COWS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS);
 
         // Fish
         generator = () -> NPCFactory.createFish(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_FISH);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_FISH);
 
         // Lion
         generator = () -> NPCFactory.createLion(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_LIONS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS);
 
         // Turtle
         generator = () -> NPCFactory.createTurtle(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_TURTLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES);
 
         // Eagle
         generator = () -> NPCFactory.createEagle(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_EAGLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES);
 
         // Snake
         generator = () -> NPCFactory.createSnake(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_SNAKES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_SNAKES);
 
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
-        spawnRandomNPC(generator, EntitySpawnConfig.NUM_MAGPIES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_MAGPIES);
     }
 	
     /**
@@ -771,7 +772,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
      * Static method to play the background music
      */
     public static void pMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic,
+        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC,
                 Music.class);
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -782,7 +783,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
      * Static method to pause the background music
      */
     public static void puMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC, Music.class);
         music.pause();
     }
 
@@ -793,9 +794,9 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         resourceService.loadTextures(config.textures.forestTextures);
         resourceService.loadTextureAtlases(config.textures.forestTextureAtlases);
-        resourceService.loadSounds(config.sounds.gameSounds);
-        resourceService.loadMusic(config.sounds.gameMusic);
-        resourceService.loadSounds(config.sounds.characterSounds);
+        resourceService.loadSounds(ForestSoundsConfig.GAME_SOUNDS);
+        resourceService.loadMusic(ForestSoundsConfig.GAME_MUSIC);
+        resourceService.loadSounds(ForestSoundsConfig.CHARACTER_SOUNDS);
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.debug("Loading... {}%", resourceService.getProgress());
@@ -808,14 +809,14 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(config.textures.forestTextures);
         resourceService.unloadAssets(config.textures.forestTextureAtlases);
-        resourceService.unloadAssets(config.sounds.gameSounds);
-        resourceService.unloadAssets(config.sounds.gameMusic);
+        resourceService.unloadAssets(ForestSoundsConfig.GAME_SOUNDS);
+        resourceService.unloadAssets(ForestSoundsConfig.GAME_MUSIC);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(config.sounds.backgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
     public List<Entity> getEnemies() {
