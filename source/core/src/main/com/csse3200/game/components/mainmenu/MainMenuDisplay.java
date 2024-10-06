@@ -412,6 +412,7 @@ public class MainMenuDisplay extends UIComponent {
         addUserTable();
         addLoginRegisterTable();
     }
+
     /**
      * Initialize all tables in the main menu
      */
@@ -479,6 +480,7 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(menuButtonTable);
     }
+
     /**
      * Dynamically update the layout of menu buttons based on screen size and mode (fullscreen/windowed).
      */
@@ -552,9 +554,9 @@ public class MainMenuDisplay extends UIComponent {
     /**
      * Utility method to create a new menu button using CustomButton.
      *
-     * @param labelText    The label text for the button.
-     * @param clickAction  The action to execute when the button is clicked.
-     * @return             The created CustomButton instance.
+     * @param labelText   The label text for the button.
+     * @param clickAction The action to execute when the button is clicked.
+     * @return The created CustomButton instance.
      */
     private CustomButton createMenuButton(String labelText, Runnable clickAction) {
         CustomButton button = new CustomButton(labelText, skin);
@@ -688,6 +690,7 @@ public class MainMenuDisplay extends UIComponent {
         float screenHeight = Gdx.graphics.getHeight();
         userTable.setPosition(165, screenHeight - 190);
     }
+
     /**
      * Displays the help window with slides for game instructions.
      */
@@ -893,10 +896,10 @@ public class MainMenuDisplay extends UIComponent {
         float dogX = dogAniImage.getX();
         if (dogX < -200 && dogDirection) {
             dogDirection = false;
-            dogAniImage.setScale(1,1);
+            dogAniImage.setScale(1, 1);
         } else if (dogX > Gdx.graphics.getWidth() + 200 && !dogDirection) {
             dogDirection = true;
-            dogAniImage.setScale(-1,1);
+            dogAniImage.setScale(-1, 1);
         }
 
         // move dog
