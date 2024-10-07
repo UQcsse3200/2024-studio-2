@@ -1,4 +1,4 @@
-package com.csse3200.game.areas.ForestGameAreaConfigs;
+package com.csse3200.game.areas.terrain.tiles;
 
 import java.util.*;
 

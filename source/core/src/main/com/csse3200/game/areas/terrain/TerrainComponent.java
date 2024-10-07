@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.csse3200.game.areas.terrain.tiles.ForestMapTiles;
+import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +23,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestMapTiles;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTileConfig;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.files.FileLoader;
