@@ -20,6 +20,7 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
 /**
  * Forest area for the demo game with trees, a player, and some enemies.
@@ -148,7 +147,7 @@ public class MazeGameArea extends GameArea {
     private void spawnWalls() {
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
-                for (GridPoint2 direction : GRID_DIRECTIONS) {
+                for (GridPoint2 direction : GridPoint2Utils.directions()) {
                     if (maze.isWall(x, y, direction)) {
                         float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
                         float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
