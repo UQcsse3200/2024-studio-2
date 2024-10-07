@@ -117,6 +117,14 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
+      int playerLevel = getLevel();
+      int lvlDiff = playerLevel/2;
+      addStrength(-lvlDiff);
+      addDefense(-lvlDiff);
+      addSpeed(-lvlDiff);
+      setLevel(lvlDiff);
+      addMaxHealth(-lvlDiff);
+      setExperience(0);
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
