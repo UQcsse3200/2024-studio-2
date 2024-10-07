@@ -121,5 +121,65 @@
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",
     "itemProbability": 0.0
+  },
+  "friendlyEel": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Eric the Eel."]
+    ],
+    "spritePath": "images/eel.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyOctopus": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Oswald the Octopus."]
+    ],
+    "spritePath": "images/friendly-octopus.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyBee": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Beatrice the Bee."]
+    ],
+    "spritePath": "images/bee.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyPigeon": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Penny the Pigeon."]
+    ],
+    "spritePath": "images/pigeon.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyBigsawfish": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Biggie Smalls the Bigsawfish."]
+    ],
+    "spritePath": "images/bigsawfish.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyMacaw": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am McDonald the Macaw."]
+    ],
+    "spritePath": "images/bigsawfish.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
+    "itemProbability": 0.0
   }
 }

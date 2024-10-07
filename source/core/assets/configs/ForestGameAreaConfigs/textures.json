@@ -28,6 +28,7 @@
     "images/hive.png",
     "images/effects.png",
     "images/griffinEffects.png",
+    "images/friendly-octopus.png",
 
     "images/fog-gate.jpg",
 
@@ -216,6 +217,7 @@
     "images/enemy-bear.atlas",
     "images/enemy-chicken.atlas",
     "images/wolf.atlas",
-    "images/hive.atlas"
+    "images/hive.atlas",
+    "images/friendly-octopus.atlas"
   ]
 }

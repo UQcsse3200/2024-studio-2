@@ -587,7 +587,24 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 			case BEAR:
 				convertedNPC = NPCFactory.createBear(player, this.enemies);
 				break;
-			// Add other enemy types as needed
+            case EEL:
+                convertedNPC = NPCFactory.createEel(player, this.enemies);
+                break;
+            case OCTOPUS:
+                convertedNPC = NPCFactory.createOctopus(player, this.enemies);
+                break;
+            case BEE:
+                convertedNPC = NPCFactory.createBee(player, this.enemies);
+                break;
+            case PIGEON:
+                convertedNPC = NPCFactory.createPigeon(player, this.enemies);
+                break;
+            case BIGSAWFISH:
+                convertedNPC = NPCFactory.createBigsawfish(player, this.enemies);
+                break;
+            case MACAW:
+                convertedNPC = NPCFactory.createMacaw(player, this.enemies);
+                break;
 			default:
 				logger.warn("Unhandled enemy type for conversion: " + defeatedEnemy.getEnemyType());
 				return;
