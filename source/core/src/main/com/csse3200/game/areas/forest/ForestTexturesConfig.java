@@ -1,4 +1,4 @@
-package com.csse3200.game.areas.ForestGameAreaConfigs;
+package com.csse3200.game.areas.forest;
 
 /**
  * Config class containing all information related to the forest game area.

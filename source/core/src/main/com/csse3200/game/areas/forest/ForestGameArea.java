@@ -1,4 +1,4 @@
-package com.csse3200.game.areas;
+package com.csse3200.game.areas.forest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSoundsConfig;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSpawnConfig;
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestTexturesConfig;
+import com.csse3200.game.areas.GameArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
