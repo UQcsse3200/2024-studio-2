@@ -1,12 +1,6 @@
 package com.csse3200.game.areas.terrain;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-//import com.csse3200.game.areas.terrain.tiles.ForestMapTiles;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig.TileConfig;
 import org.slf4j.Logger;
@@ -258,7 +252,8 @@ public class TerrainComponent extends RenderComponent {
     private ArrayList<Tile> waterTiles;
     private ArrayList<Tile> airTiles;
     private ArrayList<Tile> fogTiles;
-    // total number of tiles
+
+    // total number of each tile
     public static int FOREST_SIZE = 0;
     public static int WATER_SIZE = 0;
     public static int AIR_SIZE = 0;
@@ -267,24 +262,22 @@ public class TerrainComponent extends RenderComponent {
 
     public TerrainResource(MapType mapType) {
       ResourceService resourceService = ServiceLocator.getResourceService();
-      forestTiles = new ArrayList<Tile>();
-      waterTiles = new ArrayList<Tile>();
-      airTiles = new ArrayList<Tile>();
-      fogTiles = new ArrayList<Tile>();
+      forestTiles = new ArrayList<>();
+      waterTiles = new ArrayList<>();
+      airTiles = new ArrayList<>();
+      fogTiles = new ArrayList<>();
       this.unlockedWater = false;
       switch(mapType) {
         case FOREST:
           // load forest tiles
-          ForestTileConfig tileConfig = new ForestTileConfig();
-          for (TileConfig tile : tileConfig.forestMapTiles) {
+          for (TileConfig tile : ForestTileConfig.forestMapTiles) {
             // edge: TOP, RIGHT, BOTTOM, LEFT
             // A: sand, B: grass, C: water
             // =======================
             forestTiles.add(
                 new Tile(tile.id, 
-                new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), 
-                tile.edges, 
-                tile.centre));
+                        new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                        tile.edges, tile.centre));
           }
           FOREST_SIZE = forestTiles.size();
 
