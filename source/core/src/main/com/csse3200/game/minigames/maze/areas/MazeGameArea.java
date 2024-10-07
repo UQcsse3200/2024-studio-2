@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
@@ -215,7 +216,7 @@ public class MazeGameArea extends GameArea {
      * @return the random number
      */
     private float randomRange(float min, float max) {
-        return (float) Math.random() * (max - min) + min;
+        return MathUtils.random() * (max - min) + min;
     }
 
     /**
@@ -228,7 +229,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
             Vector2[] patrolPoints;
-            double rand = Math.random();
+            double rand = MathUtils.random();
             if (rand < 0.5) {
                 // adjacent cells are already in random order from random maze generation algorithm
                 // so okay to just take first
@@ -290,7 +291,7 @@ public class MazeGameArea extends GameArea {
      */
     @Override
     public void playMusic() {
-        AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
+        AudioManager.playMusic(mazeBackgroundMusic, true);
     }
 
     /**
