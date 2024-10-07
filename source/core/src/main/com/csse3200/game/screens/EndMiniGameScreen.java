@@ -14,12 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.factories.LootBoxFactory;
-import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
 import com.csse3200.game.minigames.MiniGameConstants;
 import com.csse3200.game.minigames.MiniGameMedals;
@@ -32,8 +30,6 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
@@ -60,10 +56,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     private final Entity player;
     private PlayerInventoryDisplay display;
-    private final Table contentTable;
-    private final MiniGameMedals medal;
-    private Texture backgroundTexture;
-    private Image backgroundImage;
+    private Table contentTable;
     private static final String[] endMiniGameSounds = {
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -78,15 +71,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.scale = 1;
         this.oldScreen = screen;
         this.oldScreenServices = container;
-        this.medal = getMedal(this.score);
 
         this.stage = new Stage(new ScreenViewport());
-        stage.clear();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
-        contentTable = new Table();
-        contentTable.setFillParent(true);
-        //contentTable.debug();  // Uncommento visualise table
 
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
@@ -97,8 +84,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
-                logger.info("Achievement trigger {} {}", gameName.name(), medal.name());
-                player.getEvents().trigger("miniGame", gameName, medal);
+                logger.info("Achievement trigger {} {}", gameName.name(), getMedal(score).name());
+                player.getEvents().trigger("miniGame", gameName, getMedal(score));
             }
         } else {
             this.player = null;
@@ -106,13 +93,11 @@ public class EndMiniGameScreen extends ScreenAdapter {
         }
         Gdx.input.setInputProcessor(stage);
 
+        setupExitButton();
+
         ServiceLocator.registerResourceService(new ResourceService());
         loadAssets();
         playSoundEffect();
-
-        setBackground();
-        renderEndMessage();
-
     }
 
     /**
@@ -123,12 +108,52 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
+        // Set the background color based on the score
+        setBackgroundColor();
 
-        stage.act(delta);
+        // Draw the exit button and other UI elements
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        handleKeyPress();
+        // Render the game over messages
+        renderEndMessage();
+        stage.addActor(contentTable);
 
+        handleKeyPress();
+    }
+
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen
+     */
+    private void setupExitButton() {
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        // Scale the button's font
+        exitButton.getLabel().setFontScale(scale);
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Return to main menu and original screen colour
+                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                try {
+                    giveLootBox();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                game.setOldScreen(oldScreen, oldScreenServices);
+            }
+        });
+
+        // Set up the table for UI layout
+        Table exitButtonTable = new Table();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
+        // Add the table to the stage
+        stage.addActor(exitButtonTable);
     }
 
     /**
@@ -140,7 +165,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Determine the medal and get the corresponding loot box\
         if (player != null) {
-            switch (medal) {
+            switch (getMedal(score)) {
                 case BRONZE -> {
                     // Create and add EarlyGameLootBox using the factory
                     UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
@@ -194,46 +219,38 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     private void renderEndMessage() {
 
-        contentTable.clear();
-
-        // Render the medal image
-        renderMedal();
+        contentTable = new Table();
+        contentTable.setFillParent(true);
 
         // End of Mini-Game label
         font32.getData().setScale(3f * scale);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
         Label endGameLabel = new Label("End of Mini-Game", labelStyle);
-        contentTable.row().colspan(3);
         contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
+        contentTable.row();
 
         // Score label
         font26.getData().setScale(2f * scale);
         labelStyle = new Label.LabelStyle(font26, Color.WHITE);
         Label scoreLabel = new Label("Score: " + score, labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(scoreLabel).center().padBottom(20 * scale).row();
-
-        // High-score label
-        font26.getData().setScale(2f * scale);
-        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
-        Label highscoreLabel = new Label("HighScore: " + GameState.minigame.getHighScore(gameName), labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(highscoreLabel).center().padBottom(50 * scale).row();
+        contentTable.add(scoreLabel).center().padBottom(50 * scale).row();
+        contentTable.row();
 
         // Medal label
+        MiniGameMedals medal = getMedal(score);
         if (medal == MiniGameMedals.FAIL) {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You FAILED", labelStyle);
-            contentTable.row().colspan(3);
             contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+            contentTable.row();
 
         } else {
             font26.getData().setScale(2f * scale);
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
-            contentTable.row().colspan(3);
-            contentTable.add(medalLabel).center().padBottom(100 * scale).row();
+            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+            contentTable.row();
         }
 
         // Personalised message label
@@ -241,30 +258,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
         labelStyle = new Label.LabelStyle(font18, Color.WHITE);
         String scoreMessage = getMessage();
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
-        contentTable.row().colspan(3);
         contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
+        contentTable.row();
+
         makeButtons();
-        stage.addActor(contentTable);
-    }
-
-    private void renderMedal() {
-
-        // Set the medal image based on the medal
-        Texture medalTexture;
-        if (medal == MiniGameMedals.GOLD) {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameGold.png"));
-        } else if (medal == MiniGameMedals.SILVER) {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameSilver.png"));
-        } else {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
-        }
-        if (medal != MiniGameMedals.FAIL) {
-            // Add in the medal Image
-            Image medalImage = new Image(medalTexture);
-            medalImage.setScaling(Scaling.fit);
-            medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f);
-            contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
-        }
     }
 
     /**
@@ -292,39 +289,36 @@ public class EndMiniGameScreen extends ScreenAdapter {
             }
         });
 
-        // Make either "Return to Game" or "Mini_Game Menu" button (where the player came from)
-        TextButton oldScreenButton;
+        // Add buttons to the table and align them at the bottom
+        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).pad(10 * scale).row();
+        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center().pad(10 * scale).row();
+
+        // Makes return to game button appear only if it came from the game screen
         if (oldScreen instanceof MainGameScreen) {
-            oldScreenButton = new TextButton("Return to Game", skin);
-        } else {
-            oldScreenButton = new TextButton("Mini-Game Menu", skin);
-        }
-
-        oldScreenButton.getLabel().setFontScale(scale);
-        oldScreenButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    giveLootBox();
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+            // Make Mini-Game Menu Button
+            TextButton mainGameButton = new TextButton("Return to Game", skin);
+            mainGameButton.getLabel().setFontScale(scale);
+            mainGameButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+                    try {
+                        giveLootBox();
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    game.setOldScreen(oldScreen, oldScreenServices);
                 }
-                game.setOldScreen(oldScreen, oldScreenServices);
-            }
-        });
-
-        // Align buttons in 1 row
-        contentTable.row().expandX().fillX();
-        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).padLeft(500 * scale);
-        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center();
-        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).padRight(500 * scale);
+            });
+            contentTable.add(mainGameButton).width(mainGameButton.getWidth() * scale).height(mainGameButton.getHeight() * scale).center().pad(10 * scale).row();
+        }
     }
 
     /**
      * Get the medal associated with the players score for current game
      *
      * @param score: the players score
-     * @return the medal associated with the score for each game
+     * @return the medal associated with the score
      */
     private MiniGameMedals getMedal(int score) {
 
@@ -368,31 +362,35 @@ public class EndMiniGameScreen extends ScreenAdapter {
     /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
-    private void setBackground() {
-        if (backgroundImage != null) {
-            stage.getActors().removeValue(backgroundImage, true);
-        }
-        switch (gameName) {
-            case SNAKE ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
-            case BIRD ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
-            case MAZE ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+    private void setBackgroundColor() {
+
+        switch (getMedal(score)) {
+            case FAIL ->
+                // Failed
+                // Background colour rgb 50, 82, 29, 1
+                    Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
+            case BRONZE ->
+                // Bronze
+                // Background colour rgb 169, 113, 66, 1
+                    Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
+            case SILVER ->
+                // Silver
+                // Background colour rgb 115, 122, 140, 1
+                    Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
+            case GOLD ->
+                // Gold
+                // Background colour rgb 173, 162, 114, 1
+                    Gdx.gl.glClearColor(173f / 255f, 162f / 255f, 114f / 255f, 1f);
             default -> throw new IllegalArgumentException("Unknown mini-game");
         }
-
-        backgroundImage = new Image(backgroundTexture);
-        backgroundImage.setFillParent(true);
-        stage.addActor(backgroundImage);  // Add background first
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
-
 
     /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
     private void playSoundEffect() {
-        switch (medal) {
+        switch (getMedal(score)) {
             case FAIL ->
                 // Failed
                     AudioManager.playSound("sounds/minigames/fail.mp3");
@@ -471,7 +469,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
-        backgroundTexture.dispose();
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
@@ -487,25 +484,17 @@ public class EndMiniGameScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         // Update the stage viewport
+        stage.getViewport().update(width, height, true);
         float baseWidth = 1920f;
         float baseHeight = 1200f;
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
-        stage.getViewport().update(width, height, true);
         scale = Math.min(scaleWidth, scaleHeight);
-        if (scale == 0) { // Screen is minimised
-            scale = 1;
-        }
         stage.clear();
-        contentTable.clear();
-
-        setBackground();
+        setupExitButton();
         renderEndMessage();
     }
 
-    /**
-     * Loads the sound assets
-     */
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -513,13 +502,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
         ServiceLocator.getResourceService().loadAll();
     }
 
-    /**
-     * Unlaods the sound assets
-     */
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(endMiniGameSounds);
     }
-
 }
