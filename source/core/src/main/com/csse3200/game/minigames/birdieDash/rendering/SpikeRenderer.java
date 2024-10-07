@@ -28,13 +28,25 @@ public class SpikeRenderer implements MinigameRenderable {
     /**
      * Render the spikes
      */
-    public void render(){
-        renderer.getSb().draw(spikeRegion,
-                spike.getPosition().x,
-                spike.getPosition().y,
-                spike.getWidth(),
-                spike.getHeight());
+    public void render() {
+        float amount = spike.getHeight() / 15; // The height of each spike segment
+
+        // Iterate 20 times to draw 20 spikes
+        for (int i = 0; i < 15; i++) {
+            renderer.getSb().draw(spikeRegion,
+                    spike.getPosition().x - 20,                      // x position (same for all
+                    // spikes)
+                    spike.getPosition().y + i * amount,         // y position increases with each spike
+                    spike.getWidth() / 2,                       // x origin of rotation (center of the spike)
+                    amount / 2,                                 // y origin of rotation (middle of the spike segment)
+                    spike.getWidth(),                           // Width of the spike
+                    amount + 22,                                     // Height of one spike segment
+                    1,                                          // Scale x
+                    1,                                          // Scale y
+                    -90);                                        // Rotation angle (90 degrees)
+        }
     }
+
 
     /**
      * Load assets
@@ -44,7 +56,7 @@ public class SpikeRenderer implements MinigameRenderable {
         rs.loadTextures(new String[]{AssetPaths.SPIKE});
         ServiceLocator.getResourceService().loadAll();
         spikeTexture = rs.getAsset(AssetPaths.SPIKE, Texture.class);
-        spikeRegion = new TextureRegion(spikeTexture, 0, 0, 9, 100);
+        spikeRegion = new TextureRegion(spikeTexture, 0, 2, 16, 14);
     }
 
     /**
