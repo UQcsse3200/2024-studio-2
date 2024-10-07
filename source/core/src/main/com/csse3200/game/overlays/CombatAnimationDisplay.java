@@ -179,8 +179,8 @@ public class CombatAnimationDisplay extends UIComponent {
         guardImage = new Image(guardTexture);
 
 
-        float xZ = 750;  // 750;
-        float yZ = 440; // 410;
+        float xZ = 750;  // 750
+        float yZ = 440; // 410
 
         guardImage.setPosition(xZ, yZ);
         guardImage.setScale(0.5f);
