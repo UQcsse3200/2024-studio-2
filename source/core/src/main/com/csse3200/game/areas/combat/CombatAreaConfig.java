@@ -69,7 +69,7 @@ public class CombatAreaConfig {
             "images/flipped_fireball.png",
             "images/enemy-chicken.png",
             "images/frog.png",
-            "images/bear.png"
+            "images/bear.png",
     };
 
     static final String[] forestTextureAtlases = {
@@ -81,7 +81,7 @@ public class CombatAreaConfig {
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/enemy-bear.atlas", "images/bee.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas"
+            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas",
     };
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
