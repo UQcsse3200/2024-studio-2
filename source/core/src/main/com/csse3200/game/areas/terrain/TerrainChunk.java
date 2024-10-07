@@ -12,8 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainResource;
-import com.csse3200.game.areas.terrain.TerrainComponent.Tile;
+import com.csse3200.game.areas.terrain.tiles.Tile;
 
 /**
  * A chunk of terrain in the game world.

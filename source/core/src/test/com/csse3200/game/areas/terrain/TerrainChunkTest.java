@@ -12,13 +12,13 @@ public class TerrainChunkTest {
 
     private TerrainChunk terrainChunk;
     private TiledMap tiledMap;
-    private TerrainComponent.TerrainResource terrainResource;
+    private TerrainResource terrainResource;
 
     @Before
     public void setUp() {
         // Create simulated TiledMap and TerrainResource objects
         tiledMap = Mockito.mock(TiledMap.class);
-        terrainResource = Mockito.mock(TerrainComponent.TerrainResource.class);
+        terrainResource = Mockito.mock(TerrainResource.class);
 
         // Create a mock MapLayers object and set it to the return value of TiledMap
         MapLayers mapLayers = Mockito.mock(MapLayers.class);
