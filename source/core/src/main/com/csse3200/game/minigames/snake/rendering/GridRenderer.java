@@ -12,19 +12,20 @@ public class GridRenderer implements MinigameRenderable {
 
     private static final int CELL_SIZE = 20;
     private final SnakeGrid grid;
-    private final Texture grassTexture;
+    private final Texture grassLightTexture;
+    private final Texture grassDarkTexture;
     private final MinigameRenderer renderer;
 
     /**
      * Creates a new GridRenderer.
      *
      * @param grid The grid to render.
-     * @param grassTexture The texture to use for rendering the grid cells.
      * @param renderer The renderer used for drawing.
      */
-    public GridRenderer(SnakeGrid grid, Texture grassTexture, MinigameRenderer renderer) {
+    public GridRenderer(SnakeGrid grid, Texture grassLightTexture, Texture grassDarkTexture, MinigameRenderer renderer) {
         this.grid = grid;
-        this.grassTexture = grassTexture;
+        this.grassDarkTexture = grassDarkTexture;
+        this.grassLightTexture = grassLightTexture;
         this.renderer = renderer;
 
     }
@@ -44,11 +45,38 @@ public class GridRenderer implements MinigameRenderable {
         // Render the grid based on the camera's position
         for (int x = 0; x < grid.getWidth(); x++) {
             for (int y = 0; y < grid.getHeight(); y++) {
-                renderer.getSb().draw(grassTexture,
-                        startX + x * CELL_SIZE,
-                        startY + y * CELL_SIZE,
-                        CELL_SIZE,
-                        CELL_SIZE);
+                if (x % 2 == 1){
+                    if (y % 2 ==1){
+                        renderer.getSb().draw(grassLightTexture, //light
+                                startX + x * CELL_SIZE,
+                                startY + y * CELL_SIZE,
+                                CELL_SIZE,
+                                CELL_SIZE);
+                    }
+                    if (y % 2 ==0){
+                        renderer.getSb().draw(grassDarkTexture,
+                                startX + x * CELL_SIZE,
+                                startY + y * CELL_SIZE,
+                                CELL_SIZE,
+                                CELL_SIZE);
+                    }
+                }
+                if (x % 2 == 0){
+                    if (y % 2 ==1){
+                        renderer.getSb().draw(grassDarkTexture,
+                                startX + x * CELL_SIZE,
+                                startY + y * CELL_SIZE,
+                                CELL_SIZE,
+                                CELL_SIZE);
+                    }
+                    if (y % 2 ==0){
+                        renderer.getSb().draw(grassLightTexture, //Light
+                                startX + x * CELL_SIZE,
+                                startY + y * CELL_SIZE,
+                                CELL_SIZE,
+                                CELL_SIZE);
+                    }
+                }
             }
         }
     }
