@@ -99,7 +99,7 @@ public class CombatScreen extends ScreenAdapter {
     if (!isPaused){
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
-
+    checkEnemyDeath(); // Checking if enemy died
     renderer.render();
     }
 
