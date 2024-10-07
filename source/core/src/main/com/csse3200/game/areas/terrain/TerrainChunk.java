@@ -8,11 +8,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainResource;
-import com.csse3200.game.areas.terrain.TerrainComponent.Tile;
+import com.csse3200.game.areas.terrain.tiles.Tile;
 
 /**
  * A chunk of terrain in the game world.
@@ -27,15 +27,15 @@ public class TerrainChunk {
   public Array<BitSet> grid;
   private BitSet collapsedTiles;
 
-  public HashMap<String, Integer> tileTypeCount;
-  public int totalTiles = 0;
-  public MapType inArea; 
+  private Map<String, Integer> tileTypeCount;
+  private int totalTiles = 0;
+  private MapType inArea;
  
   TerrainChunk(GridPoint2 position, TiledMap map) {
     this.position = position;
     this.tiledMap = map;
-    this.tileTypeCount = new HashMap<String, Integer>();
-    this.grid = new Array<BitSet>(256);
+    this.tileTypeCount = new HashMap<>();
+    this.grid = new Array<>(256);
     this.collapsedTiles = new BitSet(256);
   }
 
@@ -54,14 +54,11 @@ public class TerrainChunk {
     // if chunk is in another area, then terrainResource load assest for that area
     // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
     inArea = checkAreaType(position);
-    if (inArea == MapType.FOREST) {
-      totalTiles = TerrainResource.FOREST_SIZE;
-    } else if (inArea == MapType.WATER) {
-      totalTiles = TerrainResource.WATER_SIZE;
-    } else if (inArea == MapType.FOG) {
-      totalTiles = TerrainResource.FOG_SIZE;
-    } else {
-      totalTiles = TerrainResource.AIR_SIZE;
+    switch (inArea) {
+      case MapType.FOREST -> totalTiles = TerrainResource.FOREST_SIZE;
+      case MapType.WATER -> totalTiles = TerrainResource.WATER_SIZE;
+      case MapType.FOG -> totalTiles = TerrainResource.FOG_SIZE;
+      default -> totalTiles = TerrainResource.AIR_SIZE;
     }
 
     for (int i = 0; i < 256; ++i) {
@@ -78,9 +75,9 @@ public class TerrainChunk {
   }
 
   private MapType checkAreaType(GridPoint2 chunkPos) {
-    if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3) {
+    if (chunkPos.y < (ForestGameArea.MAP_SIZE.y / 16) / 3) {
       return MapType.FOREST;
-    } else if (chunkPos.y < (int)(ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
+    } else if (chunkPos.y < (ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
         return MapType.WATER;
     } else {
       // TODO: change to air 
@@ -88,8 +85,10 @@ public class TerrainChunk {
     }
   }
 
+  public Map<String, Integer> getTileTypeCount() {return tileTypeCount;}
+
   /**
-   * Fille all tile in the chunk return true if all tiles are collapsed, false
+   * Fill all tile in the chunk return true if all tiles are collapsed, false
    * otherwise
    *
    * @param cPosX           x position of the chunk
@@ -111,7 +110,7 @@ public class TerrainChunk {
       }
 
       // get all minentropy tiles to an array and random pick one of them
-      Array<Integer> minentropyTiles = new Array<Integer>();
+      Array<Integer> minentropyTiles = new Array<>();
       for (int i = 0; i < grid.size; ++i) {
         if (grid.get(i).cardinality() == minentropy) {
           minentropyTiles.add(i);
@@ -127,7 +126,7 @@ public class TerrainChunk {
       int numTrueBits = grid.get(randomTile).cardinality();
       int randomTrueBitIndex = 0;
       if (numTrueBits > 0) {
-        int randomIndex = ((int) (Math.random() * numTrueBits));
+        int randomIndex = ((int) (MathUtils.random() * numTrueBits));
         randomTrueBitIndex = grid.get(randomTile).nextSetBit(0);
         for (int i = 0; i < randomIndex; i++)
           randomTrueBitIndex = grid.get(randomTile).nextSetBit(randomTrueBitIndex + 1);

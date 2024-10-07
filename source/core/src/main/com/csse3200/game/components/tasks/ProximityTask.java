@@ -23,20 +23,11 @@ public abstract class ProximityTask extends DefaultTask  implements PriorityTask
      * @param priority            The priority level of this task, used in the AI task system.
      * @param proximityThreshold  The distance within which the task will consider the target entity "near".
      */
-    public ProximityTask(Entity target, int priority, float proximityThreshold) {
+    protected ProximityTask(Entity target, int priority, float proximityThreshold) {
         this.target = target;
         this.priority = priority;
         this.proximityThreshold = proximityThreshold;
         this.hasApproached = false;
-    }
-
-    /**
-     * Starts the task by initializing any required state or event listeners.
-     * This method is called when the task is activated.
-     */
-    @Override
-    public void start() {
-        super.start();
     }
 
     /**

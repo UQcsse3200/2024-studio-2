@@ -30,7 +30,7 @@ import com.csse3200.game.inventory.items.TimedUseItem;
  * @see TimedUseItem
  */
 public class HealingPotion extends ConsumableItem {
-    private final static String path = "images/Healthpotion.png";
+    private static final String PATH = "images/Healthpotion.png";
     private final int effectAmount;
 
     /**
@@ -40,7 +40,7 @@ public class HealingPotion extends ConsumableItem {
      */
     public HealingPotion(int quantity) {
         super("Health Potion", 51, 3, quantity);
-        this.setTexturePath(path);
+        this.setTexturePath(PATH);
         this.setDescription("This is a health potion");
         this.effectAmount = 25;
     }
