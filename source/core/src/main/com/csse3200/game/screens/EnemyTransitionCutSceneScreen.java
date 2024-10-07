@@ -7,22 +7,37 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.services.ServiceLocator;
+/**
+ * Screen that handles the display of an enemy transition cutscene. Manages rendering the background
+ * and UI elements, and acts as the entry point for the cutscene when triggered.
+ * This class extends ScreenAdapter, which provides basic screen lifecycle methods.
+ */
 
 public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
     private final GdxGame game;
     private final Stage stage;
     private Skin skin;
 
+    /**
+     * Constructor for EnemyTransitionCutSceneScreen. Initializes the screen with necessary resources,
+     * including the stage and background texture.
+     */
     public EnemyTransitionCutSceneScreen(GdxGame game) {
         this.game = game;
         this.stage = ServiceLocator.getRenderService().getStage();
         initializeSkin();
     }
-
+    /**
+    * Resizes the screen, adjusting the viewport of the stage to match the new width and height.
+    */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
+    /**
+     * Disposes of resources when  screen is no longer needed.
+     */
 
     @Override
     public void dispose() {
