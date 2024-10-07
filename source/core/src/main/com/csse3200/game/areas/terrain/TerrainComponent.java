@@ -248,10 +248,10 @@ public class TerrainComponent extends RenderComponent {
    * TerrainResource class to store all possible tiles and their edge tiles.
    */
   public class TerrainResource {
-    private ArrayList<Tile> forestTiles;
-    private ArrayList<Tile> waterTiles;
-    private ArrayList<Tile> airTiles;
-    private ArrayList<Tile> fogTiles;
+    private List<Tile> forestTiles;
+    private List<Tile> waterTiles;
+    private List<Tile> airTiles;
+    private List<Tile> fogTiles;
 
     // total number of each tile
     public static int FOREST_SIZE = 0;
@@ -316,7 +316,7 @@ public class TerrainComponent extends RenderComponent {
       this.setPossibleTiles();
     }
 
-    public ArrayList<Tile> getMapTiles(MapType mapType) {
+    public List<Tile> getMapTiles(MapType mapType) {
       switch(mapType) {
         case FOREST:
           return forestTiles;
@@ -364,7 +364,7 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleUp(Tile tile, ArrayList<Tile> areaTiles) {
+    public void setPossibleUp(Tile tile, List<Tile> areaTiles) {
       BitSet up = new BitSet(areaTiles.size());
       for (int i = 0; i < areaTiles.size(); i++) {
         if (areaTiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0))) {
@@ -379,7 +379,7 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleRight(Tile tile, ArrayList<Tile> areaTiles) {
+    public void setPossibleRight(Tile tile, List<Tile> areaTiles) {
       BitSet right = new BitSet(areaTiles.size());
       for (int i = 0; i < areaTiles.size(); i++) {
         if (areaTiles.get(i).getEdgeTiles().get(3).equals(tile.getEdgeTiles().get(1))) {
@@ -394,7 +394,7 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleDown(Tile tile, ArrayList<Tile> areaTiles) {
+    public void setPossibleDown(Tile tile, List<Tile> areaTiles) {
       BitSet down = new BitSet(areaTiles.size());
       for (int i = 0; i < areaTiles.size(); i++) {
         if (areaTiles.get(i).getEdgeTiles().get(0).equals(tile.getEdgeTiles().get(2))) {
@@ -409,7 +409,7 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @param tile The tile to set possible tiles
      */
-    public void setPossibleLeft(Tile tile, ArrayList<Tile> areaTiles) {
+    public void setPossibleLeft(Tile tile, List<Tile> areaTiles) {
       BitSet left = new BitSet(areaTiles.size());
       for (int i = 0; i < areaTiles.size(); i++) {
         if (areaTiles.get(i).getEdgeTiles().get(1).equals(tile.getEdgeTiles().get(3))) {
@@ -451,7 +451,7 @@ public class TerrainComponent extends RenderComponent {
   public class Tile {
     // data for wave function collapse
     private TextureRegion texture;
-    private ArrayList<String> edgeTiles;
+    private List<String> edgeTiles;
     private String name;
     private String centre;
 
@@ -463,7 +463,7 @@ public class TerrainComponent extends RenderComponent {
 
     public boolean collapsed = false;
 
-    public Tile(String name, TextureRegion texture, ArrayList<String> edgeTiles, String centre) {
+    public Tile(String name, TextureRegion texture, List<String> edgeTiles, String centre) {
       this.name = name;
       this.texture = texture;
       this.edgeTiles = edgeTiles;
@@ -493,7 +493,7 @@ public class TerrainComponent extends RenderComponent {
      * 
      * @return The edge tiles of the tile
      */
-    public ArrayList<String> getEdgeTiles() {
+    public List<String> getEdgeTiles() {
       return edgeTiles;
     }
 
