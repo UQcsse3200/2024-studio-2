@@ -66,15 +66,14 @@ public class CombatTerrainFactory {
         // Initialize ResourceService and load the background texture
         ResourceService resourceService = ServiceLocator.getResourceService();
         TextureRegion backgroundTextureRegion;
-        float backgroundWidth, backgroundHeight;
+        float backgroundWidth;
+        float backgroundHeight;
 
         // Determine the background image based on terrain type
-        switch (terrainType) {
-            case FOREST_DEMO:
-                backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
-                break;
-            default:
-                return null; // Return null for unsupported terrain types
+        if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+            backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
+        } else {
+            return null;
         }
 
         // Get the size of the background texture

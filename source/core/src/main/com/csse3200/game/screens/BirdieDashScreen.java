@@ -196,12 +196,12 @@ public class BirdieDashScreen extends PausableScreen {
      */
     private void createUI() {
         logger.debug("Creating birdie dash ui");
-        Stage stage = ServiceLocator.getRenderService().getStage();
+        Stage uiStage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = new KeyboardBirdInputComponent();
 
         Entity ui = new Entity();
         ui
-                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new InputDecorator(uiStage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());

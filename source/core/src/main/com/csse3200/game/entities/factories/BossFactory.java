@@ -33,6 +33,16 @@ public class BossFactory {
 
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
+    
+    
+    private static final List<CombatMove> moveSet = new ArrayList<>(
+            Arrays.asList(
+                    new AttackMove("Enemy Attack", 10),
+                    new GuardMove("Enemy Guard", 5),
+                    new SleepMove("Enemy Sleep", 0),
+                    new SpecialAirMove("Enemy Special", 25)
+            )
+    );
 
     /**
      * Creates a Kangaroo Boss entity.
@@ -41,29 +51,11 @@ public class BossFactory {
      * @return entity
      */
     public static Entity createKangaBossEntity(Entity target) {
-        Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO);
         BaseEnemyEntityConfig config = configs.kangarooBoss;
-        kangarooBoss.setEnemyType(Entity.EnemyType.KANGAROO);
-
-        List<CombatMove> moveSet = new ArrayList<>(
-                Arrays.asList(
-                        new AttackMove("Enemy Attack", 10),
-                        new GuardMove("Enemy Guard", 5),
-                        new SleepMove("Enemy Sleep", 0),
-                        new SpecialKangaMove("Enemy Special", 25)
-                )
-        );
-
-        AnimationRenderComponent animator =
-                new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+        Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO, config);
 
         kangarooBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new CombatMoveComponent(moveSet))
-                .addComponent(animator)
                 .addComponent(new KangaBossAnimationController());
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -79,29 +71,12 @@ public class BossFactory {
      * @return entity
      */
     public static Entity createWaterBossEntity(Entity target) {
-        Entity waterBoss = createBossNPC(target, Entity.EnemyType.WATER_BOSS);
         BaseEnemyEntityConfig config = configs.waterBoss;
-        waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
-
-        List<CombatMove> moveSet = new ArrayList<>(
-                Arrays.asList(
-                        new AttackMove("Enemy Attack", 10),
-                        new GuardMove("Enemy Guard", 5),
-                        new SleepMove("Enemy Sleep", 0),
-                        new SpecialWaterMove("Enemy Special", 25)
-                )
-        );
-
-        AnimationRenderComponent animator =
-                new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
+        Entity waterBoss = createBossNPC(target, Entity.EnemyType.WATER_BOSS, config);
+        
 
         waterBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new CombatMoveComponent(moveSet))
-                .addComponent(animator)
                 .addComponent(new WaterBossAnimationController());
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -117,29 +92,11 @@ public class BossFactory {
      * @return entity
      */
     public static Entity createAirBossEntity(Entity target) {
-        Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS);
         BaseEnemyEntityConfig config = configs.airBoss;
-        airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
-
-        List<CombatMove> moveSet = new ArrayList<>(
-                Arrays.asList(
-                        new AttackMove("Enemy Attack", 10),
-                        new GuardMove("Enemy Guard", 5),
-                        new SleepMove("Enemy Sleep", 0),
-                        new SpecialAirMove("Enemy Special", 25)
-                )
-        );
-
-        AnimationRenderComponent animator =
-                new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
-
+        Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS, config);
+        
         airBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new CombatMoveComponent(moveSet))
-                .addComponent(animator)
                 .addComponent(new AirBossAnimationController());
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -155,7 +112,7 @@ public class BossFactory {
      * @param type the type of the boss
      * @return entity
      */
-    public static Entity createBossNPC(Entity target, Entity.EnemyType type) {
+    public static Entity createBossNPC(Entity target, Entity.EnemyType type, BaseEnemyEntityConfig config) {
         AITaskComponent aiComponent = new AITaskComponent();
 
         aiComponent.addTask(new WanderTask(new Vector2(2f, 2f), 2f, true));
@@ -169,6 +126,12 @@ public class BossFactory {
         } else if (type == Entity.EnemyType.AIR_BOSS) {
             aiComponent.addTask(new GriffinTask(target, 10, 8f, 300, 100f));
         }
+        
+        AnimationRenderComponent animator =
+                new AnimationRenderComponent(
+                        ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
+        animator.addAnimation("wander", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("chase", 0.1f, Animation.PlayMode.LOOP);
 
         Entity npc = new Entity()
                 .addComponent(new PhysicsComponent())
@@ -176,8 +139,12 @@ public class BossFactory {
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
-                .addComponent(aiComponent);
-
+                .addComponent(aiComponent)
+                .addComponent(animator)
+                .addComponent(new CombatMoveComponent(moveSet));
+        
+        npc.setEnemyType(type);
+        
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
     }
@@ -249,4 +216,10 @@ public class BossFactory {
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
     }
+    
+    //never call
+    private BossFactory() {
+        throw new IllegalStateException("Instantiating static util class");
+    }
+    
 }

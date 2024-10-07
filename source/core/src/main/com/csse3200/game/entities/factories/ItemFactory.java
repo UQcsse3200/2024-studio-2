@@ -102,4 +102,9 @@ public class ItemFactory {
     public static Entity createMeat(Entity target) {
         return createItem(target, new Foods.Meat(1));
     }
+    
+    private ItemFactory() {
+        throw new IllegalStateException("Instantiating static util class");
+    }
+    
 }

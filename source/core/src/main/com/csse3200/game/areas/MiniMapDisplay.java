@@ -18,11 +18,11 @@ public class MiniMapDisplay extends UIComponent {
     private Texture miniMapBackground;
     private Image blueDotPointImage;
     private List<Image> redDotPointImages;
-    private GameArea gameArea;
-    private int scaleFactor = 50;
-    private float miniMapX = 15;  // Minimap's X position on the screen
-    private float miniMapY = 15;  // Minimap's Y position on the screen
-    private int miniMapSize = 300;  // Size of the minimap
+    private final GameArea gameArea;
+    private static final int SCALE_FACTOR = 50;
+    private static final float MINI_MAP_X = 15;  // Minimap's X position on the screen
+    private static final float MINI_MAP_Y = 15;  // Minimap's Y position on the screen
+    private static final int MINI_MAP_SIZE = 300;  // Size of the minimap
 
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
@@ -45,9 +45,9 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     private void initializeImages() {
-        Pixmap pixmap = new Pixmap(miniMapSize, miniMapSize, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(MINI_MAP_SIZE, MINI_MAP_SIZE, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
-        pixmap.fillCircle(miniMapSize / 2, miniMapSize / 2, miniMapSize / 2);
+        pixmap.fillCircle(MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2);
         // Convert the Pixmap to a texture
         miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
@@ -75,19 +75,20 @@ public class MiniMapDisplay extends UIComponent {
         Vector2 entityPos = entity.getPosition();
 
         Vector2 entityMiniMapPos = new Vector2(
-                (entityPos.x - playerPos.x) / scaleFactor * miniMapSize,
-                (entityPos.y - playerPos.y) / scaleFactor * miniMapSize
+                (entityPos.x - playerPos.x) / SCALE_FACTOR * MINI_MAP_SIZE,
+                (entityPos.y - playerPos.y) / SCALE_FACTOR * MINI_MAP_SIZE
         );
-        entityMiniMapPos.add(miniMapX + miniMapSize / 2, miniMapY + miniMapSize / 2);
+        entityMiniMapPos.add(MINI_MAP_X + (float) MINI_MAP_SIZE / 2,
+                MINI_MAP_Y + (float) MINI_MAP_SIZE / 2);
 
         return entityMiniMapPos;
     }
 
     @Override
     public void update() {
-        float centerX = miniMapX + miniMapSize / 2;
-        float centerY = miniMapY + miniMapSize / 2;
-        float minimapRadius = miniMapSize / 2;
+        float centerX = MINI_MAP_X + (float) MINI_MAP_SIZE / 2;
+        float centerY = MINI_MAP_Y + (float) MINI_MAP_SIZE / 2;
+        float minimapRadius = (float) MINI_MAP_SIZE / 2;
 
         // Synchronize the number of red dot images with the number of enemies
         if (redDotPointImages.size() != enemies.size()) {
@@ -115,9 +116,9 @@ public class MiniMapDisplay extends UIComponent {
 
     @Override
     protected void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(miniMapBackground, miniMapX, miniMapY, miniMapSize, miniMapSize);
-        batch.end();
+        SpriteBatch newBatch = new SpriteBatch();
+        newBatch.begin();
+        newBatch.draw(miniMapBackground, MINI_MAP_X, MINI_MAP_Y, MINI_MAP_SIZE, MINI_MAP_SIZE);
+        newBatch.end();
     }
 }

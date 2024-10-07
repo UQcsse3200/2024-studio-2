@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat.move;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.csse3200.game.components.CombatStatsComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,6 @@ public class SpecialAirMove extends SpecialMove {
 
     /**
      * Applies a random status effect to the target player after the move is executed
-     *
      * Also apply debuff which decreases Player's strength by 30 and defense by 25.
      *
      * @param targetStats combat stats of the target (player) that will be affected by the debuffs.
@@ -35,7 +35,7 @@ public class SpecialAirMove extends SpecialMove {
         targetStats.addStrength(-30);
         targetStats.addDefense(-25);
 
-        int rand = (int) (Math.random() * 2);
+        int rand = (int) (MathUtils.random() * 2);
         CombatStatsComponent.StatusEffect statusEffect = switch (rand) {
             case 0 -> CombatStatsComponent.StatusEffect.CONFUSED;
             case 1 -> CombatStatsComponent.StatusEffect.SHOCKED;
@@ -47,7 +47,6 @@ public class SpecialAirMove extends SpecialMove {
 
     /**
      * Buffs Air Boss's strength and defense stats after the special move.
-     *
      * This method increases Water Boss's strength by 25 and defense by 25.
      *
      * @param attackerStats combat stats of Kanga, who is performing the special move.
