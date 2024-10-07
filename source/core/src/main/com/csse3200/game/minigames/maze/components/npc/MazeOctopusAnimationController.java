@@ -36,7 +36,7 @@ public class MazeOctopusAnimationController extends Component {
      * Animation for the walking state
      */
     void animateWander() {
-        animator.startAnimation("Walk");
+        animator.startAnimation("Idle");
     }
 
     /**

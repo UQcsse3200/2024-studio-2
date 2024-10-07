@@ -44,6 +44,7 @@ public class Octopus extends MazeEntity {
         animator.addAnimation("Walk", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Attack", 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation("Idle", 0.2f, Animation.PlayMode.LOOP);
+        animator.addSound("sounds/minigames/octopus-move.mp3", "Walk", 3);
 
         // Set other unique components for Octopus
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))

@@ -79,7 +79,8 @@ public class MazeGameArea extends GameArea {
             "sounds/minigames/eel-electricity.mp3",
             "sounds/minigames/maze-hit.mp3",
             "sounds/minigames/collect-fishegg.mp3",
-            "sounds/minigames/ink-splat.mp3"
+            "sounds/minigames/ink-splat.mp3",
+            "sounds/minigames/octopus-move.mp3"
     };
     private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
     private static final String[] mazeMusic = {mazeBackgroundMusic};
