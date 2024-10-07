@@ -170,30 +170,9 @@ public class PlayerStatsDisplay extends UIComponent {
         updatePlayerHungerUI(hunger);
         updatePlayerExperienceUI(experience, combatStats);
 
-        startHungerDecreaseTimer();
-        // Add the table to the stage
         return true;
     }
 
-
-    public void startHungerDecreaseTimer() {
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
-                if (combatStats != null) {
-
-                    int hunger = combatStats.getHunger();
-                    updatePlayerHungerUI(hunger);
-
-                    // Adjust health based on the current hunger level
-                    adjustHealthBasedOnHunger(hunger, combatStats);
-                }
-            }
-        }, 1, 1);
-
-        // Initial delay of 3 seconds, then repeat every 3 seconds
-    }
 
     private void adjustHealthBasedOnHunger(int hunger, CombatStatsComponent combatStats) {
         int health = combatStats.getHealth();
