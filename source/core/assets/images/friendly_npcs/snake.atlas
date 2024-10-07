@@ -8,7 +8,7 @@ float
   xy: 1672, 3028
   size: 120, 120
   orig: 120, 120
-  offset: 0, 0F
+  offset: 0, 0
   index: -1
 float
   rotate: false
