@@ -2,6 +2,8 @@ package com.csse3200.game.minigames;
 /**
  * Class to store games high scores
  */
+
+//TODO: Can probably delete this file
 public class MiniGamesScores {
 
     /**
@@ -26,7 +28,6 @@ public class MiniGamesScores {
         snakeMedal = MiniGameMedals.FAIL;
         birdMedal = MiniGameMedals.FAIL;
         mazeMedal = MiniGameMedals.FAIL;
-;
     }
 
     /**
