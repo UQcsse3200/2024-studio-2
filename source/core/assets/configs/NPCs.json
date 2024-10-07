@@ -156,7 +156,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Penny the Pigeon."]
     ],
-    "spritePath": "images/pigeon.atlas",
+    "spritePath": "images/friendly-pigeon.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",
