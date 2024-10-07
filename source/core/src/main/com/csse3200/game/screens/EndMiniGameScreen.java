@@ -76,7 +76,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
-        this.score = 100;
+        this.score = score;
         this.gameName = gameName;
         this.scale = 1;
         this.oldScreen = screen;
@@ -181,9 +181,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
         if (medal != MiniGameMedals.FAIL) {
             // Add in the medal Image
             Image medalImage = new Image(medalTexture);
-            medalImage.setScaling(Scaling.fit);
-            medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f);
-            contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
+            medalImage.setScaling(Scaling.fit);  // Keep this to maintain the aspect ratio
+            contentTable.add(medalImage).size(medalImage.getWidth() * 0.6f * scale, medalImage.getHeight() * 0.6f * scale).center().padBottom(20f).colspan(3).row();
         }
     }
 
@@ -217,7 +216,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             labelStyle = new Label.LabelStyle(font26, Color.WHITE);
             Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
             contentTable.row().colspan(3);
-            contentTable.add(medalLabel).center().padBottom(100 * scale).row();
+            contentTable.add(medalLabel).center().padBottom(50 * scale).row();
         }
     }
 
@@ -252,7 +251,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         String scoreMessage = getMessage();
         Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
         contentTable.row().colspan(3);
-        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
+        contentTable.add(scoreMessageLabel).center().padBottom(50 * scale);
     }
 
     /**
@@ -317,7 +316,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         }
         switch (gameName) {
             case SNAKE ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+                    backgroundTexture = new Texture(Gdx.files.internal("images/minigames/SnakeEndGameScreen.jpg"));
             case BIRD ->
                     backgroundTexture = new Texture(Gdx.files.internal("images/minigames/BirdEndGameScreen.png"));
             case MAZE ->
