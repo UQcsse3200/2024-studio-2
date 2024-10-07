@@ -2,6 +2,7 @@ package com.csse3200.game.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.AudioManager;

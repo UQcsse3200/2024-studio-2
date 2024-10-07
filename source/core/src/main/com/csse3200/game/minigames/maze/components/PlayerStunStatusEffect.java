@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.components;
 
 import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
@@ -46,6 +47,6 @@ public class PlayerStunStatusEffect implements StatusEffect {
      */
     @Override
     public void update() {
-        light.setDistance((float) Math.random() * 5f);
+        light.setDistance(MathUtils.random() * 5f);
     }
 }

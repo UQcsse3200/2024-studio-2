@@ -72,7 +72,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity player
    */
-  public Boolean isPlayer() {
+  public boolean isPlayer() {
     return isPlayer;
   }
 
@@ -81,7 +81,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity dead
    */
-  public Boolean isDead() {
+  public boolean isDead() {
     return health == 0;
   }
 
@@ -90,7 +90,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is player dead
    */
-  public Boolean isBoss() {
+  public boolean isBoss() {
     return this.isBoss;
   }
 
@@ -356,7 +356,7 @@ public class CombatStatsComponent extends Component {
    * @param stamina stamina value to set
    */
   public void setStamina(int stamina) {
-    this.stamina = Math.min(maxStamina, Math.max(0, stamina));
+    this.stamina = Math.clamp(stamina, 0, maxStamina);
   }
 
   /**
@@ -459,13 +459,15 @@ public class CombatStatsComponent extends Component {
    */
   public int getStatusEffectDuration(StatusEffect effect) {
     switch (effect) {
-      case BLEEDING, SHOCKED -> {
-        return 3;
-      }
-      case POISONED -> {
+        case BLEEDING, SHOCKED -> {
+            return 3;
+        }
+        case POISONED -> {
         return 2;
-      }
+        }
+        default -> {
+          return 0;
+        }
     }
-    return 0;
   }
 }
