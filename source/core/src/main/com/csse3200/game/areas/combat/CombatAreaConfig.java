@@ -52,6 +52,8 @@ public class CombatAreaConfig {
             "images/bigsawfish_idle.png",
             "images/bee.png",
             "images/eel.png",
+            "images/eel1.png",
+            "images/enemy-bear.png",
             "images/pigeon.png",
             "images/monkey.png",
             "images/macaw.png",
@@ -78,7 +80,7 @@ public class CombatAreaConfig {
             "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
-            "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
+            "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/enemy-bear.atlas", "images/bee.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas"
     };
 

@@ -176,7 +176,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am McDonald the Macaw."]
     ],
-    "spritePath": "images/bigsawfish.atlas",
+    "spritePath": "images/macaw.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",
