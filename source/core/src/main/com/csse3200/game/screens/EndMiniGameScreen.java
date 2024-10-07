@@ -521,5 +521,4 @@ public class EndMiniGameScreen extends ScreenAdapter {
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(endMiniGameSounds);
     }
-
 }
