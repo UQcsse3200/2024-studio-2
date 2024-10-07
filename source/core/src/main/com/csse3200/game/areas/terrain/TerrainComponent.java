@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.csse3200.game.areas.terrain.tiles.ForestMapTiles;
+//import com.csse3200.game.areas.terrain.tiles.ForestMapTiles;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
+import com.csse3200.game.areas.terrain.tiles.ForestTileConfig.TileConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -274,13 +275,13 @@ public class TerrainComponent extends RenderComponent {
       switch(mapType) {
         case FOREST:
           // load forest tiles
-          ForestMapTiles tileConfig;
-          tileConfig = FileLoader.readClass(ForestMapTiles.class, "configs/ForestGameAreaConfigs/forestTiles.json");
-          for (ForestTileConfig tile : tileConfig.forestMapTiles) {
+          ForestTileConfig tileConfig = new ForestTileConfig();
+          for (TileConfig tile : tileConfig.forestMapTiles) {
             // edge: TOP, RIGHT, BOTTOM, LEFT
             // A: sand, B: grass, C: water
             // =======================
-            forestTiles.add(new Tile(tile.id, 
+            forestTiles.add(
+                new Tile(tile.id, 
                 new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)), 
                 tile.edges, 
                 tile.centre));
