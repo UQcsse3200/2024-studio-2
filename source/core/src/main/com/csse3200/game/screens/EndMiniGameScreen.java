@@ -41,30 +41,33 @@ import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.
+ * Gives loot box and achievements to player based on the medal
  */
+//TODO: Change transparency on the medal images, add different backgrounds for each game
 public class EndMiniGameScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(EndMiniGameScreen.class);
+
+    // End game screen parameters
     private final GdxGame game;
     private final int score;
     private final MiniGameNames gameName;
-    private final Stage stage;
-    private final Skin skin;
-    private float scale;
+    private final Stage stage;  // The stage to put elements onto
+    private final Skin skin;  // The skin for buttons
+    private float scale;  // Scale relative to screen size
 
     // fonts
     private final BitmapFont font18;
     private final BitmapFont font26;
     private final BitmapFont font32;
     private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
-
-    private final Entity player;
-    private PlayerInventoryDisplay display;
-    private final Table contentTable;
-    private final MiniGameMedals medal;
-    private Texture backgroundTexture;
-    private Image backgroundImage;
-    private static final String[] endMiniGameSounds = {
+    private final ServiceContainer oldScreenServices;  // The screen that the mini-game was called from
+    private final Entity player;  // Player to add achievement sand loot boxes to
+    private PlayerInventoryDisplay display;  // Inventory to add lootbox to
+    private final Table contentTable;  // Table that contains all lables, button and images
+    private final MiniGameMedals medal;  // Medal based on the score
+    private Texture backgroundTexture;  // The background image texture
+    private Image backgroundImage;  // The background image
+    private static final String[] endMiniGameSounds = {  // Game sounds for each medal
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
             "sounds/minigames/silver.mp3",
@@ -73,7 +76,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
-        this.score = score;
+        this.score = 100;
         this.gameName = gameName;
         this.scale = 1;
         this.oldScreen = screen;
@@ -81,16 +84,23 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.medal = getMedal(this.score);
 
         this.stage = new Stage(new ScreenViewport());
-        stage.clear();
+
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-
-        contentTable = new Table();
-        contentTable.setFillParent(true);
-        //contentTable.debug();  // Uncommento visualise table
-
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
         this.font32 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
+
+        Gdx.input.setInputProcessor(stage);  // Gets input from the stage
+
+        ServiceLocator.registerResourceService(new ResourceService());  // For the sounds
+        loadAssets();
+        playSoundEffect();
+
+        // Initialise contents Table
+        contentTable = new Table();
+        //contentTable.debug();  // Uncomment to visualise table on the screen
+        setBackground();
+        renderContents();
 
         // Rewarding achievement to player
         if (oldScreen instanceof MainGameScreen) {
@@ -104,20 +114,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
             this.player = null;
             this.display = null;
         }
-        Gdx.input.setInputProcessor(stage);
-
-        ServiceLocator.registerResourceService(new ResourceService());
-        loadAssets();
-        playSoundEffect();
-
-        setBackground();
-        renderEndMessage();
-
     }
 
     /**
-     * Renders the screen. Sets the background colour, draws the UI elements (buttons) and
-     * renders the message labels and handles key presses
+     * Renders the stage that includes the background image and the contentsTable
      *
      * @param delta The time in seconds since the last render.
      */
@@ -128,51 +128,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
         stage.draw();
 
         handleKeyPress();
-
-    }
-
-    /**
-     * Gives the player a loot box
-     */
-    private void giveLootBox() throws ClassNotFoundException {
-        logger.info("Adding loot box to player's inventory.");
-        LootBoxFactory lootBoxFactory = new LootBoxFactory();  // Create the factory to handle loot box creation
-
-        // Determine the medal and get the corresponding loot box\
-        if (player != null) {
-            switch (medal) {
-                case BRONZE -> {
-                    // Create and add EarlyGameLootBox using the factory
-                    UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
-                }
-                case SILVER -> {
-                    // Create and add MediumGameLootBox using the factory
-                    UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
-                }
-                case GOLD -> {
-                    // Create and add LateGameLootBox using the factory
-                    UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
-                }
-            }
-        }
-    }
-    /**
-     * Changes the screen if backspace or R is pressed (to mini-games menu or back to game respectively)
-     */
-    private void handleKeyPress() {
-
-        // Key functionality for escape and restart
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
-            setGameScreen();
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
-            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-            game.setOldScreen(oldScreen, oldScreenServices);
-        }
     }
 
     /**
@@ -190,64 +145,29 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
-     * Renders the labels with score, message and title.
+     * Called when screen is initialised and resized
+     * Clears the table and adds to the actor
+     * Renders the medal Image, Title, Score, High-score, medal and personalised messages
      */
-    private void renderEndMessage() {
+    private void renderContents() {
 
         contentTable.clear();
+        contentTable.setFillParent(true);
 
-        // Render the medal image
-        renderMedal();
-
-        // End of Mini-Game label
-        font32.getData().setScale(3f * scale);
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
-        Label endGameLabel = new Label("End of Mini-Game", labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
-
-        // Score label
-        font26.getData().setScale(2f * scale);
-        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
-        Label scoreLabel = new Label("Score: " + score, labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(scoreLabel).center().padBottom(20 * scale).row();
-
-        // High-score label
-        font26.getData().setScale(2f * scale);
-        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
-        Label highscoreLabel = new Label("HighScore: " + GameState.minigame.getHighScore(gameName), labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(highscoreLabel).center().padBottom(50 * scale).row();
-
-        // Medal label
-        if (medal == MiniGameMedals.FAIL) {
-            font26.getData().setScale(2f * scale);
-            labelStyle = new Label.LabelStyle(font26, Color.WHITE);
-            Label medalLabel = new Label("You FAILED", labelStyle);
-            contentTable.row().colspan(3);
-            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
-
-        } else {
-            font26.getData().setScale(2f * scale);
-            labelStyle = new Label.LabelStyle(font26, Color.WHITE);
-            Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
-            contentTable.row().colspan(3);
-            contentTable.add(medalLabel).center().padBottom(100 * scale).row();
-        }
-
-        // Personalised message label
-        font18.getData().setScale(2f * scale);
-        labelStyle = new Label.LabelStyle(font18, Color.WHITE);
-        String scoreMessage = getMessage();
-        Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
-        contentTable.row().colspan(3);
-        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
+        renderMedalImage();
+        renderTitle();
+        renderScoreLabels();
+        renderMedalLabel();
+        renderPersonalisedMessage();
         makeButtons();
+
         stage.addActor(contentTable);
     }
 
-    private void renderMedal() {
+    /**
+     * Adds the MedalImage to the content Tabel at the top of the screen if a medal has been achieved
+     */
+    private void renderMedalImage() {
 
         // Set the medal image based on the medal
         Texture medalTexture;
@@ -268,7 +188,75 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
-     * Renders the try again, menu and back to game buttons
+     * Makes the title and puts into the contentTable
+     */
+    private void renderTitle() {
+        // End of Mini-Game label
+        font32.getData().setScale(3f * scale);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font32, Color.WHITE);
+        Label endGameLabel = new Label("End of Mini-Game", labelStyle);
+        contentTable.row().colspan(3);
+        contentTable.add(endGameLabel).center().padBottom(80 * scale).row();
+    }
+
+    /**
+     * Makes the medal text and puts onto the contentTable
+     */
+    private void renderMedalLabel() {
+        Label.LabelStyle labelStyle;
+        // Medal label
+        if (medal == MiniGameMedals.FAIL) {
+            font26.getData().setScale(2f * scale);
+            labelStyle = new Label.LabelStyle(font26, Color.WHITE);
+            Label medalLabel = new Label("You FAILED", labelStyle);
+            contentTable.row().colspan(3);
+            contentTable.add(medalLabel).center().padBottom(150 * scale).row();
+
+        } else {
+            font26.getData().setScale(2f * scale);
+            labelStyle = new Label.LabelStyle(font26, Color.WHITE);
+            Label medalLabel = new Label("You got a " + medal + " Medal :)", labelStyle);
+            contentTable.row().colspan(3);
+            contentTable.add(medalLabel).center().padBottom(100 * scale).row();
+        }
+    }
+
+    /**
+     * Makes the score and high score labels and adds them to the content Tabel
+     */
+    private void renderScoreLabels() {
+        Label.LabelStyle labelStyle;
+        // Score label
+        font26.getData().setScale(2f * scale);
+        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
+        Label scoreLabel = new Label("Score: " + score, labelStyle);
+        contentTable.row().colspan(3);
+        contentTable.add(scoreLabel).center().padBottom(20 * scale).row();
+
+        // High-score label
+        font26.getData().setScale(2f * scale);
+        labelStyle = new Label.LabelStyle(font26, Color.WHITE);
+        Label highscoreLabel = new Label("HighScore: " + GameState.minigame.getHighScore(gameName), labelStyle);
+        contentTable.row().colspan(3);
+        contentTable.add(highscoreLabel).center().padBottom(50 * scale).row();
+    }
+
+    /**
+     * Adds the personalised message text to the contentTable
+     */
+    private void renderPersonalisedMessage() {
+        Label.LabelStyle labelStyle;
+        // Personalised message label
+        font18.getData().setScale(2f * scale);
+        labelStyle = new Label.LabelStyle(font18, Color.WHITE);
+        String scoreMessage = getMessage();
+        Label scoreMessageLabel = new Label(scoreMessage, labelStyle);
+        contentTable.row().colspan(3);
+        contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
+    }
+
+    /**
+     * Makes the try again, menu and back to game buttons and adds them to the contents table
      */
     private void makeButtons() {
         // Make try again button
@@ -321,51 +309,6 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
-     * Get the medal associated with the players score for current game
-     *
-     * @param score: the players score
-     * @return the medal associated with the score for each game
-     */
-    private MiniGameMedals getMedal(int score) {
-
-        // Get the medal thresholds for each game
-        int bronzeThreshold, silverThreshold, goldThreshold;
-        switch (gameName) {
-            case SNAKE -> {
-                bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
-            }
-            case BIRD -> {
-                bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
-            }
-            case MAZE -> {
-                bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
-                silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
-                goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
-            }
-            default -> throw new IllegalArgumentException("Unknown mini-game: " + game);
-        }
-
-        // Return the medal
-        if (score < bronzeThreshold) {
-            // Fail
-            return MiniGameMedals.FAIL;
-        } else if (score < silverThreshold) {
-            // Bronze
-            return MiniGameMedals.BRONZE;
-        } else if (score < goldThreshold) {
-            // Silver
-            return MiniGameMedals.SILVER;
-        } else {
-            // Gold
-            return MiniGameMedals.GOLD;
-        }
-    }
-
-    /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
     private void setBackground() {
@@ -376,9 +319,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
             case SNAKE ->
                     backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
             case BIRD ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+                    backgroundTexture = new Texture(Gdx.files.internal("images/minigames/BirdEndGameScreen.png"));
             case MAZE ->
-                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+                    backgroundTexture = new Texture(Gdx.files.internal("images/minigames/MazeEndGameScreen2.png"));
             default -> throw new IllegalArgumentException("Unknown mini-game");
         }
 
@@ -387,6 +330,34 @@ public class EndMiniGameScreen extends ScreenAdapter {
         stage.addActor(backgroundImage);  // Add background first
     }
 
+    /**
+     * Gives the player a loot box
+     */
+    private void giveLootBox() throws ClassNotFoundException {
+        logger.info("Adding loot box to player's inventory.");
+        LootBoxFactory lootBoxFactory = new LootBoxFactory();  // Create the factory to handle loot box creation
+
+        // Determine the medal and get the corresponding loot box\
+        if (player != null) {
+            switch (medal) {
+                case BRONZE -> {
+                    // Create and add EarlyGameLootBox using the factory
+                    UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
+                }
+                case SILVER -> {
+                    // Create and add MediumGameLootBox using the factory
+                    UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
+                }
+                case GOLD -> {
+                    // Create and add LateGameLootBox using the factory
+                    UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
+                    display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+                }
+            }
+        }
+    }
 
     /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
@@ -500,7 +471,68 @@ public class EndMiniGameScreen extends ScreenAdapter {
         contentTable.clear();
 
         setBackground();
-        renderEndMessage();
+        renderContents();
+    }
+
+    /**
+     * Changes the screen if backspace or R is pressed (to mini-games menu or back to game respectively)
+     */
+    private void handleKeyPress() {
+
+        // Key functionality for escape and restart
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
+            setGameScreen();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {  // Go to Mini-games menu
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setOldScreen(oldScreen, oldScreenServices);
+        }
+    }
+
+    /**
+     * Get the medal associated with the players score for current game
+     *
+     * @param score: the players score
+     * @return the medal associated with the score for each game
+     */
+    private MiniGameMedals getMedal(int score) {
+
+        // Get the medal thresholds for each game
+        int bronzeThreshold, silverThreshold, goldThreshold;
+        switch (gameName) {
+            case SNAKE -> {
+                bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.SNAKE_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.SNAKE_GOLD_THRESHOLD;
+            }
+            case BIRD -> {
+                bronzeThreshold = MiniGameConstants.BIRDIE_DASH_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.BIRDIE_DASH_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.BIRDIE_DASH_GOLD_THRESHOLD;
+            }
+            case MAZE -> {
+                bronzeThreshold = MiniGameConstants.MAZE_BRONZE_THRESHOLD;
+                silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
+                goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
+            }
+            default -> throw new IllegalArgumentException("Unknown mini-game: " + game);
+        }
+
+        // Return the medal
+        if (score < bronzeThreshold) {
+            // Fail
+            return MiniGameMedals.FAIL;
+        } else if (score < silverThreshold) {
+            // Bronze
+            return MiniGameMedals.BRONZE;
+        } else if (score < goldThreshold) {
+            // Silver
+            return MiniGameMedals.SILVER;
+        } else {
+            // Gold
+            return MiniGameMedals.GOLD;
+        }
     }
 
     /**
