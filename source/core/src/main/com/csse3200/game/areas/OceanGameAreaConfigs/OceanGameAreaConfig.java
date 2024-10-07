@@ -1,6 +1,6 @@
 package com.csse3200.game.areas.OceanGameAreaConfigs;
 
-import com.csse3200.game.areas.ForestGameAreaConfigs.ForestSpawnConfig;
+import com.csse3200.game.areas.forest.ForestSpawnConfig;
 import com.csse3200.game.files.FileLoader;
 
 public class OceanGameAreaConfig {public SoundsConfig sounds;

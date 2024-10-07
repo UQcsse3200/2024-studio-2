@@ -6,7 +6,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.components.animal.LandAnimalSelectionDisplay;
-import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
+import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 
 public class LandAnimalSelectionScreen extends AnimalRouletteScreen1 {
     public LandAnimalSelectionScreen(GdxGame game) {

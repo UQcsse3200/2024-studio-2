@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
+import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
