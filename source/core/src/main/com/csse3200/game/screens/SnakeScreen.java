@@ -154,7 +154,7 @@ public class SnakeScreen extends PausableScreen {
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
             GameState.minigame.addHighScore("snake", snakeGame.getScore());
-            logger.info("{}", GameState.minigame.getHighScore("snake"));
+            logger.info("{}", GameState.minigame.getHighScore(MiniGameNames.SNAKE));
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }

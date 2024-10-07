@@ -19,7 +19,7 @@ public class Snake {
     private int length;
     private Direction direction;
     private final Deque<Direction> nextDirection;
-    private final float movePeriod;
+    private float movePeriod;
     private float moveTimer;
 
     /**
@@ -215,5 +215,13 @@ public class Snake {
             if (y != segment.y) return false;
             return direction == segment.direction;
         }
+    }
+
+    public float getMovePeriod() {
+        return this.movePeriod;
+    }
+
+    public void updateMovePeriod(float period) {
+        this.movePeriod = period;
     }
 }
