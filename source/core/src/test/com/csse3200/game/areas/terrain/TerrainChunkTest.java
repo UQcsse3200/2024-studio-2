@@ -2,14 +2,10 @@ package com.csse3200.game.areas.terrain;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.utils.Array;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mockito;
-
-import java.util.HashMap;
-import java.util.Map;
 import com.badlogic.gdx.maps.MapLayers;
 
 public class TerrainChunkTest {
@@ -41,7 +37,7 @@ public class TerrainChunkTest {
         assertEquals(0, terrainChunk.grid.size);
 
         // Check that the tile is initialized
-        assertNotNull(terrainChunk.tileTypeCount);
+        assertNotNull(terrainChunk.getTileTypeCount());
     }
 
     //@Test
