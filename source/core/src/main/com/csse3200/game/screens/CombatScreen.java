@@ -99,8 +99,10 @@ public class CombatScreen extends ScreenAdapter {
     if (!isPaused){
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
+
     renderer.render();
     }
+
   }
 
   @Override
@@ -183,6 +185,12 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
+  }
+  private void checkEnemyDeath() {
+    if (enemyCombatStats.getHealth() <= 0) {
+      logger.debug("Enemy has been defeated, transitioning to victory screen.");
+      game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to VictoryScreen
+    }
   }
 
 }
