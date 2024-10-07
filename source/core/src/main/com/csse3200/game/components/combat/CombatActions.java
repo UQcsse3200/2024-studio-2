@@ -86,6 +86,17 @@ public class CombatActions extends Component {
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
+    // Reduce player level and experience and stats
+    CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+    int playerLevel = combatStats.getLevel();
+    int lvlDiff = playerLevel/2;
+    combatStats.addStrength(-lvlDiff);
+    combatStats.addDefense(-lvlDiff);
+    combatStats.addSpeed(-lvlDiff);
+    combatStats.setLevel(lvlDiff);
+    combatStats.addMaxHealth(-lvlDiff);
+    combatStats.setExperience(0);
+
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, false);
   }

@@ -324,6 +324,21 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Adds value to the entity's maximum health.
+   *
+   * @param health adds to entity's max health
+   */
+  public void addMaxHealth(int health) {
+    if(this.maxHealth - health < 0){
+      this.maxHealth = 0;
+    }
+
+    else{
+      this.maxHealth = this.maxHealth - health;
+    }
+  }
+
+  /**
    * Returns the entity's maximum hunger.
    *
    * @return entity's max hunger
