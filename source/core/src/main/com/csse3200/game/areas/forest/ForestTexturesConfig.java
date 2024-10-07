@@ -184,7 +184,7 @@ public class ForestTexturesConfig {
             "images/potiontexture/speed.png",
             "images/potiontexture/defense.png",
             "images/potiontexture/attack.png",
-            "images/wolf.png"
+            "images/wolf.png",
     };
 
     public static final String[] FOREST_TEXTURE_ATLASES = {
@@ -201,6 +201,7 @@ public class ForestTexturesConfig {
             "images/pigeon.atlas",
             "images/friendly-pigeon.atlas",
             "images/bee.atlas",
+            "images/friendly-bee.atlas",
             "images/bigsawfish.atlas",
             "images/macaw.atlas",
             "images/banana.atlas",

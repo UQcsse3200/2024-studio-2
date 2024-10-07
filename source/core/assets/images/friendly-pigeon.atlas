@@ -80,3 +80,150 @@ default
   orig: 145, 100
   offset: 0, 0
   index: 0
+alert
+  rotate: false
+  xy: 39, 400
+  size: 145,160
+  orig: 145, 160
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 210, 447
+  size: 145,90
+  orig: 145, 90
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 380, 390
+  size: 145,160
+  orig: 145, 160
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 52, 17
+  size: 143, 94
+  orig: 143, 94
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 205, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 352, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 46, 143
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 198, 135
+  size: 145, 103
+  orig: 145, 103
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 340, 134
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 5
+combat_idle
+  rotate: false
+  xy: 48, 260
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 6
+combat_idle
+  rotate: false
+  xy: 207, 268
+  size: 143, 100
+  orig: 143, 100
+  offset: 0, 0
+  index: 7
+combat_idle
+  rotate: false
+  xy: 373, 273
+  size: 143, 90
+  orig: 143, 90
+  offset: 0, 0
+  index: 8
+combat_move
+  rotate: false
+  xy: 52, 17
+  size: 143, 94
+  orig: 143, 94
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 205, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 352, 11
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 46, 143
+  size: 143, 103
+  orig: 143, 103
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 198, 135
+  size: 145, 103
+  orig: 145, 103
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 340, 134
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 48, 260
+  size: 145, 115
+  orig: 145, 115
+  offset: 0, 0
+  index: 6
+combat_move
+  rotate: false
+  xy: 207, 268
+  size: 143, 100
+  orig: 143, 100
+  offset: 0, 0
+  index: 7
+combat_move
+  rotate: false
+  xy: 373, 273
+  size: 143, 90
+  orig: 143, 90
+  offset: 0, 0
+  index: 8

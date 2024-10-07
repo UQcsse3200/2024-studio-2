@@ -146,7 +146,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Beatrice the Bee."]
     ],
-    "spritePath": "images/bee.atlas",
+    "spritePath": "images/friendly-bee.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",
