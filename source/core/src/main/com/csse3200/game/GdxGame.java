@@ -3,6 +3,7 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
@@ -26,27 +27,27 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
     private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
-
+    
     @Override
     public void create() {
         logger.info("Creating game");
         loadSettings();
-
+        
         SaveHandler.load(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
-
+        
         if(Achievements.checkState()) {
             Achievements.resetState();
         }
-
+        
         // Assign the game to a singleton
         GdxGameManager.setInstance(this);
-
+        
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
-
+        
         setScreen(ScreenType.MAIN_MENU);
     }
-
+    
     /**
      * Loads the game's settings.
      */
@@ -55,7 +56,7 @@ public class GdxGame extends Game {
         UserSettings.Settings settings = UserSettings.get();
         UserSettings.applySettings(settings);
     }
-
+    
     /**
      * Sets the game's screen to a new screen of the provided type.
      *
@@ -69,7 +70,7 @@ public class GdxGame extends Game {
         }
         setScreen(newScreen(screenType, null, null, null, null));
     }
-
+    
     /**
      * Changes to a screen that already exists, disposing of the current screen
      *
@@ -92,34 +93,34 @@ public class GdxGame extends Game {
         ServiceLocator.registerLightingService(container.getLightingService());
         screen.resume();
     }
-
+    
     public void addCombatScreen(Entity enemy) {
         addScreen(ScreenType.COMBAT, getScreen(), null, enemy);
     }
-
+    
     public void addBossCutsceneScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
     }
     public void addEnemyCutsceneScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.ENEMY_CUTSCENE, getScreen(), player, enemy);
     }
-
+    
     public void enterCombatScreen(Entity player, Entity enemy) {
         addScreen(ScreenType.COMBAT, getScreen(), player, enemy);
     }
-
+    
     public void enterSnakeScreen() {
         addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
     }
-
+    
     public void enterBirdieDashScreen() {
         addScreen(ScreenType.BIRD_MINI_GAME, getScreen(), null, null);
     }
-
+    
     public void enterMazeGameScreen() {
         addScreen(ScreenType.MAZE_MINI_GAME, getScreen(), null, null);
     }
-
+    
     /**
      * Overloaded to add new combat screen
      * Changes to a new screen, does NOT dispose of old screen
@@ -131,14 +132,16 @@ public class GdxGame extends Game {
         logger.info("Add combat Screen: {}", screenType);
         screen.pause();
         ServiceContainer container = new ServiceContainer();
-
+        
         ServiceLocator.clear();
         setScreen(newScreen(screenType, screen, container, player, enemy));
     }
-
+    
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
-        ((MainGameScreen)screen).getGameArea().spawnConvertedNPCs(enemy);
+        if (CombatActions.enemyBeat) {
+            ((MainGameScreen) screen).getGameArea().spawnConvertedNPCs(enemy);
+        }
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
             if (e.equals(enemy)) {
@@ -153,13 +156,13 @@ public class GdxGame extends Game {
         //enemy.getComponent(CombatStatsComponent.getExperience());
         enemy.specialDispose();
     }
-
+    
     @Override
     public void dispose() {
         logger.debug("Disposing of current screen");
         getScreen().dispose();
     }
-
+    
     /**
      * Create a new screen of the provided type.
      *
@@ -196,7 +199,7 @@ public class GdxGame extends Game {
             default -> null;
         };
     }
-
+    
     /**
      * types of screens
      */
@@ -205,7 +208,7 @@ public class GdxGame extends Game {
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
         BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, CUTSCENE, STORY
     }
-
+    
     /**
      * Exit the game.
      */
