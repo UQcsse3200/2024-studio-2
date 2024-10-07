@@ -4,12 +4,8 @@ package com.csse3200.game.entities.configs;
  * Defines a basic set of properties stored in entities config files to be loaded by Entity Factories.
  */
 public class BaseEnemyEntityConfig extends BaseEntityConfig {
-    private int health;
-    private int hunger;
     private int baseAttack;
     private int strength;
-    private int speed;
-    private int experience;
     private int stamina;
     private int level;
 

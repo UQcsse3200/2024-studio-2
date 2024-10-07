@@ -8,7 +8,7 @@ import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.*;
-import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.CombatExitDisplay;

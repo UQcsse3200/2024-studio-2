@@ -157,6 +157,6 @@ public class Bird {
      * @return true if bird it touching the ground, otherwise false
      */
     public Boolean touchingFloor () {
-        return !(position.y > 0);
+        return position.y <= 0;
     }
 }
