@@ -109,11 +109,11 @@ public class Slides {
                    Guard: Reduce damage taken by 50%
                    Sleep: Restore 25% stamina and 10% health. It is the only way to regain stamina
                    Item: Use items each turn for various effects:
-                                             
+                   
                    HP Potions: Restore health
-                                            
+                   
                    Status Potions: Boost stats for the battle
-                                            
+                   
                    Remedies: Cure status ailments or confusion
                    """
                     ,skin);
