@@ -9,6 +9,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+import com.csse3200.game.components.CombatStatsComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +25,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private long startTime = 0;
   GameTime timeSource;
 
+  private long movementStartTime = 0;
+  private long movementDuration = 0;
+  private static final long HUNGER_DECREASE_TIME = 3000; // 3 seconds in milliseconds
+  private boolean isMoving = false;
+
+  // New variables for continuous hunger checks
+  private long hungerCheckInterval = 100; // Time interval for hunger checks in milliseconds
+  private long lastHungerCheckTime = 0; // Track the last time hunger was checked
+
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
-   * unintended velocity when entering and exiting screens while holding a wasd button
+   * unintended velocity when entering and exiting screens while holding a WASD button.
    */
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -139,7 +149,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   /**
    * Triggers camera zoom for player, calling the associated
-   * event listener
+   * event listener.
    *
    * @param amountX the horizontal zoom amount
    * @param amountY the vertical zoom amount
@@ -149,6 +159,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean scrolled(float amountX, float amountY) {
     entity.getEvents().trigger("cameraZoom", amountX, amountY);
     return true;
+  }
+
+  @Override
+  public void update() {
+    super.update(); // Call super method if needed
+    // Check movement status every tick
+    updateMovementDuration();
   }
 
   private void triggerWalkEvent() {
@@ -164,9 +181,38 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.len() > 0) {
       walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
+
+      // Start tracking movement if not already moving
+      if (!isMoving) {
+        movementStartTime = timeSource.getTime(); // Reset the timer when the movement starts
+      }
+      isMoving = true;
     } else {
       entity.getEvents().trigger("walkStop");
+      isMoving = false;
     }
+  }
+
+  private void updateMovementDuration() {
+    // Check if the player is moving
+    if (isMoving) {
+      // Check the current time to see if we should decrease hunger
+      long currentTime = timeSource.getTime();
+      // Only decrease hunger every 3 seconds
+      if (currentTime - lastHungerCheckTime >= 3000) { // 3000 ms = 3 seconds
+        lastHungerCheckTime = currentTime; // Update the last hunger check time
+        decreaseHunger(); // Decrease hunger
+      }
+    } else {
+      // Reset movement tracking when not moving
+      movementStartTime = 0; // Resetting this as well for clarity
+    }
+  }
+
+  private void decreaseHunger() {
+    // Implement your logic to decrease hunger here
+    CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+    combatStats.addHunger(-1); // Decrease hunger by 1
   }
 
   private void updateWalkDirection() {
@@ -185,17 +231,17 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     }
     triggerWalkEvent();
   }
-  
+
   public boolean isParalyzed() {
     return paralyzed;
   }
-  
+
   public void paralyze() {
     paralyzed = true;
     startTime = timeSource.getTime();
     triggerWalkEvent();
   }
-  
+
   public void unParalyze() {
     paralyzed = false;
     startTime = 0;

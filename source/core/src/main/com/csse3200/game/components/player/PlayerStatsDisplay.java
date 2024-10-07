@@ -182,8 +182,7 @@ public class PlayerStatsDisplay extends UIComponent {
             public void run() {
                 CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
                 if (combatStats != null) {
-                    // Decrease hunger by 1 every 3 seconds
-                    combatStats.addHunger(-1);
+
                     int hunger = combatStats.getHunger();
                     updatePlayerHungerUI(hunger);
 
@@ -191,7 +190,7 @@ public class PlayerStatsDisplay extends UIComponent {
                     adjustHealthBasedOnHunger(hunger, combatStats);
                 }
             }
-        }, 3, 3);
+        }, 1, 1);
 
         // Initial delay of 3 seconds, then repeat every 3 seconds
     }
