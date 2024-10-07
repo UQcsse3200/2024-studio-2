@@ -293,11 +293,16 @@ public class MazeGameScreen extends PausableScreen {
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
         if (scale == 0) {  // Screen has been minimised
-            scale = 1;
             restMenu();
+        } else {
+            stage.clear();
+            if (resting) {
+                removeOverlay();
+                restMenu();
+            }
+            mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
+            mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
+            mazeGameArea.displayUI();  // Reloads Title
         }
-        mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
-        mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
-        mazeGameArea.displayUI();  // Reloads Title
     }
 }
