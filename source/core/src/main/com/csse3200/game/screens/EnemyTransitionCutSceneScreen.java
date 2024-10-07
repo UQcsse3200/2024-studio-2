@@ -80,3 +80,4 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
         stage.draw();
     }
 }
+}
