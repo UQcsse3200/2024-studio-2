@@ -3,6 +3,8 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
@@ -12,28 +14,41 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
     private final GdxGame game;
     private final Stage stage;
     private Skin skin;
+    private Texture backgroundTexture;
+    private SpriteBatch batch; // SpriteBatch for rendering textures
 
     public EnemyTransitionCutSceneScreen(GdxGame game) {
         this.game = game;
         this.stage = ServiceLocator.getRenderService().getStage();
+        this.batch = new SpriteBatch(); // Initialize the SpriteBatch
         initializeSkin(); // Load or initialize a skin for UI components
+        initializeBackground(); // Initialize the background texture
     }
 
     private void initializeSkin() {
-        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json")); // Replace with the actual path to your skin file
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+    }
+
+    private void initializeBackground() {
+
+        backgroundTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
     }
 
     @Override
     public void show() {
-        // Create and display the enemy transition cutscene when the screen is shown
+
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1); // Clear the screen with a green color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Update and draw the stage (which contains the cutscene)
+        // Start drawing the background texture
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
+
+        // Update and draw the stage
         stage.act(delta);
         stage.draw();
     }
@@ -47,7 +62,7 @@ public class EnemyTransitionCutSceneScreen extends ScreenAdapter {
     public void dispose() {
         // Dispose of any resources
         stage.dispose();
+        backgroundTexture.dispose(); // Dispose of the background texture
+        batch.dispose(); // Dispose of the SpriteBatch
     }
-
-
 }
