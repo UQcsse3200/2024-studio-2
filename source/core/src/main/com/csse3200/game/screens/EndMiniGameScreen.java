@@ -62,6 +62,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private PlayerInventoryDisplay display;
     private final Table contentTable;
     private final MiniGameMedals medal;
+    private Texture backgroundTexture;
+    private Image backgroundImage;
     private static final String[] endMiniGameSounds = {
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -79,11 +81,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
         this.medal = getMedal(this.score);
 
         this.stage = new Stage(new ScreenViewport());
+        stage.clear();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
         contentTable = new Table();
         contentTable.setFillParent(true);
-        //contentTable.debug();
+        //contentTable.debug();  // Uncommento visualise table
 
         this.font18 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_18.fnt"));
         this.font26 = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_26.fnt"));
@@ -94,8 +97,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
-                logger.info("Achievement trigger {} {}", gameName.name(), getMedal(score).name());
-                player.getEvents().trigger("miniGame", gameName, getMedal(score));
+                logger.info("Achievement trigger {} {}", gameName.name(), medal.name());
+                player.getEvents().trigger("miniGame", gameName, medal);
             }
         } else {
             this.player = null;
@@ -106,6 +109,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         loadAssets();
         playSoundEffect();
+
+        setBackground();
+        renderEndMessage();
+
     }
 
     /**
@@ -116,26 +123,12 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        // Set the background color based on the score
-        setBackgroundColor();
 
-        // Render the game over messages if not already added to the stage
-        if (contentTable.getStage() == null) {
-            stage.addActor(contentTable);
-        }
-
-//        // Draw the exit button and other UI elements
-//        stage.act(Gdx.graphics.getDeltaTime());
-//        stage.draw();
         stage.act(delta);
         stage.draw();
 
-        // Render the game over messages
-        //renderEndMessage();
-//        stage.addActor(contentTable);
-        //stage.addActor(imageTable);
-
         handleKeyPress();
+
     }
 
     /**
@@ -201,6 +194,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     private void renderEndMessage() {
 
+        contentTable.clear();
+
         // Render the medal image
         renderMedal();
 
@@ -249,28 +244,25 @@ public class EndMiniGameScreen extends ScreenAdapter {
         contentTable.row().colspan(3);
         contentTable.add(scoreMessageLabel).center().padBottom(100 * scale);
         makeButtons();
+        stage.addActor(contentTable);
     }
 
     private void renderMedal() {
-        System.out.println("HEREEEEEEEEEEEEEE2");
-        Texture medalTexture = null;
+
+        // Set the medal image based on the medal
+        Texture medalTexture;
         if (medal == MiniGameMedals.GOLD) {
-            System.out.println("GOLD");
             medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameGold.png"));
         } else if (medal == MiniGameMedals.SILVER) {
-            System.out.println("SILVER");
             medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameSilver.png"));
         } else {
             medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
         }
-        if (medal == MiniGameMedals.FAIL) {
-            System.out.println("FAILLLLLLLLLLLL");
-        }
         if (medal != MiniGameMedals.FAIL) {
             // Add in the medal Image
             Image medalImage = new Image(medalTexture);
-            medalImage.setScaling(Scaling.fit); // Adjust to fit while keeping the aspect ratio
-            medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f); // Scale down to half, adjust as needed
+            medalImage.setScaling(Scaling.fit);
+            medalImage.setSize(medalImage.getWidth() * 0.5f, medalImage.getHeight() * 0.5f);
             contentTable.add(medalImage).center().padBottom(20f).colspan(3).row();
         }
     }
@@ -376,35 +368,31 @@ public class EndMiniGameScreen extends ScreenAdapter {
     /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
-    private void setBackgroundColor() {
-
-        switch (getMedal(score)) {
-            case FAIL ->
-                // Failed
-                // Background colour rgb 50, 82, 29, 1
-                    Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f);
-            case BRONZE ->
-                // Bronze
-                // Background colour rgb 169, 113, 66, 1
-                    Gdx.gl.glClearColor(169f / 255f, 113f / 255f, 66f / 255f, 1f);
-            case SILVER ->
-                // Silver
-                // Background colour rgb 115, 122, 140, 1
-                    Gdx.gl.glClearColor(115f / 255f, 122f / 255f, 140f / 255f, 1f);
-            case GOLD ->
-                // Gold
-                // Background colour rgb 173, 162, 114, 1
-                    Gdx.gl.glClearColor(173f / 255f, 162f / 255f, 114f / 255f, 1f);
+    private void setBackground() {
+        if (backgroundImage != null) {
+            stage.getActors().removeValue(backgroundImage, true);
+        }
+        switch (gameName) {
+            case SNAKE ->
+                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+            case BIRD ->
+                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
+            case MAZE ->
+                    backgroundTexture = new Texture(Gdx.files.internal("images/combat/combat_bg_forest.png"));
             default -> throw new IllegalArgumentException("Unknown mini-game");
         }
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);  // Add background first
     }
+
 
     /**
      * Changes the background colour based on sore/ medals (fail: green, bronze, silver and gold)
      */
     private void playSoundEffect() {
-        switch (getMedal(score)) {
+        switch (medal) {
             case FAIL ->
                 // Failed
                     AudioManager.playSound("sounds/minigames/fail.mp3");
@@ -483,6 +471,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
         font32.dispose();
         stage.dispose();
         skin.dispose();
+        backgroundTexture.dispose();
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
@@ -508,6 +497,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
             scale = 1;
         }
         stage.clear();
+        contentTable.clear();
+
+        setBackground();
         renderEndMessage();
     }
 
@@ -529,39 +521,5 @@ public class EndMiniGameScreen extends ScreenAdapter {
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(endMiniGameSounds);
     }
-
-//    /**
-//     * Puts the exit button in the top right of the screen.
-//     * Will take the user back to the Main menu screen
-//     */
-//    private void setupExitButton() {
-//
-//        TextButton exitButton = new TextButton("Exit", skin);
-//        // Scale the button's font
-//        exitButton.getLabel().setFontScale(scale);
-//
-//        exitButton.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                // Return to main menu and original screen colour
-//                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-//                try {
-//                    giveLootBox();
-//                } catch (ClassNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                game.setOldScreen(oldScreen, oldScreenServices);
-//            }
-//        });
-//
-//        // Set up the table for UI layout
-//        Table exitButtonTable = new Table();
-//        exitButtonTable.setFillParent(true);
-//        exitButtonTable.top().right();
-//        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-//
-//        // Add the table to the stage
-//        stage.addActor(exitButtonTable);
-//    }
 
 }
