@@ -242,12 +242,16 @@ public class CombatAnimationDisplay extends UIComponent {
      * Triggers fireball to be thrown at enemy entity's position
      */
     public void attackAnimation() {
+//        Texture combatTexture = ServiceLocator.getResourceService()
+//                .getAsset("images/flipped_fireball.png", Texture.class); // Replaced with single_fireball
+
         Texture combatTexture = ServiceLocator.getResourceService()
-                .getAsset("images/flipped_fireball.png", Texture.class); // Replaced with single_fireball
+                .getAsset("images/rock.png", Texture.class); // Replaced with single_fireball
 
         combatImage = new Image(combatTexture);
         combatImage.setAlign(Align.center);
-        combatImage.setScale(1f);
+        combatImage.setScale(0.3f);
+        // combatImage.setScale(1f);
 
         // Set the initial position of the image (e.g., off-screen or at a specific point)
         combatImage.setPosition(600, 550);
@@ -260,7 +264,7 @@ public class CombatAnimationDisplay extends UIComponent {
         combatImage.clearActions();
 
         // Move the image over 2 seconds
-        combatImage.addAction(moveTo(1200, 550, 2f, Interpolation.linear));
+        combatImage.addAction(moveTo(1200, 550, 0.8f, Interpolation.linear));
 
         // Schedule to hide the image after it reaches its destination
         Timer timer = new Timer();
@@ -272,7 +276,7 @@ public class CombatAnimationDisplay extends UIComponent {
                     combatImage.remove();
                 }
             }
-        }, 2000);  // 2 seconds
+        }, 800);  // 2 seconds
     }
 
     /**

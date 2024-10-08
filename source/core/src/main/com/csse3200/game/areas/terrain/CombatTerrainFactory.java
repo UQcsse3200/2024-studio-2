@@ -106,8 +106,6 @@ public class CombatTerrainFactory {
         // Adjust camera settings to fit the background
         camera.setToOrtho(false, screenSize.x, screenSize.y);
         camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
-        // camera.setToOrtho(false, 1826, 973);
-        // camera.position.set(1826 / 2f, 973 / 2f, 0);
 
         // Return the TerrainComponent with the background image rendering setup
         return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
@@ -163,8 +161,6 @@ public class CombatTerrainFactory {
         // Adjust camera settings to fit the background
         camera.setToOrtho(false, screenSize.x, screenSize.y);
         camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
-        // camera.setToOrtho(false, 1826, 973);
-        // camera.position.set(1826 / 2f, 973 / 2f, 0);
 
         // Return the TerrainComponent with the background image rendering setup
         return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
