@@ -1,12 +1,10 @@
-package com.csse3200.game.ui.PopUpDialogBox;
+package com.csse3200.game.ui.pop_up_dialog_box;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 // Developed and Debugged with ChatGPT
 class PopupDialogBoxTest {

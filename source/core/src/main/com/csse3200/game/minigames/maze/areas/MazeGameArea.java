@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
@@ -19,14 +20,13 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
 /**
  * Forest area for the demo game with trees, a player, and some enemies.
@@ -146,7 +146,7 @@ public class MazeGameArea extends GameArea {
     private void spawnWalls() {
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
-                for (GridPoint2 direction : GRID_DIRECTIONS) {
+                for (GridPoint2 direction : GridPoint2Utils.directions()) {
                     if (maze.isWall(x, y, direction)) {
                         float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
                         float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
@@ -215,7 +215,7 @@ public class MazeGameArea extends GameArea {
      * @return the random number
      */
     private float randomRange(float min, float max) {
-        return (float) Math.random() * (max - min) + min;
+        return MathUtils.random() * (max - min) + min;
     }
 
     /**
@@ -228,7 +228,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
             Vector2[] patrolPoints;
-            double rand = Math.random();
+            double rand = MathUtils.random();
             if (rand < 0.5) {
                 // adjacent cells are already in random order from random maze generation algorithm
                 // so okay to just take first
@@ -293,7 +293,7 @@ public class MazeGameArea extends GameArea {
      */
     @Override
     public void playMusic() {
-        AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
+        AudioManager.playMusic(mazeBackgroundMusic, true);
     }
 
     /**

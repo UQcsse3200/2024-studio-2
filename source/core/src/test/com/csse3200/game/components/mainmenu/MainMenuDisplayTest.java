@@ -1,39 +1,14 @@
 package com.csse3200.game.components.mainmenu;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.services.ServiceLocator;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.csse3200.game.components.login.LoginRegisterDisplay;
-import com.csse3200.game.services.NotifManager;
-import com.csse3200.game.ui.UIComponent;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import net.dermetfan.gdx.physics.box2d.PositionController;
-import com.csse3200.game.components.settingsmenu.UserSettings;
-import com.csse3200.game.services.AudioManager;
-import com.badlogic.gdx.math.MathUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.Assert.*;
+import com.csse3200.game.extensions.GameExtension;
 
 @ExtendWith(GameExtension.class)
 public class MainMenuDisplayTest {

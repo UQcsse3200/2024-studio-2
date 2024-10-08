@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.areas.CombatArea;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.DialogueBoxService;
@@ -317,6 +317,9 @@ public class CombatButtonDisplay extends UIComponent {
                     if (!winStatus) {
                         logger.info("Switching screens to gamer over lose after losing to boss.");
                         entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else if (bossEntity.getEnemyType() == Entity.EnemyType.AIR_BOSS){
+                        logger.info("Switching screen to end game stats.");
+                        entity.getEvents().trigger("finishedFinalCombatDialogue");
                     } else {
                         logger.info("DialogueBox is no longer visible, combat screen can be exited.");
                         entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);

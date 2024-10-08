@@ -1,144 +1,109 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.ui.UIComponent;
-import com.csse3200.game.areas.MapHandler;
-import org.lwjgl.Sys;
-import org.lwjgl.opengl.Drawable;
+
 import java.util.ArrayList;
 import java.util.List;
-/**
- * A UI component responsible for displaying a mini map in the game. The mini map shows the
- * player's position as a green dot and enemies as red dots. It updates in real time, showing
- * the player's location and displaying enemies within a defined radius.
- */
+
 public class MiniMapDisplay extends UIComponent {
+
     private Entity player;
     private List<Entity> enemies;
     private Texture miniMapBackground;
-    private Image greenDotPointImage;
+    private Image blueDotPointImage;
     private List<Image> redDotPointImages;
-    private GameArea gameArea;
-    private int scaleFactor = 50;
-    public float miniMapX = 950;  // Minimap's X position on the screen
-    public float miniMapY = 450;  // Minimap's Y position on the screen
-    public int miniMapSize = 300;  // Size of the minimap
+    private final GameArea gameArea;
+    private static final int SCALE_FACTOR = 50;
+    private static final float MINI_MAP_X = 15;  // Minimap's X position on the screen
+    private static final float MINI_MAP_Y = 15;  // Minimap's Y position on the screen
+    private static final int MINI_MAP_SIZE = 300;  // Size of the minimap
 
-    public MiniMapDisplay() {
-        player = new Entity();
-        enemies = new ArrayList<>();
-
-    }
-    /**
-     * Constructor for the MiniMapDisplay component. It links the minimap to the current game area.
-     *
-     * @param gameArea The game area containing player and enemies data.
-     */
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
     }
 
-    /**
-     * Initializes the minimap, retrieves the player and enemy entities from the game area,
-     * and adds the visual elements to the stage.
-     */
     @Override
     public void create() {
         super.create();
         player = gameArea.getPlayer();
         enemies = gameArea.getEnemies();
-        System.out.println(enemies);
         addActors();
     }
 
-    /**
-     * Adds the visual components representing the player and enemies to the minimap.
-     */
     private void addActors() {
         initializeImages();
-        stage.addActor(greenDotPointImage);
+        stage.addActor(blueDotPointImage);
         for (Image redDot : redDotPointImages) {
             stage.addActor(redDot);
         }
     }
 
-    /**
-     * Initializes the background of the minimap and creates images for the player (a green dot)
-     * and enemies (red dots).
-     */
     private void initializeImages() {
-        Pixmap pixmap = new Pixmap(miniMapSize, miniMapSize, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(MINI_MAP_SIZE, MINI_MAP_SIZE, Pixmap.Format.RGBA8888);
         pixmap.setColor(1, 1, 1, 1);
-        pixmap.fillCircle(miniMapSize / 2, miniMapSize / 2, miniMapSize / 2);
+        pixmap.fillCircle(MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2);
         // Convert the Pixmap to a texture
-        miniMapBackground = new Texture(pixmap);
+        miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
         // Dispose the Pixmap after creating the texture (no longer needed)
         pixmap.dispose();
-        greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
-        greenDotPointImage.setSize(7, 7);
+        blueDotPointImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
+        blueDotPointImage.setSize(15, 15);
         redDotPointImages = new ArrayList<>();
-        for (int i = 0; i < enemies.size(); i++) {
+        initializeRedDotImages();
+    }
+
+    // Initialize red dots to match the number of enemies
+    private void initializeRedDotImages() {
+        redDotPointImages.clear();
+        for (Entity enemy : enemies) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
-            redDotImage.setSize(5, 5);
+            redDotImage.setSize(10, 10);
             redDotPointImages.add(redDotImage);
+            stage.addActor(redDotImage);  // Add the red dot actor to the stage
         }
     }
 
-    /**
-     * Transfers an entity's world position to a minimap position based on the player's position
-     * with a scale factor to fit the world into the minimap.
-     *
-     * @param entity The entity whose position needs to be transferred to the minimap.
-     * @return The transformed position in minimap coordinates.
-     */
-    public Vector2 transferToMiniMapPos(Entity entity) {
+    private Vector2 transferToMiniMapPos(Entity entity) {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
 
-        Vector2 enityMiniMapPos = new Vector2(
-                (entityPos.x - playerPos.x) / scaleFactor * miniMapSize,
-                (entityPos.y - playerPos.y) / scaleFactor * miniMapSize
+        Vector2 entityMiniMapPos = new Vector2(
+                (entityPos.x - playerPos.x) / SCALE_FACTOR * MINI_MAP_SIZE,
+                (entityPos.y - playerPos.y) / SCALE_FACTOR * MINI_MAP_SIZE
         );
-        enityMiniMapPos.add(miniMapX + miniMapSize/2, miniMapY + miniMapSize/2);
+        entityMiniMapPos.add(MINI_MAP_X + (float) MINI_MAP_SIZE / 2,
+                MINI_MAP_Y + (float) MINI_MAP_SIZE / 2);
 
-        return enityMiniMapPos;
+        return entityMiniMapPos;
     }
 
-    /**
-     * Updates the minimap once per frame, moving the player's dot and the enemy dots
-     * based on their current positions.
-     * It hides enemy dots if they are outside the minimap's circular boundary.
-     */
     @Override
     public void update() {
-        float centerX = miniMapX + miniMapSize / 2;
-        float centerY = miniMapY + miniMapSize / 2;
-        float minimapRadius = miniMapSize / 2;
+        float centerX = MINI_MAP_X + (float) MINI_MAP_SIZE / 2;
+        float centerY = MINI_MAP_Y + (float) MINI_MAP_SIZE / 2;
+        float minimapRadius = (float) MINI_MAP_SIZE / 2;
 
-        //Update green point position (player in minimap)
+        // Synchronize the number of red dot images with the number of enemies
+        if (redDotPointImages.size() != enemies.size()) {
+            initializeRedDotImages();
+        }
+
+        // Update blue point position (player on the minimap)
         Vector2 playerMiniMapPos = transferToMiniMapPos(player);
-        greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
+        blueDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
 
-        //Update red points position (enemies in minimap)
-        for (int i = 0; i < redDotPointImages.size(); i++) {
+        // Update red points position (enemies on the minimap)
+        for (int i = 0; i < enemies.size(); i++) {
             Entity enemy = enemies.get(i);
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
 
-            //Hide enemyDotPoints if these are outside the minimap
             float distanceFromCenter = Vector2.dst(centerX, centerY, enemyMiniMapPos.x, enemyMiniMapPos.y);
             if (distanceFromCenter <= minimapRadius) {
                 redDotPointImages.get(i).setVisible(true);
@@ -147,27 +112,13 @@ public class MiniMapDisplay extends UIComponent {
                 redDotPointImages.get(i).setVisible(false);
             }
         }
-        // Try to take check enemies and put to the minimap
     }
 
-    /**
-     * Draws the minimap on the screen.
-     *
-     * @param batch The SpriteBatch used for drawing.
-     */
     @Override
     protected void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(miniMapBackground, miniMapX, miniMapY, miniMapSize, miniMapSize);
-        batch.end();
-    }
-
-    public Entity getPlayer() {
-        return player;
-    }
-
-    public List<Entity> getEnemies() {
-        return enemies;
+        SpriteBatch newBatch = new SpriteBatch();
+        newBatch.begin();
+        newBatch.draw(miniMapBackground, MINI_MAP_X, MINI_MAP_Y, MINI_MAP_SIZE, MINI_MAP_SIZE);
+        newBatch.end();
     }
 }

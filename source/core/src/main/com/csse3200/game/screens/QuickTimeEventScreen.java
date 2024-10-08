@@ -93,6 +93,8 @@ public class QuickTimeEventScreen extends ScreenAdapter {
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(new String[]{"sounds/victory.mp3"}); //hope this doesn't break anything, I dont
+                                                                          //know how to get to the quick time events
     }
     /**
      * Creates the main menu's ui including components for rendering ui elements to the screen and

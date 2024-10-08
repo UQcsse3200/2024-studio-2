@@ -7,8 +7,6 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.GameOverLoseScreen;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +45,12 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
-      game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
-    });
-    entity.getEvents().addListener("finishedBossLossCombatDialogue", () -> {
-      game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
-    });
+    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) ->
+      game.returnFromCombat(previousScreen, previousServices, triggeredEntity));
+    entity.getEvents().addListener("finishedBossLossCombatDialogue", () ->
+      game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE));
+    entity.getEvents().addListener("finishedFinalCombatDialogue", () ->
+      game.setScreen(GdxGame.ScreenType.END_GAME_STATS));
   }
 
   /**
@@ -96,7 +94,7 @@ public class CombatActions extends Component {
    *                 this stage, map team has not completed functionality
    */
   private void onBossCombatWin(Entity bossEnemy) {
-    logger.info("Switching back to main game after defeating kangaroo boss.");
+    logger.info("Boss combat complete.");
 
     if (bossEnemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
       entity.getEvents().trigger("landBossDefeated");

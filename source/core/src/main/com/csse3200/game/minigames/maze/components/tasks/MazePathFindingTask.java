@@ -46,7 +46,7 @@ public class MazePathFindingTask extends DefaultTask {
     private void computePath() {
         Vector2 entityWorldPos = owner.getEntity().getCenterPosition();
         GridPoint2 entityGridPos = MazeTerrainFactory.worldPosToGridPos(entityWorldPos);
-        Maze.breadthFirstSearch bfs = maze.new breadthFirstSearch(entityGridPos);
+        Maze.BreadthFirstSearch bfs = maze.new BreadthFirstSearch(entityGridPos);
         path = bfs.getShortestPath(target).reversed();
     }
 

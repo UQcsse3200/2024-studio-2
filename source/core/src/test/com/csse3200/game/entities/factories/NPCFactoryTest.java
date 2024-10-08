@@ -412,7 +412,7 @@ class NPCFactoryTest {
      */
     @Test
     @Order(1)
-    public void testDialogueInputTriggersForwardAndBackward() {
+    void testDialogueInputTriggersForwardAndBackward() {
         RenderService renderService = mock(RenderService.class);
         when(renderService.getStage()).thenReturn(mock(Stage.class));
         ServiceLocator.registerRenderService(renderService);

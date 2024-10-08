@@ -1,35 +1,27 @@
 package com.csse3200.game.areas;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+import com.csse3200.game.areas.forest.ForestGameArea;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.NPCFactory;
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputFactory;
 import com.csse3200.game.input.InputService;
-import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import com.csse3200.game.extensions.GameExtension;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 @ExtendWith(GameExtension.class)
 class ForestGameAreaTest {
@@ -85,53 +77,12 @@ class ForestGameAreaTest {
     void testInitialisation() {
         assertNotNull(forestGameArea, "ForestGameArea should be initialised");
     }
-//  Failing due to incompetence
-//    @Test
-//    void testCreateTerrain() {
-//        TerrainComponent mockTerrain = mock(TerrainComponent.class);
-//
-//        // Mock the creation of terrain using the TerrainFactory
-//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mockTerrain);
-//
-//        // Call the create method on the forestGameArea (which should trigger terrain creation)
-//        forestGameArea.create();
-//
-//        assertNotNull(forestGameArea, "ForestGameArea should be created successfully");
-//    }
-//
-//    @Test
-//    void testPlayerSpawn() {
-//        // Mock terrain
-//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mock(TerrainComponent.class));
-//
-//        //  trigger player and terrain spawn
-//        forestGameArea.create();
-//
-//        Entity player = forestGameArea.getPlayer();
-//        assertNotNull(player, "Player entity should be spawned");
-//    }
-//
-//    @Test
-//    void testEntityRegistration() {
-//        // Mock terrain creation
-//        when(terrainFactory.createTerrain(any(), any(), any(), any())).thenReturn(mock(TerrainComponent.class));
-//
-//        // Get the mock entity service
-//        EntityService entityService = ServiceLocator.getEntityService();
-//
-//        // Call create to trigger terrain and entity registration
-//        forestGameArea.create();
-//
-//        // Ensure that the player entity was registered with the entity service
-//        verify(entityService, times(1)).register(any(Entity.class));
-//    }
 
     @Test
     void testSpawnConvertedNPCWithNullEntity() {
         Entity defeatedEntity = null;
         forestGameArea.spawnConvertedNPCs(defeatedEntity);
         verify(ServiceLocator.getEntityService(), never()).register(any(Entity.class));
-
     }
 
     @Test
@@ -142,6 +93,4 @@ class ForestGameAreaTest {
         verify(ServiceLocator.getEntityService(), never()).register(any(Entity.class));
         verify(defeatedEntity, never()).getPosition();
     }
-
-
 }

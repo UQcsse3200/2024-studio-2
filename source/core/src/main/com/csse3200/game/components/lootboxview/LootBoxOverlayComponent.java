@@ -111,7 +111,7 @@ public class LootBoxOverlayComponent extends UIComponent {
                 (stage.getHeight() - overlayWindow.getHeight()) / 2
         );
 
-        // Set Z-Index to ensure it's on top
+        // Set Z-Index to ensure it is on top
         overlayWindow.setZIndex(stage.getActors().size + 1);
         overlayWindow.toFront();  // Bring the overlay to the front
 

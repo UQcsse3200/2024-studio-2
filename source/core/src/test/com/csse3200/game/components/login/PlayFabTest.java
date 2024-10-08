@@ -1,21 +1,19 @@
 package com.csse3200.game.components.login;
 
-import com.csse3200.game.extensions.GameExtension;
-import com.playfab.PlayFabErrors.*;
-import com.playfab.PlayFabClientModels.*;
-import com.playfab.PlayFabClientAPI;
-import com.playfab.PlayFabSettings;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import com.csse3200.game.extensions.GameExtension;
+import com.playfab.PlayFabClientAPI;
+import com.playfab.PlayFabClientModels.RegisterPlayFabUserRequest;
+import com.playfab.PlayFabClientModels.RegisterPlayFabUserResult;
+import com.playfab.PlayFabErrors.PlayFabResult;
 
 @ExtendWith(GameExtension.class)
 public class PlayFabTest {
