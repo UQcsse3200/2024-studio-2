@@ -10,10 +10,24 @@ default
   orig: 16, 16
   offset: 0, 0
   index: 0
-walk
+float
   rotate: false
   xy: 16, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
+float
+  rotate: false
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 48, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3

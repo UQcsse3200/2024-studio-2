@@ -126,7 +126,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Eric the Eel."]
     ],
-    "spritePath": "images/eel.atlas",
+    "spritePath": "images/friendly-eel.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",
@@ -176,7 +176,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am McDonald the Macaw."]
     ],
-    "spritePath": "images/macaw.atlas",
+    "spritePath": "images/friendly-macaw.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Bear",

@@ -197,6 +197,7 @@ public class ForestTexturesConfig {
             "images/griffinEffects.atlas",
             "images/bear.atlas",
             "images/eel.atlas",
+            "images/friendly-eel.atlas",
             "images/octopus.atlas",
             "images/pigeon.atlas",
             "images/friendly-pigeon.atlas",
@@ -226,6 +227,7 @@ public class ForestTexturesConfig {
             "images/wolf.atlas",
             "images/hive.atlas",
             "images/friendly-octopus.atlas",
+            "images/friendly-macaw.atlas"
     };
 
     private ForestTexturesConfig() {
