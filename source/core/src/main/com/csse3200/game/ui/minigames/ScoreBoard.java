@@ -129,12 +129,12 @@ public class ScoreBoard {
         // Scale the table's size and position based on screen dimensions
         table.setSize((float) (screenWidth * 0.3f * scale), ((float) (screenHeight * 0.2f * scale)));
         //table.setPosition(0, screenHeight - table.getHeight() - 15); // top right of screen
-        table.setPosition(screenWidth - table.getWidth() + 30,
-                screenHeight - table.getHeight() - 25);
+        table.setPosition(screenWidth - table.getWidth() + 40,
+                screenHeight - table.getHeight() - 4);
 
         // Adjust padding and font sizes within the table for the scaling factor
-        scoreLabel.setFontScale(2.0f * scaleFactor);
-        highscoreLabel.setFontScale(2.0f * scaleFactor);
+        scoreLabel.setFontScale(1.6f * scaleFactor);
+        highscoreLabel.setFontScale(1.6f * scaleFactor);
         table.clear();
         table.add(scoreLabel).center().padTop(60 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
         table.row();
