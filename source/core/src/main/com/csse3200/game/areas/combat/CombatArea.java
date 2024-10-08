@@ -310,11 +310,12 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
-                Music.class);
+//        Music music =
+//                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
+//                Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
         music.setLooping(true);
-        music.setVolume(0.3f);
+        music.setVolume(0.5f);
         music.play();
     }
 
@@ -323,7 +324,7 @@ public class CombatArea extends GameArea {
      */
     public void pauseMusic() {
         Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC, Music.class);
+                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
         music.pause();
     }
 
@@ -335,6 +336,7 @@ public class CombatArea extends GameArea {
         resourceService.loadSounds(CombatAreaConfig.forestSounds);
         resourceService.loadMusic(CombatAreaConfig.forestMusic);
         resourceService.loadSounds(CombatAreaConfig.questSounds);
+        resourceService.loadMusic(CombatAreaConfig.combatBackgroundMusic);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -350,6 +352,7 @@ public class CombatArea extends GameArea {
         resourceService.unloadAssets(CombatAreaConfig.forestSounds);
         resourceService.unloadAssets(CombatAreaConfig.forestMusic);
         resourceService.unloadAssets(CombatAreaConfig.questSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatBackgroundMusic);
     }
 
     @Override
