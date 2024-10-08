@@ -121,11 +121,23 @@ public class CombatArea extends GameArea {
         String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath.equals("images/croc.png")){
-            playerSpawn = new GridPoint2(332, 335);
+            if(kingdomType == KINGDOM.WATER) {
+                newPlayer.setScale(2.5f, 2.5f); // fix
+            } else {
+                playerSpawn = new GridPoint2(332, 335);
+            }
         } else if (imagePath.equals("images/dog.png")){
-            playerSpawn = new GridPoint2(337, 330);
+            if(kingdomType == KINGDOM.WATER) {
+                newPlayer.setScale(2.5f, 2.5f); // fix
+            } else {
+                playerSpawn = new GridPoint2(337, 330);
+            }
         } else { //animal is bird
-            playerSpawn = new GridPoint2(350, 335);
+            if(kingdomType == KINGDOM.WATER) {
+                newPlayer.setScale(2.5f, 2.5f); // fix
+            } else {
+                playerSpawn = new GridPoint2(350, 335);
+            }
             newPlayer.scaleHeight(150);
         }
         spawnEntityAt(newPlayer, playerSpawn, true, true);
