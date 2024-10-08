@@ -27,7 +27,7 @@ public class CombatArea extends GameArea {
 
     private Entity player;
     private Entity playerDisplay;
-    private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256
+    private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256 // 290, 335
 
     private CombatTerrainFactory combatTerrainFactory;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
@@ -36,6 +36,9 @@ public class CombatArea extends GameArea {
     private Entity enemyDisplay;
 
     public enum CombatAnimation { IDLE, MOVE }
+    public enum KINGDOM {LAND, AIR, WATER }
+
+    private KINGDOM kingdomType;
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -61,20 +64,20 @@ public class CombatArea extends GameArea {
         spawnPlayer();
         // get the enemy type player collided into for combat and spawn that
         switch (enemy.getEnemyType()) {
-            case MONKEY -> spawnMonkey();
-            case FROG -> spawnFrog();
-            case CHICKEN -> spawnChicken();
-            case BEAR -> spawnBear();
-            case JOEY -> spawnJoey();
-            case KANGAROO -> spawnKangaBoss();
-            case WATER_BOSS -> spawnWaterBoss();
-            case AIR_BOSS -> spawnAirBoss();
-            case BEE -> spawnBee();
-            case PIGEON -> spawnPigeon();
-            case EEL -> spawnEel();
-            case OCTOPUS -> spawnOctopus();
-            case BIGSAWFISH -> spawnBigSawfish();
-            case MACAW -> spawnMacaw();
+            case MONKEY -> {spawnMonkey(); kingdomType = KINGDOM.LAND;}
+            case FROG -> {spawnFrog(); kingdomType = KINGDOM.LAND;}
+            case CHICKEN -> {spawnChicken(); kingdomType = KINGDOM.LAND;}
+            case BEAR -> {spawnBear(); kingdomType = KINGDOM.LAND;}
+            case JOEY -> {spawnJoey(); kingdomType = KINGDOM.LAND;}
+            case KANGAROO -> {spawnKangaBoss(); kingdomType = KINGDOM.LAND;}
+            case WATER_BOSS -> {spawnWaterBoss(); kingdomType = KINGDOM.LAND;}
+            case AIR_BOSS -> {spawnAirBoss(); kingdomType = KINGDOM.LAND;}
+            case BEE -> {spawnBee(); kingdomType = KINGDOM.LAND;}
+            case PIGEON -> {spawnPigeon(); kingdomType = KINGDOM.LAND;}
+            case EEL -> {spawnEel(); kingdomType = KINGDOM.LAND;}
+            case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.LAND;}
+            case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.LAND;}
+            case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.LAND;}
             // case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         playMusic();
@@ -90,7 +93,14 @@ public class CombatArea extends GameArea {
      * combat using combat terrain factory
      */
     public void spawnTerrain() {
-        terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        if(kingdomType == KINGDOM.LAND){
+          terrain = combatTerrainFactory.createBackgroundTerrainLand(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        } else if (kingdomType == KINGDOM.AIR) {
+           terrain = combatTerrainFactory.createBackgroundTerrainAir(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        } else { // water
+           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, new GridPoint2(1826, 973));
+        }
+        //terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, new GridPoint2(1826, 973));
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
@@ -134,7 +144,11 @@ public class CombatArea extends GameArea {
         String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
-        nP.setPosition(520, 250);
+        if (kingdomType == KINGDOM.WATER) {
+            nP.setPosition(870, 440); // water background
+        } else {
+            nP.setPosition(520, 250);
+        }
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
