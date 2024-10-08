@@ -26,7 +26,7 @@
   "NUM_FISH" : 2,
   "NUM_LIONS" : 1,
   "NUM_TURTLES" : 2,
-  "NUM_EAGLES" : 1,
+  "NUM_EAGLES" : 0,
   "NUM_SNAKES" : 2,
-  "NUM_MAGPIES": 1
+  "NUM_MAGPIES": 0
 }
