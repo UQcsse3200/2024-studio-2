@@ -29,11 +29,6 @@ public class CombatAnimationDisplay extends UIComponent {
         super();
     }
 
-    @Override
-    public void create() {
-        super.create();
-    }
-
     /**
      * Initialise the intended animation passed as an animationType from the
      * combat manager class based on chosen / randomised player or enemy attack

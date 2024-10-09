@@ -18,6 +18,10 @@ public class MazeMovementUtils {
     public static final float PADDING = 0.03f;
     private static final float MIN_LENGTH_FACE = MazeGameArea.WALL_THICKNESS;
 
+    private MazeMovementUtils() {
+        throw new IllegalArgumentException("Do not instantiate static util class!");
+    }
+
     /**
      * Takes a position relative to the center of an entity and converts it to a position relative
      * to the bottom-left corner of the entity.
