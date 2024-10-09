@@ -7,6 +7,7 @@ com.csse3200.game.areas.FogGameAreaConfigs
 com.csse3200.game.areas.forest
 com.csse3200.game.areas.OceanGameAreaConfigs
 com.csse3200.game.areas.terrain
+com.csse3200.game.areas.terrain.enums
 com.csse3200.game.areas.terrain.tiles
 com.csse3200.game.components
 com.csse3200.game.components.animal
