@@ -19,6 +19,7 @@ import com.csse3200.game.services.ServiceLocator;
  * It does not actively chase or attack the player.
  */
 public class FishEgg extends Entity {
+
     private static ParticleEffectPool particleEffectPool;
 
     /**

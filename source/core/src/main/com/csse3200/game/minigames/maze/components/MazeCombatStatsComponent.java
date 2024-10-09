@@ -91,6 +91,7 @@ public class MazeCombatStatsComponent extends Component {
         }
     }
 
+
     /**
      * Get the base speed for this NPC
      * @return the speed

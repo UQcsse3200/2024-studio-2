@@ -30,7 +30,6 @@ import java.lang.reflect.Field;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
 public class MazeNPCFactoryTest {
 

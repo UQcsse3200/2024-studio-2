@@ -66,6 +66,7 @@ public class MazePlayer extends Entity {
                 .addComponent(new MazeDifficultyIncrease(gameArea))
                 .addComponent(new ParticleEffectComponent("images/minigames/trail.p"));
 
+
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
 

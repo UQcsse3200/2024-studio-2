@@ -102,7 +102,6 @@ public class MazeGameScreen extends PausableScreen {
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
         LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
-
         ServiceLocator.getRenderService().register(lightingEngine);
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
@@ -213,6 +212,7 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void createUI() {
         logger.debug("Creating ui");
+
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForTerminal();
 

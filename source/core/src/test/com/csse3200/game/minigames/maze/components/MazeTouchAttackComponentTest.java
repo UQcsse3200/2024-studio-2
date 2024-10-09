@@ -125,5 +125,6 @@ class MazeTouchAttackComponentTest {
         return new Entity()
                 .addComponent(new MazeCombatStatsComponent(10, 10, 0))
                 .addComponent(new HitboxComponent().setLayer(layer));
+
     }
 }

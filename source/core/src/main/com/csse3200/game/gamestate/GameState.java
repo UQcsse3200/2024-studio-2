@@ -1,7 +1,6 @@
 package com.csse3200.game.gamestate;
 
 import com.csse3200.game.files.FileLoader;
-
 import com.csse3200.game.gamestate.data.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,6 @@ public class GameState {
         Logger logger = LoggerFactory.getLogger(GameState.class);
         logger.info("state is reset");
         SaveHandler.load(GameState.class, "defaultsaves", FileLoader.Location.INTERNAL);
-
     }
 
     /**

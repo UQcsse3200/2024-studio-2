@@ -123,6 +123,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
+
      * Puts the exit button in the top right of the screen.
      * Will take the user back to the Main menu screen
      */
