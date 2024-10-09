@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
  */
 public class AllHitCallback implements RayCastCallback {
   private final Array<RaycastHit> raycastHits;
-  public short layerMask = ~0;
+  private short layerMask = ~0;
 
   public AllHitCallback() {
     this.raycastHits = new Array<>(false, 4);
@@ -35,4 +35,6 @@ public class AllHitCallback implements RayCastCallback {
     }
     return 1;
   }
+
+  public void setLayerMask(short layerMask) {this.layerMask = layerMask;}
 }

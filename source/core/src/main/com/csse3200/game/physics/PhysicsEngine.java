@@ -134,7 +134,7 @@ public class PhysicsEngine implements Disposable {
    * @return All hits made by the ray, unordered. Empty if no hits were made.
    */
   public RaycastHit[] raycastAll(Vector2 from, Vector2 to, short layerMask) {
-    allHitCallback.layerMask = layerMask;
+    allHitCallback.setLayerMask(layerMask);
     world.rayCast(allHitCallback, from, to);
     return allHitCallback.getHitsAndClear();
   }
