@@ -114,4 +114,12 @@ public class CollisionHandler{
     public int getScore() {
         return score;
     }
+
+    /**
+     * Gets whether collision is detected. Used for testing
+     * @return boolean for collision detection
+     */
+    public boolean isCollisionDetected() {
+        return collisionDetected;
+    }
 }
