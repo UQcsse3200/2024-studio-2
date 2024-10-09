@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
-public class DogSoundPlayerTest {
+class DogSoundPlayerTest {
 
     private Sound mockPantingSound;
     private Sound mockBarkingSound;
@@ -25,7 +25,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testPlayPantingSound() {
+    void testPlayPantingSound() {
         // Arrange
         float volume = 0.5f;
         long mockPantingSoundId = 1L;
@@ -39,7 +39,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testStopPantingSound() {
+    void testStopPantingSound() {
         // Arrange
         float volume = 0.5f;
         long mockPantingSoundId = 1L;
@@ -54,7 +54,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testUpdatePantingSound_PlaySoundWhenMoving() {
+    void testUpdatePantingSound_PlaySoundWhenMoving() {
         // Arrange
         float volume = 0.5f;
         long mockPantingSoundId = 1L;
@@ -68,7 +68,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testUpdatePantingSound_StopSoundWhenNotMoving() {
+    void testUpdatePantingSound_StopSoundWhenNotMoving() {
         // Arrange
         float volume = 0.5f;
         long mockPantingSoundId = 1L;
@@ -83,7 +83,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testPlayBarkingSound() {
+    void testPlayBarkingSound() {
         // Arrange
         float volume = 0.7f;
 
@@ -95,7 +95,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testPlayPantingSound_AlreadyPlaying() {
+    void testPlayPantingSound_AlreadyPlaying() {
         // Arrange
         float volume = 0.5f;
         long mockPantingSoundId = 1L;
@@ -110,7 +110,7 @@ public class DogSoundPlayerTest {
     }
 
     @Test
-    public void testStopPantingSound_NotPlaying() {
+    void testStopPantingSound_NotPlaying() {
         // Act
         dogSoundPlayer.stopPantingSound(); // Try to stop when not playing
 

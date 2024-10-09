@@ -2,12 +2,11 @@ package com.csse3200.game.minigames.birdieDash.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PipeTest {
+class PipeTest {
 
     private Pipe pipe;
 
@@ -19,7 +18,7 @@ public class PipeTest {
 
     // Testing to check that the initial pipe's position
     @Test
-    public void testInitialPipePosition() {
+    void testInitialPipePosition() {
         // Ensuring that the initial positions of top and bottom pipes are set correctly
         Vector2 bottomPos = pipe.getPositionBottom();
         Vector2 topPos = pipe.getPositionTop();
@@ -30,7 +29,7 @@ public class PipeTest {
     }
 
     @Test
-    public void testChangePosition() {
+    void testChangePosition() {
         // Capturing the initial positions
         Vector2 initialBottomPos = pipe.getPositionBottom().cpy();
         Vector2 initialTopPos = pipe.getPositionTop().cpy();
@@ -44,7 +43,7 @@ public class PipeTest {
     }
 
     @Test
-    public void testPipeRespawn() {
+    void testPipeRespawn() {
         // Moving the pipe off-screen
         pipe.changePosition(50f); // Change position enough times to move off screen
 
@@ -53,7 +52,7 @@ public class PipeTest {
     }
 
     @Test
-    public void testBottomPipeRectangle() {
+    void testBottomPipeRectangle() {
         // Getting the bottom pipe's rectangle and ensuring it is positioned correctly
         Rectangle bottomRect = pipe.getBottomPipe();
 
@@ -64,7 +63,7 @@ public class PipeTest {
     }
 
     @Test
-    public void testTopPipeRectangle() {
+    void testTopPipeRectangle() {
         // Getting the top pipe's rectangle and ensuring it is positioned correctly
         Rectangle topRect = pipe.getTopPipe();
 

@@ -2,18 +2,13 @@ package com.csse3200.game.services;
 
 import static org.mockito.Mockito.*;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.services.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @ExtendWith(GameExtension.class)
 class AudioManagerTest {

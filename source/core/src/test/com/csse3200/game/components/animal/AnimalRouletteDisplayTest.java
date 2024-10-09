@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
-public class AnimalRouletteDisplayTest {
+class AnimalRouletteDisplayTest {
     Stage stage;
     Entity ui;
 
@@ -58,8 +58,8 @@ public class AnimalRouletteDisplayTest {
     @Test
     void defaultAnimalShouldBeDog() {
         // Default animal should be dog
-        assertEquals(display.getSelectedAnimal(), "images/dog.png");
-        assertEquals(display.getCurrentAnimalIndex(), 0);
+        assertEquals("images/dog.png", display.getSelectedAnimal());
+        assertEquals( 0, display.getCurrentAnimalIndex());
     }
 
     /**
@@ -76,7 +76,7 @@ public class AnimalRouletteDisplayTest {
 
         // Press button (should now be bird)
         leftButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/bird.png");
+        assertEquals( "images/bird.png", display.getSelectedAnimal());
         assertEquals(display.getCurrentAnimalIndex(), 2);
 
         // Press button again (should now be croc)

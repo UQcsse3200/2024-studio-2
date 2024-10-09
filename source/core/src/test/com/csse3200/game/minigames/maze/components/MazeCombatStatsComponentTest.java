@@ -32,7 +32,7 @@ class MazeCombatStatsComponentTest {
     }
 
     @Test
-    public void testAddHealth() {
+    void testAddHealth() {
         enemy.addHealth(10); // Assuming this method increases health
 
         // Assert the expected health after adding
@@ -40,7 +40,7 @@ class MazeCombatStatsComponentTest {
     }
 
     @Test
-    public void testHit() {
+    void testHit() {
         // Assuming the hit method reduces enemy's health based on player's attack value
         enemy.hit(player); // Pass the player to the enemy's hit method
 

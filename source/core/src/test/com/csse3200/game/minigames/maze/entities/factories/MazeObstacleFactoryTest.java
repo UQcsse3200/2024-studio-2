@@ -16,10 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.lang.reflect.Constructor;
 
 @ExtendWith(GameExtension.class)
-public class MazeObstacleFactoryTest {
+class MazeObstacleFactoryTest {
 
     private Entity wall;
     private static final String[] TEXTURE_MAZE = { "images/minigames/wall.png" };
@@ -38,7 +37,7 @@ public class MazeObstacleFactoryTest {
     }
 
     @Test
-    public void testWallComponents() {
+    void testWallComponents() {
 
         // Assert that the wall entity is not null
         assertNotNull(wall, "Wall entity should not be null");
@@ -50,13 +49,13 @@ public class MazeObstacleFactoryTest {
     }
 
     @Test
-    public void testWallScale() {
+    void testWallScale() {
         Vector2 scale = wall.getScale();
         assertEquals(new Vector2(2.0f, 3.0f), scale, "Scale should be 2 and 3");
     }
 
     @Test
-    public void testWallCollider() {
+    void testWallCollider() {
         ColliderComponent collider = wall.getComponent(ColliderComponent.class);
         assertEquals(PhysicsLayer.OBSTACLE, collider.getLayer(), "Wall collider layer should be OBSTACLE");
     }
