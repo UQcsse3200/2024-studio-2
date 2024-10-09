@@ -59,7 +59,7 @@ public class MazeGameArea extends GameArea {
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
             "images/minigames/GreenJellyfish.atlas"
     };
-    private static final String mazeParticleEffectImageDir = "images/minigames";
+    private static final String MAZE_PARTICLE_EFFECT_IMAGE_DIR = "images/minigames";
     private static final String[] mazeParticleEffects = {
             "images/minigames/trail.p",
             "images/minigames/electricparticles.p",
@@ -72,8 +72,8 @@ public class MazeGameArea extends GameArea {
             "sounds/minigames/maze-hit.mp3",
             "sounds/minigames/collect-fishegg.mp3"
     };
-    private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
-    private static final String[] mazeMusic = {mazeBackgroundMusic};
+    private static final String MAZE_BACKGROUND_MUSIC = "sounds/minigames/maze-bg.mp3";
+    private static final String[] mazeMusic = {MAZE_BACKGROUND_MUSIC};
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
@@ -293,7 +293,7 @@ public class MazeGameArea extends GameArea {
      */
     @Override
     public void playMusic() {
-        AudioManager.playMusic(mazeBackgroundMusic, true);
+        AudioManager.playMusic(MAZE_BACKGROUND_MUSIC, true);
     }
 
     /**
@@ -313,7 +313,7 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
-        resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
+        resourceService.loadParticleEffects(mazeParticleEffects, MAZE_PARTICLE_EFFECT_IMAGE_DIR);
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());
@@ -340,7 +340,7 @@ public class MazeGameArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(mazeBackgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(MAZE_BACKGROUND_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 
