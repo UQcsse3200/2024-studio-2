@@ -85,29 +85,24 @@ public class DialogueBoxService {
      * Update the current chat overlay if it exists also responsible for unhighlighting an entity if it exists.
      */
     public void updateText(String[][] text, int priority) {
-        hints = text;
-        if (priority <= curPriority) {
-            curPriority = priority;
-            if (currentOverlay == null) {
-                // handling if it ever gets deleted when not supposed to
-                currentOverlay = new DialogueBox(hints);
-            } else {
-                updateTextHelper();
-            }
-        }
-        if (currentEntity != null) {
-            AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
-            if (animator != null) {
-                animator.startAnimation("float");
-            }
-            currentEntity = null;
-        }
-    }
+        updateTextHelper(text, priority);
+        if (currentEntity != null) currentEntity = null; // if probably isn't necessary, but that is how it
+    }                                                    // was written so I am keeping it
+    
 
     /**
      * Update the current chat overlay if it exists also responsible for highlighting an entity.
      */
     public void updateText(String[][] text, Entity entity, int priority) {
+        updateTextHelper(text, priority);
+        currentEntity = entity;
+        AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
+        if (animator != null) {
+            animator.startAnimation("selected");
+        }
+    }
+    
+    private void updateTextHelper(String[][] text, int priority) {
         hints = text;
         if (priority <= curPriority) {
             curPriority = priority;
@@ -115,7 +110,7 @@ public class DialogueBoxService {
                 // handling if it ever gets deleted when not supposed to
                 currentOverlay = new DialogueBox(hints);
             } else {
-                updateTextHelper();
+                currentOverlay.showDialogueBox(hints);
             }
         }
         if (currentEntity != null) {
@@ -123,11 +118,6 @@ public class DialogueBoxService {
             if (animator != null) {
                 animator.startAnimation("float");
             }
-        }
-        currentEntity = entity;
-        AnimationRenderComponent animator =  currentEntity.getComponent(AnimationRenderComponent.class);
-        if (animator != null) {
-            animator.startAnimation("selected");
         }
     }
 
@@ -136,17 +126,5 @@ public class DialogueBoxService {
      */
     public void resizeElements() {
         currentOverlay.resizeElements();
-    }
-
-    /**
-     * Update the current chat overlay if it exists.
-     */
-    private void updateTextHelper() {
-        if (currentOverlay == null) {
-            // handling if it ever gets deleted when not supposed to
-            currentOverlay = new DialogueBox(hints);
-        } else {
-            currentOverlay.showDialogueBox(hints);
-        }
     }
 }
