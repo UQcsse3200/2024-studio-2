@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -269,89 +268,6 @@ public class TerrainChunk {
       currentBitCell.and(right);
 
     return gridCell;
-  }
-
-  /**
-   * The CCell class holds the possible tiles for the cell.
-   */
-  public class CCell extends Cell {
-    private BitSet possibleUp;
-    private BitSet possibleDown;
-    private BitSet possibleLeft;
-    private BitSet possibleRight;
-
-    public boolean isCollapsed;
-    //private BitSet options;
-
-    CCell() {
-      super();
-      this.possibleUp = new BitSet();
-      this.possibleDown = new BitSet();
-      this.possibleLeft = new BitSet();
-      this.possibleRight = new BitSet();
-      this.isCollapsed = false;
-
-      //this.options = new BitSet(TerrainResource.TILE_SIZE);
-      //this.options.set(0, TerrainResource.TILE_SIZE, true);
-    }
-
-    /**
-     * Get the possible tiles that can join with the top of this cell.
-     * 
-     * @return The possible tiles for the cell
-     */
-    private BitSet getUp() {
-      return this.possibleUp;
-    }
-
-    /**
-     * Get the possible tiles that can join with the bottom of this cell.
-     * 
-     * @return The possible tiles for the cell
-     */
-    private BitSet getDown() {
-      return this.possibleDown;
-    }
-
-    /**
-     * Get the possible tiles that can join with the left of this cell.
-     * 
-     * @return The possible tiles for the cell
-     */
-    private BitSet getLeft() {
-      return this.possibleLeft;
-    }
-
-    /**
-     * Get the possible tiles that can join with the right of this cell.
-     * 
-     * @return The possible tiles for the cell
-     */
-    private BitSet getRight() {
-      return this.possibleRight;
-    }
-
-    /**
-     * Set the tile and also mean the cell is collapsed and confirm all possible
-     * tiles.
-     * 
-     * @param tile            The tile to set
-     * @param terrainResource The terrain resource to use for setting the tile
-     * @return this cell object
-     */
-    public CCell setTile(Tile tile, TerrainResource terrainResource) {
-      super.setTile(new TerrainTile(tile.getTexture()));
-      //terrainResource.getTilebyName(tile.getName());
-
-      this.possibleUp = tile.getUp();
-      this.possibleDown = tile.getDown();
-      this.possibleLeft = tile.getLeft();
-      this.possibleRight = tile.getRight();
-
-      this.isCollapsed = true;
-      return this;
-    }
-
   }
 
   public enum TileType {
