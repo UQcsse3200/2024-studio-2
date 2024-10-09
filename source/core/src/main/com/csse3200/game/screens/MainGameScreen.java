@@ -78,6 +78,7 @@ public class MainGameScreen extends PausableScreen {
   private final PhysicsEngine physicsEngine;
   private final LightingEngine lightingEngine;
   private final DayNightCycle dayNightCycle;
+  private final MiniMapDisplay miniMapDisplay;
 
   /**
    * The game area containing the main game.
@@ -123,6 +124,8 @@ public class MainGameScreen extends PausableScreen {
 
     loadAssets();
     this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
+    miniMapDisplay = new MiniMapDisplay(gameArea);
+
     createUI();
     logger.debug("Initialising main game screen entities");
 
@@ -182,6 +185,8 @@ public class MainGameScreen extends PausableScreen {
   public void resume() {
       isPaused = false;
       KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+      miniMapDisplay.removeAllPoints();
+      miniMapDisplay.updateAllPoints();
       inputComponent.resetVelocity();
       if (!resting) {
           gameArea.playMusic();
@@ -245,7 +250,7 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new Terminal())
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
-              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(miniMapDisplay)
               .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);

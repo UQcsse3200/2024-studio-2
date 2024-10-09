@@ -61,6 +61,8 @@ public class ForestGameArea extends GameArea {
     private final List<Entity> enemies;
     private final List<Entity> bosses;
     private final List<Entity> friendlyNPCs;
+
+    private final List<Entity> minigameNPCs;
     // private final List<Entity> staticItems;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalItems = 0;
@@ -85,6 +87,7 @@ public class ForestGameArea extends GameArea {
         this.enemies = new ArrayList<>();
         this.bosses = new ArrayList<>();
         this.friendlyNPCs = new ArrayList<>();
+        this.minigameNPCs = new ArrayList<>();
         this.terrainFactory = terrainFactory;
         this.game = game;
     }
@@ -356,7 +359,7 @@ public class ForestGameArea extends GameArea {
             Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
             kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
             spawnEntityOnMap(kangarooBoss);
-            enemies.add(kangarooBoss);
+            bosses.add(kangarooBoss);
             kangarooBossSpawned = true;
         }
     }
@@ -366,7 +369,7 @@ public class ForestGameArea extends GameArea {
             Entity waterBoss = BossFactory.createWaterBossEntity(player);
             waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
             spawnEntityOnMap(waterBoss);
-            enemies.add(waterBoss);
+            bosses.add(waterBoss);
             waterBossSpawned = true;
         }
     }
@@ -376,7 +379,7 @@ public class ForestGameArea extends GameArea {
             Entity airBoss = BossFactory.createAirBossEntity(player);
             airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
             spawnEntityOnMap(airBoss);
-            enemies.add(airBoss);
+            bosses.add(airBoss);
             airBossSpawned = true;
         }
     }
@@ -848,6 +851,10 @@ public class ForestGameArea extends GameArea {
     }
 
     public List<Entity> getFriendlyNPCs() {
+        return friendlyNPCs;
+    }
+
+    public List<Entity> getMinigameNPCs() {
         return friendlyNPCs;
     }
 
