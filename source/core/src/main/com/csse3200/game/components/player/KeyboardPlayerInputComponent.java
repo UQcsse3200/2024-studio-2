@@ -9,6 +9,7 @@ import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+import com.csse3200.game.components.CombatStatsComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private boolean paralyzed = false;
   private long startTime = 0;
   GameTime timeSource;
+  private long movementStartTime = 0;
+  private long movementDuration = 0;
+  private boolean isMoving = false;
+  private long lastHungerCheckTime = 0;
+
 
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
@@ -151,6 +157,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
+  @Override
+  public void update() {
+    super.update(); // Call super method if needed
+    // Check movement status every tick
+    updateMovementDuration();
+  }
+
   private void triggerWalkEvent() {
     if (paralyzed) {
       if (timeSource.getTimeSince(startTime) > 2000) {
@@ -164,9 +177,33 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.len() > 0) {
       walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
+      if (!isMoving) {
+        movementStartTime = timeSource.getTime(); // Reset the timer when the movement starts
+      }
+      isMoving = true;
+
     } else {
       entity.getEvents().trigger("walkStop");
+      isMoving = false;
     }
+  }
+
+  private void updateMovementDuration() {
+
+    if (isMoving) {
+      long currentTime = timeSource.getTime();
+
+      if (currentTime - lastHungerCheckTime >= 2000) {
+        lastHungerCheckTime = currentTime;
+        decreaseHunger();
+      }
+    } else {
+      movementStartTime = 0;
+    }
+  }
+  private void decreaseHunger() {
+    CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+    combatStats.addHunger(-1);
   }
 
   private void updateWalkDirection() {
