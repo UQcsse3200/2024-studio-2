@@ -23,14 +23,19 @@ import java.util.List;
  * TerrainResource class to store all possible tiles and their edge tiles.
  */
 public class TerrainResource {
-    private static final List<Tile> forestTiles = new ArrayList<>();
-    private static final List<Tile> waterTiles = new ArrayList<>();
-    private static final List<Tile> airTiles = new ArrayList<>();
-    private static final List<Tile> fogTiles = new ArrayList<>();
+    private static List<Tile> forestTiles;
+    private static List<Tile> waterTiles;
+    private static List<Tile> airTiles;
+    private static List<Tile> fogTiles;
 
     private boolean unlockedWater;
 
     public TerrainResource(MapHandler.MapType mapType) {
+        forestTiles = new ArrayList<>();
+        waterTiles = new ArrayList<>();
+        airTiles = new ArrayList<>();
+        fogTiles = new ArrayList<>();
+
         ResourceService resourceService = ServiceLocator.getResourceService();
         this.unlockedWater = false;
         switch (mapType) {
