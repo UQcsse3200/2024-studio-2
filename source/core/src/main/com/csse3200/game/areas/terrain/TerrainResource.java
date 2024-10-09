@@ -13,6 +13,7 @@ import com.csse3200.game.areas.terrain.tiles.TileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.areas.terrain.enums.*;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -28,10 +29,10 @@ public class TerrainResource {
     private List<Tile> fogTiles;
 
     // total number of each tile
-    public static int FOREST_SIZE = 0;
-    public static int WATER_SIZE = 0;
-    public static int AIR_SIZE = 0;
-    public static int FOG_SIZE = 0;
+    public static int forestSize = 0;
+    public static int waterSize = 0;
+    public static int airSize = 0;
+    public static int fogSize = 0;
     private boolean unlockedWater;
 
     public TerrainResource(MapHandler.MapType mapType) {
@@ -53,7 +54,7 @@ public class TerrainResource {
                                     new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
                                     tile.edges, tile.centre));
                 }
-                FOREST_SIZE = forestTiles.size();
+                forestSize = forestTiles.size();
 
                 // load water tiles
                 OceanMapTiles oceanTileConfig;
@@ -67,7 +68,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
-                WATER_SIZE = waterTiles.size();
+                waterSize = waterTiles.size();
 
                 // load fog tiles
                 for (FogTileConfig tile : fogTileConfig.fogTiles) {
@@ -76,7 +77,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
-                FOG_SIZE = fogTiles.size();
+                fogSize = fogTiles.size();
 
                 break;
             case COMBAT:
@@ -130,6 +131,16 @@ public class TerrainResource {
             setPossibleRight(this.fogTiles.get(i), this.fogTiles);
             setPossibleDown(this.fogTiles.get(i), this.fogTiles);
             setPossibleLeft(this.fogTiles.get(i), this.fogTiles);
+        }
+    }
+
+    public static int getTileSize(TileLocation location) {
+        switch (location) {
+            case FOREST -> {return forestSize;}
+            case WATER -> {return waterSize;}
+            case AIR -> {return waterSize;}
+            case FOG -> {return fogSize;}
+            default -> throw new IllegalArgumentException("Given tile location doesn't exist!");
         }
     }
 
