@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChatbotServiceTest {
+class ChatbotServiceTest {
 
     private ChatbotService chatbotService;
 
@@ -16,7 +16,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithMatchingKeyword() {
+    void testResponseWithMatchingKeyword() {
         String userMessage = "Tell me about the objective of the game.";
         String expectedResponse = "Your goal is to defeat all the animals in each kingdom and ultimately become the overlord.";
         String actualResponse = chatbotService.getResponse(userMessage);
@@ -25,7 +25,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithDifferentKeywordCasing() {
+    void testResponseWithDifferentKeywordCasing() {
         String userMessage = "What are the CONTROLS?";
         String expectedResponse = "Use the WASD keys to move: W for up, A for left, S for down, and D for right.";
         String actualResponse = chatbotService.getResponse(userMessage);
@@ -34,7 +34,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithNoMatchingKeyword() {
+    void testResponseWithNoMatchingKeyword() {
         String userMessage = "Tell me more about the game.";
         String expectedResponse = "I'm sorry, I don't understand. Can you ask something else?";
         String actualResponse = chatbotService.getResponse(userMessage);
@@ -43,7 +43,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithNullInput() {
+    void testResponseWithNullInput() {
         String expectedResponse = "I didn't catch that. Can you say something?";
         String actualResponse = chatbotService.getResponse(null);
 
@@ -51,7 +51,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithEmptyInput() {
+    void testResponseWithEmptyInput() {
         String userMessage = "";
         String expectedResponse = "I didn't catch that. Can you say something?";
         String actualResponse = chatbotService.getResponse(userMessage);
@@ -60,7 +60,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithMultipleMatchingKeywords() {
+    void testResponseWithMultipleMatchingKeywords() {
         String userMessage = "Can you explain the objective and the kingdoms?";
         String expectedResponse = "Your goal is to defeat all the animals in each kingdom and ultimately become the overlord.";
         String actualResponse = chatbotService.getResponse(userMessage);
@@ -69,7 +69,7 @@ public class ChatbotServiceTest {
     }
 
     @Test
-    public void testResponseWithPartialKeywordMatch() {
+    void testResponseWithPartialKeywordMatch() {
         String userMessage = "How do I start the game?";
         String expectedResponse = "Simply click the \"Start\" button on the main menu to begin your adventure!";
         String actualResponse = chatbotService.getResponse(userMessage);

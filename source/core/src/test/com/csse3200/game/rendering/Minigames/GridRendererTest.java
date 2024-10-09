@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-public class GridRendererTest {
+class GridRendererTest {
 
     // mocks the SnakeGrid to control its behaviour in the tests
     @Mock
@@ -42,7 +42,7 @@ public class GridRendererTest {
     private GridRenderer gridRenderer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // initialises the mocks and injects them
         MockitoAnnotations.openMocks(this);
         when(renderer.getSb()).thenReturn(spriteBatch);
@@ -53,7 +53,7 @@ public class GridRendererTest {
     }
 
     @Test
-    public void testRenderGrid() {
+    void testRenderGrid() {
         // Arrange the grid Width and height also the cellSize
         int gridWidth = 10;
         int gridHeight = 15;

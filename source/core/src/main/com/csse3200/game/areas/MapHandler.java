@@ -141,7 +141,7 @@ public class MapHandler {
   public static GameArea getMap(MapType mapType) {
     switch (mapType) {
       case FOREST:
-        return (ForestGameArea) currentGameArea;
+        return currentGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
     }

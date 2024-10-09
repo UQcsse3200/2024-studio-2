@@ -1,23 +1,10 @@
 package com.csse3200.game.components.stats;
 
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;  // Import for Entity
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class StatsDisplayTest {
 

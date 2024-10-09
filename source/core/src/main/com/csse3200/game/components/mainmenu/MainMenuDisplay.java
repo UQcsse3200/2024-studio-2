@@ -197,8 +197,10 @@ public class MainMenuDisplay extends UIComponent {
             }
         };
 
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100); // Dynamically set width
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100); // Dynamically set height
+        final float DIALOG_WIDTH = Math.min(1000f, (float) Gdx.graphics.getWidth() - 100); //
+        // Dynamically set width
+        final float DIALOG_HEIGHT = Math.min(800f, (float) Gdx.graphics.getHeight() - 100); //
+        // Dynamically set height
         chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
 
         // Background for the chatbot window
@@ -733,7 +735,7 @@ public class MainMenuDisplay extends UIComponent {
 
         userTable.setVisible(true);
 
-        userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
+        userTable.setPosition(185, (float) Gdx.graphics.getHeight() - 30);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
         userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
 

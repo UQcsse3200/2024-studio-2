@@ -1,14 +1,11 @@
 package com.csse3200.game.minigames.snake;
 
 import com.csse3200.game.minigames.Direction;
-import com.csse3200.game.minigames.snake.Snake;
-import com.csse3200.game.minigames.snake.SnakeGrid;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class SnakeTest {
