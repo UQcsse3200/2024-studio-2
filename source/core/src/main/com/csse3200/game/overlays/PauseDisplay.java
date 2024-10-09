@@ -12,7 +12,6 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -69,6 +68,7 @@ public class PauseDisplay extends UIComponent {
         TextButton resumeBtn = new TextButton("Resume", skin);
         TextButton questsBtn = new TextButton("Quest Tracker", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
+        TextButton saveBtn = new TextButton("Save Game", skin);
         TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
 
         // Add listeners for buttons
@@ -95,6 +95,14 @@ public class PauseDisplay extends UIComponent {
             }
         });
 
+        saveBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+                    }
+                });
+
         // Triggers an event when the button is pressed.
         mainMenuBtn.addListener(
                 new ChangeListener() {
@@ -106,9 +114,10 @@ public class PauseDisplay extends UIComponent {
                     }
                 });
 
+
         // Layout buttons in a table
         Table table = new Table();
-        Actor[] actors = {questsBtn, resumeBtn,settingsBtn, mainMenuBtn};
+        Actor[] actors = {questsBtn, resumeBtn,settingsBtn, saveBtn, mainMenuBtn};
         for ( Actor button : actors){
             Image buttonBackground = new Image(
                     ServiceLocator.getResourceService()

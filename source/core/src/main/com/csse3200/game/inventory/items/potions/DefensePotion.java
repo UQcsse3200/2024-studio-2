@@ -3,7 +3,6 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.services.GameTime;
 
 /**
  * The {@code DefensePotion} class represents a specific type of potion that temporarily increases the defense a
@@ -28,8 +27,9 @@ import com.csse3200.game.services.GameTime;
  * @see TimedUseItem
  */
 public class DefensePotion extends TimedUseItem {
-    private final static String path = "images/potiontexture/defense.png";
-    private final static long duration = 120000;
+    private static final String PATH = "images/potiontexture/defense.png";
+    private static final long DURATION = 120000;
+    private static final String MSG = "Cannot use defense potion on map";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -37,9 +37,10 @@ public class DefensePotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public DefensePotion(int quantity) {
-        super("Defense Potion", 53, 3, quantity, 25, duration);
-        this.setTexturePath(path);
+        super("Defense Potion", 53, 3, quantity, 25, DURATION, MSG);
+        this.setTexturePath(PATH);
         this.setDescription("This is a defense potion");
+        this.onlyCombatItem = true;
     }
 
     /**
@@ -59,9 +60,7 @@ public class DefensePotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        if (isExpired(context)) {
-            CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
-            stats.setDefense(stats.getDefense() - this.effectAmount);
-        }
+        CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
+        stats.setDefense(stats.getDefense() - this.effectAmount);
     }
 }

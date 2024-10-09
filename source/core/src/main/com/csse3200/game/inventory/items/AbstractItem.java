@@ -16,6 +16,8 @@ public abstract class AbstractItem {
     protected int quantity; // Must be non-negative
     protected String description; // Description of the item
     private String texturePath = null; // Path to the texture for this item
+    protected boolean onlyCombatItem = false; // Items only usable in combat
+    protected boolean onlyMapItem = false; // Items only usable on the map
 
     /**
      * Constructs an AbstractItem with the specified name and item code. Defaults to single
@@ -63,6 +65,12 @@ public abstract class AbstractItem {
      * @return the name of the item
      */
     public String getName() {return name;}
+
+    /** Whether an item can only be used in combat **/
+    public boolean onlyCombatItem() {return onlyCombatItem;}
+
+    /** Whether an item can only be used on the map **/
+    public boolean onlyMapItem() {return onlyMapItem;}
 
     /**
      * Gets the item code of the item.

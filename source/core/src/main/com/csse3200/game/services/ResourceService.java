@@ -1,9 +1,13 @@
 package com.csse3200.game.services;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
@@ -17,7 +21,6 @@ public class ResourceService implements Disposable {
 
   private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
   private AssetManager assetManager;
-  private AssetManager hiddenAssetManager;
 
   public ResourceService() {
     this(new AssetManager());
@@ -123,6 +126,23 @@ public class ResourceService implements Disposable {
   }
 
   /**
+   * Loads a single asset with a parameter into the asset manager.
+   *
+   * @param assetName asset name
+   * @param type      asset type
+   * @param parameter parameter to use to load the asset
+   * @param <T>       type
+   */
+  public <T> void loadAsset(String assetName, Class<T> type, AssetLoaderParameters<T> parameter) {
+    logger.debug("Loading {}: {} with parameter {}", type.getSimpleName(), assetName, parameter);
+    try {
+      assetManager.load(assetName, type, parameter);
+    } catch (Exception e) {
+      logger.error("Could not load {}: {} with parameter {}", type.getSimpleName(), assetName, parameter);
+    }
+  }
+
+  /**
    * Loads multiple assets into the asset manager.
    *
    * @param assetNames list of asset names
@@ -160,6 +180,20 @@ public class ResourceService implements Disposable {
    */
   public void loadSounds(String[] soundNames) {
     loadAssets(soundNames, Sound.class);
+  }
+
+  /**
+   * Loads a list of particle effects into the asset manager.
+   *
+   * @param particleEffectNames particle effect filenames
+   * @param imagesDir directory containing particle effect images
+   */
+  public void loadParticleEffects(String[] particleEffectNames, String imagesDir) {
+    ParticleEffectLoader.ParticleEffectParameter particleDir = new ParticleEffectLoader.ParticleEffectParameter();
+    particleDir.imagesDir = Gdx.files.internal(imagesDir);
+    for (String name : particleEffectNames) {
+      loadAsset(name, ParticleEffect.class, particleDir);
+    }
   }
 
   /**

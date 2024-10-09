@@ -1,5 +1,6 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -7,17 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
-import com.csse3200.game.components.minigames.Direction;
-import com.csse3200.game.components.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.components.minigames.snake.controller.KeyboardSnakeInputComponent;
-import com.csse3200.game.components.minigames.snake.rendering.SnakeGameRenderer;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.snake.controller.KeyboardSnakeInputComponent;
+import com.csse3200.game.minigames.snake.rendering.SnakeGameRenderer;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
@@ -29,9 +31,12 @@ import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.components.minigames.snake.SnakeGame;
+import com.csse3200.game.minigames.snake.SnakeGame;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.csse3200.game.components.minigames.MiniGameNames;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.minigames.MiniGameNames;
+import static com.csse3200.game.minigames.snake.AssetPaths.SOUNDS;
 
 /**
  * Represents the screen for the Snake game.
@@ -50,6 +55,8 @@ public class SnakeScreen extends PausableScreen {
     private final Table exitButtonTable;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private final Texture backgroundTexture;
+    private final SpriteBatch spriteBatch;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -62,6 +69,10 @@ public class SnakeScreen extends PausableScreen {
         this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
+
+        this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
+
+        this.spriteBatch = new SpriteBatch();
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         logger.debug("Initialising snake minigame screen services");
@@ -77,11 +88,16 @@ public class SnakeScreen extends PausableScreen {
         font.setColor(Color.WHITE);
         font.getData().setScale(5.0f);
 
-        this.stage = ServiceLocator.getRenderService().getStage();
-        //Gdx.input.setInputProcessor(stage);
+        stage = ServiceLocator.getRenderService().getStage();
         logger.debug("Initialising snake minigame entities");
-        this.snakeGame = new SnakeGame();
-        this.snakeRenderer = new SnakeGameRenderer(snakeGame);
+        snakeGame = new SnakeGame();
+        snakeRenderer = new SnakeGameRenderer(snakeGame);
+
+        // ensure sounds are loaded
+        ServiceLocator.getResourceService().loadSounds(SOUNDS);
+        ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/snake-bg.mp3"});
+        ServiceLocator.getResourceService().loadAll();
+        AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
         setupExitButton();
         createUI();
@@ -95,9 +111,10 @@ public class SnakeScreen extends PausableScreen {
      */
     @Override
     public void render(float delta) {
-        clearBackground();
 
         renderer.render();
+
+        drawBackground();
 
         updateGame(delta);
 
@@ -112,9 +129,13 @@ public class SnakeScreen extends PausableScreen {
     /**
      * Clears the screen with a specific background color.
      */
-    public void clearBackground() {
+    public void drawBackground() {
         Gdx.gl.glClearColor(50f / 255f, 82f / 255f, 29f / 255f, 1f / 255f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // Draw the background image
+        spriteBatch.begin();
+        spriteBatch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        spriteBatch.end();
     }
 
     /**
@@ -128,6 +149,8 @@ public class SnakeScreen extends PausableScreen {
         }
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
+            GameState.minigame.addHighScore("snake", snakeGame.getScore());
+            logger.info("{}", GameState.minigame.getHighScore("snake"));
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }
@@ -163,6 +186,8 @@ public class SnakeScreen extends PausableScreen {
 
         renderer.dispose();
         snakeRenderer.dispose();
+        backgroundTexture.dispose();
+        spriteBatch.dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.clear();
@@ -207,11 +232,11 @@ public class SnakeScreen extends PausableScreen {
         InputComponent inputComponent =
                 new KeyboardSnakeInputComponent();
 
-        Stage stage = ServiceLocator.getRenderService().getStage();
+        Stage uiStage = ServiceLocator.getRenderService().getStage();
 
         Entity ui = new Entity();
         ui
-                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new InputDecorator(uiStage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(inputComponent)
                 .addComponent(new KeyboardMiniGameInputComponent());
@@ -221,7 +246,6 @@ public class SnakeScreen extends PausableScreen {
         ui.getEvents().addListener("move", this::handleSnakeInput);
         ui.getEvents().addListener("restart", this::restartGame);
         ui.getEvents().addListener("exit", this::exitGame);
-        //ui.getEvents().addListener("pause", this::pause);
         ServiceLocator.getEntityService().register(ui);
     }
 
@@ -251,4 +275,3 @@ public class SnakeScreen extends PausableScreen {
         game.setOldScreen(oldScreen, oldScreenServices);
     }
 }
-

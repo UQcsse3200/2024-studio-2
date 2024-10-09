@@ -6,18 +6,17 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/lion.atlas",
+    "spritePath": "images/friendly_npcs/lion.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/tiger-roar.wav"],
     "animalName": "Lion",
     "itemProbability": 0.0
   },
   "cow": {
-    "baseHint": [["Moo there, adventurer! Welcome to the kingdom.",
-      "We will be your guides",
-      "but before you can roam free...",
-      "you must complete the first steps and 2 step quests."]],
-    "spritePath": "images/Cow.atlas",
+    "baseHint": [[
+      "Go complete your quest adventurer!"
+      ]],
+    "spritePath": "images/friendly_npcs/Cow.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/mooing-cow.wav"],
     "animalName": "Cow",
@@ -30,7 +29,7 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/turtle.atlas",
+    "spritePath": "images/friendly_npcs/turtle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/turtle-hiss.wav"],
     "animalName": "Turtle",
@@ -43,7 +42,7 @@
       ["Final boss?? That Kangaroo??","idk"],
       ["Good luck!"]
     ],
-    "spritePath": "images/eagle.atlas",
+    "spritePath": "images/friendly_npcs/eagle.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eagle-scream.wav"],
     "animalName": "Eagle",
@@ -51,12 +50,9 @@
   },
   "snake": {
     "baseHint": [
-      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!",
-        "You look very tasty and I am very hungry",
-        "Go play a game and collect me some apples...",
-        "/msOr I will eat you whole!"]
+      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!"]
     ],
-    "spritePath": "images/snake.atlas",
+    "spritePath": "images/friendly_npcs/snake.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/snake-hiss.wav"],
     "animalName": "Snake",
@@ -64,11 +60,8 @@
   },
 
   "magpie": {
-    "baseHint": [["WHO GOES THERE!!",
-                 "If you want to get past me you must pay",
-                 "Go play a game and collect me some coins",
-                 "/mbOr I will claw your eyes out!"]],
-    "spritePath": "images/magpie.atlas",
+    "baseHint": [["I LOVE GOLD!!"]],
+    "spritePath": "images/friendly_npcs/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
     "animalName": "Magpie",
@@ -83,7 +76,7 @@
         "I must get them back and find my way home!",
         "/muHelp me collect all the fish eggs an get back home before it is too late"]
     ],
-    "spritePath": "images/Fish.atlas",
+    "spritePath": "images/friendly_npcs/Fish.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/FishBubble.wav"],
     "animalName": "Fish",
@@ -95,7 +88,7 @@
     ],
     "spritePath": "images/chicken.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/chicken.wav"],
     "animalName": "Chicken",
     "itemProbability": 0.0
   },
@@ -105,7 +98,7 @@
     ],
     "spritePath": "images/frog.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/frog.wav"],
     "animalName": "Frog",
     "itemProbability": 0.0
   },
@@ -115,8 +108,18 @@
     ],
     "spritePath": "images/monkey.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/FishBubble.wav"],
+    "soundPath": ["sounds/monkey.wav"],
     "animalName": "Monkey",
+    "itemProbability": 0.0
+  },
+  "friendlyBear": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Benny the Bear."]
+    ],
+    "spritePath": "images/bear.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/tiger-roar.wav"],
+    "animalName": "Bear",
     "itemProbability": 0.0
   }
 }

@@ -165,9 +165,10 @@ public class PlayerStatsDisplay extends UIComponent {
         stage.addActor(table);
 
         //initialising the character stats
+        CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
         updatePlayerHealthUI(health, this.maxHealth, true);
         updatePlayerHungerUI(hunger);
-        updatePlayerExperienceUI(experience);
+        updatePlayerExperienceUI(experience, combatStats);
 
         startHungerDecreaseTimer();
         // Add the table to the stage
@@ -182,7 +183,6 @@ public class PlayerStatsDisplay extends UIComponent {
                 CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
                 if (combatStats != null) {
                     // Decrease hunger by 1 every 3 seconds
-                    combatStats.addHunger(-1);
                     int hunger = combatStats.getHunger();
                     updatePlayerHungerUI(hunger);
 
@@ -190,12 +190,16 @@ public class PlayerStatsDisplay extends UIComponent {
                     adjustHealthBasedOnHunger(hunger, combatStats);
                 }
             }
-        }, 3, 3); // Initial delay of 3 seconds, then repeat every 3 seconds
+        }, 1, 1);
+
+        // Initial delay of 3 seconds, then repeat every 3 seconds
     }
 
     private void adjustHealthBasedOnHunger(int hunger, CombatStatsComponent combatStats) {
         int health = combatStats.getHealth();
-
+        updatePlayerHungerUI(combatStats.getHunger());
+        updatePlayerHealthUI(combatStats.getHealth(), this.maxHealth, true);
+        updatePlayerExperienceUI(combatStats.getExperience(), combatStats);
         if (hunger >= 90 && health < maxHealth) {
             // Increase health by 1 if hunger is 90+ and health isn't max
             combatStats.addHealth(1);
@@ -215,12 +219,15 @@ public class PlayerStatsDisplay extends UIComponent {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+
                 if (combatStats.getHunger() == 0) {
                     combatStats.addHealth(-1);
                     updatePlayerHealthUI(combatStats.getHealth(), maxHealth, true);
                 }
             }
-        }, 0, 1); // Run every second
+        }, 0, 1);
+
+        // Run every second
     }
 
 
@@ -293,7 +300,7 @@ public class PlayerStatsDisplay extends UIComponent {
      *  including the call to test functions for checking
      * @param experience The current experience stat value of the player
      */
-    public void updatePlayerExperienceUI(int experience) {
+    public void updatePlayerExperienceUI(int experience, CombatStatsComponent combatStats) {
         CharSequence text = String.format("EXP: %d", experience);
         experienceLabel.setText(text);
         logger.debug("Made it to this updatePlayerExperienceUI function");
@@ -302,7 +309,7 @@ public class PlayerStatsDisplay extends UIComponent {
         // Calculate the frame index based on the current health as no xp implementation yet
 
 
-        int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
+        int frameIndex = totalFrames - 1 - (int) ((float) experience / combatStats.getMaxExperience() * (totalFrames - 1));
         frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
         // Set the current frame of the health bar animation
         setNewFrame(frameIndex, xpBarAnimation, xpImage);

@@ -15,9 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -33,15 +30,14 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * Manages the cutscene for enemy NPCs displayed before transitioning to the combat screen.
  * Handles initialization, rendering, and disposal of cutscene elements.
  */
 public class EnemyCutsceneScreen extends ScreenAdapter {
     private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
+    private int labelBuffer;
+    private int imageBuffer;
     private float timeElapsed = 0;
     private boolean transition;
 
@@ -55,7 +51,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     private final ServiceContainer oldScreenServices;
     private final Entity player;
     private final Entity enemy;
-    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
     /**
      * Creates a new cutscene screen.
@@ -72,6 +67,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         this.oldScreenServices = container;
         this.player = player;
         this.enemy = enemy;
+        setLabelBuffer(enemy.getEnemyType());
 
         logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -94,7 +90,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         createUI();
 
         logger.debug("Initialising main game dup screen entities");
-        TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
     }
 
     /**
@@ -114,7 +109,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
             if (timeElapsed >= CUTSCENE_DURATION && !transition) {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
-                // dispose();
                 game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
             }
         }
@@ -183,23 +177,8 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Set background image to cover the whole screen
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        // Create black bars
-        Texture topBarTexture = new Texture("images/black_bar.png");
-        Texture bottomBarTexture = new Texture("images/black_bar.png");
-
-        Image topBar = new Image(topBarTexture);
-        Image bottomBar = new Image(bottomBarTexture);
-
-        topBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-        bottomBar.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 6f);
-
-        topBar.setPosition(0, Gdx.graphics.getHeight() - topBar.getHeight());
-        bottomBar.setPosition(0, 0);
-
         // Add actors to stage
         stage.addActor(backgroundImage);
-        stage.addActor(topBar);
-        stage.addActor(bottomBar);
     }
 
     /**
@@ -238,9 +217,49 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
                 enemyImageTexture = new Texture("images/bear_idle.png");
                 enemyNameLabel = new Label("Bear", labelStyle);
                 break;
-            default:
+            case BEE:
+                enemyImageTexture = new Texture("images/bee_idle.png");
+                enemyNameLabel = new Label("Bee", labelStyle);
+                break;
+            case PIGEON:
+                enemyImageTexture = new Texture("images/pigeon_idle.png");
+                enemyNameLabel = new Label("Pigeon", labelStyle);
+                break;
+            case EEL:
+                enemyImageTexture = new Texture("images/eel_idle.png");
+                enemyNameLabel = new Label("Eel", labelStyle);
+                break;
+            case OCTOPUS:
+                enemyImageTexture = new Texture("images/octopus_idle.png");
+                enemyNameLabel = new Label ("Octopus", labelStyle);
+                break;
+            case BIGSAWFISH:
+                enemyImageTexture = new Texture("images/bigsawfish_idle.png");
+                enemyNameLabel = new Label("Bigsawfish", labelStyle);
+                break;
+            case MACAW:
+                enemyImageTexture = new Texture("images/macaw_idle.png");
+                enemyNameLabel = new Label("Macaw", labelStyle);
+                break;
+            case JOEY:
+                enemyImageTexture = new Texture("images/joey_idle.png");
+                enemyNameLabel = new Label("Joey", labelStyle);
+                break;
+            case KANGAROO:
                 enemyImageTexture = new Texture("images/final_boss_kangaroo_idle.png");
                 enemyNameLabel = new Label("Kanga", labelStyle);
+                break;
+            case WATER_BOSS:
+                enemyImageTexture = new Texture("images/water_boss_idle.png");
+                enemyNameLabel = new Label("Leviathan", labelStyle);
+                break;
+            case AIR_BOSS:
+                enemyImageTexture = new Texture("images/air_boss_idle.png");
+                enemyNameLabel = new Label("Griffin", labelStyle);
+                break;
+            default:
+                enemyImageTexture = new Texture("");
+                enemyNameLabel = new Label("", labelStyle);
                 break;
         }
 
@@ -311,14 +330,14 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         // Animate enemy image (slide-in effect)
         enemyImage.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX, centerY, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.imageBuffer, centerY, 2f, Interpolation.pow5Out)
                 )
         );
 
         // Animate enemy name label (slide-in effect)
         enemyNameLabel.addAction(
                 Actions.sequence(
-                        Actions.moveTo(centerX + 200, centerY - 10, 2f, Interpolation.pow5Out)
+                        Actions.moveTo(centerX + this.labelBuffer, centerY - 10, 2f, Interpolation.pow5Out)
                 )
         );
 
@@ -348,21 +367,22 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
         addUIAnimations();
     }
 
-    /**
-     * Pauses the screen's entities.
-     */
-    public void rest() {
-        logger.info("Screen is resting");
-        //gameArea.pauseMusic();
-        ServiceLocator.getEntityService().restWholeScreen();
-    }
+    public void setLabelBuffer(Entity.EnemyType enemy) {
+        switch (enemy) {
+            case FROG -> this.labelBuffer =  220;
+            case BEAR -> {
+                this.labelBuffer = 220;
+                this.imageBuffer = -55;
+            }
+            case EEL -> {
+                this.labelBuffer = 230;
+                this.imageBuffer = -30;
+            }
+            default -> {
+                this.labelBuffer =  200;
+                this.imageBuffer = 0;
+            }
+        }
 
-    /**
-     * Resumes the screen's entities.
-     */
-    public void wake() {
-        logger.info("Screen is Awake");
-        //gameArea.playMusic();
-        ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

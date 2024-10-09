@@ -38,7 +38,7 @@ class ChaseTaskTest {
     Entity target = new Entity();
     target.setPosition(2f, 2f);
 
-    AITaskComponent ai = new AITaskComponent().addTask(new ChaseTask(target, 10, 5, 10, false));
+    AITaskComponent ai = new AITaskComponent().addTask(new ChaseTask(target, 10, 5, 10, null, false));
     Entity entity = makePhysicsEntity().addComponent(ai);
     entity.create();
     entity.setPosition(0f, 0f);
@@ -63,7 +63,7 @@ class ChaseTaskTest {
     entity.create();
     entity.setPosition(0f, 0f);
 
-    ChaseTask chaseTask = new ChaseTask(target, 10, 5, 10, false);
+    ChaseTask chaseTask = new ChaseTask(target, 10, 6, 10, null, false);
     chaseTask.create(() -> entity);
 
     // Not currently active, target is too far, should have negative priority
@@ -74,7 +74,7 @@ class ChaseTaskTest {
     assertEquals(10, chaseTask.getPriority());
 
     // When active, should chase if within chase distance
-    target.setPosition(0f, 8f);
+    target.setPosition(0f, 5f);
     chaseTask.start();
     assertEquals(10, chaseTask.getPriority());
 

@@ -15,7 +15,7 @@ public class CombatStatsComponent extends Component {
 
   // Enum for status effects
   public enum StatusEffect {
-    CONFUSION, BLEEDING
+    CONFUSED, BLEEDING, POISONED, SHOCKED
   }
 
   // Set to hold active status effects
@@ -29,6 +29,8 @@ public class CombatStatsComponent extends Component {
   private int speed;
   private int experience;
   private int stamina;
+  private int level;
+  private final int maxLevel;
   private final int maxStamina;
   private final int maxHunger;
   private int maxExperience;
@@ -48,13 +50,14 @@ public class CombatStatsComponent extends Component {
    * @param stamina Initial stamina value
    * @param isPlayer Boolean indicating if this entity is the player
    */
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
-    this.maxExperience=100;
+    this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     this.maxStamina = stamina;
     this.isPlayer = isPlayer;
     this.isBoss = isBoss;
+    this.maxLevel = 10;
     setHealth(health);
     setHunger(hunger);
     setStrength(strength);
@@ -69,7 +72,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity player
    */
-  public Boolean isPlayer() {
+  public boolean isPlayer() {
     return isPlayer;
   }
 
@@ -78,7 +81,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity dead
    */
-  public Boolean isDead() {
+  public boolean isDead() {
     return health == 0;
   }
 
@@ -87,7 +90,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is player dead
    */
-  public Boolean isBoss() {
+  public boolean isBoss() {
     return this.isBoss;
   }
 
@@ -106,7 +109,7 @@ public class CombatStatsComponent extends Component {
    * @param health health value to set
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health >= this.maxHealth) {
         this.health = this.maxHealth;
       } else {
@@ -114,6 +117,16 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
+      if (isPlayer) {
+        int playerLevel = getLevel();
+        int lvlDiff = playerLevel / 2;
+        addStrength(-lvlDiff);
+        addDefense(-lvlDiff);
+        addSpeed(-lvlDiff);
+        setLevel(lvlDiff);
+        addMaxHealth(-lvlDiff);
+        setExperience(0);
+      }
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
@@ -270,17 +283,19 @@ public class CombatStatsComponent extends Component {
   public void setExperience(int experience) {
     this.experience = Math.max(0, experience);
 
-    if (this.experience >= this.maxExperience && isPlayer) {
+    if (this.experience >= this.maxExperience && isPlayer && (this.level < this.maxLevel)) {
       int experienceDiff = this.experience - this.maxExperience;
-      this.maxExperience = (int) Math.ceil(maxExperience * 1.25);
+
       setExperience(experienceDiff);
 
-      int healthDiff = (int) Math.ceil(this.maxHealth * 0.02);
-      this.maxHealth += healthDiff;
-      addHealth(healthDiff);
-      addStrength((int) Math.ceil(this.strength * 0.02));
-      addDefense((int) Math.ceil(this.defense * 0.02));
-      addSpeed((int) Math.ceil(this.speed * 0.02));
+
+      this.maxHealth += 1;
+      addHealth(1);
+      addStrength(1);
+      addDefense(1);
+      addSpeed(1);
+      addLevel(1);
+      this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     }
 
     if (this.experience >= this.maxExperience && !isPlayer) {
@@ -318,6 +333,16 @@ public class CombatStatsComponent extends Component {
     return maxHealth;
   }
 
+  public void addMaxHealth(int health) {
+    if(this.maxHealth + health < 0){
+      this.maxHealth = 0;
+    }
+
+    else{
+      this.maxHealth = this.maxHealth - health;
+    }
+  }
+
   /**
    * Returns the entity's maximum hunger.
    *
@@ -333,7 +358,7 @@ public class CombatStatsComponent extends Component {
    * @return entity's max experience
    */
   public int getMaxExperience() {
-    return maxExperience;
+    return this.maxExperience;
   }
 
   /**
@@ -351,7 +376,7 @@ public class CombatStatsComponent extends Component {
    * @param stamina stamina value to set
    */
   public void setStamina(int stamina) {
-    this.stamina = Math.min(maxStamina, Math.max(0, stamina));
+    this.stamina = Math.clamp(stamina, 0, maxStamina);
   }
 
   /**
@@ -373,13 +398,43 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
+   * Returns the entity's level.
+   *
+   * @return entity's level
+   */
+  public int getLevel(){ return level; }
+
+  /**
+   * Sets the entity's level.
+   *
+   * @param level sets entity's level
+   */
+  public void setLevel(int level){
+
+    this.level = Math.max(0, level);
+    if (this.level > 10) {
+      this.level = 10;
+    }
+  }
+
+  /**
+   * Add int to entity's level
+   *
+   * @param level adds int to the current level
+   */
+  public void addLevel(int level){
+    setLevel(this.level + level);
+  }
+
+  /**
    * Adds a status effect to the entity. Status effects can impact combat in different ways.
-   * For example, 'CONFUSION' may cause an entity to randomly attack, while 'BLEEDING' may
+   * For example, 'CONFUSED' may cause an entity to randomly attack, while 'BLEEDING' may
    * cause gradual health loss over time.
    * @param effect The status effect to add
    */
   public void addStatusEffect(StatusEffect effect) {
     statusEffects.add(effect);
+    entity.getEvents().trigger("statusEffectAdded", effect);
     logger.info("Added status effect: {}", effect);
   }
 
@@ -393,6 +448,7 @@ public class CombatStatsComponent extends Component {
     if (statusEffects.contains(effect)) {
       statusEffects.remove(effect);
       logger.info("Removed status effect: {}", effect);
+      entity.getEvents().trigger("statusEffectRemoved");
     }
   }
 
@@ -404,5 +460,34 @@ public class CombatStatsComponent extends Component {
    */
   public boolean hasStatusEffect(StatusEffect effect) {
     return statusEffects.contains(effect);
+  }
+
+  /**
+   * Checks if the entity has any applied status effects.
+   *
+   * @return true if the entity has a status effect, false otherwise
+   */
+  public boolean hasStatusEffect() {
+    return !statusEffects.isEmpty();
+  }
+
+  /**
+   * Gets the duration of a StatusEffect type
+   *
+   * @param effect The status effect to check
+   * @return the number of rounds a StatusEffect will be applied
+   */
+  public int getStatusEffectDuration(StatusEffect effect) {
+    switch (effect) {
+        case BLEEDING, SHOCKED -> {
+            return 3;
+        }
+        case POISONED -> {
+        return 2;
+        }
+        default -> {
+          return 0;
+        }
+    }
   }
 }

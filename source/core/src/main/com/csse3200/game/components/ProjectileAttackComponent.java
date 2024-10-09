@@ -3,12 +3,14 @@ package com.csse3200.game.components;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.ai.tasks.AITaskComponent;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
+import com.csse3200.game.components.tasks.HiveTask;
 import com.csse3200.game.components.tasks.ProjectileMovementTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.BodyUserData;
-import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
-import com.csse3200.game.rendering.AnimationRenderComponent;
+import static com.csse3200.game.entities.Entity.EnemyType.ELECTRICORB;
+import static com.csse3200.game.entities.Entity.EnemyType.HIVE;
 
 
 /**
@@ -20,59 +22,48 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
  * target if it has a {@link CombatStatsComponent}.
  * The projectile is then disposed of after the collision.
  */
-public class ProjectileAttackComponent extends Component {
-  private short targetLayer;
-  private CombatStatsComponent combatStats;
-  private HitboxComponent hitboxComponent;
-
-  /**
-   * Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.
-   * The component is configured to target entities in a specific physics layer.
-   *
-   * @param targetLayer The physics layer of the target entities' collider.
-   */
-  public ProjectileAttackComponent(short targetLayer) {
-    this.targetLayer = targetLayer;
-  }
-
-  /**
-   * Initializes the component by registering collision listeners and fetching the necessary components
-   * for handling attacks and detecting collisions. This method is called when the component is created.
-   */
-  @Override
-  public void create() {
-    entity.getEvents().addListener("collisionStart", this::onCollisionStart);
-    combatStats = entity.getComponent(CombatStatsComponent.class);
-    hitboxComponent = entity.getComponent(HitboxComponent.class);
-  }
-
-  /**
-   * Handles collision start events for the projectile. If the collision is with a valid target on the
-   * specified layer, the target takes damage and the projectile is disposed of.
-   *
-   * @param me    The fixture of this entity that was involved in the collision.
-   * @param other The fixture of the other entity involved in the collision.
-   */
-  private void onCollisionStart(Fixture me, Fixture other) {
-    if (hitboxComponent.getFixture() != me) {
-      // Not triggered by hitbox, ignore
-      return;
-    }
-
-    if (!PhysicsLayer.contains(targetLayer, other.getFilterData().categoryBits)) {
-      // Doesn't match our target layer, ignore
-      return;
-    }
-
-    // does damage if player
-    Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
-    if (target.isPlayer()) {
-      target.getComponent(CombatStatsComponent.class).addHealth(-2); //placeholder value
+public class ProjectileAttackComponent extends TouchAttackComponent {
+    
+    private int damage;
+    Entity target;
+    
+    /**
+     * Constructs a ProjectileAttackComponent for handling attacks on entities upon collision.
+     * The component is configured to target entities in a specific physics layer.
+     *
+     * @param targetLayer The physics layer of the target entities' collider.
+     * @param damage the amount of damage this projectile does
+     */
+    public ProjectileAttackComponent(short targetLayer, int damage, Entity target) {
+        super(targetLayer);
+        this.damage = damage;
+        this.target = target;
     }
     
-    // disposes of projectile
-    Entity owner = getEntity();
-    ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
-    task.movementTask.stop();
-  }
+    @Override
+    protected void onCollisionStart(Fixture me, Fixture other) {
+        if (checkHitboxAndLayer(me, other)) return;
+        
+        // does damage if player
+        if (((BodyUserData) other.getBody().getUserData()).getEntity().isPlayer()) { //dont do damage
+            // if not player
+            if (getEntity().getEnemyType() == ELECTRICORB) {
+                target.getComponent(KeyboardPlayerInputComponent.class).paralyze();
+            } else {
+                target.getComponent(CombatStatsComponent.class).addHealth(-damage);
+            }
+        }
+        
+        // disposes of projectile
+        Entity owner = getEntity();
+        if (owner.getEnemyType() == HIVE) {
+            HiveTask task = (HiveTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
+            if (task != null) {
+                task.stop();
+            }
+        } else {
+            ProjectileMovementTask task = (ProjectileMovementTask) owner.getComponent(AITaskComponent.class).getCurrentTask();
+            if (task != null) task.getMovementTask().stop();
+        }
+    }
 }

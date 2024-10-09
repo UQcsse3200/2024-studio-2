@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,15 +13,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
 
 /**
  * The {@code AchievementDisplay} class manages the display of achievements in the achievements screen
@@ -31,7 +34,7 @@ public class AchievementDisplay extends UIComponent {
     private final GdxGame game;
     private Table rootTable;
     /** Array to store achievements. */
-    private final Array<Achievement> achievements;
+    private final java.util.List<Achievement> achievements;
     final TabButton[] lastPressedButton = {null};
     private Float originalY;
 
@@ -82,6 +85,12 @@ public class AchievementDisplay extends UIComponent {
      */
     private void addActors() {
         rootTable = new Table();
+        // Load and set the background texture for the entire screen
+        Image background = new Image(new Texture("images/BackgroundSplash.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // Add the background to the stage
+        stage.addActor(background);
         Image rootTableBG = new Image(ServiceLocator.getResourceService().getAsset("images/logbook/lb-bg.png",Texture.class));
         rootTable.setBackground(rootTableBG.getDrawable());
         rootTable.center();
@@ -146,6 +155,25 @@ public class AchievementDisplay extends UIComponent {
         lastPressedButton[0] = newButton; // Update the last pressed button
     }
 
+    /**
+     * Creates the clear button
+     * @return Table containing the button
+     */
+    private Table makeClearButton() {
+        Table table = new Table();
+        TextButton button = new TextButton("Clear", skin);
+        addButtonElevationEffect(button);
+        button.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("clear button clicked");
+                        clearAchievements();
+                    }
+                });
+        table.add(button);
+        return table;
+    }
 
     /**
      * Creates the tab buttons
@@ -266,6 +294,7 @@ public class AchievementDisplay extends UIComponent {
                             entry.removeAction(newAnimation);
                             entry.setColor(Color.WHITE);
                         }
+                        showDetailPopup(achievement);
                     }
                 });
                 if(advancementCounter == 6){
@@ -305,32 +334,58 @@ public class AchievementDisplay extends UIComponent {
         return table;
     }
 
-    private Table makeClearButton() {
-        Table table = new Table();
-        TextButton button = new TextButton("Clear", skin);
-        addButtonElevationEffect(button);
-        button.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("clear button clicked");
-                        clearAchievements();
-                    }
-                });
-        table.add(button);
-        return table;
+
+    /**
+     * Creates and displays a detail dialogue displaying the name,description and image for an achievement.
+     * @param achievement an achievements from defaultsaves/achievements.json
+     */
+    private void showDetailPopup(Achievement achievement) {
+        // Create a new dialog with a title
+        Dialog detailDialog = new Dialog("", skin);
+
+        // Background
+        Texture backgroundTexture = new Texture("images/SettingBackground.png");
+        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
+        detailDialog.setBackground(backgroundDrawable);
+
+        // Create a table for the dialog content
+        Table contentTable = new Table();
+        contentTable.setFillParent(true);
+
+        // Add content
+        Label nameLabel = new Label(achievement.getQuestName(), skin,"title");
+        Label descriptionLabel = new Label(achievement.getQuestDescription(), skin);
+        Image icon = new Image(new Texture(achievement.getPath()));
+        icon.setSize(250, 250); // Set the size of the icon
+
+        contentTable.add(nameLabel).center().pad(-10,0,0,0);
+        contentTable.row();
+        contentTable.add().height(50);
+        contentTable.row();
+        contentTable.add(icon).size(250, 250);
+        contentTable.row();
+        contentTable.add(descriptionLabel);
+
+        detailDialog.getContentTable().add(contentTable).expand().fill();
+        detailDialog.button("Close", true);
+        detailDialog.getContentTable();
+        detailDialog.getButtonTable();
+        detailDialog.setSize(400, 300);
+
+        detailDialog.show(stage);
     }
 
     /**
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
-        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
     private void clearAchievements() {
-        // TODO: Achievements.resetState() when implemented. Requires an import.
+        SaveHandler.delete(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        Achievements.resetState();
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
@@ -341,7 +396,6 @@ public class AchievementDisplay extends UIComponent {
     public void draw(SpriteBatch batch) {
         batch = new SpriteBatch();
         batch.begin();
-        batch.draw(new Texture("images/BackgroundSplash.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 
@@ -350,7 +404,7 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);

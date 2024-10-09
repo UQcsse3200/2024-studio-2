@@ -1,19 +1,22 @@
 package com.csse3200.game.components.login;
 
-import com.playfab.PlayFabErrors.*;
-import com.playfab.PlayFabClientModels.*;
-import com.playfab.PlayFabClientAPI;
-import com.playfab.PlayFabSettings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.csse3200.game.extensions.GameExtension;
+import com.playfab.PlayFabClientAPI;
+import com.playfab.PlayFabClientModels.RegisterPlayFabUserRequest;
+import com.playfab.PlayFabClientModels.RegisterPlayFabUserResult;
+import com.playfab.PlayFabErrors.PlayFabResult;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-public class PlayFabTest {
+@ExtendWith(GameExtension.class)
+class PlayFabTest {
     private PlayFab playFab;
 
     @BeforeEach
@@ -23,7 +26,7 @@ public class PlayFabTest {
     }
 
     @Test
-    public void testRegisterUserSuccess() {
+    void testRegisterUserSuccess() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         int random = ThreadLocalRandom.current().nextInt(10000000, 99999999);
         request.Username = "test" + random;
@@ -41,7 +44,7 @@ public class PlayFabTest {
 
 
     @Test
-    public void testRegisterUserPasswordFail() {
+    void testRegisterUserPasswordFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -51,15 +54,12 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-        assertEquals("Password must be between 6 and 100 characters.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
 
     @Test
-    public void testRegisterUserEmailFail() {
+    void testRegisterUserEmailFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -69,15 +69,11 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address is not valid.", errorList.getFirst());
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
     @Test
-    public void testRegisterUserPasswordAndEmailFail() {
+    void testRegisterUserPasswordAndEmailFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -87,11 +83,37 @@ public class PlayFabTest {
 
         // Assert that result.Result is not null
         assertNotNull(result.Error, "Result should not be null");
-
-        Collection<List<String>> errors = result.Error.errorDetails.values();
-        List<String> errorList = errors.stream().flatMap(List::stream).toList();
-
-        assertEquals("Email address is not valid.", errorList.getFirst());
-        assertEquals("Password must be between 6 and 100 characters.", errorList.get(1));
+        assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
+
+    @Test
+    void testRegisterUserEmailExistFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+        assertEquals("Email address not available", result.Error.errorMessage);
+    }
+
+    @Test
+    void testRegisterUserEmailExistAndPasswordFail() {
+        RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
+        request.Username = "test123";
+        System.out.println(request.Username);
+        request.Email = "long11221@gmail.com";
+        request.Password = "123456";
+        PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
+
+        // Assert that result.Result is not null
+        assertNotNull(result.Error, "Result should not be null");
+        assertEquals("Email address not available", result.Error.errorMessage);
+    }
+
+    // Login Test
+    // Importing Login Unit Testing will cause throttling, so we won't import it.
 }

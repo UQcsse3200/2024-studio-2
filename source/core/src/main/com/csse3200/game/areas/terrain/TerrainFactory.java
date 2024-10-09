@@ -8,26 +8,17 @@ import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.csse3200.game.areas.MapHandler.MapType;
+import com.csse3200.game.areas.terrain.enums.*;
 import com.csse3200.game.components.CameraComponent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private GridPoint2 mapSize;
 
   public static final int CHUNK_SIZE = 16;
-  private static final int TUFT_TILE_COUNT = 1;
-  private static final int ROCK_TILE_COUNT = 1;
-
-  private final OrthographicCamera camera;
+  protected final OrthographicCamera camera;
   private final CameraComponent cameraComponent;
-  private final TerrainOrientation orientation;
-  private final Map<GridPoint2, TiledMapTileLayer> loadedChunks = new HashMap<>();
-
+  protected final TerrainOrientation orientation;
   /**
    * Create a terrain factory with Orthogonal orientation
    *
@@ -67,30 +58,33 @@ public class TerrainFactory {
    * @return Terrain component which renders the terrain
    */
   public TerrainComponent createTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize, MapType mapType) {
-    this.mapSize = mapSize;
     float tileWorldSize = 1.f;
 
     TiledMap tiledMap = new TiledMap();
-    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
+    TiledMapTileLayer layer = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    TiledMapTileLayer fogLayerWater = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    fogLayerWater.setName("Water");
+    TiledMapTileLayer fogLayerAir = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    fogLayerAir.setName("Air");
     tiledMap.getLayers().add(layer);
+    tiledMap.getLayers().add(fogLayerWater);
+    tiledMap.getLayers().add(fogLayerAir);
 
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 1000);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, mapType);
   }
 
-
-  private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
+  protected TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
       return switch (orientation) {
           case ORTHOGONAL -> new OrthogonalTiledMapRenderer(tiledMap, tileScale);
           case ISOMETRIC -> new IsometricTiledMapRenderer(tiledMap, tileScale);
           case HEXAGONAL -> new HexagonalTiledMapRenderer(tiledMap, tileScale);
-          default -> null;
       };
   }
 
   public enum TerrainType {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
-    FOREST_DEMO_HEX
+    FOREST_DEMO_HEX;
   }
 }

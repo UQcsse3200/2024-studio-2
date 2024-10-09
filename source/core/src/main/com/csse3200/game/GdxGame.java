@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
@@ -28,8 +31,15 @@ public class GdxGame extends Game {
     public void create() {
         logger.info("Creating game");
         loadSettings();
-        // Assign the gdxgame to a singleton
-        GdxGameManager.setInstance(this);
+
+        SaveHandler.load(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+
+        if(Achievements.checkState()) {
+            Achievements.resetState();
+        }
+
+        // Assign the game to a singleton
+        ServiceLocator.setGame(this);
 
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
@@ -128,6 +138,7 @@ public class GdxGame extends Game {
 
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
+        ((MainGameScreen)screen).getGameArea().spawnConvertedNPCs(enemy);
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
             if (e.equals(enemy)) {
@@ -137,17 +148,16 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
-        enemy.dispose();
+        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
+        //player.getComponent(CombatStatsComponent.addExperience())
+        //enemy.getComponent(CombatStatsComponent.getExperience());
+        enemy.specialDispose();
     }
 
     @Override
     public void dispose() {
         logger.debug("Disposing of current screen");
         getScreen().dispose();
-    }
-
-    private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container) {
-        return newScreen(screenType, screen, container, null, null);
     }
 
     /**
@@ -161,52 +171,37 @@ public class GdxGame extends Game {
      * @return new screen
      */
     private Screen newScreen(ScreenType screenType, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-        switch (screenType) {
-            case MAIN_MENU:
-                return new MainMenuScreen(this);
-            case MAIN_GAME:
-                return new MainGameScreen(this);
-            case COMBAT:
-                return new CombatScreen(this, screen, container, player, enemy);
-            case BOSS_CUTSCENE:
-                return new BossCutsceneScreen(this, screen, container, player, enemy);
-            case ENEMY_CUTSCENE:
-                return new EnemyCutsceneScreen(this, screen, container, player, enemy);
-            case ACHIEVEMENTS:
-                return new AchievementsScreen(this);
-            case MINI_GAME_MENU_SCREEN:
-                return new MiniGameMenuScreen(this);
-            case SNAKE_MINI_GAME:
-                return new SnakeScreen(this, screen, container);
-            case BIRD_MINI_GAME:
-                return new BirdieDashScreen(this, screen, container);
-            case MAZE_MINI_GAME:
-                return new MazeGameScreen(this, screen, container);
-            case LOADING_SCREEN:
-                return new LoadingScreen(this);
-            case ANIMAL_SELECTION:
-                return new LandAnimalSelectionScreen(this);
-            case END_GAME_STATS:
-                return new EndGameStatsScreen(this);
-            case GAME_OVER_LOSE:
-                return new GameOverLoseScreen(this);
-            case STORY:
-                String selectedAnimal = "dog";  // Replace with actual logic for getting selected animal
-                return new StoryScreen(this, selectedAnimal);
-            case CUTSCENE:
-                return (new CutSceneScreen(this));
-            case QUICK_TIME_EVENT:
-                return new QuickTimeEventScreen(this);
-            default:
-                return null;
-        }
+        return switch (screenType) {
+            case MAIN_MENU -> new MainMenuScreen(this);
+            case MAIN_GAME -> new MainGameScreen(this);
+            case COMBAT -> new CombatScreen(this, screen, container, player, enemy);
+            case BOSS_CUTSCENE -> new BossCutsceneScreen(this, screen, container, player, enemy);
+            case ENEMY_CUTSCENE -> new EnemyCutsceneScreen(this, screen, container, player, enemy);
+            case ACHIEVEMENTS -> new AchievementsScreen(this);
+            case MINI_GAME_MENU_SCREEN -> new MiniGameMenuScreen(this);
+            case SNAKE_MINI_GAME -> new SnakeScreen(this, screen, container);
+            case BIRD_MINI_GAME -> new BirdieDashScreen(this, screen, container);
+            case MAZE_MINI_GAME -> new MazeGameScreen(this, screen, container);
+            case LOADING_SCREEN -> new LoadingScreen(this);
+            case ANIMAL_SELECTION -> new LandAnimalSelectionScreen(this);
+            case ANIMAL_ROULETTE -> new AnimalRouletteScreen(this);
+            case END_GAME_STATS -> new EndGameStatsScreen(this);
+            case GAME_OVER_LOSE -> new GameOverLoseScreen(this);
+            case STORY -> {
+                String selectedAnimal = "dog";
+                yield new StoryScreen(this, selectedAnimal);
+            }
+            case CUTSCENE -> (new CutSceneScreen(this));
+            case QUICK_TIME_EVENT -> new QuickTimeEventScreen(this);
+            default -> null;
+        };
     }
 
     /**
      * types of screens
      */
     public enum ScreenType {
-        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,
+        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,ANIMAL_ROULETTE,
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
         BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, CUTSCENE, STORY
     }
@@ -218,4 +213,3 @@ public class GdxGame extends Game {
         app.exit();
     }
 }
-

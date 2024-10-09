@@ -2,7 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.overlays.PauseOverlay;
 import com.csse3200.game.overlays.QuestOverlay;
@@ -20,7 +19,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class PausableScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(PausableScreen.class);
     /**
      * Reference to the main game instance.
      */
@@ -49,7 +48,7 @@ public class PausableScreen extends ScreenAdapter {
      */
     public void addOverlay(Overlay.OverlayType overlayType){
         logger.debug("Attempting to Add {} Overlay", overlayType);
-        if (activeOverlayTypes.get(overlayType)){
+        if (activeOverlayTypes.get(overlayType) == null){
             return;
         }
         if (enabledOverlays.isEmpty()) {
@@ -59,20 +58,11 @@ public class PausableScreen extends ScreenAdapter {
             enabledOverlays.getFirst().rest();
         }
         switch (overlayType) {
-            case QUEST_OVERLAY:
-                enabledOverlays.addFirst(new QuestOverlay(this));
-                break;
-            case PAUSE_OVERLAY:
-                enabledOverlays.addFirst(new PauseOverlay(this, game));
-                break;
-            case PLAYER_STATS_OVERLAY:
-                enabledOverlays.addFirst(new PlayerStatsOverlay(this));
-                break;
-            case SETTINGS_OVERLAY:
-                enabledOverlays.addFirst(new SettingsOverlay(this));
-            default:
-                logger.warn("Unknown Overlay type: {}", overlayType);
-                break;
+            case QUEST_OVERLAY -> enabledOverlays.addFirst(new QuestOverlay(this));
+            case PAUSE_OVERLAY -> enabledOverlays.addFirst(new PauseOverlay(this, game));
+            case PLAYER_STATS_OVERLAY -> enabledOverlays.addFirst(new PlayerStatsOverlay(this));
+            case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
+            default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }
         logger.info("Added {} Overlay", overlayType);
         activeOverlayTypes.put(overlayType,true);

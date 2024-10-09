@@ -1,24 +1,28 @@
 package com.csse3200.game.inventory.items.lootbox.configs;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.csse3200.game.inventory.items.AbstractItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BaseLootTable is an abstract class representing a basic loot table used to manage and generate loot items.
+ * BaseLootTable is a concrete class representing a basic loot table used to manage and generate loot items.
  * It provides functionality to add items with specified weights, retrieve single or multiple random items,
  * and calculate their probabilities based on the assigned weights.
  */
-public abstract class  BaseLootTable {
+public class BaseLootTable {
+    private static final Logger logger = LoggerFactory.getLogger(BaseLootTable.class);
+
     // List to hold loot items and their weights
     protected List<LootItemConfig> items;
 
     /**
      * Constructs a BaseLootTable and initializes the list of items.
-     * This constructor sets up the internal structure needed to manage loot items.
      */
-    protected BaseLootTable() {
+    public BaseLootTable() {
         this.items = new ArrayList<>();
     }
 
@@ -41,7 +45,9 @@ public abstract class  BaseLootTable {
      *
      * @return List of LootItemConfig objects representing the items and their weights in the loot table.
      */
-    public List<LootItemConfig> getItems() {return this.items;}
+    public List<LootItemConfig> getItems() {
+        return this.items;
+    }
 
     /**
      * Selects a random item from the loot table based on the weights of each item.
@@ -51,20 +57,21 @@ public abstract class  BaseLootTable {
      */
     public AbstractItem getRandomItem() {
         double totalWeight = items.stream().mapToDouble(LootItemConfig::getWeight).sum();
-        double randomValue = Math.random() * totalWeight;
+        double randomValue = MathUtils.random() * totalWeight;
         double cumulativeWeight = 0.0;
 
         for (LootItemConfig item : items) {
             cumulativeWeight += item.getWeight();
             if (randomValue <= cumulativeWeight) {
                 try {
-                    return item.createNewItem(); // Create a new item instance with parameters
+                    return item.createNewItem();  // Create a new item instance with parameters
                 } catch (Exception e) {
-                    e.printStackTrace(); // Handle instantiation exceptions
+                    // Handle instantiation exceptions
+                    logger.warn("Could not create the new specified item!");
                 }
             }
         }
-        return null; // Should not reach here if weights are set correctly
+        return null;  // Should not reach here if weights are set correctly
     }
 
     /**

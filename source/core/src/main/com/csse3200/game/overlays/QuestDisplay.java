@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.csse3200.game.components.quests.AbstractQuest;
-import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
 
@@ -39,27 +38,25 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
     /** Keeps track of number of quests per page */
-    private static final int numOfQuestsPerPage = 3;
+    private static final int NUM_QUESTS_PER_PAGE = 3;
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */
-    private List<QuestBasic> listOfQuests = new ArrayList<>();
+    private List<Quest> listOfQuests = new ArrayList<>();
+    /** Makes SonarCloud happy*/
+    private static final String TITLE_TEXT = "title";
 
 
     /** Comparator to sort quests showing active, completed then failed quests */
-    private final Comparator<AbstractQuest> questComparator = (q1, q2) -> {
-        if (q1.isActive() && !q2.isActive()) {
-            return -1;
-        } else if (!q1.isActive() && q2.isActive()) {
+    private final Comparator<Quest> questComparator = (q1, q2) -> {
+        if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
             return 1;
-        } else if (q1.isQuestCompleted() && !q2.isQuestCompleted()) {
-            return -1;
         } else if (!q1.isQuestCompleted() && q2.isQuestCompleted()) {
-            return 1;
-        } else if (q1.isFailed() && !q2.isFailed()) {
             return -1;
-        } else if (!q1.isFailed() && q2.isFailed()) {
+        } else if (q1.isFailed() && !q2.isFailed()) {
             return 1;
+        } else if (!q1.isFailed() && q2.isFailed()) {
+            return -1;
         } else {
             return 0;
         }
@@ -89,17 +86,17 @@ public class QuestDisplay extends UIComponent {
         addQuestsCompletedLabel(table);
 
         if (questManager != null) {
-            listOfQuests = questManager.getAllQuests();
+            listOfQuests = questManager.getActiveQuests();
             listOfQuests.sort(questComparator);
             //
-            int start = currPage * numOfQuestsPerPage;
+            int start = currPage * NUM_QUESTS_PER_PAGE;
             //
-            int end = Math.min(start + numOfQuestsPerPage, listOfQuests.size());
-            List<QuestBasic> questDisplay = listOfQuests.subList(start, end);
+            int end = Math.min(start + NUM_QUESTS_PER_PAGE, listOfQuests.size());
+            List<Quest> questDisplay = listOfQuests.subList(start, end);
 
 
 
-            for (AbstractQuest quest : questDisplay) {
+            for (Quest quest : questDisplay) {
                 if (!quest.isSecret()) {
                     addQuestComponents(table, quest);
                 }
@@ -115,7 +112,7 @@ public class QuestDisplay extends UIComponent {
      * @param table Table where the label will be added.
      */
     private void addQuestsCompletedLabel(Table table) {
-        Label questsCompletedLabel = new Label("Quests Completed: 0", skin, "title");
+        Label questsCompletedLabel = new Label("Quests Completed: 0", skin, TITLE_TEXT);
         questsCompletedLabel.setColor(Color.BLACK);
         questsCompletedLabel.setFontScale(0.6f);
         table.add(questsCompletedLabel).colspan(2).center().padBottom(10f).row();
@@ -126,19 +123,24 @@ public class QuestDisplay extends UIComponent {
      * @param table The table to which quest components are added to.
      * @param quest The quest for which components are being added to.
      */
-    private void addQuestComponents(Table table, AbstractQuest quest) {
+    private void addQuestComponents(Table table, Quest quest) {
         Color questShownActive = determineQuestColor(quest);
 
-        Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
-        questTitle.setFontScaleX(0.8f);
+        Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
+        questTitle.setFontScaleX(0.5f);
+
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
-        questProgressBar.setSize(0.5f, 0.5f);
+
+
+        questProgressBar.setSize(270, 20);
+
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
 
-        table.add(questTitle).expandX().fillX().padRight(10f);
-        table.add(questProgressBar).expandX().fillX().padRight(10f);
+
+        table.add(questTitle).expandX().fillX().padRight(5f);
+        table.add(questProgressBar).width(150).height(20).padRight(5f);
         table.add(questCheckbox).padRight(10f);
         table.row().padTop(5f);
 
@@ -151,7 +153,7 @@ public class QuestDisplay extends UIComponent {
      * Returns the color representing the quests' status.
      * @param quest The quest for which the color is based upon.
      */
-    private Color determineQuestColor(AbstractQuest quest) {
+    private Color determineQuestColor(Quest quest) {
         if (quest.isQuestCompleted()) {
             return Color.GOLDENROD;
         } else if (quest.isFailed()) {
@@ -166,10 +168,12 @@ public class QuestDisplay extends UIComponent {
      * @param table The table to which task hints are added to.
      * @param quest The quest whose task hints are to be added to.
      */
-    private void addQuestInfo(Table table, AbstractQuest quest) {
+    private void addQuestInfo(Table table, Quest quest) {
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
         descLabel.setFontScale(0.70f);
+        descLabel.setWrap(true);
+        descLabel.setWidth(300);
 
         table.add(descLabel).expandX().fillX().colspan(10);
         table.row().padTop(1f);
@@ -178,6 +182,10 @@ public class QuestDisplay extends UIComponent {
             Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
             hintLabel.setColor(Color.GRAY);
             hintLabel.setFontScale(0.70f);
+
+
+            hintLabel.setWrap(true);
+            hintLabel.setWidth(300);
 
             table.add(hintLabel).expandX().fillX().colspan(10);
             table.row().padTop(1f);
@@ -189,8 +197,8 @@ public class QuestDisplay extends UIComponent {
      * @param table The table containing the label to update.
      * @param questList The list of quests.
      */
-    private void updateQuestsCompletedLabel(Table table, List<QuestBasic> questList) {
-        long completedCount = questList.stream().filter(AbstractQuest::isQuestCompleted).count();
+    private void updateQuestsCompletedLabel(Table table, List<Quest> questList) {
+        long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
         Label questsCompletedLabel = (Label) table.getChildren().get(0);
         questsCompletedLabel.setText("Quests Completed: " + completedCount);
     }
@@ -223,7 +231,7 @@ public class QuestDisplay extends UIComponent {
         nextPage.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if ((currPage + 1) * numOfQuestsPerPage < listOfQuests.size()) {
+                if ((currPage + 1) * NUM_QUESTS_PER_PAGE < listOfQuests.size()) {
                     currPage++;
                     refreshTheUI();
                 }
@@ -256,7 +264,7 @@ public class QuestDisplay extends UIComponent {
     private void refreshTheUI() {
         rootTable.clearChildren();
 
-        Label title = new Label("QUESTS", skin, "title");
+        Label title = new Label("QUESTS", skin, TITLE_TEXT);
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
 
@@ -290,7 +298,7 @@ public class QuestDisplay extends UIComponent {
      */
 
     private void addActors() {
-        Label title = new Label("QUESTS", skin, "title");
+        Label title = new Label("QUESTS", skin, TITLE_TEXT);
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
 

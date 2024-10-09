@@ -1,11 +1,11 @@
 package com.csse3200.game.rendering.Minigames.Snake;
 
-import com.csse3200.game.components.minigames.Direction;
-import com.csse3200.game.components.minigames.snake.Snake;
-import com.csse3200.game.components.minigames.snake.SnakeGrid;
-import com.csse3200.game.components.minigames.snake.rendering.SnakeRenderer;
+import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.minigames.snake.Snake;
+import com.csse3200.game.minigames.snake.SnakeGrid;
+import com.csse3200.game.minigames.snake.rendering.SnakeRenderer;
 import com.badlogic.gdx.graphics.Texture;
-import com.csse3200.game.components.minigames.MinigameRenderer;
+import com.csse3200.game.minigames.MinigameRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +15,13 @@ import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class SnakeRendererTest {
+class SnakeRendererTest {
 
     private SnakeRenderer renderer;
     private static final int CELL_SIZE = 20;  // the default value for CELL_SIZE
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // Mock dependencies for the SnakeRenderer
         Snake snake = mock(Snake.class);
         SnakeGrid grid = mock(SnakeGrid.class);
@@ -42,7 +42,7 @@ public class SnakeRendererTest {
     }
 
     @Test
-    public void testCellSize() throws Exception {
+    void testCellSize() throws Exception {
         Field cellSizeField = SnakeRenderer.class.getDeclaredField("CELL_SIZE");
         cellSizeField.setAccessible(true);
         int cellSize = (int) cellSizeField.get(null);  // Since CELL_SIZE is static
@@ -52,7 +52,7 @@ public class SnakeRendererTest {
     }
 
     @Test
-    public void testGetRotationForDirection() throws Exception {
+    void testGetRotationForDirection() throws Exception {
         Method method = SnakeRenderer.class.getDeclaredMethod("getRotationForDirection", Direction.class);
         method.setAccessible(true);
 
@@ -79,7 +79,7 @@ public class SnakeRendererTest {
     }
 
     @Test
-    public void testGetBentRotation() throws Exception {
+    void testGetBentRotation() throws Exception {
         Method method = SnakeRenderer.class.getDeclaredMethod("getBentRotation", Direction.class, Direction.class);
         method.setAccessible(true);
 

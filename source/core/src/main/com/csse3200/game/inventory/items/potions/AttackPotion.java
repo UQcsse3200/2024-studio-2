@@ -3,11 +3,11 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.services.GameTime;
 
 public class AttackPotion extends TimedUseItem {
-    private final static String path = "images/potiontexture/attack.png";
-    private final static long duration = 120000;
+    private static final String PATH = "images/potiontexture/attack.png";
+    private static final long DURATION = 120000;
+    private static final String MSG = "Cannot use Attack potion on map";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -15,9 +15,10 @@ public class AttackPotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public AttackPotion(int quantity) {
-        super("Attack Potion", 54, 3, quantity, 25, duration);
-        this.setTexturePath(path);
+        super("Attack Potion", 54, 3, quantity, 25, DURATION, MSG);
+        this.setTexturePath(PATH);
         this.setDescription("This is a attack potion");
+        this.onlyCombatItem = true;
     }
 
     /**
@@ -38,9 +39,8 @@ public class AttackPotion extends TimedUseItem {
      */
     @Override
     public void update(ItemUsageContext context) {
-        if (this.gameTime.getTime() - this.effectStartTime >= this.getDuration()) {
-            CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
-            stats.setStrength(stats.getStrength() - this.effectAmount);
-        }
+        CombatStatsComponent stats = context.player.getComponent(CombatStatsComponent.class);
+        stats.setStrength(stats.getStrength() - this.effectAmount);
+
     }
 }

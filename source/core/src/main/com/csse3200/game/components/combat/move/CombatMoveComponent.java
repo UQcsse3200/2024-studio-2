@@ -3,7 +3,6 @@ package com.csse3200.game.components.combat.move;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.CombatManager;
-import com.csse3200.game.entities.Entity;
 
 import java.util.List;
 
@@ -109,6 +108,10 @@ public class CombatMoveComponent extends Component {
                         return move;
                     }
                     break;
+                case ITEM:
+                    if (move instanceof ItemMove) {
+                        return move;
+                    }
                 default:
                     return null;
             }
