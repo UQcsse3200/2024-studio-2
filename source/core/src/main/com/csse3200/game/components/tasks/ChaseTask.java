@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
@@ -163,7 +163,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         
         // If there is an obstacle in the path to the player, not visible.
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.getPoint());
             return false;
         }
         debugRenderer.drawLine(from, to);

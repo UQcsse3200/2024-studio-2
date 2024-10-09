@@ -3,12 +3,11 @@ package com.csse3200.game.inventory.items.potions;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.inventory.items.TimedUseItem;
-import com.csse3200.game.services.GameTime;
 
 public class SpeedPotion extends TimedUseItem {
-    private final static String path = "images/potiontexture/speed.png";
-    private final static long duration = 120000;
-    private final static String msg = "Cannot use speed potion during combat";
+    private static final String PATH = "images/potiontexture/speed.png";
+    private static final long DURATION = 120000;
+    private static final String MSG = "Cannot use speed potion during combat";
 
     /**
      * Constructs a new {@code HealingPotion} with the specified quantity and a default healing effect.
@@ -16,8 +15,8 @@ public class SpeedPotion extends TimedUseItem {
      * @param quantity the number of uses this potion has
      */
     public SpeedPotion(int quantity) {
-        super("Speed Potion", 52, 3, quantity, 25, duration, msg);
-        this.setTexturePath(path);
+        super("Speed Potion", 52, 3, quantity, 25, DURATION, MSG);
+        this.setTexturePath(PATH);
         this.setDescription("This is a speed potion");
         this.onlyMapItem = true;
     }

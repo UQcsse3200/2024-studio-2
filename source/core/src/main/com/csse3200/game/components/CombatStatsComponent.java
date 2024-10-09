@@ -356,7 +356,7 @@ public class CombatStatsComponent extends Component {
    * @param stamina stamina value to set
    */
   public void setStamina(int stamina) {
-    this.stamina = Math.min(maxStamina, Math.max(0, stamina));
+    this.stamina = Math.clamp(stamina, 0, maxStamina);
   }
 
   /**

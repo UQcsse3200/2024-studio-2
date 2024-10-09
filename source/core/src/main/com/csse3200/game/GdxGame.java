@@ -12,6 +12,7 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class GdxGame extends Game {
         }
 
         // Assign the game to a singleton
-        GdxGameManager.setInstance(this);
+        ServiceLocator.setGame(this);
 
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);

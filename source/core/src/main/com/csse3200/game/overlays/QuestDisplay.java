@@ -38,11 +38,13 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
     /** Keeps track of number of quests per page */
-    private static final int numOfQuestsPerPage = 3;
+    private static final int NUM_QUESTS_PER_PAGE = 3;
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */
     private List<Quest> listOfQuests = new ArrayList<>();
+    /** Makes SonarCloud happy*/
+    private static final String TITLE_TEXT = "title";
 
 
     /** Comparator to sort quests showing active, completed then failed quests */
@@ -87,9 +89,9 @@ public class QuestDisplay extends UIComponent {
             listOfQuests = questManager.getActiveQuests();
             listOfQuests.sort(questComparator);
             //
-            int start = currPage * numOfQuestsPerPage;
+            int start = currPage * NUM_QUESTS_PER_PAGE;
             //
-            int end = Math.min(start + numOfQuestsPerPage, listOfQuests.size());
+            int end = Math.min(start + NUM_QUESTS_PER_PAGE, listOfQuests.size());
             List<Quest> questDisplay = listOfQuests.subList(start, end);
 
 
@@ -110,7 +112,7 @@ public class QuestDisplay extends UIComponent {
      * @param table Table where the label will be added.
      */
     private void addQuestsCompletedLabel(Table table) {
-        Label questsCompletedLabel = new Label("Quests Completed: 0", skin, "title");
+        Label questsCompletedLabel = new Label("Quests Completed: 0", skin, TITLE_TEXT);
         questsCompletedLabel.setColor(Color.BLACK);
         questsCompletedLabel.setFontScale(0.6f);
         table.add(questsCompletedLabel).colspan(2).center().padBottom(10f).row();
@@ -124,7 +126,7 @@ public class QuestDisplay extends UIComponent {
     private void addQuestComponents(Table table, Quest quest) {
         Color questShownActive = determineQuestColor(quest);
 
-        Label questTitle = new Label(quest.getQuestName(), skin, "title", questShownActive);
+        Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
         questTitle.setFontScaleX(0.5f);
 
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
@@ -229,7 +231,7 @@ public class QuestDisplay extends UIComponent {
         nextPage.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if ((currPage + 1) * numOfQuestsPerPage < listOfQuests.size()) {
+                if ((currPage + 1) * NUM_QUESTS_PER_PAGE < listOfQuests.size()) {
                     currPage++;
                     refreshTheUI();
                 }
@@ -262,7 +264,7 @@ public class QuestDisplay extends UIComponent {
     private void refreshTheUI() {
         rootTable.clearChildren();
 
-        Label title = new Label("QUESTS", skin, "title");
+        Label title = new Label("QUESTS", skin, TITLE_TEXT);
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
 
@@ -296,7 +298,7 @@ public class QuestDisplay extends UIComponent {
      */
 
     private void addActors() {
-        Label title = new Label("QUESTS", skin, "title");
+        Label title = new Label("QUESTS", skin, TITLE_TEXT);
         title.setColor(Color.RED);
         title.setFontScale(1.2f);
 

@@ -146,7 +146,7 @@ public class MazeTest {
     public void testDistance() {
         GridPoint2 cell = maze.getRandomCell();
         dfs(cell, cell, 0);
-        Maze.breadthFirstSearch bfs = maze.new breadthFirstSearch(cell);
+        Maze.BreadthFirstSearch bfs = maze.new BreadthFirstSearch(cell);
         GridPoint2 mostDistantPoint = bfs.getMostDistant();
         assertEquals(mostDistant, bfs.distances[mostDistantPoint.x][mostDistantPoint.y]);
     }

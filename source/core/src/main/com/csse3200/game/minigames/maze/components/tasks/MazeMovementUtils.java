@@ -18,6 +18,10 @@ public class MazeMovementUtils {
     public static final float PADDING = 0.03f;
     private static final float MIN_LENGTH_FACE = MazeGameArea.WALL_THICKNESS;
 
+    private MazeMovementUtils() {
+        throw new IllegalArgumentException("Do not instantiate static util class!");
+    }
+
     /**
      * Takes a position relative to the center of an entity and converts it to a position relative
      * to the bottom-left corner of the entity.
@@ -42,7 +46,7 @@ public class MazeMovementUtils {
         DebugRenderer debugRenderer = ServiceLocator.getRenderService().getDebug();
         RaycastHit hit = new RaycastHit();
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point.cpy());
+            debugRenderer.drawLine(from, hit.getPoint().cpy());
             return true;
         }
         debugRenderer.drawLine(from, to);
