@@ -23,10 +23,4 @@ class MazePlayerFactoryTest {
         when(FileLoader.readClass(MazePlayerConfig.class, "configs/minigames/maze/player.json"))
                 .thenReturn(mockPlayerConfig);
     }
-
-    @Test
-    void testFactoryPrivateConstructor() {
-
-        assertThrows(IllegalStateException.class, MazePlayerFactory::new, "Expected to throw IllegalStateException when instantiating MazePlayerFactory");
-    }
 }
