@@ -527,31 +527,31 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Cow
         generator = () -> NPCFactory.createCow(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS,1);
 
         // Fish
         generator = () -> NPCFactory.createFish(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_FISH);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_FISH, 2);
 
         // Lion
         generator = () -> NPCFactory.createLion(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS,1 );
 
         // Turtle
         generator = () -> NPCFactory.createTurtle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES, 2);
 
         // Eagle
         generator = () -> NPCFactory.createEagle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES, 2);
 
         // Snake
         generator = () -> NPCFactory.createSnake(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_SNAKES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_SNAKES, 1);
 
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_MAGPIES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_MAGPIES, 2);
     }
 	
     /**
@@ -628,9 +628,9 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         }
     }
 
-    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs, int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
