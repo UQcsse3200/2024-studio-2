@@ -628,6 +628,15 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
         }
     }
 
+    /**
+     * Spawns a specified number of NPCs at random positions within a designated zone.
+     * The NPCs are created using the provided entity supplier and spawned at a random location
+     * within the defined area for the zone.
+     *
+     * @param creator  A supplier function that creates new NPC entities.
+     * @param numNPCs  The number of NPCs to spawn.
+     * @param zone     The zone within which to spawn the NPCs. The zone number determines the vertical position range.
+     */
     private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs, int zone) {
         GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
         GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
