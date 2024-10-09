@@ -42,7 +42,7 @@ public class MazeMovementUtils {
         DebugRenderer debugRenderer = ServiceLocator.getRenderService().getDebug();
         RaycastHit hit = new RaycastHit();
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point.cpy());
+            debugRenderer.drawLine(from, hit.getPoint().cpy());
             return true;
         }
         debugRenderer.drawLine(from, to);
