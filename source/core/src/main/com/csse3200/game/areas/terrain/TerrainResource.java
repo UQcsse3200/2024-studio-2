@@ -9,6 +9,7 @@ import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
 import com.csse3200.game.areas.terrain.tiles.Tile;
+import com.csse3200.game.areas.terrain.tiles.TileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -43,7 +44,7 @@ public class TerrainResource {
         switch (mapType) {
             case FOREST:
                 // load forest tiles
-                for (ForestTileConfig.TileConfig tile : ForestTileConfig.forestMapTiles) {
+                for (TileConfig tile : ForestTileConfig.getForestMapTiles()) {
                     // edge: TOP, RIGHT, BOTTOM, LEFT
                     // A: sand, B: grass, C: water
                     // =======================
