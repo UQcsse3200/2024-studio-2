@@ -79,12 +79,12 @@ public class MainMenuDisplay extends UIComponent {
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
-    private final float windowButtonWidth = 200;
-    private final float windowButtonHeight = 45;
-    private final float windowButtonSpacing = 15;
-    private final float fullScreenButtonWidth = 320;
-    private final float fullScreenuttonHeight = 80;
-    private final float fullScreenButtonSpacing = 30;
+    private final static float windowButtonWidth = 200;
+    private final static float windowButtonHeight = 45;
+    private final static float windowButtonSpacing = 15;
+    private final static float fullScreenButtonWidth = 320;
+    private final static float fullScreenuttonHeight = 80;
+    private final static float fullScreenButtonSpacing = 30;
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
@@ -93,15 +93,14 @@ public class MainMenuDisplay extends UIComponent {
     private Label exitLabel;
     private Label achievementsLabel;
     private Image birdAniImage;
-    private Image dogAniImage;
+
     private TextureAtlas birdAtlas;
-    private TextureAtlas dogAtlas;
+
     private Array<TextureRegion> birdTextures;
-    private Array<TextureRegion> dogTextures;
+   
     private boolean birdDirection = true;
-    private boolean dogDirection = true;
     int birdCurrentFrame = 0;
-    int dogCurrentFrame = 0;
+
     private float timer;
 
     /**
