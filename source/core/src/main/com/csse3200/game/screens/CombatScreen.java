@@ -99,8 +99,10 @@ public class CombatScreen extends ScreenAdapter {
     if (!isPaused){
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
+    checkEnemyDeath(); // Checking if enemy died
     renderer.render();
     }
+
   }
 
   @Override
@@ -183,6 +185,15 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
+  }
+  /**
+   * Checks if the enemy has died and transitions to the EnemyTransitionCutSceneScreen if true.
+   */
+  private void checkEnemyDeath() {
+    if (enemyCombatStats.getHealth() <= 0) {
+      logger.debug("Enemy has been defeated, transitioning to EnemyTransitionCutSceneScreen screen.");
+      game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to EnemyTransitionCutSceneScreen
+    }
   }
 
 }
