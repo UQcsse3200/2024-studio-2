@@ -27,9 +27,9 @@ public class AllHitCallback implements RayCastCallback {
   public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
     if ((fixture.getFilterData().categoryBits & layerMask) != 0) {
       RaycastHit hit = new RaycastHit();
-      hit.fixture = fixture;
-      hit.normal = normal;
-      hit.point = point;
+      hit.setFixture(fixture);
+      hit.setNormal(normal);
+      hit.setPoint(point);
       raycastHits.add(hit);
       return fraction;
     }
