@@ -63,13 +63,15 @@ public class CombatActions extends Component {
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
+
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
 
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**

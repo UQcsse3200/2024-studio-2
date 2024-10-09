@@ -244,6 +244,9 @@ public class CombatStatsDisplay extends UIComponent {
         stage.addActor(enemyTable);
 
         initBarAnimations();
+        updateHealthUI(playerStats, enemyStats);
+        updatePlayerExperienceUI(playerStats);
+        updatePlayerHungerUI(playerStats, enemyStats);
     }
 
     /**
@@ -259,8 +262,8 @@ public class CombatStatsDisplay extends UIComponent {
         int enemyCurHealth = enemyStats.getHealth();
         int enemyMaxHealth = enemyStats.getMaxHealth();
 
-        CharSequence playerText = String.format("HP: %d", playerCurHealth);
-        CharSequence enemyText = String.format("HP: %d", enemyCurHealth);
+        CharSequence playerText = String.format("HP: %d/%d", playerCurHealth, playerMaxHealth);
+        CharSequence enemyText = String.format("HP: %d/%d", enemyCurHealth, enemyMaxHealth);
 
         // Adjusts position as lists start at index 0
         int indexAdjustment = totalFrames - 1;
@@ -289,7 +292,7 @@ public class CombatStatsDisplay extends UIComponent {
         logger.trace("Detected experience change in combat and is updating UI");
         int experience = playerStats.getExperience();
         int maxExperience = playerStats.getMaxExperience();
-        CharSequence text = String.format("EXP: %d", experience);
+        CharSequence text = String.format("EXP: %d/%d", experience, maxExperience);
         experienceLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
@@ -308,7 +311,7 @@ public class CombatStatsDisplay extends UIComponent {
         logger.trace("Detected stamina change in combat and is updating UI");
         int hunger = playerStats.getStamina();
         int maxHunger = playerStats.getMaxStamina();
-        CharSequence text = String.format("Stamina: %d", hunger);
+        CharSequence text = String.format("Stamina: %d/%d", hunger, maxHunger);
         playerHungerLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
