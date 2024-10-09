@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -16,6 +17,8 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
@@ -42,6 +45,7 @@ public class CombatManager extends Component {
 
     private final Entity player;
     private final Entity enemy;
+    private GdxGame game;
     private CombatStatsComponent copyPlayerStats;
     private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
@@ -69,9 +73,10 @@ public class CombatManager extends Component {
      * @param player the player entity involved in combat.
      * @param enemy the enemy entity involved in combat.
      */
-    public CombatManager(Entity player, Entity enemy) {
+    public CombatManager(Entity player, Entity enemy, GdxGame game) {
         this.player = player;
         this.enemy = enemy;
+        this.game = game;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
@@ -266,7 +271,8 @@ public class CombatManager extends Component {
 
         //stores enemyAction
         updateEnemyMoveStore(action);
-        return action;
+       return Action.SLEEP;
+//        return action;
     }
     /**
      * Updates the stored sequence of enemy moves for a specific enemy type.
@@ -408,7 +414,7 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        playerMove.executeMove(playerAction, enemyStats, false, getPlayerMultiHitsLanded());
                     }
                     case SPECIAL -> {
                         enemyMove.executeMove(enemyAction, playerStats, false);
@@ -463,7 +469,16 @@ public class CombatManager extends Component {
         initStatsCopies();
     }
 
-    /**
+    private int getPlayerMultiHitsLanded() {
+        int score=0;
+        //game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
+        //game.
+        CombatScreen combatScreen = (CombatScreen) game.getScreen();
+        //CombatScreen.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
+        return score;
+    }
+
+    /**aa
      * Determines the faster entity based on their speed stat.
      *
      * @return the entity with the higher speed stat.

@@ -21,6 +21,7 @@ import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -65,18 +66,20 @@ public class CombatScreen extends ScreenAdapter {
     this.player = player;
     this.enemy = enemy;
 
-    this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
-    this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
+    //this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
+    this.playerCombatStats = ServiceLocator.getGameArea().getPlayer().getComponent(CombatStatsComponent.class);
+            this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
 
     logger.debug("Initialising combat screen services");
-    ServiceLocator.registerTimeSource(new GameTime());
-    PhysicsService physicsService = new PhysicsService();
+     ServiceLocator.registerTimeSource(new GameTime());
+   PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
     physicsEngine = physicsService.getPhysics();
+   // physicsEngine = ServiceLocator.getPhysicsService().getPhysics();
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
+   ServiceLocator.registerRenderService(new RenderService());
     renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
@@ -134,10 +137,10 @@ public class CombatScreen extends ScreenAdapter {
     renderer.dispose();
     unloadAssets();
 
-    ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getResourceService().dispose();
-    ServiceLocator.clear();
+//    ServiceLocator.getEntityService().dispose();
+//    ServiceLocator.getRenderService().dispose();
+//    ServiceLocator.getResourceService().dispose();
+//    ServiceLocator.clear();
   }
 
   private void loadAssets() {
@@ -164,7 +167,7 @@ public class CombatScreen extends ScreenAdapter {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    CombatManager manager = new CombatManager(player, enemy);
+    CombatManager manager = new CombatManager(player, enemy, game);
     Inventory playerInv = player.getComponent(InventoryComponent.class).getInventory();
     int numCols = player.getComponent(PlayerInventoryDisplay.class).getNumCols();
 
