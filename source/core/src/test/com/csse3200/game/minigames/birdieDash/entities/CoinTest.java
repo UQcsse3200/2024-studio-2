@@ -2,13 +2,17 @@ package com.csse3200.game.minigames.birdieDash.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@ExtendWith(GameExtension.class)
 class CoinTest {
 
     private Coin coin;

@@ -1,18 +1,21 @@
 package com.csse3200.game.components.stats;
 
 import static org.mockito.Mockito.*;
-import org.junit.Before;
-import org.junit.Test;
+
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;  // Import for Entity
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class StatsDisplayTest {
-
+@ExtendWith(GameExtension.class)
+class StatsDisplayTest {
     private Entity mockEntity;
     private CombatStatsComponent mockCombatStats;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mockEntity = mock(Entity.class);
         mockCombatStats = mock(CombatStatsComponent.class);
 
@@ -21,7 +24,7 @@ public class StatsDisplayTest {
     }
 
     @Test
-    public void testStartHungerDecreaseTimer() {
+    void testStartHungerDecreaseTimer() {
         // Set up initial conditions
         when(mockCombatStats.getHunger()).thenReturn(50);  // Hunger at 50 initially
 
@@ -33,7 +36,7 @@ public class StatsDisplayTest {
     }
 
     @Test
-    public void testAdjustHealthBasedOnHunger() {
+    void testAdjustHealthBasedOnHunger() {
         // Case: hunger is high, health increases
         when(mockCombatStats.getHunger()).thenReturn(95);
         when(mockCombatStats.getHealth()).thenReturn(80);
@@ -55,7 +58,7 @@ public class StatsDisplayTest {
     }
 
     @Test
-    public void testStartHealthDecreaseTimer() {
+    void testStartHealthDecreaseTimer() {
         // Set up mock values
         when(mockCombatStats.getHunger()).thenReturn(0);
         when(mockCombatStats.getHealth()).thenReturn(80);

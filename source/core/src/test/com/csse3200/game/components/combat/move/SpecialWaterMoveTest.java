@@ -1,8 +1,10 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 
 import static org.mockito.Mockito.*;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for the SpecialWaterMove class.
  * These tests use Mockito to mock the behaviour of dependent components (e.g., CombatStatsComponent).
  */
+@ExtendWith(GameExtension.class)
 class SpecialWaterMoveTest {
 
     private SpecialWaterMove specialWaterMove;

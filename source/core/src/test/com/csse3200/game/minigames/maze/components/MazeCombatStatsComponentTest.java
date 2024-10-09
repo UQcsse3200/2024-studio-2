@@ -2,11 +2,13 @@ package com.csse3200.game.minigames.maze.components;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(GameExtension.class)
 class MazeCombatStatsComponentTest {
-
     private MazeCombatStatsComponent player;
     private MazeCombatStatsComponent enemy;
 
