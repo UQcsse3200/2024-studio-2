@@ -80,6 +80,8 @@ public abstract class GameArea implements Disposable {
   public abstract List<Entity> getBosses();
 
   public abstract List<Entity> getFriendlyNPCs();
+
+  public abstract List<Entity> getMinigameNPCs();
   public abstract void unloadAssets();
 
   public abstract void pauseMusic();

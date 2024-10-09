@@ -185,7 +185,6 @@ public class MainGameScreen extends PausableScreen {
   public void resume() {
       isPaused = false;
       KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
-      miniMapDisplay.removeAllPoints();
       miniMapDisplay.updateAllPoints();
       inputComponent.resetVelocity();
       if (!resting) {

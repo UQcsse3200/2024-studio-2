@@ -390,4 +390,11 @@ public class MazeGameArea extends GameArea {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
     }
+
+
+    @Override
+    public List<Entity> getMinigameNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+    }
 }

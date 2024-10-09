@@ -534,8 +534,8 @@ public class ForestGameArea extends GameArea {
         spawnRandomNPC(generator, config.spawns.NUM_COWS);
 
         // Fish
-        generator = () -> NPCFactory.createFish(player, this.friendlyNPCs);
-        spawnRandomNPC(generator, config.spawns.NUM_FISH);
+        generator = () -> NPCFactory.createFish(player, this.minigameNPCs);
+        spawnMinigameNPC(generator, config.spawns.NUM_FISH);
 
         // Lion
         generator = () -> NPCFactory.createLion(player, this.friendlyNPCs);
@@ -550,12 +550,12 @@ public class ForestGameArea extends GameArea {
         spawnRandomNPC(generator, config.spawns.NUM_EAGLES);
 
         // Snake
-        generator = () -> NPCFactory.createSnake(player, this.friendlyNPCs);
-        spawnRandomNPC(generator, config.spawns.NUM_SNAKES);
+        generator = () -> NPCFactory.createSnake(player, this.minigameNPCs);
+        spawnMinigameNPC(generator, config.spawns.NUM_SNAKES);
 
         // Magpie
-        generator = () -> NPCFactory.createMagpie(player, this.friendlyNPCs);
-        spawnRandomNPC(generator, config.spawns.NUM_MAGPIES);
+        generator = () -> NPCFactory.createMagpie(player, this.minigameNPCs);
+        spawnMinigameNPC(generator, config.spawns.NUM_MAGPIES);
     }
 
     /**
@@ -635,6 +635,18 @@ public class ForestGameArea extends GameArea {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
             Entity npc = creator.get();
             friendlyNPCs.add(npc);
+            spawnEntityAt(npc, randomPos, true, false);
+        }
+    }
+
+    private void spawnMinigameNPC(Supplier<Entity> creator, int numNPCs) {
+        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
+        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+
+        for (int i = 0; i < numNPCs; i++) {
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            Entity npc = creator.get();
+            minigameNPCs.add(npc);
             spawnEntityAt(npc, randomPos, true, false);
         }
     }
@@ -855,7 +867,7 @@ public class ForestGameArea extends GameArea {
     }
 
     public List<Entity> getMinigameNPCs() {
-        return friendlyNPCs;
+        return minigameNPCs;
     }
 
     public Map<Integer, Entity> getDynamicItems() {
