@@ -543,7 +543,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Eagle
         generator = () -> NPCFactory.createEagle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES, 2);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES, 3);
 
         // Snake
         generator = () -> NPCFactory.createSnake(player, this.enemies);
@@ -551,7 +551,7 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
 
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_MAGPIES, 2);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_MAGPIES, 3);
     }
 	
     /**
