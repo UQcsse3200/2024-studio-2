@@ -41,7 +41,7 @@ public class CombatButtonDisplay extends UIComponent {
     private Label hoverTextLabel;
     private Image backgroundImage;
     private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
-    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+    private static final Skin skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
 
     /**
@@ -101,8 +101,8 @@ public class CombatButtonDisplay extends UIComponent {
      * Create a text box pop up to provide the user with description on moves when hovering over with mouse upon
      */
     private void createTextForHints() {
-        hoverTextLabel = new Label("", SKIN, "default-white");
-        hoverTextTable = new Table(SKIN);
+        hoverTextLabel = new Label("", skin, "default-white");
+        hoverTextTable = new Table(skin);
         hoverTextTable.clear();
         hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
         hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
