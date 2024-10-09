@@ -1,6 +1,7 @@
 package com.csse3200.game.areas.terrain;
 import java.util.*;
 
+import com.csse3200.game.areas.terrain.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.rendering.RenderComponent;
+
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -225,11 +227,5 @@ public class TerrainComponent extends RenderComponent {
   {
 
       return null;
-  }
-
-  public enum TerrainOrientation {
-    ORTHOGONAL,
-    ISOMETRIC,
-    HEXAGONAL
   }
 }

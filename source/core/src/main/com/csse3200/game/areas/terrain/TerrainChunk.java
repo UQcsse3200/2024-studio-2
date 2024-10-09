@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.areas.terrain.tiles.Tile;
+import com.csse3200.game.areas.terrain.enums.*;
 
 /**
  * A chunk of terrain in the game world.
@@ -54,10 +55,10 @@ public class TerrainChunk {
     // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
     inArea = checkAreaType(position);
     switch (inArea) {
-      case MapType.FOREST -> totalTiles = TerrainResource.FOREST_SIZE;
-      case MapType.WATER -> totalTiles = TerrainResource.WATER_SIZE;
-      case MapType.FOG -> totalTiles = TerrainResource.FOG_SIZE;
-      default -> totalTiles = TerrainResource.AIR_SIZE;
+      case MapType.FOREST -> totalTiles = TerrainResource.getTileSize(TileLocation.FOREST);
+      case MapType.WATER -> totalTiles = TerrainResource.getTileSize(TileLocation.WATER);
+      case MapType.FOG -> totalTiles = TerrainResource.getTileSize(TileLocation.FOG);
+      default -> totalTiles = TerrainResource.getTileSize(TileLocation.AIR);
     }
 
     for (int i = 0; i < 256; ++i) {
@@ -196,7 +197,6 @@ public class TerrainChunk {
     return tileTypeCount.get(tileType);
   }
 
-
   /**
    * Update the grid of possible tiles for each cell in the chunk.
    */
@@ -218,7 +218,6 @@ public class TerrainChunk {
       right.set(0, tSize, true);
 
       // position is the chunk position, needs to be converted to world position
-      // System.out.println("position: " + x + " " + y + " i: " + i);
       CCell upcell = (CCell) ((TiledMapTileLayer) tiledMap.getLayers().get(0)).getCell(x, y + 1);
       if (upcell != null)
         up = upcell.getDown();
@@ -235,8 +234,6 @@ public class TerrainChunk {
       if (rightcell != null)
         right = rightcell.getLeft();
 
-      // System.out.println("up: " + up + " down: " + down + " left: " + left + "
-      // right: " + right);
       grid.set(i, analyseTile(up, down, left, right, grid.get(i)));
     }
   }
@@ -268,9 +265,5 @@ public class TerrainChunk {
       currentBitCell.and(right);
 
     return gridCell;
-  }
-
-  public enum TileType {
-    GRASS, WATER, SAND, FOG, NONE
   }
 }

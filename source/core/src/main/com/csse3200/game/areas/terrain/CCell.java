@@ -14,7 +14,7 @@ public class CCell extends Cell {
     private BitSet possibleLeft;
     private BitSet possibleRight;
 
-    public boolean isCollapsed;
+    private boolean isCollapsed;
     //private BitSet options;
 
     public CCell() {
@@ -86,4 +86,5 @@ public class CCell extends Cell {
         return this;
     }
 
+    public boolean getIsCollapsed() {return this.isCollapsed;}
 }
