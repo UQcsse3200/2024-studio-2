@@ -1,26 +1,32 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /*
 Test SnakeGame class functionality
  */
-public class SnakeGameTest {
+@ExtendWith(GameExtension.class)
+class SnakeGameTest {
+    static SnakeGame snakeGame;
 
-    SnakeGame snakeGame;
-    @Before
-    public void setUp() {
-        this.snakeGame = new SnakeGame();
+    @BeforeAll
+    static void setUp() {
+        snakeGame = new SnakeGame();
     }
 
     /*
     Test the Initial Snake and Score
      */
     @Test
-    public void testInitialScoreSnakeLength() {
+    void testInitialScoreSnakeLength() {
         Snake snake = snakeGame.getSnake();
         assertEquals(0, snakeGame.getScore());
         assertEquals(0, snake.getBodySegments().size());
@@ -32,7 +38,7 @@ public class SnakeGameTest {
     Test the snake length increase and score
      */
     @Test
-    public void testScoreSnakeLengthIncrease() {
+    void testScoreSnakeLengthIncrease() {
         Snake snake = snakeGame.getSnake();
         Apple apple = snakeGame.getApple();
 
@@ -50,7 +56,7 @@ public class SnakeGameTest {
     Test the boundary collision detection
      */
     @Test
-    public void testSnakeBoundaryDetection() {
+    void testSnakeBoundaryDetection() {
 
         Snake snake = snakeGame.getSnake();
 
@@ -65,9 +71,9 @@ public class SnakeGameTest {
     Test the snake collision detection
      */
     @Test
-    public void testSnakeCollisionDetection() {
-        SnakeGame snakeGame = new SnakeGame();
-        Snake snake = snakeGame.getSnake();
+    void testSnakeCollisionDetection() {
+        SnakeGame game = new SnakeGame();
+        Snake snake = game.getSnake();
         //grow the snake to be long enough
         snake.grow();
         snake.grow();
@@ -85,7 +91,7 @@ public class SnakeGameTest {
         snake.setDirection(Direction.DOWN);
         snake.update(1f);
 
-        assertTrue(snakeGame.snakeCollisionDetection());
+        assertTrue(game.snakeCollisionDetection());
     }
 }
 

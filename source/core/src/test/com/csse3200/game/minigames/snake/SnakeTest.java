@@ -1,26 +1,30 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class SnakeTest {
-
+@ExtendWith(GameExtension.class)
+class SnakeTest {
     Snake snake;
     SnakeGrid grid;
 
-    @Before
-    public void setUp() {
-        this.grid = new SnakeGrid();
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1);
+    @BeforeEach
+    void setUp() {
+        grid = new SnakeGrid();
+        snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1);
     }
 
     @Test
-    public void testMove() {
+    void testMove() {
         assertEquals(snake.getX(), 0);
         assertEquals(snake.getY(), 0);
         this.snake.move(Direction.RIGHT);
@@ -38,7 +42,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testUpdateDirectionOnInput() {
+    void testUpdateDirectionOnInput() {
         this.snake.setDirection(Direction.UP);
         assertEquals(snake.getDirection(), Direction.UP);
 
@@ -72,7 +76,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         this.snake.updateDirectionOnInput(Direction.UP);
         assertEquals(snake.getDirection(), Direction.RIGHT);
         assertEquals(0, snake.getX());
@@ -88,7 +92,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testGrow() {
+    void testGrow() {
         this.snake.setDirection(Direction.UP);
         this.snake.move(Direction.UP);
         assertEquals(1, this.snake.getBodySegments().size());

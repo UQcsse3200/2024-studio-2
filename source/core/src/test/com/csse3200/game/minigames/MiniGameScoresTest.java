@@ -6,9 +6,12 @@ import static org.mockito.Mockito.*;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(GameExtension.class)
 class MiniGameScoresTest {
     private MiniGamesScores miniGamesScores;
     private Entity mockPlayer;
