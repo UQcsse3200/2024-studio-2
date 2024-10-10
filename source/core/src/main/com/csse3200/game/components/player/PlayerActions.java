@@ -1,10 +1,12 @@
 package com.csse3200.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
@@ -20,6 +22,8 @@ import com.csse3200.game.components.audio.AirAnimalSoundPlayer;
 import com.csse3200.game.components.audio.WaterAnimalSoundPlayer;
 
 import java.util.Objects;
+
+import static com.csse3200.game.areas.forest.ForestGameArea.MAP_SIZE;
 
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
@@ -38,14 +42,16 @@ public class PlayerActions extends Component {
   private WaterAnimalSoundPlayer waterAnimalSoundPlayer;
   private final String selectedAnimal;
   private final GdxGame game;
+  private final float areaBorderY;
 
   private GameTime gameTime;
   private long lastTimeSoundPlayed = 0;
 
-  public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
+  public PlayerActions(GdxGame game, Entity player, String selectedAnimal, TerrainComponent terrain) {
     this.game = game;
     this.player = player;
     this.selectedAnimal = selectedAnimal;
+    this.areaBorderY = terrain.tileToWorldPosition(new GridPoint2(0, MAP_SIZE.y / 3)).y;
   }   
 
   @Override
@@ -132,6 +138,9 @@ public class PlayerActions extends Component {
       lastTimeSoundPlayed = gameTime.getTime();
     } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
       stopSound();
+    }
+    if (entity.getPosition().y > areaBorderY) {
+      System.out.println("in area");
     }
   }
 

@@ -339,7 +339,7 @@ public class ForestGameArea extends GameArea {
    * @return the player entity
    */
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer(game);
+    Entity newPlayer = PlayerFactory.createPlayer(game, terrain);
     newPlayer.addComponent(this.terrainFactory.getCameraComponent());
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;

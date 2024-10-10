@@ -3,6 +3,7 @@ package com.csse3200.game.entities.factories;
 import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.components.CameraZoomComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.combat.move.*;
@@ -46,7 +47,7 @@ import java.util.List;
 public class PlayerFactory {
     private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
-    public static Entity createPlayer(GdxGame game) {
+    public static Entity createPlayer(GdxGame game, TerrainComponent terrain) {
         String imagePath = GameState.player.selectedAnimalPath;
 
         Entity player =
@@ -64,7 +65,7 @@ public class PlayerFactory {
         moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
-        player.addComponent(new PlayerActions(game, player, imagePath));
+        player.addComponent(new PlayerActions(game, player, imagePath, terrain));
 
         // Set different stats for each animal type
         switch (imagePath) {
