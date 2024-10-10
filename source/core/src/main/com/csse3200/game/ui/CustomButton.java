@@ -158,6 +158,11 @@ public class CustomButton extends Stack {
         logger.info("Button resized to: {}x{}", newWidth, newHeight);
     }
 
+    public Button getButton() {
+        return button;
+    }
+
+
     /**
      * Disposes of any additional resources if needed (textures are static and should not be disposed here).
      */
