@@ -87,6 +87,5 @@ public class TerrainFactory {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
     FOREST_DEMO_HEX;
-      public static TerrainType OCEAN_DEMO;
   }
 }

@@ -28,7 +28,7 @@ public class TerrainChunk {
   private BitSet collapsedTiles;
 
   private Map<String, Integer> tileTypeCount;
-  private int totalTiles = 0;
+  int totalTiles = 0;
   private MapType inArea;
  
   TerrainChunk(GridPoint2 position, TiledMap map) {
@@ -55,10 +55,10 @@ public class TerrainChunk {
     // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
     inArea = checkAreaType(position);
     switch (inArea) {
-      case MapType.FOREST -> totalTiles = TerrainResource.FOREST_SIZE;
-      case MapType.WATER -> totalTiles = TerrainResource.WATER_SIZE;
-      case MapType.FOG -> totalTiles = TerrainResource.FOG_SIZE;
-      default -> totalTiles = TerrainResource.AIR_SIZE;
+      case MapType.FOREST -> totalTiles = terrainResource.getForestSize();
+      case MapType.WATER -> totalTiles = terrainResource.getWaterSize();
+      case MapType.FOG -> totalTiles = terrainResource.getFogSize();
+      default -> totalTiles = terrainResource.getAirSize();
     }
 
     for (int i = 0; i < 256; ++i) {
@@ -70,7 +70,7 @@ public class TerrainChunk {
     updateGrid(terrainResource);
 
     while (true)
-      if (collapseAll(cPosX, cPosY, terrainResource, inArea))
+      if (collapseAll(cPosX, cPosY, terrainResource))
         break;
   }
 
@@ -97,7 +97,7 @@ public class TerrainChunk {
    *
    * @return true if all tiles are collapsed, false otherwise
    */
-  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource, MapType type) {
+  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource) {
     boolean allCollapsed = true;
     for (int t = 0; t < 256; ++t) {
 
@@ -281,7 +281,6 @@ public class TerrainChunk {
     private BitSet possibleRight;
 
     public boolean isCollapsed;
-    //private BitSet options;
 
     CCell() {
       super();
@@ -290,9 +289,6 @@ public class TerrainChunk {
       this.possibleLeft = new BitSet();
       this.possibleRight = new BitSet();
       this.isCollapsed = false;
-
-      //this.options = new BitSet(TerrainResource.TILE_SIZE);
-      //this.options.set(0, TerrainResource.TILE_SIZE, true);
     }
 
     /**
@@ -341,7 +337,6 @@ public class TerrainChunk {
      */
     public CCell setTile(Tile tile, TerrainResource terrainResource) {
       super.setTile(new TerrainTile(tile.getTexture()));
-      //terrainResource.getTilebyName(tile.getName());
 
       this.possibleUp = tile.getUp();
       this.possibleDown = tile.getDown();

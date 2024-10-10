@@ -27,11 +27,10 @@ public class TerrainResource {
     private List<Tile> fogTiles;
 
     // total number of each tile
-    public static int FOREST_SIZE = 0;
-    public static int WATER_SIZE = 0;
-    public static int AIR_SIZE = 0;
-    public static int FOG_SIZE = 0;
-    private boolean unlockedWater;
+    private int forestSize;
+    private int waterSize;
+    private int airSize;
+    private int fogSize;
 
     public TerrainResource(MapHandler.MapType mapType) {
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -39,7 +38,6 @@ public class TerrainResource {
         waterTiles = new ArrayList<>();
         airTiles = new ArrayList<>();
         fogTiles = new ArrayList<>();
-        this.unlockedWater = false;
         switch (mapType) {
             case FOREST:
                 // load forest tiles
@@ -52,7 +50,7 @@ public class TerrainResource {
                                     new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
                                     tile.edges, tile.centre));
                 }
-                FOREST_SIZE = forestTiles.size();
+                forestSize = forestTiles.size();
 
                 // load water tiles
                 OceanMapTiles oceanTileConfig;
@@ -66,7 +64,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
-                WATER_SIZE = waterTiles.size();
+                waterSize = waterTiles.size();
 
                 // load fog tiles
                 for (FogTileConfig tile : fogTileConfig.fogTiles) {
@@ -75,7 +73,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
-                FOG_SIZE = fogTiles.size();
+                fogSize = fogTiles.size();
 
                 break;
             case COMBAT:
@@ -89,6 +87,22 @@ public class TerrainResource {
         this.setPossibleTiles();
     }
 
+    public int getForestSize() {
+        return forestSize;
+    }
+
+    public int getWaterSize() {
+        return waterSize;
+    }
+
+    public int getAirSize() {
+        return airSize;
+    }
+
+    public int getFogSize() {
+        return fogSize;
+    }
+
     public List<Tile> getMapTiles(MapHandler.MapType mapType) {
         switch (mapType) {
             case FOREST:
@@ -100,7 +114,7 @@ public class TerrainResource {
             case FOG:
                 return fogTiles;
             case COMBAT:
-                return null;
+                return List.of();
             default:
                 throw new IllegalArgumentException("No such map type:" + mapType);
         }
