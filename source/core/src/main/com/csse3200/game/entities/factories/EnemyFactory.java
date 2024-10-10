@@ -420,32 +420,32 @@ public class EnemyFactory {
         };
 
         switch (type) {
-            case EnemyType.MONKEY -> {
+            case MONKEY -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new RunTask(target, 10, 3f));
                 aiComponent.addTask(new ShootTask(1000, target, 5f));
             }
-            case EnemyType.BEAR -> {
+            case BEAR -> {
                 //BlindBear makes bears wonder away from the player when the player isn't moving
                 aiComponent.addTask(new BlindBearTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 1f, 3, target, 6f));
                 aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float) configStats.getSpeed() / 100 * 4, (float) configStats.getSpeed() / 100 * 4), false));
             }
-            case EnemyType.EEL -> {
+            case EEL -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 4, 10f, 8f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
                 aiComponent.addTask(new ShootTask(5000, target, 10f));
             }
-            case EnemyType.PIGEON -> {
+            case PIGEON -> {
                 aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
             }
-            case EnemyType.MACAW -> {
+            case MACAW -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
                 aiComponent.addTask(new ShootTask(5000, target, 6f));
             }
-            case EnemyType.JOEY -> {
+            case JOEY -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 10f, 12f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
