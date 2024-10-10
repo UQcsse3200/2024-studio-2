@@ -12,18 +12,16 @@ import java.util.List;
  */
 public class Tile {
     // data for wave function collapse
-    private TextureRegion texture;
-    private List<String> edgeTiles;
-    private String name;
-    private String centre;
+    private final TextureRegion texture;
+    private final List<String> edgeTiles;
+    private final String name;
+    private final String centre;
 
     // all possible tiles
     private BitSet up = new BitSet();
     private BitSet right = new BitSet();
     private BitSet down = new BitSet();
     private BitSet left = new BitSet();
-
-    public boolean collapsed = false;
 
     public Tile(String name, TextureRegion texture, List<String> edgeTiles, String centre) {
         this.name = name;

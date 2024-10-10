@@ -11,21 +11,7 @@ public class ForestTileConfig {
     throw new IllegalArgumentException("Do not instantiate static util class");
   }
 
-  public static class TileConfig {
-    public String id;
-    public String fp;
-    public ArrayList<String> edges;
-    public String centre;
-
-    public TileConfig(String id, String fp, ArrayList<String> edges, String centre) {
-      this.id = id;
-      this.fp = fp;
-      this.edges = edges;
-      this.centre = centre;
-    }
-  }
-
-  public static final TileConfig[] forestMapTiles = {
+  private static final TileConfig[] forestMapTiles = {
       new TileConfig(
           "grass2TL",
           "images/grass_tile_2_around_sand/upper_left_corner_grass_2_around_sand.jpg",
@@ -114,5 +100,10 @@ public class ForestTileConfig {
           new ArrayList<>(Arrays.asList("AAB", "BAA", "BAA", "AAB")),
               SAND)
   };
+
+  public static TileConfig[] getForestMapTiles() {
+    return forestMapTiles;
+  }
+
 }
 
