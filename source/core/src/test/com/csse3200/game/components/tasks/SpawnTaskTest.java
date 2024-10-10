@@ -1,18 +1,14 @@
 package com.csse3200.game.components.tasks;
-import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.TaskRunner;
 
+import com.csse3200.game.ai.tasks.TaskRunner;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.Task.Status;
-import com.csse3200.game.ai.tasks.DefaultTask;
-import com.csse3200.game.ai.tasks.TaskRunner;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
-import jdk.jfr.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

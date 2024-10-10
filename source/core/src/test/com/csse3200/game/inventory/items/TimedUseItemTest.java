@@ -36,7 +36,6 @@ class TimedUseItemTest  {
 
     @BeforeEach
     void setUp() {
-        int maxHealth = 200;
         stat = new CombatStatsComponent(100, 0,0,0,0,0, 100, true, false, 1);
         player1 = new TestablePLayer(new Entity().addComponent(stat));
         gameTime = Mockito.mock(GameTime.class);
@@ -74,7 +73,7 @@ class TimedUseItemTest  {
     }
 
     @Test
-    void testDefenseApplyEffect() throws InterruptedException {
+    void testDefenseApplyEffect() {
         int originalDefense = player1.player.getComponent(CombatStatsComponent.class).getDefense();
         defensePotion.useItem(player1);
 
@@ -86,7 +85,7 @@ class TimedUseItemTest  {
     }
 
     @Test
-    void testAttackApplyEffect() throws InterruptedException {
+    void testAttackApplyEffect() {
         int originalAttack = player1.player.getComponent(CombatStatsComponent.class).getStrength();
         attackPotion.useItem(player1);
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);
@@ -97,7 +96,7 @@ class TimedUseItemTest  {
     }
 
     @Test
-    void testSpeedApplyEffect() throws InterruptedException {
+    void testSpeedApplyEffect() {
         float originalSpeed = player1.player.getComponent(CombatStatsComponent.class).getSpeed();
         speedPotion.useItem(player1);
         Mockito.when(gameTime.getTime()).thenReturn(System.currentTimeMillis() + DURATION / 2);

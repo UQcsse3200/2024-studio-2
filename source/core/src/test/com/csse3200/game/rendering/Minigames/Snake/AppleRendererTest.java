@@ -1,5 +1,6 @@
 package com.csse3200.game.rendering.Minigames.Snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.snake.Apple;
 import com.csse3200.game.minigames.snake.SnakeGrid;
 import com.csse3200.game.minigames.snake.rendering.AppleRenderer;
@@ -7,14 +8,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.minigames.MinigameRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class AppleRendererTest {
-
+@ExtendWith(GameExtension.class)
+class AppleRendererTest {
     private AppleRenderer renderer;
     private static final int CELL_SIZE = 20;  // the default value for CELL_SIZE
 
@@ -33,7 +35,7 @@ public class AppleRendererTest {
     }
 
     @Test
-    public void testCellSize() throws Exception {
+    void testCellSize() throws Exception {
         Field cellSizeField = AppleRenderer.class.getDeclaredField("CELL_SIZE");
         cellSizeField.setAccessible(true);
         int cellSize = (int) cellSizeField.get(null);  // Since CELL_SIZE is static

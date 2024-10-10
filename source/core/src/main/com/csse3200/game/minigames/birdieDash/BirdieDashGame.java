@@ -67,7 +67,7 @@ public class BirdieDashGame {
     private List<Coin> createCoins() {
         List<Coin> coins = new ArrayList<>();
         for(int i= 0; i < 3; i++) {
-            coins.add(new Coin(1920 + 960 * i, START_SPEED));
+            coins.add(new Coin((float) 1920 + 960 * i, START_SPEED));
         }
         return coins;
     }
@@ -90,7 +90,7 @@ public class BirdieDashGame {
         List<Pipe> pipes = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             // Only need three pipes
-            pipes.add(new Pipe(1440 + 960 * i, START_SPEED));
+            pipes.add(new Pipe((float) 1440 + 960 * i, START_SPEED));
         }
         return pipes;
     }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * The move uses stamina and does not inflict damage but is used to mitigate damage from opponents.
  */
 public class GuardMove extends CombatMove {
-    private static final Logger logger = LoggerFactory.getLogger(AttackMove.class);
+    private static final Logger logger = LoggerFactory.getLogger(GuardMove.class);
 
     /**
      * Constructor to initialize the GuardMove with its name and stamina cost.

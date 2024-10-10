@@ -75,7 +75,8 @@ public class CombatStatsDisplay extends UIComponent {
         entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("useItem", this::updateHealthUI);
         entity.getEvents().addListener("useItem", this::updatePlayerHungerUI);
-        entity.getEvents().addListener("statusEffectAdded", (CombatStatsComponent.StatusEffect statusEffect) -> {
+        entity.getEvents().addListener("statusEffectAdded",
+                (CombatStatsComponent.StatusEffect statusEffect) -> {
             updateStatusEffectUI(statusEffect);
         });
         entity.getEvents().addListener("statusEffectRemoved", this::removeStatusUI);
@@ -125,8 +126,8 @@ public class CombatStatsDisplay extends UIComponent {
         xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
         playerHungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png",
                 Texture.class));
-        barImageWidth = (float) (playerHealthImage.getWidth() * barWidthScaling);
-        barImageHeight = (float) (playerHealthImage.getHeight() * barHeightScaling);
+        barImageWidth = (playerHealthImage.getWidth() * barWidthScaling);
+        barImageHeight = (playerHealthImage.getHeight() * barHeightScaling);
 
         // Aligning the bars one below the other and adding them to table
         playerTable.add(playerHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap);
@@ -135,7 +136,7 @@ public class CombatStatsDisplay extends UIComponent {
         playerTable.add(playerHungerImage).size(barImageWidth, barImageHeight * barLabelGap).pad(barLabelGap);
         playerTable.add(playerHungerLabel).align(Align.left);
         playerTable.row();
-        playerTable.add(xpImage).size(barImageWidth, (float) (barImageHeight * xpHeightScaling)).pad(barLabelGap);
+        playerTable.add(xpImage).size(barImageWidth, barImageHeight * xpHeightScaling).pad(barLabelGap);
         playerTable.add(experienceLabel).align(Align.left);
 
         return playerTable;
