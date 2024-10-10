@@ -3,7 +3,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Lenny the Lion.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
       ["Potions heals you by (n) HP!","I hope this helped."],
-      ["Final boss?? That Kangaroo??","idk"],
+      ["Final boss?? That Kanga??","idk"],
       ["Good luck!"]
     ],
     "spritePath": "images/friendly_npcs/lion.atlas",
@@ -26,7 +26,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Tilly the Turtle.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
       ["Potions heals you by (n) HP!","I hope this helped."],
-      ["Final boss?? That Kangaroo??","idk"],
+      ["Final boss?? That Abyssdrake??","idk"],
       ["Good luck!"]
     ],
     "spritePath": "images/friendly_npcs/turtle.atlas",
@@ -39,7 +39,7 @@
     "baseHint": [
       ["Welcome to Animal Kingdom!","I am Ethan the Eagle.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"],
       ["Potions heals you by (n) HP!","I hope this helped."],
-      ["Final boss?? That Kangaroo??","idk"],
+      ["Final boss?? That Skylash??","idk"],
       ["Good luck!"]
     ],
     "spritePath": "images/friendly_npcs/eagle.atlas",
