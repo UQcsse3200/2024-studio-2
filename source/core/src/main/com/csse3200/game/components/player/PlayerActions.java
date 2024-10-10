@@ -11,6 +11,7 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.overlays.Overlay.OverlayType;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.GameTime;
@@ -33,6 +34,7 @@ public class PlayerActions extends Component {
 
   private PhysicsComponent physicsComponent;
   private CombatStatsComponent combatStatsComponent;
+  private TextureRenderComponent textureRenderComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
@@ -40,7 +42,7 @@ public class PlayerActions extends Component {
   private DogSoundPlayer dogSoundPlayer;
   private AirAnimalSoundPlayer airAnimalSoundPlayer;
   private WaterAnimalSoundPlayer waterAnimalSoundPlayer;
-  private final String selectedAnimal;
+  private String selectedAnimal;
   private final GdxGame game;
   private final float areaBorderY;
 
@@ -59,6 +61,7 @@ public class PlayerActions extends Component {
     gameTime = ServiceLocator.getTimeSource();
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     combatStatsComponent = entity.getComponent(CombatStatsComponent.class);
+    textureRenderComponent = entity.getComponent(TextureRenderComponent.class);
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
@@ -139,8 +142,14 @@ public class PlayerActions extends Component {
     } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
       stopSound();
     }
-    if (entity.getPosition().y > areaBorderY) {
-      System.out.println("in area");
+    if (entity.getPosition().y > areaBorderY && selectedAnimal.equals("images/dog.png")) {
+      // moved from forest to water area. change to croc.
+      textureRenderComponent.setTexture("images/croc.png");
+      selectedAnimal = "images/croc.png";
+    } else if (entity.getPosition().y <= areaBorderY && selectedAnimal.equals("images/croc.png")) {
+      // moved from water to forest area. change to dog.
+      textureRenderComponent.setTexture("images/dog.png");
+      selectedAnimal = "images/dog.png";
     }
   }
 
