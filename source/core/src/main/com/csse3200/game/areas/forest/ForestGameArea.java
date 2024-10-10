@@ -53,8 +53,7 @@ public class ForestGameArea extends GameArea {
   private final TerrainFactory terrainFactory;
   private final ArrayList<Entity> area1To2 = new ArrayList<>();
   private final ArrayList<Entity> area2To3 = new ArrayList<>();
-  private int totalSpawnedItems = 0;
-  
+
   private final List<Entity> enemies;
   private final Map<Integer, Entity> dynamicItems = new HashMap<>();
   private int totalItems = 0;
@@ -431,59 +430,58 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
   }
 
   private void spawnItems(GridPoint2 pos) {
-    if (totalSpawnedItems >= 50) return;
     Supplier<Entity> generator;
 
     // Health Potions
-      if (random.nextFloat() <= 0.30 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.30) {
           generator = () -> ItemFactory.createHealthPotion(player);
           spawnFixedItems(generator, 0.4, ForestSpawnConfig.NUM_HEALTH_POTIONS, 1);
       }
 
       // Defense Potions
-      if (random.nextFloat() <= 0.10 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.10) {
           generator = () -> ItemFactory.createDefensePotion(player);
           spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 1);
       }
 
       // Attack Potions
-      if (random.nextFloat() <= 0.10 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.10) {
           generator = () -> ItemFactory.createAttackPotion(player);
           spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_ATTACK_POTIONS, 1);
       }
 
       // Speed Potions
-      if (random.nextFloat() <= 0.20 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.20) {
           generator = () -> ItemFactory.createSpeedPotion(player);
           spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_SPEED_POTIONS, 1);
       }
 
       // Apples
-      if (random.nextFloat() <= 0.40 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.40) {
           generator = () -> ItemFactory.createApple(player);
           spawnFixedItems(generator, 0.5, ForestSpawnConfig.NUM_APPLES, 1);
       }
 
       // Carrots
-      if (random.nextFloat() <= 0.25 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.25) {
           generator = () -> ItemFactory.createCarrot(player);
           spawnFixedItems(generator, 0.4, ForestSpawnConfig.NUM_CARROTS, 1);
       }
 
       // Meat
-      if (random.nextFloat() <= 0.20 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.20) {
           generator = () -> ItemFactory.createMeat(player);
           spawnFixedItems(generator, 0.3, ForestSpawnConfig.NUM_MEAT, 1);
       }
 
       // Chicken Legs
-      if (random.nextFloat() <= 0.20 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.20) {
           generator = () -> ItemFactory.createChickenLeg(player);
           spawnFixedItems(generator, 0.3, ForestSpawnConfig.NUM_CHICKEN_LEGS, 1);
       }
 
       // Candy
-      if (random.nextFloat() <= 0.10 && totalSpawnedItems < 50) {
+      if (random.nextFloat() <= 0.10) {
           generator = () -> ItemFactory.createCandy(player);
           spawnFixedItems(generator, 0.1, ForestSpawnConfig.NUM_CANDY, 1);
       }
@@ -637,14 +635,15 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
      * Spawns the items randomly at a fixed position across the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, double proximityRange, int numItems, int zone) {
-        if (totalSpawnedItems >= 50) {
+        if (totalItems >= 50) {
             return;
         }
 
+        int itemsToSpawn = Math.min(numItems, 50 - totalItems);
         GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
         GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
-        for (int i = 0; i < numItems; i++) {
+        for (int i = 0; i < itemsToSpawn; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
             Entity item = creator.get();
             spawnEntityAt(item, randomPos, true, false);
