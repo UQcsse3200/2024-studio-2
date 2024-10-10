@@ -54,7 +54,7 @@ public class PlayerActions extends Component {
     this.player = player;
     this.selectedAnimal = selectedAnimal;
     this.areaBorderY = terrain.tileToWorldPosition(new GridPoint2(0, MAP_SIZE.y / 3)).y;
-  }   
+  }
 
   @Override
   public void create() {
@@ -72,11 +72,12 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("unlockNextArea", this::unlocknextarea);
     entity.getEvents().addListener("stoF", this::stof);
 
-    switch(selectedAnimal) {
+    switch (selectedAnimal) {
       case "images/dog.png":
-        Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
-        Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
-        dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+        // Updated to use sound paths
+        String pantingSoundPath = "sounds/animal/panting.mp3";
+        String barkingSoundPath = "sounds/animal/bark.mp3";
+        dogSoundPlayer = new DogSoundPlayer(pantingSoundPath, barkingSoundPath);
         break;
       case "images/bird.png":
         Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
@@ -109,7 +110,6 @@ public class PlayerActions extends Component {
       mainGameScreen.setMap(MapHandler.MapType.WATER);
     } else {
       mainGameScreen.setMap(MapHandler.MapType.FOG);
-
     }
   }
 
@@ -121,7 +121,8 @@ public class PlayerActions extends Component {
   }
 
   /**
-   * Checks if the bos in current area is defeat to unlock the ocean area
+   * Checks if the boss in current area is defeated to unlock the ocean area
+   *
    * @param player entity to check last triggered events
    */
   public void unlockOceanMap(Entity player) {
@@ -136,12 +137,20 @@ public class PlayerActions extends Component {
     if (moving) {
       updateSpeed();
     }
+
+    // Update the panting sound based on movement
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.updatePantingSound(moving);
+    }
+
+    // Existing logic for sound intervals (if still needed for other animals)
     if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_INTERVAL) {
       playSound();
       lastTimeSoundPlayed = gameTime.getTime();
     } else if (gameTime.getTimeSince(lastTimeSoundPlayed) >= SOUND_LENGTH) {
       stopSound();
     }
+
     if (entity.getPosition().y > areaBorderY && selectedAnimal.equals("images/dog.png")) {
       // moved from forest to water area. change to croc.
       textureRenderComponent.setTexture("images/croc.png");
@@ -155,7 +164,7 @@ public class PlayerActions extends Component {
 
   private void playSound() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playPantingSound(0.5f);
+      // Panting sound is managed in updatePantingSound(), no need to play here
     } else if (airAnimalSoundPlayer != null) {
       airAnimalSoundPlayer.playFlappingSound(0.5f);
     } else {
@@ -165,19 +174,22 @@ public class PlayerActions extends Component {
 
   private void stopSound() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.stopPantingSound();
+      // Panting sound is managed in updatePantingSound(), no need to stop here
     } else if (airAnimalSoundPlayer != null) {
       airAnimalSoundPlayer.stopFlappingSound();
     } else {
       waterAnimalSoundPlayer.stopSwimmingSound();
     }
   }
-  
+
   /**
    * Gets if the player is moving or not
+   *
    * @return boolean of if the player currently moving
    */
-  public boolean isMoving() {return moving;}
+  public boolean isMoving() {
+    return moving;
+  }
 
   private void updateSpeed() {
     Body body = physicsComponent.getBody();
@@ -192,28 +204,33 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction.nor();
     moving = true;
-    logger.info("Player started moving in direction: " + direction);
+    logger.info("Player started moving in direction: {}", direction);
     player.getEvents().trigger("steps");
+
+    // Start panting sound if dog
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.playPantingSound();
+    }
   }
 
   void stopWalking() {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
-    stopSound();
     moving = false;
     logger.info("Player stopped moving.");
+
+    // Stop panting sound if dog
+    if (dogSoundPlayer != null) {
+      dogSoundPlayer.stopPantingSound();
+    }
   }
 
   void attack() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playBarkingSound(1.0f);
-    }
-
-    if (airAnimalSoundPlayer != null) {
+      dogSoundPlayer.playBarkingSound();
+    } else if (airAnimalSoundPlayer != null) {
       airAnimalSoundPlayer.playScreechSound(1.0f);
-    }
-
-    if (waterAnimalSoundPlayer != null) {
+    } else if (waterAnimalSoundPlayer != null) {
       waterAnimalSoundPlayer.playSwimmingSound(1.0f);
     }
 
