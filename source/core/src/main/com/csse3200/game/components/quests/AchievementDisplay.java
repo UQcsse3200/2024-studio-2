@@ -25,8 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
-
 /**
  * The {@code AchievementDisplay} class manages the display of achievements in the achievements screen
  */

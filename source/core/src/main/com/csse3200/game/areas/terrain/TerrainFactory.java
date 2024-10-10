@@ -9,12 +9,11 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
+import com.csse3200.game.areas.terrain.enums.*;
 import com.csse3200.game.components.CameraComponent;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private GridPoint2 mapSize;
 
   public static final int CHUNK_SIZE = 16;
   protected final OrthographicCamera camera;
@@ -59,30 +58,27 @@ public class TerrainFactory {
    * @return Terrain component which renders the terrain
    */
   public TerrainComponent createTerrain(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 mapSize, MapType mapType) {
-    this.mapSize = mapSize;
     float tileWorldSize = 1.f;
 
     TiledMap tiledMap = new TiledMap();
-    TiledMapTileLayer layer = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
-    TiledMapTileLayer fogLayer_water = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
-    fogLayer_water.setName("Water");
-    TiledMapTileLayer fogLayer_air = new TiledMapTileLayer(this.mapSize.x, this.mapSize.y, 1000, 1000);
-    fogLayer_air.setName("Air");
+    TiledMapTileLayer layer = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    TiledMapTileLayer fogLayerWater = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    fogLayerWater.setName("Water");
+    TiledMapTileLayer fogLayerAir = new TiledMapTileLayer(mapSize.x, mapSize.y, 1000, 1000);
+    fogLayerAir.setName("Air");
     tiledMap.getLayers().add(layer);
-    tiledMap.getLayers().add(fogLayer_water);
-    tiledMap.getLayers().add(fogLayer_air);
+    tiledMap.getLayers().add(fogLayerWater);
+    tiledMap.getLayers().add(fogLayerAir);
 
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / 1000);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, mapType);
   }
-
 
   protected TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
       return switch (orientation) {
           case ORTHOGONAL -> new OrthogonalTiledMapRenderer(tiledMap, tileScale);
           case ISOMETRIC -> new IsometricTiledMapRenderer(tiledMap, tileScale);
           case HEXAGONAL -> new HexagonalTiledMapRenderer(tiledMap, tileScale);
-          default -> null;
       };
   }
 
@@ -90,6 +86,5 @@ public class TerrainFactory {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
     FOREST_DEMO_HEX;
-      public static TerrainType Ocean_DEMO;
   }
 }

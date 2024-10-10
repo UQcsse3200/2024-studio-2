@@ -1,6 +1,7 @@
 package com.csse3200.game.areas;
 
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.rendering.Renderer;
 
@@ -140,7 +141,7 @@ public class MapHandler {
   public static GameArea getMap(MapType mapType) {
     switch (mapType) {
       case FOREST:
-        return (ForestGameArea) currentGameArea;
+        return currentGameArea;
       default:
         throw new IllegalArgumentException("Map type not supported: " + mapType);
     }

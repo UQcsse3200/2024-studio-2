@@ -2,9 +2,7 @@ package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.utils.math.Vector2Utils;
 
 /**
  * Input handler for combat for keyboard and touch (mouse) input.

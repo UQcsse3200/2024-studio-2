@@ -3,9 +3,10 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.ConfigComponent;
@@ -448,9 +449,10 @@ public class EnemyFactory {
                         .addComponent(aiComponent)
                         // complaints about using Math.random can be ignored as the suggested method is not static
                         // and so can be ignored
-                        .addComponent(new CombatStatsComponent(config.getHealth() + (int)(Math.random() * 2) - 1,
-                                config.getHunger(), Math.max(0, config.getBaseAttack() + (int)(Math.random() * 5) - 2),
-                                config.getDefense() + (int)(Math.random() * 2), config.getSpeed(),
+                        .addComponent(new CombatStatsComponent(config.getHealth() + (int)(MathUtils.random() * 2) - 1,
+                                config.getHunger(), Math.max(0,
+                                config.getBaseAttack() + (int)(MathUtils.random() * 5) - 2),
+                                config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed(),
                                 config.getExperience(), 100, false, false, 1))
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))

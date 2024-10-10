@@ -357,7 +357,7 @@ public class Entity {
 
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Entity && ((Entity) obj).getId() == this.getId());
+    return (obj instanceof Entity entity && entity.getId() == this.getId());
   }
 
   @Override

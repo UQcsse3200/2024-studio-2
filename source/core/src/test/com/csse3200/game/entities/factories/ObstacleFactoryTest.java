@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class ObstacleFactoryTest {
+class ObstacleFactoryTest {
     private Entity tree;
     private Entity cloud;
     private Entity starfish;

@@ -149,7 +149,7 @@ class PauseTaskTest {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
 
-        NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+        NPCConfigs newConfigs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
         PauseTask pauseTask = new PauseTask(target, 10, 10, 5, false);
 
         AITaskComponent ai = new AITaskComponent()
@@ -160,7 +160,7 @@ class PauseTaskTest {
                 .addComponent(ai)
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
-                .addComponent(new ConfigComponent<>(configs.lion));
+                .addComponent(new ConfigComponent<>(newConfigs.lion));
 
         entity.create();
 

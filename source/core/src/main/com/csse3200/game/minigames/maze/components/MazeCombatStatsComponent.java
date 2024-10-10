@@ -1,7 +1,6 @@
 package com.csse3200.game.minigames.maze.components;
 
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import org.slf4j.Logger;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MazeCombatStatsComponent extends Component {
 
-    private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
+    private static final Logger logger = LoggerFactory.getLogger(MazeCombatStatsComponent.class);
     private int health;
     private int baseAttack;
     private Vector2 baseSpeed;

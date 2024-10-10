@@ -39,7 +39,7 @@ public class GdxGame extends Game {
         }
 
         // Assign the game to a singleton
-        GdxGameManager.setInstance(this);
+        ServiceLocator.setGame(this);
 
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);

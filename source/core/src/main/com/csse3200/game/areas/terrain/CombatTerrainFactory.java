@@ -13,10 +13,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
+import com.csse3200.game.areas.terrain.enums.*;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+
 
 /** Factory for creating game terrains. */
 public class CombatTerrainFactory {
@@ -66,15 +67,14 @@ public class CombatTerrainFactory {
         // Initialize ResourceService and load the background texture
         ResourceService resourceService = ServiceLocator.getResourceService();
         TextureRegion backgroundTextureRegion;
-        float backgroundWidth, backgroundHeight;
+        float backgroundWidth;
+        float backgroundHeight;
 
         // Determine the background image based on terrain type
-        switch (terrainType) {
-            case FOREST_DEMO:
-                backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
-                break;
-            default:
-                return null; // Return null for unsupported terrain types
+        if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+            backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
+        } else {
+            return null;
         }
 
         // Get the size of the background texture
