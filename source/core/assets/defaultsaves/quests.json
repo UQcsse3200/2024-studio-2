@@ -70,13 +70,13 @@
 			]
 		}
 		{
-			questName: Defeat Bears
-			questDescription: Defeat 3 bears
+			questName: Defeat Chickens
+			questDescription: Defeat 3 chickens
 			tasks: [
 				{
-					taskName: defeatBEARS
-					description: Lorem ipsum
-					hint: Do you really need this?
+					taskName: defeatCHICKEN,
+					description: Defeat the kangaroos' 3 followers
+					hint: defeat 3 chickens
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
@@ -256,13 +256,13 @@
 			]
 		}
 		{
-			questName: Defeat Monkeys
-			questDescription: Defeat 3 monkeys
+			questName: Defeat Frogs
+			questDescription: Defeat 3 frogs
 			tasks: [
 				{
-					taskName: defeatMONKEY
+					taskName: defeatFROG
 					description: Lorem ipsum
-					hint: Do you really need this?
+					hint: Defeat water boss's followers'
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
@@ -438,13 +438,13 @@
 			]
 		}
 		{
-			questName: Defeat frogs
-			questDescription: Defeat 3 Frogs
+			questName: Defeat Bees
+			questDescription: Defeat 3 bees
 			tasks: [
 				{
-					taskName: defeatFROG
-					description: Lorem ipsum
-					hint: Do you really need this?
+					taskName: defeatBEE,
+					description: Defeat the sky boss' followers
+					hint: Defeat the sky boss' 3 bee followers
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
