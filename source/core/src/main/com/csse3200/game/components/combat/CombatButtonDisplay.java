@@ -235,7 +235,7 @@ public class CombatButtonDisplay extends UIComponent {
         itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                setTextForCombatHint("Access items to either buff yourself or de-buff the enemy");
                 return true;
             }
 

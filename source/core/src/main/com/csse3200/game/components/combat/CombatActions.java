@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private GdxGame game;
+  private final GdxGame game;
   private final CombatManager manager;
   private final Screen previousScreen;
   private final ServiceContainer previousServices;
