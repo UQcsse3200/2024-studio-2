@@ -342,4 +342,42 @@ class CombatStatsComponentTest {
     combatStats.addExperience(9999);
     assertEquals(10, combatStats.getLevel());
   }
+
+  @Test
+  void shouldDecreaseStatsAndLevelWhenHealthIsZero() {
+    CombatStatsComponent combat = new CombatStatsComponent(50, 50, 50, 50, 50, 4, 50, true, false, 4);
+
+    combat.setLevel(4);
+    combat.setHealth(0);
+
+    assertEquals(0, combat.getHealth());
+
+    assertEquals(48, combat.getStrength());
+    assertEquals(48, combat.getDefense());
+    assertEquals(48, combat.getSpeed());
+    assertEquals(48, combat.getMaxHealth());
+
+
+    assertEquals(2, combat.getLevel());
+
+    assertEquals(0, combat.getExperience());
+  }
+
+  @Test
+  void shouldNotDecreaseStatsWhenNotPlayer() {
+    CombatStatsComponent combat = new CombatStatsComponent(50, 50, 50, 50, 50, 50, 50, false, false, 4);
+
+    combat.setLevel(4);
+    combat.setHealth(30);
+
+    assertEquals(30, combat.getHealth());
+
+    assertEquals(50, combat.getStrength());
+    assertEquals(50, combat.getDefense());
+    assertEquals(50, combat.getSpeed());
+    assertEquals(50, combat.getMaxHealth());
+    assertEquals(4, combat.getLevel());
+    assertEquals(50, combat.getExperience());
+  }
+
 }

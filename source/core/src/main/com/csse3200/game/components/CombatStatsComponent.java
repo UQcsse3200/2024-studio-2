@@ -123,7 +123,7 @@ public class CombatStatsComponent extends Component {
         addStrength(-lvlDiff);
         addDefense(-lvlDiff);
         addSpeed(-lvlDiff);
-        setLevel(lvlDiff);
+        setLevel(playerLevel - lvlDiff);
         addMaxHealth(-lvlDiff);
         setExperience(0);
       }
