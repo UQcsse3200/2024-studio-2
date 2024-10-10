@@ -6,13 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 
 public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
@@ -20,9 +19,9 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     protected AnimalRouletteDisplay1 display;
     protected AnimalRouletteActions1 actions;
     protected GdxGame game;
-    private TextButton waterAnimalsButton;
-    private TextButton airAnimalsButton;
-    private TextButton landAnimalsButton;
+    private CustomButton waterAnimalsButton;
+    private CustomButton airAnimalsButton;
+    private CustomButton landAnimalsButton;
 
     protected AnimalRouletteScreen1(GdxGame game) {
         this.game = game;
@@ -47,14 +46,17 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     }
 
     void createUI(Skin skin) {
-        waterAnimalsButton = new TextButton("Water Animals", skin);
-        airAnimalsButton = new TextButton("Air Animals", skin);
-        landAnimalsButton = new TextButton("Land Animals", skin);
+        // Initialize CustomButtons
+        waterAnimalsButton = new CustomButton("Water Animals", skin);
+        airAnimalsButton = new CustomButton("Air Animals", skin);
+        landAnimalsButton = new CustomButton("Land Animals", skin);
 
+        // Add click listeners to switch screens
         addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen1.class);
         addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen1.class);
         addButtonToSwitchScreen(landAnimalsButton, LandAnimalSelectionScreen.class);
 
+        // Update positions of the buttons
         updateButtonPositions();
     }
 
@@ -76,24 +78,21 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
         stage.dispose();
     }
 
-    private void addButtonToSwitchScreen(TextButton button, final Class<? extends ScreenAdapter> screenClass) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
-                    game.setScreen(newScreen);
-                } catch (Exception e) {
-                    throw new GdxRuntimeException("Tried to add screen " + screenClass.getName() + " to the screen via button: " + button.toString(), e);
-                }
+    private void addButtonToSwitchScreen(CustomButton button, final Class<? extends ScreenAdapter> screenClass) {
+        button.addClickListener(() -> {
+            try {
+                ScreenAdapter newScreen = screenClass.getConstructor(GdxGame.class).newInstance(game);
+                game.setScreen(newScreen);
+            } catch (Exception e) {
+                throw new GdxRuntimeException("Tried to add screen " + screenClass.getName() + " to the screen via button: " + button.toString(), e);
             }
         });
         stage.addActor(button);
     }
 
-    protected TextButton getWaterAnimalsButton() { return waterAnimalsButton; }
-    protected TextButton getAirAnimalsButton() { return airAnimalsButton; }
-    protected TextButton getLandAnimalsButton() { return landAnimalsButton; }
+    protected CustomButton getWaterAnimalsButton() { return waterAnimalsButton; }
+    protected CustomButton getAirAnimalsButton() { return airAnimalsButton; }
+    protected CustomButton getLandAnimalsButton() { return landAnimalsButton; }
 
     private void updateButtonPositions() {
         float buttonWidth = 200;
@@ -105,9 +104,13 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
         float yPosAir = yPosWater - buttonHeight - padding;
         float yPosLand = yPosAir - buttonHeight - padding;
 
-        waterAnimalsButton.setBounds(xPos, yPosWater, buttonWidth, buttonHeight);
-        airAnimalsButton.setBounds(xPos, yPosAir, buttonWidth, buttonHeight);
-        landAnimalsButton.setBounds(xPos, yPosLand, buttonWidth, buttonHeight);
+        waterAnimalsButton.setButtonSize(buttonWidth, buttonHeight);
+        waterAnimalsButton.setPosition(xPos, yPosWater);
 
+        airAnimalsButton.setButtonSize(buttonWidth, buttonHeight);
+        airAnimalsButton.setPosition(xPos, yPosAir);
+
+        landAnimalsButton.setButtonSize(buttonWidth, buttonHeight);
+        landAnimalsButton.setPosition(xPos, yPosLand);
     }
 }
