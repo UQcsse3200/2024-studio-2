@@ -10,9 +10,11 @@ import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
 import com.csse3200.game.areas.terrain.tiles.TileConfig;
 import com.csse3200.game.areas.terrain.tiles.Tile;
+import com.csse3200.game.areas.terrain.tiles.TileConfig;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.areas.terrain.enums.*;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -32,13 +34,21 @@ public class TerrainResource {
     private int waterSize;
     private int airSize;
     private int fogSize;
+    public static int forestSize = 0;
+    public static int waterSize = 0;
+    public static int airSize = 0;
+    public static int fogSize = 0;
+
+    private boolean unlockedWater;
 
     public TerrainResource(MapHandler.MapType mapType) {
-        ResourceService resourceService = ServiceLocator.getResourceService();
         forestTiles = new ArrayList<>();
         waterTiles = new ArrayList<>();
         airTiles = new ArrayList<>();
         fogTiles = new ArrayList<>();
+
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        this.unlockedWater = false;
         switch (mapType) {
             case FOREST:
                 // load forest tiles
@@ -105,45 +115,49 @@ public class TerrainResource {
     }
 
     public List<Tile> getMapTiles(MapHandler.MapType mapType) {
-        switch (mapType) {
-            case FOREST:
-                return forestTiles;
-            case WATER:
-                return waterTiles;
-            case AIR:
-                return airTiles;
-            case FOG:
-                return fogTiles;
-            case COMBAT:
-                return List.of();
-            default:
-                throw new IllegalArgumentException("No such map type:" + mapType);
-        }
+        return switch (mapType) {
+            case FOREST -> forestTiles;
+            case WATER -> waterTiles;
+            case AIR -> airTiles;
+            case FOG -> fogTiles;
+            case COMBAT -> null;
+            default -> throw new IllegalArgumentException("No such map type:" + mapType);
+        };
     }
 
     /**
      * Set all possible tiles for each tile for all directions.
      */
     public void setPossibleTiles() {
-        for (int i = 0; i < this.forestTiles.size(); i++) {
-            setPossibleUp(this.forestTiles.get(i), this.forestTiles);
-            setPossibleRight(this.forestTiles.get(i), this.forestTiles);
-            setPossibleDown(this.forestTiles.get(i), this.forestTiles);
-            setPossibleLeft(this.forestTiles.get(i), this.forestTiles);
+        for (int i = 0; i < forestTiles.size(); i++) {
+            setPossibleUp(forestTiles.get(i), forestTiles);
+            setPossibleRight(forestTiles.get(i), forestTiles);
+            setPossibleDown(forestTiles.get(i), forestTiles);
+            setPossibleLeft(forestTiles.get(i), forestTiles);
         }
 
-        for (int i = 0; i < this.waterTiles.size(); i++) {
-            setPossibleUp(this.waterTiles.get(i), this.waterTiles);
-            setPossibleRight(this.waterTiles.get(i), this.waterTiles);
-            setPossibleDown(this.waterTiles.get(i), this.waterTiles);
-            setPossibleLeft(this.waterTiles.get(i), this.waterTiles);
+        for (int i = 0; i < waterTiles.size(); i++) {
+            setPossibleUp(waterTiles.get(i), waterTiles);
+            setPossibleRight(waterTiles.get(i), waterTiles);
+            setPossibleDown(waterTiles.get(i), waterTiles);
+            setPossibleLeft(waterTiles.get(i), waterTiles);
         }
 
-        for (int i = 0; i < this.fogTiles.size(); i++) {
-            setPossibleUp(this.fogTiles.get(i), this.fogTiles);
-            setPossibleRight(this.fogTiles.get(i), this.fogTiles);
-            setPossibleDown(this.fogTiles.get(i), this.fogTiles);
-            setPossibleLeft(this.fogTiles.get(i), this.fogTiles);
+        for (int i = 0; i < fogTiles.size(); i++) {
+            setPossibleUp(fogTiles.get(i), fogTiles);
+            setPossibleRight(fogTiles.get(i), fogTiles);
+            setPossibleDown(fogTiles.get(i), fogTiles);
+            setPossibleLeft(fogTiles.get(i), fogTiles);
+        }
+    }
+
+    public static int getTileSize(TileLocation location) {
+        switch (location) {
+            case FOREST -> {return forestSize;}
+            case WATER -> {return waterSize;}
+            case AIR -> {return airSize;}
+            case FOG -> {return fogSize;}
+            default -> throw new IllegalArgumentException("Given tile location doesn't exist!");
         }
     }
 
@@ -155,7 +169,7 @@ public class TerrainResource {
     public void setPossibleUp(Tile tile, List<Tile> areaTiles) {
         BitSet up = new BitSet(areaTiles.size());
         for (int i = 0; i < areaTiles.size(); i++) {
-            if (areaTiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().get(0))) {
+            if (areaTiles.get(i).getEdgeTiles().get(2).equals(tile.getEdgeTiles().getFirst())) {
                 up.set(i, true);
             }
         }
@@ -185,7 +199,7 @@ public class TerrainResource {
     public void setPossibleDown(Tile tile, List<Tile> areaTiles) {
         BitSet down = new BitSet(areaTiles.size());
         for (int i = 0; i < areaTiles.size(); i++) {
-            if (areaTiles.get(i).getEdgeTiles().get(0).equals(tile.getEdgeTiles().get(2))) {
+            if (areaTiles.get(i).getEdgeTiles().getFirst().equals(tile.getEdgeTiles().get(2))) {
                 down.set(i, true);
             }
         }
@@ -215,19 +229,15 @@ public class TerrainResource {
      * @return The tile with the given index and map type
      */
     public Tile getMapTilebyIndex(int index, MapHandler.MapType mapType) {
-        switch (mapType) {
-            case FOREST:
-                return forestTiles.get(index);
-            case FOG:
-                return fogTiles.get(index);
-            case WATER:
-                return waterTiles.get(index);
-            case AIR:
-                return airTiles.get(index);
-            case COMBAT:
-                return null;
-            default:
-                throw new IllegalArgumentException("No such map type:" + mapType);
-        }
+        return switch (mapType) {
+            case FOREST -> forestTiles.get(index);
+            case FOG -> fogTiles.get(index);
+            case WATER -> waterTiles.get(index);
+            case AIR -> airTiles.get(index);
+            case COMBAT -> null;
+            default -> throw new IllegalArgumentException("No such map type:" + mapType);
+        };
     }
+
+    public boolean hasUnlockedWater() {return unlockedWater;}
 }

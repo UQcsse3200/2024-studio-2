@@ -3,12 +3,14 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+import com.csse3200.game.components.CombatStatsComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +20,17 @@ import java.util.Map;
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
+  private static final Logger logger = LoggerFactory.getLogger(KeyboardPlayerInputComponent.class);
   private final Vector2 walkDirection = new Vector2();
   private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
   private boolean paralyzed = false;
   private long startTime = 0;
   GameTime timeSource;
+  private long movementStartTime = 0;
+  private long movementDuration = 0;
+  private boolean isMoving = false;
+  private long lastHungerCheckTime = 0;
+
 
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
@@ -151,6 +159,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
+  @Override
+  public void update() {
+    super.update(); // Call super method if needed
+    // Check movement status every tick
+    updateMovementDuration();
+  }
+
   private void triggerWalkEvent() {
     if (paralyzed) {
       if (timeSource.getTimeSince(startTime) > 2000) {
@@ -164,8 +179,36 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.len() > 0) {
       walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
+      if (!isMoving) {
+        movementStartTime = timeSource.getTime(); // Reset the timer when the movement starts
+      }
+      isMoving = true;
+
     } else {
       entity.getEvents().trigger("walkStop");
+      isMoving = false;
+    }
+  }
+
+  private void updateMovementDuration() {
+
+    if (isMoving) {
+      long currentTime = timeSource.getTime();
+
+      if (currentTime - lastHungerCheckTime >= 2000) {
+        lastHungerCheckTime = currentTime;
+        decreaseHunger();
+      }
+    } else {
+      movementStartTime = 0;
+    }
+  }
+  private void decreaseHunger() {
+    CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+    if (combatStats != null) {
+      combatStats.addHunger(-1);
+    } else {
+      logger.debug("Attempting to change hunger on entity not supporting this!");
     }
   }
 

@@ -4,9 +4,6 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.csse3200.game.entities.factories.LootBoxFactoryTest;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
@@ -18,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(GameExtension.class)
@@ -60,7 +56,7 @@ class LootBoxFactoryTest {
     }
 
     @Test
-    void testCreateLootBoxWithInvalidName() throws ClassNotFoundException {
+    void testCreateLootBoxWithInvalidName() {
         // Test for handling an invalid loot box name
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             factory.createLootBox("InvalidName", player);

@@ -1,6 +1,7 @@
 package com.csse3200.game.areas.terrain;
 import java.util.*;
 
+import com.csse3200.game.areas.terrain.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -222,11 +223,5 @@ public class TerrainComponent extends RenderComponent {
   {
 
       return null;
-  }
-
-  public enum TerrainOrientation {
-    ORTHOGONAL,
-    ISOMETRIC,
-    HEXAGONAL
   }
 }

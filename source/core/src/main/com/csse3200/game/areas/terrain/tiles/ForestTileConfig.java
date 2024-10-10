@@ -7,10 +7,6 @@ public class ForestTileConfig {
   private static final String GRASS = "grass";
   private static final String SAND = "sand";
 
-  private ForestTileConfig() {
-    throw new IllegalArgumentException("Do not instantiate static util class");
-  }
-
   private static final TileConfig[] forestMapTiles = {
       new TileConfig(
           "grass2TL",
@@ -101,9 +97,10 @@ public class ForestTileConfig {
               SAND)
   };
 
-  public static TileConfig[] getForestMapTiles() {
-    return forestMapTiles;
-  }
+  public static TileConfig[] getForestMapTiles() {return forestMapTiles;}
 
+  private ForestTileConfig() {
+    throw new IllegalArgumentException("Do not instantiate static util class");
+  }
 }
 

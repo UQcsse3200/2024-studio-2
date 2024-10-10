@@ -23,6 +23,8 @@ public class Tile {
     private BitSet down = new BitSet();
     private BitSet left = new BitSet();
 
+    private boolean isCollapsed = false;
+
     public Tile(String name, TextureRegion texture, List<String> edgeTiles, String centre) {
         this.name = name;
         this.texture = texture;
@@ -137,4 +139,7 @@ public class Tile {
     public void setPossibleLeft(BitSet left) {
             this.left = left;
         }
+
+    public boolean isCollapsed() {return isCollapsed;}
+    public void setIsCollapsed(boolean isCollapsed) {this.isCollapsed = isCollapsed;}
 }

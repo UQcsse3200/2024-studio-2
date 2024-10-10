@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.ui.UIComponent;
-import com.csse3200.game.entities.factories.PlayerFactory;
 
 /**
  * Displays the player icon and a larger minimap frame based on the player's image corresponding to its kingdom.
@@ -83,9 +82,9 @@ public class GameAreaDisplay extends UIComponent {
 
         // Create a table for the top UI
         Table topTable = new Table();
-        Table Tabletwo = new Table();
+        Table tableTwo = new Table();
         topTable.setFillParent(true);
-        Tabletwo.setFillParent(true);
+        tableTwo.setFillParent(true);
 
         // Align the table to the top left corner
 //        topTable.top().left();
@@ -108,16 +107,16 @@ public class GameAreaDisplay extends UIComponent {
 //        topTable.add().expandX();
 
         // Add the minimap frame to the right side of the table
-        Tabletwo.add(minimapFrame)
+        tableTwo.add(minimapFrame)
                 .size(titleHeight * minimapScaleFactor, titleHeight * minimapScaleFactor)
                 .align(Align.left | Align.bottom)
                 .pad(5); // Padding from the edges
 
-        Tabletwo.bottom().left();
+        tableTwo.bottom().left();
 
         // Add the table to the stage
         stage.addActor(topTable);
-        stage.addActor(Tabletwo);
+        stage.addActor(tableTwo);
     }
 
     /**

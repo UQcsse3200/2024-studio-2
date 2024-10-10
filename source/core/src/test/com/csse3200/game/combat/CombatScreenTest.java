@@ -4,7 +4,6 @@ import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.BossFactory;
-import com.csse3200.game.entities.factories.EnemyFactory;
 import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.screens.MainMenuScreen;
 import com.csse3200.game.services.ServiceContainer;

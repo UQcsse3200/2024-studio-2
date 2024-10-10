@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Input handler for the snake mini-game.

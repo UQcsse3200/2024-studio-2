@@ -11,6 +11,7 @@ import com.csse3200.game.minigames.MiniGameConstants;
  * Class to show the score and medal thresholds on the game screen
  */
 public class MazePlayerScoreDisplay extends UIComponent {
+    private static final String LARGE_WHITE_TEXT = "large-white";
 
     Table table;  // Table to display
 
@@ -64,23 +65,23 @@ public class MazePlayerScoreDisplay extends UIComponent {
         // Score text
         int score = entity.getComponent(MazeGameManagerComponent.class).getScore();
         CharSequence scoreText = String.format("Score: %d", score);
-        scoreLabel = new Label(scoreText, skin, "large-white");
+        scoreLabel = new Label(scoreText, skin, LARGE_WHITE_TEXT);
 
         if (GameState.minigame != null) {
             CharSequence highScore = String.format("High Score %d",
                     GameState.minigame.getHighScore("maze"));
-            highScoreLabel = new Label(highScore, skin, "large-white");
+            highScoreLabel = new Label(highScore, skin, LARGE_WHITE_TEXT);
         }
 
         // Medals
         CharSequence bronzeText = String.format("Bronze Medal %d", MiniGameConstants.MAZE_BRONZE_THRESHOLD);
-        bronzeLabel = new Label(bronzeText, skin, "large-white");
+        bronzeLabel = new Label(bronzeText, skin, LARGE_WHITE_TEXT);
 
         CharSequence silverText = String.format("Silver Medal %d", MiniGameConstants.MAZE_SILVER_THRESHOLD);
-        silverLabel = new Label(silverText, skin, "large-white");
+        silverLabel = new Label(silverText, skin, LARGE_WHITE_TEXT);
 
         CharSequence goldText = String.format("Gold Medal %d", MiniGameConstants.MAZE_GOLD_THRESHOLD);
-        goldLabel = new Label(goldText, skin, "large-white");
+        goldLabel = new Label(goldText, skin, LARGE_WHITE_TEXT);
     }
 
     /**

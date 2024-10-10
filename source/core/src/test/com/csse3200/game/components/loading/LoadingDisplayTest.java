@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class LoadingDisplayTest {
+class LoadingDisplayTest {
 
     @Mock
     private ResourceService resourceService;

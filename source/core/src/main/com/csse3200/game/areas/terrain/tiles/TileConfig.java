@@ -2,6 +2,7 @@ package com.csse3200.game.areas.terrain.tiles;
 
 import java.util.List;
 
+// TODO: Convert this to a record class
 public class TileConfig {
     public final String id;
     public final String fp;
