@@ -250,7 +250,7 @@ public class ForestGameArea extends GameArea {
     private void handleItems() {
         // Spawn items on new chunks
         for (GridPoint2 pos : terrain.getNewChunks()) {
-            spawnItems(TerrainLoader.chunktoWorldPos(pos));
+            spawnForestItems(TerrainLoader.chunktoWorldPos(pos));
         }
 
         // TODO: De-spawn items on old chunks:
@@ -441,7 +441,7 @@ public class ForestGameArea extends GameArea {
                 entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
     }
 
-    private void spawnItems(GridPoint2 pos) {
+    private void spawnForestItems(GridPoint2 pos) {
         Supplier<Entity> generator;
 
     // Health Potions
