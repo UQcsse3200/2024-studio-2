@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class CombatScreen extends ScreenAdapter {
+public class CombatScreen extends PausableScreen {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
@@ -59,6 +59,7 @@ public class CombatScreen extends ScreenAdapter {
   private final CombatArea combatArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+    super(game);
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
@@ -181,6 +182,9 @@ public class CombatScreen extends ScreenAdapter {
         .addComponent(enemyCombatStats)
         .addComponent(new TerminalDisplay())
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
+
+    ui.getEvents().addListener("addOverlay", this::addOverlay);
+    ui.getEvents().addListener("removeOverlay", this::removeOverlay);
 
     ServiceLocator.getEntityService().register(ui);
   }
