@@ -303,13 +303,12 @@ public class CombatStatsDisplay extends UIComponent {
      * Updates the hunger bar animation of the player
      *
      * @param playerStats The CombatStatsComponent of the player
-     *                    THE HUNGER BAR IS USED TEMPORARILY FOR DISPLAYING THE PLAYER'S STAMINA
      */
     public void updatePlayerHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
-        logger.trace("Detected stamina change in combat and is updating UI");
-        int hunger = playerStats.getStamina();
-        int maxHunger = playerStats.getMaxStamina();
-        CharSequence text = String.format("Stamina: %d", hunger);
+        logger.trace("Detected hunger change in combat and is updating UI");
+        int hunger = playerStats.getHunger();
+        int maxHunger = playerStats.getMaxHunger();
+        CharSequence text = String.format("Hunger: %d", hunger);
         playerHungerLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));

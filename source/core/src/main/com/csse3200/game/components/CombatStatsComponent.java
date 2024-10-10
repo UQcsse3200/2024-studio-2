@@ -28,10 +28,8 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
-  private int stamina;
   private int level;
   private final int maxLevel;
-  private final int maxStamina;
   private final int maxHunger;
   private int maxExperience;
   private final boolean isPlayer;
@@ -47,14 +45,12 @@ public class CombatStatsComponent extends Component {
    * @param defense Initial defense value
    * @param speed Initial speed value
    * @param experience Initial experience value
-   * @param stamina Initial stamina value
    * @param isPlayer Boolean indicating if this entity is the player
    */
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss, int level) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
     this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
-    this.maxStamina = stamina;
     this.isPlayer = isPlayer;
     this.isBoss = isBoss;
     this.maxLevel = 10;
@@ -64,7 +60,6 @@ public class CombatStatsComponent extends Component {
     setDefense(defense);
     setSpeed(speed);
     setExperience(experience);
-    setStamina(stamina);
   }
 
   /**
@@ -359,42 +354,6 @@ public class CombatStatsComponent extends Component {
    */
   public int getMaxExperience() {
     return this.maxExperience;
-  }
-
-  /**
-   * Returns the entity's stamina.
-   *
-   * @return entity's stamina
-   */
-  public int getStamina() {
-    return stamina;
-  }
-
-  /**
-   * Sets the entity's stamina. Stamina has a minimum bound of 0 and cannot exceed maxStamina.
-   *
-   * @param stamina stamina value to set
-   */
-  public void setStamina(int stamina) {
-    this.stamina = Math.clamp(stamina, 0, maxStamina);
-  }
-
-  /**
-   * Adds a specified amount to the entity's stamina. The amount can be negative to reduce stamina.
-   *
-   * @param stamina stamina to add (positive or negative)
-   */
-  public void addStamina(int stamina) {
-    setStamina(this.stamina + stamina);
-  }
-
-  /**
-   * Returns the entity's maximum stamina.
-   *
-   * @return entity's max stamina
-   */
-  public int getMaxStamina() {
-    return maxStamina;
   }
 
   /**

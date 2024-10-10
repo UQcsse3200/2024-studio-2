@@ -59,8 +59,6 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Entity enemy) {
     logger.debug("Returning to main game screen after combat win.");
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
     // For CombatStatsDisplay to update
@@ -77,7 +75,6 @@ public class CombatActions extends Component {
    */
   private void onCombatLoss(Entity enemy) {
     logger.debug("Returning to main game screen after combat loss.");
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
@@ -104,8 +101,6 @@ public class CombatActions extends Component {
       entity.getEvents().trigger("airBossDefeated");
     }
 
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());

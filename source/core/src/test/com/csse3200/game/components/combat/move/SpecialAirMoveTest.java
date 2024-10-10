@@ -27,7 +27,7 @@ class SpecialAirMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create an instance of SpecialAirMove with a mock move name and stamina cost.
+        // Create an instance of SpecialAirMove with a mock move name and hunger cost.
         specialAirMove = new SpecialAirMove("Air Strike", 40);
 
         // Mock the target and attacker stats (CombatStatsComponent).
