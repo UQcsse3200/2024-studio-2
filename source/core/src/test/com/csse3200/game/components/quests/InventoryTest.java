@@ -1,22 +1,10 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.tasks.ItemProximityTask;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.events.EventHandler;
-import com.csse3200.game.inventory.items.potions.DefensePotion;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.DialogueBoxService;
-import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;

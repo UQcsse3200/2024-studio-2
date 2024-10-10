@@ -4,16 +4,18 @@ import com.playfab.PlayFabErrors.*;
 import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
 import com.playfab.PlayFabSettings;
-import org.lwjgl.Sys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
+
 /**
  * The PlayFab class handles user registration and login via PlayFab's client API.
  * It allows initializing the PlayFab client with a Title ID and provides methods
  * for user registration and login.
  */
 public class PlayFab {
+    private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
+
     /**
      * Constructor to initialize PlayFab with the given Title ID.
      *
@@ -58,7 +60,7 @@ public class PlayFab {
             return new Response(succeedMsg, true);
         } else {
             String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
+            logger.debug(errorMsg);
             return new Response(errorMsg, false);
         }
         //
@@ -80,11 +82,11 @@ public class PlayFab {
 
         if (result.Result != null) {
             String succeedMsg = "Welcome " + request.Username + ".";
-            System.out.println(succeedMsg);
+            logger.debug(succeedMsg);
             return new Response(succeedMsg, true);
         } else {
             String errorMsg = result.Error.errorMessage;
-            System.out.println(result.Error.errorMessage);
+            logger.debug(result.Error.errorMessage);
             return new Response(errorMsg, false);
         }
     }

@@ -7,7 +7,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.StoryScreen;
 import com.csse3200.game.ui.AlertBox;
-import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
+import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

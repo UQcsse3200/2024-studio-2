@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
@@ -120,7 +120,6 @@ public class MiniGameMenuScreen implements Screen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //dispose();
                 game.setScreen(GdxGame.ScreenType.MAIN_MENU);
             }
         });
@@ -220,8 +219,7 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the game is paused
      */
     @Override
-    public void pause() {
-    }
+    public void pause() {/* must implement function for abstract class, but this is never used*/}
 
     /**
      *  Called when the game is resumed after a pause
@@ -235,7 +233,7 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is hidden
      */
     @Override
-    public void hide() { }
+    public void hide() {/* must implement function for abstract class, but this is never used*/}
 
     /**
      *  Called to dispose of resources to prevent memory leaks

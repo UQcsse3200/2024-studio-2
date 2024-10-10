@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
@@ -19,6 +20,7 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
 /**
  * Forest area for the demo game with trees, a player, and some enemies.
@@ -60,7 +60,7 @@ public class MazeGameArea extends GameArea {
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
             "images/minigames/GreenJellyfish.atlas"
     };
-    private static final String mazeParticleEffectImageDir = "images/minigames";
+    private static final String MAZE_PARTICLE_EFFECT_IMAGE_DIR = "images/minigames";
     private static final String[] mazeParticleEffects = {
             "images/minigames/trail.p",
             "images/minigames/electricparticles.p",
@@ -73,8 +73,8 @@ public class MazeGameArea extends GameArea {
             "sounds/minigames/maze-hit.mp3",
             "sounds/minigames/collect-fishegg.mp3"
     };
-    private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
-    private static final String[] mazeMusic = {mazeBackgroundMusic};
+    private static final String MAZE_BACKGROUND_MUSIC = "sounds/minigames/maze-bg.mp3";
+    private static final String[] mazeMusic = {MAZE_BACKGROUND_MUSIC};
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
@@ -147,7 +147,7 @@ public class MazeGameArea extends GameArea {
     private void spawnWalls() {
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
-                for (GridPoint2 direction : GRID_DIRECTIONS) {
+                for (GridPoint2 direction : GridPoint2Utils.directions()) {
                     if (maze.isWall(x, y, direction)) {
                         float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
                         float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
@@ -215,7 +215,7 @@ public class MazeGameArea extends GameArea {
      * @return the random number
      */
     private float randomRange(float min, float max) {
-        return (float) Math.random() * (max - min) + min;
+        return MathUtils.random() * (max - min) + min;
     }
 
     /**
@@ -228,7 +228,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
             Vector2[] patrolPoints;
-            double rand = Math.random();
+            double rand = MathUtils.random();
             if (rand < 0.5) {
                 // adjacent cells are already in random order from random maze generation algorithm
                 // so okay to just take first
@@ -290,7 +290,7 @@ public class MazeGameArea extends GameArea {
      */
     @Override
     public void playMusic() {
-        AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
+        AudioManager.playMusic(MAZE_BACKGROUND_MUSIC, true);
     }
 
     /**
@@ -310,7 +310,7 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
-        resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
+        resourceService.loadParticleEffects(mazeParticleEffects, MAZE_PARTICLE_EFFECT_IMAGE_DIR);
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());
@@ -337,7 +337,7 @@ public class MazeGameArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(mazeBackgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(MAZE_BACKGROUND_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 

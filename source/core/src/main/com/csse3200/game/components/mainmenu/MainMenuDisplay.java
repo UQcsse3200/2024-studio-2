@@ -197,8 +197,10 @@ public class MainMenuDisplay extends UIComponent {
             }
         };
 
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100); // Dynamically set width
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100); // Dynamically set height
+        final float DIALOG_WIDTH = Math.min(1000f, (float) Gdx.graphics.getWidth() - 100); //
+        // Dynamically set width
+        final float DIALOG_HEIGHT = Math.min(800f, (float) Gdx.graphics.getHeight() - 100); //
+        // Dynamically set height
         chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
 
         // Background for the chatbot window
@@ -733,7 +735,7 @@ public class MainMenuDisplay extends UIComponent {
 
         userTable.setVisible(true);
 
-        userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
+        userTable.setPosition(185, (float) Gdx.graphics.getHeight() - 30);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
         userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
 
@@ -796,8 +798,8 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void showHelpWindow() {
         final int NUM_SLIDES = 7;
-        final float WINDOW_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100);
-        final float WINDOW_HEIGHT = Math.min(600f, Gdx.graphics.getHeight() - 100);
+        final float WINDOW_WIDTH = Math.min(1000f, (float) Gdx.graphics.getWidth() - 100);
+        final float WINDOW_HEIGHT = Math.min(600f, (float) Gdx.graphics.getHeight() - 100);
 
         // Create a Window for the help screen
         Table helpWindow = new Table();
@@ -868,7 +870,7 @@ public class MainMenuDisplay extends UIComponent {
                     slideInstances[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
                     slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                    logger.info(String.format("Slide changed to: %d", currentSlide[0] + 1));
                 }
             }
         });
@@ -883,7 +885,7 @@ public class MainMenuDisplay extends UIComponent {
                     slideInstances[currentSlide[0]].setVisible(true);
                     slideTable.clear(); // Clear the table
                     slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                    logger.info("Slide changed to: " + (currentSlide[0] + 1));
+                    logger.info(String.format("Slide changed to: %d", currentSlide[0] + 1));
                 }
             }
         });
@@ -927,7 +929,7 @@ public class MainMenuDisplay extends UIComponent {
                             slideInstances[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
                             slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via LEFT key)");
+                            logger.info(String.format("Slide changed to: %d (via LEFT key)", currentSlide[0] + 1));
                         }
                         return true;
                     case Input.Keys.RIGHT:
@@ -937,7 +939,7 @@ public class MainMenuDisplay extends UIComponent {
                             slideInstances[currentSlide[0]].setVisible(true);
                             slideTable.clear(); // Clear the table
                             slideTable.add(slideInstances[currentSlide[0]]).expand().fill(); // Add the current slide
-                            logger.info("Slide changed to: " + (currentSlide[0] + 1) + " (via RIGHT key)");
+                            logger.info(String.format("Slide changed to: %d (via RIGHT key)", currentSlide[0] + 1));
                         }
                         return true;
                     default:
@@ -991,7 +993,7 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
-                logger.info("Fullscreen toggled: " + !isFullscreen);
+                logger.info(String.format("Fullscreen toggled: %b", !isFullscreen));
                 //sizeTable();
             }
         });

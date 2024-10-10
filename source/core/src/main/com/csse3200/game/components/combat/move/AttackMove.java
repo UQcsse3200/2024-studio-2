@@ -102,11 +102,11 @@ public class AttackMove extends CombatMove {
         double m3 = calculateGuardMultiplier(targetIsGuarded,
                 targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING));
         double m4 = calculateMultiHitMultiplier(hitNumber);
-        int L = 1; // Level of the user.
-        int A = attackerStats.getStrength(); // user's strength stat
-        int D = targetStats.getDefense(); // opponent's defense stat
+        int level = 1; // Level of the user.
+        int strength = attackerStats.getStrength(); // user's strength stat
+        int defense = targetStats.getDefense(); // opponent's defense stat
 
-        double result = m1 * m2 * m3 * m4 * ((((L + 2) * ((double) A / D)) / 2) + 2);
+        double result = m1 * m2 * m3 * m4 * ((((level + 2) * ((double) strength / defense)) / 2) + 2);
         damage = (int) Math.floor(result);
 
         return damage;

@@ -1,6 +1,5 @@
 package com.csse3200.game.overlays;
 
-import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -9,9 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +20,7 @@ public class PlayerStatsDisplay2 extends UIComponent {
     private PausableScreen screen;
     private String spritePath;
     private String playerDescription;
+    private static final String DEFAULT_TEXT = "default"; // Makes SonarCloud happy
 
     public PlayerStatsDisplay2(PausableScreen screen, String spritePath, String playerDescription) {
         super();
@@ -56,24 +54,24 @@ public class PlayerStatsDisplay2 extends UIComponent {
 
 
     private void addStatRow(Table table, String name, int value, int maxValue) {
-        Label nameLabel = new Label(name, skin, "default");
-        Label valueLabel = new Label(value + "/" + maxValue, skin, "default");
+        Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
+        Label valueLabel = new Label(value + "/" + maxValue, skin, DEFAULT_TEXT);
         table.add(nameLabel).expandX().left();
         table.add(valueLabel).expandX().right().padLeft(25f);
         table.row().padTop(5f);
     }
 
     private void addStatRow(Table table, String name, int value) {
-        Label nameLabel = new Label(name, skin, "default");
-        Label valueLabel = new Label(String.valueOf(value), skin, "default");
+        Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
+        Label valueLabel = new Label(String.valueOf(value), skin, DEFAULT_TEXT);
         table.add(nameLabel).expandX().left();
         table.add(valueLabel).expandX().right().padLeft(25f);
         table.row().padTop(5f);
     }
 
     private void addStatRow(Table table, String name, float value) {
-        Label nameLabel = new Label(name, skin, "default");
-        Label valueLabel = new Label(String.valueOf(value), skin, "default");
+        Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
+        Label valueLabel = new Label(String.valueOf(value), skin, DEFAULT_TEXT);
         table.add(nameLabel).expandX().left();
         table.add(valueLabel).expandX().right().padLeft(25f);
         table.row().padTop(5f);
@@ -111,7 +109,7 @@ public class PlayerStatsDisplay2 extends UIComponent {
         title.setFontScale(1.2f);
 
         Image playerSprite = new Image(ServiceLocator.getResourceService().getAsset(spritePath, Texture.class));
-        Label description = new Label(playerDescription, skin, "default");
+        Label description = new Label(playerDescription, skin, DEFAULT_TEXT);
 
         // Create the background table and set the background image
         backgroundTable = new Table();

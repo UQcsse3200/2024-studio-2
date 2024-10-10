@@ -1,4 +1,4 @@
-package com.csse3200.game.ui.PopUpDialogBox;
+package com.csse3200.game.ui.pop_up_dialog_box;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
