@@ -123,14 +123,8 @@ public class TerrainChunk {
       Integer randomTile = minentropyTiles.random();
 
       // ranodm pick a tile
-      int numTrueBits = grid.get(randomTile).cardinality();
-      int randomTrueBitIndex = 0;
-      if (numTrueBits > 0) {
-        int randomIndex = ((int) (MathUtils.random() * numTrueBits));
-        randomTrueBitIndex = grid.get(randomTile).nextSetBit(0);
-        for (int i = 0; i < randomIndex; i++)
-          randomTrueBitIndex = grid.get(randomTile).nextSetBit(randomTrueBitIndex + 1);
-      }
+      int randomTrueBitIndex = randomPickTile(grid.get(randomTile));
+
 
       // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
@@ -141,14 +135,43 @@ public class TerrainChunk {
       updateGrid(terrainResource);
     }
     // set the rest of the empty tiles
+    setDefaultTiles(cPosX, cPosY, terrainResource);
+
+    return allCollapsed;
+  }
+
+  /**
+   * random pick a tile from the possible tiles
+   *
+   * @param bitSet The possible tiles
+   * @return the index of the picked tile
+   */
+  private int randomPickTile(BitSet bitSet) {
+    int numTrueBits = bitSet.cardinality();
+    int randomTrueBitIndex = 0;
+    if (numTrueBits > 0) {
+      int randomIndex = ((int) (MathUtils.random() * numTrueBits));
+      randomTrueBitIndex = bitSet.nextSetBit(0);
+      for (int i = 0; i < randomIndex; i++)
+        randomTrueBitIndex = bitSet.nextSetBit(randomTrueBitIndex + 1);
+    }
+    return randomTrueBitIndex;
+  }
+
+  /**
+   * Set the rest of the empty tiles to a default tile.
+   *
+   * @param cPosX           x position of the chunk
+   * @param cPosY           y position of the chunk
+   * @param terrainResource Terrain resource to use for generating the terrain
+   */
+  private void setDefaultTiles(int cPosX, int cPosY, TerrainResource terrainResource) {
     int currentBit = 0;
     for (int i = 0; i < collapsedTiles.size() - collapsedTiles.cardinality(); ++i) {
       currentBit = collapsedTiles.nextClearBit(currentBit);
       collapseTile(cPosX + currentBit % 16, cPosY + currentBit / 16, terrainResource, 4);
       currentBit++;
     }
-
-    return allCollapsed;
   }
 
   /**
