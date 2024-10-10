@@ -28,7 +28,7 @@ public class TerrainChunk {
   private BitSet collapsedTiles;
 
   private Map<String, Integer> tileTypeCount;
-  private int totalTiles = 0;
+  int totalTiles = 0;
   private MapType inArea;
  
   TerrainChunk(GridPoint2 position, TiledMap map) {
@@ -55,10 +55,10 @@ public class TerrainChunk {
     // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
     inArea = checkAreaType(position);
     switch (inArea) {
-      case MapType.FOREST -> totalTiles = TerrainResource.getTileSize(TileLocation.FOREST);
-      case MapType.WATER -> totalTiles = TerrainResource.getTileSize(TileLocation.WATER);
-      case MapType.FOG -> totalTiles = TerrainResource.getTileSize(TileLocation.FOG);
-      default -> totalTiles = TerrainResource.getTileSize(TileLocation.AIR);
+      case MapType.FOREST -> totalTiles = terrainResource.getForestSize();
+      case MapType.WATER -> totalTiles = terrainResource.getWaterSize();
+      case MapType.FOG -> totalTiles = terrainResource.getFogSize();
+      default -> totalTiles = terrainResource.getAirSize();
     }
 
     for (int i = 0; i < 256; ++i) {
@@ -70,7 +70,7 @@ public class TerrainChunk {
     updateGrid(terrainResource);
 
     while (true)
-      if (collapseAll(cPosX, cPosY, terrainResource, inArea))
+      if (collapseAll(cPosX, cPosY, terrainResource))
         break;
   }
 
@@ -97,7 +97,7 @@ public class TerrainChunk {
    *
    * @return true if all tiles are collapsed, false otherwise
    */
-  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource, MapType type) {
+  private boolean collapseAll(int cPosX, int cPosY, TerrainResource terrainResource) {
     boolean allCollapsed = true;
     for (int t = 0; t < 256; ++t) {
 
@@ -123,14 +123,8 @@ public class TerrainChunk {
       Integer randomTile = minentropyTiles.random();
 
       // ranodm pick a tile
-      int numTrueBits = grid.get(randomTile).cardinality();
-      int randomTrueBitIndex = 0;
-      if (numTrueBits > 0) {
-        int randomIndex = ((int) (MathUtils.random() * numTrueBits));
-        randomTrueBitIndex = grid.get(randomTile).nextSetBit(0);
-        for (int i = 0; i < randomIndex; i++)
-          randomTrueBitIndex = grid.get(randomTile).nextSetBit(randomTrueBitIndex + 1);
-      }
+      int randomTrueBitIndex = randomPickTile(grid.get(randomTile));
+
 
       // clear all bit of the picked cell as filled tile
       grid.get(randomTile).clear(); // collapsed
@@ -141,14 +135,43 @@ public class TerrainChunk {
       updateGrid(terrainResource);
     }
     // set the rest of the empty tiles
+    setDefaultTiles(cPosX, cPosY, terrainResource);
+
+    return allCollapsed;
+  }
+
+  /**
+   * random pick a tile from the possible tiles
+   *
+   * @param bitSet The possible tiles
+   * @return the index of the picked tile
+   */
+  private int randomPickTile(BitSet bitSet) {
+    int numTrueBits = bitSet.cardinality();
+    int randomTrueBitIndex = 0;
+    if (numTrueBits > 0) {
+      int randomIndex = ((int) (MathUtils.random() * numTrueBits));
+      randomTrueBitIndex = bitSet.nextSetBit(0);
+      for (int i = 0; i < randomIndex; i++)
+        randomTrueBitIndex = bitSet.nextSetBit(randomTrueBitIndex + 1);
+    }
+    return randomTrueBitIndex;
+  }
+
+  /**
+   * Set the rest of the empty tiles to a default tile.
+   *
+   * @param cPosX           x position of the chunk
+   * @param cPosY           y position of the chunk
+   * @param terrainResource Terrain resource to use for generating the terrain
+   */
+  private void setDefaultTiles(int cPosX, int cPosY, TerrainResource terrainResource) {
     int currentBit = 0;
     for (int i = 0; i < collapsedTiles.size() - collapsedTiles.cardinality(); ++i) {
       currentBit = collapsedTiles.nextClearBit(currentBit);
       collapseTile(cPosX + currentBit % 16, cPosY + currentBit / 16, terrainResource, 4);
       currentBit++;
     }
-
-    return allCollapsed;
   }
 
   /**

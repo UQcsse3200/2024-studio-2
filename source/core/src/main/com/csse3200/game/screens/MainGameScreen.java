@@ -140,7 +140,7 @@ public class MainGameScreen extends PausableScreen {
    * @param mapType The map type to set the map to.
    */
   public void setMap(MapHandler.MapType mapType) {
-    this.gameArea = MapHandler.switchMapTo(mapType, renderer, game, true);
+    this.gameArea = MapHandler.switchMapTo(mapType, renderer, game);
   }
 
   /**
