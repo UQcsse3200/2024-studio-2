@@ -119,8 +119,6 @@ public class MiniMapDisplay extends UIComponent {
         }
     }
 
-
-
     /**
      * Initializes purple dot points for the minigame NPCs.
      */
@@ -182,12 +180,6 @@ public class MiniMapDisplay extends UIComponent {
             } else {
                 pointImages.get(i).setVisible(false);
             }
-        }
-    }
-
-    public void removePoints(List<Image> pointImages) {
-        for (Image image : pointImages) {
-            image.remove();
         }
     }
 
