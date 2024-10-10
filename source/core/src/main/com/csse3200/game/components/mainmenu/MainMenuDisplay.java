@@ -45,18 +45,15 @@ public class MainMenuDisplay extends UIComponent {
     private Table userTable;
     private Table loginRegisterTable;
     private SettingsMenuDisplay settingsMenuDisplay;
-    private LoginRegisterDisplay loginRegisterDisplay;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
     private Texture toggleTexture;
-    private Texture userTableBackground;
     private Button muteButton;  // Mute toggle button with texture
     private Texture muteTexture;  // Texture for mute state
     private Texture unmuteTexture;  // Texture for unmute state
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture cursorTexture;
-    private Table chatbotIconTable;
     private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
@@ -79,12 +76,12 @@ public class MainMenuDisplay extends UIComponent {
     private Button helpBtn;
     private Button exitBtn;
     private Label versionLabel;
-    private final float windowButtonWidth = 200;
-    private final float windowButtonHeight = 45;
-    private final float windowButtonSpacing = 15;
-    private final float fullScreenButtonWidth = 320;
-    private final float fullScreenuttonHeight = 80;
-    private final float fullScreenButtonSpacing = 30;
+    private static final float WINDOWBUTTONWIDTH = 200;
+    private static final float WINDOWBUTTONHEIGHT = 45;
+    private static final float WINDOWBUTTONSPACING = 15;
+    private static final float FULLSCREENBUTTONWIDTH = 320;
+    private static final float FULLSCREENBUTTONHEIGHT = 80;
+    private static final float FULLSCREENBUTTONSPACING = 30;
     private Label startLabel;
     private Label loadLabel;
     private Label minigameLabel;
@@ -93,16 +90,13 @@ public class MainMenuDisplay extends UIComponent {
     private Label exitLabel;
     private Label achievementsLabel;
     private Image birdAniImage;
-    private Image dogAniImage;
-    private TextureAtlas birdAtlas;
-    private TextureAtlas dogAtlas;
     private Array<TextureRegion> birdTextures;
-    private Array<TextureRegion> dogTextures;
     private boolean birdDirection = true;
-    private boolean dogDirection = true;
     int birdCurrentFrame = 0;
-    int dogCurrentFrame = 0;
     private float timer;
+    private static final String REDBUTTON = "button-red";
+    private static final String BUTTONPATH= "images/ButtonsMain/BlankLarge.png";
+    private static final String TITLECOLOUR = "title-white";
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -124,7 +118,7 @@ public class MainMenuDisplay extends UIComponent {
 
         //Add bird animation
         birdAniImage = new Image();
-        birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
+        TextureAtlas birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
         birdTextures = new Array<>(3);
         for (int frameBird = 1; frameBird <= 3; frameBird++) {
             birdTextures.add(birdAtlas.findRegion("fly" + frameBird));
@@ -134,22 +128,6 @@ public class MainMenuDisplay extends UIComponent {
         birdAniImage.setSize(128, 112);
         birdAniImage.setPosition(1500, 500);
         stage.addActor(birdAniImage);
-
-        // Add dog animation
-        /*
-        dogAniImage = new Image();
-        dogAtlas = new TextureAtlas("spriteSheets/DogMain.atlas");
-        dogTextures = new Array<>(4);
-        for (int frameDog = 1; frameDog <= 4; frameDog++) {
-            dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
-        }
-        TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(0));
-        dogAniImage.setDrawable(drawableDog);
-        dogAniImage.setSize(336, 312);
-        dogAniImage.setPosition(-100, 100);
-        stage.addActor(dogAniImage);
-        */
-
         timer = 0f;
     }
 
@@ -159,7 +137,7 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void addChatbotIcon() {
         // Create a table to hold the chatbot icon and position it in the bottom-right corner.
-        chatbotIconTable = new Table();
+        Table chatbotIconTable = new Table();
         chatbotIconTable.bottom().right();
         chatbotIconTable.setFillParent(true);
         chatbotIconTable.pad(20).padBottom(50).padRight(50);
@@ -208,7 +186,7 @@ public class MainMenuDisplay extends UIComponent {
         chatbotDialog.setBackground(backgroundDrawable);
 
         // Title
-        Label titleLabel = new Label("Chatbot", skin, "title-white");
+        Label titleLabel = new Label("Chatbot", skin, TITLECOLOUR);
         titleLabel.setAlignment(Align.center);
 
         // Predefined questions
@@ -338,7 +316,6 @@ public class MainMenuDisplay extends UIComponent {
     private void loadTextures() {
         settingBackground = new Texture("images/SettingBackground.png");
         lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");
-        userTableBackground = new Texture("images/UserTable.png");
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
         dog2Texture = new Texture("images/dog2.png");
@@ -426,13 +403,13 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void initializeLabels() {
-        startLabel = new Label("Start", skin, "button-red");
-        loadLabel = new Label("Load", skin, "button-red");
-        minigameLabel = new Label("Minigame", skin, "button-red");
-        helpLabel = new Label("Help", skin, "button-red");
-        settingLabel = new Label("Settings", skin, "button-red");
-        exitLabel = new Label("Exit", skin, "button-red");
-        achievementsLabel = new Label("Logbook", skin, "button-red");
+        startLabel = new Label("Start", skin, REDBUTTON);
+        loadLabel = new Label("Load", skin, REDBUTTON);
+        minigameLabel = new Label("Minigame", skin, REDBUTTON);
+        helpLabel = new Label("Help", skin, REDBUTTON);
+        settingLabel = new Label("Settings", skin, REDBUTTON);
+        exitLabel = new Label("Exit", skin, REDBUTTON);
+        achievementsLabel = new Label("Logbook", skin, REDBUTTON);
         versionLabel = new Label("Version 1.0", skin, "default-white");
     }
 
@@ -453,13 +430,13 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void initializeMenuButtons() {
         // Initialises buttons
-        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
-        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/BlankLarge.png"))));
+        startBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        loadBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        minigamesBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        settingsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        achievementsBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        helpBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
+        exitBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture(BUTTONPATH))));
     }
 
     /**
@@ -614,17 +591,17 @@ public class MainMenuDisplay extends UIComponent {
         float padTopSpacing;
 
         if (Gdx.graphics.isFullscreen()) {
-            buttonWidth = fullScreenButtonWidth;
-            buttonHeight = fullScreenuttonHeight;
-            buttonSpacing = fullScreenButtonSpacing;
+            buttonWidth = FULLSCREENBUTTONWIDTH;
+            buttonHeight = FULLSCREENBUTTONHEIGHT;
+            buttonSpacing = FULLSCREENBUTTONSPACING;
             padTopSpacing = 500;
             setMenuLabelsStyle("title-red");
         } else {
-            buttonWidth = windowButtonWidth;
-            buttonHeight = windowButtonHeight;
-            buttonSpacing = windowButtonSpacing;
+            buttonWidth = WINDOWBUTTONWIDTH;
+            buttonHeight = WINDOWBUTTONHEIGHT;
+            buttonSpacing = WINDOWBUTTONSPACING;
             padTopSpacing = 350;
-            setMenuLabelsStyle("button-red");
+            setMenuLabelsStyle(REDBUTTON);
         }
 
         menuButtonTable.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
@@ -728,9 +705,6 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addUserTable() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
         userTable.setSize(175, 175);
 
         userTable.setVisible(true);
@@ -753,7 +727,7 @@ public class MainMenuDisplay extends UIComponent {
      * Add login register table, which could be open by clicking the profile button
      */
     private void addLoginRegisterTable() {
-        loginRegisterDisplay = new LoginRegisterDisplay();
+        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay();
         loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
         loginRegisterTable.setVisible(false);
         loginRegisterTable.setSize(663, 405);
@@ -788,7 +762,6 @@ public class MainMenuDisplay extends UIComponent {
      * Update the position of user table.
      */
     public void updateUserTable() {
-        float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         userTable.setPosition(165, screenHeight - 190);
     }
@@ -836,7 +809,7 @@ public class MainMenuDisplay extends UIComponent {
         navigationTable.add(previousButton).padRight(10);
         navigationTable.add(nextButton);
 
-        Label title = new Label("Help", skin, "title-white");
+        Label title = new Label("Help", skin, TITLECOLOUR);
         // Create a table for the close button
         Table closeButtonTable = new Table();
         Button closeButton = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/CloseButton.png"))));
@@ -994,7 +967,6 @@ public class MainMenuDisplay extends UIComponent {
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
                 logger.info(String.format("Fullscreen toggled: %b", !isFullscreen));
-                //sizeTable();
             }
         });
 
@@ -1043,7 +1015,7 @@ public class MainMenuDisplay extends UIComponent {
         Table topTable = new Table();
         topTable.top().padTop(10);
 
-        Label title = new Label("Settings", skin, "title-white");
+        Label title = new Label("Settings", skin, TITLECOLOUR);
 
         topTable.add(title).expandX().center().padTop(5);
         topTable.row();
@@ -1177,14 +1149,6 @@ public class MainMenuDisplay extends UIComponent {
                 birdCurrentFrame = 0;
             }
             birdAniImage.setDrawable(drawable);
-/*
-            TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(dogCurrentFrame));
-            dogCurrentFrame++;
-            if (dogCurrentFrame >= 3) {
-                dogCurrentFrame = 0;
-            }
-            dogAniImage.setDrawable(drawableDog);
- */
         }
 
         // animate the bird left to right
@@ -1203,33 +1167,14 @@ public class MainMenuDisplay extends UIComponent {
             birdX = birdAniImage.getX() + Gdx.graphics.getDeltaTime() * 100;
         }
         birdAniImage.setPosition(birdX, 500);
-
-        // animate the dog left to right
-        /*
-        float dogX = dogAniImage.getX();
-        if (dogX < -200 && dogDirection) {
-            dogDirection = false;
-            dogAniImage.setScale(-1,1);
-        } else if (dogX > 1500 && !dogDirection) {
-            dogDirection = true;
-            dogAniImage.setScale(1,1);
-        }
-
-        if (dogDirection) {
-            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * -150;
-        } else {
-            dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * 150;
-        }
-        dogAniImage.setPosition(dogX, 100);
-         */
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
 
     @Override

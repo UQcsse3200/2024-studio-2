@@ -15,6 +15,7 @@ public class Maze {
     private final int height;
     public final List<GridPoint2>[][] adjacency;
     List<GridPoint2> startLocationSpanningTree;
+    private final Random rand = new Random();
 
     public Maze(int size) {
         this(size, size);
@@ -137,7 +138,7 @@ public class Maze {
      * Assumes maze has not been generated or read from a file previously.
      */
     private void generateRandomMaze() {
-        recursiveBacktracking(getRandomCell(), new Random());
+        recursiveBacktracking(getRandomCell(), rand);
     }
 
     /**
@@ -255,7 +256,7 @@ public class Maze {
      * @param count the number of walls to break
      */
     public void breakWalls(int count) {
-        Random rand = new Random();
+        //Random rand = new Random();
         while (count > 0) {
             GridPoint2 cell = getRandomCell();
             List<GridPoint2> walledCells = getNotMazeAdjacent(cell);
