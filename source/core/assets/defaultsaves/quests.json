@@ -70,19 +70,19 @@
 			]
 		}
 		{
-			questName: Defeat Chickens
-			questDescription: Defeat 3 chickens
+			questName: Defeat Bears
+			questDescription: Defeat 3 bears
 			tasks: [
 				{
-					taskName: defeatCHICKEN
-					description: Lorem ipsum	
+					taskName: defeatBEARS
+					description: Lorem ipsum
 					hint: Do you really need this?
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
-			
+
 			]
 			isSecretQuest: false
 			questDialogue: [
@@ -180,7 +180,7 @@
 			taskCompletionTriggers: null,
 			followQuests: [
 				"Guide's Request",
-				"Defeat Enemies",
+				"Defeat Bears",
 				"Play Snake Minigame"
 			]
 		}
@@ -256,28 +256,27 @@
 			]
 		}
 		{
-			questName: Defeat Sea Enemies,
-			questDescription: Fill in
+			questName: Defeat Monkeys
+			questDescription: Defeat 3 monkeys
 			tasks: [
 				{
-					taskName: defeatSeaCreatures
-					description: Defeat the Sea Creatures
-					hint: Show your strength by defeating the hostile sea creatures in the Water Kingdom.
-					requiredTriggers: 1
+					taskName: defeatMONKEY
+					description: Lorem ipsum
+					hint: Do you really need this?
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
+
 			]
 			isSecretQuest: false
-
 			questDialogue: [
 				{
 					npcName: Cow
 					dialogue: [
 						[
-							Watch out for hostile sea creatures!
-							Defeat them to show your strength.
+							Defeat the wild creatures that threaten the peace of our land.
 						]
 					]
 				}
@@ -366,7 +365,7 @@
 			taskCompletionTriggers: null,
 			followQuests: [
 				"Water Sage's research",
-				"Defeat Sea Enemies",
+				"Defeat Monkeys",
 				"Play Flappy Game"
 			]
 		}
@@ -439,18 +438,19 @@
 			]
 		}
 		{
-			questName: Brave the Skies
-			questDescription: Prove your courage by battling the flying beasts of the Sky Kingdom
+			questName: Defeat frogs
+			questDescription: Defeat 3 Frogs
 			tasks: [
 				{
-					taskName: defeatFlyingBeasts
-					description: Defeat the Flying Beasts
-					hint: Prove your bravery by facing the flying beasts that roam the skies
-					requiredTriggers: 1
+					taskName: defeatFROG
+					description: Lorem ipsum
+					hint: Do you really need this?
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
+
 			]
 			isSecretQuest: false
 			questDialogue: [
@@ -458,7 +458,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Face the flying beasts that roam the skies to prove your bravery.
+							Defeat the wild creatures that threaten the peace of our land.
 						]
 					]
 				}
@@ -535,103 +535,9 @@
 			taskCompletionTriggers: null,
 			followQuests: [
 				"Gathering Sky Crystals",
-				"Brave the Skies",
+				"Defeat frogs",
 				"Tempest’s Challenge"
 			]
-		}
-		
-		{
-			questName: Defeat frogs
-			questDescription: Defeat 3 Frogs
-			tasks: [
-				{
-					taskName: defeatFROG
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
-		}
-		{
-			questName: Defeat Monkeys
-			questDescription: Defeat 3 monkeys
-			tasks: [
-				{
-					taskName: defeatMONKEY
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
-		}
-		{
-			questName: Defeat Bears
-			questDescription: Defeat 3 bears
-			tasks: [
-				{
-					taskName: defeatBEARS
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
 		}
 
 	]
