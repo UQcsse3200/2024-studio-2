@@ -7,6 +7,8 @@ import com.playfab.PlayFabSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 
 /**
  * The PlayFab class handles user registration and login via PlayFab's client API.
