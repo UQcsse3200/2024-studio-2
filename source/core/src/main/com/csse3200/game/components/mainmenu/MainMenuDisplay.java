@@ -47,6 +47,7 @@ public class MainMenuDisplay extends UIComponent {
     private Table loginRegisterTable;
     private SettingsMenu settingsMenu;
     private LoginRegisterDisplay loginRegisterDisplay;
+    private Texture mainTitle;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
     private Texture toggleTexture;
@@ -88,16 +89,21 @@ public class MainMenuDisplay extends UIComponent {
     private final float fullScreenButtonHeight = 60;
     private final float fullScreenButtonSpacing = 20;
     private Image birdAniImage;
+    private Image monkeyAniImage;
     private Image dogAniImage;
     private TextureAtlas birdAtlas;
     private TextureAtlas dogAtlas;
+    private TextureAtlas monkeyAtlas;
     private Array<TextureRegion> birdTextures;
+    private Array<TextureRegion> monkeyTextures;
     private Array<TextureRegion> dogTextures;
     private boolean birdDirection = true;
     private boolean dogDirection = true;
     int birdCurrentFrame = 0;
+    int monkeyCurrentFrame = 0;
     int dogCurrentFrame = 0;
     private float timer;
+    private Image titleAniImage;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -106,17 +112,54 @@ public class MainMenuDisplay extends UIComponent {
     public void create() {
         super.create();
         logger.info("Creating MainMenuDisplay");
-        loadTextures();  // Load textures for the mute button
+        this.loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
-        setupCustomCursor();
+        this.setupCustomCursor();
+        this.addDog();
         addActors();
         chatbotService = new ChatbotService();
-        setupPredefinedQuestions();
-        addChatbotIcon();
-        applyUserSettings();
-        setupOwlFacts();
-        addOwlToMenu(); // Add owl to the menu
+        this.setupPredefinedQuestions();
+        this.addMonkey();
+        this.addChatbotIcon();
+        this.applyUserSettings();
+        this.setupOwlFacts();
+        this.addOwlToMenu(); // Add owl to the menu
+        this.addBird();
+        this.addTitle();
 
+        timer = 0f;
+    }
+
+    private void addMonkey() {
+        monkeyAniImage = new Image();
+        monkeyAtlas = new TextureAtlas("spriteSheets/MonkeySprite.atlas");
+        monkeyTextures = new Array<>(6);
+        for (int frameMonkey = 1; frameMonkey <= 6; frameMonkey++) {
+            monkeyTextures.add(monkeyAtlas.findRegion("monkey" + frameMonkey));
+        }
+        TextureRegionDrawable drawableMonkey = new TextureRegionDrawable(monkeyTextures.get(0));
+        monkeyAniImage.setDrawable(drawableMonkey);
+        monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
+        monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
+        stage.addActor(monkeyAniImage);
+    }
+
+    private void addDog() {
+        // Add dog animation -> before buttons so the buttons are over top
+        dogAniImage = new Image();
+        dogAtlas = new TextureAtlas("spriteSheets/Dog.atlas");
+        dogTextures = new Array<>(4);
+        for (int frameDog = 1; frameDog <= 4; frameDog++) {
+            dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
+        }
+        TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(0));
+        dogAniImage.setDrawable(drawableDog);
+        dogAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 7f);
+        dogAniImage.setPosition(-200, Gdx.graphics.getHeight() / 6.8f);
+        stage.addActor(dogAniImage);
+    }
+
+    private void addBird() {
         //Add bird animation
         birdAniImage = new Image();
         birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
@@ -129,21 +172,16 @@ public class MainMenuDisplay extends UIComponent {
         birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
         birdAniImage.setPosition(Gdx.graphics.getWidth() + 200, Gdx.graphics.getHeight() * 0.6f);
         stage.addActor(birdAniImage);
+    }
 
-        // Add dog animation
-        dogAniImage = new Image();
-        dogAtlas = new TextureAtlas("spriteSheets/Dog.atlas");
-        dogTextures = new Array<>(4);
-        for (int frameDog = 1; frameDog <= 4; frameDog++) {
-            dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
-        }
-        TextureRegionDrawable drawableDog = new TextureRegionDrawable(dogTextures.get(0));
-        dogAniImage.setDrawable(drawableDog);
-        dogAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 7f);
-        dogAniImage.setPosition(-200, Gdx.graphics.getHeight() / 6.8f);
-        stage.addActor(dogAniImage);
-
-        timer = 0f;
+    private void addTitle() {
+        // adds the title -> after bird so bird fly's behind
+        titleAniImage = new Image();
+        TextureRegionDrawable drawableTitle = new TextureRegionDrawable(new TextureRegion(mainTitle));
+        titleAniImage.setDrawable(drawableTitle);
+        titleAniImage.setSize(Gdx.graphics.getWidth() / 2.8f,Gdx.graphics.getHeight() / 2.6f);
+        titleAniImage.setPosition((Gdx.graphics.getWidth() / 2f) - (titleAniImage.getWidth() / 2), Gdx.graphics.getHeight() / 1.8f );
+        stage.addActor(titleAniImage);
     }
 
     /**
@@ -153,13 +191,14 @@ public class MainMenuDisplay extends UIComponent {
     private void addChatbotIcon() {
         // Create a table to hold the chatbot icon and position it in the bottom-right corner.
         chatbotIconTable = new Table();
-        chatbotIconTable.bottom().right();
-        chatbotIconTable.setFillParent(true);
-        chatbotIconTable.pad(20).padBottom(50).padRight(50);
+        //chatbotIconTable.bottom().right();
+        chatbotIconTable.setBounds(monkeyAniImage.getX(),monkeyAniImage.getY(), monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
+        //chatbotIconTable.setFillParent(true);
+        //chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
         // Load the chatbot icon image and set its initial size.
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
-        chatbotIcon.setSize(100, 100);
+        chatbotIcon.setSize(monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
 
         // Add a listener to the chatbot icon for click events
         chatbotIcon.addListener(new ClickListener() {
@@ -328,7 +367,8 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void loadTextures() {
         settingBackground = new Texture("images/SettingBackground.png");
-        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");
+        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
+        mainTitle = new Texture("images/SplashScreen/MainTitle.png");
         userTableBackground = new Texture("images/UserTable.png");
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
@@ -857,15 +897,30 @@ public class MainMenuDisplay extends UIComponent {
                 dogCurrentFrame = 0;
             }
             dogAniImage.setDrawable(drawableDog);
+
+            TextureRegionDrawable drawableMonkey = new TextureRegionDrawable(monkeyTextures.get(monkeyCurrentFrame));
+            monkeyCurrentFrame++;
+            if (monkeyCurrentFrame >= 5) {
+                monkeyCurrentFrame = 0;
+            }
+            monkeyAniImage.setDrawable(drawableMonkey);
         }
 
         // Resize owl with screen
         owlImage.setPosition(Gdx.graphics.getWidth() * 0.85f, Gdx.graphics.getHeight() * 0.55f);
         owlImage.setSize(Gdx.graphics.getWidth() / 5.5f, Gdx.graphics.getHeight() / 4f);
 
-        // update bird and dog animations
+        // update bird, monkey and dog animations
         this.updateBirdFly();
         this.updateDogRun();
+
+        // resize monkey
+        monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
+        monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
+
+        // resize title
+        titleAniImage.setSize(Gdx.graphics.getWidth() / 2.8f,Gdx.graphics.getHeight() / 2.6f);
+        titleAniImage.setPosition((Gdx.graphics.getWidth() / 2f) - (titleAniImage.getWidth() / 2), Gdx.graphics.getHeight() / 1.8f );
     }
 
     public void updateBirdFly() {
