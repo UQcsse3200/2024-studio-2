@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.*;
  * when there are null components, and when stamina is reduced after an attack.
  */
 @ExtendWith(GameExtension.class)
-public class AttackMoveTest {
+class AttackMoveTest {
 
     private AttackMove attackMove;
     private CombatStatsComponent attackerStats;

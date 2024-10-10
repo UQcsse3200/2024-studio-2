@@ -1,97 +1,97 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
-import com.csse3200.game.minigames.snake.Snake;
-import com.csse3200.game.minigames.snake.SnakeGrid;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-public class SnakeTest {
-
+@ExtendWith(GameExtension.class)
+class SnakeTest {
     Snake snake;
     SnakeGrid grid;
 
-    @Before
-    public void setUp() {
-        this.grid = new SnakeGrid();
-        this.snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1);
+    @BeforeEach
+    void setUp() {
+        grid = new SnakeGrid();
+        snake = new Snake(grid, 0, 0, Direction.RIGHT, 2, 1);
     }
 
     @Test
-    public void testMove() {
-        assertEquals(snake.getX(), 0);
-        assertEquals(snake.getY(), 0);
+    void testMove() {
+        assertEquals(0, snake.getX());
+        assertEquals(0, snake.getY());
         this.snake.move(Direction.RIGHT);
-        assertEquals(snake.getX(), 1);
-        assertEquals(snake.getY(), 0);
+        assertEquals(1, snake.getX());
+        assertEquals(0, snake.getY());
         this.snake.move(Direction.UP);
-        assertEquals(snake.getX(), 1);
-        assertEquals(snake.getY(), 1);
+        assertEquals(1, snake.getX());
+        assertEquals(1, snake.getY());
         this.snake.move(Direction.LEFT);
-        assertEquals(snake.getX(), 0);
-        assertEquals(snake.getY(), 1);
+        assertEquals(0, snake.getX());
+        assertEquals(1, snake.getY());
         this.snake.move(Direction.DOWN);
-        assertEquals(snake.getX(), 0);
-        assertEquals(snake.getY(), 0);
+        assertEquals(0, snake.getX());
+        assertEquals(0, snake.getY());
     }
 
     @Test
-    public void testUpdateDirectionOnInput() {
+    void testUpdateDirectionOnInput() {
         this.snake.setDirection(Direction.UP);
-        assertEquals(snake.getDirection(), Direction.UP);
+        assertEquals(Direction.UP, snake.getDirection());
 
         this.snake.updateDirectionOnInput(Direction.DOWN);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.UP);
+        assertEquals(Direction.UP, snake.getDirection());
         this.snake.updateDirectionOnInput(Direction.RIGHT);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.RIGHT);
+        assertEquals(Direction.RIGHT, snake.getDirection());
 
         this.snake.updateDirectionOnInput(Direction.LEFT);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.RIGHT);
+        assertEquals(Direction.RIGHT, snake.getDirection());
         this.snake.updateDirectionOnInput(Direction.DOWN);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.DOWN);
+        assertEquals(Direction.DOWN, snake.getDirection());
 
         this.snake.updateDirectionOnInput(Direction.UP);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.DOWN);
+        assertEquals(Direction.DOWN, snake.getDirection());
         this.snake.updateDirectionOnInput(Direction.LEFT);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.LEFT);
+        assertEquals(Direction.LEFT, snake.getDirection());
 
         this.snake.updateDirectionOnInput(Direction.RIGHT);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.LEFT);
+        assertEquals(Direction.LEFT, snake.getDirection());
         this.snake.updateDirectionOnInput(Direction.UP);
         this.snake.update(1);
-        assertEquals(snake.getDirection(), Direction.UP);
+        assertEquals(Direction.UP, snake.getDirection());
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         this.snake.updateDirectionOnInput(Direction.UP);
-        assertEquals(snake.getDirection(), Direction.RIGHT);
+        assertEquals(Direction.RIGHT, snake.getDirection());
         assertEquals(0, snake.getX());
         assertEquals(0, snake.getY());
         snake.update(0.5f);
-        assertEquals(snake.getDirection(), Direction.RIGHT);
+        assertEquals(Direction.RIGHT, snake.getDirection());
         assertEquals(0, snake.getX());
         assertEquals(0, snake.getY());
         snake.update(0.5f);
-        assertEquals(snake.getDirection(), Direction.UP);
+        assertEquals(Direction.UP, snake.getDirection());
         assertEquals(0, snake.getX());
         assertEquals(1, snake.getY());
     }
 
     @Test
-    public void testGrow() {
+    void testGrow() {
         this.snake.setDirection(Direction.UP);
         this.snake.move(Direction.UP);
         assertEquals(1, this.snake.getBodySegments().size());

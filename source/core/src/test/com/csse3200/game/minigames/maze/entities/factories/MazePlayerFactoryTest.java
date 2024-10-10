@@ -3,11 +3,10 @@ package com.csse3200.game.minigames.maze.entities.factories;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 import com.csse3200.game.extensions.GameExtension;
+
 
 @ExtendWith(GameExtension.class)
 class MazePlayerFactoryTest {

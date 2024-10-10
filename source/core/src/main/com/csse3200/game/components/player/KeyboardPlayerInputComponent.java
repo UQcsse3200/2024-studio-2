@@ -3,13 +3,14 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
 import com.csse3200.game.components.CombatStatsComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
+  private static final Logger logger = LoggerFactory.getLogger(KeyboardPlayerInputComponent.class);
   private final Vector2 walkDirection = new Vector2();
   private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
   private boolean paralyzed = false;
@@ -203,7 +205,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
   private void decreaseHunger() {
     CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
-    combatStats.addHunger(-1);
+    if (combatStats != null) {
+      combatStats.addHunger(-1);
+    } else {
+      logger.debug("Attempting to change hunger on entity not supporting this!");
+    }
   }
 
   private void updateWalkDirection() {

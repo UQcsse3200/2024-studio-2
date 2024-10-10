@@ -124,6 +124,7 @@ public class ForestGameArea extends GameArea {
       player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
       player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
       player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
+      player.getEvents().addListener("unlockArea", this::unlockArea);
       kangarooBossSpawned = false;
       waterBossSpawned = false;
       airBossSpawned = false;
@@ -137,13 +138,13 @@ public class ForestGameArea extends GameArea {
       player.getComponent(QuestManager.class).loadQuests();
   }
 
-//  /**
-//   * Unlock an area of the map
-//   */
-//  @Override
-//  public void unlockArea(String area) {
-//    terrain.getMap().getLayers().get(area).setVisible(false);
-//  }
+  /**
+   * Unlock an area of the map
+   */
+  @Override
+  public void unlockArea(String area) {
+    terrain.getMap().getLayers().get(area).setVisible(false);
+  }
 
   /**
    * Spawn the world barrier
@@ -283,9 +284,6 @@ public class ForestGameArea extends GameArea {
     this.terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO, PLAYER_SPAWN, MAP_SIZE, MapType.FOREST);
     Entity terrain = new Entity().addComponent(this.terrain);
 
-    terrain.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
-
-    terrain.getEvents().trigger(UNLOCK_AREA_EVENT, "water");
     spawnEntity(terrain);
   }
 

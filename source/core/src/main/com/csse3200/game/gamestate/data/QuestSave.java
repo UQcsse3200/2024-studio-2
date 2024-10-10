@@ -123,7 +123,7 @@ public class QuestSave implements Json.Serializable {
             }
 
             quest.get("followQuests");
-            List<String> newFollows = new ArrayList<String>();
+            List<String> newFollows = new ArrayList<>();
             if(followList != null) {
                 while(followList.hasNext()) {
                     JsonValue follow = followList.next();
