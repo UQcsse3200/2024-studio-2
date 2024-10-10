@@ -23,10 +23,15 @@ import java.util.List;
  * TerrainResource class to store all possible tiles and their edge tiles.
  */
 public class TerrainResource {
-    private static List<Tile> forestTiles;
-    private static List<Tile> waterTiles;
-    private static List<Tile> airTiles;
-    private static List<Tile> fogTiles;
+    private List<Tile> forestTiles;
+    private List<Tile> waterTiles;
+    private List<Tile> airTiles;
+    private List<Tile> fogTiles;
+
+    public static int forestSize = 0;
+    public static int waterSize = 0;
+    public static int airSize = 0;
+    public static int fogSize = 0;
 
     private boolean unlockedWater;
 
@@ -50,6 +55,7 @@ public class TerrainResource {
                                     new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
                                     tile.edges, tile.centre));
                 }
+                forestSize = forestTiles.size();
 
                 // load water tiles
                 OceanMapTiles oceanTileConfig;
@@ -63,6 +69,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
+                waterSize = waterTiles.size();
 
                 // load fog tiles
                 for (FogTileConfig tile : fogTileConfig.fogTiles) {
@@ -71,6 +78,7 @@ public class TerrainResource {
                             tile.edges,
                             tile.centre));
                 }
+                fogSize = fogTiles.size();
 
                 break;
             case COMBAT:
@@ -123,10 +131,10 @@ public class TerrainResource {
 
     public static int getTileSize(TileLocation location) {
         switch (location) {
-            case FOREST -> {return forestTiles.size();}
-            case WATER -> {return waterTiles.size();}
-            case AIR -> {return airTiles.size();}
-            case FOG -> {return fogTiles.size();}
+            case FOREST -> {return forestSize;}
+            case WATER -> {return waterSize;}
+            case AIR -> {return airSize;}
+            case FOG -> {return fogSize;}
             default -> throw new IllegalArgumentException("Given tile location doesn't exist!");
         }
     }
