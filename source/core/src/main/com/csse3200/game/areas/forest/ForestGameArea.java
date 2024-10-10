@@ -42,6 +42,8 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
@@ -442,41 +444,59 @@ public class ForestGameArea extends GameArea {
     private void spawnItems(GridPoint2 pos) {
         Supplier<Entity> generator;
 
-        // Health Potions
-        generator = () -> ItemFactory.createHealthPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_HEALTH_POTIONS);
+    // Health Potions
+      if (random.nextFloat() <= 0.30) {
+          generator = () -> ItemFactory.createHealthPotion(player);
+          spawnFixedItems(generator, 0.4, ForestSpawnConfig.NUM_HEALTH_POTIONS, 1);
+      }
 
-        // Defense Potions
-        generator = () -> ItemFactory.createDefensePotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS);
+      // Defense Potions
+      if (random.nextFloat() <= 0.10) {
+          generator = () -> ItemFactory.createDefensePotion(player);
+          spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 1);
+      }
 
-        // Attack potions
-        generator = () -> ItemFactory.createAttackPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_ATTACK_POTIONS);
+      // Attack Potions
+      if (random.nextFloat() <= 0.10) {
+          generator = () -> ItemFactory.createAttackPotion(player);
+          spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_ATTACK_POTIONS, 1);
+      }
 
-        // Speed potions
-        generator = () -> ItemFactory.createSpeedPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_SPEED_POTIONS);
+      // Speed Potions
+      if (random.nextFloat() <= 0.20) {
+          generator = () -> ItemFactory.createSpeedPotion(player);
+          spawnFixedItems(generator, 0.2, ForestSpawnConfig.NUM_SPEED_POTIONS, 1);
+      }
 
-        // Apples
-        generator = () -> ItemFactory.createApple(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_APPLES);
+      // Apples
+      if (random.nextFloat() <= 0.40) {
+          generator = () -> ItemFactory.createApple(player);
+          spawnFixedItems(generator, 0.5, ForestSpawnConfig.NUM_APPLES, 1);
+      }
 
-        // Carrots
-        generator = () -> ItemFactory.createCarrot(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CARROTS);
+      // Carrots
+      if (random.nextFloat() <= 0.25) {
+          generator = () -> ItemFactory.createCarrot(player);
+          spawnFixedItems(generator, 0.4, ForestSpawnConfig.NUM_CARROTS, 1);
+      }
 
-        // Meat
-        generator = () -> ItemFactory.createMeat(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_MEAT);
+      // Meat
+      if (random.nextFloat() <= 0.20) {
+          generator = () -> ItemFactory.createMeat(player);
+          spawnFixedItems(generator, 0.3, ForestSpawnConfig.NUM_MEAT, 1);
+      }
 
-        // Chicken legs
-        generator = () -> ItemFactory.createChickenLeg(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CHICKEN_LEGS);
+      // Chicken Legs
+      if (random.nextFloat() <= 0.20) {
+          generator = () -> ItemFactory.createChickenLeg(player);
+          spawnFixedItems(generator, 0.3, ForestSpawnConfig.NUM_CHICKEN_LEGS, 1);
+      }
 
-        // Candy
-        generator = () -> ItemFactory.createCandy(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CANDY);
+      // Candy
+      if (random.nextFloat() <= 0.10) {
+          generator = () -> ItemFactory.createCandy(player);
+          spawnFixedItems(generator, 0.1, ForestSpawnConfig.NUM_CANDY, 1);
+      }
     }
 
     private void spawnEnemies() {
@@ -620,14 +640,22 @@ public class ForestGameArea extends GameArea {
         pos.x = Math.clamp(pos.x, 0, MAP_SIZE.x);
         pos.y = Math.clamp(pos.y, 0, MAP_SIZE.y);
 
-        return pos;
-    }
+		return pos;
+	}
 
-    private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
-        GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
-        GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
+    /**
+     * Spawns the items randomly at a fixed position across the map
+     */
+    private void spawnFixedItems(Supplier<Entity> creator, double proximityRange, int numItems, int zone) {
+        if (totalItems >= 50) {
+            return;
+        }
 
-        for (int i = 0; i < numItems; i++) {
+        int itemsToSpawn = Math.min(numItems, 50 - totalItems);
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
+
+        for (int i = 0; i < itemsToSpawn; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
             Entity item = creator.get();
             spawnEntityAt(item, randomPos, true, false);
