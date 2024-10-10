@@ -7,6 +7,8 @@ import com.playfab.PlayFabSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 
 /**
  * The PlayFab class handles user registration and login via PlayFab's client API.
@@ -53,6 +55,7 @@ public class PlayFab {
         request.Password = password;
         request.DisplayName = username;
 
+
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
 
         if (result.Result != null) {
@@ -87,6 +90,38 @@ public class PlayFab {
         } else {
             String errorMsg = result.Error.errorMessage;
             logger.debug(result.Error.errorMessage);
+            return new Response(errorMsg, false);
+        }
+    }
+
+    public static Response saveData(Map<String, String> data) {
+        UpdateUserDataRequest request = new UpdateUserDataRequest();
+        request.Data = data;
+        PlayFabResult<UpdateUserDataResult> result = PlayFabClientAPI.UpdateUserData(request);
+
+        if (result.Result != null) {
+            String succeedMsg = "Data is successfully saved.";
+            System.out.println(succeedMsg);
+            return new Response(succeedMsg, true);
+        } else {
+            String errorMsg = result.Error.errorMessage;
+            System.out.println(errorMsg);
+            return new Response(errorMsg, false);
+        }
+    }
+
+    public static Response loadData() {
+        GetUserDataRequest request = new GetUserDataRequest();
+        PlayFabResult<GetUserDataResult> result = PlayFabClientAPI.GetUserData(request);
+
+        if (result.Result != null && result.Result.Data != null) {
+            Map<String, UserDataRecord> userData = result.Result.Data;
+            String succeedMsg = "Data is successfully loaded.";
+            System.out.println(succeedMsg);
+            return new Response(userData.toString(), true);
+        } else {
+            String errorMsg = result.Error.errorMessage;
+            System.out.println(errorMsg);
             return new Response(errorMsg, false);
         }
     }

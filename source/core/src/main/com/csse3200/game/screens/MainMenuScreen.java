@@ -39,9 +39,9 @@ public class MainMenuScreen extends ResizableScreen {
   public void resize(int width, int height) {
     super.resize(width, height);
     mainMenuDisplay.updateUserTable();
-    mainMenuDisplay.updateSettingMenu();
+    //mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
-    mainMenuDisplay.addMenuButtonIcon();
+    mainMenuDisplay.updateMenuButtonLayout();
     mainMenuDisplay.updateChatbotDialogPosition();
   }
 
