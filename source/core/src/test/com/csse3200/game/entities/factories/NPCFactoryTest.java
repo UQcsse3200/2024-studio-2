@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,11 +38,13 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(GameExtension.class)
 class NPCFactoryTest {
+    private static Entity player;
     private static Entity lion;
     private static Entity cow;
     private static Entity eagle;
@@ -53,6 +56,7 @@ class NPCFactoryTest {
     private static Entity friendlyChicken;
     private static Entity friendlyFrog;
     private static Entity friendlyMonkey;
+    private static Entity friendlyBear;
 
     private DialogueBoxService dialogueBoxService;
     private ResourceService resourceService;
@@ -65,7 +69,8 @@ class NPCFactoryTest {
             "images/frog.png",
             "images/monkey.png",
             "images/friendly_npcs/friendly-npcs.png",
-            "images/final_boss_kangaroo.png"
+            "images/final_boss_kangaroo.png",
+            "images/bear2.png"
     };
 
     private static String[] atlas = {
@@ -79,7 +84,8 @@ class NPCFactoryTest {
             "images/final_boss_kangaroo.atlas",
             "images/chicken.atlas",
             "images/monkey.atlas",
-            "images/frog.atlas"
+            "images/frog.atlas",
+            "images/bear.atlas"
     };
 
     @BeforeAll
@@ -132,6 +138,7 @@ class NPCFactoryTest {
         friendlyChicken = NPCFactory.createChicken(player, enemies);
         friendlyFrog = NPCFactory.createFrog(player, enemies);
         friendlyMonkey = NPCFactory.createMonkey(player, enemies);
+        friendlyBear = NPCFactory.createBear(player, enemies);
     }
 
     @BeforeEach
@@ -161,6 +168,88 @@ class NPCFactoryTest {
 //            verify(resourceService).getAsset(soundPath, Sound.class);
 //        }
     }
+
+    /**
+     * Tests the initialization of a friendly bear by checking its creation, name, type,
+     * and the presence of necessary components.
+     */
+    @Test
+    void testBearInitialisation() {
+        // Test creation of the friendlyBear
+        Assertions.assertNotNull(friendlyBear, "Bear should not be null.");
+
+        // Test that the friendlyBear has the correct name
+        String name = configs.friendlyBear.getAnimalName();
+        Assertions.assertEquals("Bear", name);
+
+        // Test that the friendlyBear is an Entity
+        Assertions.assertEquals(Entity.class, friendlyBear.getClass());
+
+        // Test that the friendlyBear has a PhysicsComponent
+        Assertions.assertNotNull(friendlyBear.getComponent(PhysicsComponent.class));
+
+        // Test that the friendlyBear has a PhysicsMovementComponent
+        Assertions.assertNotNull(friendlyBear.getComponent(PhysicsMovementComponent.class));
+
+        // Test that the friendlyBear has a ColliderComponent
+        Assertions.assertNotNull(friendlyBear.getComponent(ColliderComponent.class));
+
+        // Test that the friendlyBear has a ConfigComponent
+        Assertions.assertNotNull(friendlyBear.getComponent(ConfigComponent.class));
+    }
+
+    /**
+     * Tests that the friendly bear has the correct sound path.
+     */
+    @Test
+    void TestBearHasCorrectSoundPath() {
+        String[] sound = configs.friendlyBear.getSoundPath();
+        Assertions.assertNotNull(sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/tiger-roar.wav"}, sound);
+    }
+
+    /**
+     * Tests that the friendly bear has the correct base hint.
+     */
+    @Test
+    void TestBearHasCorrectBaseHint() {
+        String[][] baseHint = configs.friendlyBear.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!","I am Benny the Bear."}},
+                baseHint);
+    }
+
+    /**
+     * Tests that the friendly bear has a wait animation.
+     */
+    @Test
+    void TestBearHasAnimation() {
+        Assertions.assertTrue(friendlyBear.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
+                "Bear should have idle animation.");
+    }
+
+    /**
+     * Tests that the friendly bear is a friendly NPC meaning it won't attack players.
+     */
+    @Test
+    void TestBearIsFriendly() {
+        Assertions.assertNotNull(friendlyBear.getComponent(FriendlyNPCAnimationController.class),
+                "Bear should have a friendly AI controller.");
+    }
+
+    /**
+     * Tests that the friendly bear is in the correct spot when placed.
+     */
+    @Test
+    void TestBearSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        friendlyBear.setPosition(pos);
+
+        Assertions.assertEquals(pos, friendlyBear.getPosition());
+    }
+
+
+
 
     /**
      * Tests the initialization of a friendly chicken by checking its creation, name, type,
@@ -193,7 +282,6 @@ class NPCFactoryTest {
 
     /**
      * Tests that the friendly chicken has the correct sound path.
-     * //TODO:Change when sound path is updated
      */
     @Test
     void TestChickenHasCorrectSoundPath() {
@@ -213,14 +301,6 @@ class NPCFactoryTest {
                 baseHint);
     }
 
-    /**
-     * Tests that the friendly chicken has a wait animation.
-     */
-//    @Test
-//    void TestChickenHasAnimation() {
-//        Assertions.assertTrue(friendlyChicken.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
-//                "Chicken should have idle animation.");
-//    }
 
     /**
      * Tests that the friendly chicken is a friendly NPC meaning it won't attack players.
@@ -276,7 +356,6 @@ class NPCFactoryTest {
 
     /**
      * Tests that the friendly frog has the correct sound path.
-     * //TODO:Change when sound path is updated
      */
     @Test
     void TestFrogHasCorrectSoundPath() {
@@ -299,11 +378,11 @@ class NPCFactoryTest {
     /**
      * Tests that the friendly frog has a wait animation.
      */
-//    @Test
-//    void TestFrogHasAnimation() {
-//        Assertions.assertTrue(friendlyFrog.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
-//                "Frog should have idle animation.");
-//    }
+    @Test
+    void TestFrogHasAnimation() {
+        Assertions.assertTrue(friendlyFrog.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
+                "Frog should have idle animation.");
+    }
 
     /**
      * Tests that the friendly frog is a friendly NPC meaning it won't attack players.
@@ -357,7 +436,6 @@ class NPCFactoryTest {
 
     /**
      * Tests that the friendly monkey has the correct sound path.
-     * //TODO:Change when sound path is updated
      */
     @Test
     void TestMonkeyHasCorrectSoundPath() {
@@ -380,11 +458,11 @@ class NPCFactoryTest {
     /**
      * Tests that the friendly monkey has a wait animation.
      */
-//    @Test
-//    void TestMonkeyHasAnimation() {
-//        Assertions.assertTrue(friendlyMonkey.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
-//                "Monkey should have idle animation.");
-//    }
+    @Test
+    void TestMonkeyHasAnimation() {
+        Assertions.assertTrue(friendlyMonkey.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
+                "Monkey should have idle animation.");
+    }
 
     /**
      * Tests that the friendly monkey is a friendly NPC meaning it won't attack players.
