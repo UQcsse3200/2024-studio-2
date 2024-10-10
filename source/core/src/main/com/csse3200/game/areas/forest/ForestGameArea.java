@@ -637,6 +637,10 @@ private void spawnEntityNearPlayer(Entity entity, int radius) {
      * Spawns the items randomly at a fixed position across the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, double proximityRange, int numItems, int zone) {
+        if (totalSpawnedItems >= 50) {
+            return;
+        }
+
         GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
         GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
