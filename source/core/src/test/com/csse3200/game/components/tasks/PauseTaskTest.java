@@ -1,6 +1,5 @@
 package com.csse3200.game.components.tasks;
 
-import box2dLight.Light;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -38,14 +37,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.ArrayList;
-import static org.mockito.Mockito.*;  // For when(), thenReturn(), verify(), etc.
 import static org.mockito.ArgumentMatchers.anyFloat;  // For matching any float value
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -154,7 +149,7 @@ class PauseTaskTest {
         Entity target = new Entity();
         target.setPosition(2f, 2f);
 
-        NPCConfigs configs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
+        NPCConfigs newConfigs = FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
         PauseTask pauseTask = new PauseTask(target, 10, 10, 5, false);
 
         AITaskComponent ai = new AITaskComponent()
@@ -165,7 +160,7 @@ class PauseTaskTest {
                 .addComponent(ai)
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
-                .addComponent(new ConfigComponent<>(configs.lion));
+                .addComponent(new ConfigComponent<>(newConfigs.lion));
 
         entity.create();
 

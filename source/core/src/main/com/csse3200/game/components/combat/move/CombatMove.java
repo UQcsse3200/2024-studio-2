@@ -16,7 +16,7 @@ public abstract class CombatMove {
      * @param moveName    the name of the move.
      * @param staminaCost the amount of stamina required to execute the move.
      */
-    public CombatMove(String moveName, int staminaCost) {
+    protected CombatMove(String moveName, int staminaCost) {
         this.moveName = moveName;
         this.staminaCost = staminaCost;
     }

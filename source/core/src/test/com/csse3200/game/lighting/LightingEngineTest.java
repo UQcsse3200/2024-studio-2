@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  */
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(GameExtension.class)
-public class LightingEngineTest {
+class LightingEngineTest {
 
     @Mock
     RayHandler rayHandler;
@@ -40,7 +40,7 @@ public class LightingEngineTest {
      * to prevent interference with other tests.
      */
     @BeforeEach
-    public void setup() throws IllegalAccessException {
+    void setup() throws IllegalAccessException {
         Field field = ReflectionUtils
                 .findFields(RayHandler.class, f -> f.getName().equals("lightList"),
                         ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
@@ -55,7 +55,7 @@ public class LightingEngineTest {
      * begins and ends the SpriteBatch, updates the combined camera matrix, and renders lights.
      */
     @Test
-    public void testRenderLighting() {
+    void testRenderLighting() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         SpriteBatch sb = mock(SpriteBatch.class);
         engine.render(sb);
@@ -69,7 +69,7 @@ public class LightingEngineTest {
      * Tests that the correct RayHandler is returned by the LightingEngine.
      */
     @Test
-    public void testGetRayHandler() {
+    void testGetRayHandler() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         assertEquals(rayHandler, engine.getRayHandler());
     }
@@ -78,7 +78,7 @@ public class LightingEngineTest {
      * Tests that the correct lighting layer is returned by the LightingEngine.
      */
     @Test
-    public void testGetLayer() {
+    void testGetLayer() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         assertEquals(LIGHTING_LAYER, engine.getLayer());
     }
@@ -87,7 +87,7 @@ public class LightingEngineTest {
      * Tests that the correct Z-index (0) is returned by the LightingEngine.
      */
     @Test
-    public void testGetZIndex() {
+    void testGetZIndex() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         assertEquals(0, engine.getZIndex());
     }
@@ -96,7 +96,7 @@ public class LightingEngineTest {
      * Tests that the RayHandler is properly disposed when the LightingEngine is disposed.
      */
     @Test
-    public void disposesRayHandler() {
+    void disposesRayHandler() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         engine.dispose();
         verify(rayHandler).dispose();
@@ -106,7 +106,7 @@ public class LightingEngineTest {
      * Tests the creation of a PointLight with specified coordinates, distance, and color.
      */
     @Test
-    public void createsPointLight() {
+    void createsPointLight() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float x = 1;
         float y = 2;
@@ -123,7 +123,7 @@ public class LightingEngineTest {
      * Tests the creation of a PointLight with the maximum possible float distance.
      */
     @Test
-    public void createsPointLightWithMaxDistance() {
+    void createsPointLightWithMaxDistance() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float x = 1;
         float y = 2;
@@ -137,7 +137,7 @@ public class LightingEngineTest {
      * Tests the creation of a ConeLight with specified coordinates, distance, direction, and cone angle.
      */
     @Test
-    public void createsConeLight() {
+    void createsConeLight() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float x = 1;
         float y = 2;
@@ -158,7 +158,7 @@ public class LightingEngineTest {
      * Tests the creation of a ConeLight with a zero cone degree, ensuring it creates a straight line of light.
      */
     @Test
-    public void createsConeLightWithZeroConeDegree() {
+    void createsConeLightWithZeroConeDegree() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float x = 1;
         float y = 2;
@@ -175,7 +175,7 @@ public class LightingEngineTest {
      * and setting the soft shadow length.
      */
     @Test
-    public void testDefaultLightSettings() {
+    void testDefaultLightSettings() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         PointLight light = engine.createPointLight(0, 0, 0, Color.BLACK);
         assertTrue(light.getIgnoreAttachedBody());
@@ -187,7 +187,7 @@ public class LightingEngineTest {
      * Verifies that the default light settings are applied correctly.
      */
     @Test
-    public void createsChainLight() {
+    void createsChainLight() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float[] chain = {0f, 0f, 2f, 2f};  // Define the vertices of the chain light
         float dist = 5f;
@@ -210,7 +210,7 @@ public class LightingEngineTest {
      * Tests that default lighting settings can be applied to any light source.
      */
     @Test
-    public void appliesDefaultLightingSettings() {
+    void appliesDefaultLightingSettings() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         PointLight light = engine.createPointLight(0, 0, 0, Color.WHITE);
         LightingEngine.applyDefaultLightingSettings(light);
@@ -222,7 +222,7 @@ public class LightingEngineTest {
      * Tests the creation of a PointLight with a negative distance, ensuring that the distance is clamped to a small value.
      */
     @Test
-    public void createsLightWithNegativeDistance() {
+    void createsLightWithNegativeDistance() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         PointLight light = engine.createPointLight(0, 0, -1, Color.RED);
 
@@ -234,7 +234,7 @@ public class LightingEngineTest {
      * Tests the creation of multiple light sources in the LightingEngine.
      */
     @Test
-    public void createsMultipleLights() {
+    void createsMultipleLights() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         PointLight light1 = engine.createPointLight(1, 1, 4, Color.RED);
         PointLight light2 = engine.createPointLight(2, 2, 8, Color.GREEN);
@@ -253,7 +253,7 @@ public class LightingEngineTest {
      * Tests the creation of a DirectionalLight with a negative direction value.
      */
     @Test
-    public void createsDirectionalLightWithNegativeDirection() {
+    void createsDirectionalLightWithNegativeDirection() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         float dir = -45;  // Negative direction
         Color color = Color.RED;
@@ -265,7 +265,7 @@ public class LightingEngineTest {
      * Tests that the LightingEngine can render lights even when no lights are present.
      */
     @Test
-    public void rendersWithoutLights() {
+    void rendersWithoutLights() {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         SpriteBatch sb = mock(SpriteBatch.class);
         engine.render(sb);

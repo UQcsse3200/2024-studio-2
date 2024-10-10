@@ -1,9 +1,7 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
@@ -22,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.Mock;
-import org.mockito.MockedConstruction;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
@@ -32,7 +29,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
-public class MazeNPCFactoryTest {
+class MazeNPCFactoryTest {
 
     private static final String[] TEXTURE_ATLASES = {"images/minigames/angler.atlas", "images/minigames/eels.atlas", "images/minigames/Jellyfish.atlas"};
     private static final String[] SOUNDS = {"sounds/minigames/angler-chomp.mp3"};

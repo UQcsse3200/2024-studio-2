@@ -29,11 +29,6 @@ public class CombatAnimationDisplay extends UIComponent {
         super();
     }
 
-    @Override
-    public void create() {
-        super.create();
-    }
-
     /**
      * Initialise the intended animation passed as an animationType from the
      * combat manager class based on chosen / randomised player or enemy attack
@@ -179,8 +174,8 @@ public class CombatAnimationDisplay extends UIComponent {
         guardImage = new Image(guardTexture);
 
 
-        float xZ = 750;  // 750;
-        float yZ = 440; // 410;
+        float xZ = 750;  // 750
+        float yZ = 440; // 410
 
         guardImage.setPosition(xZ, yZ);
         guardImage.setScale(0.5f);

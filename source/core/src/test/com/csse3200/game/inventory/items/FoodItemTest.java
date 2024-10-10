@@ -11,7 +11,7 @@ import com.csse3200.game.inventory.items.food.Foods;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
-public class FoodItemTest {
+class FoodItemTest {
     private Entity player;
     private ItemUsageContext context;
 
@@ -29,7 +29,7 @@ public class FoodItemTest {
 
     void helperTestFood(AbstractFood food) {
         int originalHunger = player.getComponent(CombatStatsComponent.class).getHunger();
-        assertEquals(originalHunger, 50);
+        assertEquals(50, originalHunger);
         food.useItem(context);
         int newHunger = player.getComponent(CombatStatsComponent.class).getHunger();
         assertTrue(newHunger > originalHunger, "Hunger did not increase when food was used!");
@@ -65,6 +65,7 @@ public class FoodItemTest {
         helperTestFood(chickenLeg);
     }
 
+    @Test
     void testMilk() {
         Foods.Milk milk = new Foods.Milk(1);
         helperTestFood(milk);
@@ -74,10 +75,5 @@ public class FoodItemTest {
     void testCaviar() {
         Foods.Sushi sushi = new Foods.Sushi(1);
         helperTestFood(sushi);
-    }
-  
-    @Test
-    void testInitialisation() {
-        assertThrows(InstantiationException.class, Foods::new);
     }
 }

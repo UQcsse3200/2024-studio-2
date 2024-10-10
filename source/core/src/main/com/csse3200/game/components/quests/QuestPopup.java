@@ -2,8 +2,6 @@ package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

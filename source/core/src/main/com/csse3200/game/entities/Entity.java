@@ -78,15 +78,12 @@ public class Entity {
 
   // Getter for enemy type
   public EnemyType getEnemyType() {
-
-    // return enemyType;
-    return this.enemyType;
+    return enemyType;
   }
 
   // Setter for enemy type
-  public Entity setEnemyType(EnemyType enemyType) {
+  public void setEnemyType(EnemyType enemyType) {
     this.enemyType = enemyType;
-    return this;
   }
 
   /**
@@ -360,7 +357,7 @@ public class Entity {
 
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Entity && ((Entity) obj).getId() == this.getId());
+    return (obj instanceof Entity entity && entity.getId() == this.getId());
   }
 
   @Override

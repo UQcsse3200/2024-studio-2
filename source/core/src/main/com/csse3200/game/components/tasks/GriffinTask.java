@@ -110,7 +110,7 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         Vector2 to = target.getCenterPosition();
 
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.getPoint());
             return false;
         }
         debugRenderer.drawLine(from, to);

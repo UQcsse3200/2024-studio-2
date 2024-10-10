@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(GameExtension.class)
-public class AbstractFoodTest {
+class AbstractFoodTest {
     private TestableItem food;
     private TestablePLayer player1;
     private CombatStatsComponent stat;
@@ -44,7 +44,7 @@ public class AbstractFoodTest {
     }
 
     @Test
-    public void testApplyEffect() {
+    void testApplyEffect() {
         food.useItem(player1);
         assertEquals(2, food.getQuantity(), "The food should have 2 uses left after one use.");
         assertEquals(60, player1.player.getComponent(CombatStatsComponent.class).getHunger(), "The hunger should be 60");
