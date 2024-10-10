@@ -451,6 +451,7 @@ public class CombatManager extends Component {
                 // Player's move is using an item in the CombatInventoryDisplay.
                 entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
                 enemyMove.executeMove(enemyAction);
+                entity.getEvents().trigger("useItem", playerStats, enemyStats);
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
