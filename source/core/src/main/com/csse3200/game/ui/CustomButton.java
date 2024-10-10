@@ -157,7 +157,6 @@ public class CustomButton extends Stack {
 
         logger.info("Button resized to: {}x{}", newWidth, newHeight);
     }
-
     public Button getButton() {
         return button;
     }
