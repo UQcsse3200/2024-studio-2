@@ -66,7 +66,7 @@ public class MazePathFindingTask extends DefaultTask {
 
                 // If there is an obstacle in the path to the player, not visible.
                 if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-                    debugRenderer.drawLine(from, hit.point);
+                    debugRenderer.drawLine(from, hit.getPoint());
                     break;
                 }
                 debugRenderer.drawLine(from, to);

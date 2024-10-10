@@ -4,25 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 public class Slides {
+    private static final String TITLE_TEXT = "title";
+
+    private Slides() {
+        throw new IllegalArgumentException("Do not instantiate static util class!");
+    }
 
     public static class MovementSlide extends Table {
         private DogActor dogActor;
         private final float speed= 100f;
         public MovementSlide(Skin skin) {
-            Label titleLabel = new Label("Movement Instructions", skin, "title");
+            Label titleLabel = new Label("Movement Instructions", skin, TITLE_TEXT);
             Label contentLabel = new Label("Move the dog with WASD keys!!", skin);
 
             add(titleLabel).padTop(20f).expandX().center().row();
@@ -37,7 +38,8 @@ public class Slides {
         public class DogActor extends Actor {
             private Texture texture;
             private Drawable drawable;
-            private float dogX, dogY;
+            private float dogX;
+            private float dogY;
 
             public DogActor(Texture texture) {
                 this.texture = texture;
@@ -99,15 +101,21 @@ public class Slides {
      */
     public static class CombatSlide extends Table {
         public CombatSlide(Skin skin) {
-            Label titleLabel = new Label("Combat Instructions", skin, "title");
-            Label contentLabel = new Label("Fight Like a Pro: Command Your Combat with On-Screen Buttons\n\n" +
-                                           "Attack: Deal damage to your opponent\n" +
-                                           "Guard: Reduce damage taken by 50%\n" +
-                                            "Sleep: Restore 25% stamina and 10% health. It is the only way to regain stamina\n" +
-                                             "Item: Use items each turn for various effects:\n\n" +
-                                            "HP Potions: Restore health \n\n" +
-                                            "Status Potions: Boost stats for the battle \n\n" +
-                                             "Remedies: Cure status ailments or confusion \n"
+            Label titleLabel = new Label("Combat Instructions", skin, TITLE_TEXT);
+            Label contentLabel = new Label("""
+                   Fight Like a Pro: Command Your Combat with On-Screen Buttons
+                   
+                   Attack: Deal damage to your opponent
+                   Guard: Reduce damage taken by 50%
+                   Sleep: Restore 25% stamina and 10% health. It is the only way to regain stamina
+                   Item: Use items each turn for various effects:
+                   
+                   HP Potions: Restore health
+                   
+                   Status Potions: Boost stats for the battle
+                   
+                   Remedies: Cure status ailments or confusion
+                   """
                     ,skin);
 
             add(titleLabel).padTop(10f).expandX().center().row();
@@ -122,17 +130,19 @@ public class Slides {
      */
     public static class StorylineSlide extends Table {
         public StorylineSlide(Skin skin) {
-            Label titleLabel = new Label("Storyline Overview", skin, "title");
-            Label contentLabel = new Label("\n" +
-                                           "Welcome to Attack on Animals, a real-time strategy adventure of animal conquest\n" +
-                                           "Control powerful creatures to conquer kingdoms and restore balance to the land\n" +
-                                           "Choose from a variety of animals with unique stats and abilities\n" +
-                                           "Explore three kingdoms: Water, Land, and Air, each with unique ecosystems\n" +
-                                           "Dogs rule the Land, while birds reign over the skies of Air\n" +
-                                           "Gather resources, craft tools, and adapt to changing environments for survival\n "+
-                                           "Face fierce animal rulers and the ultimate challenge the last standing\n" +
-                                           "Your strategies and choices will shape the fate of this animal world\n" +
-                                           "Pick your kingdom, choose your favorite animal, and lead them to victory!\n", skin);
+            Label titleLabel = new Label("Storyline Overview", skin, TITLE_TEXT);
+            Label contentLabel = new Label("""
+               
+               Welcome to Attack on Animals, a real-time strategy adventure of animal conquest
+               Control powerful creatures to conquer kingdoms and restore balance to the land
+               Choose from a variety of animals with unique stats and abilities
+               Explore three kingdoms: Water, Land, and Air, each with unique ecosystems
+               Dogs rule the Land, while birds reign over the skies of Air
+               Gather resources, craft tools, and adapt to changing environments for survival
+               Face fierce animal rulers and the ultimate challenge the last standing
+               Your strategies and choices will shape the fate of this animal world
+               Pick your kingdom, choose your favorite animal, and lead them to victory!
+               """, skin);
 
             add(titleLabel).padTop(10f).expandX().center().row();
             add(contentLabel).padTop(20f).padLeft(30f).expandX().left().row();
@@ -146,16 +156,20 @@ public class Slides {
      */
     public static class MinigamesSlide extends Table {
         public MinigamesSlide(Skin skin) {
-            Label titleLabel = new Label("Snake Minigame", skin, "title");
-            Label keysLabel = new Label("Arrow Keys: Move your snake in any direction:up, down, left, or right \n" +
-                    "W, A, S, D: Alternative movement controls for pros! \n\n" +
-                    "Objective: Gobble up as many apples as you can!\n" +
-                    "Each apple adds +1 point to your score.\n" +
-                    "Keep an eye on your score displayed onscreen. How high can you go?\n\n" +
-                    "Medals:\n" +
-                    "Bronze Medal: A solid start:get the basics down.\n" +
-                    "Silver Medal: You have got skill! But can you go further?\n" +
-                    "Gold Medal: Legendary! Only the best can claim this title.",skin);
+            Label titleLabel = new Label("Snake Minigame", skin, TITLE_TEXT);
+            Label keysLabel = new Label("""
+            Arrow Keys: Move your snake in any direction:up, down, left, or right
+            W, A, S, D: Alternative movement controls for pros!
+            
+            Objective: Gobble up as many apples as you can!
+            Each apple adds +1 point to your score.
+            Keep an eye on your score displayed onscreen. How high can you go?
+            
+            Medals:
+            Bronze Medal: A solid start:get the basics down.
+            Silver Medal: You have got skill! But can you go further?
+            Gold Medal: Legendary! Only the best can claim this title.
+            """, skin);
             add(titleLabel).padTop(10f).expandX().center().row();
             add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
             padBottom(-200f);
@@ -165,18 +179,21 @@ public class Slides {
 
     public static class Minigames1Slide extends Table {
         public Minigames1Slide(Skin skin) {
-            Label titleLabel = new Label("Birdie Minigame",skin, "title");
-            Label keysLabel = new Label("BirdieDash Mini-Game brings a fresh twist inspired by Flappy Bird!\n" +
-                    "Guide your bird through pipes,dodge spikes,\n" +
-                    "and grab coins as you aim for the top score\n" +
-                    "Simple, addictive, and a whole lot of fun!\n\n" +
-                    "The BirdieDash features simple yet challenging controls:\n" +
-                    "Spacebar / Tap Screen: Flap the bird to ascend\n" +
-                    "The bird falls automatically stay airborne and navigate through obstacles.\n" +
-                    "Colliding with the pipes and spikes results in a game over.\n" +
-                    "Collecting coins adds points to the score.\n" +
-                    "The score pops up front and center, updating in real-time as you play\n" +
-                    "Earn your bragging rights: bronze at 2-4, silver at 4-6, and hit gold with 6+."
+            Label titleLabel = new Label("Birdie Minigame",skin, TITLE_TEXT);
+            Label keysLabel = new Label("""
+                    BirdieDash Mini-Game brings a fresh twist inspired by Flappy Bird!
+                    Guide your bird through pipes,dodge spikes,
+                    and grab coins as you aim for the top score
+                    Simple, addictive, and a whole lot of fun!
+                    
+                    The BirdieDash features simple yet challenging controls:
+                    Spacebar / Tap Screen: Flap the bird to ascend
+                    The bird falls automatically stay airborne and navigate through obstacles.
+                    Colliding with the pipes and spikes results in a game over.
+                    Collecting coins adds points to the score.
+                    The score pops up front and center, updating in real-time as you play
+                    Earn your bragging rights: bronze at 2-4, silver at 4-6, and hit gold with 6+.
+                    """
                     ,skin);
             add(titleLabel).padTop(10f).expandX().center().row();
             add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
@@ -185,18 +202,24 @@ public class Slides {
     }
     public static class Minigames2Slide extends Table {
         public Minigames2Slide(Skin skin) {
-            Label titleLabel = new Label("Underwatermaze Minigame",skin, "title");
-            Label keysLabel = new Label("Dive into MazeUnderwater!\n" +
-                    "Navigate a dark maze, recover scattered fish eggs\n" +
-                    "Dodge sea creatures as you explore the depths\n" +
-                    "The more eggs you collect, the better your medal\n\n" +
-                    "W S A D: Move up, down, left, and right\n\n" +
-                    "Collect eggs while dodging angler fish, eels, and jellyfish\n" +
-                    "More eggs = higher score and medal\n\n" +
-                    "Bronze: Fewer eggs, Silver: Moderate collection, Gold: Most or all eggs\n\n" +
-                    "Angler Fish: 100 health, 20 damage per hit\n" +
-                    "Jellyfish: 10 damage, Electric Eel: 5 damage\n" +
-                    "Game ends if health reaches zero"
+            Label titleLabel = new Label("Underwatermaze Minigame",skin, TITLE_TEXT);
+            Label keysLabel = new Label("""
+                    Dive into MazeUnderwater!
+                    Navigate a dark maze, recover scattered fish eggs
+                    Dodge sea creatures as you explore the depths
+                    The more eggs you collect, the better your medal
+                    
+                    W S A D: Move up, down, left, and right
+                    
+                    Collect eggs while dodging angler fish, eels, and jellyfish
+                    More eggs = higher score and medal
+                    
+                    Bronze: Fewer eggs, Silver: Moderate collection, Gold: Most or all eggs
+                    
+                    Angler Fish: 100 health, 20 damage per hit
+                    Jellyfish: 10 damage, Electric Eel: 5 damage
+                    Game ends if health reaches zero
+                    """
                     ,skin);
             add(titleLabel).padTop(10f).expandX().center().row();
             add(keysLabel).padTop(20f).padLeft(30f).expandX().left().row();
@@ -210,16 +233,21 @@ public class Slides {
      */
     public static class StatsSlide extends Table {
         public StatsSlide(Skin skin) {
-            Label titleLabel = new Label("Game Stats", skin, "title");
-            Label contentLabel = new Label("Each animal in every kingdom has five core stats\n\n" +
-                                           "Health: Determines how long they survive during battle\n" +
-                                           "Strength: Indicates how much damage they are capable of dealing\n" +
-                                           "Defense: Reflects their resistance to enemy attacks\n" +
-                                           "Speed: Measures how quickly they move and strike in combat\n" +
-                                           "Stamina: Determines how long they can keep fighting\n\n" +
-                                           "Every animal has unique levels, so choose them carefully\n\n" +
-                                           "You can collect various items like apples during the game\n" +
-                                           "Press P to add them to your inventory, and use E to access it"
+            Label titleLabel = new Label("Game Stats", skin, TITLE_TEXT);
+            Label contentLabel = new Label("""
+                    Each animal in every kingdom has five core stats
+                    
+                    Health: Determines how long they survive during battle
+                    Strength: Indicates how much damage they are capable of dealing
+                    Defense: Reflects their resistance to enemy attacks
+                    Speed: Measures how quickly they move and strike in combat
+                    Stamina: Determines how long they can keep fighting
+                    
+                    Every animal has unique levels, so choose them carefully
+                    
+                    You can collect various items like apples during the game
+                    Press P to add them to your inventory, and use E to access it
+                    """
                     , skin);
 
             add(titleLabel).padTop(-10f).expandX().center().row();

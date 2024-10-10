@@ -109,7 +109,7 @@ public class CombatStatsComponent extends Component {
    * @param health health value to set
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health >= this.maxHealth) {
         this.health = this.maxHealth;
       } else {
@@ -117,6 +117,16 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
+      if (isPlayer) {
+        int playerLevel = getLevel();
+        int lvlDiff = playerLevel / 2;
+        addStrength(-lvlDiff);
+        addDefense(-lvlDiff);
+        addSpeed(-lvlDiff);
+        setLevel(lvlDiff);
+        addMaxHealth(-lvlDiff);
+        setExperience(0);
+      }
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
@@ -321,6 +331,16 @@ public class CombatStatsComponent extends Component {
    */
   public int getMaxHealth() {
     return maxHealth;
+  }
+
+  public void addMaxHealth(int health) {
+    if(this.maxHealth + health < 0){
+      this.maxHealth = 0;
+    }
+
+    else{
+      this.maxHealth = this.maxHealth - health;
+    }
   }
 
   /**

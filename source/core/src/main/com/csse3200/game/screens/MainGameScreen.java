@@ -4,37 +4,37 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.Component;
-import com.csse3200.game.components.maingame.TimeDisplay;
-import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.MiniMapDisplay;
+import com.csse3200.game.components.Component;
+import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
+import com.csse3200.game.components.maingame.MainGameExitDisplay;
+import com.csse3200.game.components.maingame.TimeDisplay;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.lighting.DayNightCycle;
-import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.csse3200.game.areas.MiniMapDisplay;
 
 /**
  * The game screen containing the main game.
@@ -78,6 +78,7 @@ public class MainGameScreen extends PausableScreen {
   private final PhysicsEngine physicsEngine;
   private final LightingEngine lightingEngine;
   private final DayNightCycle dayNightCycle;
+  private final MiniMapDisplay miniMapDisplay;
 
   /**
    * The game area containing the main game.
@@ -123,6 +124,8 @@ public class MainGameScreen extends PausableScreen {
 
     loadAssets();
     this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
+    miniMapDisplay = new MiniMapDisplay(gameArea);
+
     createUI();
     logger.debug("Initialising main game screen entities");
 
@@ -182,6 +185,7 @@ public class MainGameScreen extends PausableScreen {
   public void resume() {
       isPaused = false;
       KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+      miniMapDisplay.updateAllPoints();
       inputComponent.resetVelocity();
       if (!resting) {
           gameArea.playMusic();
@@ -245,7 +249,7 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new Terminal())
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
-              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(miniMapDisplay)
               .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);

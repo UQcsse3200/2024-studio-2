@@ -13,8 +13,8 @@ import java.util.List;
  * The camera allows resizing to be done easily.
  */
 public class MinigameRenderer {
-    private final static float DEFAULT_WIDTH = 1920;
-    private final static float DEFAULT_HEIGHT = 1200;
+    private static final float DEFAULT_WIDTH = 1920;
+    private static final float DEFAULT_HEIGHT = 1200;
     private final SpriteBatch sb;
     private final OrthographicCamera cam;
     private final List<MinigameRenderable> renderables = new ArrayList<>();
@@ -25,7 +25,7 @@ public class MinigameRenderer {
         this.cam = new OrthographicCamera(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         cam.position.set(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2, 0);
         cam.update();
-        this.background = new Texture("images/minigames/Background.png");;
+        this.background = new Texture("images/minigames/Background.png");
     }
 
     public void addRenderable(MinigameRenderable renderable) {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.terrain.TerrainComponent.TerrainOrientation;
+import com.csse3200.game.areas.terrain.enums.*;
 import com.csse3200.game.components.CameraComponent;
 
 /** Factory for creating game terrains. */
@@ -74,7 +74,6 @@ public class TerrainFactory {
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, mapType);
   }
 
-
   protected TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
       return switch (orientation) {
           case ORTHOGONAL -> new OrthogonalTiledMapRenderer(tiledMap, tileScale);
@@ -87,6 +86,5 @@ public class TerrainFactory {
     FOREST_DEMO,
     FOREST_DEMO_ISO,
     FOREST_DEMO_HEX;
-      public static TerrainType OCEAN_DEMO;
   }
 }
