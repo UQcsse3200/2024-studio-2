@@ -21,7 +21,7 @@ import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.inventory.Inventory;
-import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.overlays.*;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -32,12 +32,16 @@ import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
+
 /**
  * The game screen containing the combat feature.
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class CombatScreen extends ScreenAdapter {
+public class CombatScreen extends PausableScreen{
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
@@ -48,7 +52,6 @@ public class CombatScreen extends ScreenAdapter {
 
   };
   private boolean isPaused = false;
-  private final GdxGame game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
@@ -58,16 +61,25 @@ public class CombatScreen extends ScreenAdapter {
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea combatArea;
+  /**
+   * Queue of currently enabled overlays in the game screen.
+   */
+  private final Deque<Overlay> enabledOverlays = new LinkedList<>();
+  /**
+   * Map of active overlay types and their statuses.
+   */
+  private final Map<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
+  protected boolean resting = false;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    this.game = game;
+    super(game);
     this.oldScreen = screen;
     this.oldScreenServices = container;
     this.player = player;
     this.enemy = enemy;
 
-    //this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
-    this.playerCombatStats = ServiceLocator.getGameArea().getPlayer().getComponent(CombatStatsComponent.class);
+    this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
+    //this.playerCombatStats = ServiceLocator.getGameArea().getPlayer().getComponent(CombatStatsComponent.class);
             this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
 
     logger.debug("Initialising combat screen services");
@@ -97,6 +109,34 @@ public class CombatScreen extends ScreenAdapter {
     createUI();
   }
 
+  /**
+   * Adds an overlay to the screen.
+   * @param overlayType The type of overlay to add.
+   */
+  public void addOverlay(Overlay.OverlayType overlayType){
+    logger.debug("Attempting to Add {} Overlay", overlayType);
+    if (activeOverlayTypes.get(overlayType) == null){
+      return;
+    }
+    if (enabledOverlays.isEmpty()) {
+      this.rest();
+    }
+    else {
+      enabledOverlays.getFirst().rest();
+    }
+    enabledOverlays.addFirst(new QuickTimeEventsOverlay(this, game));
+    logger.info("Added {} Overlay", overlayType);
+    activeOverlayTypes.put(overlayType,true);
+  }
+
+  /**
+   * Puts the screen into a resting state, pausing music and resting all entities.
+   */
+  public void rest() {
+    logger.info("Screen is resting");
+    resting = true;
+    ServiceLocator.getEntityService().restWholeScreen();
+  }
   @Override
   public void render(float delta) {
     if (!isPaused){

@@ -17,11 +17,10 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
-import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.overlays.*;
 import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
@@ -91,6 +90,7 @@ public class CombatManager extends Component {
 
         this.moveChangedByConfusion = false;
     }
+
 
     /**
      * Initialises the event listeners.
@@ -474,9 +474,12 @@ public class CombatManager extends Component {
         //game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
         //game.
         CombatScreen combatScreen = (CombatScreen) game.getScreen();
-        //CombatScreen.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
+        combatScreen.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
+        //trigger overlay to happen in the container to be created
+        //this.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
         return score;
     }
+
 
     /**aa
      * Determines the faster entity based on their speed stat.

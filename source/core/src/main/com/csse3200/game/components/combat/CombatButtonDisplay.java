@@ -260,7 +260,7 @@ public class CombatButtonDisplay extends UIComponent {
      */
     public void hideButtons() {
         logger.info("dialog box is present in combat display");
-        //logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
+       //logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
         table.remove();
     }
 

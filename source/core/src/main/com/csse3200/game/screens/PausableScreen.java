@@ -58,7 +58,6 @@ public class PausableScreen extends ScreenAdapter {
             case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
             case QUICK_TIME_EVENT_OVERLAY -> {
                 enabledOverlays.addFirst(new QuickTimeEventsOverlay(this, game));
-                break;
             }
             default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }

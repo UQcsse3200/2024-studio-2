@@ -2,12 +2,15 @@ package com.csse3200.game.overlays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.PauseableThread;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventActions;
 import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
+import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.RenderFactory;
+import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.physics.PhysicsEngine;
