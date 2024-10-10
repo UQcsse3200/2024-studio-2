@@ -847,15 +847,15 @@ public class ForestGameArea extends GameArea {
     }
 
     public List<Entity> getBosses() {
-        return enemies;
+        return bosses;
     }
 
     public List<Entity> getFriendlyNPCs() {
-        return enemies;
+        return friendlyNPCs;
     }
 
     public List<Entity> getMinigameNPCs() {
-        return enemies;
+        return minigameNPCs;
     }
 
     public Map<Integer, Entity> getDynamicItems() {
