@@ -307,7 +307,7 @@ public class CombatStatsDisplay extends UIComponent {
         logger.trace("Detected hunger change in combat and is updating UI");
         int hunger = playerStats.getHunger();
         int maxHunger = playerStats.getMaxHunger();
-        CharSequence text = String.format("Hunger: %d%d", hunger, maxHunger);
+        CharSequence text = String.format("Hunger: %d/%d", hunger, maxHunger);
         playerHungerLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
