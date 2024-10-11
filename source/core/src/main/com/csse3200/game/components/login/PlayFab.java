@@ -20,6 +20,7 @@ public class PlayFab {
     private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
     private static String[] usernames;
     private static String[] highscores;
+    private static boolean isLogin = false;
 
     /**
      * Constructor to initialize PlayFab with the given Title ID.
@@ -29,29 +30,8 @@ public class PlayFab {
     public PlayFab(String titleId) {
         PlayFabSettings.TitleId = titleId; // Set your PlayFab Title ID here
 
-        // Call the registration method
-        loginUser("test1234", "123456");
         usernames = new String[10];
         highscores = new String[10];
-        submitScore(10);
-        submitScore(20);
-        getLeaderboard();
-    }
-
-    /**
-     * Main method to test user registration functionality.
-     *
-     * @param args Command line arguments (not used).
-     */
-    public static void main(String[] args) {
-        // Initialize PlayFab with your Title ID
-        PlayFab playFab = new PlayFab("DBB26");
-        usernames = new String[10];
-        highscores = new String[10];
-
-        // Call the registration method
-        playFab.registerUser("test12345", "long","123456");
-
     }
 
     /**
@@ -99,6 +79,7 @@ public class PlayFab {
 
         if (result.Result != null) {
             String succeedMsg = "Welcome " + request.Username + ".";
+            isLogin = true;
             logger.debug(succeedMsg);
             return new Response(succeedMsg, true);
         } else {
@@ -107,39 +88,6 @@ public class PlayFab {
             return new Response(errorMsg, false);
         }
     }
-
-    /*public static Response saveData(Map<String, String> data) {
-        UpdateUserDataRequest request = new UpdateUserDataRequest();
-        request.Data = data;
-        PlayFabResult<UpdateUserDataResult> result = PlayFabClientAPI.UpdateUserData(request);
-
-        if (result.Result != null) {
-            String succeedMsg = "Data is successfully saved.";
-            System.out.println(succeedMsg);
-            return new Response(succeedMsg, true);
-        } else {
-            String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
-            return new Response(errorMsg, false);
-        }
-    }
-
-    public static Response loadData() {
-        GetUserDataRequest request = new GetUserDataRequest();
-        PlayFabResult<GetUserDataResult> result = PlayFabClientAPI.GetUserData(request);
-
-        if (result.Result != null && result.Result.Data != null) {
-            Map<String, UserDataRecord> userData = result.Result.Data;
-            String succeedMsg = "Data is successfully loaded.";
-            System.out.println(succeedMsg);
-            return new Response(userData.toString(), true);
-        } else {
-            String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
-            return new Response(errorMsg, false);
-        }
-    }
-    */
 
     public static void getLeaderboard(){
         GetLeaderboardRequest request = new GetLeaderboardRequest();
@@ -161,6 +109,10 @@ public class PlayFab {
     }
 
     public static void submitScore(int score) {
+        if (!isLogin) {
+            logger.info("You need to login to put your score to the leaderboard.");
+            return;
+        }
         UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest();
 
         StatisticUpdate statUpdate = new StatisticUpdate();

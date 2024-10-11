@@ -32,9 +32,10 @@ public class MinigameLeaderboard extends UIComponent {
     String[] playerNames;
     String[] playerScores;
 
-    private ArrayList<Label> usersname;
+    private ArrayList<Label> usernames;
     private ArrayList<Label> highscores;
     private Button closeButton;
+    private Button refreshButton;
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
     private PlayFab playFab;
@@ -69,7 +70,7 @@ public class MinigameLeaderboard extends UIComponent {
         table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         table.setSize(663, 405);
         title = new Label("Leaderboard", skin, "title-white");
-        usersname = new ArrayList<>();
+        usernames = new ArrayList<>();
         highscores = new ArrayList<>();
     }
     /**
@@ -81,14 +82,29 @@ public class MinigameLeaderboard extends UIComponent {
     public Table makeLeaderboardTable() {// Create table for layout
         loadTextures();
         initializeTable();
+        addButtons();
+        refreshLeaderboard();
 
+        return table;
+    }
+
+    public void refreshLeaderboard() {
+        PlayFab.submitScore(0);
+        PlayFab.getLeaderboard();
+        updateLeaderboard();
+        updateUI();
+
+    }
+    private void updateLeaderboard() {
         playerNames = playFab.getUsernames();
         playerScores = playFab.getHighscores();
+        usernames.clear();
+        highscores.clear();
 
 
         for (int i = 0; i < playerNames.length; i++) {
             Label newPlayerName = new Label(playerNames[i], skin, "default");
-            usersname.add(newPlayerName);
+            usernames.add(newPlayerName);
         }
 
         for (int i = 0; i < playerScores.length; i++) {
@@ -96,11 +112,6 @@ public class MinigameLeaderboard extends UIComponent {
             highscores.add(newPlayerScore);
         }
         System.out.println(playerNames[0]);
-        addButtons();
-        updateUI();
-
-
-        return table;
     }
 
     /**
@@ -116,28 +127,46 @@ public class MinigameLeaderboard extends UIComponent {
                 table.setVisible(false);
             }
         });
+
+        refreshButton = new Button(skin);
+        refreshButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                PlayFab.getLeaderboard();
+                updateLeaderboard();
+                updateUI();
+            }
+        });
     }
 
     /**
      * Updates the UI elements to reflect the current mode (login or register).
      */
     private void updateUI() {
-        table.clear();  // Clear the table to re-add elements
-
+        topTable.clear();
         topTable.top().padTop(10);
         topTable.add(title).expandX().center().padTop(5);
         topTable.row();
         topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
-        for (int i = 0; i < usersname.size(); i++) {
+        contentTable.clear();
+        // Add table headers for username and score
+        contentTable.add(new Label("Username", skin, "default")).padRight(30f).expandX().left();
+        contentTable.add(new Label("Score", skin, "default")).padLeft(30f).expandX().right();
+
+        contentTable.row();
+        for (int i = 0; i < usernames.size(); i++) {
+            contentTable.add(usernames.get(i)).padRight(30f).expandX().left();  // Username in left column
+            contentTable.add(highscores.get(i)).padLeft(30f).expandX().right();  // Score in right column
             contentTable.row();
-            contentTable.add(usersname.get(i));
         }
 
-        table.add(topTable).expandX().fillX(); // Top-right table
-        table.row().padTop(30f);
-        table.add(contentTable).expandX().expandY().padLeft(50);
-        table.row().padTop(30f);
+        table.clear();  // Clear the table to re-add elements
+        table.add(topTable).expandX().fillX().padTop(20); // Top-right table
+        table.row();
+        table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
+        table.row();
+        table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
     }
     @Override
     public void update() {

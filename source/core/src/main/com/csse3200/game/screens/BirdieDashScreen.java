@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
+import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -120,6 +121,7 @@ public class BirdieDashScreen extends PausableScreen {
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
+                PlayFab.submitScore(birdGame.getScore());
                 logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
             }
         }
