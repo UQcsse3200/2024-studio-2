@@ -5,17 +5,20 @@ import static org.mockito.Mockito.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.MinigameRenderer;
 import com.csse3200.game.minigames.snake.SnakeGrid;
 import com.csse3200.game.minigames.snake.rendering.GridRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-public class GridRendererTest {
+@ExtendWith(GameExtension.class)
+class GridRendererTest {
 
     // mocks the SnakeGrid to control its behaviour in the tests
     @Mock
@@ -42,7 +45,7 @@ public class GridRendererTest {
     private GridRenderer gridRenderer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // initialises the mocks and injects them
         MockitoAnnotations.openMocks(this);
         when(renderer.getSb()).thenReturn(spriteBatch);
@@ -53,7 +56,7 @@ public class GridRendererTest {
     }
 
     @Test
-    public void testRenderGrid() {
+    void testRenderGrid() {
         // Arrange the grid Width and height also the cellSize
         int gridWidth = 10;
         int gridHeight = 15;

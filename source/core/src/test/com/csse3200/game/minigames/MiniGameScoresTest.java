@@ -6,14 +6,13 @@ import static org.mockito.Mockito.*;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
 
-
-import com.csse3200.game.minigames.MiniGameConstants;
-import com.csse3200.game.minigames.MiniGameMedals;
-import com.csse3200.game.minigames.MiniGamesScores;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class MiniGameScoresTest {
+@ExtendWith(GameExtension.class)
+class MiniGameScoresTest {
     private MiniGamesScores miniGamesScores;
     private Entity mockPlayer;
     private GdxGame mockGame;
@@ -28,7 +27,7 @@ public class MiniGameScoresTest {
      * Test initial medal and score set up
      */
     @Test
-    public void testInitialScoresAndMedals() {
+    void testInitialScoresAndMedals() {
         assertEquals(0, miniGamesScores.getSnakeHighScore());
         assertEquals(MiniGameMedals.FAIL, miniGamesScores.getSnakeMedal());
 
@@ -43,7 +42,7 @@ public class MiniGameScoresTest {
      * Test functionality as the score increases
      */
     @Test
-    public void testSnakeHighScoreAndMedal() {
+    void testSnakeHighScoreAndMedal() {
         miniGamesScores.checkAndSetSnakeScoreMedal(MiniGameConstants.SNAKE_BRONZE_THRESHOLD - 1);
         assertEquals(MiniGameConstants.SNAKE_BRONZE_THRESHOLD - 1, miniGamesScores.getSnakeHighScore());
         assertEquals(MiniGameMedals.FAIL, miniGamesScores.getSnakeMedal());
@@ -74,7 +73,7 @@ public class MiniGameScoresTest {
      * Test functionality as the score increases
      */
     @Test
-    public void testFlappyBirdHighScoreAndMedal() {
+    void testFlappyBirdHighScoreAndMedal() {
         // add when flappy bord is implemented in sprint 2
     }
 
@@ -83,7 +82,7 @@ public class MiniGameScoresTest {
      * Test functionality as the score increases
      */
     @Test
-    public void testMazeHighScoreAndMedal() {
+    void testMazeHighScoreAndMedal() {
         // Add when maze is implemented in sprint 3
     }
 }

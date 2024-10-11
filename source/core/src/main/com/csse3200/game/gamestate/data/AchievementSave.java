@@ -3,16 +3,12 @@ package com.csse3200.game.gamestate.data;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.components.quests.Achievement;
-import com.csse3200.game.components.quests.Quest;
-import com.csse3200.game.gamestate.Achievements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementSave implements Json.Serializable {
-    public List<Achievement> achievementList = new ArrayList<Achievement>();
+    public List<Achievement> achievementList = new ArrayList<>();
 
     @Override
     public void write(Json json) {
@@ -32,7 +28,6 @@ public class AchievementSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        Logger logger = LoggerFactory.getLogger(AchievementSave.class);
         List<Achievement> newAchievements = new ArrayList<>();
 
         JsonValue.JsonIterator achievements = jsonData.child.iterator();

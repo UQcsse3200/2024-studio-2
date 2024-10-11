@@ -139,12 +139,14 @@ public class MapHandler {
    * @return map
    */
   public static GameArea getMap(MapType mapType) {
-    if (mapType == MapType.FOREST) {
-      return (ForestGameArea) currentGameArea;
-    } else {
-      throw new IllegalArgumentException("Map type not supported: " + mapType);
+    switch (mapType) {
+      case FOREST:
+        return (ForestGameArea) currentGameArea;
+      default:
+        throw new IllegalArgumentException("Map type not supported: " + mapType);
     }
   }
+
 
 
   /**
