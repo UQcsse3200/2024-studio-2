@@ -1,6 +1,5 @@
 package com.csse3200.game.areas.MiniMap;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +29,9 @@ public class MiniMapDisplay extends UIComponent {
     private float miniMapX = 15;  // Minimap's X position on the screen
     private float miniMapY = 15;  // Minimap's Y position on the screen
     private int miniMapDiameter = 300;  // Size of the minimap
-    float centerX = miniMapX + miniMapDiameter / 2;
-    float centerY = miniMapY + miniMapDiameter / 2;
-    float minimapRadius = miniMapDiameter / 2;
+    float centerX = miniMapX + (float) miniMapDiameter / 2;
+    float centerY = miniMapY + (float) miniMapDiameter / 2;
+    float minimapRadius = (float) miniMapDiameter / 2;
     int frameCount;
 
     public MiniMapDisplay() {
@@ -50,7 +48,6 @@ public class MiniMapDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        System.out.println("ABC");
         player = gameArea.getPlayer();
         enemies = gameArea.getEnemies();
         bosses = gameArea.getBosses();
@@ -64,9 +61,9 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     private void initializeMiniMap() {
-        centerX = miniMapX + miniMapDiameter / 2;
-        centerY = miniMapY + miniMapDiameter / 2;
-        minimapRadius = miniMapDiameter / 2;
+        centerX = miniMapX + (float) miniMapDiameter / 2;
+        centerY = miniMapY + (float) miniMapDiameter / 2;
+        minimapRadius = (float) miniMapDiameter / 2;
         miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
         initializeAllImages();
@@ -89,7 +86,7 @@ public class MiniMapDisplay extends UIComponent {
 
     // Initialize red dots to match the number of enemies
     public void initializeRedDotImages() {
-        for (Entity enemy : enemies) {
+        for (int i = 0; i < enemies.size(); i++) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
             redDotImage.setSize(10, 10);
             redDotPointImages.add(redDotImage);
@@ -100,7 +97,7 @@ public class MiniMapDisplay extends UIComponent {
      * Initializes blue dot points for the friendly NPCs.
      */
     public void initializeBlueDotImages() {
-        for (Entity npc : friendlyNPCs) {
+        for (int i = 0; i < friendlyNPCs.size(); i++) {
             Image blueDotImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
             blueDotImage.setSize(10, 10);
             blueDotPointImages.add(blueDotImage);
@@ -112,7 +109,7 @@ public class MiniMapDisplay extends UIComponent {
      * Initializes large red dot points for the friendly NPCs.
      */
     public void initializeLargeRedPointImages() {
-        for (Entity boss : bosses) {
+        for (int i = 0; i < bosses.size(); i++) {
             Image largeRedDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
             largeRedDotImage.setSize(30, 30);
             largeRedPointImages.add(largeRedDotImage);
@@ -124,7 +121,7 @@ public class MiniMapDisplay extends UIComponent {
      * Initializes purple dot points for the minigame NPCs.
      */
     public void initializePurplePointImages() {
-        for (Entity minigameNpc : minigameNPCs) {
+        for (int i = 0; i < minigameNPCs.size(); i++) {
             Image purpleDotImage = new Image(new Texture("images/minimap/purpleDotPoint.png"));
             purpleDotImage.setSize(10, 10);
             purplePointImages.add(purpleDotImage);
@@ -146,7 +143,8 @@ public class MiniMapDisplay extends UIComponent {
                 (entityPos.x - playerPos.x) / scaleFactor * miniMapDiameter,
                 (entityPos.y - playerPos.y) / scaleFactor * miniMapDiameter
         );
-        entityMiniMapPos.add(miniMapX + miniMapDiameter / 2, miniMapY + miniMapDiameter / 2);
+        entityMiniMapPos.add(miniMapX + (float)  miniMapDiameter / 2,
+                miniMapY + (float) miniMapDiameter / 2);
 
         return entityMiniMapPos;
     }
@@ -211,10 +209,10 @@ public class MiniMapDisplay extends UIComponent {
      */
     @Override
     protected void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(miniMapBackground, miniMapX, miniMapY, miniMapDiameter, miniMapDiameter);
-        batch.end();
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(miniMapBackground, miniMapX, miniMapY, miniMapDiameter, miniMapDiameter);
+        batchDupe.end();
     }
 
 
@@ -227,8 +225,9 @@ public class MiniMapDisplay extends UIComponent {
         return miniMapX;
     }
     public float getMiniMapY() {
-        return miniMapX;
+        return miniMapY;
     }
+
     public float getMiniMapDiameter() {
         return miniMapDiameter;
     }

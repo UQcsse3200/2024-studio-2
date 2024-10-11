@@ -1,7 +1,6 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -25,7 +23,6 @@ import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
 import com.csse3200.game.minigames.MinigameLeaderboard;
 import com.csse3200.game.services.NotifManager;
-import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -55,14 +52,12 @@ public class MainMenuDisplay extends UIComponent {
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
     private Texture toggleTexture;
-    private Texture userTableBackground;
     private Button muteButton;  // Mute toggle button with texture
     private Texture muteTexture;  // Texture for mute state
     private Texture unmuteTexture;  // Texture for unmute state
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture cursorTexture;
-    private Table chatbotIconTable;
     private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
@@ -85,18 +80,15 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton achievementsBtn;
     private CustomButton helpBtn;
     private CustomButton exitBtn;
-    private final float windowButtonWidth = 200;
-    private final float windowButtonHeight = 45;
-    private final float windowButtonSpacing = 15;
-    private final float fullScreenButtonWidth = 300;
-    private final float fullScreenButtonHeight = 60;
-    private final float fullScreenButtonSpacing = 20;
+    private static final float WINDOWBUTTONWIDTH = 200;
+    private static final float WINDOWBUTTONHEIGHT = 45;
+    private static final float WINDOWBUTTONSPACING = 15;
+    private static final float FULLSCREENBUTTONWIDTH = 300;
+    private static final float FULLSCREENBUTTONHEIGHT = 60;
+    private static final float FULLSCREENBUTTONSPACING = 20;
     private Image birdAniImage;
     private Image monkeyAniImage;
     private Image dogAniImage;
-    private TextureAtlas birdAtlas;
-    private TextureAtlas dogAtlas;
-    private TextureAtlas monkeyAtlas;
     private Array<TextureRegion> birdTextures;
     private Array<TextureRegion> monkeyTextures;
     private Array<TextureRegion> dogTextures;
@@ -139,7 +131,6 @@ public class MainMenuDisplay extends UIComponent {
         settingBackground = new Texture("images/SettingBackground.png");
         lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
         mainTitle = new Texture("images/SplashScreen/MainTitle.png");
-        userTableBackground = new Texture("images/UserTable.png");
         muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
         unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
         dog2Texture = new Texture("images/dog2.png");
@@ -251,7 +242,7 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addMonkey() {
         monkeyAniImage = new Image();
-        monkeyAtlas = new TextureAtlas("spriteSheets/MonkeySprite.atlas");
+        TextureAtlas monkeyAtlas = new TextureAtlas("spriteSheets/MonkeySprite.atlas");
         monkeyTextures = new Array<>(6);
         for (int frameMonkey = 1; frameMonkey <= 6; frameMonkey++) {
             monkeyTextures.add(monkeyAtlas.findRegion("monkey" + frameMonkey));
@@ -266,7 +257,7 @@ public class MainMenuDisplay extends UIComponent {
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
-        dogAtlas = new TextureAtlas("spriteSheets/Dog.atlas");
+        TextureAtlas dogAtlas = new TextureAtlas("spriteSheets/Dog.atlas");
         dogTextures = new Array<>(4);
         for (int frameDog = 1; frameDog <= 4; frameDog++) {
             dogTextures.add(dogAtlas.findRegion("dog" + frameDog));
@@ -281,7 +272,7 @@ public class MainMenuDisplay extends UIComponent {
     private void addBird() {
         //Add bird animation
         birdAniImage = new Image();
-        birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
+        TextureAtlas birdAtlas = new TextureAtlas("spriteSheets/BirdMain.atlas");
         birdTextures = new Array<>(3);
         for (int frameBird = 1; frameBird <= 3; frameBird++) {
             birdTextures.add(birdAtlas.findRegion("fly" + frameBird));
@@ -289,7 +280,7 @@ public class MainMenuDisplay extends UIComponent {
         TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(0));
         birdAniImage.setDrawable(drawable);
         birdAniImage.setSize(Gdx.graphics.getWidth() / 12f, Gdx.graphics.getHeight() / 10f);
-        birdAniImage.setPosition(Gdx.graphics.getWidth() + 200, Gdx.graphics.getHeight() * 0.6f);
+        birdAniImage.setPosition(Gdx.graphics.getWidth() + 200f, Gdx.graphics.getHeight() * 0.6f);
         stage.addActor(birdAniImage);
     }
 
@@ -309,11 +300,8 @@ public class MainMenuDisplay extends UIComponent {
      */
     private void addChatbotIcon() {
         // Create a table to hold the chatbot icon and position it in the bottom-right corner.
-        chatbotIconTable = new Table();
-        //chatbotIconTable.bottom().right();
+        Table chatbotIconTable = new Table();
         chatbotIconTable.setBounds(monkeyAniImage.getX(),monkeyAniImage.getY(), monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
-        //chatbotIconTable.setFillParent(true);
-        //chatbotIconTable.pad(20).padBottom(50).padRight(50);
 
         // Load the chatbot icon image and set its initial size.
         ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
@@ -348,8 +336,8 @@ public class MainMenuDisplay extends UIComponent {
             }
         };
 
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100); // Dynamically set width
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100); // Dynamically set height
+        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100f); // Dynamically set width
+        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100f); // Dynamically set height
         chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
 
         // Background for the chatbot window
@@ -544,14 +532,14 @@ public class MainMenuDisplay extends UIComponent {
 
         // Adjust button dimensions based on the screen mode (fullscreen or windowed)
         if (isFullscreen) {
-            buttonWidth = fullScreenButtonWidth;
-            buttonHeight = fullScreenButtonHeight;
-            buttonSpacing = fullScreenButtonSpacing;
+            buttonWidth = FULLSCREENBUTTONWIDTH;
+            buttonHeight = FULLSCREENBUTTONHEIGHT;
+            buttonSpacing = FULLSCREENBUTTONSPACING;
             padTopSpacing = 500;  // Top padding relative to screen height
         } else {
-            buttonWidth = windowButtonWidth;
-            buttonHeight = windowButtonHeight;
-            buttonSpacing = windowButtonSpacing;
+            buttonWidth = WINDOWBUTTONWIDTH;
+            buttonHeight = WINDOWBUTTONHEIGHT;
+            buttonSpacing = WINDOWBUTTONSPACING;
             padTopSpacing = 350;  // Top padding relative to screen height
         }
 
@@ -610,12 +598,6 @@ public class MainMenuDisplay extends UIComponent {
         button.addClickListener(clickAction);
         button.setButtonSize(300, 80);  // Default size for all buttons
         return button;
-    }
-
-    private void applyCustomCursor() {
-        if (customCursor != null) {
-            Gdx.graphics.setCursor(customCursor); // Reapply the custom cursor
-        }
     }
 
     /**
@@ -692,7 +674,7 @@ public class MainMenuDisplay extends UIComponent {
      * Add login register table, which could be open by clicking the profile button
      */
     private void addLoginRegisterTable() {
-        loginRegisterDisplay = new LoginRegisterDisplay();
+        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay();
         loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
         loginRegisterTable.setVisible(false);
         loginRegisterTable.setSize(663, 405);
@@ -761,7 +743,6 @@ public class MainMenuDisplay extends UIComponent {
      * Update the position of user table.
      */
     public void updateUserTable() {
-        float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         userTable.setPosition(165, screenHeight - 190);
     }
@@ -823,8 +804,7 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
-                logger.info("Fullscreen toggled: " + !isFullscreen);
-                //sizeTable();
+                logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
         });
 
@@ -1007,10 +987,10 @@ public class MainMenuDisplay extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(lightBackgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
 
     @Override
