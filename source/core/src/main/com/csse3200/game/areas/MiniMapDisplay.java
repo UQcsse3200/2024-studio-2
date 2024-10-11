@@ -1,13 +1,11 @@
 package com.csse3200.game.areas;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +28,9 @@ public class MiniMapDisplay extends UIComponent {
     private float miniMapX = 15;  // Minimap's X position on the screen
     private float miniMapY = 15;  // Minimap's Y position on the screen
     private int miniMapDiameter = 300;  // Size of the minimap
-    float centerX = miniMapX + miniMapDiameter / 2f;
-    float centerY = miniMapY + miniMapDiameter / 2f;
-    float minimapRadius = miniMapDiameter / 2f;
+    float centerX = miniMapX + (float) miniMapDiameter / 2;
+    float centerY = miniMapY + (float) miniMapDiameter / 2;
+    float minimapRadius = (float) miniMapDiameter / 2;
     int frameCount;
 
     public MiniMapDisplay() {
@@ -62,9 +60,9 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     private void initializeMiniMap() {
-        centerX = miniMapX + miniMapDiameter / 2f;
-        centerY = miniMapY + miniMapDiameter / 2f;
-        minimapRadius = miniMapDiameter / 2f;
+        centerX = miniMapX + (float) miniMapDiameter / 2;
+        centerY = miniMapY + (float) miniMapDiameter / 2;
+        minimapRadius = (float) miniMapDiameter / 2;
         miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
         initializeAllImages();
@@ -144,7 +142,8 @@ public class MiniMapDisplay extends UIComponent {
                 (entityPos.x - playerPos.x) / scaleFactor * miniMapDiameter,
                 (entityPos.y - playerPos.y) / scaleFactor * miniMapDiameter
         );
-        entityMiniMapPos.add(miniMapX + miniMapDiameter / 2f, miniMapY + miniMapDiameter / 2f);
+        entityMiniMapPos.add(miniMapX + (float)  miniMapDiameter / 2,
+                miniMapY + (float) miniMapDiameter / 2);
 
         return entityMiniMapPos;
     }
@@ -219,6 +218,13 @@ public class MiniMapDisplay extends UIComponent {
 
     public Entity getPlayer() {
         return player;
+    }
+
+    public float getMiniMapX() {
+        return miniMapX;
+    }
+    public float getMiniMapY() {
+        return miniMapY;
     }
 
     public float getMiniMapDiameter() {

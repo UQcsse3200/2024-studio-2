@@ -134,7 +134,7 @@ public class ForestGameArea extends GameArea {
         player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
         player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
         player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
-        player.getEvents().addListener("unlockArea", this::unlockArea);
+        player.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
         kangarooBossSpawned = false;
         waterBossSpawned = false;
         airBossSpawned = false;
