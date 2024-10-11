@@ -28,6 +28,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyFloat;
@@ -37,11 +40,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class EnemyFactoryTest {
 
+    //pigeon and hive are special enemies that need their own testing classes
     private static Entity chicken;
     private static Entity frog;
     private static Entity monkey;
     private static Entity bear;
-    private static Entity pigeon;
+    private static Entity bee;
+    private static Entity eel;
+    private static Entity octopus;
+    private static Entity bigSawFish;
+    private static Entity macaw;
+    private static Entity joey;
+    private static List<Entity> enemies = new ArrayList<>();
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -53,7 +63,14 @@ class EnemyFactoryTest {
             "images/pigeon2.png",
 		    "images/frog.png",
 		    "images/chicken.png",
-		    "images/bear.png"
+            "images/enemy-chicken.png",
+            "images/bear.png",
+            "images/eel1.png",
+            "images/octopus.png",
+            "images/bigsawfish.png",
+            "images/macaw.png",
+            "images/joey.png",
+            "images/bee.png"
     };
 
     private static String[] atlas = {
@@ -66,6 +83,12 @@ class EnemyFactoryTest {
             "images/bear.atlas",
             "images/pigeon.atlas",
             "images/enemy-bear.atlas",
+            "images/eel.atlas",
+            "images/octopus.atlas",
+            "images/bigsawfish.atlas",
+            "images/macaw.atlas",
+            "images/joey.atlas",
+            "images/bee.atlas",
             "images/final_boss_kangaroo.atlas"
     };
 
@@ -93,41 +116,71 @@ class EnemyFactoryTest {
         ServiceLocator.registerLightingService(mockLightingService);
 
         Entity player = new Entity();
-        chicken = EnemyFactory.createChicken(player);
-        frog = EnemyFactory.createFrog(player);
-        monkey = EnemyFactory.createMonkey(player);
-        bear = EnemyFactory.createBear(player);
-        //pigeon = EnemyFactory.createPigeon(player); needs its own testing class, too much to test here and doesn't
-        //                                            behave like other enemies
+        
+        enemies.add(chicken = EnemyFactory.createChicken(player));
+        enemies.add(frog = EnemyFactory.createFrog(player));
+        enemies.add(monkey = EnemyFactory.createMonkey(player));
+        enemies.add(bear = EnemyFactory.createBear(player));
+        enemies.add(bee = EnemyFactory.createBee(player));
+        enemies.add(eel = EnemyFactory.createEel(player));
+        enemies.add(octopus = EnemyFactory.createOctopus(player));
+        enemies.add(bigSawFish = EnemyFactory.createBigsawfish(player));
+        enemies.add(macaw = EnemyFactory.createMacaw(player));
+        enemies.add(joey = EnemyFactory.createJoey(player));
     }
-
+    
     /**
-     * Tests Creation of a monkey.
+     * Tests that entities are not null (have been initialised by their creator method)
      */
     @Test
-    void TestMonkeyCreation() {
-        assertNotNull(monkey, "monkey should not be null.");
+    void TestEnemyCreation() {
+        for (Entity enemy : enemies) {
+            assertNotNull(enemy, String.format("%s should not be null.", enemy.getEnemyType()));
+        }
     }
-
+    
     /**
      * Tests that the monkey is an Entity.
      */
     @Test
-    void TestMonkeyIsEntity() {
-        assertEquals(monkey.getClass(), Entity.class);
+    void TestEnemyIsEntity() {
+        for (Entity enemy : enemies) {
+            assertEquals(enemy.getClass(), Entity.class);
+        }
+    }
+    
+    /**
+     * Tests that enemies are in the correct spot when placed.
+     */
+    @Test
+    void TestEnemySetPosition() {
+        for (Entity enemy : enemies) {
+            //check initial set pos
+            Vector2 pos = new Vector2(0f, 0f);
+            enemy.setPosition(pos);
+            
+            assertEquals(pos, enemy.getPosition());
+            
+            //check can change pos
+            pos.set((float) (Math.random() * 10), (float) (Math.random() * 10));
+            enemy.setPosition(pos);
+            
+            assertEquals(pos, enemy.getPosition());
+        }
     }
 
     /**
-     * Tests that the monkey has the correct components physics component.
+     * Tests that enemies have the correct components.
      */
     @Test
-    void TestMonkeyHasComponents() {
-        assertNotNull(monkey.getComponent(PhysicsComponent.class));
-        assertNotNull(monkey.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(monkey.getComponent(MonkeyAnimationController.class));
-        assertNotNull(monkey.getComponent(CombatStatsComponent.class));
-        assertNotNull(monkey.getComponent(HitboxComponent.class));
-        assertNotNull(monkey.getComponent(ColliderComponent.class));
+    void TestEnemiesHasComponents() {
+        for (Entity enemy : enemies) {
+            assertNotNull(enemy.getComponent(PhysicsComponent.class));
+            assertNotNull(enemy.getComponent(PhysicsMovementComponent.class));
+            assertNotNull(enemy.getComponent(CombatStatsComponent.class));
+            assertNotNull(enemy.getComponent(HitboxComponent.class));
+            assertNotNull(enemy.getComponent(ColliderComponent.class));
+        }
     }
 
     /**
@@ -157,6 +210,9 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyAnimation() {
+        //test that the animation controller is there
+        assertNotNull(monkey.getComponent(MonkeyAnimationController.class), "Missing animation controller");
+        
         assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
                 "Monkey should have run down animation.");
         assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_up") ,
@@ -173,46 +229,6 @@ class EnemyFactoryTest {
                 "Monkey should have run right up animation.");
         assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_up") ,
                 "Monkey should have run left up animation.");
-    }
-
-    /**
-     * Tests that the monkey is in the correct spot when placed.
-     */
-    @Test
-    void TestMonkeySetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        monkey.setPosition(pos);
-
-        assertEquals(pos, monkey.getPosition());
-    }
-
-    /**
-     * Tests Creation of a chicken.
-     */
-    @Test
-    void TestChickenCreation() {
-        assertNotNull(chicken, "Chicken should not be null.");
-    }
-
-    /**
-     * Tests that the chicken is an Entity.
-     */
-    @Test
-    void TestChickenIsEntity() {
-        assertEquals(chicken.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the chicken has the correct components.
-     */
-    @Test
-    void TestChickenHasComponents() {
-        assertNotNull(chicken.getComponent(PhysicsComponent.class));
-        assertNotNull(chicken.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
-        assertNotNull(chicken.getComponent(CombatStatsComponent.class));
-        assertNotNull(chicken.getComponent(HitboxComponent.class));
-        assertNotNull(chicken.getComponent(ColliderComponent.class));
     }
 
     /**
@@ -242,49 +258,13 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenAnimation() {
+        //test that the animation controller is there
+        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
+        
         assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("walk") ,
                 "Chicken should have walk animation.");
         assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
                 "Chicken should have spawn animation.");
-    }
-
-    /**
-     * Tests that the chicken is in the correct spot when placed.
-     */
-    @Test
-    void TestChickenSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        chicken.setPosition(pos);
-        assertEquals(pos, chicken.getPosition());
-    }
-
-    /**
-     * Tests Creation of a frog.
-     */
-    @Test
-    void TestFrogCreation() {
-        assertNotNull(frog, "Frog should not be null.");
-    }
-
-    /**
-     * Tests that the frog is an Entity.
-     */
-    @Test
-    void TestFrogIsEntity() {
-        assertEquals(frog.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the frog has the correct components.
-     */
-    @Test
-    void TestFrogHasComponents() {
-        assertNotNull(frog.getComponent(PhysicsComponent.class));
-        assertNotNull(frog.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(frog.getComponent(FrogAnimationController.class));
-        assertNotNull(frog.getComponent(CombatStatsComponent.class));
-        assertNotNull(frog.getComponent(HitboxComponent.class));
-        assertNotNull(frog.getComponent(ColliderComponent.class));
     }
 
     /**
@@ -314,49 +294,13 @@ class EnemyFactoryTest {
      */
     @Test
     void TestFrogAnimation() {
+        //test that the animation controller is there
+        assertNotNull(frog.getComponent(FrogAnimationController.class));
+        
         assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("jump") ,
                 "Frog should have jump animation.");
         assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("still") ,
                 "Frog should have still animation.");
-    }
-
-    /**
-     * Tests that the frog is in the correct spot when placed.
-     */
-    @Test
-    void TestFrogSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        frog.setPosition(pos);
-        assertEquals(pos, frog.getPosition());
-    }
-
-    /**
-     * Tests Creation of a bear.
-     */
-    @Test
-    void TestBearCreation() {
-        assertNotNull(bear, "Bear should not be null.");
-    }
-
-    /**
-     * Tests that the bear is an Entity.
-     */
-    @Test
-    void TestBearIsEntity() {
-        assertEquals(bear.getClass(), Entity.class);
-    }
-
-    /**
-     * Tests that the bear has the correct components.
-     */
-    @Test
-    void TestBearHasComponents() {
-        assertNotNull(bear.getComponent(PhysicsComponent.class));
-        assertNotNull(bear.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(bear.getComponent(BearAnimationController.class));
-        assertNotNull(bear.getComponent(CombatStatsComponent.class));
-        assertNotNull(bear.getComponent(HitboxComponent.class));
-        assertNotNull(bear.getComponent(ColliderComponent.class));
     }
 
     /**
@@ -386,21 +330,14 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBearAnimation() {
+        //test that the animation controller is there
+        assertNotNull(bear.getComponent(BearAnimationController.class));
+        
         assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
                 "bear should have chase animation.");
         assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
                 "bear should have float animation.");
         assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
                 "bear should have spawn animation.");
-    }
-
-    /**
-     * Tests that the bear is in the correct spot when placed.
-     */
-    @Test
-    void TestBearSetPosition() {
-        Vector2 pos = new Vector2(0f, 0f);
-        bear.setPosition(pos);
-        assertEquals(pos, bear.getPosition());
     }
 }
