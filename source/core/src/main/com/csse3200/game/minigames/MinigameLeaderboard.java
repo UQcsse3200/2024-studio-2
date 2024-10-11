@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.CustomButton;
@@ -29,6 +30,7 @@ public class MinigameLeaderboard extends UIComponent {
     private Table topTable;
     private Table contentTable;
     private Label title;
+    private Label warningLabel;
 
     String[] playerNames;
     String[] playerScores;
@@ -84,6 +86,9 @@ public class MinigameLeaderboard extends UIComponent {
         table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         table.setSize(663, 405);
         title = new Label("Leaderboard", skin, "title-white");
+        warningLabel = new Label("You need to login to see the leaderboard", skin, "large-white");
+        warningLabel.setWrap(true);
+        warningLabel.setAlignment(Align.center);
         usernames = new ArrayList<>();
         highscores = new ArrayList<>();
     }
@@ -137,29 +142,41 @@ public class MinigameLeaderboard extends UIComponent {
      */
     private void updateUI() {
         topTable.clear();
+        contentTable.clear();
+        table.clear();  // Clear the table to re-add elements
+
         topTable.top().padTop(10);
         topTable.add(title).expandX().center().padTop(5);
         topTable.row();
         topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
-        contentTable.clear();
-        // Add table headers for username and score
-        contentTable.add(new Label("Username", skin, "default")).padRight(30f).expandX().left();
-        contentTable.add(new Label("Score", skin, "default")).padLeft(30f).expandX().right();
+        if (PlayFab.isLogin) {
+            // Add table headers for username and score
+            contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).expandX().left();
+            contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).expandX().right();
 
-        contentTable.row();
-        for (int i = 0; i < usernames.size(); i++) {
-            contentTable.add(usernames.get(i)).padRight(30f).expandX().left();  // Username in left column
-            contentTable.add(highscores.get(i)).padLeft(30f).expandX().right();  // Score in right column
             contentTable.row();
-        }
+            for (int i = 0; i < usernames.size(); i++) {
+                contentTable.add(usernames.get(i)).padRight(30f).expandX().left();  // Username in left column
+                contentTable.add(highscores.get(i)).padLeft(30f).expandX().right();  // Score in right column
+                contentTable.row();
+            }
 
-        table.clear();  // Clear the table to re-add elements
-        table.add(topTable).expandX().fillX().padTop(20); // Top-right table
-        table.row();
-        table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
-        table.row();
-        table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
+
+            table.add(topTable).expandX().fillX().padTop(20);
+            table.row();
+            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
+            table.row();
+            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
+        } else {
+            contentTable.add(warningLabel).expandX().width(500);
+
+            table.add(topTable).expandX().fillX().padTop(5);
+            table.row();
+            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
+            table.row();
+            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
+        }
     }
     @Override
     public void update() {

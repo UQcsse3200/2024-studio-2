@@ -20,7 +20,7 @@ public class PlayFab {
     private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
     private static String[] usernames;
     private static String[] highscores;
-    private static boolean isLogin = false;
+    public static boolean isLogin = false;
 
     /**
      * Constructor to initialize PlayFab with the given Title ID.
