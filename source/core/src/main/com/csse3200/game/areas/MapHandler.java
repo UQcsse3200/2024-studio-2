@@ -81,19 +81,15 @@ public class MapHandler {
   }
 
   /**
-   * checks if the water map is unlcked yet
+   * checks if the requested map is unlocked yet
    * @return true iff the map is unlocked
    */
-  public static boolean getUnlockedOcean() {
-    return unlockedWater;
-  }
-
-  /**
-   * checks if the air map is unlcked yet
-   * @return true iff the map is unlocked
-   */
-  public static boolean getUnlockedAir() {
-    return unlockedAir;
+  public static boolean getUnlockStatus(MapType type) {
+    switch (type) {
+      case WATER -> {return unlockedWater;}
+      case AIR -> {return unlockedAir;}
+      default -> throw new IllegalArgumentException("This map type is not yet available!");
+    }
   }
 
   /**
