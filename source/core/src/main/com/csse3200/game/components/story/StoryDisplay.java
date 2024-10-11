@@ -1,17 +1,24 @@
 package com.csse3200.game.components.story;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +33,15 @@ public class StoryDisplay extends UIComponent {
     private final Texture[] backgroundTextures;
     private final int screenNum;
     private final int finalScreen;
+    private final String storyName;  // The name of the selected story (dog, croc, bird)
+    private DialogueBox dialogueBox;  // DialogueBox instance for displaying the story dialogues
 
-    public StoryDisplay(Texture[] backgroundTextures, int screenNum) {
+    public StoryDisplay(Texture[] backgroundTextures, int screenNum, String storyName) {
         super();
         this.backgroundTextures = backgroundTextures;
         this.screenNum = screenNum;
         finalScreen = backgroundTextures.length - 1;
+        this.storyName = storyName;
     }
 
     /**
@@ -47,7 +57,26 @@ public class StoryDisplay extends UIComponent {
         entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
         entity.getEvents().addListener("backDisplay", this::onBackDisplay);
         entity.getEvents().addListener("skip", this::onSkip);
+        displayStoryDialogue();
     }
+    /**
+     * Display the story dialogue using DialogueBoxService.
+     */
+    private void displayStoryDialogue() {
+        StoryDialogueData dialogueData = new StoryDialogueData();
+        String[][] dialogueText = dialogueData.getDialogue(storyName, screenNum);  // Get the dialogue for this screen
+
+        // Initialize DialogueBox if it isn't already initialized
+        if (dialogueBox == null) {
+            Stage stage = ServiceLocator.getRenderService().getStage();
+            dialogueBox = new DialogueBox(stage);  // Pass the stage to the DialogueBox
+        }
+
+        // Show the dialogue for the current screen
+        dialogueBox.showDialogueBox(dialogueText);
+        dialogueBox.removeContinueButton();
+    }
+
 
     /**
      * Applies user settings to the game.
@@ -136,6 +165,7 @@ public class StoryDisplay extends UIComponent {
         stage.addActor(table);
         stage.addActor(bottomLeftTable);
         stage.addActor(bottomRightTable);
+
 
     }
 

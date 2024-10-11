@@ -26,6 +26,7 @@ public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
+    private final String selectedAnimal;
     private Texture[] backgroundTextures;
 
     // Different story backgrounds for each animal
@@ -61,7 +62,7 @@ public class StoryScreen extends ScreenAdapter {
         // Load background textures based on selected animal
         backgroundTextures = loadStoryTextures(selectedAnimal);
 
-
+        this.selectedAnimal = selectedAnimal;
         createUI();
     }
 
@@ -100,9 +101,9 @@ public class StoryScreen extends ScreenAdapter {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay(backgroundTextures, 0))
+        ui.addComponent(new StoryDisplay(backgroundTextures, 0, selectedAnimal))
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new StoryActions(game, backgroundTextures));
+                .addComponent(new StoryActions(game, backgroundTextures, selectedAnimal));
         ServiceLocator.getEntityService().register(ui);
     }
     /**
