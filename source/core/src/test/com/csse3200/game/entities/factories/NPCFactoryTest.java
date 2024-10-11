@@ -162,11 +162,11 @@ class NPCFactoryTest {
         };
         NPCFactory.initiateDialogue(testSoundPath, testHintText);
         verify(dialogueBoxService).updateText(testHintText, -2);
-
-//        for (String soundPath : testSoundPath) {
-//            AudioManager.playSound(soundPath);
-//            verify(resourceService).getAsset(soundPath, Sound.class);
-//        }
+//        verify(ServiceLocator.getRenderService(), times(1)).getStage();
+        for (String soundPath : testSoundPath) {
+            AudioManager.playSound(soundPath);
+            verify(resourceService, atLeastOnce()).getAsset(soundPath, Sound.class);
+        }
     }
 
     /**
